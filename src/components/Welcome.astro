@@ -2,4 +2,12 @@
 import Monthly from "./Monthly/Monthly";
 ---
 
-<Monthly client:only="react" />
+<div class="monthly-container">
+ <Monthly client:only="react" />
+</div>
+
+<style>
+.monthly-container {
+  width: 400px;
+}
+</style>
