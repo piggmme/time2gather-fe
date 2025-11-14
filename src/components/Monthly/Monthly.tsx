@@ -1,6 +1,6 @@
-import CalendarGrid from "./CalendarGrid";
+import MonthlyGrid from "./MonthlyGrid";
 import dayjs from "dayjs";
-import styles from "./Calendar.module.scss";
+import styles from "./Monthly.module.scss";
 
 function getMonthDays(year: number, month: number) {
   const start = dayjs().year(year).month(month).date(1);
@@ -17,13 +17,13 @@ function getMonthDays(year: number, month: number) {
   return days;
 }
 
-export default function Calendar() {
+export default function Monthly() {
   const monthDays = getMonthDays(2025, 11); // 2025년 2월
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>2025년 11월</h2>
-      <CalendarGrid monthDays={monthDays} />
+      <MonthlyGrid monthDays={monthDays} />
     </div>
   );
 }

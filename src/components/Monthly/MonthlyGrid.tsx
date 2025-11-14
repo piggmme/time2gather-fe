@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { DndContext, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
-import CalendarCell from "./CalendarCell";
+import MonthlyCell from "./MonthlyCell";
 import dayjs from "dayjs";
-import styles from "./CalendarGrid.module.scss";
+import styles from "./MonthlyGrid.module.scss";
 
 // 날짜 범위 배열 생성 함수
 function getDateRange(start: dayjs.Dayjs | null, end: dayjs.Dayjs | null) {
@@ -25,7 +25,7 @@ function getDateRange(start: dayjs.Dayjs | null, end: dayjs.Dayjs | null) {
   return days;
 }
 
-export default function CalendarGrid({ monthDays }: { monthDays: dayjs.Dayjs[] }) {
+export default function MonthlyGrid({ monthDays }: { monthDays: dayjs.Dayjs[] }) {
   const [dates, setDates] = useState<dayjs.Dayjs[]>([]);
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null);
@@ -90,7 +90,7 @@ export default function CalendarGrid({ monthDays }: { monthDays: dayjs.Dayjs[] }
     >
       <div className={styles.grid}>
         {monthDays.map((day: dayjs.Dayjs) => (
-          <CalendarCell
+          <MonthlyCell
             key={day.format("YYYY-MM-DD")}
             date={day}
             isSelected={dates.some((d) => d.isSame(day, "day"))}
