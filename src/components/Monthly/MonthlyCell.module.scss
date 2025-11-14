@@ -1,17 +1,17 @@
 .cell {
   user-select: none;
   padding: 14px 10px;
-  height: 30px;
-  border-radius: 12px;
-  border: 1px solid #eee;
+  border-radius: 50%;
   background: #fff;
   transition: 0.15s;
   cursor: default;
   font-size: 13px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  box-sizing: border-box;
 
   &.selected {
     background: rgba(120, 115, 255, 0.25);
@@ -19,7 +19,7 @@
   }
 
   &.dragged {
-    background: rgba(115, 255, 150, 0.25);
+    background: rgba(120, 115, 255, 0.101);
     backdrop-filter: blur(4px);
   }
 
