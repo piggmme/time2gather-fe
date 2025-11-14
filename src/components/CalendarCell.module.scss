@@ -1,0 +1,25 @@
+.cell {
+  user-select: none;
+  padding: 14px 10px;
+  height: 70px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  background: #fff;
+  transition: 0.15s;
+  cursor: default;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  &.selected {
+    background: rgba(120, 115, 255, 0.25);
+    backdrop-filter: blur(4px);
+  }
+
+  &.dragged {
+    background: rgba(115, 255, 150, 0.25);
+    backdrop-filter: blur(4px);
+  }
+}
+
