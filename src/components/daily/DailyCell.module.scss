@@ -1,0 +1,37 @@
+.cell {
+  user-select: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  background: #fff;
+  transition: 0.15s;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 50px;
+  box-sizing: border-box;
+
+  &:hover {
+    background: #f9f9f9;
+  }
+
+  &.selected {
+    background: rgba(120, 115, 255, 0.25);
+    backdrop-filter: blur(4px);
+    border-color: rgba(120, 115, 255, 0.3);
+  }
+
+  &.dragged {
+    background: rgba(120, 115, 255, 0.101);
+    backdrop-filter: blur(4px);
+    border-color: rgba(120, 115, 255, 0.3);
+  }
+}
+
+.timeLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+

@@ -1,13 +1,25 @@
 ---
 import Monthly from "./Monthly/Monthly";
+import Daily from "./daily/Daily";
 ---
 
-<div class="monthly-container">
- <Monthly client:only="react" />
+<div class="container">
+  <div class="monthly-container">
+   <Monthly client:only="react" />
+  </div>
+  <div class="daily-container">
+    <Daily client:only="react" />
+  </div>
 </div>
 
 <style>
+.container {
+  display: flex;
+}
 .monthly-container {
+  width: 400px;
+}
+.daily-container {
   width: 400px;
 }
 </style>
