@@ -1,7 +1,7 @@
 .cell {
   user-select: none;
   padding: 14px 10px;
-  height: 70px;
+  height: 30px;
   border-radius: 12px;
   border: 1px solid #eee;
   background: #fff;
@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  cursor: pointer;
 
   &.selected {
     background: rgba(120, 115, 255, 0.25);
@@ -20,6 +21,16 @@
   &.dragged {
     background: rgba(115, 255, 150, 0.25);
     backdrop-filter: blur(4px);
+  }
+
+  &.otherMonth {
+    opacity: 0.4;
+    color: #999;
+  }
+
+  &.today {
+    color: #000;
+    font-weight: bold;
   }
 }
 

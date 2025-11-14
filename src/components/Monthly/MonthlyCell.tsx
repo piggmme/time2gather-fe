@@ -6,10 +6,11 @@ type MonthlyCellProps = {
   date: dayjs.Dayjs;
   isSelected: boolean;
   isDragged: boolean;
+  isCurrentMonth: boolean;
   onClick: () => void;
 };
 
-export default function MonthlyCell({ date, isSelected, isDragged, onClick }: MonthlyCellProps) {
+export default function MonthlyCell({ date, isSelected, isDragged, isCurrentMonth, onClick }: MonthlyCellProps) {
   const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
     id: `drag-${date.format("YYYY-MM-DD")}`,
     data: { date },
@@ -29,7 +30,13 @@ export default function MonthlyCell({ date, isSelected, isDragged, onClick }: Mo
       {...attributes}
       {...listeners}
       onClick={onClick}
-      className={`${styles.cell} ${isSelected ? styles.selected : ""} ${isDragged ? styles.dragged : ""}`}
+      className={`
+        ${styles.cell}
+        ${isCurrentMonth ? "" : styles.otherMonth}
+        ${isSelected ? styles.selected : ""}
+        ${isDragged ? styles.dragged : ""}
+        ${date.isSame(dayjs(), "day") ? styles.today : ""}
+      `}
     >
       {date.date()}
     </div>

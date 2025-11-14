@@ -25,7 +25,15 @@ function getDateRange(start: dayjs.Dayjs | null, end: dayjs.Dayjs | null) {
   return days;
 }
 
-export default function MonthlyGrid({ monthDays }: { monthDays: dayjs.Dayjs[] }) {
+export default function MonthlyGrid({ 
+  monthDays, 
+  currentYear, 
+  currentMonth 
+}: { 
+  monthDays: dayjs.Dayjs[];
+  currentYear: number;
+  currentMonth: number;
+}) {
   const [dates, setDates] = useState<dayjs.Dayjs[]>([]);
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null);
@@ -89,17 +97,21 @@ export default function MonthlyGrid({ monthDays }: { monthDays: dayjs.Dayjs[] })
       }}
     >
       <div className={styles.grid}>
-        {monthDays.map((day: dayjs.Dayjs) => (
-          <MonthlyCell
-            key={day.format("YYYY-MM-DD")}
-            date={day}
-            isSelected={dates.some((d) => d.isSame(day, "day"))}
-            isDragged={selectedDays.some((d) => d.isSame(day, "day"))}
-            onClick={() =>  {
-              handleDragedDates([day]);
-            }}
-          />
-        ))}
+        {monthDays.map((day: dayjs.Dayjs) => {
+          const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth;
+          return (
+            <MonthlyCell
+              key={day.format("YYYY-MM-DD")}
+              date={day}
+              isSelected={dates.some((d) => d.isSame(day, "day"))}
+              isDragged={selectedDays.some((d) => d.isSame(day, "day"))}
+              isCurrentMonth={isCurrentMonth}
+              onClick={() =>  {
+                handleDragedDates([day]);
+              }}
+            />
+          );
+        })}
       </div>
     </DndContext>
   );
