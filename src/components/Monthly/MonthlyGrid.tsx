@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { DndContext, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
 import MonthlyCell from "./MonthlyCell";
 import dayjs from "dayjs";
+import "dayjs/locale/ko";
 import styles from "./MonthlyGrid.module.scss";
+
+dayjs.locale("ko");
 
 // 날짜 범위 배열 생성 함수
 function getDateRange(start: dayjs.Dayjs | null, end: dayjs.Dayjs | null) {
@@ -70,6 +73,15 @@ export default function MonthlyGrid({
 
   const selectedDays = getDateRange(startDate, endDate);
 
+  // 요일 헤더 생성 (0=일요일부터 6=토요일까지)
+  const weekdays = Array.from({ length: 7 }, (_, i) => {
+    const day = dayjs().day(i);
+    return {
+      number: i,
+      name: day.format("ddd"), // 한국어 축약형 요일 (일, 월, 화, 수, 목, 금, 토)
+    };
+  });
+
   return (
     <DndContext
       sensors={sensors}
@@ -98,9 +110,9 @@ export default function MonthlyGrid({
     >
       <div className={styles.container}>
         <div className={styles.weekdays}>
-          {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
-            <div key={day} className={styles.weekday}>
-              {day}
+          {weekdays.map((weekday) => (
+            <div key={weekday.number} className={styles.weekday}>
+              {weekday.name}
             </div>
           ))}
         </div>
