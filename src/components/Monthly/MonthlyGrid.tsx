@@ -111,7 +111,14 @@ export default function MonthlyGrid({
       <div className={styles.container}>
         <div className={styles.weekdays}>
           {weekdays.map((weekday) => (
-            <div key={weekday.number} className={styles.weekday}>
+            <div
+              key={weekday.number}
+              className={`
+                ${styles.weekday}
+                ${weekday.number === 0 ? styles.sunday : ""}
+                ${weekday.number === 6 ? styles.saturday : ""}
+              `}
+            >
               {weekday.name}
             </div>
           ))}

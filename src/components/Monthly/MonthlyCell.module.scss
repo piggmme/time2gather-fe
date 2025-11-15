@@ -39,11 +39,11 @@
   }
 
   &.sunday {
-    color: #e95454;
+    color: $sunday-color;
   }
 
   &.saturday {
-    color: #6b6bea;
+    color: $saturday-color;
   }
 }
 
