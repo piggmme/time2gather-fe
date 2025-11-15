@@ -3,6 +3,12 @@
   flex-shrink: 0;
   height: auto;
   align-self: flex-start;
+  border-right: 1px solid #ccc;
+}
+
+// 마지막은 border-right: none;
+.gridWrapper:last-child {
+  border-right: none;
 }
 
 .grid {
