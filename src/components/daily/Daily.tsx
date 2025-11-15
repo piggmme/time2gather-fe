@@ -119,19 +119,27 @@ export default function Daily() {
 
   const timeSlots = availableHours || Array.from({ length: 48 }, (_, i) => i);
 
+  const dates = [
+    dayjs('2025-11-10'),
+    dayjs('2025-11-20'),
+    dayjs('2025-11-25'),
+    dayjs('2025-12-1'),
+    dayjs('2025-12-3'),
+    dayjs('2025-12-5'),
+    dayjs('2025-12-7'),
+    dayjs('2025-12-9'),
+  ]
+
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>{selectedDate.format("YYYY년 MM월 DD일")}</h2>
-      </div>
       <div className={styles.wrapper}>
         <div className={styles.scrollWrapper} ref={scrollWrapperRef}>
           <div className={styles.timeColumn}>
             {timeSlots.map((slot) => {
               const isFullHour = slot % 2 === 0;
               return (
-                <div 
-                  key={slot} 
+                <div
+                  key={slot}
                   className={`${styles.timeCell} ${isFullHour ? styles.fullHour : styles.halfHour}`}
                 >
                   {formatTimeSlot(slot)}
@@ -140,12 +148,18 @@ export default function Daily() {
             })}
           </div>
           <div className={styles.scrollContainer} ref={scrollContainerRef}>
-            <DailyGrid date={selectedDate} availableHours={availableHours} />
-            <DailyGrid date={selectedDate} availableHours={availableHours} />
-            <DailyGrid date={selectedDate} availableHours={availableHours} />
-            <DailyGrid date={selectedDate} availableHours={availableHours} />
-            <DailyGrid date={selectedDate} availableHours={availableHours} />
-            <DailyGrid date={selectedDate} availableHours={availableHours} />
+            {
+              dates.map((date) => (
+                <div className={styles.dateWrapper}>
+                  <span className={styles.dateTitle}>{date.format("M월 D일")}</span>
+                  <DailyGrid
+                    key={date.format("YYYY-MM-DD")}
+                    date={date}
+                    availableHours={availableHours}
+                  />
+                </div>
+              ))
+            }
           </div>
         </div>
         <button

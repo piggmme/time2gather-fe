@@ -7,20 +7,6 @@
   overflow: hidden;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  flex-shrink: 0;
-}
-
-.title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-}
-
 .wrapper {
   flex: 1;
   min-height: 0;
@@ -50,12 +36,12 @@
 }
 
 .timeColumn {
+  margin-top: 30px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 0;
   align-self: flex-start;
-  border-right: 1px solid #ccc;
 }
 
 .timeCell {
@@ -63,7 +49,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   color: #666;
   padding-right: 12px;
@@ -177,5 +163,27 @@
     width: 0;
     height: 0;
   }
+}
+
+.dateWrapper {
+  min-width: 80px;
+
+  border-right: 1px solid #ccc;
+  &:first-of-type {
+    border-left: 1px solid #ccc;
+  }
+  &:last-of-type {
+    border-right: none;
+  }
+}
+
+.dateTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  height: 30px;
 }
 
