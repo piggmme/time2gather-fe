@@ -19,33 +19,43 @@ function getTimeRange(startHour: number | null, endHour: number | null) {
   return hours;
 }
 
-// 0시부터 23시까지 시간 배열 생성
-function generateHours(): number[] {
+// 0시부터 23시까지 시간 배열 생성 (기본값)
+function generateDefaultHours(): number[] {
   return Array.from({ length: 24 }, (_, i) => i);
 }
 
-export default function DailyGrid({ date }: { date: dayjs.Dayjs }) {
+export default function DailyGrid({ 
+  date, 
+  availableHours 
+}: { 
+  date: dayjs.Dayjs;
+  availableHours?: number[];
+}) {
   const [selectedHours, setSelectedHours] = useState<number[]>([]);
   const [startHour, setStartHour] = useState<number | null>(null);
   const [endHour, setEndHour] = useState<number | null>(null);
 
-  const hours = generateHours();
+  const hours = availableHours || generateDefaultHours();
 
   const addHours = (newHours: number[]) => {
     const allHours = [...selectedHours, ...newHours];
-    const uniqueHours = allHours.filter((hour, index, self) => 
+    const uniqueHours = allHours.filter((hour, index, self) =>
       index === self.indexOf(hour)
     );
     setSelectedHours(uniqueHours);
   };
 
   const handleDraggedHours = (newHours: number[]) => {
-    const isAllIncluded = newHours.every((hour) => selectedHours.includes(hour));
+    // availableHours 범위 내의 시간만 필터링
+    const validHours = newHours.filter((hour) => hours.includes(hour));
+    if (validHours.length === 0) return;
+
+    const isAllIncluded = validHours.every((hour) => selectedHours.includes(hour));
     if (isAllIncluded) {
-      removeHours(newHours);
+      removeHours(validHours);
       return;
     }
-    addHours(newHours);
+    addHours(validHours);
   };
 
   const removeHours = (newHours: number[]) => {
@@ -68,14 +78,14 @@ export default function DailyGrid({ date }: { date: dayjs.Dayjs }) {
       sensors={sensors}
       onDragStart={(event) => {
         const hour = event.active?.data?.current?.hour;
-        if (hour !== undefined) {
+        if (hour !== undefined && hours.includes(hour)) {
           setStartHour(hour);
           setEndHour(hour);
         }
       }}
       onDragMove={(event) => {
         const hour = event.over?.data?.current?.hour;
-        if (hour !== undefined) {
+        if (hour !== undefined && hours.includes(hour)) {
           setEndHour(hour);
         }
       }}
