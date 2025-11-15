@@ -9,22 +9,27 @@ import node from '@astrojs/node';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// https://astro.build/config
-export default defineConfig({
+const config = {
   integrations: [react()],
   output: "server",
-  adapter: node({
-    mode: "standalone",
-  }),
-  server: {
-    port: 3000,
-  },
-  vite: {
-    server: {
-      https: {
-        key: fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem')),
-        cert: fs.readFileSync(path.resolve(__dirname, 'localhost-cert.pem')),
+  adapter: node({ mode: "standalone" }),
+  server: { port: 3000 },
+};
+
+// 개발 환경에서만 HTTPS 설정 적용
+if (import.meta.env.DEV) {
+  try {
+    config.vite = {
+      server: {
+        https: {
+          key: fs.readFileSync(path.resolve(__dirname, 'certs/time2gather-key.pem')),
+          cert: fs.readFileSync(path.resolve(__dirname, 'certs/time2gather-cert.pem')),
+        },
       },
-    },
-  },
-});
+    };
+  } catch (error) {
+    console.warn('HTTPS 인증서를 찾을 수 없습니다. HTTP로 실행됩니다.');
+  }
+}
+
+export default defineConfig(config);

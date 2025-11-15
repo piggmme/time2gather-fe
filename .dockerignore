@@ -5,6 +5,7 @@ node_modules/
 # 빌드 출력
 dist/
 .astro/
+certs/
 
 # 개발 파일
 .git/
