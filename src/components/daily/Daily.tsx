@@ -2,11 +2,14 @@ import DailyGrid from "./DailyGrid";
 import dayjs from "dayjs";
 import styles from "./Daily.module.scss";
 import { useState, useRef, useEffect } from "react";
-import { HiChevronUp, HiChevronDown } from "react-icons/hi";
+import { HiChevronLeft, HiChevronRight, HiChevronUp, HiChevronDown } from "react-icons/hi";
 
 export default function Daily() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollWrapperRef = useRef<HTMLDivElement>(null);
+  const [showLeftButton, setShowLeftButton] = useState(false);
+  const [showRightButton, setShowRightButton] = useState(true);
   const [showTopButton, setShowTopButton] = useState(false);
   const [showBottomButton, setShowBottomButton] = useState(true);
 
@@ -15,9 +18,28 @@ export default function Daily() {
   //   const availableHours = Array.from({ length: 8 }, (_, i) => i + 10); // [10, 11, 12, 13, 14, 15, 16, 17]
   const availableHours = undefined;
 
-  const checkScrollPosition = () => {
+  const checkHorizontalScroll = () => {
     if (scrollContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      
+      // 스크롤이 필요 없는 경우 (모든 내용이 화면에 보이는 경우)
+      if (scrollWidth <= clientWidth) {
+        setShowLeftButton(false);
+        setShowRightButton(false);
+        return;
+      }
+      
+      const isAtLeft = scrollLeft <= 10;
+      const isAtRight = scrollLeft + clientWidth >= scrollWidth - 10;
+
+      setShowLeftButton(!isAtLeft);
+      setShowRightButton(!isAtRight);
+    }
+  };
+
+  const checkVerticalScroll = () => {
+    if (scrollWrapperRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollWrapperRef.current;
       const isAtTop = scrollTop <= 10;
       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
 
@@ -28,29 +50,64 @@ export default function Daily() {
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
+    const scrollWrapper = scrollWrapperRef.current;
+    
     if (scrollContainer) {
-      checkScrollPosition();
-      scrollContainer.addEventListener("scroll", checkScrollPosition);
+      checkHorizontalScroll();
+      scrollContainer.addEventListener("scroll", checkHorizontalScroll);
       
-      // 초기 로드 시에도 확인
-      const timer = setTimeout(checkScrollPosition, 100);
+      // resize 이벤트도 감지하여 화면 크기 변경 시 버튼 표시 상태 업데이트
+      const handleResize = () => {
+        checkHorizontalScroll();
+      };
+      window.addEventListener("resize", handleResize);
+      
+      const timer1 = setTimeout(checkHorizontalScroll, 100);
       
       return () => {
-        scrollContainer.removeEventListener("scroll", checkScrollPosition);
-        clearTimeout(timer);
+        scrollContainer.removeEventListener("scroll", checkHorizontalScroll);
+        window.removeEventListener("resize", handleResize);
+        clearTimeout(timer1);
       };
     }
   }, []);
 
-  const scrollUp = () => {
+  useEffect(() => {
+    const scrollWrapper = scrollWrapperRef.current;
+    
+    if (scrollWrapper) {
+      checkVerticalScroll();
+      scrollWrapper.addEventListener("scroll", checkVerticalScroll);
+      const timer2 = setTimeout(checkVerticalScroll, 100);
+      
+      return () => {
+        scrollWrapper.removeEventListener("scroll", checkVerticalScroll);
+        clearTimeout(timer2);
+      };
+    }
+  }, []);
+
+  const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ top: -200, behavior: "smooth" });
+      scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
+
+  const scrollUp = () => {
+    if (scrollWrapperRef.current) {
+      scrollWrapperRef.current.scrollBy({ top: -200, behavior: "smooth" });
     }
   };
 
   const scrollDown = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ top: 200, behavior: "smooth" });
+    if (scrollWrapperRef.current) {
+      scrollWrapperRef.current.scrollBy({ top: 200, behavior: "smooth" });
     }
   };
 
@@ -59,20 +116,43 @@ export default function Daily() {
       <div className={styles.header}>
         <h2 className={styles.title}>{selectedDate.format("YYYY년 MM월 DD일")}</h2>
       </div>
-      <div className={styles.scrollWrapper}>
+      <div className={styles.wrapper}>
+        <div className={styles.scrollWrapper} ref={scrollWrapperRef}>
+          <div className={styles.scrollContainer} ref={scrollContainerRef}>
+            <DailyGrid date={selectedDate} availableHours={availableHours} />
+            <DailyGrid date={selectedDate} availableHours={availableHours} />
+            <DailyGrid date={selectedDate} availableHours={availableHours} />
+            <DailyGrid date={selectedDate} availableHours={availableHours} />
+            <DailyGrid date={selectedDate} availableHours={availableHours} />
+            <DailyGrid date={selectedDate} availableHours={availableHours} />
+          </div>
+        </div>
         <button
-          className={`${styles.scrollButton} ${styles.scrollButtonTop}`}
+          className={`${styles.scrollButtonVertical} ${styles.scrollButtonTop}`}
           onClick={scrollUp}
           aria-label="위로 스크롤"
           style={{ opacity: showTopButton ? 1 : 0, pointerEvents: showTopButton ? "auto" : "none" }}
         >
           <HiChevronUp />
         </button>
-        <div className={styles.scrollContainer} ref={scrollContainerRef}>
-          <DailyGrid date={selectedDate} availableHours={availableHours} />
-        </div>
         <button
-          className={`${styles.scrollButton} ${styles.scrollButtonBottom}`}
+          className={`${styles.scrollButtonHorizontal} ${styles.scrollButtonLeft}`}
+          onClick={scrollLeft}
+          aria-label="왼쪽으로 스크롤"
+          style={{ opacity: showLeftButton ? 1 : 0, pointerEvents: showLeftButton ? "auto" : "none" }}
+        >
+          <HiChevronLeft />
+        </button>
+        <button
+          className={`${styles.scrollButtonHorizontal} ${styles.scrollButtonRight}`}
+          onClick={scrollRight}
+          aria-label="오른쪽으로 스크롤"
+          style={{ opacity: showRightButton ? 1 : 0, pointerEvents: showRightButton ? "auto" : "none" }}
+        >
+          <HiChevronRight />
+        </button>
+        <button
+          className={`${styles.scrollButtonVertical} ${styles.scrollButtonBottom}`}
           onClick={scrollDown}
           aria-label="아래로 스크롤"
           style={{ opacity: showBottomButton ? 1 : 0, pointerEvents: showBottomButton ? "auto" : "none" }}

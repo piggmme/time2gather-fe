@@ -1,7 +1,14 @@
+.gridWrapper {
+  // min-width: 300px;
+  flex-shrink: 0;
+  height: auto;
+  align-self: flex-start;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 4px;
-  width: 100%;
+  // padding: 4px;
 }
 

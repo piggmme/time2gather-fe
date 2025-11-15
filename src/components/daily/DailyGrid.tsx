@@ -74,7 +74,8 @@ export default function DailyGrid({
   const draggedHours = getTimeRange(startHour, endHour);
 
   return (
-    <DndContext
+    <div className={styles.gridWrapper}>
+      <DndContext
       sensors={sensors}
       onDragStart={(event) => {
         const hour = event.active?.data?.current?.hour;
@@ -99,21 +100,22 @@ export default function DailyGrid({
         setEndHour(null);
       }}
     >
-      <div className={styles.grid}>
-        {hours.map((hour) => (
-          <DailyCell
-            key={hour}
-            hour={hour}
-            date={date}
-            isSelected={selectedHours.includes(hour)}
-            isDragged={draggedHours.includes(hour)}
-            onClick={() => {
-              handleDraggedHours([hour]);
-            }}
-          />
-        ))}
-      </div>
-    </DndContext>
+        <div className={styles.grid}>
+          {hours.map((hour) => (
+            <DailyCell
+              key={hour}
+              hour={hour}
+              date={date}
+              isSelected={selectedHours.includes(hour)}
+              isDragged={draggedHours.includes(hour)}
+              onClick={() => {
+                handleDraggedHours([hour]);
+              }}
+            />
+          ))}
+        </div>
+      </DndContext>
+    </div>
   );
 }
 
