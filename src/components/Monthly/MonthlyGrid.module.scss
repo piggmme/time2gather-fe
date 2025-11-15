@@ -1,3 +1,25 @@
+.container {
+  width: 100%;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  aspect-ratio: 1;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);

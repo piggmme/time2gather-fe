@@ -96,22 +96,31 @@ export default function MonthlyGrid({
         setEndDate(null);
       }}
     >
-      <div className={styles.grid}>
-        {monthDays.map((day: dayjs.Dayjs) => {
-          const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth;
-          return (
-            <MonthlyCell
-              key={day.format("YYYY-MM-DD")}
-              date={day}
-              isSelected={dates.some((d) => d.isSame(day, "day"))}
-              isDragged={selectedDays.some((d) => d.isSame(day, "day"))}
-              isCurrentMonth={isCurrentMonth}
-              onClick={() =>  {
-                handleDragedDates([day]);
-              }}
-            />
-          );
-        })}
+      <div className={styles.container}>
+        <div className={styles.weekdays}>
+          {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
+            <div key={day} className={styles.weekday}>
+              {day}
+            </div>
+          ))}
+        </div>
+        <div className={styles.grid}>
+          {monthDays.map((day: dayjs.Dayjs) => {
+            const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth;
+            return (
+              <MonthlyCell
+                key={day.format("YYYY-MM-DD")}
+                date={day}
+                isSelected={dates.some((d) => d.isSame(day, "day"))}
+                isDragged={selectedDays.some((d) => d.isSame(day, "day"))}
+                isCurrentMonth={isCurrentMonth}
+                onClick={() =>  {
+                  handleDragedDates([day]);
+                }}
+              />
+            );
+          })}
+        </div>
       </div>
     </DndContext>
   );

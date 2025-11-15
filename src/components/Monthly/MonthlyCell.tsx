@@ -21,6 +21,10 @@ export default function MonthlyCell({ date, isSelected, isDragged, isCurrentMont
     data: { date },
   });
 
+  const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
+  const isSunday = dayOfWeek === 0;
+  const isSaturday = dayOfWeek === 6;
+
   return (
     <div
       ref={(el) => {
@@ -36,6 +40,8 @@ export default function MonthlyCell({ date, isSelected, isDragged, isCurrentMont
         ${isSelected ? styles.selected : ""}
         ${isDragged ? styles.dragged : ""}
         ${date.isSame(dayjs(), "day") ? styles.today : ""}
+        ${isSunday ? styles.sunday : ""}
+        ${isSaturday ? styles.saturday : ""}
       `}
     >
       {date.date()}
