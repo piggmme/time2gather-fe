@@ -42,6 +42,7 @@
   flex-direction: column;
   gap: 0;
   align-self: flex-start;
+  width: 50px;
 }
 
 .timeCell {
@@ -70,11 +71,12 @@
 
 .scrollButtonVertical {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: 50px;
+  // left: 50%;
+  // transform: translateX(-50%);
   z-index: 10;
   border: none;
-  width: 100%;
+  width: calc(100% - 50px);
   height: 40px;
   display: flex;
   align-items: center;
@@ -83,6 +85,7 @@
   font-size: 20px;
   color: #adadad;
   pointer-events: auto;
+  padding: 0;
 }
 
 .scrollButtonHorizontal {
@@ -90,47 +93,37 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid #e0e0e0;
-  border-radius: 50%;
+  border: none;
   width: 40px;
-  height: 40px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 20px;
   color: #adadad;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.2s, transform 0.2s;
   pointer-events: auto;
-
-  &:hover {
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  &:active {
-    transform: translateY(-50%) scale(0.95);
-  }
+  padding: 0;
 }
 
 .scrollButtonTop {
   top: 0px;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, #fff 100%);
+  background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.04) 50%, rgba(0, 0, 0, 0.04) 100%);
 }
 
 .scrollButtonBottom {
   bottom: 0px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, #fff 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.04) 50%, rgba(0, 0, 0, 0.04) 100%);
 }
 
 .scrollButtonLeft {
-  left: 10px;
+  left: 40px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.03) 50%, rgba(0, 0, 0, 0.03) 100%);
 }
 
 .scrollButtonRight {
-  right: 10px;
+  right: 0px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.03) 50%, rgba(0, 0, 0, 0.03) 100%);
 }
 
 .scrollContainer {
