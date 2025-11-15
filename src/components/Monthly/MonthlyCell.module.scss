@@ -14,12 +14,12 @@
   box-sizing: border-box;
 
   &.selected {
-    background: rgba(120, 115, 255, 0.25);
+    background: rgba(59, 130, 246, 0.25);
     backdrop-filter: blur(4px);
   }
 
   &.dragged {
-    background: rgba(120, 115, 255, 0.101);
+    background: rgba(59, 130, 246, 0.101);
     backdrop-filter: blur(4px);
   }
 
