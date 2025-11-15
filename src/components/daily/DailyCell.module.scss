@@ -5,7 +5,7 @@
   padding: 0 16px;
   border-radius: 0;
   border: none;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #e0e0e0;
   background: #fff;
   transition: 0.15s;
   cursor: default;
@@ -33,12 +33,12 @@
 
   // 정각: 실선
   &.fullHour {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #e0e0e0;
   }
 
   // 30분: 점선
   &.halfHour {
-    border-top: 1px dashed #ddd;
+    border-top: 1px dashed #e0e0e0;
   }
 }
 

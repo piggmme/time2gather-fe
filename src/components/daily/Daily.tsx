@@ -151,7 +151,7 @@ export default function Daily() {
             {
               dates.map((date) => (
                 <div className={styles.dateWrapper}>
-                  <span className={styles.dateTitle}>{date.format("M월 D일")}</span>
+                  <span className={styles.dateTitle}>{date.format("M월 D일 ddd")}</span>
                   <DailyGrid
                     key={date.format("YYYY-MM-DD")}
                     date={date}
