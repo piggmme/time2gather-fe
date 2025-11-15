@@ -2,24 +2,32 @@
   width: 100%;
 }
 
-.title {
-  margin-bottom: 20px;
-}
 
 .header {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+
+  .title {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 10px 20px;
+  }
+
   button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
     cursor: pointer;
     font-size: 20px;
-    color: #999;
-  }
-  button:hover {
-    background: #f0f0f0;
+    color: #ccc;
   }
 }
 

@@ -2,11 +2,10 @@
 
 .cell {
   user-select: none;
-  padding: 14px 10px;
   border-radius: 50%;
   background: #fff;
   transition: 0.15s;
-  cursor: default;
+  cursor: pointer;
   font-size: 13px;
   display: flex;
   align-items: center;
@@ -14,6 +13,10 @@
   aspect-ratio: 1;
   min-width: 0;
   box-sizing: border-box;
+
+  &:hover {
+    background: #f9f9f9;
+  }
 
   &.selected {
     background: $primary-color-selected;
