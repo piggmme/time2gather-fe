@@ -1,14 +1,13 @@
 .gridWrapper {
-  // min-width: 300px;
+  min-width: 50px;
   flex-shrink: 0;
   height: auto;
   align-self: flex-start;
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 4px;
-  // padding: 4px;
 }
 

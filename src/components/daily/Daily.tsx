@@ -111,6 +111,12 @@ export default function Daily() {
     }
   };
 
+  const formatHour = (hour: number): string => {
+    return `${hour.toString().padStart(2, "0")}:00`;
+  };
+
+  const hours = availableHours || Array.from({ length: 24 }, (_, i) => i);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -118,6 +124,13 @@ export default function Daily() {
       </div>
       <div className={styles.wrapper}>
         <div className={styles.scrollWrapper} ref={scrollWrapperRef}>
+          <div className={styles.timeColumn}>
+            {hours.map((hour) => (
+              <div key={hour} className={styles.timeCell}>
+                {formatHour(hour)}
+              </div>
+            ))}
+          </div>
           <div className={styles.scrollContainer} ref={scrollContainerRef}>
             <DailyGrid date={selectedDate} availableHours={availableHours} />
             <DailyGrid date={selectedDate} availableHours={availableHours} />

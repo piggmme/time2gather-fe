@@ -21,10 +21,6 @@ export default function DailyCell({ hour, date, isSelected, isDragged, onClick }
     data: { hour },
   });
 
-  const formatHour = (hour: number): string => {
-    return `${hour.toString().padStart(2, "0")}:00`;
-  };
-
   return (
     <div
       ref={(el) => {
@@ -40,7 +36,6 @@ export default function DailyCell({ hour, date, isSelected, isDragged, onClick }
         ${isDragged ? styles.dragged : ""}
       `}
     >
-      <div className={styles.timeLabel}>{formatHour(hour)}</div>
     </div>
   );
 }

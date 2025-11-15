@@ -2,7 +2,7 @@
 
 .cell {
   user-select: none;
-  padding: 12px 16px;
+  padding: 0 16px;
   border-radius: 8px;
   border: 1px solid #eee;
   background: #fff;
@@ -10,9 +10,11 @@
   cursor: default;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  min-height: 50px;
+  justify-content: center;
+  height: 30px;
+  min-height: 30px;
   box-sizing: border-box;
+  flex-shrink: 0;
 
   &:hover {
     background: #f9f9f9;
@@ -29,11 +31,5 @@
     backdrop-filter: blur(4px);
     border-color: $primary-color-border;
   }
-}
-
-.timeLabel {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
 }
 

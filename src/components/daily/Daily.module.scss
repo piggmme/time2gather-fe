@@ -34,6 +34,9 @@
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 
   // 스크롤바 숨기기
   scrollbar-width: none; // Firefox
@@ -44,6 +47,27 @@
     width: 0;
     height: 0;
   }
+}
+
+.timeColumn {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-self: flex-start;
+}
+
+.timeCell {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  padding-right: 12px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .scrollButtonVertical {
@@ -129,8 +153,8 @@
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  gap: 20px;
-  width: 100%;
+  gap: 10px;
+  flex: 1;
   align-items: flex-start;
 
   // 스크롤바 숨기기
