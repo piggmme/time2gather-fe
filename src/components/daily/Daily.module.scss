@@ -53,7 +53,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
   align-self: flex-start;
 }
 
@@ -68,6 +68,17 @@
   padding-right: 12px;
   box-sizing: border-box;
   flex-shrink: 0;
+  border-top: 1px solid #ddd;
+
+  // 정각: 실선
+  &.fullHour {
+    border-top: 1px solid #ccc;
+  }
+
+  // 30분: 점선
+  &.halfHour {
+    border-top: 1px dashed #ddd;
+  }
 }
 
 .scrollButtonVertical {
@@ -153,7 +164,6 @@
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  gap: 10px;
   flex: 1;
   align-items: flex-start;
 

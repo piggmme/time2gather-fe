@@ -127,11 +127,17 @@ export default function Daily() {
       <div className={styles.wrapper}>
         <div className={styles.scrollWrapper} ref={scrollWrapperRef}>
           <div className={styles.timeColumn}>
-            {timeSlots.map((slot) => (
-              <div key={slot} className={styles.timeCell}>
-                {formatTimeSlot(slot)}
-              </div>
-            ))}
+            {timeSlots.map((slot) => {
+              const isFullHour = slot % 2 === 0;
+              return (
+                <div 
+                  key={slot} 
+                  className={`${styles.timeCell} ${isFullHour ? styles.fullHour : styles.halfHour}`}
+                >
+                  {formatTimeSlot(slot)}
+                </div>
+              );
+            })}
           </div>
           <div className={styles.scrollContainer} ref={scrollContainerRef}>
             <DailyGrid date={selectedDate} availableHours={availableHours} />

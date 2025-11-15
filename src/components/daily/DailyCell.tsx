@@ -21,6 +21,9 @@ export default function DailyCell({ hour, date, isSelected, isDragged, onClick }
     data: { timeSlot: hour },
   });
 
+  // 정각인지 30분인지 판단 (timeSlot % 2 === 0이면 정각)
+  const isFullHour = hour % 2 === 0;
+
   return (
     <div
       ref={(el) => {
@@ -34,6 +37,7 @@ export default function DailyCell({ hour, date, isSelected, isDragged, onClick }
         ${styles.cell}
         ${isSelected ? styles.selected : ""}
         ${isDragged ? styles.dragged : ""}
+        ${isFullHour ? styles.fullHour : styles.halfHour}
       `}
     >
     </div>
