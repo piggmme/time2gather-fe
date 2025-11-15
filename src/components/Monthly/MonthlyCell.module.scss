@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .cell {
   user-select: none;
   padding: 14px 10px;
@@ -14,12 +16,12 @@
   box-sizing: border-box;
 
   &.selected {
-    background: rgba(59, 130, 246, 0.25);
+    background: $primary-color-selected;
     backdrop-filter: blur(4px);
   }
 
   &.dragged {
-    background: rgba(59, 130, 246, 0.101);
+    background: $primary-color-dragged;
     backdrop-filter: blur(4px);
   }
 
