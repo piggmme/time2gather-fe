@@ -111,11 +111,13 @@ export default function Daily() {
     }
   };
 
-  const formatHour = (hour: number): string => {
-    return `${hour.toString().padStart(2, "0")}:00`;
+  const formatTimeSlot = (slot: number): string => {
+    const hour = Math.floor(slot / 2);
+    const minute = (slot % 2) * 30;
+    return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
   };
 
-  const hours = availableHours || Array.from({ length: 24 }, (_, i) => i);
+  const timeSlots = availableHours || Array.from({ length: 48 }, (_, i) => i);
 
   return (
     <div className={styles.container}>
@@ -125,9 +127,9 @@ export default function Daily() {
       <div className={styles.wrapper}>
         <div className={styles.scrollWrapper} ref={scrollWrapperRef}>
           <div className={styles.timeColumn}>
-            {hours.map((hour) => (
-              <div key={hour} className={styles.timeCell}>
-                {formatHour(hour)}
+            {timeSlots.map((slot) => (
+              <div key={slot} className={styles.timeCell}>
+                {formatTimeSlot(slot)}
               </div>
             ))}
           </div>

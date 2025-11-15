@@ -4,24 +4,25 @@ import DailyCell from "./DailyCell";
 import dayjs from "dayjs";
 import styles from "./DailyGrid.module.scss";
 
-// 시간 범위 배열 생성 함수
-function getTimeRange(startHour: number | null, endHour: number | null) {
-  if (startHour === null || endHour === null) return [];
+// 시간 슬롯 범위 배열 생성 함수
+function getTimeSlotRange(startSlot: number | null, endSlot: number | null) {
+  if (startSlot === null || endSlot === null) return [];
 
-  const start = Math.min(startHour, endHour);
-  const end = Math.max(startHour, endHour);
+  const start = Math.min(startSlot, endSlot);
+  const end = Math.max(startSlot, endSlot);
 
-  const hours: number[] = [];
+  const slots: number[] = [];
   for (let i = start; i <= end; i++) {
-    hours.push(i);
+    slots.push(i);
   }
 
-  return hours;
+  return slots;
 }
 
-// 0시부터 23시까지 시간 배열 생성 (기본값)
-function generateDefaultHours(): number[] {
-  return Array.from({ length: 24 }, (_, i) => i);
+// 0:00부터 23:30까지 30분 단위 시간 슬롯 배열 생성 (기본값)
+// 0 = 00:00, 1 = 00:30, 2 = 01:00, ..., 47 = 23:30
+function generateDefaultTimeSlots(): number[] {
+  return Array.from({ length: 48 }, (_, i) => i);
 }
 
 export default function DailyGrid({ 
@@ -31,36 +32,36 @@ export default function DailyGrid({
   date: dayjs.Dayjs;
   availableHours?: number[];
 }) {
-  const [selectedHours, setSelectedHours] = useState<number[]>([]);
-  const [startHour, setStartHour] = useState<number | null>(null);
-  const [endHour, setEndHour] = useState<number | null>(null);
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>([]);
+  const [startTimeSlot, setStartTimeSlot] = useState<number | null>(null);
+  const [endTimeSlot, setEndTimeSlot] = useState<number | null>(null);
 
-  const hours = availableHours || generateDefaultHours();
+  const timeSlots = availableHours || generateDefaultTimeSlots();
 
-  const addHours = (newHours: number[]) => {
-    const allHours = [...selectedHours, ...newHours];
-    const uniqueHours = allHours.filter((hour, index, self) =>
-      index === self.indexOf(hour)
+  const addTimeSlots = (newTimeSlots: number[]) => {
+    const allTimeSlots = [...selectedTimeSlots, ...newTimeSlots];
+    const uniqueTimeSlots = allTimeSlots.filter((slot, index, self) =>
+      index === self.indexOf(slot)
     );
-    setSelectedHours(uniqueHours);
+    setSelectedTimeSlots(uniqueTimeSlots);
   };
 
-  const handleDraggedHours = (newHours: number[]) => {
-    // availableHours 범위 내의 시간만 필터링
-    const validHours = newHours.filter((hour) => hours.includes(hour));
-    if (validHours.length === 0) return;
+  const handleDraggedTimeSlots = (newTimeSlots: number[]) => {
+    // availableHours 범위 내의 시간 슬롯만 필터링
+    const validTimeSlots = newTimeSlots.filter((slot) => timeSlots.includes(slot));
+    if (validTimeSlots.length === 0) return;
 
-    const isAllIncluded = validHours.every((hour) => selectedHours.includes(hour));
+    const isAllIncluded = validTimeSlots.every((slot) => selectedTimeSlots.includes(slot));
     if (isAllIncluded) {
-      removeHours(validHours);
+      removeTimeSlots(validTimeSlots);
       return;
     }
-    addHours(validHours);
+    addTimeSlots(validTimeSlots);
   };
 
-  const removeHours = (newHours: number[]) => {
-    const filteredHours = selectedHours.filter((hour) => !newHours.includes(hour));
-    setSelectedHours(filteredHours);
+  const removeTimeSlots = (newTimeSlots: number[]) => {
+    const filteredTimeSlots = selectedTimeSlots.filter((slot) => !newTimeSlots.includes(slot));
+    setSelectedTimeSlots(filteredTimeSlots);
   };
 
   const sensors = useSensors(
@@ -71,45 +72,45 @@ export default function DailyGrid({
     })
   );
 
-  const draggedHours = getTimeRange(startHour, endHour);
+  const draggedTimeSlots = getTimeSlotRange(startTimeSlot, endTimeSlot);
 
   return (
     <div className={styles.gridWrapper}>
       <DndContext
       sensors={sensors}
       onDragStart={(event) => {
-        const hour = event.active?.data?.current?.hour;
-        if (hour !== undefined && hours.includes(hour)) {
-          setStartHour(hour);
-          setEndHour(hour);
+        const timeSlot = event.active?.data?.current?.timeSlot;
+        if (timeSlot !== undefined && timeSlots.includes(timeSlot)) {
+          setStartTimeSlot(timeSlot);
+          setEndTimeSlot(timeSlot);
         }
       }}
       onDragMove={(event) => {
-        const hour = event.over?.data?.current?.hour;
-        if (hour !== undefined && hours.includes(hour)) {
-          setEndHour(hour);
+        const timeSlot = event.over?.data?.current?.timeSlot;
+        if (timeSlot !== undefined && timeSlots.includes(timeSlot)) {
+          setEndTimeSlot(timeSlot);
         }
       }}
       onDragEnd={() => {
-        handleDraggedHours(getTimeRange(startHour, endHour));
-        setStartHour(null);
-        setEndHour(null);
+        handleDraggedTimeSlots(getTimeSlotRange(startTimeSlot, endTimeSlot));
+        setStartTimeSlot(null);
+        setEndTimeSlot(null);
       }}
       onDragCancel={() => {
-        setStartHour(null);
-        setEndHour(null);
+        setStartTimeSlot(null);
+        setEndTimeSlot(null);
       }}
     >
         <div className={styles.grid}>
-          {hours.map((hour) => (
+          {timeSlots.map((timeSlot) => (
             <DailyCell
-              key={hour}
-              hour={hour}
+              key={timeSlot}
+              hour={timeSlot}
               date={date}
-              isSelected={selectedHours.includes(hour)}
-              isDragged={draggedHours.includes(hour)}
+              isSelected={selectedTimeSlots.includes(timeSlot)}
+              isDragged={draggedTimeSlots.includes(timeSlot)}
               onClick={() => {
-                handleDraggedHours([hour]);
+                handleDraggedTimeSlots([timeSlot]);
               }}
             />
           ))}

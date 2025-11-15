@@ -13,12 +13,12 @@ type DailyCellProps = {
 export default function DailyCell({ hour, date, isSelected, isDragged, onClick }: DailyCellProps) {
   const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
     id: `drag-${date.format("YYYY-MM-DD")}-${hour}`,
-    data: { hour },
+    data: { timeSlot: hour },
   });
 
   const { setNodeRef: setDropRef } = useDroppable({
     id: `drop-${date.format("YYYY-MM-DD")}-${hour}`,
-    data: { hour },
+    data: { timeSlot: hour },
   });
 
   return (
