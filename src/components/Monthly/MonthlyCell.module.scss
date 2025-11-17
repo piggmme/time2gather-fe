@@ -13,6 +13,7 @@
   aspect-ratio: 1;
   min-width: 0;
   box-sizing: border-box;
+  touch-action: none; // 모바일에서 스크롤 방지
 
   &:hover {
     background: #f9f9f9;

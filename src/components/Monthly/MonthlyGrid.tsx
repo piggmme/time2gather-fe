@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
-import { DndContext, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
+import { useState, useRef } from "react";
+import { DndContext } from "@dnd-kit/core";
 import MonthlyCell from "./MonthlyCell";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import styles from "./MonthlyGrid.module.scss";
+import { useDragSensors } from "../../hooks/useDragSensors";
+import { useDragScrollPrevention } from "../../hooks/useDragScrollPrevention";
 
 dayjs.locale("ko");
 
@@ -40,6 +42,7 @@ export default function MonthlyGrid({
   const [dates, setDates] = useState<dayjs.Dayjs[]>([]);
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const addDates = (newDates: dayjs.Dayjs[]) => {
     const allDates = [...dates, ...newDates];
@@ -63,13 +66,10 @@ export default function MonthlyGrid({
     setDates(allDates);
   };
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    })
-  );
+  const sensors = useDragSensors();
+  
+  // 드래그 중일 때 스크롤 방지
+  useDragScrollPrevention(startDate !== null, containerRef);
 
   const selectedDays = getDateRange(startDate, endDate);
 
@@ -108,7 +108,7 @@ export default function MonthlyGrid({
         setEndDate(null);
       }}
     >
-      <div className={styles.container}>
+      <div className={styles.container} ref={containerRef}>
         <div className={styles.weekdays}>
           {weekdays.map((weekday) => (
             <div

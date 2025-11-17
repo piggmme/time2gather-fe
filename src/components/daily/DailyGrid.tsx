@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { DndContext, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
+import { useState, useRef } from "react";
+import { DndContext } from "@dnd-kit/core";
 import DailyCell from "./DailyCell";
 import dayjs from "dayjs";
 import styles from "./DailyGrid.module.scss";
+import { useDragSensors } from "../../hooks/useDragSensors";
+import { useDragScrollPrevention } from "../../hooks/useDragScrollPrevention";
 
 // 시간 슬롯 범위 배열 생성 함수
 function getTimeSlotRange(startSlot: number | null, endSlot: number | null) {
@@ -35,6 +37,7 @@ export default function DailyGrid({
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<number[]>([]);
   const [startTimeSlot, setStartTimeSlot] = useState<number | null>(null);
   const [endTimeSlot, setEndTimeSlot] = useState<number | null>(null);
+  const gridWrapperRef = useRef<HTMLDivElement>(null);
 
   const timeSlots = availableHours || generateDefaultTimeSlots();
 
@@ -64,18 +67,15 @@ export default function DailyGrid({
     setSelectedTimeSlots(filteredTimeSlots);
   };
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    })
-  );
+  const sensors = useDragSensors();
+  
+  // 드래그 중일 때 스크롤 방지
+  useDragScrollPrevention(startTimeSlot !== null, gridWrapperRef);
 
   const draggedTimeSlots = getTimeSlotRange(startTimeSlot, endTimeSlot);
 
   return (
-    <div className={styles.gridWrapper}>
+    <div className={styles.gridWrapper} ref={gridWrapperRef}>
       <DndContext
       sensors={sensors}
       onDragStart={(event) => {

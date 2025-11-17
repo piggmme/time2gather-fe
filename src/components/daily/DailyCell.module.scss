@@ -16,6 +16,7 @@
   min-height: 30px;
   box-sizing: border-box;
   flex-shrink: 0;
+  touch-action: none; // 모바일에서 스크롤 방지
 
   &:hover {
     background: #f9f9f9;
