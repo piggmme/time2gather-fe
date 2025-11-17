@@ -1,0 +1,25 @@
+@use "../../styles/variables.scss" as *;
+
+.nextButton {
+  margin: 0;
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  background-color: $primary-color;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.error {
+  color: rgb(255, 56, 56);
+  font-size: 14px;
+  margin-top: 10px;
+  display: block;
+}

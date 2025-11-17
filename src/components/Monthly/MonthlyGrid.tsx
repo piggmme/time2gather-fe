@@ -32,14 +32,17 @@ function getDateRange(start: dayjs.Dayjs | null, end: dayjs.Dayjs | null) {
 
 export default function MonthlyGrid({ 
   monthDays, 
+  dates,
+  setDates,
   currentYear, 
   currentMonth 
 }: { 
   monthDays: dayjs.Dayjs[];
+  dates: dayjs.Dayjs[];
+  setDates: (dates: dayjs.Dayjs[]) => void;
   currentYear: number;
   currentMonth: number;
 }) {
-  const [dates, setDates] = useState<dayjs.Dayjs[]>([]);
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);

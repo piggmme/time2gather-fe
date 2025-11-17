@@ -1,7 +1,7 @@
 import MonthlyGrid from "./MonthlyGrid";
 import dayjs from "dayjs";
 import styles from "./Monthly.module.scss";
-import { useState } from "react";
+import { useImperativeHandle, useState } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 function getMonthDays(year: number, month: number) {
@@ -43,7 +43,12 @@ function getMonthDays(year: number, month: number) {
   return days;
 }
 
-export default function Monthly() {
+type MonthlyProps = {
+  dates: dayjs.Dayjs[];
+  setDates: (dates: dayjs.Dayjs[]) => void;
+};
+
+export default function Monthly({ dates, setDates }: MonthlyProps) {
   const [currentDate, setCurrentDate] = useState(dayjs());
   const monthDays = getMonthDays(currentDate.year(), currentDate.month());
   const handlePreviousMonth = () => {
@@ -64,7 +69,13 @@ export default function Monthly() {
           <HiChevronRight />
         </button>
       </div>
-      <MonthlyGrid monthDays={monthDays} currentYear={currentDate.year()} currentMonth={currentDate.month()} />
+      <MonthlyGrid
+        dates={dates}
+        setDates={setDates}
+        monthDays={monthDays}
+        currentYear={currentDate.year()}
+        currentMonth={currentDate.month()}
+      />
     </div>
   );
 }

@@ -1,0 +1,20 @@
+@use "../styles/variables.scss" as *;
+
+.container {
+  width: 100%;
+}
+
+.button {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: $primary-color;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}

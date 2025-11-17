@@ -1,3 +1,6 @@
+---
+import { ClientRouter } from 'astro:transitions'
+---
 <!doctype html>
 <html lang="en">
 	<head>
@@ -9,6 +12,7 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet" />
 		<title>Time2Gather</title>
+		<ClientRouter />
 	</head>
 	<body>
 		<div class="responsive-layout">
@@ -98,5 +102,6 @@
 		min-width: 320px;
 		max-width: 1200px;
 		margin: 0 auto;
+		padding: 0 12px;
 	}
 </style>
