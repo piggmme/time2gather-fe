@@ -9,17 +9,11 @@ import node from '@astrojs/node';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const config = {
-  integrations: [react()],
-  output: "server",
-  adapter: node({ mode: "standalone" }),
-  server: { port: 3000 },
-};
-
 // 개발 환경에서만 HTTPS 설정 적용
+let viteConfig = {};
 if (import.meta.env.DEV) {
   try {
-    config.vite = {
+    viteConfig = {
       server: {
         https: {
           key: fs.readFileSync(path.resolve(__dirname, 'certs/time2gather-key.pem')),
@@ -32,4 +26,13 @@ if (import.meta.env.DEV) {
   }
 }
 
-export default defineConfig(config);
+export default defineConfig({
+  integrations: [react()],
+  output: "server",
+  adapter: node({ mode: "standalone" }),
+  server: { 
+    port: 3000,
+    host: true, // 같은 네트워크의 다른 기기에서 접근 가능
+  },
+  vite: viteConfig,
+});
