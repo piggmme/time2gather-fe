@@ -1,13 +1,3 @@
-// 메인 컬러 변수
-$primary-color: rgb(59, 130, 246);
-$primary-color-selected: rgba(59, 130, 246, 0.25);
-$primary-color-dragged: rgba(59, 130, 246, 0.101);
-$primary-color-border: rgba(59, 130, 246, 0.3);
-
-// 요일 색상 변수
-$sunday-color: #e95454;
-$saturday-color: #6b6bea;
-
 // color
 $c-black: #040404;
 $c-white: #ffffff;
@@ -16,8 +6,18 @@ $c-gray-light: #ebebeb;
 $c-gray-lightest: #f7f7f7;
 $c-gray-dark: #a1a1a1;
 $c-gray-darkest: #6b6b6b;
-$c-blue: #007bff;
+$c-blue: rgb(59, 130, 246);
 $c-blue-soft: #e6f0ff;
-$c-red: #dc3545;
+$c-red: #e95454;
 $c-red-soft: #f8e6e8;
 $c-orange: #fd7e14;
+
+// 메인 컬러 변수
+$primary-color: rgb(59, 130, 246);
+$primary-color-selected: rgba(59, 130, 246, 0.25);
+$primary-color-dragged: rgba(59, 130, 246, 0.101);
+$primary-color-border: rgba(59, 130, 246, 0.3);
+
+// 요일 색상 변수
+$sunday-color: $c-red;
+$saturday-color: #6b6bea;
