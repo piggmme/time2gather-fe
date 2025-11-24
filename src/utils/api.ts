@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
   withCredentials: true,
-  baseURL: import.meta.env.DEV ? undefined : "http://api.time2gather.org",
+  baseURL: "http://api.time2gather.org",
 })
 
 api.interceptors.response.use(

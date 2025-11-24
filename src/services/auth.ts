@@ -1,12 +1,14 @@
 import api from '../utils/api';
 
-const post_auth_oauth_$provider = async (provider: 'kakao' | 'google') => {
-  const response = await api.post(`/auth/oauth/${provider}`);
+const post_auth_oauth_$provider = async (provider: 'kakao' | 'google', authorizationCode: string) => {
+  const response = await api.post(`/auth/oauth/${provider}`, { authorizationCode });
   return response.data;
 };
 
 export const auth = {
   oauth: {
-    $provider: post_auth_oauth_$provider,
+    $provider: {
+      post: post_auth_oauth_$provider,
+    },
   }
 }
