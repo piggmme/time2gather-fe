@@ -15,7 +15,7 @@ type post_auth_oauth_$provider_response = success_response<{
   isNewUser: boolean;
 }>
 const post_auth_oauth_$provider = async (provider: 'kakao' | 'google', body: post_auth_oauth_$provider_body) => {
-  const response = await api.post<post_auth_oauth_$provider_response, error_response>(
+  const response = await api.post<post_auth_oauth_$provider_response>(
     `v1/auth/oauth/${provider}`,
     body
   );

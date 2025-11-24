@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { $me } from '../stores/me'
 
 const api = axios.create({
   withCredentials: true,
@@ -10,6 +11,9 @@ api.interceptors.response.use(
     return response.data
   },
   (error) => {
+    if (error.response.status === 401) {
+      $me.set(null)
+    }
     return Promise.reject(error)
   },
 )
