@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import dayjs from "dayjs";
 import Monthly from "../Monthly/Monthly";
 import styles from "./CreateMeeting.module.scss";
 import { navigate } from 'astro:transitions/client'
@@ -15,6 +13,7 @@ export default function PickDates() {
       <Monthly dates={selectedDates} setDates={setSelectedDates} />
       <Button
         buttonType='primary'
+        className={styles.button}
         disabled={selectedDates.length === 0}
         onClick={() => {
           if (selectedDates.length === 0) return;
@@ -26,7 +25,6 @@ export default function PickDates() {
       >
         다음
       </Button>
-      {selectedDates.length === 0 && <span className={styles.error}>날짜를 최소 하나 이상 선택해주세요.</span>}
     </>
   );
 }
