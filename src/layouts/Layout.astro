@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions'
 import '../styles/global.scss';
+import Header from '../components/Header/Header';
 ---
 <!doctype html>
 <html lang="en">
@@ -16,6 +17,7 @@ import '../styles/global.scss';
 		<ClientRouter />
 	</head>
 	<body>
+		<Header />
 		<div class="responsive-layout">
 			<slot />
 		</div>
@@ -104,5 +106,6 @@ import '../styles/global.scss';
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 0 12px;
+		padding-top: 50px;
 	}
 </style>
