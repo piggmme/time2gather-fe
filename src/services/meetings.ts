@@ -1,16 +1,5 @@
 import api from "../utils/api";
-
-type error_response = {
-  success: false
-  data: null
-  message: string
-}
-
-type success_response<T> = {
-  success: true
-  data: T
-  message: null
-}
+import type { success_response, error_response } from "./type";
 
 /**
  * @description Create a new meeting
