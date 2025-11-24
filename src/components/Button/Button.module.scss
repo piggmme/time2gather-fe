@@ -21,6 +21,11 @@
     color: #fff;
   }
 
+  &.ghost {
+    background-color: $c-gray-light;
+    color: $c-black;
+  }
+
   &.kakao {
     background-color: #fee500;
     color: $c-black;

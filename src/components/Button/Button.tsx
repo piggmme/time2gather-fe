@@ -1,6 +1,6 @@
 import styles from './Button.module.scss';
 
-type ButtonType = 'primary' | 'kakao' | 'default'
+type ButtonType = 'primary' | 'kakao' | 'default' | 'ghost'
 
 type ButtonProps<T extends 'button' | 'a' = 'button'> = {
   as?: T;

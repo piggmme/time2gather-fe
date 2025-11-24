@@ -3,17 +3,16 @@ import Layout from '../../layouts/Layout.astro';
 import PickDates from '../../components/meetings/PickDates';
 import PickTimeRange from '../../components/meetings/PickTimeRange';
 
-const dates = Astro.url.searchParams.get('dates');
+const step: 'dates' | 'timeRange' = Astro.url.searchParams.get('step') as 'dates' | 'timeRange' || 'dates';
 ---
 
 <Layout>
   <main>
     <h1>약속을 만들어 볼까요?</h1>
-    {
-      !dates || dates.length === 0
-      ? <PickDates client:only="react" />
-      : <PickTimeRange client:only="react" />
-    }
+    <div class="content">
+      {step === 'dates' && <PickDates client:only="react" />}
+      {step === 'timeRange' && <PickTimeRange client:only="react" />}
+    </div>
   </main>
 </Layout>
 
@@ -21,6 +20,10 @@ const dates = Astro.url.searchParams.get('dates');
   main {
     width: 100%;
     max-width: 500px;
+    margin: 0 auto;
+  }
+  .content {
+    width: 100%;
     margin: 0 auto;
   }
 </style>

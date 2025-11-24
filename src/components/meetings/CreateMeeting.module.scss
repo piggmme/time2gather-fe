@@ -6,3 +6,17 @@
   margin-top: 10px;
   display: block;
 }
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+
+  > *:first-child {
+    flex: 1;
+  }
+
+  > *:nth-child(2) {
+    flex: 3;
+  }
+}
