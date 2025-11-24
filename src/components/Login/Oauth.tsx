@@ -10,14 +10,9 @@ export default function Oauth () {
 
     const response = await auth.oauth.$provider.post('kakao', {
       authorizationCode: code,
-      ...(
-        import.meta.env.DEV
-        ?
-          {
-            redirectUrl: 'http://localhost:3000/login/oauth2/code/kakao'
-          }
-        : null
-      )
+      redirectUrl: import.meta.env.DEV ?
+        'https://localhost:3000/login/oauth2/code/kakao' :
+        'https://time2gather.org/login/oauth2/code/kakao'
     })
 
     navigate('/meetings/create')
