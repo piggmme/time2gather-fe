@@ -1,11 +1,27 @@
 import { useState } from "react";
 import dayjs from "dayjs";
+import "dayjs/locale/ko";
 import styles from "./CreateMeeting.module.scss";
 import Button from "../Button/Button";
 import { navigate } from "astro:transitions/client";
 import useSelectedDates from "./useSelectedDates";
 import { Select } from "../Select/Select";
 import Badge from "../Badge/Badge";
+
+dayjs.locale("ko");
+
+// 날짜를 한국어 형식으로 포맷팅
+function formatDate(date: dayjs.Dayjs): string {
+  const now = dayjs();
+  const isSameYear = date.year() === now.year();
+  const weekday = date.format("ddd"); // 한국어 축약형 요일 (일, 월, 화, 수, 목, 금, 토)
+
+  if (isSameYear) {
+    return `${date.format('M월 D일')} (${weekday})`;
+  } else {
+    return `${date.format('YYYY년 M월 D일')} (${weekday})`;
+  }
+}
 
 export default function PickDates() {
   const [selectedDates] = useSelectedDates()
@@ -17,7 +33,7 @@ export default function PickDates() {
         <p className={styles.dateBadgesTitle}>선택된 날짜는 총 {selectedDates.length}개에요.</p>
         <div className={styles.dateBadges}>
           {selectedDates.map((d) => (
-            <Badge key={d.format("YYYY-MM-DD")} text={d.format("YYYY-MM-DD")} type="default" />
+            <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d)} type="default" />
           ))}
         </div>
       </div>
