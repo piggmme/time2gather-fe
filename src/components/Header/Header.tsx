@@ -87,6 +87,35 @@ export default function Header() {
                 Time2Gather
               </span>
             </a>
+            <a
+              href="/meetings/create"
+              className={styles.mobileNavLink}
+            >
+              <PlusIcon width={27} height={27} />
+              <span>약속 만들기</span>
+            </a>
+            <a
+              href="/meetings/search"
+              className={styles.mobileNavLink}
+            >
+              <MagnifyingGlassIcon width={27} height={27} />
+              <span>약속 검색</span>
+            </a>
+            <a
+              href="/meetings/my"
+              className={styles.mobileNavLink}
+            >
+              <PersonIcon width={27} height={27} />
+              <span>내 약속</span>
+            </a>
+            <a
+              href="https://github.com/piggmme/time2gather-fe"
+              target="_blank"
+              className={styles.mobileNavAboutUs}
+            >
+              <RocketIcon width={27} height={27} />
+              <span>About Us</span>
+            </a>
           </div>
         </nav>
 
