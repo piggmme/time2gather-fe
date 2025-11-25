@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import styles from "./CreateMeeting.module.scss";
@@ -15,6 +15,8 @@ const timeSlots = Array.from({ length: 48 }, (_, i) => {
   const minutes = (i % 2) * 30;
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 });
+
+const startTimeSlots = timeSlots.slice(0, timeSlots.length - 1);
 
 // 시간 비교: time1이 time2보다 늦으면 true
 function isTimeAfter(time1: string, time2: string): boolean {
@@ -41,11 +43,15 @@ export default function PickDates() {
   const [selectedDates] = useSelectedDates()
   const [isExpanded, setIsExpanded] = useState(false);
   const [startTime, setStartTime] = useState<string>(timeSlots[0]);
-  const [endTime, setEndTime] = useState<string>(timeSlots[0]);
+  const [endTime, setEndTime] = useState<string>(timeSlots[1]);
 
   const INITIAL_COUNT = 2;
   const visibleDates = isExpanded ? selectedDates : selectedDates.slice(0, INITIAL_COUNT);
   const remainingCount = selectedDates.length - INITIAL_COUNT;
+
+  const endTimeOptions = useMemo(() => {
+    return timeSlots.filter((t) => isTimeAfter(t, startTime));
+  }, [startTime]);
 
   return (
     <>
@@ -78,22 +84,20 @@ export default function PickDates() {
                 const nextIndex = index + 2
                 if (nextIndex < timeSlots.length) {
                   setEndTime(timeSlots[nextIndex])
+                } else {
+                  setEndTime(timeSlots[timeSlots.length - 1])
                 }
               }
             }}
+            options={startTimeSlots}
           />
         </div>
         <div className={styles.timeRangeItem}>
           <TimeRangeSelector
             text="종료 시간"
             value={endTime}
-            setValue={(value) => {
-              if (isTimeAfter(startTime, value)) {
-                console.log('종료 시간이 시작 시간보다 늦습니다.')
-                return
-              }
-              setEndTime(value)
-            }}
+            setValue={setEndTime}
+            options={endTimeOptions}
           />
         </div>
       </div>
@@ -109,13 +113,19 @@ export default function PickDates() {
 }
 
 
-function TimeRangeSelector({ text, value, setValue }: { text: string, value: string, setValue: (value: string) => void }) {
+type TimeRangeSelectorProps = {
+  text: string;
+  value: string;
+  options: string[];
+  setValue: (value: string) => void;
+}
+function TimeRangeSelector({ text, value, options, setValue }: TimeRangeSelectorProps) {
   return (
     <>
       <div className={styles.timeRangeItemLabel}>
         {text}
       </div>
-      <Select text={text} options={timeSlots} value={value} setValue={setValue} />
+      <Select text={text} options={options} value={value} setValue={setValue} />
     </>
   )
 }
