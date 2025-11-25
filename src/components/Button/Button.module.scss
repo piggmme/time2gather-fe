@@ -36,4 +36,10 @@
     color: $c-black;
     border: 1px solid $c-gray;
   }
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }
