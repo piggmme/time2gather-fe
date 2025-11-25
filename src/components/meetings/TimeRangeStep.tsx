@@ -12,6 +12,15 @@ import { useSearchParam } from "react-use";
 
 dayjs.locale("ko");
 
+// TODO
+// 여기서 timeSlots 을 기준으로 시간을 선택하거든? 근데 이건 00:00 ~ 23:30 이라서 가독성이 떨어지는거같아.
+// 00:00 ~ 11:30 am/pm 기준으로 나눠서 선택할 수 있으면 좋겠어.
+// 근데 am/pm 을 또 select 컴포넌트로 따로 받아야해.
+// 즉 형태는 이럴거야
+
+// 시작 시간 [00:00 ~ 11:30 select] [am - pm select]
+// 종료 시간 [00:00 ~ 11:30 select] [am - pm select]
+
 const timeSlots = Array.from({ length: 48 }, (_, i) => {
   const hours = Math.floor(i / 2);
   const minutes = (i % 2) * 30;
