@@ -1,5 +1,5 @@
 import api from "../utils/api";
-import type { success_response, error_response } from "./type";
+import type { success_response } from "./type";
 
 /**
  * @description Create a new meeting
@@ -28,7 +28,7 @@ type post_meetings_response = success_response<{
   url: string
 }>
 const post_meetings = async (body: post_meetings_body) => {
-  const response = await api.post<post_meetings_response, error_response>('/v1/meetings', body);
+  const response = await api.post<post_meetings_response>('/v1/meetings', body);
   return response.data;
 };
 
@@ -144,7 +144,7 @@ type get_meetings_$meetingCode_response = success_response<{
   }
 }>
 const get_meetings_$meetingCode = async (meetingCode: string) => {
-  const response = await api.get<get_meetings_$meetingCode_response, error_response>(`/v1/meetings/${meetingCode}`);
+  const response = await api.get<get_meetings_$meetingCode_response>(`/v1/meetings/${meetingCode}`);
   return response.data;
 };
 
@@ -169,7 +169,7 @@ type get_meetings_$meetingCode_selections_response = success_response<{
   }
 }>
 const get_meetings_$meetingCode_selections = async (meetingCode: string) => {
-  const response = await api.get<get_meetings_$meetingCode_selections_response, error_response>(`/v1/meetings/${meetingCode}/selections`);
+  const response = await api.get<get_meetings_$meetingCode_selections_response>(`/v1/meetings/${meetingCode}/selections`);
   return response.data;
 }
 
@@ -179,7 +179,7 @@ type put_meetings_$meetingCode_selections_body = {
   }
 }
 const put_meetings_$meetingCode_selections = async (meetingCode: string, body: put_meetings_$meetingCode_selections_body) => {
-  const response = await api.put<success_response<null>, error_response>(`/v1/meetings/${meetingCode}/selections`, body);
+  const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/selections`, body);
   return response.data;
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import styles from "./CreateMeeting.module.scss";
@@ -7,6 +7,7 @@ import { navigate } from "astro:transitions/client";
 import useSelectedDates from "./useSelectedDates";
 import { Select } from "../Select/Select";
 import Badge from "../Badge/Badge";
+import { meetings } from "../../services/meetings";
 
 dayjs.locale("ko");
 
@@ -24,6 +25,17 @@ function isTimeAfter(time1: string, time2: string): boolean {
   const t1 = dayjs(`2000-01-01 ${time1}`, 'YYYY-MM-DD HH:mm');
   const t2 = dayjs(`2000-01-01 ${time2}`, 'YYYY-MM-DD HH:mm');
   return t1.isAfter(t2) || t1.isSame(t2);
+}
+
+// 시작 시간부터 종료 시간까지의 모든 시간 슬롯 배열 생성
+function getTimeRangeSlots(startTime: string, endTime: string): string[] {
+  const startIndex = timeSlots.findIndex((t) => t === startTime);
+  const endIndex = timeSlots.findIndex((t) => t === endTime);
+
+  if (startIndex === -1 || endIndex === -1 || startIndex > endIndex) {
+    return [];
+  }
+  return timeSlots.slice(startIndex, endIndex + 1);
 }
 
 // 날짜를 한국어 형식으로 포맷팅
@@ -117,7 +129,22 @@ export default function PickDates() {
         <Button
           disabled={isDisabled}
           buttonType="primary"
-          onClick={() => {}}
+          onClick={async () => {
+            const response = await meetings.post({
+              title: '테스트',
+              description: '테스트 설명',
+              timezone: 'Asia/Seoul',
+              availableDates: selectedDates.reduce((acc, d) => {
+                acc[d.format("YYYY-MM-DD")] = getTimeRangeSlots(startTime, endTime);
+                return acc;
+              }, {} as { [date: string]: string[] }),
+            })
+            if (response.success) {
+              navigate(`/meetings/${response.data.meetingCode}`);
+            } else {
+              console.error(response.message);
+            }
+          }}
         >
           약속 만들기
         </Button>
