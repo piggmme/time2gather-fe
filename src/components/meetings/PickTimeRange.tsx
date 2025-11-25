@@ -25,16 +25,29 @@ function formatDate(date: dayjs.Dayjs): string {
 
 export default function PickDates() {
   const [selectedDates] = useSelectedDates()
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const INITIAL_COUNT = 2;
+  const visibleDates = isExpanded ? selectedDates : selectedDates.slice(0, INITIAL_COUNT);
+  const remainingCount = selectedDates.length - INITIAL_COUNT;
 
   return (
     <>
-      <h2>시간대를 선택해 주세요.</h2>
-      <div>
+      <div className={styles.dateBadgesContainer}>
+        <h2>시간대를 선택해 주세요.</h2>
         <p className={styles.dateBadgesTitle}>선택된 날짜는 총 {selectedDates.length}개에요.</p>
         <div className={styles.dateBadges}>
-          {selectedDates.map((d) => (
-            <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d)} type="default" />
+          {visibleDates.map((d) => (
+            <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d)} type="primary" />
           ))}
+          {!isExpanded && remainingCount > 0 && (
+            <button
+              className={styles.moreButton}
+              onClick={() => setIsExpanded(true)}
+            >
+              +{remainingCount}
+            </button>
+          )}
         </div>
       </div>
       <div className={styles.timeRangeContainer}>

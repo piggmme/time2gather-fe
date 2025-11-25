@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 .timeRangeItem {
@@ -43,6 +43,10 @@
   color: $c-black;
 }
 
+.dateBadgesContainer {
+  margin: 30px 0 50px;
+}
+
 .dateBadgesTitle {
   margin: 0;
   margin-bottom: 8px;
@@ -53,4 +57,28 @@
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
+}
+
+.moreButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border: 1px solid $primary-color-border;
+  border-radius: 6px;
+  background-color: $c-white;
+  color: $c-blue;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $c-gray-lightest;
+    border-color: $c-gray;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 }
