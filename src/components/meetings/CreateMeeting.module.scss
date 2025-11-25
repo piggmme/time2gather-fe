@@ -42,3 +42,15 @@
   font-weight: 500;
   color: $c-black;
 }
+
+.dateBadgesTitle {
+  margin: 0;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: $c-gray-darkest;
+}
+.dateBadges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
