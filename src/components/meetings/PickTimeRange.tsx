@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import styles from "./CreateMeeting.module.scss";
@@ -9,6 +9,20 @@ import { Select } from "../Select/Select";
 import Badge from "../Badge/Badge";
 
 dayjs.locale("ko");
+
+const timeSlots = Array.from({ length: 48 }, (_, i) => {
+  const hours = Math.floor(i / 2);
+  const minutes = (i % 2) * 30;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+});
+
+// 시간 비교: time1이 time2보다 늦으면 true
+function isTimeAfter(time1: string, time2: string): boolean {
+  // dayjs는 날짜와 함께 파싱해야 하므로 임의의 날짜를 사용
+  const t1 = dayjs(`2000-01-01 ${time1}`, 'YYYY-MM-DD HH:mm');
+  const t2 = dayjs(`2000-01-01 ${time2}`, 'YYYY-MM-DD HH:mm');
+  return t1.isAfter(t2);
+}
 
 // 날짜를 한국어 형식으로 포맷팅
 function formatDate(date: dayjs.Dayjs): string {
@@ -26,6 +40,8 @@ function formatDate(date: dayjs.Dayjs): string {
 export default function PickDates() {
   const [selectedDates] = useSelectedDates()
   const [isExpanded, setIsExpanded] = useState(false);
+  const [startTime, setStartTime] = useState<string>(timeSlots[0]);
+  const [endTime, setEndTime] = useState<string>(timeSlots[0]);
 
   const INITIAL_COUNT = 2;
   const visibleDates = isExpanded ? selectedDates : selectedDates.slice(0, INITIAL_COUNT);
@@ -52,10 +68,33 @@ export default function PickDates() {
       </div>
       <div className={styles.timeRangeContainer}>
         <div className={styles.timeRangeItem}>
-          <TimeRangeSelector text="시작 시간" />
+          <TimeRangeSelector
+            text="시작 시간"
+            value={startTime}
+            setValue={(value) => {
+              setStartTime(value)
+              if (isTimeAfter(value, endTime)) {
+                const index = timeSlots.findIndex((t) => t === value)
+                const nextIndex = index + 2
+                if (nextIndex < timeSlots.length) {
+                  setEndTime(timeSlots[nextIndex])
+                }
+              }
+            }}
+          />
         </div>
         <div className={styles.timeRangeItem}>
-          <TimeRangeSelector text="종료 시간" />
+          <TimeRangeSelector
+            text="종료 시간"
+            value={endTime}
+            setValue={(value) => {
+              if (isTimeAfter(startTime, value)) {
+                console.log('종료 시간이 시작 시간보다 늦습니다.')
+                return
+              }
+              setEndTime(value)
+            }}
+          />
         </div>
       </div>
       <div className={styles.buttonContainer}>
@@ -63,21 +102,14 @@ export default function PickDates() {
           const newUrl = `/meetings/create?dates=${selectedDates.map((d) => d.format("YYYY-MM-DD")).join(",")}`
           navigate(newUrl);
         }}>이전</Button>
-        <Button buttonType="primary" onClick={() => {}}>약속 만들기</Button>
+        <Button disabled={startTime === endTime} buttonType="primary" onClick={() => {}}>약속 만들기</Button>
       </div>
     </>
   );
 }
 
-const timeSlots = Array.from({ length: 48 }, (_, i) => {
-  const hours = Math.floor(i / 2);
-  const minutes = (i % 2) * 30;
-  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-});
 
-function TimeRangeSelector({ text }: { text: string }) {
-  const [value, setValue] = useState<string>(timeSlots[0]);
-
+function TimeRangeSelector({ text, value, setValue }: { text: string, value: string, setValue: (value: string) => void }) {
   return (
     <>
       <div className={styles.timeRangeItemLabel}>
