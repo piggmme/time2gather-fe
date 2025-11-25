@@ -9,6 +9,10 @@
 
 .title {
   margin-top: 60px;
+
+  @media (max-width: 699px) {
+    margin-top: 20px;
+  }
 }
 
 .monthlyContainer {
