@@ -22,10 +22,27 @@ const post_auth_oauth_$provider = async (provider: 'kakao' | 'google', body: pos
   return response.data;
 };
 
+
+type get_auth_me_response = success_response<{
+  userId: number;
+  username: string;
+  email: string;
+  profileImageUrl: string;
+  provider: 'kakao' | 'google';
+  createdAt: string;
+}>
+const get_auth_me = async () => {
+  const response = await api.get<get_auth_me_response>('v1/auth/me');
+  return response.data;
+};
+
 export const auth = {
   oauth: {
     $provider: {
       post: post_auth_oauth_$provider,
     },
-  }
+  },
+  me: {
+    get: get_auth_me,
+  },
 }
