@@ -1,0 +1,14 @@
+@use "../../styles/variables.scss" as *;
+
+.input {
+  width: 100%;
+  padding: 10px 20px 10px 10px;
+  box-sizing: border-box;
+  border: 1px solid $c-gray;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: $c-black;
+  background-color: $c-white;
+}

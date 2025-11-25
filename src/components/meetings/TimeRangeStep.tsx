@@ -8,6 +8,7 @@ import useSelectedDates from "./useSelectedDates";
 import { Select } from "../Select/Select";
 import Badge from "../Badge/Badge";
 import { meetings } from "../../services/meetings";
+import { useSearchParam } from "react-use";
 
 dayjs.locale("ko");
 
@@ -51,12 +52,14 @@ function formatDate(date: dayjs.Dayjs): string {
   }
 }
 
-export default function PickDates() {
+export default function TimeRangeStep() {
   const [selectedDates] = useSelectedDates()
   const [isExpanded, setIsExpanded] = useState(false);
   const [startTime, setStartTime] = useState<string>(timeSlots[0]);
   const [endTime, setEndTime] = useState<string>(timeSlots[1]);
   const [isDisabled, setIsDisabled] = useState(true);
+  const title = useSearchParam('title');
+  const description = useSearchParam('description');
 
   const INITIAL_COUNT = 2;
   const visibleDates = isExpanded ? selectedDates : selectedDates.slice(0, INITIAL_COUNT);
@@ -131,8 +134,8 @@ export default function PickDates() {
           buttonType="primary"
           onClick={async () => {
             const response = await meetings.post({
-              title: '테스트',
-              description: '테스트 설명',
+              title: title as string,
+              description: description as string,
               timezone: 'Asia/Seoul',
               availableDates: selectedDates.reduce((acc, d) => {
                 acc[d.format("YYYY-MM-DD")] = getTimeRangeSlots(startTime, endTime);

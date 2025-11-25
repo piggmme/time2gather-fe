@@ -1,17 +1,22 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import PickDates from '../../components/meetings/PickDates';
-import PickTimeRange from '../../components/meetings/PickTimeRange';
+import DatesStep from '../../components/meetings/DatesStep';
+import TimeRangeStep from '../../components/meetings/TimeRangeStep';
+import TitleStep from '../../components/meetings/TitleStep';
+import DescriptionStep from '../../components/meetings/DescriptionStep';
 
-const step: 'dates' | 'timeRange' = Astro.url.searchParams.get('step') as 'dates' | 'timeRange' || 'dates';
+type Step = 'title' | 'description' | 'dates' | 'timeRange';
+const step: Step = Astro.url.searchParams.get('step') as Step || 'title';
 ---
 
 <Layout>
   <main>
     <h1>약속을 만들어 볼까요?</h1>
     <div class="content">
-      {step === 'dates' && <PickDates client:only="react" />}
-      {step === 'timeRange' && <PickTimeRange client:only="react" />}
+      {step === 'title' && <TitleStep client:only="react" />}
+      {step === 'description' && <DescriptionStep client:only="react" />}
+      {step === 'dates' && <DatesStep client:only="react" />}
+      {step === 'timeRange' && <TimeRangeStep client:only="react" />}
     </div>
   </main>
 </Layout>
