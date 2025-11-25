@@ -1,7 +1,8 @@
 import styles from "./Header.module.scss";
 import { useState } from "react";
 import calendarIcon from "../../assets/calendar.svg?url";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon, RocketIcon } from "@radix-ui/react-icons";
+import { VisuallyHidden } from "radix-ui";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -30,18 +31,48 @@ export default function Header() {
 
         {/* 데스크톱 네비게이션 */}
         <nav className={styles.desktopNav}>
+          <a
+            href="/"
+            className={styles.desktopNavLogo}
+          >
+            <img
+              src={calendarIcon}
+              alt="Time2Gather"
+              className={styles.desktopLogo}
+            />
+            <VisuallyHidden.Root>홈</VisuallyHidden.Root>
+          </a>
           <div className={styles.desktopNavContent}>
             <a
-              href="/"
-              className={styles.desktopTitle}
+              href="/meetings/create"
+              className={styles.desktopNavLink}
             >
-              <img
-                src={calendarIcon}
-                alt="Time2Gather"
-                className={styles.desktopLogo}
-              />
+              <PlusIcon width={27} height={27} />
+              <VisuallyHidden.Root>약속 만들기</VisuallyHidden.Root>
+            </a>
+            <a
+              href="/meetings/search"
+              className={styles.desktopNavLink}
+            >
+              <MagnifyingGlassIcon width={27} height={27} />
+              <VisuallyHidden.Root>약속 검색</VisuallyHidden.Root>
+            </a>
+            <a
+              href="/meetings/my"
+              className={styles.desktopNavLink}
+            >
+              <PersonIcon width={27} height={27} />
+              <VisuallyHidden.Root>내 약속</VisuallyHidden.Root>
             </a>
           </div>
+          <a
+            href="https://github.com/piggmme/time2gather-fe"
+            target="_blank"
+            className={styles.desktopNavAboutUs}
+          >
+            <RocketIcon width={27} height={27} />
+            <VisuallyHidden.Root>About Us</VisuallyHidden.Root>
+          </a>
         </nav>
 
         {/* 모바일 네비게이션 */}
