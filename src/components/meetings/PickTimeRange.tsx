@@ -1,19 +1,27 @@
-import { useState, useEffect, useRef } from "react";
-import { useSearchParam } from "react-use";
+import { useState } from "react";
 import dayjs from "dayjs";
 import styles from "./CreateMeeting.module.scss";
 import Button from "../Button/Button";
 import { navigate } from "astro:transitions/client";
 import useSelectedDates from "./useSelectedDates";
+import { Select } from "../Select/Select";
 
 export default function PickDates() {
-  const [selectedDates, setSelectedDates] = useSelectedDates()
+  const [selectedDates] = useSelectedDates()
 
   return (
     <>
       <h2>시간대를 선택해 주세요.</h2>
       <div>
         <p>선택된 날짜: {selectedDates.map((d) => d.format("YYYY-MM-DD")).join(", ")}</p>
+      </div>
+      <div className={styles.timeRangeContainer}>
+        <div className={styles.timeRangeItem}>
+          <TimeRangeSelector text="시작 시간" />
+        </div>
+        <div className={styles.timeRangeItem}>
+          <TimeRangeSelector text="종료 시간" />
+        </div>
       </div>
       <div className={styles.buttonContainer}>
         <Button buttonType="ghost" onClick={() => {
@@ -26,3 +34,21 @@ export default function PickDates() {
   );
 }
 
+const timeSlots = Array.from({ length: 48 }, (_, i) => {
+  const hours = Math.floor(i / 2);
+  const minutes = (i % 2) * 30;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+});
+
+function TimeRangeSelector({ text }: { text: string }) {
+  const [value, setValue] = useState<string>(timeSlots[0]);
+
+  return (
+    <>
+      <div className={styles.timeRangeItemLabel}>
+        {text}
+      </div>
+      <Select text={text} options={timeSlots} value={value} setValue={setValue} />
+    </>
+  )
+}

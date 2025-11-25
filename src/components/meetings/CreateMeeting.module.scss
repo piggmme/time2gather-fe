@@ -23,3 +23,22 @@
 .button {
   margin-top: 20px;
 }
+
+.timeRangeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.timeRangeItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timeRangeItemLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: $c-black;
+}
