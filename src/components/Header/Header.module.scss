@@ -49,7 +49,7 @@
     top: 0;
     left: 0;
     box-sizing: border-box;
-    height: 100vh;
+    height: 100svh;
     background-color: $c-gray-lightest;
     padding: 20px;
     overflow-y: auto;
@@ -121,7 +121,7 @@
     left: 0;
     width: 280px;
     box-sizing: border-box;
-    height: 100vh;
+    height: 100svh;
     background-color: #fff;
     padding: 24px;
     transform: translateX(-100%);
@@ -238,6 +238,6 @@
     z-index: 1001;
     width: 100vw;
     box-sizing: border-box;
-    height: 100vh;
+    height: 100svh;
   }
 }
