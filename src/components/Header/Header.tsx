@@ -31,18 +31,18 @@ export default function Header() {
 
         {/* 데스크톱 네비게이션 */}
         <nav className={styles.desktopNav}>
-          <a
-            href="/"
-            className={styles.desktopNavLogo}
-          >
-            <img
-              src={calendarIcon}
-              alt="Time2Gather"
-              className={styles.desktopLogo}
-            />
-            <VisuallyHidden.Root>홈</VisuallyHidden.Root>
-          </a>
           <div className={styles.desktopNavContent}>
+            <a
+              href="/"
+              className={styles.desktopNavLogo}
+            >
+              <img
+                src={calendarIcon}
+                alt="Time2Gather"
+                className={styles.desktopLogo}
+              />
+              <VisuallyHidden.Root>홈</VisuallyHidden.Root>
+            </a>
             <a
               href="/meetings/create"
               className={styles.desktopNavLink}
@@ -64,15 +64,15 @@ export default function Header() {
               <PersonIcon width={27} height={27} />
               <VisuallyHidden.Root>내 약속</VisuallyHidden.Root>
             </a>
+            <a
+              href="https://github.com/piggmme/time2gather-fe"
+              target="_blank"
+              className={styles.desktopNavAboutUs}
+            >
+              <RocketIcon width={27} height={27} />
+              <VisuallyHidden.Root>About Us</VisuallyHidden.Root>
+            </a>
           </div>
-          <a
-            href="https://github.com/piggmme/time2gather-fe"
-            target="_blank"
-            className={styles.desktopNavAboutUs}
-          >
-            <RocketIcon width={27} height={27} />
-            <VisuallyHidden.Root>About Us</VisuallyHidden.Root>
-          </a>
         </nav>
 
         {/* 모바일 네비게이션 */}

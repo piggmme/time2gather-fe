@@ -41,6 +41,7 @@
 /* 데스크톱 네비게이션 */
 .desktopNav {
   display: none;
+  position:absolute;
 
   @media (min-width: 700px) {
     display: block;
@@ -75,7 +76,6 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
-  position: relative
 }
 
 .desktopNavLink {
@@ -104,7 +104,15 @@
 /* 모바일 네비게이션 */
 .mobileNav {
   display: none;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $c-gray-lightest;
+  padding: 24px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
 
   @media (max-width: 699px) {
     display: block;
