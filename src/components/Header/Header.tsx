@@ -1,48 +1,72 @@
-import { PiHamburger } from "react-icons/pi";
-import { HiChevronLeft } from "react-icons/hi";
 import styles from "./Header.module.scss";
-import { useState, useEffect } from "react";
-import { useLocation } from "react-use";
+import { useState } from "react";
+import calendarIcon from "../../assets/calendar.svg?url";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 export default function Header() {
-  const location = useLocation()
-  const [hasHistory, setHasHistory] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  useEffect(() => {
-    if (location) {
-      const pathname = location.pathname || window.location.pathname;
-      const isHomePage = pathname === '/' || pathname === '';
-      setHasHistory(!isHomePage);
-    }
-  }, [location]);
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
-  const handleBack = () => {
-    window.history.back();
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
-    <header className={`${styles.header} ${!hasHistory ? styles.noBackButton : ''}`}>
-      {hasHistory && (
-        <div className={styles.left}>
-          <button 
-            className={styles.backButton}
-            onClick={handleBack}
+    <>
+      <header className={styles.header}>
+        {/* 모바일: 햄버거 버튼만 표시 */}
+        <div className={styles.mobileHeader}>
+          <button
+            className={styles.menuButton}
+            onClick={toggleMobileMenu}
+            aria-label="메뉴 열기"
           >
-            <HiChevronLeft size={24} />
+            <HamburgerMenuIcon />
           </button>
         </div>
-      )}
-      <a 
-        href="/" 
-        className={`${styles.title} ${hasHistory ? styles.center : styles.left}`}
-      >
-        Time2Gather
-      </a>
-      <div className={styles.right}>
-        <button className={styles.menuButton}>
-          <PiHamburger size={24} />
-        </button>
-      </div>
-    </header>
+
+        {/* 데스크톱 네비게이션 */}
+        <nav className={styles.desktopNav}>
+          <div className={styles.desktopNavContent}>
+            <a
+              href="/"
+              className={styles.desktopTitle}
+            >
+              <img
+                src={calendarIcon}
+                alt="Time2Gather"
+                className={styles.desktopLogo}
+              />
+            </a>
+          </div>
+        </nav>
+
+        {/* 모바일 네비게이션 */}
+        <nav className={`${styles.mobileNav} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
+          <div className={styles.mobileNavContent}>
+            <a
+              href="/"
+              className={styles.mobileTitle}
+              onClick={closeMobileMenu}
+            >
+              <span className={styles.mobileTitleText}>
+                Time2Gather
+              </span>
+            </a>
+          </div>
+        </nav>
+
+        {/* 모바일 오버레이 */}
+        {isMobileMenuOpen && (
+          <div
+            className={styles.mobileOverlay}
+            onClick={closeMobileMenu}
+          />
+        )}
+      </header>
+    </>
   )
 }

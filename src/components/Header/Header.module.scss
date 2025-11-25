@@ -1,77 +1,27 @@
 @use "../../styles/variables.scss" as *;
 
 .header {
-  display: grid;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   color: $c-black;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  padding: 0 12px;
+}
+
+/* 모바일: 상단 햄버거 버튼 */
+.mobileHeader {
+  display: block;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  max-width: 500px;
-  margin: 0 auto;
-  border-bottom: 1px solid #ccc;
-  z-index: 1000;
-  background-color: $c-white;
   height: 50px;
-}
+  padding: 0 12px;
+  z-index: 1001;
+  margin: 0 auto;
 
-.left {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  grid-column: 1;
-}
-
-.right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  grid-column: 3;
-}
-
-.backButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  color: inherit;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-weight: 700;
-  color: inherit;
-  text-decoration: none;
-  grid-column: 2;
-}
-
-.title.center {
-  justify-self: center;
-}
-
-.title.left {
-  justify-self: flex-start;
-}
-
-.header.no-back-button {
-  grid-template-columns: 1fr auto;
-  
-  .title {
-    grid-column: 1;
-    justify-self: flex-start;
-  }
-  
-  .right {
-    grid-column: 2;
+  @media (min-width: 700px) {
+    display: none;
   }
 }
 
@@ -84,4 +34,160 @@
   cursor: pointer;
   padding: 4px;
   color: inherit;
+  height: 100%;
+}
+
+/* 데스크톱 네비게이션 */
+.desktopNav {
+  display: none;
+
+  @media (min-width: 700px) {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 100vh;
+    background-color: $c-gray-lightest;
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+}
+
+.desktopNavContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.desktopTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  color: inherit;
+  text-decoration: none;
+  padding: 10px 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.desktopLogo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.desktopTitleText {
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* 모바일 네비게이션 */
+.mobileNav {
+  display: none;
+
+  @media (max-width: 699px) {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background-color: #fff;
+    padding: 24px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1002;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.mobileNav.mobileMenuOpen {
+  @media (max-width: 699px) {
+    transform: translateX(0);
+  }
+}
+
+.mobileNavContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mobileTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  color: inherit;
+  text-decoration: none;
+  padding: 12px 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.mobileLogo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.mobileTitleText {
+  font-size: 20px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  color: inherit;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $c-gray-lightest;
+  }
+
+  span {
+    font-size: 14px;
+  }
+}
+
+/* 모바일 오버레이 */
+.mobileOverlay {
+  display: block;
+
+  @media (min-width: 700px) {
+    display: none;
+  }
+
+  @media (max-width: 699px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.01);
+    backdrop-filter: blur(4px);
+    z-index: 1001;
+    width: 100vw;
+    height: 100vh;
+  }
 }
