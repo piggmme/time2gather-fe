@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 
 import react from '@astrojs/react';
 import node from '@astrojs/node';
+import sitemap from '@astrojs/sitemap';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,7 +28,15 @@ if (import.meta.env.DEV) {
 }
 
 export default defineConfig({
-  integrations: [react()],
+  site: process.env.SITE_URL || 'https://time2gather.com',
+  integrations: [
+    react(),
+    sitemap({
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+    }),
+  ],
   output: "server",
   adapter: node({ mode: "standalone" }),
   server: { 
