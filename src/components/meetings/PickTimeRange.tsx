@@ -56,23 +56,7 @@ export default function PickDates() {
 
   return (
     <>
-      <div className={styles.dateBadgesContainer}>
-        <h2>시간대를 선택해 주세요.</h2>
-        <p className={styles.dateBadgesTitle}>선택된 날짜는 총 {selectedDates.length}개에요.</p>
-        <div className={styles.dateBadges}>
-          {visibleDates.map((d) => (
-            <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d)} type="primary" />
-          ))}
-          {!isExpanded && remainingCount > 0 && (
-            <button
-              className={styles.moreButton}
-              onClick={() => setIsExpanded(true)}
-            >
-              +{remainingCount}
-            </button>
-          )}
-        </div>
-      </div>
+      <h2>시간대를 선택해 주세요.</h2>
       <div className={styles.timeRangeContainer}>
         <div className={styles.timeRangeItem}>
           <TimeRangeSelector
@@ -102,6 +86,22 @@ export default function PickDates() {
             setValue={setEndTime}
             options={endTimeOptions}
           />
+        </div>
+      </div>
+      <div className={styles.dateBadgesContainer}>
+        <p className={styles.dateBadgesTitle}>선택된 날짜는 총 {selectedDates.length}개에요.</p>
+        <div className={styles.dateBadges}>
+          {visibleDates.map((d) => (
+            <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d)} type="primary" />
+          ))}
+          {!isExpanded && remainingCount > 0 && (
+            <button
+              className={styles.moreButton}
+              onClick={() => setIsExpanded(true)}
+            >
+              +{remainingCount}
+            </button>
+          )}
         </div>
       </div>
       <div className={styles.buttonContainer}>
