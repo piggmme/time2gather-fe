@@ -24,7 +24,7 @@ export default function Header() {
             onClick={toggleMobileMenu}
             aria-label="메뉴 열기"
           >
-            <HamburgerMenuIcon />
+            <HamburgerMenuIcon width={20} height={20} />
           </button>
         </div>
 
