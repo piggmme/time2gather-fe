@@ -11,12 +11,14 @@ export default function TitleStep() {
 
   return (
     <>
-      <h2>제목을 입력해 주세요.</h2>
-      <Input
-        placeholder="우리의 연말 약속! 🍔🍗🍣🍴"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <h2 className={styles.title}>제목을 입력해 주세요.</h2>
+      <div className={styles.inputContainer}>
+        <Input
+          placeholder="우리의 연말 약속! 🍔🍗🍣🍴"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
       <div className={styles.buttonContainer}>
         <Button
           buttonType="ghost"

@@ -71,7 +71,7 @@ export default function TimeRangeStep() {
 
   return (
     <>
-      <h2>시간대를 선택해 주세요.</h2>
+      <h2 className={styles.title}>시간대를 선택해 주세요.</h2>
       <div className={styles.timeRangeContainer}>
         <div className={styles.timeRangeItem}>
           <TimeRangeSelector

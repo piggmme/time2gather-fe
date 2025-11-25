@@ -12,12 +12,14 @@ export default function DescriptionStep() {
 
   return (
     <>
-      <h2>어떤 약속인가요?</h2>
-      <Input
-        placeholder="강남에서 모이자!"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+      <h2 className={styles.title}>어떤 약속인가요?</h2>
+      <div className={styles.inputContainer}>
+        <Input
+          placeholder="얘들아 강남에서 모이자!"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
       <div className={styles.buttonContainer}>
         <Button
           buttonType="ghost"

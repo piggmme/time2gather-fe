@@ -11,7 +11,7 @@ const step: Step = Astro.url.searchParams.get('step') as Step || 'title';
 
 <Layout>
   <main>
-    <h1>약속을 만들어 볼까요?</h1>
+    <h1>약속을 만들어 볼까요? </h1>
     <div class="content">
       {step === 'title' && <TitleStep client:only="react" />}
       {step === 'description' && <DescriptionStep client:only="react" />}
@@ -26,6 +26,11 @@ const step: Step = Astro.url.searchParams.get('step') as Step || 'title';
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    @media (max-width: 699px) {
+      box-sizing: border-box;
+      min-height: calc(100svh - 70px);
+      position: relative;
+    }
   }
   .content {
     width: 100%;

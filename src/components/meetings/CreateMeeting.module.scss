@@ -7,8 +7,21 @@
   display: block;
 }
 
+.title {
+  margin-top: 60px;
+}
+
+.monthlyContainer {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.inputContainer {
+  margin: 30px 0;
+}
+
 .buttonContainer {
-  margin-top: 20px;
+  margin-top: 80px;
   width: 100%;
   display: flex;
   gap: 10px;
@@ -19,6 +32,18 @@
 
   > *:nth-child(2) {
     flex: 3;
+  }
+
+  @media (max-width: 699px) {
+    position: absolute;
+    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+    bottom: 16px;
+    left: 0;
+    width: 100%;
+    background-color: $c-white;
+    z-index: 1000;
   }
 }
 

@@ -13,7 +13,9 @@ export default function DatesStep() {
   return (
     <>
       <h2>날짜를 선택해 주세요.</h2>
-      <Monthly dates={selectedDates} setDates={setSelectedDates} />
+      <div className={styles.monthlyContainer}>
+        <Monthly dates={selectedDates} setDates={setSelectedDates} />
+      </div>
       <div className={styles.buttonContainer}>
         <Button
           buttonType="ghost"
