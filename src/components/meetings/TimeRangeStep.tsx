@@ -123,7 +123,7 @@ export default function TimeRangeStep() {
         <Button
           buttonType="ghost"
           onClick={() => {
-            const newUrl = `/meetings/create?dates=${selectedDates.map((d) => d.format("YYYY-MM-DD")).join(",")}`
+            const newUrl = `/meetings/create?step=dates&dates=${selectedDates.map((d) => d.format("YYYY-MM-DD")).join(",")}&title=${title}&description=${description}`
             navigate(newUrl);
           }}
         >
