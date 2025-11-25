@@ -18,12 +18,12 @@ const timeSlots = Array.from({ length: 48 }, (_, i) => {
 
 const startTimeSlots = timeSlots.slice(0, timeSlots.length - 1);
 
-// 시간 비교: time1이 time2보다 늦으면 true
+// 시간 비교: time1이 time2보다 늦거나 동일하면 true
 function isTimeAfter(time1: string, time2: string): boolean {
   // dayjs는 날짜와 함께 파싱해야 하므로 임의의 날짜를 사용
   const t1 = dayjs(`2000-01-01 ${time1}`, 'YYYY-MM-DD HH:mm');
   const t2 = dayjs(`2000-01-01 ${time2}`, 'YYYY-MM-DD HH:mm');
-  return t1.isAfter(t2);
+  return t1.isAfter(t2) || t1.isSame(t2);
 }
 
 // 날짜를 한국어 형식으로 포맷팅
@@ -44,6 +44,7 @@ export default function PickDates() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [startTime, setStartTime] = useState<string>(timeSlots[0]);
   const [endTime, setEndTime] = useState<string>(timeSlots[1]);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const INITIAL_COUNT = 2;
   const visibleDates = isExpanded ? selectedDates : selectedDates.slice(0, INITIAL_COUNT);
@@ -78,10 +79,12 @@ export default function PickDates() {
             text="시작 시간"
             value={startTime}
             setValue={(value) => {
+              setIsDisabled(false);
               setStartTime(value)
               if (isTimeAfter(value, endTime)) {
                 const index = timeSlots.findIndex((t) => t === value)
                 const nextIndex = index + 2
+                console.log({nextIndex})
                 if (nextIndex < timeSlots.length) {
                   setEndTime(timeSlots[nextIndex])
                 } else {
@@ -102,11 +105,22 @@ export default function PickDates() {
         </div>
       </div>
       <div className={styles.buttonContainer}>
-        <Button buttonType="ghost" onClick={() => {
-          const newUrl = `/meetings/create?dates=${selectedDates.map((d) => d.format("YYYY-MM-DD")).join(",")}`
-          navigate(newUrl);
-        }}>이전</Button>
-        <Button disabled={startTime === endTime} buttonType="primary" onClick={() => {}}>약속 만들기</Button>
+        <Button
+          buttonType="ghost"
+          onClick={() => {
+            const newUrl = `/meetings/create?dates=${selectedDates.map((d) => d.format("YYYY-MM-DD")).join(",")}`
+            navigate(newUrl);
+          }}
+        >
+          이전
+        </Button>
+        <Button
+          disabled={isDisabled}
+          buttonType="primary"
+          onClick={() => {}}
+        >
+          약속 만들기
+        </Button>
       </div>
     </>
   );
