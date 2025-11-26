@@ -14,20 +14,66 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
 
-// TODO
-// 여기서 timeSlots 을 기준으로 시간을 선택하거든? 근데 이건 00:00 ~ 23:30 이라서 가독성이 떨어지는거같아.
-// 00:00 ~ 11:30 am/pm 기준으로 나눠서 선택할 수 있으면 좋겠어.
-// 근데 am/pm 을 또 select 컴포넌트로 따로 받아야해.
-// 즉 형태는 이럴거야
+// 12시간 형식 시간 슬롯 (00:00 ~ 11:30)
+const twelveHourTimeSlots = Array.from({ length: 24 }, (_, i) => {
+  const hours = Math.floor(i / 2);
+  const minutes = (i % 2) * 30;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+});
 
-// 시작 시간 [00:00 ~ 11:30 select] [am - pm select]
-// 종료 시간 [00:00 ~ 11:30 select] [am - pm select]
-
+// 24시간 형식 시간 슬롯 (00:00 ~ 23:30) - 내부 로직용
 const timeSlots = Array.from({ length: 48 }, (_, i) => {
   const hours = Math.floor(i / 2);
   const minutes = (i % 2) * 30;
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 });
+
+const amPmOptions = ['AM', 'PM'] as const;
+type AmPm = typeof amPmOptions[number];
+
+// 12시간 형식 + am/pm을 24시간 형식으로 변환
+function convertTo24Hour(time: string, amPm: AmPm): string {
+  const [hours, minutes] = time.split(':').map(Number);
+  let hour24 = hours;
+  
+  if (amPm === 'AM') {
+    if (hours === 12) {
+      hour24 = 0;
+    }
+  } else { // PM
+    if (hours !== 12) {
+      hour24 = hours + 12;
+    }
+  }
+  
+  return `${String(hour24).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+// 24시간 형식을 12시간 형식 + am/pm으로 변환
+function convertTo12Hour(time24: string): { time: string; amPm: AmPm } {
+  const [hours, minutes] = time24.split(':').map(Number);
+  let hour12 = hours;
+  let amPm: AmPm = 'AM';
+  
+  if (hours === 0) {
+    hour12 = 12;
+    amPm = 'AM';
+  } else if (hours === 12) {
+    hour12 = 12;
+    amPm = 'PM';
+  } else if (hours > 12) {
+    hour12 = hours - 12;
+    amPm = 'PM';
+  } else {
+    hour12 = hours;
+    amPm = 'AM';
+  }
+  
+  return {
+    time: `${String(hour12).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`,
+    amPm
+  };
+}
 
 const startTimeSlots = timeSlots.slice(0, timeSlots.length - 1);
 
@@ -74,18 +120,46 @@ function formatDate(date: dayjs.Dayjs, locale: 'ko' | 'en'): string {
 export default function TimeRangeStep() {
   const [selectedDates] = useSelectedDates()
   const [isExpanded, setIsExpanded] = useState(false);
-  const [startTime, setStartTime] = useState<string>(timeSlots[0]);
-  const [endTime, setEndTime] = useState<string>(timeSlots[1]);
+  const [startTime, setStartTime] = useState<string>(timeSlots[20]);
+  const [endTime, setEndTime] = useState<string>(timeSlots[20]);
+  
+  // 12시간 형식 상태 (24시간 형식에서 초기화)
+  const initialStartTime12 = convertTo12Hour(timeSlots[10]);
+  const initialEndTime12 = convertTo12Hour(timeSlots[10]);
+  const [startTime12Value, setStartTime12Value] = useState<string>(initialStartTime12.time);
+  const [startAmPm, setStartAmPm] = useState<AmPm>(initialStartTime12.amPm);
+  const [endTime12Value, setEndTime12Value] = useState<string>(initialEndTime12.time);
+  const [endAmPm, setEndAmPm] = useState<AmPm>(initialEndTime12.amPm);
+
   const [isDisabled, setIsDisabled] = useState(true);
   const title = useSearchParam('title');
   const description = useSearchParam('description');
   const { t } = useTranslation();
   const locale = useStore($locale);
-  
+
   // Update dayjs locale when locale changes
   useEffect(() => {
     dayjs.locale(locale === 'ko' ? 'ko' : 'en');
   }, [locale]);
+
+  // 24시간 형식이 외부에서 변경되면 (예: 시작 시간이 종료 시간보다 늦어서 자동 조정) 12시간 형식으로 동기화
+  useEffect(() => {
+    const converted = convertTo12Hour(startTime);
+    // 현재 값과 다를 때만 업데이트 (무한 루프 방지)
+    if (converted.time !== startTime12Value || converted.amPm !== startAmPm) {
+      setStartTime12Value(converted.time);
+      setStartAmPm(converted.amPm);
+    }
+  }, [startTime]);
+
+  useEffect(() => {
+    const converted = convertTo12Hour(endTime);
+    // 현재 값과 다를 때만 업데이트 (무한 루프 방지)
+    if (converted.time !== endTime12Value || converted.amPm !== endAmPm) {
+      setEndTime12Value(converted.time);
+      setEndAmPm(converted.amPm);
+    }
+  }, [endTime]);
 
   const INITIAL_COUNT = 2;
   const visibleDates = isExpanded ? selectedDates : selectedDates.slice(0, INITIAL_COUNT);
@@ -102,30 +176,65 @@ export default function TimeRangeStep() {
         <div className={styles.timeRangeItem}>
           <TimeRangeSelector
             text={t('createMeeting.timeRangeStep.startTime')}
-            value={startTime}
-            setValue={(value) => {
+            timeValue={startTime12Value}
+            amPmValue={startAmPm}
+            onTimeChange={(value) => {
               setIsDisabled(false);
-              setStartTime(value)
-              if (isTimeAfter(value, endTime)) {
-                const index = timeSlots.findIndex((t) => t === value)
-                const nextIndex = index + 2
-                console.log({nextIndex})
+              setStartTime12Value(value);
+              const newStartTime24 = convertTo24Hour(value, startAmPm);
+              setStartTime(newStartTime24);
+              if (isTimeAfter(newStartTime24, endTime)) {
+                const index = timeSlots.findIndex((t) => t === newStartTime24);
+                const nextIndex = index + 2;
                 if (nextIndex < timeSlots.length) {
-                  setEndTime(timeSlots[nextIndex])
+                  setEndTime(timeSlots[nextIndex]);
                 } else {
-                  setEndTime(timeSlots[timeSlots.length - 1])
+                  setEndTime(timeSlots[timeSlots.length - 1]);
                 }
               }
             }}
-            options={startTimeSlots}
+            onAmPmChange={(value) => {
+              setIsDisabled(false);
+              setStartAmPm(value);
+              const newStartTime24 = convertTo24Hour(startTime12Value, value);
+              setStartTime(newStartTime24);
+              if (isTimeAfter(newStartTime24, endTime)) {
+                const index = timeSlots.findIndex((t) => t === newStartTime24);
+                const nextIndex = index + 2;
+                if (nextIndex < timeSlots.length) {
+                  setEndTime(timeSlots[nextIndex]);
+                } else {
+                  setEndTime(timeSlots[timeSlots.length - 1]);
+                }
+              }
+            }}
+            timeOptions={twelveHourTimeSlots}
+            amPmOptions={amPmOptions}
           />
         </div>
         <div className={styles.timeRangeItem}>
           <TimeRangeSelector
             text={t('createMeeting.timeRangeStep.endTime')}
-            value={endTime}
-            setValue={setEndTime}
-            options={endTimeOptions}
+            timeValue={endTime12Value}
+            amPmValue={endAmPm}
+            onTimeChange={(value) => {
+              setIsDisabled(false);
+              const newEndTime24 = convertTo24Hour(value, endAmPm);
+              if (isTimeAfter(newEndTime24, startTime)) {
+                setEndTime12Value(value);
+                setEndTime(newEndTime24);
+              }
+            }}
+            onAmPmChange={(value) => {
+              setIsDisabled(false);
+              const newEndTime24 = convertTo24Hour(endTime12Value, value);
+              if (isTimeAfter(newEndTime24, startTime)) {
+                setEndAmPm(value);
+                setEndTime(newEndTime24);
+              }
+            }}
+            timeOptions={twelveHourTimeSlots}
+            amPmOptions={amPmOptions}
           />
         </div>
       </div>
@@ -185,17 +294,36 @@ export default function TimeRangeStep() {
 
 type TimeRangeSelectorProps = {
   text: string;
-  value: string;
-  options: string[];
-  setValue: (value: string) => void;
+  timeValue: string;
+  amPmValue: AmPm;
+  timeOptions: string[];
+  amPmOptions: readonly AmPm[];
+  onTimeChange: (value: string) => void;
+  onAmPmChange: (value: AmPm) => void;
 }
-function TimeRangeSelector({ text, value, options, setValue }: TimeRangeSelectorProps) {
+function TimeRangeSelector({ 
+  text, 
+  timeValue, 
+  amPmValue, 
+  timeOptions, 
+  amPmOptions,
+  onTimeChange,
+  onAmPmChange 
+}: TimeRangeSelectorProps) {
   return (
     <>
       <div className={styles.timeRangeItemLabel}>
         {text}
       </div>
-      <Select text={text} options={options} value={value} setValue={setValue} />
+      <div className={styles.timeRangeSelects}>
+        <Select text={text} options={timeOptions} value={timeValue} setValue={onTimeChange} />
+        <Select 
+          text={text} 
+          options={[...amPmOptions]} 
+          value={amPmValue} 
+          setValue={(value) => onAmPmChange(value as AmPm)} 
+        />
+      </div>
     </>
   )
 }
