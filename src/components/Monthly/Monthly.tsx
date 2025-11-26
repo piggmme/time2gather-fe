@@ -1,8 +1,12 @@
 import MonthlyGrid from "./MonthlyGrid";
 import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import "dayjs/locale/en";
 import styles from "./Monthly.module.scss";
-import { useImperativeHandle, useState } from "react";
+import { useImperativeHandle, useState, useEffect } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { useStore } from "@nanostores/react";
+import { $locale } from "../../stores/locale";
 
 function getMonthDays(year: number, month: number) {
   const start = dayjs().year(year).month(month).date(1);
@@ -49,13 +53,29 @@ type MonthlyProps = {
 };
 
 export default function Monthly({ dates, setDates }: MonthlyProps) {
+  const locale = useStore($locale);
   const [currentDate, setCurrentDate] = useState(dayjs());
   const monthDays = getMonthDays(currentDate.year(), currentDate.month());
+  
+  // Update dayjs locale when locale changes
+  useEffect(() => {
+    dayjs.locale(locale === 'ko' ? 'ko' : 'en');
+  }, [locale]);
+
   const handlePreviousMonth = () => {
     setCurrentDate(currentDate.subtract(1, "month"));
   };
   const handleNextMonth = () => {
     setCurrentDate(currentDate.add(1, "month"));
+  };
+
+  // Format date based on locale
+  const formatMonthYear = (date: dayjs.Dayjs) => {
+    if (locale === 'ko') {
+      return date.format("YYYY년 MM월");
+    } else {
+      return date.format("MMMM YYYY");
+    }
   };
 
   return (
@@ -64,7 +84,7 @@ export default function Monthly({ dates, setDates }: MonthlyProps) {
         <button onClick={handlePreviousMonth}>
           <HiChevronLeft />
         </button>
-        <h2 className={styles.title}>{currentDate.format("YYYY년 MM월")}</h2>
+        <h2 className={styles.title}>{formatMonthYear(currentDate)}</h2>
         <button onClick={handleNextMonth}>
           <HiChevronRight />
         </button>

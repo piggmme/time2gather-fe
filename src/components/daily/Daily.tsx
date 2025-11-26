@@ -1,10 +1,15 @@
 import DailyGrid from "./DailyGrid";
 import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import "dayjs/locale/en";
 import styles from "./Daily.module.scss";
 import { useState, useRef, useEffect } from "react";
 import { HiChevronLeft, HiChevronRight, HiChevronUp, HiChevronDown } from "react-icons/hi";
+import { useStore } from "@nanostores/react";
+import { $locale } from "../../stores/locale";
 
 export default function Daily() {
+  const locale = useStore($locale);
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
@@ -12,6 +17,20 @@ export default function Daily() {
   const [showRightButton, setShowRightButton] = useState(true);
   const [showTopButton, setShowTopButton] = useState(false);
   const [showBottomButton, setShowBottomButton] = useState(true);
+
+  // Update dayjs locale when locale changes
+  useEffect(() => {
+    dayjs.locale(locale === 'ko' ? 'ko' : 'en');
+  }, [locale]);
+
+  // Format date based on locale
+  const formatDate = (date: dayjs.Dayjs) => {
+    if (locale === 'ko') {
+      return date.format("M월 D일 ddd");
+    } else {
+      return date.format("MMM D ddd");
+    }
+  };
 
   // 시간 범위 설정 예시: 10시부터 17시까지 (오전 10시 ~ 오후 5시)
   // 기본값은 undefined로 설정하면 0-23시 전체 사용
@@ -151,7 +170,7 @@ export default function Daily() {
             {
               dates.map((date) => (
                 <div className={styles.dateWrapper}>
-                  <span className={styles.dateTitle}>{date.format("M월 D일 ddd")}</span>
+                  <span className={styles.dateTitle}>{formatDate(date)}</span>
                   <DailyGrid
                     key={date.format("YYYY-MM-DD")}
                     date={date}

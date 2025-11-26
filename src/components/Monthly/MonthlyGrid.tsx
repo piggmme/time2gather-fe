@@ -1,13 +1,14 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { DndContext } from "@dnd-kit/core";
 import MonthlyCell from "./MonthlyCell";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import "dayjs/locale/en";
 import styles from "./MonthlyGrid.module.scss";
 import { useDragSensors } from "../../hooks/useDragSensors";
 import { useDragScrollPrevention } from "../../hooks/useDragScrollPrevention";
-
-dayjs.locale("ko");
+import { useStore } from "@nanostores/react";
+import { $locale } from "../../stores/locale";
 
 // 날짜 범위 배열 생성 함수
 function getDateRange(start: dayjs.Dayjs | null, end: dayjs.Dayjs | null) {
@@ -43,9 +44,15 @@ export default function MonthlyGrid({
   currentYear: number;
   currentMonth: number;
 }) {
+  const locale = useStore($locale);
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Update dayjs locale when locale changes
+  useEffect(() => {
+    dayjs.locale(locale === 'ko' ? 'ko' : 'en');
+  }, [locale]);
 
   const addDates = (newDates: dayjs.Dayjs[]) => {
     const allDates = [...dates, ...newDates];
