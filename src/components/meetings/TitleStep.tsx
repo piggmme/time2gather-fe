@@ -23,14 +23,6 @@ export default function TitleStep() {
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          buttonType="ghost"
-          onClick={() => {
-            window.history.back();
-          }}
-        >
-          {t('common.previous')}
-        </Button>
-        <Button
           disabled={title.length === 0}
           buttonType="primary"
           onClick={ () => {
