@@ -14,6 +14,8 @@
   min-width: 0;
   box-sizing: border-box;
   touch-action: none; // 모바일에서 스크롤 방지
+  color: $c-black;
+  font-weight: 600;
 
   &:hover {
     background: #f9f9f9;
@@ -30,8 +32,7 @@
   }
 
   &.otherMonth {
-    opacity: 0.4;
-    color: #999;
+    opacity: 0.5;
   }
 
   &.today {
@@ -67,6 +68,7 @@
     opacity: 0.3;
     cursor: not-allowed;
     pointer-events: none;
+    font-family: normal;
 
     &:hover {
       background: #fff;
