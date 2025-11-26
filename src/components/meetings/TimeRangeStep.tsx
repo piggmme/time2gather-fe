@@ -168,7 +168,11 @@ export default function TimeRangeStep() {
                 return acc;
               }, {} as { [date: string]: string[] }),
             })
-            navigate(`/meetings/${response.data.meetingCode}`)
+            if (response.success) {
+              navigate(`/meetings/${response.data.meetingCode}`);
+            } else {
+              console.error(response.message);
+            }
           }}
         >
           {t('createMeeting.timeRangeStep.createButton')}
