@@ -1,8 +1,32 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
+import { meetings } from '../../../services/meetings';
+
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const t = getTranslations(locale);
+
+const meetingCode = Astro.params.meetingCode as string;
+const { data, success } = await meetings.$meetingCode.get(meetingCode);
+if (!success) {
+  throw Astro.redirect('/404');
+}
 ---
 <Layout>
   <main>
-    <h1>약속 상세</h1>
+    <h1>{data.meeting.title}</h1>
+    <p>{data.meeting.description}</p>
   </main>
 </Layout>
+
+<style>
+  p {
+    margin-bottom: 50px;
+    word-break: keep-all;
+  }
+  main {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+</style>

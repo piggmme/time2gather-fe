@@ -112,7 +112,7 @@ type User = {
 }
  */
 type get_meetings_$meetingCode_response = success_response<{
-  meetings: {
+  meeting: {
     id: number
     code: string
     title: string
