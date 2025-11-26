@@ -2,31 +2,58 @@
 import Layout from '../../../layouts/Layout.astro';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
 import { meetings } from '../../../services/meetings';
+import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
+import Avatar from '../../../components/Avatar/Avatar';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
 
 const meetingCode = Astro.params.meetingCode as string;
-const { data, success } = await meetings.$meetingCode.get(meetingCode);
-if (!success) {
-  throw Astro.redirect('/404');
+let data: get_meetings_$meetingCode_response['data'] | null = null;
+try {
+  const response = await meetings.$meetingCode.get(meetingCode);
+  data = response.data;
+} catch (error) {
+  return Astro.redirect('/404',);
 }
 ---
 <Layout>
   <main>
     <h1>{data.meeting.title}</h1>
     <p>{data.meeting.description}</p>
+    <div class="host">
+      <Avatar
+        client:only="react"
+        src={data.meeting.host.profileImageUrl}
+        name={data.meeting.host.username}
+      />
+      <span>{data.meeting.host.username}</span>
+    </div>
+    <div class="separator" />
   </main>
 </Layout>
 
-<style>
+<style lang="scss">
+  @use "../../../styles/variables.scss" as *;
   p {
-    margin-bottom: 50px;
     word-break: keep-all;
   }
   main {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+  }
+
+  .host {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .separator {
+    width: 100%;
+    height: 1px;
+    background-color: $c-gray;
+    margin: 20px 0 30px;
   }
 </style>

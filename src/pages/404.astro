@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
+
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const t = getTranslations(locale);
+
+const title = t('404.title');
+const description = t('404.description');
+---
+<Layout>
+  <main>
+    <h1>{title} 😭</h1>
+    <p>{description}</p>
+  </main>
+</Layout>
+
+<style>
+  main {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+</style>

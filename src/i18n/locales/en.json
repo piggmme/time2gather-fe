@@ -42,6 +42,16 @@
       "createButton": "Create Meeting"
     }
   },
+  "meeting": {
+    "notFound": {
+      "title": "Meeting Not Found",
+      "description": "The meeting you requested does not exist or has been deleted."
+    }
+  },
+  "404": {
+    "title": "Page Not Found",
+    "description": "The page you requested does not exist or has been deleted."
+  },
   "meta": {
     "siteTitle": "Time2Gather - Schedule with People",
     "siteDescription": "A service that makes it easy to schedule meetings with people. Create meetings, select multiple dates and time slots, and share them. When participants select their available times, we'll recommend the best date and time to meet.",

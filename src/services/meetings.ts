@@ -14,7 +14,7 @@ import type { success_response } from "./type";
  *   }
  * }
  */
-type post_meetings_body = {
+export type post_meetings_body = {
   title: string;
   description: string;
   timezone: string
@@ -22,7 +22,7 @@ type post_meetings_body = {
     [date: string]: string[]
   }
 }
-type post_meetings_response = success_response<{
+export type post_meetings_response = success_response<{
   id: number
   meetingCode: string
   url: string
@@ -111,7 +111,7 @@ type User = {
   "message": null
 }
  */
-type get_meetings_$meetingCode_response = success_response<{
+export type get_meetings_$meetingCode_response = success_response<{
   meeting: {
     id: number
     code: string
@@ -163,7 +163,7 @@ const get_meetings_$meetingCode = async (meetingCode: string) => {
  *  "message": null
  * }
  */
-type get_meetings_$meetingCode_selections_response = success_response<{
+export type get_meetings_$meetingCode_selections_response = success_response<{
   selections: {
     [date: string]: string[]
   }
@@ -173,7 +173,7 @@ const get_meetings_$meetingCode_selections = async (meetingCode: string) => {
   return response.data;
 }
 
-type put_meetings_$meetingCode_selections_body = {
+export type put_meetings_$meetingCode_selections_body = {
   selections: {
     [date: string]: string[]
   }
