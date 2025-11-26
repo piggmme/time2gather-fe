@@ -8,7 +8,7 @@ import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../..
 
 type Step = 'title' | 'description' | 'dates' | 'timeRange';
 const step: Step = Astro.url.searchParams.get('step') as Step || 'title';
-const locale = getLocaleFromAstroRequest(Astro.cookies) || defaultLocale;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
 ---
 

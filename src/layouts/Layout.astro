@@ -4,7 +4,7 @@ import '../styles/global.scss';
 import Header from '../components/Header/Header';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
 
-const locale = getLocaleFromAstroRequest(Astro.cookies) || defaultLocale;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
 
 const siteUrl = Astro.site?.href || new URL(Astro.url.pathname, Astro.url.origin).href;

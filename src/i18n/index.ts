@@ -74,13 +74,36 @@ export function getLocaleFromContext(): Locale {
 }
 
 // Helper function to get locale from Astro request (for server-side)
-export function getLocaleFromAstroRequest(cookies?: any): Locale {
+export function getLocaleFromAstroRequest(cookies?: any, headers?: Headers): Locale {
+  // First, check cookie (user preference)
   if (cookies) {
     const localeCookie = cookies.get('locale')?.value;
     if (localeCookie && (localeCookie === 'ko' || localeCookie === 'en')) {
       return localeCookie as Locale;
     }
   }
+  
+  // If no cookie, detect from Accept-Language header
+  if (headers) {
+    const acceptLanguage = headers.get('accept-language');
+    if (acceptLanguage) {
+      // Parse Accept-Language header (e.g., "en-US,en;q=0.9,ko;q=0.8")
+      const languages = acceptLanguage
+        .split(',')
+        .map(lang => lang.split(';')[0].trim().toLowerCase());
+      
+      // Check if English is preferred
+      for (const lang of languages) {
+        if (lang.startsWith('en')) {
+          return 'en';
+        }
+        if (lang.startsWith('ko')) {
+          return 'ko';
+        }
+      }
+    }
+  }
+  
   return defaultLocale;
 }
 
