@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import "dayjs/locale/en";
 import styles from "./CreateMeeting.module.scss";
 import Button from "../Button/Button";
 import { navigate } from "astro:transitions/client";
@@ -9,8 +10,9 @@ import { Select } from "../Select/Select";
 import Badge from "../Badge/Badge";
 import { meetings } from "../../services/meetings";
 import { useSearchParam } from "react-use";
-
-dayjs.locale("ko");
+import { useTranslation } from "../../hooks/useTranslation";
+import { useStore } from "@nanostores/react";
+import { $locale } from "../../stores/locale";
 
 // TODO
 // 여기서 timeSlots 을 기준으로 시간을 선택하거든? 근데 이건 00:00 ~ 23:30 이라서 가독성이 떨어지는거같아.
@@ -48,16 +50,24 @@ function getTimeRangeSlots(startTime: string, endTime: string): string[] {
   return timeSlots.slice(startIndex, endIndex + 1);
 }
 
-// 날짜를 한국어 형식으로 포맷팅
-function formatDate(date: dayjs.Dayjs): string {
+// 날짜를 locale에 맞게 포맷팅
+function formatDate(date: dayjs.Dayjs, locale: 'ko' | 'en'): string {
   const now = dayjs();
   const isSameYear = date.year() === now.year();
-  const weekday = date.format("ddd"); // 한국어 축약형 요일 (일, 월, 화, 수, 목, 금, 토)
+  const weekday = date.format("ddd");
 
-  if (isSameYear) {
-    return `${date.format('M월 D일')} (${weekday})`;
+  if (locale === 'ko') {
+    if (isSameYear) {
+      return `${date.format('M월 D일')} (${weekday})`;
+    } else {
+      return `${date.format('YYYY년 M월 D일')} (${weekday})`;
+    }
   } else {
-    return `${date.format('YYYY년 M월 D일')} (${weekday})`;
+    if (isSameYear) {
+      return `${date.format('MMM D')} (${weekday})`;
+    } else {
+      return `${date.format('MMM D, YYYY')} (${weekday})`;
+    }
   }
 }
 
@@ -69,6 +79,13 @@ export default function TimeRangeStep() {
   const [isDisabled, setIsDisabled] = useState(true);
   const title = useSearchParam('title');
   const description = useSearchParam('description');
+  const { t } = useTranslation();
+  const locale = useStore($locale);
+  
+  // Update dayjs locale when locale changes
+  useEffect(() => {
+    dayjs.locale(locale === 'ko' ? 'ko' : 'en');
+  }, [locale]);
 
   const INITIAL_COUNT = 2;
   const visibleDates = isExpanded ? selectedDates : selectedDates.slice(0, INITIAL_COUNT);
@@ -80,11 +97,11 @@ export default function TimeRangeStep() {
 
   return (
     <>
-      <h2 className={styles.title}>시간대를 선택해 주세요.</h2>
+      <h2 className={styles.title}>{t('createMeeting.timeRangeStep.heading')}</h2>
       <div className={styles.timeRangeContainer}>
         <div className={styles.timeRangeItem}>
           <TimeRangeSelector
-            text="시작 시간"
+            text={t('createMeeting.timeRangeStep.startTime')}
             value={startTime}
             setValue={(value) => {
               setIsDisabled(false);
@@ -105,7 +122,7 @@ export default function TimeRangeStep() {
         </div>
         <div className={styles.timeRangeItem}>
           <TimeRangeSelector
-            text="종료 시간"
+            text={t('createMeeting.timeRangeStep.endTime')}
             value={endTime}
             setValue={setEndTime}
             options={endTimeOptions}
@@ -113,10 +130,10 @@ export default function TimeRangeStep() {
         </div>
       </div>
       <div className={styles.dateBadgesContainer}>
-        <p className={styles.dateBadgesTitle}>선택된 날짜는 총 {selectedDates.length}개에요.</p>
+        <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDatesCount', { count: selectedDates.length })}</p>
         <div className={styles.dateBadges}>
           {visibleDates.map((d) => (
-            <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d)} type="primary" />
+            <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d, locale)} type="primary" />
           ))}
           {!isExpanded && remainingCount > 0 && (
             <button
@@ -136,7 +153,7 @@ export default function TimeRangeStep() {
             navigate(newUrl);
           }}
         >
-          이전
+          {t('common.previous')}
         </Button>
         <Button
           disabled={isDisabled}
@@ -158,7 +175,7 @@ export default function TimeRangeStep() {
             }
           }}
         >
-          약속 만들기
+          {t('createMeeting.timeRangeStep.createButton')}
         </Button>
       </div>
     </>

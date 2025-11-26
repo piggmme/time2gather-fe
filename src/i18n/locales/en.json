@@ -1,0 +1,52 @@
+{
+  "common": {
+    "previous": "Previous",
+    "next": "Next",
+    "home": "Home",
+    "createMeeting": "Create Meeting",
+    "searchMeeting": "Search Meeting",
+    "myMeetings": "My Meetings",
+    "aboutUs": "About Us",
+    "menu": "Menu",
+    "openMenu": "Open Menu"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "Welcome! 👋",
+    "description": "A service that makes it easy to schedule meetings with people. Create meetings, select multiple dates and time slots, and share them. When participants select their available times, we'll recommend the best date and time to meet.",
+    "createMeetingButton": "Create a Meeting"
+  },
+  "login": {
+    "title": "Ready to schedule?",
+    "description": "Log in easily with KakaoTalk and schedule your meeting.",
+    "kakaoLogin": "Continue with Kakao"
+  },
+  "createMeeting": {
+    "title": "Let's create a meeting!",
+    "titleStep": {
+      "heading": "Please enter a title.",
+      "placeholder": "Our year-end gathering! 🍔🍗🍣🍴"
+    },
+    "descriptionStep": {
+      "heading": "What kind of meeting is this?",
+      "placeholder": "Let's meet in Gangnam, everyone!"
+    },
+    "datesStep": {
+      "heading": "Please select dates."
+    },
+    "timeRangeStep": {
+      "heading": "Please select a time range.",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "selectedDatesCount": "You have selected {count} date(s).",
+      "createButton": "Create Meeting"
+    }
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - Schedule with People",
+    "siteDescription": "A service that makes it easy to schedule meetings with people. Create meetings, select multiple dates and time slots, and share them. When participants select their available times, we'll recommend the best date and time to meet.",
+    "siteKeywords": "schedule meeting, schedule coordination, group meeting, group schedule, time coordination, meeting management, schedule sharing, Time2Gather",
+    "ogImageAlt": "Time2Gather - Schedule with Multiple People"
+  }
+}
+

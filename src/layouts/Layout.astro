@@ -2,15 +2,19 @@
 import { ClientRouter } from 'astro:transitions'
 import '../styles/global.scss';
 import Header from '../components/Header/Header';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
+
+const locale = getLocaleFromAstroRequest(Astro.cookies) || defaultLocale;
+const t = getTranslations(locale);
 
 const siteUrl = Astro.site?.href || new URL(Astro.url.pathname, Astro.url.origin).href;
-const title = 'Time2Gather - 사람들과 약속 잡기';
-const description = '사람들과 약속을 쉽게 잡을 수 있는 서비스입니다. 약속을 생성하고, 여러 날짜와 시간대를 선택해 공유하세요. 참여자들이 가능한 시간을 선택하면 가장 만나기 좋은 날짜와 시간을 추천해드립니다.';
-const keywords = '약속 잡기, 일정 조율, 모임 일정, 그룹 일정, 시간 조율, 약속 관리, 일정 공유, Time2Gather';
+const title = t('meta.siteTitle');
+const description = t('meta.siteDescription');
+const keywords = t('meta.siteKeywords');
 // const ogImage = new URL('/og-image.png', siteUrl).href;
 ---
 <!doctype html>
-<html lang="ko">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,8 +38,8 @@ const keywords = '약속 잡기, 일정 조율, 모임 일정, 그룹 일정, �
     <!-- <meta property="og:image" content={ogImage} /> -->
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Time2Gather - 여러 사람과 약속 잡기" />
-    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:image:alt" content={t('meta.ogImageAlt')} />
+    <meta property="og:locale" content={locale === 'ko' ? 'ko_KR' : 'en_US'} />
     <meta property="og:site_name" content="Time2Gather" />
 
     <!-- Twitter -->

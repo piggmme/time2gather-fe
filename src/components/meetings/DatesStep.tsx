@@ -4,15 +4,17 @@ import { navigate } from 'astro:transitions/client'
 import Button from "../Button/Button";
 import useSelectedDates from "./useSelectedDates";
 import { useSearchParam } from "react-use";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export default function DatesStep() {
   const [selectedDates, setSelectedDates] = useSelectedDates()
   const title = useSearchParam('title');
   const description = useSearchParam('description');
+  const { t } = useTranslation();
 
   return (
     <>
-      <h2>날짜를 선택해 주세요.</h2>
+      <h2>{t('createMeeting.datesStep.heading')}</h2>
       <div className={styles.monthlyContainer}>
         <Monthly dates={selectedDates} setDates={setSelectedDates} />
       </div>
@@ -23,7 +25,7 @@ export default function DatesStep() {
             navigate(`/meetings/create?step=description&title=${title}&description=${description}`);
           }}
         >
-          이전
+          {t('common.previous')}
         </Button>
         <Button
           buttonType='primary'
@@ -36,7 +38,7 @@ export default function DatesStep() {
             navigate(newUrl);
           }}
         >
-          다음
+          {t('common.next')}
         </Button>
       </div>
     </>

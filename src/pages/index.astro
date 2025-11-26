@@ -1,13 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Home from '../components/Home';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
+
+const locale = getLocaleFromAstroRequest(Astro.cookies) || defaultLocale;
+const t = getTranslations(locale);
 ---
 
 <Layout>
   <main>
-    <h1>Time2Gather</h1>
-    <h2>반가워요! 👋</h2>
-    <p>사람들과 약속을 쉽게 잡을 수 있는 서비스입니다. 약속을 생성하고, 여러 날짜와 시간대를 선택해 공유하세요. 참여자들이 가능한 시간을 선택하면 가장 만나기 좋은 날짜와 시간을 추천해드립니다.</p>
+    <h1>{t('home.title')}</h1>
+    <h2>{t('home.greeting')}</h2>
+    <p>{t('home.description')}</p>
     <Home client:only="react" />
   </main>
 </Layout>

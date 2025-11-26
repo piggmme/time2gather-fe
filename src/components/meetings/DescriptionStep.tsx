@@ -4,18 +4,20 @@ import Button from "../Button/Button";
 import { navigate } from "astro:transitions/client";
 import { useSearchParam } from "react-use";
 import Input from "../Input/Input";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export default function DescriptionStep() {
   const titleParam = useSearchParam('title');
   const descriptionParam = useSearchParam('description');
   const [description, setDescription] = useState(descriptionParam || '');
+  const { t } = useTranslation();
 
   return (
     <>
-      <h2 className={styles.title}>어떤 약속인가요?</h2>
+      <h2 className={styles.title}>{t('createMeeting.descriptionStep.heading')}</h2>
       <div className={styles.inputContainer}>
         <Input
-          placeholder="얘들아 강남에서 모이자!"
+          placeholder={t('createMeeting.descriptionStep.placeholder')}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -27,7 +29,7 @@ export default function DescriptionStep() {
             navigate(`/meetings/create?step=title&title=${titleParam}`);
           }}
         >
-          이전
+          {t('common.previous')}
         </Button>
         <Button
           disabled={description.length === 0}
@@ -36,7 +38,7 @@ export default function DescriptionStep() {
             navigate(`/meetings/create?step=dates&title=${titleParam}&description=${description}`);
           }}
         >
-          다음
+          {t('common.next')}
         </Button>
       </div>
     </>

@@ -4,14 +4,17 @@ import DatesStep from '../../components/meetings/DatesStep';
 import TimeRangeStep from '../../components/meetings/TimeRangeStep';
 import TitleStep from '../../components/meetings/TitleStep';
 import DescriptionStep from '../../components/meetings/DescriptionStep';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n';
 
 type Step = 'title' | 'description' | 'dates' | 'timeRange';
 const step: Step = Astro.url.searchParams.get('step') as Step || 'title';
+const locale = getLocaleFromAstroRequest(Astro.cookies) || defaultLocale;
+const t = getTranslations(locale);
 ---
 
 <Layout>
   <main>
-    <h1>약속을 만들어 볼까요? </h1>
+    <h1>{t('createMeeting.title')}</h1>
     <div class="content">
       {step === 'title' && <TitleStep client:only="react" />}
       {step === 'description' && <DescriptionStep client:only="react" />}
