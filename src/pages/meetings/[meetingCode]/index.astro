@@ -16,8 +16,37 @@ try {
 } catch (error) {
   return Astro.redirect('/404',);
 }
+
+// SEO 메타데이터 설정
+const siteUrl = Astro.site?.href || new URL(Astro.url.pathname, Astro.url.origin).href;
+const meetingUrl = new URL(Astro.url.pathname, Astro.url.origin).href;
+const meetingTitle = `${data.meeting.title} - Time2Gather`;
+const meetingDescription = data.meeting.description || t('meta.siteDescription');
+const ogImage = data.meeting.host.profileImageUrl || new URL('/favicon.svg', siteUrl).href;
+
+// 구조화된 데이터 (JSON-LD)
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": data.meeting.title,
+  "description": data.meeting.description,
+  "organizer": {
+    "@type": "Person",
+    "name": data.meeting.host.username,
+    "image": data.meeting.host.profileImageUrl
+  },
+  "url": meetingUrl,
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode"
+};
 ---
-<Layout>
+<Layout
+  title={meetingTitle}
+  description={meetingDescription}
+  ogImage={ogImage}
+  ogType="website"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} slot="head" />
   <main>
     <h1>{data.meeting.title}</h1>
     <p>{data.meeting.description}</p>
