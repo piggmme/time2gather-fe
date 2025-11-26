@@ -28,6 +28,16 @@
     cursor: pointer;
     font-size: 20px;
     color: #ccc;
+    transition: opacity 0.2s;
+
+    &:hover:not(:disabled) {
+      opacity: 0.7;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
   }
 }
 

@@ -35,8 +35,8 @@
   }
 
   &.today {
-    color: #000;
-    font-weight: bold;
+    color: $primary-color;
+    font-weight: 800;
   }
 
   &.sunday {
@@ -45,6 +45,32 @@
 
   &.saturday {
     color: $saturday-color;
+  }
+
+  &.viewMode {
+    cursor: default;
+
+    &:hover {
+      background: #fff;
+    }
+
+    &.selected {
+      cursor: default;
+    }
+  }
+
+  &.viewModeNoClick {
+    pointer-events: none;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+
+    &:hover {
+      background: #fff;
+    }
   }
 }
 

@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import "dayjs/locale/en";
 import styles from "./Monthly.module.scss";
-import { useImperativeHandle, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
@@ -47,23 +47,40 @@ function getMonthDays(year: number, month: number) {
   return days;
 }
 
-type MonthlyProps = {
-  dates: dayjs.Dayjs[];
-  setDates: (dates: dayjs.Dayjs[]) => void;
-};
+type MonthlyProps =
+  | {
+      dates: dayjs.Dayjs[];
+      setDates: (dates: dayjs.Dayjs[]) => void;
+      mode?: 'edit';
+      onDateClick?: (date: dayjs.Dayjs) => void;
+    }
+  | {
+      dates?: dayjs.Dayjs[];
+      setDates?: never;
+      mode: 'view';
+      onDateClick?: (date: dayjs.Dayjs) => void;
+    };
 
-export default function Monthly({ dates, setDates }: MonthlyProps) {
+export default function Monthly({ dates, setDates, mode = 'edit', onDateClick }: MonthlyProps) {
+  const isEditMode = mode === 'edit';
   const locale = useStore($locale);
   const [currentDate, setCurrentDate] = useState(dayjs());
   const monthDays = getMonthDays(currentDate.year(), currentDate.month());
-  
+
   // Update dayjs locale when locale changes
   useEffect(() => {
     dayjs.locale(locale === 'ko' ? 'ko' : 'en');
   }, [locale]);
 
+  const today = dayjs();
+  const isCurrentMonthBeforeToday = isEditMode && 
+    (currentDate.year() < today.year() || 
+     (currentDate.year() === today.year() && currentDate.month() <= today.month()));
+
   const handlePreviousMonth = () => {
-    setCurrentDate(currentDate.subtract(1, "month"));
+    if (!isCurrentMonthBeforeToday) {
+      setCurrentDate(currentDate.subtract(1, "month"));
+    }
   };
   const handleNextMonth = () => {
     setCurrentDate(currentDate.add(1, "month"));
@@ -81,7 +98,11 @@ export default function Monthly({ dates, setDates }: MonthlyProps) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button onClick={handlePreviousMonth}>
+        <button 
+          onClick={handlePreviousMonth}
+          disabled={isCurrentMonthBeforeToday}
+          className={isCurrentMonthBeforeToday ? styles.disabled : ''}
+        >
           <HiChevronLeft />
         </button>
         <h2 className={styles.title}>{formatMonthYear(currentDate)}</h2>
@@ -90,11 +111,13 @@ export default function Monthly({ dates, setDates }: MonthlyProps) {
         </button>
       </div>
       <MonthlyGrid
-        dates={dates}
-        setDates={setDates}
+        dates={dates ?? []}
+        setDates={isEditMode ? setDates : undefined}
         monthDays={monthDays}
         currentYear={currentDate.year()}
         currentMonth={currentDate.month()}
+        mode={mode}
+        onDateClick={onDateClick}
       />
     </div>
   );

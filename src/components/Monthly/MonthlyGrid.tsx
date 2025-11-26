@@ -36,13 +36,17 @@ export default function MonthlyGrid({
   dates,
   setDates,
   currentYear, 
-  currentMonth 
+  currentMonth,
+  mode = 'edit',
+  onDateClick
 }: { 
   monthDays: dayjs.Dayjs[];
   dates: dayjs.Dayjs[];
-  setDates: (dates: dayjs.Dayjs[]) => void;
+  setDates?: (dates: dayjs.Dayjs[]) => void;
   currentYear: number;
   currentMonth: number;
+  mode?: 'edit' | 'view';
+  onDateClick?: (date: dayjs.Dayjs) => void;
 }) {
   const locale = useStore($locale);
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
@@ -55,6 +59,7 @@ export default function MonthlyGrid({
   }, [locale]);
 
   const addDates = (newDates: dayjs.Dayjs[]) => {
+    if (!setDates) return;
     const allDates = [...dates, ...newDates];
     const uniqueDates = allDates.filter((date, index, self) =>
       index === self.findIndex((d) => d.isSame(date, "day"))
@@ -63,6 +68,7 @@ export default function MonthlyGrid({
   };
 
   const handleDragedDates = (newDates: dayjs.Dayjs[]) => {
+    if (!setDates) return;
     const isAllIncluded = newDates.every((date) => dates.some((d) => d.isSame(date, "day")));
     if (isAllIncluded) {
       removeDates(newDates);
@@ -72,14 +78,16 @@ export default function MonthlyGrid({
   };
 
   const removeDates = (newDates: dayjs.Dayjs[]) => {
+    if (!setDates) return;
     const allDates = dates.filter((date) => !newDates.some((d) => d.isSame(date, "day")));
     setDates(allDates);
   };
 
   const sensors = useDragSensors();
+  const isEditMode = mode === 'edit';
   
-  // 드래그 중일 때 스크롤 방지
-  useDragScrollPrevention(startDate !== null, containerRef);
+  // 드래그 중일 때 스크롤 방지 (편집 모드에서만)
+  useDragScrollPrevention(isEditMode && startDate !== null, containerRef);
 
   const selectedDays = getDateRange(startDate, endDate);
 
@@ -92,24 +100,84 @@ export default function MonthlyGrid({
     };
   });
 
+  const gridContent = (
+    <div className={styles.container} ref={containerRef}>
+      <div className={styles.weekdays}>
+        {weekdays.map((weekday) => (
+          <div
+            key={weekday.number}
+            className={`
+              ${styles.weekday}
+              ${weekday.number === 0 ? styles.sunday : ""}
+              ${weekday.number === 6 ? styles.saturday : ""}
+            `}
+          >
+            {weekday.name}
+          </div>
+        ))}
+      </div>
+      <div className={styles.grid}>
+        {monthDays.map((day: dayjs.Dayjs) => {
+          const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth;
+          const today = dayjs();
+          const isDisabled = isEditMode && day.isBefore(today, "day");
+          
+          return (
+              <MonthlyCell
+                key={day.format("YYYY-MM-DD")}
+                date={day}
+                isSelected={dates.some((d) => d.isSame(day, "day"))}
+                isDragged={selectedDays.some((d) => d.isSame(day, "day"))}
+                isCurrentMonth={isCurrentMonth}
+                mode={mode}
+                disabled={isDisabled}
+                {...(isEditMode && !isDisabled && {
+                  onClick: () => {
+                    handleDragedDates([day]);
+                    onDateClick?.(day);
+                  }
+                })}
+                {...(!isEditMode && onDateClick && {
+                  onClick: () => {
+                    onDateClick(day);
+                  }
+                })}
+              />
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  // 뷰어 모드에서는 DndContext 없이 렌더링
+  if (!isEditMode) {
+    return gridContent;
+  }
+
   return (
     <DndContext
       sensors={sensors}
       onDragStart={(event) => {
         const date = event.active?.data?.current?.date;
-        if (date) {
+        const today = dayjs();
+        if (date && !date.isBefore(today, "day")) {
           setStartDate(date);
           setEndDate(date);
         }
       }}
       onDragMove={(event) => {
         const date = event.over?.data?.current?.date;
-        if (date) {
+        const today = dayjs();
+        if (date && !date.isBefore(today, "day")) {
           setEndDate(date);
         }
       }}
       onDragEnd={() => {
-        handleDragedDates(getDateRange(startDate, endDate));
+        const today = dayjs();
+        const validDates = getDateRange(startDate, endDate).filter(d => !d.isBefore(today, "day"));
+        if (validDates.length > 0) {
+          handleDragedDates(validDates);
+        }
         setStartDate(null);
         setEndDate(null);
       }}
@@ -118,39 +186,7 @@ export default function MonthlyGrid({
         setEndDate(null);
       }}
     >
-      <div className={styles.container} ref={containerRef}>
-        <div className={styles.weekdays}>
-          {weekdays.map((weekday) => (
-            <div
-              key={weekday.number}
-              className={`
-                ${styles.weekday}
-                ${weekday.number === 0 ? styles.sunday : ""}
-                ${weekday.number === 6 ? styles.saturday : ""}
-              `}
-            >
-              {weekday.name}
-            </div>
-          ))}
-        </div>
-        <div className={styles.grid}>
-          {monthDays.map((day: dayjs.Dayjs) => {
-            const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth;
-            return (
-              <MonthlyCell
-                key={day.format("YYYY-MM-DD")}
-                date={day}
-                isSelected={dates.some((d) => d.isSame(day, "day"))}
-                isDragged={selectedDays.some((d) => d.isSame(day, "day"))}
-                isCurrentMonth={isCurrentMonth}
-                onClick={() =>  {
-                  handleDragedDates([day]);
-                }}
-              />
-            );
-          })}
-        </div>
-      </div>
+      {gridContent}
     </DndContext>
   );
 }

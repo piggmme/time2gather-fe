@@ -7,18 +7,24 @@ type MonthlyCellProps = {
   isSelected: boolean;
   isDragged: boolean;
   isCurrentMonth: boolean;
-  onClick: () => void;
+  mode?: 'edit' | 'view';
+  disabled?: boolean;
+  onClick?: () => void;
 };
 
-export default function MonthlyCell({ date, isSelected, isDragged, isCurrentMonth, onClick }: MonthlyCellProps) {
+export default function MonthlyCell({ date, isSelected, isDragged, isCurrentMonth, mode = 'edit', disabled = false, onClick }: MonthlyCellProps) {
+  const isEditMode = mode === 'edit';
+  
   const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
     id: `drag-${date.format("YYYY-MM-DD")}`,
     data: { date },
+    disabled: !isEditMode || disabled,
   });
 
   const { setNodeRef: setDropRef } = useDroppable({
     id: `drop-${date.format("YYYY-MM-DD")}`,
     data: { date },
+    disabled: !isEditMode || disabled,
   });
 
   const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
@@ -31,9 +37,9 @@ export default function MonthlyCell({ date, isSelected, isDragged, isCurrentMont
         setDragRef(el);
         setDropRef(el);
       }}
-      {...attributes}
-      {...listeners}
-      onClick={onClick}
+      {...(isEditMode && !disabled ? attributes : {})}
+      {...(isEditMode && !disabled ? listeners : {})}
+      onClick={disabled ? undefined : onClick}
       className={`
         ${styles.cell}
         ${isCurrentMonth ? "" : styles.otherMonth}
@@ -42,6 +48,9 @@ export default function MonthlyCell({ date, isSelected, isDragged, isCurrentMont
         ${date.isSame(dayjs(), "day") ? styles.today : ""}
         ${isSunday ? styles.sunday : ""}
         ${isSaturday ? styles.saturday : ""}
+        ${!isEditMode ? styles.viewMode : ""}
+        ${!isEditMode && !onClick ? styles.viewModeNoClick : ""}
+        ${disabled ? styles.disabled : ""}
       `}
     >
       {date.date()}
