@@ -133,7 +133,6 @@ export default function TimeRangeStep() {
 
   const [isDisabled, setIsDisabled] = useState(true);
   const title = useSearchParam('title');
-  const description = useSearchParam('description');
   const { t } = useTranslation();
   const locale = useStore($locale);
 
@@ -258,7 +257,7 @@ export default function TimeRangeStep() {
         <Button
           buttonType="ghost"
           onClick={() => {
-            const newUrl = `/meetings/create?step=dates&dates=${selectedDates.map((d) => d.format("YYYY-MM-DD")).join(",")}&title=${title}&description=${description}`
+            const newUrl = `/meetings/create?step=dates&dates=${selectedDates.map((d) => d.format("YYYY-MM-DD")).join(",")}&title=${title}`
             navigate(newUrl);
           }}
         >
@@ -270,7 +269,6 @@ export default function TimeRangeStep() {
           onClick={async () => {
             const response = await meetings.post({
               title: title as string,
-              description: description as string,
               timezone: 'Asia/Seoul',
               availableDates: selectedDates.reduce((acc, d) => {
                 acc[d.format("YYYY-MM-DD")] = getTimeRangeSlots(startTime, endTime);

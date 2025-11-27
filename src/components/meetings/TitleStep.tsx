@@ -26,7 +26,7 @@ export default function TitleStep() {
           disabled={title.length === 0}
           buttonType="primary"
           onClick={ () => {
-            navigate(`/meetings/create?step=description&title=${title}`);
+            navigate(`/meetings/create?step=dates&title=${title}`);
           }}
         >
           {t('common.next')}

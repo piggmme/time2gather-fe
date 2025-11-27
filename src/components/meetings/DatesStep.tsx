@@ -9,7 +9,6 @@ import { useTranslation } from "../../hooks/useTranslation";
 export default function DatesStep() {
   const [selectedDates, setSelectedDates] = useSelectedDates()
   const title = useSearchParam('title');
-  const description = useSearchParam('description');
   const { t } = useTranslation();
 
   return (
@@ -22,7 +21,7 @@ export default function DatesStep() {
         <Button
           buttonType="ghost"
           onClick={() => {
-            navigate(`/meetings/create?step=description&title=${title}&description=${description}`);
+            navigate(`/meetings/create?step=title&title=${title}`);
           }}
         >
           {t('common.previous')}
@@ -34,7 +33,7 @@ export default function DatesStep() {
             if (selectedDates.length === 0) return;
 
             const dateStrings = selectedDates.map((date) => date.format("YYYY-MM-DD"));
-            const newUrl = `/meetings/create?step=timeRange&dates=${dateStrings.join(",")}&title=${title}&description=${description}`;
+            const newUrl = `/meetings/create?step=timeRange&dates=${dateStrings.join(",")}&title=${title}`;
             navigate(newUrl);
           }}
         >

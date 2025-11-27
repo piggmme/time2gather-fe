@@ -16,7 +16,7 @@ import type { success_response } from "./type";
  */
 export type post_meetings_body = {
   title: string;
-  description: string;
+  description?: string;
   timezone: string
   availableDates: {
     [date: string]: string[]
@@ -116,7 +116,7 @@ export type get_meetings_$meetingCode_response = success_response<{
     id: number
     code: string
     title: string
-    description: string
+    description?: string
     host: {
         id: number
         username: string

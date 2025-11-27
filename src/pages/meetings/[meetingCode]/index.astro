@@ -4,6 +4,7 @@ import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../..
 import { meetings } from '../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
 import Avatar from '../../../components/Avatar/Avatar';
+import MonthlySelection from '../../../components/Selection/MonthlySelection';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -58,7 +59,13 @@ const structuredData = {
       />
       <span>{data.meeting.host.username}</span>
     </div>
-    <div class="separator" />
+    <!-- <div class="separator" /> -->
+    <div class="monthly-selection">
+      <MonthlySelection
+        client:only="react"
+        data={data}
+      />
+    </div>
   </main>
 </Layout>
 
@@ -84,5 +91,10 @@ const structuredData = {
     height: 1px;
     background-color: $c-gray;
     margin: 20px 0 30px;
+  }
+
+  .monthly-selection {
+    margin-top: 30px;
+    max-width: 300px;
   }
 </style>
