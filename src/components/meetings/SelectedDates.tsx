@@ -2,6 +2,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import styles from "./CreateMeeting.module.scss";
 import Badge from "../Badge/Badge";
+import { formatDate } from "../../utils/time";
 
 export default function SelectedDates ({ dates, locale, visibleCount }: { dates: (string | dayjs.Dayjs)[], locale: 'ko' | 'en', visibleCount?: number }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -26,24 +27,4 @@ export default function SelectedDates ({ dates, locale, visibleCount }: { dates:
       )}
     </div>
   )
-}
-
-function formatDate(date: dayjs.Dayjs, locale: 'ko' | 'en'): string {
-  const now = dayjs();
-  const isSameYear = date.year() === now.year();
-  const weekday = date.format("ddd");
-
-  if (locale === 'ko') {
-    if (isSameYear) {
-      return `${date.format('M월 D일')} (${weekday})`;
-    } else {
-      return `${date.format('YYYY년 M월 D일')} (${weekday})`;
-    }
-  } else {
-    if (isSameYear) {
-      return `${date.format('MMM D')} (${weekday})`;
-    } else {
-      return `${date.format('MMM D, YYYY')} (${weekday})`;
-    }
-  }
 }

@@ -3,26 +3,26 @@ import styles from "./DailyCell.module.scss";
 import dayjs from "dayjs";
 
 type DailyCellProps = {
-  hour: number;
+  time: string;
   date: dayjs.Dayjs;
   isSelected: boolean;
   isDragged: boolean;
   onClick: () => void;
 };
 
-export default function DailyCell({ hour, date, isSelected, isDragged, onClick }: DailyCellProps) {
+export default function DailyCell({ time, date, isSelected, isDragged, onClick }: DailyCellProps) {
   const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
-    id: `drag-${date.format("YYYY-MM-DD")}-${hour}`,
-    data: { timeSlot: hour },
+    id: `drag-${date.format("YYYY-MM-DD")}-${time}`,
+    data: { timeSlot: time },
   });
 
   const { setNodeRef: setDropRef } = useDroppable({
-    id: `drop-${date.format("YYYY-MM-DD")}-${hour}`,
-    data: { timeSlot: hour },
+    id: `drop-${date.format("YYYY-MM-DD")}-${time}`,
+    data: { timeSlot: time },
   });
 
   // 정각인지 30분인지 판단 (timeSlot % 2 === 0이면 정각)
-  const isFullHour = hour % 2 === 0;
+  const isFullHour = time.endsWith(":00");
 
   return (
     <div

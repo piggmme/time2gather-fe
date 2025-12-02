@@ -3,6 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
 import { meetings } from '../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
+import SelectPage from '../../../components/SelectPage/SelectPage';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -15,10 +16,16 @@ try {
 } catch (error) {
   return Astro.redirect('/404',);
 }
+const availableTimes = Object.values(data.meeting.availableDates)[0] || [];
 ---
 <Layout>
   <main>
     <h1>{data.meeting.title}</h1>
+    <SelectPage
+      client:only="react"
+      dates={Object.keys(data.meeting.availableDates)}
+      availableTimes={availableTimes}
+    />
   </main>
 </Layout>
 
