@@ -24,19 +24,15 @@ const timeSlots12 = Array.from({ length: 24 }, (_, i) => {
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 });
 
-// 24시간 형식 시간 슬롯 (00:00 ~ 23:30) - 내부 로직용
-const timeSlots24 = Array.from({ length: 48 }, (_, i) => {
-  const hours = Math.floor(i / 2);
-  const minutes = (i % 2) * 30;
-  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-});
-
 export default function TimeRangeStep() {
   const [selectedDates] = useSelectedDates()
   const [startTime12, setStartTime12] = useState<string>(timeSlots12[10]);
   const [endTime12, setEndTime12] = useState<string>(timeSlots12[10]);
   const [startAmPm, setStartAmPm] = useState<AmPm>('PM');
   const [endAmPm, setEndAmPm] = useState<AmPm>('PM');
+
+  const [endTimeSlots12, setEndTimeSlots12] = useState<string[]>(timeSlots12);
+  const [endAmPmOptions, setEndAmPmOptions] = useState<readonly AmPm[]>(amPmOptions);
 
   const [isDisabled, setIsDisabled] = useState(true);
   const title = useSearchParam('title');
@@ -47,6 +43,33 @@ export default function TimeRangeStep() {
   useEffect(() => {
     dayjs.locale(locale === 'ko' ? 'ko' : 'en');
   }, [locale]);
+
+  useEffect(() => {
+    if (
+      // 시작시간이 종료시간보다 이후인 경우
+      isTime12After(
+        { time12: startTime12, amPm: startAmPm },
+        { time12: endTime12, amPm: endAmPm }
+      )
+    ) {
+      // 종료시간을 시작시간으로 설정
+      setEndTime12(startTime12);
+      setEndAmPm(startAmPm);
+      // 종료시간 옵션을 시작시간이후 시간으로 설정
+      setEndTimeSlots12(timeSlots12.slice(timeSlots12.indexOf(startTime12)));
+      setEndAmPmOptions(amPmOptions.slice(amPmOptions.indexOf(startAmPm)));
+    } else if (startAmPm !== endAmPm) {
+      // 시작은 오전이고 종료는 오후일 때
+      // 종료시간 옵션을 전체 시간으로 설정
+      setEndTimeSlots12(timeSlots12);
+      setEndAmPmOptions(amPmOptions);
+    } else if (startAmPm == endAmPm) {
+      // 시작과 종료 시간이 같은 오전/오후일 때
+      // 종료시간 옵션을 시작시간이후 시간으로 설정
+      setEndTimeSlots12(timeSlots12.slice(timeSlots12.indexOf(startTime12)));
+      setEndAmPmOptions(amPmOptions.slice(amPmOptions.indexOf(startAmPm)));
+    }
+  }, [startTime12, startAmPm, endAmPm])
 
   return (
     <>
@@ -82,8 +105,8 @@ export default function TimeRangeStep() {
               setIsDisabled(false);
               setEndAmPm(value);
             }}
-            timeOptions={timeSlots12}
-            amPmOptions={amPmOptions}
+            timeOptions={endTimeSlots12}
+            amPmOptions={endAmPmOptions}
           />
         </div>
       </div>
@@ -101,7 +124,7 @@ export default function TimeRangeStep() {
           {t('common.previous')}
         </Button>
         <Button
-          disabled={isDisabled}
+          disabled={isDisabled || isTime12After({ time12: startTime12, amPm: startAmPm }, { time12: endTime12, amPm: endAmPm })}
           buttonType="primary"
           onClick={async () => {
             const response = await meetings.post({
@@ -165,14 +188,14 @@ type TimeRangeSelectorProps = {
   onTimeChange: (value: string) => void;
   onAmPmChange: (value: AmPm) => void;
 }
-function TimeRangeSelector({ 
-  text, 
-  timeValue, 
-  amPmValue, 
-  timeOptions, 
+function TimeRangeSelector({
+  text,
+  timeValue,
+  amPmValue,
+  timeOptions,
   amPmOptions,
   onTimeChange,
-  onAmPmChange 
+  onAmPmChange,
 }: TimeRangeSelectorProps) {
   return (
     <>
@@ -180,22 +203,33 @@ function TimeRangeSelector({
         {text}
       </div>
       <div className={styles.timeRangeSelects}>
-        <Select text={text} options={timeOptions} value={timeValue} setValue={onTimeChange} />
-        <Select 
-          text={text} 
-          options={[...amPmOptions]} 
-          value={amPmValue} 
-          setValue={(value) => onAmPmChange(value as AmPm)} 
+        <Select
+          text={text}
+          options={[...amPmOptions]}
+          value={amPmValue}
+          setValue={(value) => onAmPmChange(value as AmPm)}
+        />
+        <Select
+          text={text}
+          options={timeOptions}
+          value={timeValue}
+          setValue={onTimeChange}
         />
       </div>
     </>
   )
 }
 
-function isTimeAfter(time1: string, time2: string): boolean {
+function isTime24After(time1: string, time2: string): boolean {
   const t1 = dayjs(`2000-01-01 ${time1}`, 'YYYY-MM-DD HH:mm');
   const t2 = dayjs(`2000-01-01 ${time2}`, 'YYYY-MM-DD HH:mm');
   return t1.isAfter(t2) || t1.isSame(t2);
+}
+
+function isTime12After(time1: { time12: string, amPm: AmPm }, time2: { time12: string, amPm: AmPm }): boolean {
+  const t1 = convertTo24Hour(time1.time12, time1.amPm);
+  const t2 = convertTo24Hour(time2.time12, time2.amPm);
+  return isTime24After(t1, t2);
 }
 
 function formatDate(date: dayjs.Dayjs, locale: 'ko' | 'en'): string {
