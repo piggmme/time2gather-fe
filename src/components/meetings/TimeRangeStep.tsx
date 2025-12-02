@@ -24,6 +24,12 @@ const timeSlots12 = Array.from({ length: 24 }, (_, i) => {
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 });
 
+const timeSlots24 = Array.from({ length: 48 }, (_, i) => {
+  const hours = Math.floor(i / 2);
+  const minutes = (i % 2) * 30;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+})
+
 export default function TimeRangeStep() {
   const [selectedDates] = useSelectedDates()
   const [startTime12, setStartTime12] = useState<string>(timeSlots12[10]);
@@ -136,7 +142,7 @@ export default function TimeRangeStep() {
               availableDates: selectedDates.reduce((acc, d) => {
                 const startTime24 = convertTo24Hour(startTime12, startAmPm);
                 const endTime24 = convertTo24Hour(endTime12, endAmPm);
-                acc[d.format("YYYY-MM-DD")] = [startTime24, endTime24];
+                acc[d.format("YYYY-MM-DD")] = getTimeRangeSlots(startTime24, endTime24);
                 return acc;
               }, {} as { [date: string]: string[] }),
             })
@@ -235,4 +241,14 @@ function convertTo12Hour(time24: string): { time: string; amPm: AmPm } {
     time: `${String(hour12).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`,
     amPm
   };
+}
+
+function getTimeRangeSlots(startTime24: string, endTime24: string): string[] {
+  const startIndex = timeSlots24.findIndex((t) => t === startTime24);
+  const endIndex = timeSlots24.findIndex((t) => t === endTime24);
+
+  if (startIndex === -1 || endIndex === -1 || startIndex > endIndex) {
+    return [];
+  }
+  return timeSlots24.slice(startIndex, endIndex + 1);
 }
