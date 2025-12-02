@@ -5,6 +5,8 @@ import { meetings } from '../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
 import Avatar from '../../../components/Avatar/Avatar';
 import MonthlySelection from '../../../components/Selection/MonthlySelection';
+import SelectedDates from '../../../components/meetings/SelectedDates';
+import Button from '../../../components/Button/Button';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -60,12 +62,30 @@ const structuredData = {
       <span>{data.meeting.host.username}</span>
     </div>
     <!-- <div class="separator" /> -->
-    <div class="monthly-selection">
+     <div class="selected-dates">
+      <SelectedDates
+        client:only="react"
+        dates={Object.keys(data.meeting.availableDates)}
+        locale={locale}
+        visibleCount={5}
+      />
+      <p class="selected-dates-title">{t('meeting.selectedDates', { count: Object.keys(data.meeting.availableDates).length })}</p>
+    </div>
+    <div class="button-container">
+      <Button
+        as='a'
+        href={`/meetings/${meetingCode}/select`}
+        buttonType="primary"
+      >
+        시간 선택하러 가기
+      </Button>
+    </div>
+    <!-- <div class="monthly-selection">
       <MonthlySelection
         client:only="react"
         data={data}
       />
-    </div>
+    </div> -->
   </main>
 </Layout>
 
@@ -73,6 +93,7 @@ const structuredData = {
   @use "../../../styles/variables.scss" as *;
   p {
     word-break: keep-all;
+    color: $c-black;
   }
   main {
     width: 100%;
@@ -96,5 +117,13 @@ const structuredData = {
   .monthly-selection {
     margin-top: 30px;
     max-width: 300px;
+  }
+
+  .selected-dates {
+    margin-top: 30px;
+  }
+
+  .button-container {
+    margin: 50px 0;
   }
 </style>

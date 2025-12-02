@@ -7,12 +7,12 @@ import Button from "../Button/Button";
 import { navigate } from "astro:transitions/client";
 import useSelectedDates from "./useSelectedDates";
 import { Select } from "../Select/Select";
-import Badge from "../Badge/Badge";
 import { meetings } from "../../services/meetings";
 import { useSearchParam } from "react-use";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
+import SelectedDates from "./SelectedDates";
 
 const amPmOptions = ['AM', 'PM'] as const;
 type AmPm = typeof amPmOptions[number];
@@ -111,7 +111,10 @@ export default function TimeRangeStep() {
         </div>
       </div>
 
-      <SelectedDates dates={selectedDates} locale={locale} />
+      <div className={styles.dateBadgesContainer}>
+        <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDates')}</p>
+        <SelectedDates dates={selectedDates} locale={locale} />
+      </div>
 
       <div className={styles.buttonContainer}>
         <Button
@@ -149,34 +152,6 @@ export default function TimeRangeStep() {
       </div>
     </>
   );
-}
-
-function SelectedDates ({ dates, locale }: { dates: dayjs.Dayjs[], locale: 'ko' | 'en' }) {
-  const { t } = useTranslation();
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const INITIAL_COUNT = 2;
-  const visibleDates = isExpanded ? dates : dates.slice(0, INITIAL_COUNT);
-  const remainingCount = dates.length - INITIAL_COUNT;
-
-  return (
-    <div className={styles.dateBadgesContainer}>
-      <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDatesCount', { count: dates.length })}</p>
-      <div className={styles.dateBadges}>
-        {visibleDates.map((d) => (
-          <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d, locale)} type="primary" />
-        ))}
-        {!isExpanded && remainingCount > 0 && (
-          <button
-            className={styles.moreButton}
-            onClick={() => setIsExpanded(true)}
-          >
-            +{remainingCount}
-          </button>
-        )}
-      </div>
-    </div>
-  )
 }
 
 type TimeRangeSelectorProps = {
@@ -230,26 +205,6 @@ function isTime12After(time1: { time12: string, amPm: AmPm }, time2: { time12: s
   const t1 = convertTo24Hour(time1.time12, time1.amPm);
   const t2 = convertTo24Hour(time2.time12, time2.amPm);
   return isTime24After(t1, t2);
-}
-
-function formatDate(date: dayjs.Dayjs, locale: 'ko' | 'en'): string {
-  const now = dayjs();
-  const isSameYear = date.year() === now.year();
-  const weekday = date.format("ddd");
-
-  if (locale === 'ko') {
-    if (isSameYear) {
-      return `${date.format('M월 D일')} (${weekday})`;
-    } else {
-      return `${date.format('YYYY년 M월 D일')} (${weekday})`;
-    }
-  } else {
-    if (isSameYear) {
-      return `${date.format('MMM D')} (${weekday})`;
-    } else {
-      return `${date.format('MMM D, YYYY')} (${weekday})`;
-    }
-  }
 }
 
 function convertTo24Hour (time12: string, amPm: AmPm): string {

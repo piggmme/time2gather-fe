@@ -46,7 +46,8 @@
     "notFound": {
       "title": "Meeting Not Found",
       "description": "The meeting you requested does not exist or has been deleted."
-    }
+    },
+    "selectedDates": "Select the available dates and time slots from {count} dates."
   },
   "404": {
     "title": "Page Not Found",
