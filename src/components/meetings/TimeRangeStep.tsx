@@ -119,10 +119,9 @@ function formatDate(date: dayjs.Dayjs, locale: 'ko' | 'en'): string {
 
 export default function TimeRangeStep() {
   const [selectedDates] = useSelectedDates()
-  const [isExpanded, setIsExpanded] = useState(false);
   const [startTime, setStartTime] = useState<string>(timeSlots[20]);
   const [endTime, setEndTime] = useState<string>(timeSlots[20]);
-  
+
   // 12시간 형식 상태 (24시간 형식에서 초기화)
   const initialStartTime12 = convertTo12Hour(timeSlots[10]);
   const initialEndTime12 = convertTo12Hour(timeSlots[10]);
@@ -159,14 +158,6 @@ export default function TimeRangeStep() {
       setEndAmPm(converted.amPm);
     }
   }, [endTime]);
-
-  const INITIAL_COUNT = 2;
-  const visibleDates = isExpanded ? selectedDates : selectedDates.slice(0, INITIAL_COUNT);
-  const remainingCount = selectedDates.length - INITIAL_COUNT;
-
-  const endTimeOptions = useMemo(() => {
-    return timeSlots.filter((t) => isTimeAfter(t, startTime));
-  }, [startTime]);
 
   return (
     <>
@@ -237,22 +228,9 @@ export default function TimeRangeStep() {
           />
         </div>
       </div>
-      <div className={styles.dateBadgesContainer}>
-        <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDatesCount', { count: selectedDates.length })}</p>
-        <div className={styles.dateBadges}>
-          {visibleDates.map((d) => (
-            <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d, locale)} type="primary" />
-          ))}
-          {!isExpanded && remainingCount > 0 && (
-            <button
-              className={styles.moreButton}
-              onClick={() => setIsExpanded(true)}
-            >
-              +{remainingCount}
-            </button>
-          )}
-        </div>
-      </div>
+
+      <SelectedDates dates={selectedDates} locale={locale} />
+
       <div className={styles.buttonContainer}>
         <Button
           buttonType="ghost"
@@ -287,6 +265,34 @@ export default function TimeRangeStep() {
       </div>
     </>
   );
+}
+
+function SelectedDates ({ dates, locale }: { dates: dayjs.Dayjs[], locale: 'ko' | 'en' }) {
+  const { t } = useTranslation();
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const INITIAL_COUNT = 2;
+  const visibleDates = isExpanded ? dates : dates.slice(0, INITIAL_COUNT);
+  const remainingCount = dates.length - INITIAL_COUNT;
+
+  return (
+    <div className={styles.dateBadgesContainer}>
+      <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDatesCount', { count: dates.length })}</p>
+      <div className={styles.dateBadges}>
+        {visibleDates.map((d) => (
+          <Badge key={d.format("YYYY-MM-DD")} text={formatDate(d, locale)} type="primary" />
+        ))}
+        {!isExpanded && remainingCount > 0 && (
+          <button
+            className={styles.moreButton}
+            onClick={() => setIsExpanded(true)}
+          >
+            +{remainingCount}
+          </button>
+        )}
+      </div>
+    </div>
+  )
 }
 
 
