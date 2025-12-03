@@ -3,6 +3,7 @@ import { ClientRouter } from 'astro:transitions'
 import '../styles/global.scss';
 import Header from '../components/Header/Header';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
+import Toast from '../components/Toast/Toast';
 
 interface Props {
   title?: string;
@@ -74,6 +75,7 @@ const ogImage = customOgImage || new URL('/favicon.svg', siteUrl).href;
 	<div class="responsive-layout">
 	  <slot />
 	</div>
+	<Toast client:only="react" />
   </body>
 </html>
 

@@ -1,0 +1,52 @@
+@use "../../styles/variables.scss" as *;
+
+.container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  font-size: 13px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      margin: 0;
+    }
+  }
+}
+
+.toast {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  position: relative;
+  width: 100%;
+  min-width: 200px;
+  max-width: 80vw;
+  border-radius: 5px;
+  padding: 15px 20px;
+  opacity: 0.9;
+  background-color: $c-blue;
+  color: #fff;
+
+  animation: fadeIn 0.3s ease-in-out;
+
+  &:first-child {
+    margin-top: 0;
+  }
+  &.caution {
+    background-color: $c-red;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
