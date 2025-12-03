@@ -39,6 +39,7 @@ export default function SelectPage({ meetingCode, dates, availableTimes }: { mee
       </div>
       <Button
         buttonType="primary"
+        disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
         onClick={async () => {
           const response = await meetings.$meetingCode.selections.put(meetingCode, {
             selections
