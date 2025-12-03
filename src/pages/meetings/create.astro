@@ -5,6 +5,7 @@ import TimeRangeStep from '../../components/meetings/TimeRangeStep';
 import TitleStep from '../../components/meetings/TitleStep';
 import DescriptionStep from '../../components/meetings/DescriptionStep';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n';
+import RequireAuth from '../../components/RequireAuth';
 
 type Step = 'title' | 'dates' | 'timeRange';
 const step: Step = Astro.url.searchParams.get('step') as Step || 'title';
@@ -14,6 +15,7 @@ const t = getTranslations(locale);
 
 <Layout>
   <main>
+    <RequireAuth client:only="react" />
     <h1>{t('createMeeting.title')}</h1>
     <div class="content">
       {step === 'title' && <TitleStep client:only="react" />}

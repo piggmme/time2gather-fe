@@ -2,6 +2,7 @@ import { useAsync, useSearchParam } from 'react-use'
 import { auth } from '../../services/auth'
 import { navigate } from 'astro:transitions/client'
 import { $me } from '../../stores/me'
+import { $redirect } from '../../stores/redirect'
 
 export default function Oauth () {
   const code = useSearchParam('code')
@@ -9,6 +10,7 @@ export default function Oauth () {
   useAsync(async () => {
     if (!code) return
 
+    $me.set(undefined)
     try {
       const response = await auth.oauth.$provider.post('kakao', {
         authorizationCode: code,
@@ -17,7 +19,8 @@ export default function Oauth () {
           'https://time2gather.org/login/oauth2/code/kakao'
       })
       $me.set(response.data)
-      navigate('/meetings/create')
+      navigate($redirect.get() || '/meetings/create')
+      $redirect.set(null)
     } catch (error) {
       console.error(error)
     }

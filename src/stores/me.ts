@@ -10,11 +10,15 @@ export type User = {
   createdAt?: string;
 };
 
-export const $me = atom<User | null>(null);
+export const $me = atom<User | null | undefined>(undefined);
 
 onMount($me, () => {
   task(async () => {
-    const response = await auth.me.get();
-    $me.set(response.data);
+    try {
+      const response = await auth.me.get();
+      $me.set(response.data || null);
+    } catch (error) {
+      $me.set(null);
+    }
   })
 });
