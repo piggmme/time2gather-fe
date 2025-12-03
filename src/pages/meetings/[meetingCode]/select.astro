@@ -23,7 +23,8 @@ const availableTimes = Object.values(data.meeting.availableDates)[0] || [];
     <h1>{data.meeting.title}</h1>
     <SelectPage
       client:only="react"
-      dates={Object.keys(data.meeting.availableDates)}
+      meetingCode={meetingCode}
+      dates={Object.keys(data?.meeting.availableDates || {})}
       availableTimes={availableTimes}
     />
   </main>

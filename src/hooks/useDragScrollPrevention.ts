@@ -1,4 +1,5 @@
-import { useEffect, RefObject } from "react";
+import { useEffect } from "react";
+import type { RefObject } from "react";
 
 /**
  * 드래그 중일 때 스크롤을 방지하는 커스텀 훅

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { DndContext } from "@dnd-kit/core";
 import DailyCell from "./DailyCell";
 import dayjs from "dayjs";
@@ -13,17 +13,23 @@ function getTimeSlotRange(startSlot: string | null, endSlot: string | null) {
   return getTimeRangeSlots(startSlot, endSlot);
 }
 
-export default function DailyGrid({ 
-  date, 
-  availableTimes 
-}: { 
+export default function DailyGrid({
+  date,
+  availableTimes,
+  onSelectionsChange,
+}: {
   date: dayjs.Dayjs;
   availableTimes: string[];
+  onSelectionsChange?: (selectedTimeSlots: string[]) => void;
 }) {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([]);
   const [startTimeSlot, setStartTimeSlot] = useState<string | null>(null);
   const [endTimeSlot, setEndTimeSlot] = useState<string | null>(null);
   const gridWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    onSelectionsChange?.(selectedTimeSlots);
+  }, [selectedTimeSlots])
 
   const addTimeSlots = (newTimeSlots: string[]) => {
     const allTimeSlots = [...selectedTimeSlots, ...newTimeSlots];
@@ -52,7 +58,7 @@ export default function DailyGrid({
   };
 
   const sensors = useDragSensors();
-  
+
   // 드래그 중일 때 스크롤 방지
   useDragScrollPrevention(startTimeSlot !== null, gridWrapperRef);
 

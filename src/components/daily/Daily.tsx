@@ -4,6 +4,7 @@ import "dayjs/locale/ko";
 import "dayjs/locale/en";
 import styles from "./Daily.module.scss";
 import { useState, useRef, useEffect } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { HiChevronLeft, HiChevronRight, HiChevronUp, HiChevronDown } from "react-icons/hi";
 import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
@@ -13,10 +14,17 @@ type DailyProps = {
   dates: dayjs.Dayjs[];
   availableTimes: string[];
   height?: string;
+  selections: { [date: string]: string[] };
+  setSelections: Dispatch<SetStateAction<{ [date: string]: string[] }>>;
 }
-export default function Daily({ dates, availableTimes, height = '100svh' }: DailyProps) {
+export default function Daily({
+  dates,
+  availableTimes,
+  height = '100svh',
+  selections,
+  setSelections,
+}: DailyProps) {
   const locale = useStore($locale);
-  const [selectedDate, setSelectedDate] = useState(dayjs());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
@@ -148,6 +156,13 @@ export default function Daily({ dates, availableTimes, height = '100svh' }: Dail
                     key={date.format("YYYY-MM-DD")}
                     date={date}
                     availableTimes={availableTimes}
+                    onSelectionsChange={(selectedTimeSlots) => {
+                      console.log({date: date.format("YYYY-MM-DD"), selectedTimeSlots})
+                      setSelections((prev) => ({
+                        ...prev,
+                        [date.format("YYYY-MM-DD")]: selectedTimeSlots,
+                      }));
+                    }}
                   />
                 </div>
               ))
