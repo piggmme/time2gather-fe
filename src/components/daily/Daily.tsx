@@ -157,7 +157,6 @@ export default function Daily({
                     date={date}
                     availableTimes={availableTimes}
                     onSelectionsChange={(selectedTimeSlots) => {
-                      console.log({date: date.format("YYYY-MM-DD"), selectedTimeSlots})
                       setSelections((prev) => ({
                         ...prev,
                         [date.format("YYYY-MM-DD")]: selectedTimeSlots,
