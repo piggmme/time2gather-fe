@@ -12,8 +12,9 @@ import { formatDate } from "../../utils/time";
 type DailyProps = {
   dates: dayjs.Dayjs[];
   availableTimes: string[];
+  height?: string;
 }
-export default function Daily({ dates, availableTimes }: DailyProps) {
+export default function Daily({ dates, availableTimes, height = '100svh' }: DailyProps) {
   const locale = useStore($locale);
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -122,7 +123,7 @@ export default function Daily({ dates, availableTimes }: DailyProps) {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ height }}>
       <div className={styles.wrapper}>
         <div className={styles.scrollWrapper} ref={scrollWrapperRef}>
           <div className={styles.timeColumn}>
