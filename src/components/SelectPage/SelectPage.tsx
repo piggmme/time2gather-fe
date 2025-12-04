@@ -6,7 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../Button/Button";
 import { meetings } from "../../services/meetings";
 
-export default function SelectPage({ meetingCode, dates, availableTimes }: { meetingCode: string, dates: string[], availableTimes: string[] }) {
+export default function SelectPage(
+  { meetingCode, dates, availableTimes }:
+  { meetingCode: string, dates: string[], availableTimes: string[] }
+) {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<string>('100svh');

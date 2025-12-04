@@ -131,7 +131,7 @@ export default function Daily({
   };
 
   return (
-    <div className={styles.container} style={{ height }}>
+    <div className={styles.container} style={{ maxHeight: height, height: 'auto' }}>
       <div className={styles.wrapper}>
         <div className={styles.scrollWrapper} ref={scrollWrapperRef}>
           <div className={styles.timeColumn}>
