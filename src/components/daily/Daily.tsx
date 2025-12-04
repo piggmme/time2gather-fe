@@ -18,7 +18,7 @@ type DailyProps = {
   selections: { [date: string]: string[] };
   setSelections: Dispatch<SetStateAction<{ [date: string]: string[] }>>;
   schedule?: get_meetings_$meetingCode_response['data']['schedule'];
-  participants: get_meetings_$meetingCode_response['data']['participants'];
+  participantsCount: number;
 }
 export default function Daily({
   dates,
@@ -27,7 +27,7 @@ export default function Daily({
   selections,
   setSelections,
   schedule,
-  participants,
+  participantsCount,
 }: DailyProps) {
   const locale = useStore($locale);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -36,7 +36,6 @@ export default function Daily({
   const [showRightButton, setShowRightButton] = useState(true);
   const [showTopButton, setShowTopButton] = useState(false);
   const [showBottomButton, setShowBottomButton] = useState(true);
-  const participantsCount = participants.length;
 
   // Update dayjs locale when locale changes
   useEffect(() => {

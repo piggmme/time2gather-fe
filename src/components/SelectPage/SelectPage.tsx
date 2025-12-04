@@ -2,9 +2,11 @@ import Daily from "../daily/Daily";
 import dayjs from "dayjs";
 import { useTranslation } from "../../hooks/useTranslation";
 import styles from './SelectPage.module.scss';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import Button from "../Button/Button";
 import { meetings, type get_meetings_$meetingCode_response } from "../../services/meetings";
+import { useStore } from "@nanostores/react";
+import { $me } from "../../stores/me";
 
 export default function SelectPage(
   { meetingCode, data }:
@@ -23,12 +25,28 @@ export default function SelectPage(
     }
   }, []);
 
-  console.log({data})
-
+  const me = useStore($me);
   const dates = Object.keys(data.meeting.availableDates);
   const dateList = dates.map((date) => dayjs(date)).sort((a, b) => a.diff(b));
   const availableTimes = Object.values(data.meeting.availableDates)[0] || [];
-  const participants = data.participants;
+
+  // schedule에서 자신이 포함된 경우 count를 1 낮춤
+  const schedule = useMemo(() => {
+    if (!me) return undefined;
+
+    const processedSchedule: typeof data.schedule = {};
+    for (const [date, timeSlots] of Object.entries(data.schedule)) {
+      processedSchedule[date] = {};
+      for (const [time, slot] of Object.entries(timeSlots)) {
+        const isMeIncluded = slot.participants.some(p => p.userId === me.userId);
+        processedSchedule[date][time] = {
+          ...slot,
+          count: isMeIncluded ? Math.max(0, slot.count - 1) : slot.count,
+        };
+      }
+    }
+    return processedSchedule;
+  }, [data.schedule, me]);
 
   return (
     <>
@@ -43,8 +61,8 @@ export default function SelectPage(
           height={height}
           selections={selections}
           setSelections={setSelections}
-          schedule={data.schedule}
-          participants={participants}
+          schedule={schedule}
+          participantsCount={data.participants.length}
         />
       </div>
       <Button
