@@ -48,6 +48,7 @@
       "title": "Meeting Not Found",
       "description": "The meeting you requested does not exist or has been deleted."
     },
+    "participantsCount": "Currently, {count} people have joined.",
     "selectedDates": "Select the available dates and time slots from {count} dates."
   },
   "404": {

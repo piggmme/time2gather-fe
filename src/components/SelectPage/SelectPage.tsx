@@ -50,7 +50,10 @@ export default function SelectPage(
 
   return (
     <>
-      <h2>{t('meeting.selectedDates', { count: dates.length })}</h2>
+      <div className={styles.selectedDatesInfo}>
+        <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
+        <p>{t('meeting.selectedDates', { count: dates.length })}</p>
+      </div>
       <div
         className={styles.container}
         ref={containerRef}

@@ -69,7 +69,10 @@ const structuredData = {
         locale={locale}
         visibleCount={5}
       />
-      <p class="selected-dates-title">{t('meeting.selectedDates', { count: Object.keys(data.meeting.availableDates).length })}</p>
+    </div>
+    <div class="selected-dates-info">
+      <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
+      <p>{t('meeting.selectedDates', { count: Object.keys(data.meeting.availableDates).length })}</p>
     </div>
     <div class="button-container">
       <Button
@@ -117,6 +120,13 @@ const structuredData = {
   .monthly-selection {
     margin-top: 30px;
     max-width: 300px;
+  }
+
+  .selected-dates-info {
+    margin-top: 30px;
+    p {
+      margin: 6px 0;
+    }
   }
 
   .selected-dates {
