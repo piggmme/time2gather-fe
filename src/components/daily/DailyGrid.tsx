@@ -6,6 +6,7 @@ import styles from "./DailyGrid.module.scss";
 import { useDragSensors } from "../../hooks/useDragSensors";
 import { useDragScrollPrevention } from "../../hooks/useDragScrollPrevention";
 import { getTimeRangeSlots } from "../../utils/time";
+import type { get_meetings_$meetingCode_response } from "../../services/meetings";
 
 // 시간 슬롯 범위 배열 생성 함수
 function getTimeSlotRange(startSlot: string | null, endSlot: string | null) {
@@ -13,15 +14,21 @@ function getTimeSlotRange(startSlot: string | null, endSlot: string | null) {
   return getTimeRangeSlots(startSlot, endSlot);
 }
 
+type DailyGridProps = {
+  date: dayjs.Dayjs;
+  availableTimes: string[];
+  schedule?: get_meetings_$meetingCode_response['data']['schedule'][string]
+  participantsCount: number;
+  onSelectionsChange?: (selectedTimeSlots: string[]) => void;
+};
+
 export default function DailyGrid({
   date,
   availableTimes,
+  schedule,
+  participantsCount,
   onSelectionsChange,
-}: {
-  date: dayjs.Dayjs;
-  availableTimes: string[];
-  onSelectionsChange?: (selectedTimeSlots: string[]) => void;
-}) {
+}: DailyGridProps) {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([]);
   const [startTimeSlot, setStartTimeSlot] = useState<string | null>(null);
   const [endTimeSlot, setEndTimeSlot] = useState<string | null>(null);
@@ -92,18 +99,23 @@ export default function DailyGrid({
       }}
     >
         <div className={styles.grid}>
-          {availableTimes.map((time) => (
-            <DailyCell
-              key={time}
-              time={time}
-              date={date}
-              isSelected={selectedTimeSlots.includes(time)}
-              isDragged={draggedTimeSlots.includes(time)}
-              onClick={() => {
-                handleDraggedTimeSlots([time]);
-              }}
-            />
-          ))}
+          {availableTimes.map((time) => {
+            const count = schedule?.[time]?.count || 0;
+            return (
+              <DailyCell
+                key={time}
+                time={time}
+                date={date}
+                isSelected={selectedTimeSlots.includes(time)}
+                isDragged={draggedTimeSlots.includes(time)}
+                count={count}
+                maxCount={participantsCount}
+                onClick={() => {
+                  handleDraggedTimeSlots([time]);
+                }}
+              />
+            );
+          })}
         </div>
       </DndContext>
     </div>

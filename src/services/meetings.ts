@@ -130,7 +130,10 @@ export type get_meetings_$meetingCode_response = success_response<{
   participants: User[],
   schedule: {
     [date: string]: {
-      [time: string]: User[]
+      [time: string]: {
+        count: number
+        participants: User[]
+      }
     }
   }
   summary: {

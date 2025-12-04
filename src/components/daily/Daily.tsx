@@ -9,6 +9,7 @@ import { HiChevronLeft, HiChevronRight, HiChevronUp, HiChevronDown } from "react
 import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
 import { formatDate } from "../../utils/time";
+import type { get_meetings_$meetingCode_response } from "../../services/meetings";
 
 type DailyProps = {
   dates: dayjs.Dayjs[];
@@ -16,6 +17,8 @@ type DailyProps = {
   height?: string;
   selections: { [date: string]: string[] };
   setSelections: Dispatch<SetStateAction<{ [date: string]: string[] }>>;
+  schedule?: get_meetings_$meetingCode_response['data']['schedule'];
+  participants: get_meetings_$meetingCode_response['data']['participants'];
 }
 export default function Daily({
   dates,
@@ -23,6 +26,8 @@ export default function Daily({
   height = '100svh',
   selections,
   setSelections,
+  schedule,
+  participants,
 }: DailyProps) {
   const locale = useStore($locale);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -31,6 +36,7 @@ export default function Daily({
   const [showRightButton, setShowRightButton] = useState(true);
   const [showTopButton, setShowTopButton] = useState(false);
   const [showBottomButton, setShowBottomButton] = useState(true);
+  const participantsCount = participants.length;
 
   // Update dayjs locale when locale changes
   useEffect(() => {
@@ -156,6 +162,8 @@ export default function Daily({
                     key={date.format("YYYY-MM-DD")}
                     date={date}
                     availableTimes={availableTimes}
+                    schedule={schedule?.[date.format("YYYY-MM-DD")]}
+                    participantsCount={participantsCount}
                     onSelectionsChange={(selectedTimeSlots) => {
                       setSelections((prev) => ({
                         ...prev,

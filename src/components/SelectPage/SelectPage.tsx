@@ -28,6 +28,7 @@ export default function SelectPage(
   const dates = Object.keys(data.meeting.availableDates);
   const dateList = dates.map((date) => dayjs(date)).sort((a, b) => a.diff(b));
   const availableTimes = Object.values(data.meeting.availableDates)[0] || [];
+  const participants = data.participants;
 
   return (
     <>
@@ -42,6 +43,8 @@ export default function SelectPage(
           height={height}
           selections={selections}
           setSelections={setSelections}
+          schedule={data.schedule}
+          participants={participants}
         />
       </div>
       <Button
