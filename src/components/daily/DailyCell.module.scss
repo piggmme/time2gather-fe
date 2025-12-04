@@ -47,5 +47,18 @@
     background-color: $c-red-light;
     opacity: calc(0.2 + var(--intensity, 0) * 0.6);
   }
+
+  // count와 selected가 겹치는 경우 보라색 배경 적용
+  // 파란색과 빨간색을 겹쳐서 보라색으로 표현
+  &.hasCount.selected {
+    background: $c-purple;
+    opacity: calc(0.2 + var(--intensity, 0) * 0.6);
+  }
+
+  // count와 dragged가 겹치는 경우 보라색 배경 적용 (더 연하게)
+  &.hasCount.dragged {
+    background: $c-purple-light;
+    opacity: calc(0.2 + var(--intensity, 0) * 0.6);
+  }
 }
 
