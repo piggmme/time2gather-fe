@@ -1,3 +1,10 @@
-import { atom } from 'nanostores';
+import { persistentAtom } from '@nanostores/persistent'
 
-export const $redirect = atom<string | null>(null);
+export const $redirect = persistentAtom<string>(
+  'redirect',
+  '',
+  {
+    encode: JSON.stringify,
+    decode: JSON.parse,
+  }
+);

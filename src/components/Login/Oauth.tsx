@@ -20,7 +20,7 @@ export default function Oauth () {
       })
       $me.set(response.data)
       navigate($redirect.get() || '/meetings/create')
-      $redirect.set(null)
+      $redirect.set('')
     } catch (error) {
       console.error(error)
     }

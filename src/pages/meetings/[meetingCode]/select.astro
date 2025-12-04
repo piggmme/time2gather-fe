@@ -4,6 +4,7 @@ import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../..
 import { meetings } from '../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
 import SelectPage from '../../../components/SelectPage/SelectPage';
+import RequireAuth from '../../../components/RequireAuth';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -18,6 +19,7 @@ try {
 }
 ---
 <Layout>
+  <RequireAuth client:only="react" />
   <main>
     <h1>{data.meeting.title}</h1>
     <SelectPage

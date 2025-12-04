@@ -16,7 +16,7 @@ export default function RequireAuth() {
       navigate('/login')
       if (location.pathname) $redirect.set(location.pathname)
     }
-  }, [isLoggedIn, isLoading])
+  }, [location.pathname, isLoggedIn, isLoading])
 
   return null
 }
