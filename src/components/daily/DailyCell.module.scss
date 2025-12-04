@@ -41,5 +41,11 @@
   &.halfHour {
     border-top: 1px dashed #e0e0e0;
   }
+
+  // count가 있는 경우 빨간색 배경 적용 (selected나 dragged가 아닐 때만)
+  &.hasCount:not(.selected):not(.dragged) {
+    background-color: $c-red-light;
+    opacity: calc(0.2 + var(--intensity, 0) * 0.6);
+  }
 }
 
