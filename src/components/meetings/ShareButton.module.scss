@@ -1,0 +1,44 @@
+@use "../../styles/variables.scss" as *;
+
+.shareButton {
+  all: unset;
+  position: fixed;
+  right: 20px;
+  z-index: 1000;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  color: $c-black;
+  border: 1px solid $c-gray-light;
+  transition: all 0.2s ease;
+  background-color: #fff;
+
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+  }
+
+  @media (max-width: 699px) {
+    border-radius: 100%;
+    bottom: 20px;
+
+    .shareButtonText {
+      display: none;
+    }
+  }
+
+  @media (min-width: 700px) {
+    top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 8px;
+    .shareButtonText {
+      display: block;
+    }
+  }
+}

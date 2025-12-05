@@ -5,8 +5,8 @@ import { meetings } from '../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
 import Avatar from '../../../components/Avatar/Avatar';
 import SelectedDates from '../../../components/meetings/SelectedDates';
-import Button from '../../../components/Button/Button';
-import ShareButton from '../../../components/meetings/ShareButton';
+import { $me } from '../../../stores/me';
+import ResultButtons from '../../../components/ResultPage/ResultButtons';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -61,36 +61,12 @@ const structuredData = {
       />
       <span>{data.meeting.host.username}</span>
     </div>
-    <!-- <div class="separator" /> -->
-     <div class="selected-dates">
-      <SelectedDates
-        client:only="react"
-        dates={Object.keys(data.meeting.availableDates)}
-        locale={locale}
-        visibleCount={5}
+    <div class="button-container">
+      <ResultButtons
+       client:only="react"
+       data={data}
       />
     </div>
-    <div class="selected-dates-info">
-      <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
-      <p>{t('meeting.selectedDates', { count: Object.keys(data.meeting.availableDates).length })}</p>
-    </div>
-    <div class="button-container">
-      <Button
-        as='a'
-        href={`/meetings/${meetingCode}/select`}
-        buttonType="primary"
-      >
-        {t('meeting.selectButton')}
-      </Button>
-      <Button
-        as='a'
-        href={`/meetings/${meetingCode}/result`}
-        buttonType="ghost"
-      >
-        {t('meeting.resultButton')}
-      </Button>
-    </div>
-    <ShareButton client:only="react" />
   </main>
 </Layout>
 

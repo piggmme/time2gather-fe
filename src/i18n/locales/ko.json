@@ -9,7 +9,8 @@
     "aboutUs": "About Us",
     "menu": "메뉴",
     "openMenu": "메뉴 열기",
-    "submit": "완료"
+    "submit": "완료",
+    "share": "공유하기"
   },
   "home": {
     "title": "Time2Gather",
@@ -49,7 +50,15 @@
       "description": "요청하신 약속이 존재하지 않거나 삭제되었습니다."
     },
     "participantsCount": "현재까지 {count}명이 참여했어요!",
-    "selectedDates": "{count}개의 날짜에서 가능한 날짜와 시간대를 선택해 주세요."
+    "selectedDates": "{count}개의 날짜에서 가능한 날짜와 시간대를 선택해 주세요.",
+    "resultSaved": "결과가 저장되었어요!",
+    "modify": "약속 수정하기",
+    "participate": "약속 참여하기",
+    "shareMeeting": "약속 공유하기",
+    "shareResult": "결과 공유하기",
+    "shareSuccess": "링크가 복사되었어요!",
+    "selectButton": "시간 선택하러 가기",
+    "resultButton": "결과 보러가기"
   },
   "404": {
     "title": "페이지를 찾을 수 없습니다",

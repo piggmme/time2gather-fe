@@ -15,6 +15,7 @@ import { $locale } from "../../stores/locale";
 import SelectedDates from "./SelectedDates";
 import { timeSlots12, amPmOptions, isTime12After, convertTo24Hour, getTimeRangeSlots } from "../../utils/time";
 import type { AmPm } from "../../utils/time";
+import { showDefaultToast } from "../../stores/toast";
 
 export default function TimeRangeStep() {
   const [selectedDates] = useSelectedDates()
@@ -134,6 +135,11 @@ export default function TimeRangeStep() {
             })
             if (response.success) {
               navigate(`/meetings/${response.data.meetingCode}`);
+              navigator.clipboard.writeText(window.location.pathname + `/meetings/${response.data.meetingCode}`);
+              showDefaultToast({
+                message: t('meeting.shareSuccess'),
+                duration: 3000,
+              });
             } else {
               console.error(response.message);
             }

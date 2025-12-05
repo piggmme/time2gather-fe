@@ -7,6 +7,8 @@ import Button from "../Button/Button";
 import { meetings, type get_meetings_$meetingCode_response } from "../../services/meetings";
 import { useStore } from "@nanostores/react";
 import { $me } from "../../stores/me";
+import { navigate } from "astro:transitions/client";
+import { showDefaultToast } from "../../stores/toast";
 
 export default function SelectPage(
   { meetingCode, data }:
@@ -101,6 +103,13 @@ export default function SelectPage(
           const response = await meetings.$meetingCode.selections.put(meetingCode, {
             selections: filteredSelections
           });
+          setTimeout(() => {
+            showDefaultToast({
+              message: t('meeting.resultSaved'),
+              duration: 3000,
+            });
+          }, 500);
+          navigate(`/meetings/${meetingCode}/result`);
         }}
       >
         {t('common.submit')}
