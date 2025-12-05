@@ -315,7 +315,6 @@ function CalendarContent({
         <Daily
           dates={dates}
           availableTimes={availableTimes}
-          height="600px"
           selections={{}}
           setSelections={() => {}}
           schedule={meetingData.schedule}
