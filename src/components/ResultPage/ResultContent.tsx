@@ -11,6 +11,7 @@ import { HiChevronDown, HiChevronRight, HiX } from "react-icons/hi";
 import { useTranslation } from "../../hooks/useTranslation";
 import { $me } from "../../stores/me";
 import { Tabs } from "../Tabs/Tabs";
+import ReactMarkdown from 'react-markdown';
 
 export default function ResultContent({
   meetingData,
@@ -21,8 +22,6 @@ export default function ResultContent({
 }) {
   const { t } = useTranslation();
   const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set());
-
-  console.log({reportData})
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = useMemo(() => {
@@ -210,7 +209,9 @@ function AISummaryContent({ summaryText }: { summaryText: string }) {
   return (
     <Tabs.Content value="AI 요약">
       <div className={styles.Summary}>
-        <p className={styles.SummaryText}>{summaryText}</p>
+        <div className={styles.SummaryText}>
+          <ReactMarkdown>{summaryText}</ReactMarkdown>
+        </div>
       </div>
     </Tabs.Content>
   );
