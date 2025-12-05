@@ -15,8 +15,8 @@ type DailyProps = {
   dates: dayjs.Dayjs[];
   availableTimes: string[];
   height?: string;
-  selections: { [date: string]: string[] };
-  setSelections: Dispatch<SetStateAction<{ [date: string]: string[] }>>;
+  selections?: { [date: string]: string[] };
+  setSelections?: Dispatch<SetStateAction<{ [date: string]: string[] }>>;
   schedule?: get_meetings_$meetingCode_response['data']['schedule'];
   participantsCount: number;
   mode?: 'edit' | 'view';
@@ -26,8 +26,8 @@ export default function Daily({
   dates,
   availableTimes,
   height = 'auto',
-  selections,
-  setSelections,
+  selections = {},
+  setSelections = () => {},
   schedule,
   participantsCount,
   mode = 'edit',

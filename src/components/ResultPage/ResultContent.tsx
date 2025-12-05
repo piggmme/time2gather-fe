@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { Tabs } from "radix-ui";
 import type { get_meetings_$meetingCode_response, get_meetings_$meetingCode_report_response } from '../../services/meetings';
 import Daily from '../daily/Daily';
@@ -10,6 +10,7 @@ import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
 import { HiChevronDown, HiChevronRight, HiX } from "react-icons/hi";
 import { useTranslation } from "../../hooks/useTranslation";
+import { $me } from "../../stores/me";
 
 export default function ResultContent({
   meetingData,
@@ -19,19 +20,19 @@ export default function ResultContent({
   reportData: get_meetings_$meetingCode_report_response['data'];
 }) {
   const { t } = useTranslation();
-  const [expandedSlots, setExpandedSlots] = React.useState<Set<string>>(new Set());
+  const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set());
 
   console.log({reportData})
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
-  const dates = React.useMemo(() => {
+  const dates = useMemo(() => {
     return Object.keys(meetingData.meeting.availableDates)
       .sort()
       .map(date => dayjs(date));
   }, [meetingData.meeting.availableDates]);
 
   // availableDates에서 모든 시간 슬롯을 추출하여 정렬
-  const availableTimes = React.useMemo(() => {
+  const availableTimes = useMemo(() => {
     const timeSet = new Set<string>();
     Object.values(meetingData.meeting.availableDates).forEach(times => {
       times.forEach(time => timeSet.add(time));
@@ -40,7 +41,7 @@ export default function ResultContent({
   }, [meetingData.meeting.availableDates]);
 
   // 같은 날짜의 시간 슬롯들을 그룹화하고 범위로 변환
-  const groupedBestSlots = React.useMemo(() => {
+  const groupedBestSlots = useMemo(() => {
     if (meetingData.summary.bestSlots.length === 0) return [];
 
     // 날짜별로 그룹화
@@ -103,7 +104,7 @@ export default function ResultContent({
   }, [meetingData.summary.bestSlots]);
 
   // 특정 날짜와 시간 범위에 참여한 사람들 가져오기
-  const getParticipantsForTimeRange = React.useCallback((date: string, timeRange: { start: string; end: string }) => {
+  const getParticipantsForTimeRange = useCallback((date: string, timeRange: { start: string; end: string }) => {
     const participantsMap = new Map<number, typeof meetingData.participants[0]>();
     const scheduleForDate = meetingData.schedule[date];
 
@@ -130,7 +131,7 @@ export default function ResultContent({
   }, [meetingData.schedule, meetingData.participants]);
 
   // 그룹의 모든 시간 범위에 참여한 사람들 가져오기
-  const getParticipantsForGroup = React.useCallback((group: { date: string; timeRanges: Array<{ start: string; end: string }> }) => {
+  const getParticipantsForGroup = useCallback((group: { date: string; timeRanges: Array<{ start: string; end: string }> }) => {
     const participantsMap = new Map<number, typeof meetingData.participants[0]>();
 
     group.timeRanges.forEach((range) => {
@@ -314,7 +315,7 @@ function ParticipantsModal({
   const locale = useStore($locale);
   const { t } = useTranslation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isOpen) return;
 
     const handleEscape = (e: KeyboardEvent) => {
@@ -384,8 +385,9 @@ function CalendarContent({
   dates: dayjs.Dayjs[];
   availableTimes: string[];
 }) {
+  const me = useStore($me);
   const { t } = useTranslation();
-  const [modalState, setModalState] = React.useState<{
+  const [modalState, setModalState] = useState<{
     isOpen: boolean;
     date: string;
     time: string;
@@ -411,13 +413,54 @@ function CalendarContent({
     });
   };
 
-  const participants = React.useMemo(() => {
+  const participants = useMemo(() => {
     if (!modalState.isOpen || !modalState.date || !modalState.time) return [];
     const scheduleForDate = meetingData.schedule[modalState.date];
     if (!scheduleForDate) return [];
     const slotData = scheduleForDate[modalState.time];
     return slotData?.participants || [];
   }, [modalState, meetingData.schedule]);
+
+  const mySelections = useMemo(function initializeSelections() {
+    if (!me || !meetingData.schedule) return;
+
+    const initialSelections: { [date: string]: string[] } = {};
+
+    for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
+      const selectedTimes: string[] = [];
+
+      for (const [time, slot] of Object.entries(timeSlots)) {
+        const isMeIncluded = slot.participants.some(p => p.userId === me.userId);
+        if (isMeIncluded) {
+          selectedTimes.push(time);
+        }
+      }
+
+      if (selectedTimes.length > 0) {
+        initialSelections[date] = selectedTimes;
+      }
+    }
+
+    return initialSelections;
+  }, [me, meetingData.schedule]);
+
+  // schedule에서 자신이 포함된 경우 count를 1 낮춤
+  const schedule = useMemo(() => {
+    if (!me) return undefined;
+
+    const processedSchedule: typeof meetingData.schedule = {};
+    for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
+      processedSchedule[date] = {};
+      for (const [time, slot] of Object.entries(timeSlots)) {
+        const isMeIncluded = slot.participants.some(p => p.userId === me.userId);
+        processedSchedule[date][time] = {
+          ...slot,
+          count: isMeIncluded ? Math.max(0, slot.count - 1) : slot.count,
+        };
+      }
+    }
+    return processedSchedule;
+  }, [meetingData.schedule, me]);
 
   return (
     <Tabs.Content className={styles.Content} value="달력">
@@ -429,9 +472,8 @@ function CalendarContent({
         <Daily
           dates={dates}
           availableTimes={availableTimes}
-          selections={{}}
-          setSelections={() => {}}
-          schedule={meetingData.schedule}
+          selections={mySelections}
+          schedule={schedule}
           participantsCount={meetingData.summary.totalParticipants}
           mode="view"
           onCellClick={handleCellClick}

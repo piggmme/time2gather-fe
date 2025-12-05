@@ -17,6 +17,8 @@
   box-sizing: border-box;
   flex-shrink: 0;
   touch-action: none; // 모바일에서 스크롤 방지
+  font-size: 12px;
+  color: #fff;
 
   &:hover {
     background: #f9f9f9;
@@ -65,10 +67,6 @@
   &.viewMode {
     cursor: pointer;
     touch-action: auto; // 뷰어 모드에서는 터치 스크롤 허용
-
-    &:hover {
-      background: $c-gray-lightest;
-    }
   }
 }
 
