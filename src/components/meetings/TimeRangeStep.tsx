@@ -19,9 +19,9 @@ import { showDefaultToast } from "../../stores/toast";
 
 export default function TimeRangeStep() {
   const [selectedDates] = useSelectedDates()
-  const [startTime12, setStartTime12] = useState<string>(timeSlots12[10]);
+  const [startTime12, setStartTime12] = useState<string>(timeSlots12[20]);
   const [endTime12, setEndTime12] = useState<string>(timeSlots12[10]);
-  const [startAmPm, setStartAmPm] = useState<AmPm>('PM');
+  const [startAmPm, setStartAmPm] = useState<AmPm>('AM');
   const [endAmPm, setEndAmPm] = useState<AmPm>('PM');
 
   const [endTimeSlots12, setEndTimeSlots12] = useState<string[]>(timeSlots12);
