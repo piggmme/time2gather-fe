@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n';
+import MyMeetings from '../../components/MyMeetings/MyMeetings';
+import RequireAuth from '../../components/RequireAuth';
+import SearchMeeting from '../../components/SearchMeeting';
+
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const t = getTranslations(locale);
+---
+
+<Layout>
+  <main>
+    <h1>약속을 찾아봐요 🔍</h1>
+    <p>약속 코드를 입력해 주세요.</p>
+    <div class="search-meeting">
+      <SearchMeeting client:only="react" />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+  }
+  h1 {
+    margin-bottom: 30px;
+  }
+  p {
+    margin-bottom: 20px;
+    word-break: keep-all;
+  }
+
+  .search-meeting {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+</style>
