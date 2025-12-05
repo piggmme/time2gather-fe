@@ -1,0 +1,180 @@
+@use "../../styles/variables.scss" as *;
+
+.Root {
+  width: 100%;
+}
+
+.List {
+  display: flex;
+  border-bottom: 1px solid $c-gray;
+  margin-bottom: 20px;
+}
+
+.Trigger {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: $c-gray-dark;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: $c-black;
+    background-color: $c-gray-lightest;
+  }
+
+  &[data-state="active"] {
+    color: $primary-color;
+    border-bottom-color: $primary-color;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: -2px;
+  }
+}
+
+.Content {
+  width: 100%;
+
+
+  &[data-state="inactive"] {
+    display: none;
+  }
+}
+
+.Summary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.SummaryText {
+  word-break: keep-all;
+  line-height: 1.6;
+  color: $c-black;
+  white-space: pre-wrap;
+}
+
+.Title {
+  font-size: 18px;
+  font-weight: 600;
+  color: $c-black;
+  margin: 0;
+}
+
+.DetailText {
+  font-size: 16px;
+  color: $c-gray-darkest;
+  margin: 0;
+}
+
+.BestSlots {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.BestSlotsTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: $c-gray-darkest;
+  margin: 0;
+}
+
+.BestSlotsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.BestSlotItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: $c-gray-lightest;
+  border-radius: 6px;
+}
+
+.BestSlotDate {
+  font-weight: 500;
+  color: $c-black;
+  min-width: 100px;
+}
+
+.BestSlotTime {
+  font-weight: 500;
+  color: $primary-color;
+  min-width: 60px;
+}
+
+.BestSlotCount {
+  margin-left: auto;
+  color: $c-gray-darkest;
+  font-size: 14px;
+}
+
+.Calendar {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.CalendarTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: $c-black;
+  margin: 0;
+}
+
+.Participants {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ParticipantsCount {
+  font-size: 16px;
+  font-weight: 500;
+  color: $c-gray-darkest;
+  margin: 0;
+}
+
+.ParticipantsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ParticipantItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: $c-gray-lightest;
+  border-radius: 6px;
+}
+
+.ParticipantName {
+  font-size: 16px;
+  color: $c-black;
+  font-weight: 500;
+}
+
