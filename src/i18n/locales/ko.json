@@ -49,6 +49,7 @@
       "title": "약속을 찾을 수 없습니다",
       "description": "요청하신 약속이 존재하지 않거나 삭제되었습니다."
     },
+    "participantsEmpty": "아직 참여자가 없어요.",
     "participantsCount": "현재까지 {count}명이 참여했어요!",
     "selectedDates": "{count}개의 날짜에서 가능한 날짜와 시간대를 선택해 주세요.",
     "resultSaved": "결과가 저장되었어요!",

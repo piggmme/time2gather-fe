@@ -71,7 +71,11 @@ const structuredData = {
       />
     </div>
     <div class="selected-dates-info">
-      <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
+      {
+        data.participants.length === 0 ?
+        <p>{t('meeting.participantsEmpty')}</p> :
+        <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
+      }
       <p>{t('meeting.selectedDates', { count: Object.keys(data.meeting.availableDates).length })}</p>
     </div>
     <div class="button-container">
