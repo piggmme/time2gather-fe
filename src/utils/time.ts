@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import "dayjs/locale/en";
 
 export const amPmOptions = ['AM', 'PM'] as const;
 export type AmPm = typeof amPmOptions[number];
@@ -71,19 +73,21 @@ export function getTimeRangeSlots(startTime24: string, endTime24: string): strin
 export function formatDate(date: dayjs.Dayjs, locale: 'ko' | 'en'): string {
   const now = dayjs();
   const isSameYear = date.year() === now.year();
-  const weekday = date.format("ddd");
+  // locale을 적용한 date 인스턴스 생성
+  const localizedDate = date.locale(locale === 'ko' ? 'ko' : 'en');
+  const weekday = localizedDate.format("ddd");
 
   if (locale === 'ko') {
     if (isSameYear) {
-      return `${date.format('M월 D일')} (${weekday})`;
+      return `${localizedDate.format('M월 D일')} (${weekday})`;
     } else {
-      return `${date.format('YYYY년 M월 D일')} (${weekday})`;
+      return `${localizedDate.format('YYYY년 M월 D일')} (${weekday})`;
     }
   } else {
     if (isSameYear) {
-      return `${date.format('MMM D')} (${weekday})`;
+      return `${localizedDate.format('MMM D')} (${weekday})`;
     } else {
-      return `${date.format('MMM D, YYYY')} (${weekday})`;
+      return `${localizedDate.format('MMM D, YYYY')} (${weekday})`;
     }
   }
 }

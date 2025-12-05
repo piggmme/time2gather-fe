@@ -5,6 +5,9 @@ import Daily from '../daily/Daily';
 import Avatar from '../Avatar/Avatar';
 import dayjs from 'dayjs';
 import styles from './ResultContent.module.scss';
+import { formatDate } from '../../utils/time';
+import { useStore } from "@nanostores/react";
+import { $locale } from "../../stores/locale";
 
 const TABS = ["요약", "달력", "참여자"] as const;
 type Tab = (typeof TABS)[number];
@@ -16,6 +19,7 @@ export default function ResultContent({
   meetingData: get_meetings_$meetingCode_response['data'];
   reportData: get_meetings_$meetingCode_report_response['data'];
 }) {
+  const locale = useStore($locale);
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = React.useMemo(() => {
     return Object.keys(meetingData.meeting.availableDates)
@@ -31,6 +35,69 @@ export default function ResultContent({
     });
     return Array.from(timeSet).sort();
   }, [meetingData.meeting.availableDates]);
+
+  // 같은 날짜의 시간 슬롯들을 그룹화하고 범위로 변환
+  const groupedBestSlots = React.useMemo(() => {
+    if (meetingData.summary.bestSlots.length === 0) return [];
+
+    // 날짜별로 그룹화
+    const groupedByDate = meetingData.summary.bestSlots.reduce((acc, slot) => {
+      if (!acc[slot.date]) {
+        acc[slot.date] = [];
+      }
+      acc[slot.date].push(slot);
+      return acc;
+    }, {} as Record<string, typeof meetingData.summary.bestSlots>);
+
+    // 각 날짜별로 시간 범위 생성
+    return Object.entries(groupedByDate).map(([date, slots]) => {
+      // 시간으로 정렬
+      const sortedSlots = [...slots].sort((a, b) => a.time.localeCompare(b.time));
+      
+      // 연속된 시간들을 범위로 묶기
+      const timeRanges: Array<{ start: string; end: string; count: number; percentage: number }> = [];
+      let currentRange: { start: string; end: string; count: number; percentage: number } | null = null;
+
+      sortedSlots.forEach((slot) => {
+        if (!currentRange) {
+          currentRange = {
+            start: slot.time,
+            end: slot.time,
+            count: slot.count,
+            percentage: slot.percentage,
+          };
+        } else {
+          // 현재 시간이 이전 시간의 30분 후인지 확인
+          const prevTime = dayjs(`2000-01-01 ${currentRange.end}`, 'YYYY-MM-DD HH:mm');
+          const currentTime = dayjs(`2000-01-01 ${slot.time}`, 'YYYY-MM-DD HH:mm');
+          const diffMinutes = currentTime.diff(prevTime, 'minute');
+
+          if (diffMinutes === 30 && slot.count === currentRange.count && slot.percentage === currentRange.percentage) {
+            // 연속된 시간이고 같은 참여자 수/비율이면 범위 확장
+            currentRange.end = slot.time;
+          } else {
+            // 연속되지 않거나 다른 참여자 수/비율이면 새 범위 시작
+            timeRanges.push(currentRange);
+            currentRange = {
+              start: slot.time,
+              end: slot.time,
+              count: slot.count,
+              percentage: slot.percentage,
+            };
+          }
+        }
+      });
+
+      if (currentRange) {
+        timeRanges.push(currentRange);
+      }
+
+      return {
+        date,
+        timeRanges,
+      };
+    });
+  }, [meetingData.summary.bestSlots]);
 
   return (
     <Tabs.Root className={styles.Root} defaultValue="요약">
@@ -52,6 +119,7 @@ export default function ResultContent({
           참여자 {meetingData.participants.length > 0 ? `(${meetingData.participants.length})` : ''}
         </Tabs.Trigger>
       </Tabs.List>
+
       {reportData?.summaryText && (
         <Tabs.Content className={styles.Content} value="AI 요약">
           <div className={styles.Summary}>
@@ -65,16 +133,25 @@ export default function ResultContent({
           <p className={styles.DetailText}>
             총 {meetingData.summary.totalParticipants}명이 참여했어요!
           </p>
-          {meetingData.summary.bestSlots.length > 0 && (
+          {groupedBestSlots.length > 0 && (
             <div className={styles.BestSlots}>
             <p className={styles.BestSlotsTitle}>가장 많은 참여자들이 가능한 시간:</p>
             <ul className={styles.BestSlotsList}>
-              {meetingData.summary.bestSlots.map((slot, index) => (
-                <li key={index} className={styles.BestSlotItem}>
-                  <span className={styles.BestSlotDate}>{slot.date}</span>
-                  <span className={styles.BestSlotTime}>{slot.time}</span>
+              {groupedBestSlots.map((group, groupIndex) => (
+                <li key={groupIndex} className={styles.BestSlotItem}>
+                  <span className={styles.BestSlotDate}>{formatDate(dayjs(group.date), locale)}</span>
+                  <span className={styles.BestSlotTime}>
+                    {group.timeRanges.map((range, rangeIndex) => (
+                      <span key={rangeIndex}>
+                        {range.start === range.end
+                          ? range.start
+                          : `${range.start}~${range.end}`}
+                        {rangeIndex < group.timeRanges.length - 1 && ', '}
+                      </span>
+                    ))}
+                  </span>
                   <span className={styles.BestSlotCount}>
-                    {slot.count}명 ({slot.percentage}%)
+                    {group.timeRanges[0].count}명 ({group.timeRanges[0].percentage}%)
                   </span>
                 </li>
               ))}
