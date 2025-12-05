@@ -8,7 +8,7 @@ import styles from './ResultContent.module.scss';
 import { formatDate } from '../../utils/time';
 import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
-import { HiChevronDown, HiChevronRight } from "react-icons/hi";
+import { HiChevronDown, HiChevronRight, HiX } from "react-icons/hi";
 import { useTranslation } from "../../hooks/useTranslation";
 
 export default function ResultContent({
@@ -293,6 +293,83 @@ function SummaryContent({
   );
 }
 
+// 참여자 모달 컴포넌트
+function ParticipantsModal({
+  isOpen,
+  onClose,
+  date,
+  time,
+  participants,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  date: string;
+  time: string;
+  participants: get_meetings_$meetingCode_response['data']['participants'];
+}) {
+  const locale = useStore($locale);
+  const { t } = useTranslation();
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const formattedDate = formatDate(dayjs(date), locale);
+
+  return (
+    <div className={styles.ModalOverlay} onClick={onClose}>
+      <div className={styles.ModalContent} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.ModalHeader}>
+          <h3 className={styles.ModalTitle}>
+            {formattedDate} {time}
+          </h3>
+          <button className={styles.ModalCloseButton} onClick={onClose} aria-label="닫기">
+            <HiX />
+          </button>
+        </div>
+        <div className={styles.ModalBody}>
+          {participants.length > 0 ? (
+            <>
+              <p className={styles.ModalParticipantsCount}>
+                {participants.length}{t('meeting.result.people')}
+              </p>
+              <ul className={styles.ModalParticipantsList}>
+                {participants.map((participant) => (
+                  <li key={participant.userId} className={styles.ModalParticipantItem}>
+                    <Avatar
+                      src={participant.profileImageUrl}
+                      name={participant.username}
+                    />
+                    <span className={styles.ModalParticipantName}>{participant.username}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p className={styles.ModalEmptyText}>{t('meeting.result.noParticipants')}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // 달력 탭 컴포넌트
 function CalendarContent({
   meetingData,
@@ -304,6 +381,39 @@ function CalendarContent({
   availableTimes: string[];
 }) {
   const { t } = useTranslation();
+  const [modalState, setModalState] = React.useState<{
+    isOpen: boolean;
+    date: string;
+    time: string;
+  }>({
+    isOpen: false,
+    date: '',
+    time: '',
+  });
+
+  const handleCellClick = (date: string, time: string) => {
+    setModalState({
+      isOpen: true,
+      date,
+      time,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      date: '',
+      time: '',
+    });
+  };
+
+  const participants = React.useMemo(() => {
+    if (!modalState.isOpen || !modalState.date || !modalState.time) return [];
+    const scheduleForDate = meetingData.schedule[modalState.date];
+    if (!scheduleForDate) return [];
+    const slotData = scheduleForDate[modalState.time];
+    return slotData?.participants || [];
+  }, [modalState, meetingData.schedule]);
 
   return (
     <Tabs.Content className={styles.Content} value="달력">
@@ -320,9 +430,14 @@ function CalendarContent({
           schedule={meetingData.schedule}
           participantsCount={meetingData.summary.totalParticipants}
           mode="view"
-          onCellClick={(date, time) => {
-
-          }}
+          onCellClick={handleCellClick}
+        />
+        <ParticipantsModal
+          isOpen={modalState.isOpen}
+          onClose={closeModal}
+          date={modalState.date}
+          time={modalState.time}
+          participants={participants}
         />
       </div>
     </Tabs.Content>
