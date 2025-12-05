@@ -69,7 +69,11 @@ const structuredData = {
       <span>{meetingData.meeting.host.username}</span>
     </div>
     <div class="report">
-      <ResultContent client:only="react" meetingData={meetingData} reportData={reportData} />
+      <ResultContent
+        client:only="react"
+        meetingData={meetingData}
+        reportData={reportData}
+      />
     </div>
     <div class="button-container">
       <ResultButtons

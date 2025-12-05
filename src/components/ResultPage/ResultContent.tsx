@@ -154,8 +154,10 @@ export default function ResultContent({
     });
   };
 
+  const defaultValue = reportData?.summaryText ? 'AI 요약' : '요약';
+
   return (
-    <Tabs.Root className={styles.Root} defaultValue="요약">
+    <Tabs.Root className={styles.Root} defaultValue={defaultValue}>
       <Tabs.List className={styles.List} aria-label={t('meeting.result.tabs.summary')}>
         {
           reportData?.summaryText && (
