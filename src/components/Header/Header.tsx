@@ -67,7 +67,7 @@ export default function Header() {
               <VisuallyHidden.Root>{t('common.searchMeeting')}</VisuallyHidden.Root>
             </a>
             <a
-              href="/meetings/my"
+              href="/my"
               className={styles.desktopNavLink}
             >
               <PersonIcon width={27} height={27} />
@@ -118,7 +118,7 @@ export default function Header() {
               <span>{t('common.searchMeeting')}</span>
             </a>
             <a
-              href="/meetings/my"
+              href="/my"
               className={styles.mobileNavLink}
             >
               <PersonIcon width={27} height={27} />
