@@ -14,7 +14,7 @@
   "home": {
     "title": "Time2Gather",
     "greeting": "Welcome! 👋",
-    "description": "A service that makes it easy to schedule meetings with people. Create meetings, select multiple dates and time slots, and share them. When participants select their available times, we'll recommend the best date and time to meet.",
+    "description": "It only takes 5 seconds to make plans now. Share your time slots, get votes, and instantly see the best time for everyone!",
     "createMeetingButton": "Create a Meeting"
   },
   "login": {
