@@ -23,7 +23,7 @@ type DailyProps = {
 export default function Daily({
   dates,
   availableTimes,
-  height = '100svh',
+  height = 'auto',
   selections,
   setSelections,
   schedule,
