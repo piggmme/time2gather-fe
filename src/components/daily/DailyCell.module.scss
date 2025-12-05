@@ -64,6 +64,7 @@
   // 뷰어 모드
   &.viewMode {
     cursor: pointer;
+    touch-action: auto; // 뷰어 모드에서는 터치 스크롤 허용
 
     &:hover {
       background: $c-gray-lightest;

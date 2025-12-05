@@ -4,6 +4,11 @@
   height: auto;
   align-self: flex-start;
   touch-action: pan-y pan-x; // 세로/가로 스크롤은 허용하되, 드래그는 셀에서 처리
+
+  // 뷰어 모드에서는 터치 스크롤 완전히 허용
+  &.viewMode {
+    touch-action: auto;
+  }
 }
 
 .grid {

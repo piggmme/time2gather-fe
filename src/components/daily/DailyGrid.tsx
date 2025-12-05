@@ -115,7 +115,7 @@ export default function DailyGrid({
 
   if (!isEditMode) {
     return (
-      <div className={styles.gridWrapper} ref={gridWrapperRef}>
+      <div className={`${styles.gridWrapper} ${styles.viewMode}`} ref={gridWrapperRef}>
         {gridContent}
       </div>
     );
