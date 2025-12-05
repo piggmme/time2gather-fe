@@ -76,6 +76,14 @@
       "noParticipants": "No participants"
     }
   },
+  "my": {
+    "title": "My Meetings",
+    "tabs": {
+      "myMeetings": "My Meetings",
+      "participatedMeetings": "Participated Meetings"
+    },
+    "myMeetingsDetails": "You have created {count} meetings."
+  },
   "404": {
     "title": "Page Not Found",
     "description": "The page you requested does not exist or has been deleted."

@@ -1,0 +1,47 @@
+@use "../../styles/variables.scss" as *;
+
+.myInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.detail {
+  font-size: 14px;
+  color: $c-gray-darkest;
+  margin-bottom: 20px;
+}
+
+.List {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  li {
+    all: unset;
+  }
+  a {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background-color: $c-gray-lightest;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 500;
+    color: $c-black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}

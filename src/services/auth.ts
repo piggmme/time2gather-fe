@@ -22,7 +22,14 @@ const post_auth_oauth_$provider = async (provider: 'kakao' | 'google', body: pos
   return response.data;
 };
 
-
+export type Meeting = {
+  code: string
+  createdAt: string
+  description?: string
+  id: number
+  timezone: string;
+  title: string
+}
 type get_auth_me_response = success_response<{
   userId: number;
   username: string;
@@ -30,6 +37,8 @@ type get_auth_me_response = success_response<{
   profileImageUrl: string;
   provider: 'kakao' | 'google';
   createdAt: string;
+  createdMeetings?: Meeting[];
+  participatedMeetings?: Meeting[];
 }>
 const get_auth_me = async () => {
   const response = await api.get<get_auth_me_response>('v1/auth/me');

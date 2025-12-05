@@ -1,5 +1,5 @@
 import { atom, onMount, task } from 'nanostores';
-import { auth } from '../services/auth';
+import { auth, type Meeting } from '../services/auth';
 
 export type User = {
   userId: number;
@@ -8,6 +8,8 @@ export type User = {
   profileImageUrl: string;
   provider: 'kakao' | 'google';
   createdAt?: string;
+  createdMeetings?: Meeting[];
+  participatedMeetings?: Meeting[];
 };
 
 export const $me = atom<User | null | undefined>(undefined);
