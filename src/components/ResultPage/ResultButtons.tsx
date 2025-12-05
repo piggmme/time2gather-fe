@@ -32,7 +32,7 @@ export default function ResultButtons(
         href={`/meetings/${data.meeting.code}/select`}
         buttonType="ghost"
       >
-        {didIParticipate ? t('meeting.modify') : t('meeting.participate')}
+        {didIParticipate ? t('meeting.modifyButton') : t('meeting.selectButton')}
       </Button>
     </>
   )

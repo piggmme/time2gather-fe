@@ -7,6 +7,7 @@ import Avatar from '../../../components/Avatar/Avatar';
 import SelectedDates from '../../../components/meetings/SelectedDates';
 import Button from '../../../components/Button/Button';
 import ShareButton from '../../../components/meetings/ShareButton';
+import MeetingButtons from '../../../components/meetings/MeetingButtons';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -79,20 +80,7 @@ const structuredData = {
       <p>{t('meeting.selectedDates', { count: Object.keys(data.meeting.availableDates).length })}</p>
     </div>
     <div class="button-container">
-      <Button
-        as='a'
-        href={`/meetings/${meetingCode}/select`}
-        buttonType="primary"
-      >
-        {t('meeting.selectButton')}
-      </Button>
-      <Button
-        as='a'
-        href={`/meetings/${meetingCode}/result`}
-        buttonType="ghost"
-      >
-        {t('meeting.resultButton')}
-      </Button>
+      <MeetingButtons client:only="react" data={data} />
     </div>
     <ShareButton client:only="react" />
   </main>

@@ -53,7 +53,7 @@
     "participantsCount": "Currently, {count} people have joined.",
     "selectedDates": "Select the available dates and time slots from {count} dates.",
     "resultSaved": "The result has been saved.",
-    "modify": "Modify Meeting",
+    "modifyButton": "Modify Time",
     "participate": "Participate in Meeting",
     "shareResult": "Share Result",
     "shareMeeting": "Share Meeting",
