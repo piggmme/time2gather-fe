@@ -21,6 +21,8 @@ export default function ResultContent({
   const { t } = useTranslation();
   const [expandedSlots, setExpandedSlots] = React.useState<Set<string>>(new Set());
 
+  console.log({reportData})
+
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = React.useMemo(() => {
     return Object.keys(meetingData.meeting.availableDates)
