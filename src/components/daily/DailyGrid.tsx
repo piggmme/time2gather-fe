@@ -19,6 +19,7 @@ type DailyGridProps = {
   availableTimes: string[];
   schedule?: get_meetings_$meetingCode_response['data']['schedule'][string]
   participantsCount: number;
+  initialSelectedTimeSlots?: string[];
   onSelectionsChange?: (selectedTimeSlots: string[]) => void;
 };
 
@@ -27,12 +28,19 @@ export default function DailyGrid({
   availableTimes,
   schedule,
   participantsCount,
+  initialSelectedTimeSlots,
   onSelectionsChange,
 }: DailyGridProps) {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([]);
   const [startTimeSlot, setStartTimeSlot] = useState<string | null>(null);
   const [endTimeSlot, setEndTimeSlot] = useState<string | null>(null);
   const gridWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (initialSelectedTimeSlots) {
+      setSelectedTimeSlots(initialSelectedTimeSlots);
+    }
+  }, [initialSelectedTimeSlots])
 
   useEffect(() => {
     onSelectionsChange?.(selectedTimeSlots);

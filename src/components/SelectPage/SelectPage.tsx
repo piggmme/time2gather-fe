@@ -30,6 +30,30 @@ export default function SelectPage(
   const dateList = dates.map((date) => dayjs(date)).sort((a, b) => a.diff(b));
   const availableTimes = Object.values(data.meeting.availableDates)[0] || [];
 
+  // schedule에서 내가 선택한 날짜와 시간대를 selections의 초기값으로 설정
+  useEffect(function initializeSelections() {
+    if (!me || !data.schedule) return;
+
+    const initialSelections: { [date: string]: string[] } = {};
+
+    for (const [date, timeSlots] of Object.entries(data.schedule)) {
+      const selectedTimes: string[] = [];
+
+      for (const [time, slot] of Object.entries(timeSlots)) {
+        const isMeIncluded = slot.participants.some(p => p.userId === me.userId);
+        if (isMeIncluded) {
+          selectedTimes.push(time);
+        }
+      }
+
+      if (selectedTimes.length > 0) {
+        initialSelections[date] = selectedTimes;
+      }
+    }
+
+    setSelections(initialSelections);
+  }, [me, data.schedule]);
+
   // schedule에서 자신이 포함된 경우 count를 1 낮춤
   const schedule = useMemo(() => {
     if (!me) return undefined;

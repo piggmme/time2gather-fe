@@ -163,6 +163,7 @@ export default function Daily({
                     availableTimes={availableTimes}
                     schedule={schedule?.[date.format("YYYY-MM-DD")]}
                     participantsCount={participantsCount}
+                    initialSelectedTimeSlots={selections[date.format("YYYY-MM-DD")]}
                     onSelectionsChange={(selectedTimeSlots) => {
                       setSelections((prev) => ({
                         ...prev,
