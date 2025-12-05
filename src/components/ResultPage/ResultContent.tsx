@@ -8,9 +8,7 @@ import styles from './ResultContent.module.scss';
 import { formatDate } from '../../utils/time';
 import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
-
-const TABS = ["요약", "달력", "참여자"] as const;
-type Tab = (typeof TABS)[number];
+import { HiChevronDown, HiChevronRight } from "react-icons/hi";
 
 export default function ResultContent({
   meetingData,
@@ -20,6 +18,8 @@ export default function ResultContent({
   reportData: get_meetings_$meetingCode_report_response['data'];
 }) {
   const locale = useStore($locale);
+  const [expandedSlots, setExpandedSlots] = React.useState<Set<string>>(new Set());
+
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = React.useMemo(() => {
     return Object.keys(meetingData.meeting.availableDates)
@@ -53,7 +53,7 @@ export default function ResultContent({
     return Object.entries(groupedByDate).map(([date, slots]) => {
       // 시간으로 정렬
       const sortedSlots = [...slots].sort((a, b) => a.time.localeCompare(b.time));
-      
+
       // 연속된 시간들을 범위로 묶기
       const timeRanges: Array<{ start: string; end: string; count: number; percentage: number }> = [];
       let currentRange: { start: string; end: string; count: number; percentage: number } | null = null;
@@ -99,6 +99,60 @@ export default function ResultContent({
     });
   }, [meetingData.summary.bestSlots]);
 
+  // 특정 날짜와 시간 범위에 참여한 사람들 가져오기
+  const getParticipantsForTimeRange = React.useCallback((date: string, timeRange: { start: string; end: string }) => {
+    const participantsMap = new Map<number, typeof meetingData.participants[0]>();
+    const scheduleForDate = meetingData.schedule[date];
+
+    if (!scheduleForDate) return [];
+
+    // 시간 범위 내의 모든 시간 슬롯에 참여한 사람들 수집
+    const startTime = dayjs(`2000-01-01 ${timeRange.start}`, 'YYYY-MM-DD HH:mm');
+    const endTime = dayjs(`2000-01-01 ${timeRange.end}`, 'YYYY-MM-DD HH:mm');
+
+    Object.keys(scheduleForDate).forEach((time) => {
+      const currentTime = dayjs(`2000-01-01 ${time}`, 'YYYY-MM-DD HH:mm');
+      if ((currentTime.isAfter(startTime) || currentTime.isSame(startTime)) && 
+          (currentTime.isBefore(endTime) || currentTime.isSame(endTime))) {
+        const slotData = scheduleForDate[time];
+        if (slotData && slotData.participants) {
+          slotData.participants.forEach((participant) => {
+            participantsMap.set(participant.userId, participant);
+          });
+        }
+      }
+    });
+
+    return Array.from(participantsMap.values());
+  }, [meetingData.schedule, meetingData.participants]);
+
+  // 그룹의 모든 시간 범위에 참여한 사람들 가져오기
+  const getParticipantsForGroup = React.useCallback((group: { date: string; timeRanges: Array<{ start: string; end: string }> }) => {
+    const participantsMap = new Map<number, typeof meetingData.participants[0]>();
+
+    group.timeRanges.forEach((range) => {
+      const participants = getParticipantsForTimeRange(group.date, range);
+      participants.forEach((participant) => {
+        participantsMap.set(participant.userId, participant);
+      });
+    });
+
+    return Array.from(participantsMap.values());
+  }, [getParticipantsForTimeRange]);
+
+  const toggleSlot = (groupIndex: number) => {
+    setExpandedSlots((prev) => {
+      const newSet = new Set(prev);
+      const key = `group-${groupIndex}`;
+      if (newSet.has(key)) {
+        newSet.delete(key);
+      } else {
+        newSet.add(key);
+      }
+      return newSet;
+    });
+  };
+
   return (
     <Tabs.Root className={styles.Root} defaultValue="요약">
       <Tabs.List className={styles.List} aria-label="결과 보기">
@@ -137,24 +191,56 @@ export default function ResultContent({
             <div className={styles.BestSlots}>
             <p className={styles.BestSlotsTitle}>가장 많은 참여자들이 가능한 시간:</p>
             <ul className={styles.BestSlotsList}>
-              {groupedBestSlots.map((group, groupIndex) => (
-                <li key={groupIndex} className={styles.BestSlotItem}>
-                  <span className={styles.BestSlotDate}>{formatDate(dayjs(group.date), locale)}</span>
-                  <span className={styles.BestSlotTime}>
-                    {group.timeRanges.map((range, rangeIndex) => (
-                      <span key={rangeIndex}>
-                        {range.start === range.end
-                          ? range.start
-                          : `${range.start}~${range.end}`}
-                        {rangeIndex < group.timeRanges.length - 1 && ', '}
+              {groupedBestSlots.map((group, groupIndex) => {
+                const isExpanded = expandedSlots.has(`group-${groupIndex}`);
+                const participants = getParticipantsForGroup(group);
+
+                return (
+                  <li key={groupIndex} className={styles.BestSlotItem}>
+                    <div
+                      className={styles.BestSlotHeader}
+                      onClick={() => toggleSlot(groupIndex)}
+                    >
+                      <span className={styles.BestSlotDate}>{formatDate(dayjs(group.date), locale)}</span>
+                      <span className={styles.BestSlotTime}>
+                        {group.timeRanges.map((range, rangeIndex) => (
+                          <span key={rangeIndex}>
+                            {range.start === range.end
+                              ? range.start
+                              : `${range.start}~${range.end}`}
+                            {rangeIndex < group.timeRanges.length - 1 && ', '}
+                          </span>
+                        ))}
                       </span>
-                    ))}
-                  </span>
-                  <span className={styles.BestSlotCount}>
-                    {group.timeRanges[0].count}명 ({group.timeRanges[0].percentage}%)
-                  </span>
-                </li>
-              ))}
+                      <span className={styles.BestSlotCount}>
+                        {group.timeRanges[0].count}명 ({group.timeRanges[0].percentage}%)
+                      </span>
+                      <span className={styles.BestSlotExpandIcon}>
+                        {
+                          isExpanded
+                          ? <HiChevronDown />
+                          : <HiChevronRight />
+                        }
+                      </span>
+                    </div>
+                    {isExpanded && participants.length > 0 && (
+                      <div className={styles.BestSlotParticipants}>
+                        <ul className={styles.BestSlotParticipantsList}>
+                          {participants.map((participant) => (
+                            <li key={participant.userId} className={styles.BestSlotParticipantItem}>
+                              <Avatar
+                                src={participant.profileImageUrl}
+                                name={participant.username}
+                              />
+                              <span className={styles.BestSlotParticipantName}>{participant.username}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
               </ul>
             </div>
           )}
