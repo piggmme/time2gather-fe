@@ -27,7 +27,6 @@ export default function TimeRangeStep() {
   const [endTimeSlots12, setEndTimeSlots12] = useState<string[]>(timeSlots12);
   const [endAmPmOptions, setEndAmPmOptions] = useState<readonly AmPm[]>(amPmOptions);
 
-  const [isDisabled, setIsDisabled] = useState(true);
   const title = useSearchParam('title');
   const { t } = useTranslation();
   const locale = useStore($locale);
@@ -73,14 +72,8 @@ export default function TimeRangeStep() {
             text={t('createMeeting.timeRangeStep.startTime')}
             timeValue={startTime12}
             amPmValue={startAmPm}
-            onTimeChange={(value) => {
-              setIsDisabled(false);
-              setStartTime12(value);
-            }}
-            onAmPmChange={(value) => {
-              setIsDisabled(false);
-              setStartAmPm(value);
-            }}
+            onTimeChange={setStartTime12}
+            onAmPmChange={setStartAmPm}
             timeOptions={timeSlots12}
             amPmOptions={amPmOptions}
           />
@@ -90,14 +83,8 @@ export default function TimeRangeStep() {
             text={t('createMeeting.timeRangeStep.endTime')}
             timeValue={endTime12}
             amPmValue={endAmPm}
-            onTimeChange={(value) => {
-              setIsDisabled(false);
-              setEndTime12(value);
-            }}
-            onAmPmChange={(value) => {
-              setIsDisabled(false);
-              setEndAmPm(value);
-            }}
+            onTimeChange={setEndTime12}
+            onAmPmChange={setEndAmPm}
             timeOptions={endTimeSlots12}
             amPmOptions={endAmPmOptions}
           />
@@ -105,7 +92,7 @@ export default function TimeRangeStep() {
       </div>
 
       <div className={styles.dateBadgesContainer}>
-        <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDates')}</p>
+        <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDatesCount', { count: selectedDates.length })}</p>
         <SelectedDates dates={selectedDates} locale={locale} />
       </div>
 
@@ -120,7 +107,7 @@ export default function TimeRangeStep() {
           {t('common.previous')}
         </Button>
         <Button
-          disabled={isDisabled || isTime12After({ time12: startTime12, amPm: startAmPm }, { time12: endTime12, amPm: endAmPm })}
+          disabled={isTime12After({ time12: startTime12, amPm: startAmPm }, { time12: endTime12, amPm: endAmPm })}
           buttonType="primary"
           onClick={async () => {
             const response = await meetings.post({
