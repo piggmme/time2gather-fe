@@ -423,7 +423,7 @@ function CalendarContent({
   }, [modalState, meetingData.schedule]);
 
   const mySelections = useMemo(function initializeSelections() {
-    if (!me || !meetingData.schedule) return;
+    if (!me) return ({});
 
     const initialSelections: { [date: string]: string[] } = {};
 
@@ -447,8 +447,7 @@ function CalendarContent({
 
   // schedule에서 자신이 포함된 경우 count를 1 낮춤
   const schedule = useMemo(() => {
-    if (!me) return undefined;
-
+    if (!me) return meetingData.schedule;
     const processedSchedule: typeof meetingData.schedule = {};
     for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
       processedSchedule[date] = {};
