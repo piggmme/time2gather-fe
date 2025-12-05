@@ -1,6 +1,7 @@
 {
   "common": {
     "previous": "Previous",
+    "cancel": "Cancel",
     "next": "Next",
     "home": "Home",
     "createMeeting": "Create Meeting",

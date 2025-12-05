@@ -75,7 +75,7 @@ export default function SelectPage(
   }, [data.schedule, me]);
 
   return (
-    <>
+    <div>
       <div className={styles.selectedDatesInfo}>
         <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
         <p>{t('meeting.selectedDates', { count: dates.length })}</p>
@@ -94,26 +94,41 @@ export default function SelectPage(
           participantsCount={data.participants.length}
         />
       </div>
-      <Button
-        buttonType="primary"
-        disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
-        onClick={async () => {
-          // selections 에서 빈배열인 날짜는 제거
-          const filteredSelections = Object.fromEntries(Object.entries(selections).filter(([_, times]) => times.length > 0));
-          const response = await meetings.$meetingCode.selections.put(meetingCode, {
-            selections: filteredSelections
-          });
-          setTimeout(() => {
-            showDefaultToast({
-              message: t('meeting.resultSaved'),
-              duration: 3000,
+      <div className={styles.buttonContainer}>
+        <Button
+          buttonType="ghost"
+          onClick={() => {
+            // 이번 페이지가 없을 때는 미팅 페이지로 이동
+            if (window.history.length === 1) {
+              navigate(`/meetings/${meetingCode}`);
+            } else {
+              window.history.back();
+            }
+          }}
+        >
+          {t('common.cancel')}
+        </Button>
+        <Button
+          buttonType="primary"
+          disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
+          onClick={async () => {
+            // selections 에서 빈배열인 날짜는 제거
+            const filteredSelections = Object.fromEntries(Object.entries(selections).filter(([_, times]) => times.length > 0));
+            const response = await meetings.$meetingCode.selections.put(meetingCode, {
+              selections: filteredSelections
             });
-          }, 500);
-          navigate(`/meetings/${meetingCode}/result`);
-        }}
-      >
-        {t('common.submit')}
-      </Button>
-    </>
+            setTimeout(() => {
+              showDefaultToast({
+                message: t('meeting.resultSaved'),
+                duration: 3000,
+              });
+            }, 500);
+            navigate(`/meetings/${meetingCode}/result`);
+          }}
+        >
+          {t('common.submit')}
+        </Button>
+      </div>
+    </div>
   )
 }

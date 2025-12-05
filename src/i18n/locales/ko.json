@@ -1,6 +1,7 @@
 {
   "common": {
     "previous": "이전",
+    "cancel": "취소",
     "next": "다음",
     "home": "홈",
     "createMeeting": "약속 만들기",
