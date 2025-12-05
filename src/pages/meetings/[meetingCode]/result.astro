@@ -2,20 +2,27 @@
 import Layout from '../../../layouts/Layout.astro';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
 import { meetings } from '../../../services/meetings';
-import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
+import type { get_meetings_$meetingCode_report_response, get_meetings_$meetingCode_response } from '../../../services/meetings';
 import Avatar from '../../../components/Avatar/Avatar';
-import SelectedDates from '../../../components/meetings/SelectedDates';
-import { $me } from '../../../stores/me';
 import ResultButtons from '../../../components/ResultPage/ResultButtons';
+import ResultContent from '../../../components/ResultPage/ResultContent';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
 
 const meetingCode = Astro.params.meetingCode as string;
-let data: get_meetings_$meetingCode_response['data'] | null = null;
+let meetingData: get_meetings_$meetingCode_response['data'] | null = null;
 try {
   const response = await meetings.$meetingCode.get(meetingCode);
-  data = response.data;
+  meetingData = response.data;
+} catch (error) {
+  return Astro.redirect('/404',);
+}
+
+let reportData: get_meetings_$meetingCode_report_response['data'] | null = null;
+try {
+  const response = await meetings.$meetingCode.report.get(meetingCode);
+  reportData = response.data;
 } catch (error) {
   return Astro.redirect('/404',);
 }
@@ -23,20 +30,20 @@ try {
 // SEO 메타데이터 설정
 const siteUrl = Astro.site?.href || new URL(Astro.url.pathname, Astro.url.origin).href;
 const meetingUrl = new URL(Astro.url.pathname, Astro.url.origin).href;
-const meetingTitle = `${data.meeting.title} - Time2Gather`;
-const meetingDescription = data.meeting.description || t('meta.siteDescription');
-const ogImage = data.meeting.host.profileImageUrl || new URL('/favicon.svg', siteUrl).href;
+const meetingTitle = `${meetingData.meeting.title} - Time2Gather`;
+const meetingDescription = reportData?.summaryText || meetingData.meeting.description || t('meta.siteDescription');
+const ogImage = meetingData.meeting.host.profileImageUrl || new URL('/favicon.svg', siteUrl).href;
 
 // 구조화된 데이터 (JSON-LD)
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Event",
-  "name": data.meeting.title,
-  "description": data.meeting.description,
+  "name": meetingData.meeting.title,
+  "description": reportData?.summaryText || meetingData.meeting.description,
   "organizer": {
     "@type": "Person",
-    "name": data.meeting.host.username,
-    "image": data.meeting.host.profileImageUrl
+    "name": meetingData.meeting.host.username,
+    "image": meetingData.meeting.host.profileImageUrl
   },
   "url": meetingUrl,
   "eventStatus": "https://schema.org/EventScheduled",
@@ -51,20 +58,23 @@ const structuredData = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} slot="head" />
   <main>
-    <h1>{data.meeting.title}</h1>
-    <p>{data.meeting.description}</p>
+    <h1>{meetingData.meeting.title}</h1>
+    <p>{meetingData.meeting.description}</p>
     <div class="host">
       <Avatar
         client:only="react"
-        src={data.meeting.host.profileImageUrl}
-        name={data.meeting.host.username}
+        src={meetingData.meeting.host.profileImageUrl}
+        name={meetingData.meeting.host.username}
       />
-      <span>{data.meeting.host.username}</span>
+      <span>{meetingData.meeting.host.username}</span>
+    </div>
+    <div class="report">
+      <ResultContent client:only="react" meetingData={meetingData} reportData={reportData} />
     </div>
     <div class="button-container">
       <ResultButtons
        client:only="react"
-       data={data}
+       data={meetingData}
       />
     </div>
   </main>
@@ -95,19 +105,7 @@ const structuredData = {
     margin: 20px 0 30px;
   }
 
-  .monthly-selection {
-    margin-top: 30px;
-    max-width: 300px;
-  }
-
-  .selected-dates-info {
-    margin-top: 30px;
-    p {
-      margin: 6px 0;
-    }
-  }
-
-  .selected-dates {
+  .report {
     margin-top: 30px;
   }
 

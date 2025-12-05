@@ -186,6 +186,16 @@ const put_meetings_$meetingCode_selections = async (meetingCode: string, body: p
   return response.data;
 }
 
+export type get_meetings_$meetingCode_report_response = success_response<{
+  reportId: number
+  meetingId: number
+  summaryText: string
+}>
+const get_meetings_$meetingCode_report = async (meetingCode: string) => {
+  const response = await api.get<get_meetings_$meetingCode_report_response>(`/v1/meetings/${meetingCode}/report`);
+  return response.data;
+}
+
 export const meetings = {
   post: post_meetings,
   $meetingCode: {
@@ -194,5 +204,8 @@ export const meetings = {
       get: get_meetings_$meetingCode_selections,
       put: put_meetings_$meetingCode_selections,
     },
+    report: {
+      get: get_meetings_$meetingCode_report,
+    }
   }
 }
