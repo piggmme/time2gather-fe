@@ -82,6 +82,8 @@
       "myMeetings": "내가 만든 악속",
       "participatedMeetings": "참여한 약속"
     },
+    "noMeetings": "아직 약속을 만들지 않았어요.",
+    "noParticipatedMeetings": "아직 참여한 약속이 없어요.",
     "myMeetingsDetails": "내가 만든 약속은 총 {count}개에요.",
     "participatedMeetingsDetails": "참여한 약속은 총 {count}개에요."
   },

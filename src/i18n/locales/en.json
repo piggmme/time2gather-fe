@@ -82,7 +82,10 @@
       "myMeetings": "My Meetings",
       "participatedMeetings": "Participated Meetings"
     },
-    "myMeetingsDetails": "You have created {count} meetings."
+    "noMeetings": "You haven't created any meetings yet.",
+    "noParticipatedMeetings": "You haven't participated in any meetings yet.",
+    "myMeetingsDetails": "You have created {count} meetings.",
+    "participatedMeetingsDetails": "You have participated in {count} meetings."
   },
   "404": {
     "title": "Page Not Found",

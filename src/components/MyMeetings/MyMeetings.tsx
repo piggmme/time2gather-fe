@@ -31,42 +31,62 @@ export default function MyMeetings() {
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value="myMeetings">
-          <div className={styles.detail}>
-            {t('my.myMeetingsDetails', { count: me.createdMeetings.length })}
-          </div>
-          <ul className={styles.List}>
-            {
-              me.createdMeetings.map((meeting) => (
-                <li key={meeting.id}>
-                  <a href={`/meetings/${meeting.code}`}>
-                    <span className={styles.title}>
-                      {meeting.title}
-                    </span>
-                    <HiChevronRight size={16} />
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
+          {
+            me.createdMeetings && me.createdMeetings?.length > 0 ? (
+              <>
+                <div className={styles.detail}>
+                  {t('my.myMeetingsDetails', { count: me.createdMeetings.length })}
+                </div>
+                <ul className={styles.List}>
+                  {
+                    me.createdMeetings.map((meeting) => (
+                      <li key={meeting.id}>
+                        <a href={`/meetings/${meeting.code}`}>
+                          <span className={styles.title}>
+                            {meeting.title}
+                          </span>
+                          <HiChevronRight size={16} />
+                        </a>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </>
+            ) : (
+              <div className={styles.detail}>
+                {t('my.noMeetings')}
+              </div>
+            )
+          }
         </Tabs.Content>
         <Tabs.Content value="participatedMeetings">
-          <div className={styles.detail}>
-            {t('my.participatedMeetingsDetails', { count: me.participantedMeetings.length })}
-          </div>
-          <ul className={styles.List}>
-            {
-              me.participantedMeetings.map((meeting) => (
-                <li key={meeting.id}>
-                  <a href={`/meetings/${meeting.code}`}>
-                    <span className={styles.Title}>
-                      {meeting.title}
-                    </span>
-                    <HiChevronRight size={16} />
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
+          {
+            me.participatedMeetings && me.participatedMeetings?.length > 0 ? (
+              <>
+                <div className={styles.detail}>
+                  {t('my.participatedMeetingsDetails', { count: me.participatedMeetings.length })}
+                </div>
+                <ul className={styles.List}>
+                  {
+                    me.participatedMeetings.map((meeting) => (
+                      <li key={meeting.id}>
+                        <a href={`/meetings/${meeting.code}`}>
+                          <span className={styles.Title}>
+                            {meeting.title}
+                          </span>
+                          <HiChevronRight size={16} />
+                        </a>
+                      </li>
+                    ))
+                    }
+                </ul>
+              </>
+            ) : (
+              <div className={styles.detail}>
+                {t('my.noParticipatedMeetings')}
+              </div>
+            )
+          }
         </Tabs.Content>
       </Tabs.Root>
     </>
