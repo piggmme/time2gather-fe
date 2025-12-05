@@ -21,6 +21,8 @@ type DailyGridProps = {
   participantsCount: number;
   initialSelectedTimeSlots?: string[];
   onSelectionsChange?: (selectedTimeSlots: string[]) => void;
+  mode?: 'edit' | 'view';
+  onCellClick?: (date: string, time: string) => void;
 };
 
 export default function DailyGrid({
@@ -30,6 +32,8 @@ export default function DailyGrid({
   participantsCount,
   initialSelectedTimeSlots,
   onSelectionsChange,
+  mode = 'edit',
+  onCellClick,
 }: DailyGridProps) {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([]);
   const [startTimeSlot, setStartTimeSlot] = useState<string | null>(null);
@@ -73,58 +77,78 @@ export default function DailyGrid({
   };
 
   const sensors = useDragSensors();
+  const isEditMode = mode === 'edit';
 
-  // 드래그 중일 때 스크롤 방지
-  useDragScrollPrevention(startTimeSlot !== null, gridWrapperRef);
+  // 드래그 중일 때 스크롤 방지 (편집 모드에서만)
+  useDragScrollPrevention(isEditMode && startTimeSlot !== null, gridWrapperRef);
 
   const draggedTimeSlots = getTimeSlotRange(startTimeSlot, endTimeSlot);
+
+  const handleCellClick = (time: string) => {
+    if (isEditMode) {
+      handleDraggedTimeSlots([time]);
+    } else if (onCellClick) {
+      onCellClick(date.format("YYYY-MM-DD"), time);
+    }
+  };
+
+  const gridContent = (
+    <div className={styles.grid}>
+      {availableTimes.map((time) => {
+        const count = schedule?.[time]?.count || 0;
+        return (
+          <DailyCell
+            key={time}
+            time={time}
+            date={date}
+            isSelected={selectedTimeSlots.includes(time)}
+            isDragged={draggedTimeSlots.includes(time)}
+            count={count}
+            maxCount={participantsCount}
+            mode={mode}
+            onClick={() => handleCellClick(time)}
+          />
+        );
+      })}
+    </div>
+  );
+
+  if (!isEditMode) {
+    return (
+      <div className={styles.gridWrapper} ref={gridWrapperRef}>
+        {gridContent}
+      </div>
+    );
+  }
 
   return (
     <div className={styles.gridWrapper} ref={gridWrapperRef}>
       <DndContext
-      sensors={sensors}
-      onDragStart={(event) => {
-        const timeSlot = event.active?.data?.current?.timeSlot;
-        if (timeSlot !== undefined && availableTimes.includes(timeSlot)) {
-          setStartTimeSlot(timeSlot);
-          setEndTimeSlot(timeSlot);
-        }
-      }}
-      onDragMove={(event) => {
-        const timeSlot = event.over?.data?.current?.timeSlot;
-        if (timeSlot !== undefined && availableTimes.includes(timeSlot)) {
-          setEndTimeSlot(timeSlot);
-        }
-      }}
-      onDragEnd={() => {
-        handleDraggedTimeSlots(getTimeSlotRange(startTimeSlot, endTimeSlot));
-        setStartTimeSlot(null);
-        setEndTimeSlot(null);
-      }}
-      onDragCancel={() => {
-        setStartTimeSlot(null);
-        setEndTimeSlot(null);
-      }}
-    >
-        <div className={styles.grid}>
-          {availableTimes.map((time) => {
-            const count = schedule?.[time]?.count || 0;
-            return (
-              <DailyCell
-                key={time}
-                time={time}
-                date={date}
-                isSelected={selectedTimeSlots.includes(time)}
-                isDragged={draggedTimeSlots.includes(time)}
-                count={count}
-                maxCount={participantsCount}
-                onClick={() => {
-                  handleDraggedTimeSlots([time]);
-                }}
-              />
-            );
-          })}
-        </div>
+        sensors={sensors}
+        onDragStart={(event) => {
+          const timeSlot = event.active?.data?.current?.timeSlot;
+          if (timeSlot !== undefined && availableTimes.includes(timeSlot)) {
+            setStartTimeSlot(timeSlot);
+            setEndTimeSlot(timeSlot);
+          }
+        }}
+        onDragMove={(event) => {
+          const timeSlot = event.over?.data?.current?.timeSlot;
+          if (timeSlot !== undefined && availableTimes.includes(timeSlot)) {
+            setEndTimeSlot(timeSlot);
+          }
+        }}
+        onDragEnd={() => {
+          handleDraggedTimeSlots(getTimeSlotRange(startTimeSlot, endTimeSlot));
+          setStartTimeSlot(null);
+          setEndTimeSlot(null);
+        }}
+        onDragCancel={() => {
+          setStartTimeSlot(null);
+          setEndTimeSlot(null);
+        }}
+      >
+        {gridContent}
       </DndContext>
     </div>
   );

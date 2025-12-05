@@ -60,5 +60,14 @@
     background: $c-purple-light;
     opacity: calc(0.2 + var(--intensity, 0) * 0.6);
   }
+
+  // 뷰어 모드
+  &.viewMode {
+    cursor: pointer;
+
+    &:hover {
+      background: $c-gray-lightest;
+    }
+  }
 }
 

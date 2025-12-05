@@ -19,6 +19,8 @@ type DailyProps = {
   setSelections: Dispatch<SetStateAction<{ [date: string]: string[] }>>;
   schedule?: get_meetings_$meetingCode_response['data']['schedule'];
   participantsCount: number;
+  mode?: 'edit' | 'view';
+  onCellClick?: (date: string, time: string) => void;
 }
 export default function Daily({
   dates,
@@ -28,6 +30,8 @@ export default function Daily({
   setSelections,
   schedule,
   participantsCount,
+  mode = 'edit',
+  onCellClick,
 }: DailyProps) {
   const locale = useStore($locale);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -170,6 +174,8 @@ export default function Daily({
                         [date.format("YYYY-MM-DD")]: selectedTimeSlots,
                       }));
                     }}
+                    mode={mode}
+                    onCellClick={onCellClick}
                   />
                 </div>
               ))

@@ -319,6 +319,10 @@ function CalendarContent({
           setSelections={() => {}}
           schedule={meetingData.schedule}
           participantsCount={meetingData.summary.totalParticipants}
+          mode="view"
+          onCellClick={(date, time) => {
+
+          }}
         />
       </div>
     </Tabs.Content>
