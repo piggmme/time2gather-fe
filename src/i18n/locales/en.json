@@ -89,7 +89,8 @@
   },
   "404": {
     "title": "Page Not Found",
-    "description": "The page you requested does not exist or has been deleted."
+    "description": "The page you requested does not exist or has been deleted.",
+    "homeButton": "Go to Home"
   },
   "meta": {
     "siteTitle": "Time2Gather - Schedule with People",
