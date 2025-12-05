@@ -1,54 +1,5 @@
 @use "../../styles/variables.scss" as *;
 
-.Root {
-  width: 100%;
-}
-
-.List {
-  display: flex;
-  border-bottom: 1px solid $c-gray;
-  margin-bottom: 20px;
-}
-
-.Trigger {
-  all: unset;
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  color: $c-gray-dark;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: $c-black;
-    background-color: $c-gray-lightest;
-  }
-
-  &[data-state="active"] {
-    color: $primary-color;
-    border-bottom-color: $primary-color;
-  }
-
-  &:focus-visible {
-    outline: 2px solid $primary-color;
-    outline-offset: -2px;
-  }
-}
-
-.Content {
-  width: 100%;
-
-
-  &[data-state="inactive"] {
-    display: none;
-  }
-}
-
 .Summary {
   width: 100%;
   display: flex;

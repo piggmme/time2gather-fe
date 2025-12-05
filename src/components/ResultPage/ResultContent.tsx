@@ -1,5 +1,4 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
-import { Tabs } from "radix-ui";
 import type { get_meetings_$meetingCode_response, get_meetings_$meetingCode_report_response } from '../../services/meetings';
 import Daily from '../daily/Daily';
 import Avatar from '../Avatar/Avatar';
@@ -11,6 +10,7 @@ import { $locale } from "../../stores/locale";
 import { HiChevronDown, HiChevronRight, HiX } from "react-icons/hi";
 import { useTranslation } from "../../hooks/useTranslation";
 import { $me } from "../../stores/me";
+import { Tabs } from "../Tabs/Tabs";
 
 export default function ResultContent({
   meetingData,
@@ -160,22 +160,22 @@ export default function ResultContent({
   const defaultValue = reportData?.summaryText ? 'AI 요약' : '요약';
 
   return (
-    <Tabs.Root className={styles.Root} defaultValue={defaultValue}>
-      <Tabs.List className={styles.List} aria-label={t('meeting.result.tabs.summary')}>
+    <Tabs.Root defaultValue={defaultValue}>
+      <Tabs.List aria-label={t('meeting.result.tabs.summary')}>
         {
           reportData?.summaryText && (
-            <Tabs.Trigger className={styles.Trigger} value="AI 요약">
+            <Tabs.Trigger value="AI 요약">
               {t('meeting.result.tabs.aiSummary')}
             </Tabs.Trigger>
           )
         }
-        <Tabs.Trigger className={styles.Trigger} value="요약">
+        <Tabs.Trigger value="요약">
           {t('meeting.result.tabs.summary')}
         </Tabs.Trigger>
-        <Tabs.Trigger className={styles.Trigger} value="달력">
+        <Tabs.Trigger value="달력">
           {t('meeting.result.tabs.calendar')}
         </Tabs.Trigger>
-        <Tabs.Trigger className={styles.Trigger} value="참여자">
+        <Tabs.Trigger value="참여자">
           {t('meeting.result.tabs.participants')} {meetingData.participants.length > 0 ? `(${meetingData.participants.length})` : ''}
         </Tabs.Trigger>
       </Tabs.List>
@@ -208,7 +208,7 @@ type GroupedBestSlot = {
 // AI 요약 탭 컴포넌트
 function AISummaryContent({ summaryText }: { summaryText: string }) {
   return (
-    <Tabs.Content className={styles.Content} value="AI 요약">
+    <Tabs.Content value="AI 요약">
       <div className={styles.Summary}>
         <p className={styles.SummaryText}>{summaryText}</p>
       </div>
@@ -234,7 +234,7 @@ function SummaryContent({
   const { t } = useTranslation();
 
   return (
-    <Tabs.Content className={styles.Content} value="요약">
+    <Tabs.Content value="요약">
       <div className={styles.Summary}>
         <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
         <p className={styles.DetailText}>
@@ -463,7 +463,7 @@ function CalendarContent({
   }, [meetingData.schedule, me]);
 
   return (
-    <Tabs.Content className={styles.Content} value="달력">
+    <Tabs.Content value="달력">
       <div className={styles.Calendar}>
         <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
         <p className={styles.DetailText}>
@@ -499,7 +499,7 @@ function ParticipantsContent({
   const { t } = useTranslation();
 
   return (
-    <Tabs.Content className={styles.Content} value="참여자">
+    <Tabs.Content value="참여자">
       <div className={styles.Participants}>
         <p className={styles.ParticipantsCount}>
           {t('meeting.result.participantsCount', { count: participants.length })}
