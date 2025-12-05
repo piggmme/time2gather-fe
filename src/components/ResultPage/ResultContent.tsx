@@ -18,7 +18,6 @@ export default function ResultContent({
   meetingData: get_meetings_$meetingCode_response['data'];
   reportData: get_meetings_$meetingCode_report_response['data'];
 }) {
-  const locale = useStore($locale);
   const { t } = useTranslation();
   const [expandedSlots, setExpandedSlots] = React.useState<Set<string>>(new Set());
 
@@ -177,20 +176,67 @@ export default function ResultContent({
       </Tabs.List>
 
       {reportData?.summaryText && (
-        <Tabs.Content className={styles.Content} value="AI 요약">
-          <div className={styles.Summary}>
-            <p className={styles.SummaryText}>{reportData?.summaryText}</p>
-          </div>
-        </Tabs.Content>
+        <AISummaryContent summaryText={reportData.summaryText} />
       )}
-      <Tabs.Content className={styles.Content} value="요약">
-        <div className={styles.Summary}>
-          <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
-          <p className={styles.DetailText}>
-            {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-          </p>
-          {groupedBestSlots.length > 0 && (
-            <div className={styles.BestSlots}>
+      <SummaryContent
+        meetingData={meetingData}
+        groupedBestSlots={groupedBestSlots}
+        expandedSlots={expandedSlots}
+        toggleSlot={toggleSlot}
+        getParticipantsForGroup={getParticipantsForGroup}
+      />
+      <CalendarContent
+        meetingData={meetingData}
+        dates={dates}
+        availableTimes={availableTimes}
+      />
+      <ParticipantsContent participants={meetingData.participants} />
+    </Tabs.Root>
+  );
+}
+
+type GroupedBestSlot = {
+  date: string;
+  timeRanges: Array<{ start: string; end: string; count: number; percentage: number }>;
+};
+
+// AI 요약 탭 컴포넌트
+function AISummaryContent({ summaryText }: { summaryText: string }) {
+  return (
+    <Tabs.Content className={styles.Content} value="AI 요약">
+      <div className={styles.Summary}>
+        <p className={styles.SummaryText}>{summaryText}</p>
+      </div>
+    </Tabs.Content>
+  );
+}
+
+// 요약 탭 컴포넌트
+function SummaryContent({
+  meetingData,
+  groupedBestSlots,
+  expandedSlots,
+  toggleSlot,
+  getParticipantsForGroup,
+}: {
+  meetingData: get_meetings_$meetingCode_response['data'];
+  groupedBestSlots: GroupedBestSlot[];
+  expandedSlots: Set<string>;
+  toggleSlot: (groupIndex: number) => void;
+  getParticipantsForGroup: (group: GroupedBestSlot) => typeof meetingData.participants;
+}) {
+  const locale = useStore($locale);
+  const { t } = useTranslation();
+
+  return (
+    <Tabs.Content className={styles.Content} value="요약">
+      <div className={styles.Summary}>
+        <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
+        <p className={styles.DetailText}>
+          {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
+        </p>
+        {groupedBestSlots.length > 0 && (
+          <div className={styles.BestSlots}>
             <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
             <ul className={styles.BestSlotsList}>
               {groupedBestSlots.map((group, groupIndex) => {
@@ -218,11 +264,7 @@ export default function ResultContent({
                         {group.timeRanges[0].count}{t('meeting.result.people')} ({group.timeRanges[0].percentage}%)
                       </span>
                       <span className={styles.BestSlotExpandIcon}>
-                        {
-                          isExpanded
-                          ? <HiChevronDown />
-                          : <HiChevronRight />
-                        }
+                        {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
                       </span>
                     </div>
                     {isExpanded && participants.length > 0 && (
@@ -243,46 +285,73 @@ export default function ResultContent({
                   </li>
                 );
               })}
-              </ul>
-            </div>
-          )}
-        </div>
-      </Tabs.Content>
-      <Tabs.Content className={styles.Content} value="달력">
-        <div className={styles.Calendar}>
-          <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
-          <p className={styles.DetailText}>
-            {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-          </p>
-          <Daily
-            dates={dates}
-            availableTimes={availableTimes}
-            height="600px"
-            selections={{}}
-            setSelections={() => {}}
-            schedule={meetingData.schedule}
-            participantsCount={meetingData.summary.totalParticipants}
-          />
-        </div>
-      </Tabs.Content>
-      <Tabs.Content className={styles.Content} value="참여자">
-        <div className={styles.Participants}>
-          <p className={styles.ParticipantsCount}>
-            {t('meeting.result.participantsCount', { count: meetingData.participants.length })}
-          </p>
-          <ul className={styles.ParticipantsList}>
-            {meetingData.participants.map((participant) => (
-              <li key={participant.userId} className={styles.ParticipantItem}>
-                <Avatar
-                  src={participant.profileImageUrl}
-                  name={participant.username}
-                />
-                <span className={styles.ParticipantName}>{participant.username}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Tabs.Content>
-    </Tabs.Root>
+            </ul>
+          </div>
+        )}
+      </div>
+    </Tabs.Content>
+  );
+}
+
+// 달력 탭 컴포넌트
+function CalendarContent({
+  meetingData,
+  dates,
+  availableTimes,
+}: {
+  meetingData: get_meetings_$meetingCode_response['data'];
+  dates: dayjs.Dayjs[];
+  availableTimes: string[];
+}) {
+  const { t } = useTranslation();
+
+  return (
+    <Tabs.Content className={styles.Content} value="달력">
+      <div className={styles.Calendar}>
+        <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
+        <p className={styles.DetailText}>
+          {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
+        </p>
+        <Daily
+          dates={dates}
+          availableTimes={availableTimes}
+          height="600px"
+          selections={{}}
+          setSelections={() => {}}
+          schedule={meetingData.schedule}
+          participantsCount={meetingData.summary.totalParticipants}
+        />
+      </div>
+    </Tabs.Content>
+  );
+}
+
+// 참여자 탭 컴포넌트
+function ParticipantsContent({
+  participants,
+}: {
+  participants: get_meetings_$meetingCode_response['data']['participants'];
+}) {
+  const { t } = useTranslation();
+
+  return (
+    <Tabs.Content className={styles.Content} value="참여자">
+      <div className={styles.Participants}>
+        <p className={styles.ParticipantsCount}>
+          {t('meeting.result.participantsCount', { count: participants.length })}
+        </p>
+        <ul className={styles.ParticipantsList}>
+          {participants.map((participant) => (
+            <li key={participant.userId} className={styles.ParticipantItem}>
+              <Avatar
+                src={participant.profileImageUrl}
+                name={participant.username}
+              />
+              <span className={styles.ParticipantName}>{participant.username}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Tabs.Content>
   );
 }
