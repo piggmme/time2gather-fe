@@ -9,6 +9,7 @@ import { formatDate } from '../../utils/time';
 import { useStore } from "@nanostores/react";
 import { $locale } from "../../stores/locale";
 import { HiChevronDown, HiChevronRight } from "react-icons/hi";
+import { useTranslation } from "../../hooks/useTranslation";
 
 export default function ResultContent({
   meetingData,
@@ -18,6 +19,7 @@ export default function ResultContent({
   reportData: get_meetings_$meetingCode_report_response['data'];
 }) {
   const locale = useStore($locale);
+  const { t } = useTranslation();
   const [expandedSlots, setExpandedSlots] = React.useState<Set<string>>(new Set());
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
@@ -155,22 +157,22 @@ export default function ResultContent({
 
   return (
     <Tabs.Root className={styles.Root} defaultValue="요약">
-      <Tabs.List className={styles.List} aria-label="결과 보기">
+      <Tabs.List className={styles.List} aria-label={t('meeting.result.tabs.summary')}>
         {
           reportData?.summaryText && (
             <Tabs.Trigger className={styles.Trigger} value="AI 요약">
-              AI 요악
+              {t('meeting.result.tabs.aiSummary')}
             </Tabs.Trigger>
           )
         }
         <Tabs.Trigger className={styles.Trigger} value="요약">
-          요약
+          {t('meeting.result.tabs.summary')}
         </Tabs.Trigger>
         <Tabs.Trigger className={styles.Trigger} value="달력">
-          달력
+          {t('meeting.result.tabs.calendar')}
         </Tabs.Trigger>
         <Tabs.Trigger className={styles.Trigger} value="참여자">
-          참여자 {meetingData.participants.length > 0 ? `(${meetingData.participants.length})` : ''}
+          {t('meeting.result.tabs.participants')} {meetingData.participants.length > 0 ? `(${meetingData.participants.length})` : ''}
         </Tabs.Trigger>
       </Tabs.List>
 
@@ -183,13 +185,13 @@ export default function ResultContent({
       )}
       <Tabs.Content className={styles.Content} value="요약">
         <div className={styles.Summary}>
-          <p className={styles.Title}>약속 요약</p>
+          <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
           <p className={styles.DetailText}>
-            총 {meetingData.summary.totalParticipants}명이 참여했어요!
+            {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
           </p>
           {groupedBestSlots.length > 0 && (
             <div className={styles.BestSlots}>
-            <p className={styles.BestSlotsTitle}>가장 많은 참여자들이 가능한 시간:</p>
+            <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
             <ul className={styles.BestSlotsList}>
               {groupedBestSlots.map((group, groupIndex) => {
                 const isExpanded = expandedSlots.has(`group-${groupIndex}`);
@@ -213,7 +215,7 @@ export default function ResultContent({
                         ))}
                       </span>
                       <span className={styles.BestSlotCount}>
-                        {group.timeRanges[0].count}명 ({group.timeRanges[0].percentage}%)
+                        {group.timeRanges[0].count}{t('meeting.result.people')} ({group.timeRanges[0].percentage}%)
                       </span>
                       <span className={styles.BestSlotExpandIcon}>
                         {
@@ -248,9 +250,9 @@ export default function ResultContent({
       </Tabs.Content>
       <Tabs.Content className={styles.Content} value="달력">
         <div className={styles.Calendar}>
-          <p className={styles.Title}>약속 달력</p>
+          <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
           <p className={styles.DetailText}>
-            총 {meetingData.summary.totalParticipants}명이 참여했어요!
+            {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
           </p>
           <Daily
             dates={dates}
@@ -266,7 +268,7 @@ export default function ResultContent({
       <Tabs.Content className={styles.Content} value="참여자">
         <div className={styles.Participants}>
           <p className={styles.ParticipantsCount}>
-            총 {meetingData.participants.length}명
+            {t('meeting.result.participantsCount', { count: meetingData.participants.length })}
           </p>
           <ul className={styles.ParticipantsList}>
             {meetingData.participants.map((participant) => (

@@ -59,7 +59,21 @@
     "shareMeeting": "Share Meeting",
     "shareSuccess": "The link has been copied.",
     "selectButton": "Select Time",
-    "resultButton": "View Result"
+    "resultButton": "View Result",
+    "result": {
+      "tabs": {
+        "aiSummary": "AI Summary",
+        "summary": "Summary",
+        "calendar": "Calendar",
+        "participants": "Participants"
+      },
+      "summaryTitle": "Meeting Summary",
+      "calendarTitle": "Meeting Calendar",
+      "totalParticipants": "A total of {count} people participated!",
+      "bestSlotsTitle": "Time slots with the most participants:",
+      "participantsCount": "Total {count} people",
+      "people": "people"
+    }
   },
   "404": {
     "title": "Page Not Found",

@@ -59,7 +59,21 @@
     "shareResult": "결과 공유하기",
     "shareSuccess": "링크가 복사되었어요!",
     "selectButton": "시간 선택하러 가기",
-    "resultButton": "결과 보러가기"
+    "resultButton": "결과 보러가기",
+    "result": {
+      "tabs": {
+        "aiSummary": "AI 요약",
+        "summary": "요약",
+        "calendar": "달력",
+        "participants": "참여자"
+      },
+      "summaryTitle": "약속 요약",
+      "calendarTitle": "약속 달력",
+      "totalParticipants": "총 {count}명이 참여했어요!",
+      "bestSlotsTitle": "가장 많은 참여자들이 가능한 시간:",
+      "participantsCount": "총 {count}명",
+      "people": "명"
+    }
   },
   "404": {
     "title": "페이지를 찾을 수 없습니다",
