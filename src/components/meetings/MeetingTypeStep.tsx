@@ -4,13 +4,12 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { useState } from 'react'
 import { navigate } from 'astro:transitions/client'
 import { useSearchParam } from 'react-use'
-
-type MeetingType = 'simple' | 'timeRange'
+import type { post_meetings_body } from '../../services/meetings'
 
 export default function MeetingTypeStep () {
   const { t } = useTranslation()
-  const meetingTypeParam = useSearchParam('meetingType')
-  const [meetingType, setMeetingType] = useState<MeetingType>(meetingTypeParam as MeetingType || 'simple')
+  const meetingTypeParam = useSearchParam('meetingType') as post_meetings_body['selectionType'] || 'ALL_DAY'
+  const [meetingType, setMeetingType] = useState<post_meetings_body['selectionType']>(meetingTypeParam)
 
   return (
     <>
@@ -19,16 +18,16 @@ export default function MeetingTypeStep () {
         <Button
           buttonType='default'
           className={styles.meetingTypeButton}
-          active={meetingType === 'simple'}
-          onClick={() => setMeetingType('simple')}
+          active={meetingType === 'ALL_DAY'}
+          onClick={() => setMeetingType('ALL_DAY')}
         >
           간단하게 만날 날짜만 📅
         </Button>
         <Button
           buttonType='default'
           className={styles.meetingTypeButton}
-          active={meetingType === 'timeRange'}
-          onClick={() => setMeetingType('timeRange')}
+          active={meetingType === 'TIME'}
+          onClick={() => setMeetingType('TIME')}
         >
           만날 날짜와 시간 범위까지 🕒
         </Button>

@@ -21,6 +21,7 @@ export type post_meetings_body = {
   availableDates: {
     [date: string]: string[] | null
   }
+  selectionType: 'ALL_DAY' | 'TIME'
 }
 export type post_meetings_response = success_response<{
   id: number

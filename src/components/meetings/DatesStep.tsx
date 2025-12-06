@@ -5,13 +5,13 @@ import Button from '../Button/Button'
 import useSelectedDates from './useSelectedDates'
 import { useSearchParam } from 'react-use'
 import { useTranslation } from '../../hooks/useTranslation'
-import { meetings } from '../../services/meetings'
+import { meetings, type post_meetings_body } from '../../services/meetings'
 import { showDefaultToast } from '../../stores/toast'
 
 export default function DatesStep () {
   const [selectedDates, setSelectedDates] = useSelectedDates()
   const title = useSearchParam('title')
-  const meetingTypeParam = useSearchParam('meetingType')
+  const meetingTypeParam = useSearchParam('meetingType') as post_meetings_body['selectionType'] || 'ALL_DAY'
   const { t } = useTranslation()
 
   return (
@@ -29,7 +29,7 @@ export default function DatesStep () {
         >
           {t('common.previous')}
         </Button>
-        {meetingTypeParam === 'timeRange' && (
+        {meetingTypeParam === 'TIME' && (
           <Button
             buttonType='primary'
             disabled={selectedDates.length === 0}
@@ -44,7 +44,7 @@ export default function DatesStep () {
             {t('common.next')}
           </Button>
         )}
-        {meetingTypeParam === 'simple' && (
+        {meetingTypeParam === 'ALL_DAY' && (
           <Button
             buttonType='primary'
             disabled={selectedDates.length === 0}
@@ -58,6 +58,7 @@ export default function DatesStep () {
                   acc[d.format('YYYY-MM-DD')] = null
                   return acc
                 }, {} as { [date: string]: null }),
+                selectionType: 'ALL_DAY',
               })
               if (response.success) {
                 navigate(`/meetings/${response.data.meetingCode}`)

@@ -7,7 +7,7 @@ import Button from '../Button/Button'
 import { navigate } from 'astro:transitions/client'
 import useSelectedDates from './useSelectedDates'
 import { Select } from '../Select/Select'
-import { meetings } from '../../services/meetings'
+import { meetings, type post_meetings_body } from '../../services/meetings'
 import { useSearchParam } from 'react-use'
 import { useTranslation } from '../../hooks/useTranslation'
 import { useStore } from '@nanostores/react'
@@ -65,10 +65,10 @@ export default function TimeRangeStep () {
     }
   }, [startTime12, startAmPm, endAmPm])
 
-  const meetingTypeParam = useSearchParam('meetingType')
+  const meetingTypeParam = useSearchParam('meetingType') as post_meetings_body['selectionType']
   const datesParam = useSearchParam('dates')
   useEffect(function redirectToDatesStep () {
-    if (meetingTypeParam === 'simple') {
+    if (meetingTypeParam === 'ALL_DAY') {
       const newUrl = `/meetings/create?step=dates&meetingType=${meetingTypeParam}&title=${title}&dates=${datesParam}`
       navigate(newUrl)
     }
@@ -124,6 +124,7 @@ export default function TimeRangeStep () {
             const response = await meetings.post({
               title: title as string,
               timezone: 'Asia/Seoul',
+              selectionType: 'TIME',
               availableDates: selectedDates.reduce((acc, d) => {
                 const startTime24 = convertTo24Hour(startTime12, startAmPm)
                 const endTime24 = convertTo24Hour(endTime12, endAmPm)
