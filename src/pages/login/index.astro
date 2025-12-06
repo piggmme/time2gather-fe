@@ -1,9 +1,9 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import KakaoLogin from '../../components/Login/KakaoLogin';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n';
+import Layout from '../../layouts/Layout.astro'
+import KakaoLogin from '../../components/Login/KakaoLogin'
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
 const t = getTranslations(locale);
 ---
 
@@ -11,7 +11,7 @@ const t = getTranslations(locale);
   <main>
     <h1>{t('login.title')}</h1>
     <p>{t('login.description')}</p>
-    <KakaoLogin client:only="react" />
+    <KakaoLogin client:only='react' />
   </main>
 </Layout>
 

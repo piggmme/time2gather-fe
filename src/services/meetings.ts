@@ -1,5 +1,5 @@
-import api from "../utils/api";
-import type { success_response } from "./type";
+import api from '../utils/api'
+import type { success_response } from './type'
 
 /**
  * @description Create a new meeting
@@ -15,8 +15,8 @@ import type { success_response } from "./type";
  * }
  */
 export type post_meetings_body = {
-  title: string;
-  description?: string;
+  title: string
+  description?: string
   timezone: string
   availableDates: {
     [date: string]: string[]
@@ -28,13 +28,13 @@ export type post_meetings_response = success_response<{
   url: string
 }>
 const post_meetings = async (body: post_meetings_body) => {
-  const response = await api.post<post_meetings_response>('/v1/meetings', body);
-  return response.data;
-};
+  const response = await api.post<post_meetings_response>('/v1/meetings', body)
+  return response.data
+}
 
 type User = {
-  userId: number,
-  username: string,
+  userId: number
+  username: string
   profileImageUrl: string
 }
 /**
@@ -118,16 +118,16 @@ export type get_meetings_$meetingCode_response = success_response<{
     title: string
     description?: string
     host: {
-        id: number
-        username: string
-        profileImageUrl: string
+      id: number
+      username: string
+      profileImageUrl: string
     }
     timezone: string
     availableDates: {
-        [date: string]: string[]
+      [date: string]: string[]
     }
   }
-  participants: User[],
+  participants: User[]
   schedule: {
     [date: string]: {
       [time: string]: {
@@ -137,20 +137,19 @@ export type get_meetings_$meetingCode_response = success_response<{
     }
   }
   summary: {
-    totalParticipants: number,
+    totalParticipants: number
     bestSlots: {
-      date: string,
-      time: string,
-      count: number,
+      date: string
+      time: string
+      count: number
       percentage: number
     }[]
   }
 }>
 const get_meetings_$meetingCode = async (meetingCode: string) => {
-  const response = await api.get<get_meetings_$meetingCode_response>(`/v1/meetings/${meetingCode}`);
-  return response.data;
-};
-
+  const response = await api.get<get_meetings_$meetingCode_response>(`/v1/meetings/${meetingCode}`)
+  return response.data
+}
 
 /**
  * @description Get selections for a meeting
@@ -172,8 +171,8 @@ export type get_meetings_$meetingCode_selections_response = success_response<{
   }
 }>
 const get_meetings_$meetingCode_selections = async (meetingCode: string) => {
-  const response = await api.get<get_meetings_$meetingCode_selections_response>(`/v1/meetings/${meetingCode}/selections`);
-  return response.data;
+  const response = await api.get<get_meetings_$meetingCode_selections_response>(`/v1/meetings/${meetingCode}/selections`)
+  return response.data
 }
 
 export type put_meetings_$meetingCode_selections_body = {
@@ -182,8 +181,8 @@ export type put_meetings_$meetingCode_selections_body = {
   }
 }
 const put_meetings_$meetingCode_selections = async (meetingCode: string, body: put_meetings_$meetingCode_selections_body) => {
-  const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/selections`, body);
-  return response.data;
+  const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/selections`, body)
+  return response.data
 }
 
 export type get_meetings_$meetingCode_report_response = success_response<{
@@ -192,8 +191,8 @@ export type get_meetings_$meetingCode_report_response = success_response<{
   summaryText: string
 }>
 const get_meetings_$meetingCode_report = async (meetingCode: string) => {
-  const response = await api.get<get_meetings_$meetingCode_report_response>(`/v1/meetings/${meetingCode}/report`);
-  return response.data;
+  const response = await api.get<get_meetings_$meetingCode_report_response>(`/v1/meetings/${meetingCode}/report`)
+  return response.data
 }
 
 export const meetings = {
@@ -206,6 +205,6 @@ export const meetings = {
     },
     report: {
       get: get_meetings_$meetingCode_report,
-    }
-  }
+    },
+  },
 }

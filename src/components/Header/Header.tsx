@@ -1,28 +1,30 @@
-import styles from "./Header.module.scss";
-import { useState } from "react";
-import calendarIcon from "../../assets/calendar.svg?url";
-import { GlobeIcon, HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon, RocketIcon } from "@radix-ui/react-icons";
-import { VisuallyHidden } from "radix-ui";
-import { useTranslation } from "../../hooks/useTranslation";
-import { setLocale } from "../../stores/locale";
-import { type Locale } from "../../i18n";
+import styles from './Header.module.scss'
+import { useState } from 'react'
+import calendarIcon from '../../assets/calendar.svg?url'
+import {
+  GlobeIcon, HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon, RocketIcon,
+} from '@radix-ui/react-icons'
+import { VisuallyHidden } from 'radix-ui'
+import { useTranslation } from '../../hooks/useTranslation'
+import { setLocale } from '../../stores/locale'
+import { type Locale } from '../../i18n'
 
-export default function Header() {
+export default function Header () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { t, locale } = useTranslation();
+  const { t, locale } = useTranslation()
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
 
   const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+    setIsMobileMenuOpen(false)
+  }
 
   const handleLocaleChange = (newLocale: Locale) => {
-    setLocale(newLocale);
-    window.location.reload();
-  };
+    setLocale(newLocale)
+    window.location.reload()
+  }
 
   return (
     <>
@@ -42,40 +44,40 @@ export default function Header() {
         <nav className={styles.desktopNav}>
           <div className={styles.desktopNavContent}>
             <a
-              href="/"
+              href='/'
               className={styles.desktopNavLogo}
             >
               <img
                 src={calendarIcon}
-                alt="Time2Gather"
+                alt='Time2Gather'
                 className={styles.desktopLogo}
               />
               <VisuallyHidden.Root>{t('common.home')}</VisuallyHidden.Root>
             </a>
             <a
-              href="/meetings/create"
+              href='/meetings/create'
               className={styles.desktopNavLink}
             >
               <PlusIcon width={27} height={27} />
               <VisuallyHidden.Root>{t('common.createMeeting')}</VisuallyHidden.Root>
             </a>
             <a
-              href="/meetings/search"
+              href='/meetings/search'
               className={styles.desktopNavLink}
             >
               <MagnifyingGlassIcon width={27} height={27} />
               <VisuallyHidden.Root>{t('common.searchMeeting')}</VisuallyHidden.Root>
             </a>
             <a
-              href="/my"
+              href='/my'
               className={styles.desktopNavLink}
             >
               <PersonIcon width={27} height={27} />
               <VisuallyHidden.Root>{t('common.myMeetings')}</VisuallyHidden.Root>
             </a>
             <a
-              href="https://github.com/piggmme/time2gather-fe"
-              target="_blank"
+              href='https://github.com/piggmme/time2gather-fe'
+              target='_blank'
               className={styles.desktopNavAboutUs}
             >
               <RocketIcon width={27} height={27} />
@@ -84,7 +86,7 @@ export default function Header() {
             <button
               className={styles.localeButton}
               onClick={() => handleLocaleChange(locale === 'ko' ? 'en' : 'ko')}
-              aria-label="한국어"
+              aria-label='한국어'
             >
               {locale === 'ko' ? 'A' : '가'}
             </button>
@@ -95,7 +97,7 @@ export default function Header() {
         <nav className={`${styles.mobileNav} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
           <div className={styles.mobileNavContent}>
             <a
-              href="/"
+              href='/'
               className={styles.mobileTitle}
               onClick={closeMobileMenu}
             >
@@ -104,21 +106,21 @@ export default function Header() {
               </span>
             </a>
             <a
-              href="/meetings/create"
+              href='/meetings/create'
               className={styles.mobileNavLink}
             >
               <PlusIcon width={27} height={27} />
               <span>{t('common.createMeeting')}</span>
             </a>
             <a
-              href="/meetings/search"
+              href='/meetings/search'
               className={styles.mobileNavLink}
             >
               <MagnifyingGlassIcon width={27} height={27} />
               <span>{t('common.searchMeeting')}</span>
             </a>
             <a
-              href="/my"
+              href='/my'
               className={styles.mobileNavLink}
             >
               <PersonIcon width={27} height={27} />
@@ -128,14 +130,14 @@ export default function Header() {
               <button
                 className={styles.mobileNavBottomItem}
                 onClick={() => handleLocaleChange(locale === 'ko' ? 'en' : 'ko')}
-                aria-label="한국어"
+                aria-label='한국어'
               >
                 <GlobeIcon width={27} height={27} />
                 <span>{locale === 'ko' ? 'English' : '한국어'}</span>
               </button>
               <a
-                href="https://github.com/piggmme/time2gather-fe"
-                target="_blank"
+                href='https://github.com/piggmme/time2gather-fe'
+                target='_blank'
                 className={styles.mobileNavBottomItem}
               >
                 <RocketIcon width={27} height={27} />

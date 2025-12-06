@@ -1,15 +1,15 @@
-import Monthly from "../Monthly/Monthly";
-import styles from "./CreateMeeting.module.scss";
+import Monthly from '../Monthly/Monthly'
+import styles from './CreateMeeting.module.scss'
 import { navigate } from 'astro:transitions/client'
-import Button from "../Button/Button";
-import useSelectedDates from "./useSelectedDates";
-import { useSearchParam } from "react-use";
-import { useTranslation } from "../../hooks/useTranslation";
+import Button from '../Button/Button'
+import useSelectedDates from './useSelectedDates'
+import { useSearchParam } from 'react-use'
+import { useTranslation } from '../../hooks/useTranslation'
 
-export default function DatesStep() {
+export default function DatesStep () {
   const [selectedDates, setSelectedDates] = useSelectedDates()
-  const title = useSearchParam('title');
-  const { t } = useTranslation();
+  const title = useSearchParam('title')
+  const { t } = useTranslation()
 
   return (
     <>
@@ -19,9 +19,9 @@ export default function DatesStep() {
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          buttonType="ghost"
+          buttonType='ghost'
           onClick={() => {
-            navigate(`/meetings/create?step=title&title=${title}`);
+            navigate(`/meetings/create?step=title&title=${title}`)
           }}
         >
           {t('common.previous')}
@@ -30,17 +30,16 @@ export default function DatesStep() {
           buttonType='primary'
           disabled={selectedDates.length === 0}
           onClick={() => {
-            if (selectedDates.length === 0) return;
+            if (selectedDates.length === 0) return
 
-            const dateStrings = selectedDates.map((date) => date.format("YYYY-MM-DD"));
-            const newUrl = `/meetings/create?step=timeRange&dates=${dateStrings.join(",")}&title=${title}`;
-            navigate(newUrl);
+            const dateStrings = selectedDates.map(date => date.format('YYYY-MM-DD'))
+            const newUrl = `/meetings/create?step=timeRange&dates=${dateStrings.join(',')}&title=${title}`
+            navigate(newUrl)
           }}
         >
           {t('common.next')}
         </Button>
       </div>
     </>
-  );
+  )
 }
-

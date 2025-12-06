@@ -1,18 +1,18 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
-import MyMeetings from '../components/MyMeetings/MyMeetings';
-import RequireAuth from '../components/RequireAuth';
+import Layout from '../layouts/Layout.astro'
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n'
+import MyMeetings from '../components/MyMeetings/MyMeetings'
+import RequireAuth from '../components/RequireAuth'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
 const t = getTranslations(locale);
 ---
 
 <Layout>
-  <RequireAuth client:only="react" />
+  <RequireAuth client:only='react' />
   <main>
     <h1>{t('my.title')}</h1>
-    <MyMeetings client:only="react" />
+    <MyMeetings client:only='react' />
   </main>
 </Layout>
 

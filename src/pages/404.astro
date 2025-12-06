@@ -1,19 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
-import Button from '../components/Button/Button';
+import Layout from '../layouts/Layout.astro'
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n'
+import Button from '../components/Button/Button'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
-const t = getTranslations(locale);
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
+const t = getTranslations(locale)
 
-const title = t('404.title');
+const title = t('404.title')
 const description = t('404.description');
 ---
 <Layout>
   <main>
     <h1>{title} 😭</h1>
     <p>{description}</p>
-    <Button as="a" href="/" buttonType="ghost">
+    <Button as='a' href='/' buttonType='ghost'>
       {t('404.homeButton')}
     </Button>
   </main>

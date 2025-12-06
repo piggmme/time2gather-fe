@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
-import { useSearchParam } from "react-use";
-import dayjs from "dayjs";
+import { useEffect, useState } from 'react'
+import { useSearchParam } from 'react-use'
+import dayjs from 'dayjs'
 
-export default function useSelectedDates() {
-  const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([]);
-  const datesParam = useSearchParam("dates");
+export default function useSelectedDates () {
+  const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
+  const datesParam = useSearchParam('dates')
 
   useEffect(() => {
     if (datesParam) {
-      const dateStrings = datesParam.split(",");
+      const dateStrings = datesParam.split(',')
       const parsedDates = dateStrings
-        .map((dateStr) => dayjs(dateStr.trim()))
-        .filter((date) => date.isValid());
-      setSelectedDates(parsedDates);
+        .map(dateStr => dayjs(dateStr.trim()))
+        .filter(date => date.isValid())
+      setSelectedDates(parsedDates)
     } else {
-      setSelectedDates([]);
+      setSelectedDates([])
     }
-  }, [datesParam]);
+  }, [datesParam])
 
   return ([selectedDates, setSelectedDates]) as const
 }

@@ -1,28 +1,28 @@
-import { useStore } from "@nanostores/react";
-import { $me } from "../../stores/me";
-import type { get_meetings_$meetingCode_response } from "../../services/meetings";
-import Button from "../Button/Button";
-import { useTranslation } from "../../hooks/useTranslation";
-import { showDefaultToast } from "../../stores/toast";
+import { useStore } from '@nanostores/react'
+import { $me } from '../../stores/me'
+import type { get_meetings_$meetingCode_response } from '../../services/meetings'
+import Button from '../Button/Button'
+import { useTranslation } from '../../hooks/useTranslation'
+import { showDefaultToast } from '../../stores/toast'
 
-export default function ResultButtons(
+export default function ResultButtons (
   { data }:
-  { data: get_meetings_$meetingCode_response['data'] }
+  { data: get_meetings_$meetingCode_response['data'] },
 ) {
-  const me = useStore($me);
-  const didIParticipate = data.participants.some((participant) => participant.userId === me?.userId);
-  const { t } = useTranslation();
+  const me = useStore($me)
+  const didIParticipate = data.participants.some(participant => participant.userId === me?.userId)
+  const { t } = useTranslation()
 
   return (
     <>
       <Button
-        buttonType="primary"
+        buttonType='primary'
         onClick={() => {
-          navigator.clipboard.writeText(window.location.href);
+          navigator.clipboard.writeText(window.location.href)
           showDefaultToast({
             message: t('meeting.shareSuccess'),
             duration: 3000,
-          });
+          })
         }}
       >
         {t('meeting.shareResult')}
@@ -30,7 +30,7 @@ export default function ResultButtons(
       <Button
         as='a'
         href={`/meetings/${data.meeting.code}/select`}
-        buttonType="ghost"
+        buttonType='ghost'
       >
         {didIParticipate ? t('meeting.modifyButton') : t('meeting.selectButton')}
       </Button>

@@ -1,11 +1,11 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n';
-import MyMeetings from '../../components/MyMeetings/MyMeetings';
-import RequireAuth from '../../components/RequireAuth';
-import SearchMeeting from '../../components/SearchMeeting';
+import Layout from '../../layouts/Layout.astro'
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n'
+import MyMeetings from '../../components/MyMeetings/MyMeetings'
+import RequireAuth from '../../components/RequireAuth'
+import SearchMeeting from '../../components/SearchMeeting'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
 const t = getTranslations(locale);
 ---
 
@@ -13,8 +13,8 @@ const t = getTranslations(locale);
   <main>
     <h1>약속을 찾아봐요 🔍</h1>
     <p>약속 코드를 입력해 주세요.</p>
-    <div class="search-meeting">
-      <SearchMeeting client:only="react" />
+    <div class='search-meeting'>
+      <SearchMeeting client:only='react' />
     </div>
   </main>
 </Layout>

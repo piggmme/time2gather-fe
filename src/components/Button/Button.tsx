@@ -1,53 +1,53 @@
-import { useState } from 'react';
-import styles from './Button.module.scss';
+import { useState } from 'react'
+import styles from './Button.module.scss'
 
 type ButtonType = 'primary' | 'kakao' | 'default' | 'ghost'
 
 type ButtonProps<T extends 'button' | 'a' = 'button'> = {
-  as?: T;
-  buttonType?: ButtonType;
-  className?: string;
-} & (T extends 'a' 
+  as?: T
+  buttonType?: ButtonType
+  className?: string
+} & (T extends 'a'
   ? React.AnchorHTMLAttributes<HTMLAnchorElement>
-  : React.ButtonHTMLAttributes<HTMLButtonElement>);
+  : React.ButtonHTMLAttributes<HTMLButtonElement>)
 
-export default function Button<T extends 'button' | 'a' = 'button'>(
-  { className, buttonType = 'default', as = 'button' as T, ...rest }: ButtonProps<T>
+export default function Button<T extends 'button' | 'a' = 'button'> (
+  { className, buttonType = 'default', as = 'button' as T, ...rest }: ButtonProps<T>,
 ) {
-  const [isLoading, setIsLoading] = useState(false);
-  const classNames = `${styles.button} ${styles[buttonType]} ${className || ''}`.trim();
+  const [isLoading, setIsLoading] = useState(false)
+  const classNames = `${styles.button} ${styles[buttonType]} ${className || ''}`.trim()
 
   if (as === 'a') {
     return (
       <a className={classNames} {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)} />
-    );
+    )
   }
 
-  const buttonProps = rest as React.ButtonHTMLAttributes<HTMLButtonElement>;
-  const { onClick, disabled, ...otherButtonProps } = buttonProps;
+  const buttonProps = rest as React.ButtonHTMLAttributes<HTMLButtonElement>
+  const { onClick, disabled, ...otherButtonProps } = buttonProps
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!onClick || disabled || isLoading) {
-      return;
+      return
     }
 
-    const result = onClick(e);
+    const result = onClick(e)
 
     // onClick이 Promise를 반환하는 경우 (void가 아닌 경우만 체크)
     if (result !== undefined && result !== null && typeof result === 'object' && 'then' in result && typeof (result as any).then === 'function') {
-      setIsLoading(true);
+      setIsLoading(true)
       try {
-        await result;
+        await result
       } catch (error) {
         // 에러는 상위로 전파
-        throw error;
+        throw error
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     }
-  };
+  }
 
-  const isDisabled = disabled || isLoading;
+  const isDisabled = disabled || isLoading
 
   return (
     <button
@@ -56,5 +56,5 @@ export default function Button<T extends 'button' | 'a' = 'button'>(
       disabled={isDisabled}
       {...otherButtonProps}
     />
-  );
+  )
 }

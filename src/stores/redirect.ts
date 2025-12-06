@@ -6,5 +6,5 @@ export const $redirect = persistentAtom<string>(
   {
     encode: JSON.stringify,
     decode: JSON.parse,
-  }
-);
+  },
+)
