@@ -53,15 +53,23 @@ type MonthlyProps
     setDates: (dates: dayjs.Dayjs[]) => void
     mode?: 'edit'
     onDateClick?: (date: dayjs.Dayjs) => void
+    availableDates?: dayjs.Dayjs[]
   }
   | {
     dates?: dayjs.Dayjs[]
     setDates?: never
     mode: 'view'
     onDateClick?: (date: dayjs.Dayjs) => void
+    availableDates?: dayjs.Dayjs[]
   }
 
-export default function Monthly ({ dates, setDates, mode = 'edit', onDateClick }: MonthlyProps) {
+export default function Monthly ({
+  dates,
+  setDates,
+  mode = 'edit',
+  onDateClick,
+  availableDates,
+}: MonthlyProps) {
   const isEditMode = mode === 'edit'
   const locale = useStore($locale)
   const [currentDate, setCurrentDate] = useState(dayjs())
@@ -118,6 +126,7 @@ export default function Monthly ({ dates, setDates, mode = 'edit', onDateClick }
         currentMonth={currentDate.month()}
         mode={mode}
         onDateClick={onDateClick}
+        availableDates={availableDates}
       />
     </div>
   )

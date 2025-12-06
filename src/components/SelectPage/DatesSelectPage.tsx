@@ -20,7 +20,6 @@ export default function DatesSelectPage (
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
 
   const dates = Object.keys(data.meeting.availableDates)
-  const dateList = dates.map(date => dayjs(date)).sort((a, b) => a.diff(b))
 
   return (
     <div>
@@ -33,9 +32,10 @@ export default function DatesSelectPage (
         ref={containerRef}
       >
         <Monthly
-          dates={dateList}
           mode='edit'
+          dates={selectedDates}
           setDates={setSelectedDates}
+          availableDates={Object.keys(data.meeting.availableDates).map(date => dayjs(date))}
         />
       </div>
       <div className={styles.buttonContainer}>
@@ -54,21 +54,24 @@ export default function DatesSelectPage (
         </Button>
         <Button
           buttonType='primary'
-          // disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
-          // onClick={async () => {
-          //   // selections 에서 빈배열인 날짜는 제거
-          //   const filteredSelections = Object.fromEntries(Object.entries(selections).filter(([_, times]) => times.length > 0))
-          //   const response = await meetings.$meetingCode.selections.put(meetingCode, {
-          //     selections: filteredSelections,
-          //   })
-          //   setTimeout(() => {
-          //     showDefaultToast({
-          //       message: t('meeting.resultSaved'),
-          //       duration: 3000,
-          //     })
-          //   }, 500)
-          //   navigate(`/meetings/${meetingCode}/result`)
-          // }}
+          disabled={selectedDates.length === 0}
+          onClick={async () => {
+            // selections 에서 빈배열인 날짜는 제거
+            await meetings.$meetingCode.selections.put(meetingCode, {
+              selections: selectedDates.map(date => ({
+                date: date.format('YYYY-MM-DD'),
+                type: 'ALL_DAY',
+                times: [],
+              })),
+            })
+            setTimeout(() => {
+              showDefaultToast({
+                message: t('meeting.resultSaved'),
+                duration: 3000,
+              })
+            }, 500)
+            navigate(`/meetings/${meetingCode}/result`)
+          }}
         >
           {t('common.submit')}
         </Button>

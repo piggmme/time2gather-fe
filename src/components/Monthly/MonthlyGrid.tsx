@@ -39,6 +39,7 @@ export default function MonthlyGrid ({
   currentMonth,
   mode = 'edit',
   onDateClick,
+  availableDates,
 }: {
   monthDays: dayjs.Dayjs[]
   dates: dayjs.Dayjs[]
@@ -47,6 +48,7 @@ export default function MonthlyGrid ({
   currentMonth: number
   mode?: 'edit' | 'view'
   onDateClick?: (date: dayjs.Dayjs) => void
+  availableDates?: dayjs.Dayjs[]
 }) {
   const locale = useStore($locale)
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null)
@@ -120,7 +122,19 @@ export default function MonthlyGrid ({
         {monthDays.map((day: dayjs.Dayjs) => {
           const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth
           const today = dayjs()
-          const isDisabled = isEditMode && day.isBefore(today, 'day')
+
+          // availableDates가 제공되면 해당 날짜 목록에 포함된 날짜만 활성화
+          // availableDates가 없으면 기존 로직 (과거 날짜만 disabled)
+          let isDisabled = false
+          if (isEditMode) {
+            if (availableDates) {
+              // availableDates에 포함되지 않은 날짜는 disabled
+              isDisabled = !availableDates.some(availableDate => availableDate.isSame(day, 'day'))
+            } else {
+              // 기존 로직: 과거 날짜만 disabled
+              isDisabled = day.isBefore(today, 'day')
+            }
+          }
 
           return (
             <MonthlyCell
@@ -159,22 +173,38 @@ export default function MonthlyGrid ({
       sensors={sensors}
       onDragStart={(event) => {
         const date = event.active?.data?.current?.date
+        if (!date) return
+
         const today = dayjs()
-        if (date && !date.isBefore(today, 'day')) {
+        const isDateAvailable = availableDates
+          ? availableDates.some(availableDate => availableDate.isSame(date, 'day'))
+          : !date.isBefore(today, 'day')
+
+        if (isDateAvailable) {
           setStartDate(date)
           setEndDate(date)
         }
       }}
       onDragMove={(event) => {
         const date = event.over?.data?.current?.date
+        if (!date) return
+
         const today = dayjs()
-        if (date && !date.isBefore(today, 'day')) {
+        const isDateAvailable = availableDates
+          ? availableDates.some(availableDate => availableDate.isSame(date, 'day'))
+          : !date.isBefore(today, 'day')
+
+        if (isDateAvailable) {
           setEndDate(date)
         }
       }}
       onDragEnd={() => {
         const today = dayjs()
-        const validDates = getDateRange(startDate, endDate).filter(d => !d.isBefore(today, 'day'))
+        const dateRange = getDateRange(startDate, endDate)
+        const validDates = availableDates
+          ? dateRange.filter(d => availableDates.some(availableDate => availableDate.isSame(d, 'day')))
+          : dateRange.filter(d => !d.isBefore(today, 'day'))
+
         if (validDates.length > 0) {
           handleDragedDates(validDates)
         }

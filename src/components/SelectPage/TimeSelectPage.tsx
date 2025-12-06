@@ -113,9 +113,12 @@ export default function TimeSelectPage (
           disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
           onClick={async () => {
             // selections 에서 빈배열인 날짜는 제거
-            const filteredSelections = Object.fromEntries(Object.entries(selections).filter(([_, times]) => times.length > 0))
-            const response = await meetings.$meetingCode.selections.put(meetingCode, {
-              selections: filteredSelections,
+            await meetings.$meetingCode.selections.put(meetingCode, {
+              selections: Object.entries(selections).filter(([_, times]) => times.length > 0).map(([date, times]) => ({
+                date,
+                type: 'TIME',
+                times,
+              })),
             })
             setTimeout(() => {
               showDefaultToast({

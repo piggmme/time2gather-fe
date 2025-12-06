@@ -179,8 +179,10 @@ const get_meetings_$meetingCode_selections = async (meetingCode: string) => {
 
 export type put_meetings_$meetingCode_selections_body = {
   selections: {
-    [date: string]: string[]
-  }
+    date: string
+    type: 'ALL_DAY' | 'TIME'
+    times: string[]
+  }[]
 }
 const put_meetings_$meetingCode_selections = async (meetingCode: string, body: put_meetings_$meetingCode_selections_body) => {
   const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/selections`, body)
