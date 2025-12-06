@@ -52,14 +52,16 @@
     },
     "participantsEmpty": "아직 참여자가 없어요.",
     "participantsCount": "현재까지 {count}명이 참여했어요!",
-    "selectedDates": "{count}개의 날짜에서 가능한 날짜와 시간대를 선택해 주세요.",
+    "selectedDates": "{count}개의 날짜중에서 가능한 날짜를 선택해 주세요.",
+    "selectedDatesAndTimes": "{count}개의 날짜에서 가능한 날짜와 시간대를 선택해 주세요.",
     "resultSaved": "결과가 저장되었어요!",
     "modifyButton": "시간 수정하러 가기",
     "participate": "약속 참여하기",
     "shareMeeting": "약속 공유하기",
     "shareResult": "결과 공유하기",
     "shareSuccess": "링크가 복사되었어요!",
-    "selectButton": "시간 선택하러 가기",
+    "selectButton": "날짜 선택하러 가기",
+    "selectTimeButton": "날짜와 시간 선택하러 가기",
     "resultButton": "결과 보러가기",
     "result": {
       "tabs": {

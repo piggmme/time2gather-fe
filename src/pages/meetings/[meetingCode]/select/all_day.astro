@@ -1,10 +1,10 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
-import { meetings } from '../../../services/meetings';
-import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
-import SelectPage from '../../../components/SelectPage/SelectPage';
-import RequireAuth from '../../../components/RequireAuth';
+import Layout from '../../../../layouts/Layout.astro';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../../i18n';
+import { meetings } from '../../../../services/meetings';
+import type { get_meetings_$meetingCode_response } from '../../../../services/meetings';
+import DatesSelectPage from '../../../../components/SelectPage/DatesSelectPage';
+import RequireAuth from '../../../../components/RequireAuth';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -22,7 +22,7 @@ try {
   <RequireAuth client:only="react" />
   <main>
     <h1>{data.meeting.title}</h1>
-    <SelectPage
+    <DatesSelectPage
       client:only="react"
       meetingCode={meetingCode}
       data={data}
@@ -31,13 +31,13 @@ try {
 </Layout>
 
 <style lang="scss">
-  @use "../../../styles/variables.scss" as *;
+  @use "../../../../styles/variables.scss" as *;
   p {
     word-break: keep-all;
     color: $c-black;
   }
   main {
-    width: 100%;
+    max-width: 600px;
     margin: 0 auto;
   }
 </style>

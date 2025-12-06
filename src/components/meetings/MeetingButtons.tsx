@@ -19,10 +19,12 @@ export default function MeetingButtons (
         && (
           <Button
             as='a'
-            href={`/meetings/${data.meeting.code}/select`}
+            href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`}
             buttonType='primary'
           >
-            {t('meeting.selectButton')}
+            {data.meeting.selectionType === 'ALL_DAY'
+              ? t('meeting.selectButton')
+              : t('meeting.selectTimeButton')}
           </Button>
         )
       }

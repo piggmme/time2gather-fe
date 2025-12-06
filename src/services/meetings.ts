@@ -127,6 +127,7 @@ export type get_meetings_$meetingCode_response = success_response<{
     availableDates: {
       [date: string]: string[]
     }
+    selectionType: 'ALL_DAY' | 'TIME'
   }
   participants: User[]
   schedule: {

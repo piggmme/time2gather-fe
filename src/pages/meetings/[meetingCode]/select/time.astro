@@ -1,0 +1,43 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../../i18n';
+import { meetings } from '../../../../services/meetings';
+import type { get_meetings_$meetingCode_response } from '../../../../services/meetings';
+import TimeSelectPage from '../../../../components/SelectPage/TimeSelectPage';
+import RequireAuth from '../../../../components/RequireAuth';
+
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const t = getTranslations(locale);
+
+const meetingCode = Astro.params.meetingCode as string;
+let data: get_meetings_$meetingCode_response['data'] | null = null;
+try {
+  const response = await meetings.$meetingCode.get(meetingCode);
+  data = response.data;
+} catch (error) {
+  return Astro.redirect('/404',);
+}
+---
+<Layout>
+  <RequireAuth client:only="react" />
+  <main>
+    <h1>{data.meeting.title}</h1>
+    <TimeSelectPage
+      client:only="react"
+      meetingCode={meetingCode}
+      data={data}
+    />
+  </main>
+</Layout>
+
+<style lang="scss">
+  @use "../../../../styles/variables.scss" as *;
+  p {
+    word-break: keep-all;
+    color: $c-black;
+  }
+  main {
+    width: 100%;
+    margin: 0 auto;
+  }
+</style>

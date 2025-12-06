@@ -10,7 +10,7 @@ import { $me } from '../../stores/me'
 import { navigate } from 'astro:transitions/client'
 import { showDefaultToast } from '../../stores/toast'
 
-export default function SelectPage (
+export default function TimeSelectPage (
   { meetingCode, data }:
   { meetingCode: string, data: get_meetings_$meetingCode_response['data'] },
 ) {
