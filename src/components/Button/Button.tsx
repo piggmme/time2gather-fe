@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import classNames from 'classnames'
 import styles from './Button.module.scss'
 
 type ButtonType = 'primary' | 'kakao' | 'default' | 'ghost'
@@ -7,19 +8,26 @@ type ButtonProps<T extends 'button' | 'a' = 'button'> = {
   as?: T
   buttonType?: ButtonType
   className?: string
+  active?: boolean
 } & (T extends 'a'
   ? React.AnchorHTMLAttributes<HTMLAnchorElement>
   : React.ButtonHTMLAttributes<HTMLButtonElement>)
 
 export default function Button<T extends 'button' | 'a' = 'button'> (
-  { className, buttonType = 'default', as = 'button' as T, ...rest }: ButtonProps<T>,
+  {
+    className,
+    buttonType = 'default',
+    as = 'button' as T,
+    active = false,
+    ...rest
+  }: ButtonProps<T>,
 ) {
   const [isLoading, setIsLoading] = useState(false)
-  const classNames = `${styles.button} ${styles[buttonType]} ${className || ''}`.trim()
+  const buttonClassNames = classNames(styles.button, styles[buttonType], className)
 
   if (as === 'a') {
     return (
-      <a className={classNames} {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)} />
+      <a className={buttonClassNames} {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)} />
     )
   }
 
@@ -38,9 +46,6 @@ export default function Button<T extends 'button' | 'a' = 'button'> (
       setIsLoading(true)
       try {
         await result
-      } catch (error) {
-        // 에러는 상위로 전파
-        throw error
       } finally {
         setIsLoading(false)
       }
@@ -51,7 +56,7 @@ export default function Button<T extends 'button' | 'a' = 'button'> (
 
   return (
     <button
-      className={classNames}
+      className={classNames(buttonClassNames, { [styles.active]: active })}
       onClick={handleClick}
       disabled={isDisabled}
       {...otherButtonProps}

@@ -35,6 +35,12 @@
     background-color: #fff;
     color: $c-black;
     border: 1px solid $c-gray;
+
+    &.active {
+      border-color: $primary-color;
+      background-color: $c-blue-soft;
+      color: $c-blue;
+    }
   }
 
   &[disabled] {

@@ -15,6 +15,20 @@
   }
 }
 
+.meetingTypeContainer {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.meetingTypeButton {
+  width: 100%;
+  padding: 20px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  word-break: keep-all;
+}
+
 .monthlyContainer {
   max-width: 500px;
   margin: 0 auto;

@@ -19,7 +19,7 @@ export type post_meetings_body = {
   description?: string
   timezone: string
   availableDates: {
-    [date: string]: string[]
+    [date: string]: string[] | null
   }
 }
 export type post_meetings_response = success_response<{

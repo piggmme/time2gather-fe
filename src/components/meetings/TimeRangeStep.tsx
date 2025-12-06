@@ -65,6 +65,15 @@ export default function TimeRangeStep () {
     }
   }, [startTime12, startAmPm, endAmPm])
 
+  const meetingTypeParam = useSearchParam('meetingType')
+  const datesParam = useSearchParam('dates')
+  useEffect(function redirectToDatesStep () {
+    if (meetingTypeParam === 'simple') {
+      const newUrl = `/meetings/create?step=dates&meetingType=${meetingTypeParam}&title=${title}&dates=${datesParam}`
+      navigate(newUrl)
+    }
+  }, [meetingTypeParam])
+
   return (
     <>
       <h2 className={styles.title}>{t('createMeeting.timeRangeStep.heading')}</h2>

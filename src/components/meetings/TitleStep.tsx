@@ -8,6 +8,7 @@ import { useTranslation } from '../../hooks/useTranslation'
 
 export default function TitleStep () {
   const titleParam = useSearchParam('title')
+  const meetingTypeParam = useSearchParam('meetingType')
   const [title, setTitle] = useState(titleParam || '')
   const { t } = useTranslation()
 
@@ -23,10 +24,19 @@ export default function TitleStep () {
       </div>
       <div className={styles.buttonContainer}>
         <Button
+          buttonType='ghost'
+          onClick={() => {
+            const newUrl = `/meetings/create?step=meetingType&meetingType=${meetingTypeParam}`
+            navigate(newUrl)
+          }}
+        >
+          {t('common.previous')}
+        </Button>
+        <Button
           disabled={title.length === 0}
           buttonType='primary'
           onClick={() => {
-            navigate(`/meetings/create?step=dates&title=${title}`)
+            navigate(`/meetings/create?step=dates&meetingType=${meetingTypeParam}&title=${title}`)
           }}
         >
           {t('common.next')}
