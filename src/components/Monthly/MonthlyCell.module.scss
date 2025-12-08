@@ -32,7 +32,7 @@
   }
 
   &.otherMonth {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 
   &.today {
@@ -65,8 +65,8 @@
   }
 
   &.disabled {
-    opacity: 0.3;
     cursor: not-allowed;
+    color: $c-gray-light;
     pointer-events: none;
     font-family: normal;
 
