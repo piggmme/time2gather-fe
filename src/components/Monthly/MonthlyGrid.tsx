@@ -126,14 +126,12 @@ export default function MonthlyGrid ({
           // availableDates가 제공되면 해당 날짜 목록에 포함된 날짜만 활성화
           // availableDates가 없으면 기존 로직 (과거 날짜만 disabled)
           let isDisabled = false
-          if (isEditMode) {
-            if (availableDates) {
-              // availableDates에 포함되지 않은 날짜는 disabled
-              isDisabled = !availableDates.some(availableDate => availableDate.isSame(day, 'day'))
-            } else {
-              // 기존 로직: 과거 날짜만 disabled
-              isDisabled = day.isBefore(today, 'day')
-            }
+          if (availableDates) {
+            // availableDates에 포함되지 않은 날짜는 disabled
+            isDisabled = !availableDates.some(availableDate => availableDate.isSame(day, 'day'))
+          } else {
+            // 기존 로직: 과거 날짜만 disabled
+            isDisabled = day.isBefore(today, 'day')
           }
 
           return (

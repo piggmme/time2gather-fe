@@ -12,6 +12,7 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { $me } from '../../stores/me'
 import { Tabs } from '../Tabs/Tabs'
 import ReactMarkdown from 'react-markdown'
+import Monthly from '../Monthly/Monthly'
 
 export default function ResultContent ({
   meetingData,
@@ -189,11 +190,22 @@ export default function ResultContent ({
         toggleSlot={toggleSlot}
         getParticipantsForGroup={getParticipantsForGroup}
       />
-      <CalendarContent
-        meetingData={meetingData}
-        dates={dates}
-        availableTimes={availableTimes}
-      />
+      {
+        meetingData.meeting.selectionType === 'TIME'
+          ? (
+              <DailyCalendarContent
+                meetingData={meetingData}
+                dates={dates}
+                availableTimes={availableTimes}
+              />
+            )
+          : (
+              <MonthlyCalendarContent
+                meetingData={meetingData}
+                dates={dates}
+              />
+            )
+      }
       <ParticipantsContent participants={meetingData.participants} />
     </Tabs.Root>
   )
@@ -379,7 +391,96 @@ function ParticipantsModal ({
 }
 
 // 달력 탭 컴포넌트
-function CalendarContent ({
+function MonthlyCalendarContent ({
+  meetingData,
+  dates,
+}: {
+  meetingData: get_meetings_$meetingCode_response['data']
+  dates: dayjs.Dayjs[]
+}) {
+  const me = useStore($me)
+  const { t } = useTranslation()
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean
+    date: string
+    time: string
+  }>({
+    isOpen: false,
+    date: '',
+    time: '',
+  })
+
+  const handleCellClick = (date: string, time: string) => {
+    setModalState({
+      isOpen: true,
+      date,
+      time,
+    })
+  }
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      date: '',
+      time: '',
+    })
+  }
+
+  const participants = useMemo(() => {
+    if (!modalState.isOpen || !modalState.date || !modalState.time) return []
+    const scheduleForDate = meetingData.schedule[modalState.date]
+    if (!scheduleForDate) return []
+    const slotData = scheduleForDate[modalState.time]
+    return slotData?.participants || []
+  }, [modalState, meetingData.schedule])
+
+  const mySelections: dayjs.Dayjs[] = useMemo(function initializeSelections () {
+    if (!me) return []
+    return []
+  }, [me, meetingData.schedule])
+
+  // schedule에서 자신이 포함된 경우 count를 1 낮춤
+  // const schedule = useMemo(() => {
+  //   if (!me) return meetingData.schedule
+  //   const processedSchedule: typeof meetingData.schedule = {}
+  //   for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
+  //     processedSchedule[date] = {}
+  //     for (const [time, slot] of Object.entries(timeSlots)) {
+  //       const isMeIncluded = slot.participants.some(p => p.userId === me.userId)
+  //       processedSchedule[date][time] = {
+  //         ...slot,
+  //         count: isMeIncluded ? Math.max(0, slot.count - 1) : slot.count,
+  //       }
+  //     }
+  //   }
+  //   return processedSchedule
+  // }, [meetingData.schedule, me])
+
+  return (
+    <Tabs.Content value='달력'>
+      <div className={styles.Calendar}>
+        <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
+        <p className={styles.DetailText}>
+          {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
+        </p>
+        <Monthly
+          mode='view'
+          dates={mySelections}
+          availableDates={dates}
+        />
+        <ParticipantsModal
+          isOpen={modalState.isOpen}
+          onClose={closeModal}
+          date={modalState.date}
+          time={modalState.time}
+          participants={participants}
+        />
+      </div>
+    </Tabs.Content>
+  )
+}
+
+function DailyCalendarContent ({
   meetingData,
   dates,
   availableTimes,
