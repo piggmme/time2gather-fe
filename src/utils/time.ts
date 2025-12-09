@@ -5,17 +5,15 @@ import 'dayjs/locale/en'
 export const amPmOptions = ['AM', 'PM'] as const
 export type AmPm = typeof amPmOptions[number]
 
-// 12시간 형식 시간 슬롯 (00:00 ~ 11:30)
-export const timeSlots12 = Array.from({ length: 24 }, (_, i) => {
-  const hours = Math.floor(i / 2)
-  const minutes = (i % 2) * 30
-  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
+// 12시간 형식 시간 슬롯 (00:00 ~ 11:00, 1시간 단위)
+export const timeSlots12 = Array.from({ length: 12 }, (_, i) => {
+  const hours = i
+  return `${String(hours).padStart(2, '0')}:00`
 })
 
-export const timeSlots24 = Array.from({ length: 48 }, (_, i) => {
-  const hours = Math.floor(i / 2)
-  const minutes = (i % 2) * 30
-  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
+export const timeSlots24 = Array.from({ length: 24 }, (_, i) => {
+  const hours = i
+  return `${String(hours).padStart(2, '0')}:00`
 })
 
 export function isTime24After (time1: string, time2: string): boolean {
