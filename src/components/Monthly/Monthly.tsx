@@ -89,8 +89,6 @@ export default function Monthly ({
   const [currentDate, setCurrentDate] = useState(dayjs())
   const monthDays = getMonthDays(currentDate.year(), currentDate.month())
 
-  console.log({ dateSchedule })
-
   // Update dayjs locale when locale changes
   useEffect(() => {
     dayjs.locale(locale === 'ko' ? 'ko' : 'en')

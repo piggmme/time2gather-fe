@@ -452,8 +452,6 @@ function MonthlyCalendarContent ({
     return schedule
   }, [meetingData.schedule, me])
 
-  console.log({ schedule: meetingData.schedule })
-
   return (
     <Tabs.Content value='달력'>
       <div className={styles.Calendar}>
