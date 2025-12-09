@@ -23,9 +23,8 @@ export default function MonthlyCell ({
   const totalCount = count + (isSelected ? 1 : 0)
   const intensity = maxCount > 0 ? totalCount / maxCount : 0
 
-  // 초록색 배경색 계산 (rgba)
   const backgroundColor = count > 0
-    ? `rgba(112, 210, 142, ${intensity})`
+    ? `rgba(59, 131, 246, ${intensity / 2})`
     : undefined
 
   const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
