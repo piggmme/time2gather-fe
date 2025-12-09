@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { useTranslation } from '../../hooks/useTranslation'
 import styles from './SelectPage.module.scss'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Button from '../Button/Button'
 import { meetings, type get_meetings_$meetingCode_response } from '../../services/meetings'
 import { navigate } from 'astro:transitions/client'
@@ -19,8 +19,8 @@ export default function DatesSelectPage (
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
   const me = useStore($me)
 
-  const mySelections: dayjs.Dayjs[] = useMemo(function initializeSelections () {
-    if (!me) return []
+  useEffect(function initializeSelections () {
+    if (!me) return
     const mySelectedDates: dayjs.Dayjs[] = []
     for (const [date, timeSlots] of Object.entries(data.schedule)) {
       const allDaySlot = timeSlots['ALL_DAY']
@@ -28,25 +28,27 @@ export default function DatesSelectPage (
         mySelectedDates.push(dayjs(date))
       }
     }
-    return mySelectedDates
+    setSelectedDates(mySelectedDates)
   }, [me, data.schedule])
 
   // ALL_DAY 타입의 schedule을 dateSchedule 형태로 변환
   // 자신이 포함된 경우 count를 1 낮춤 (Daily와 동일한 로직)
-  const dateSchedule = useMemo(() => {
-    const schedule: { [date: string]: { count: number, participants: typeof meetingData.participants } } = {}
-    for (const [date, timeSlots] of Object.entries(data.schedule)) {
-      const allDaySlot = timeSlots['ALL_DAY']
-      if (allDaySlot) {
-        const isMeIncluded = me ? allDaySlot.participants.some(p => p.userId === me.userId) : false
-        schedule[date] = {
-          count: isMeIncluded ? Math.max(0, allDaySlot.count - 1) : allDaySlot.count,
-          participants: allDaySlot.participants,
-        }
-      }
-    }
-    return schedule
-  }, [data.schedule, me])
+  // const dateSchedule = useMemo(() => {
+  //   const schedule: { [date: string]: { count: number, participants: typeof data.participants } } = {}
+  //   for (const [date, timeSlots] of Object.entries(data.schedule)) {
+  //     const allDaySlot = timeSlots['ALL_DAY']
+  //     if (allDaySlot) {
+  //       const isMeIncluded = me ? allDaySlot.participants.some(p => p.userId === me.userId) : false
+  //       schedule[date] = {
+  //         count: isMeIncluded ? Math.max(0, allDaySlot.count - 1) : allDaySlot.count,
+  //         participants: allDaySlot.participants,
+  //       }
+  //     }
+  //   }
+  //   return schedule
+  // }, [data.schedule, me])
+
+  console.log({ selectedDates })
 
   const dates = Object.keys(data.meeting.availableDates)
 
@@ -65,8 +67,6 @@ export default function DatesSelectPage (
           dates={selectedDates}
           setDates={setSelectedDates}
           availableDates={Object.keys(data.meeting.availableDates).map(date => dayjs(date))}
-          dateSchedule={dateSchedule}
-          participantsCount={data.summary.totalParticipants}
         />
       </div>
       <div className={styles.buttonContainer}>
