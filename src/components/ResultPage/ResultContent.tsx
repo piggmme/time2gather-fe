@@ -322,7 +322,7 @@ function ParticipantsModal ({
   isOpen: boolean
   onClose: () => void
   date: string
-  time: string
+  time?: string
   participants: get_meetings_$meetingCode_response['data']['participants']
 }) {
   const locale = useStore($locale)
@@ -355,7 +355,7 @@ function ParticipantsModal ({
       <div className={styles.ModalContent} onClick={e => e.stopPropagation()}>
         <div className={styles.ModalHeader}>
           <h3 className={styles.ModalTitle}>
-            {formattedDate} {time}
+            {formattedDate} {time ? time : ''}
           </h3>
           <button className={styles.ModalCloseButton} onClick={onClose} aria-label='닫기'>
             <HiX />
@@ -403,40 +403,31 @@ function MonthlyCalendarContent ({
   const [modalState, setModalState] = useState<{
     isOpen: boolean
     date: string
-    time: string
   }>({
     isOpen: false,
     date: '',
-    time: '',
   })
-
-  const handleCellClick = (date: string, time: string) => {
-    setModalState({
-      isOpen: true,
-      date,
-      time,
-    })
-  }
 
   const closeModal = () => {
     setModalState({
       isOpen: false,
       date: '',
-      time: '',
     })
   }
 
   const participants = useMemo(() => {
-    if (!modalState.isOpen || !modalState.date || !modalState.time) return []
+    if (!modalState.isOpen || !modalState.date) return []
     const scheduleForDate = meetingData.schedule[modalState.date]
     if (!scheduleForDate) return []
-    const slotData = scheduleForDate[modalState.time]
+    const slotData = scheduleForDate['ALL_DAY']
     return slotData?.participants || []
   }, [modalState, meetingData.schedule])
 
   const mySelections: dayjs.Dayjs[] = useMemo(function initializeSelections () {
     if (!me) return []
-    return []
+    return Object.keys(meetingData.schedule).map((date) => {
+      return dayjs(date)
+    })
   }, [me, meetingData.schedule])
 
   // schedule에서 자신이 포함된 경우 count를 1 낮춤
@@ -467,12 +458,17 @@ function MonthlyCalendarContent ({
           mode='view'
           dates={mySelections}
           availableDates={dates}
+          onDateClick={(date) => {
+            setModalState({
+              isOpen: true,
+              date: date.format('YYYY-MM-DD'),
+            })
+          }}
         />
         <ParticipantsModal
           isOpen={modalState.isOpen}
           onClose={closeModal}
           date={modalState.date}
-          time={modalState.time}
           participants={participants}
         />
       </div>
