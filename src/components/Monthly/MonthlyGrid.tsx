@@ -9,6 +9,14 @@ import { useDragSensors } from '../../hooks/useDragSensors'
 import { useDragScrollPrevention } from '../../hooks/useDragScrollPrevention'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
+import type { get_meetings_$meetingCode_response } from '../../services/meetings'
+
+type DateSchedule = {
+  [date: string]: {
+    count: number
+    participants: get_meetings_$meetingCode_response['data']['participants']
+  }
+}
 
 // 날짜 범위 배열 생성 함수
 function getDateRange (start: dayjs.Dayjs | null, end: dayjs.Dayjs | null) {
@@ -40,6 +48,8 @@ export default function MonthlyGrid ({
   mode = 'edit',
   onDateClick,
   availableDates,
+  dateSchedule,
+  participantsCount,
 }: {
   monthDays: dayjs.Dayjs[]
   dates: dayjs.Dayjs[]
@@ -49,6 +59,8 @@ export default function MonthlyGrid ({
   mode?: 'edit' | 'view'
   onDateClick?: (date: dayjs.Dayjs) => void
   availableDates?: dayjs.Dayjs[]
+  dateSchedule?: DateSchedule
+  participantsCount?: number
 }) {
   const locale = useStore($locale)
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null)
@@ -122,6 +134,13 @@ export default function MonthlyGrid ({
         {monthDays.map((day: dayjs.Dayjs) => {
           const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth
           const today = dayjs()
+          const dateKey = day.format('YYYY-MM-DD')
+          const isSelected = dates.some(d => d.isSame(day, 'day'))
+
+          // dateSchedule에서 해당 날짜의 참여자 수 가져오기
+          // 자신이 선택한 경우는 제외하고 계산 (Daily와 동일한 로직)
+          const scheduleData = dateSchedule?.[dateKey]
+          const otherCount = scheduleData?.count || 0
 
           // availableDates가 제공되면 해당 날짜 목록에 포함된 날짜만 활성화
           // availableDates가 없으면 기존 로직 (과거 날짜만 disabled)
@@ -136,13 +155,15 @@ export default function MonthlyGrid ({
 
           return (
             <MonthlyCell
-              key={day.format('YYYY-MM-DD')}
+              key={dateKey}
               date={day}
-              isSelected={dates.some(d => d.isSame(day, 'day'))}
+              isSelected={isSelected}
               isDragged={selectedDays.some(d => d.isSame(day, 'day'))}
               isCurrentMonth={isCurrentMonth}
               mode={mode}
               disabled={isDisabled}
+              count={otherCount}
+              maxCount={participantsCount}
               {...(isEditMode && !isDisabled && {
                 onClick: () => {
                   handleDragedDates([day])

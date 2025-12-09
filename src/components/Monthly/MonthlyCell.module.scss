@@ -16,14 +16,17 @@
   touch-action: none; // 모바일에서 스크롤 방지
   color: $c-black;
   font-weight: 600;
+  position: relative; // countBadge 위치 지정을 위해
 
   &:hover {
     background: #f9f9f9;
   }
 
-  &.selected {
-    background: $primary-color-selected;
-    backdrop-filter: blur(4px);
+  &:not(.viewMode) {
+    &.selected {
+      background: $primary-color-selected;
+      backdrop-filter: blur(4px);
+    }
   }
 
   &.dragged {
@@ -51,12 +54,8 @@
   &.viewMode {
     cursor: default;
 
-    &:hover {
-      background: #fff;
-    }
-
     &.selected {
-      cursor: default;
+      border: 2px solid $c-blue;
     }
   }
 
@@ -72,6 +71,29 @@
 
     &:hover {
       background: #fff;
+    }
+  }
+
+  // 참여자 수 배지
+  .countBadge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: $c-gray;
+    color: $c-white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 4px;
+    border-radius: 8px;
+    min-width: 20px;
+    text-align: center;
+    line-height: 1.2;
+    z-index: 10; // 다른 요소 위에 표시되도록
+    white-space: nowrap; // 텍스트 줄바꿈 방지
+
+    &.selected {
+      background: $c-blue;
+      color: $c-white;
     }
   }
 }

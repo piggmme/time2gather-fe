@@ -35,5 +35,6 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
   width: 100%;
+  overflow: visible; // countBadge가 잘리지 않도록
 }
 

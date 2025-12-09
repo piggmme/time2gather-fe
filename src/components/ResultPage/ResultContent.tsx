@@ -425,27 +425,34 @@ function MonthlyCalendarContent ({
 
   const mySelections: dayjs.Dayjs[] = useMemo(function initializeSelections () {
     if (!me) return []
-    return Object.keys(meetingData.schedule).map((date) => {
-      return dayjs(date)
-    })
+    const mySelectedDates: dayjs.Dayjs[] = []
+    for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
+      const allDaySlot = timeSlots['ALL_DAY']
+      if (allDaySlot && allDaySlot.participants.some(p => p.userId === me.userId)) {
+        mySelectedDates.push(dayjs(date))
+      }
+    }
+    return mySelectedDates
   }, [me, meetingData.schedule])
 
-  // schedule에서 자신이 포함된 경우 count를 1 낮춤
-  // const schedule = useMemo(() => {
-  //   if (!me) return meetingData.schedule
-  //   const processedSchedule: typeof meetingData.schedule = {}
-  //   for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
-  //     processedSchedule[date] = {}
-  //     for (const [time, slot] of Object.entries(timeSlots)) {
-  //       const isMeIncluded = slot.participants.some(p => p.userId === me.userId)
-  //       processedSchedule[date][time] = {
-  //         ...slot,
-  //         count: isMeIncluded ? Math.max(0, slot.count - 1) : slot.count,
-  //       }
-  //     }
-  //   }
-  //   return processedSchedule
-  // }, [meetingData.schedule, me])
+  // ALL_DAY 타입의 schedule을 dateSchedule 형태로 변환
+  // 자신이 포함된 경우 count를 1 낮춤 (Daily와 동일한 로직)
+  const dateSchedule = useMemo(() => {
+    const schedule: { [date: string]: { count: number, participants: typeof meetingData.participants } } = {}
+    for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
+      const allDaySlot = timeSlots['ALL_DAY']
+      if (allDaySlot) {
+        const isMeIncluded = me ? allDaySlot.participants.some(p => p.userId === me.userId) : false
+        schedule[date] = {
+          count: isMeIncluded ? Math.max(0, allDaySlot.count - 1) : allDaySlot.count,
+          participants: allDaySlot.participants,
+        }
+      }
+    }
+    return schedule
+  }, [meetingData.schedule, me])
+
+  console.log({ schedule: meetingData.schedule })
 
   return (
     <Tabs.Content value='달력'>
@@ -458,6 +465,8 @@ function MonthlyCalendarContent ({
           mode='view'
           dates={mySelections}
           availableDates={dates}
+          dateSchedule={dateSchedule}
+          participantsCount={meetingData.summary.totalParticipants}
           onDateClick={(date) => {
             setModalState({
               isOpen: true,

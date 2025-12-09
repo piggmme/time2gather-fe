@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
+import type { get_meetings_$meetingCode_response } from '../../services/meetings'
 
 function getMonthDays (year: number, month: number) {
   const start = dayjs().year(year).month(month).date(1)
@@ -47,6 +48,13 @@ function getMonthDays (year: number, month: number) {
   return days
 }
 
+type DateSchedule = {
+  [date: string]: {
+    count: number
+    participants: get_meetings_$meetingCode_response['data']['participants']
+  }
+}
+
 type MonthlyProps
   = | {
     dates: dayjs.Dayjs[]
@@ -54,6 +62,8 @@ type MonthlyProps
     mode?: 'edit'
     onDateClick?: (date: dayjs.Dayjs) => void
     availableDates?: dayjs.Dayjs[]
+    dateSchedule?: DateSchedule
+    participantsCount?: number
   }
   | {
     dates?: dayjs.Dayjs[]
@@ -61,6 +71,8 @@ type MonthlyProps
     mode: 'view'
     onDateClick?: (date: dayjs.Dayjs) => void
     availableDates?: dayjs.Dayjs[]
+    dateSchedule?: DateSchedule
+    participantsCount?: number
   }
 
 export default function Monthly ({
@@ -69,11 +81,15 @@ export default function Monthly ({
   mode = 'edit',
   onDateClick,
   availableDates,
+  dateSchedule,
+  participantsCount,
 }: MonthlyProps) {
   const isEditMode = mode === 'edit'
   const locale = useStore($locale)
   const [currentDate, setCurrentDate] = useState(dayjs())
   const monthDays = getMonthDays(currentDate.year(), currentDate.month())
+
+  console.log({ dateSchedule })
 
   // Update dayjs locale when locale changes
   useEffect(() => {
@@ -127,6 +143,8 @@ export default function Monthly ({
         mode={mode}
         onDateClick={onDateClick}
         availableDates={availableDates}
+        dateSchedule={dateSchedule}
+        participantsCount={participantsCount}
       />
     </div>
   )
