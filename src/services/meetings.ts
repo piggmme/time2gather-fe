@@ -144,7 +144,7 @@ export type get_meetings_$meetingCode_response = success_response<{
       date: string
       time: string
       count: number
-      percentage: number
+      percentage: string
     }[]
   }
 }>

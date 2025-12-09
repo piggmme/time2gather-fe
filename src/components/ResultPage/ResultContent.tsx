@@ -59,8 +59,8 @@ export default function ResultContent ({
       const sortedSlots = [...slots].sort((a, b) => a.time.localeCompare(b.time))
 
       // 연속된 시간들을 범위로 묶기
-      const timeRanges: Array<{ start: string, end: string, count: number, percentage: number }> = []
-      let currentRange: { start: string, end: string, count: number, percentage: number } | null = null
+      const timeRanges: Array<{ start: string, end: string, count: number, percentage: string }> = []
+      let currentRange: { start: string, end: string, count: number, percentage: string } | null = null
 
       sortedSlots.forEach((slot) => {
         if (!currentRange) {
@@ -270,16 +270,20 @@ function SummaryContent ({
                       <span className={styles.BestSlotDate}>{formatDate(dayjs(group.date), locale)}</span>
                       <span className={styles.BestSlotTime}>
                         {group.timeRanges.map((range, rangeIndex) => (
-                          <span key={rangeIndex}>
-                            {range.start === range.end
-                              ? range.start
-                              : `${range.start}~${range.end}`}
-                            {rangeIndex < group.timeRanges.length - 1 && ', '}
-                          </span>
+                          range.start === 'ALL_DAY'
+                            ? null
+                            : (
+                                <span key={rangeIndex}>
+                                  {range.start === range.end
+                                    ? range.start
+                                    : `${range.start}~${range.end}`}
+                                  {rangeIndex < group.timeRanges.length - 1 && ', '}
+                                </span>
+                              )
                         ))}
                       </span>
                       <span className={styles.BestSlotCount}>
-                        {group.timeRanges[0].count}{t('meeting.result.people')} ({group.timeRanges[0].percentage}%)
+                        {group.timeRanges[0].count}{t('meeting.result.people')} ({group.timeRanges[0].percentage})
                       </span>
                       <span className={styles.BestSlotExpandIcon}>
                         {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
