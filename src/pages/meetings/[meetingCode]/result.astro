@@ -58,7 +58,9 @@ const structuredData = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} slot="head" />
   <main>
-    <h1>{meetingData.meeting.title}</h1>
+    <h1>
+      <a href={`/meetings/${meetingCode}`}>{meetingData.meeting.title}</a>
+    </h1>
     <p>{meetingData.meeting.description}</p>
     <div class="host">
       <Avatar
@@ -94,6 +96,11 @@ const structuredData = {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 
   .host {
