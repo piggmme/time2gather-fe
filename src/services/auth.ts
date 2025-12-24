@@ -34,7 +34,7 @@ type get_auth_me_response = success_response<{
   username: string
   email: string
   profileImageUrl: string
-  provider: 'kakao' | 'google'
+  provider: 'kakao' | 'google' | 'ANONYMOUS'
   createdAt: string
   createdMeetings?: Meeting[]
   participatedMeetings?: Meeting[]

@@ -9,7 +9,7 @@ export default function RequireAuth () {
   const location = useLocation()
   const me = useStore($me)
   const isLoading = me === undefined
-  const isLoggedIn = me !== null && !isLoading
+  const isLoggedIn = me !== null && !isLoading && me.provider !== 'ANONYMOUS'
 
   useEffect(() => {
     if (!isLoggedIn && !isLoading) {
