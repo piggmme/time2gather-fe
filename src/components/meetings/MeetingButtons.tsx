@@ -28,7 +28,7 @@ export default function MeetingButtons (
       </Button>
       <Button
         as='a'
-        href={`/meetings/${data.meeting.code}/select`}
+        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`}
         buttonType='ghost'
       >
         {t('meeting.modifyButton')}
