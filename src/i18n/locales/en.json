@@ -79,7 +79,7 @@
       "people": "people",
       "noParticipants": "No participants"
     },
-    "annonymous": {
+    "anonymous": {
       "dialog" : {
         "title": "You are not logged in",
         "description": "Do you want to participate anonymously?",

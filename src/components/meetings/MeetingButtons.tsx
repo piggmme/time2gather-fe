@@ -40,12 +40,12 @@ export default function MeetingButtons (
     <>
       <Button
         as='a'
-        // onClick={(e) => {
-        //   if (!me) {
-        //     e.preventDefault()
-        //     setIsDialogOpen(true)
-        //   }
-        // }}
+        onClick={(e) => {
+          if (!me) {
+            e.preventDefault()
+            setIsDialogOpen(true)
+          }
+        }}
         href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`}
         buttonType='primary'
       >
@@ -62,22 +62,22 @@ export default function MeetingButtons (
       </Button>
       <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <Dialog.Content>
-          <Dialog.Title>{t('meeting.annonymous.title')}</Dialog.Title>
-          <Dialog.Description>{t('meeting.annonymous.description')}</Dialog.Description>
+          <Dialog.Title>{t('meeting.anonymous.dialog.title')}</Dialog.Title>
+          <Dialog.Description>{t('meeting.anonymous.dialog.description')}</Dialog.Description>
           <div className={styles.dialogButtons}>
             <Dialog.Action
               className={styles.anonymousLoginButton}
               onClick={() => {
                 navigate(`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}?anonymous=true`)
               }}
-            >{t('meeting.annonymous.anonymousLogin')}
+            >{t('meeting.anonymous.dialog.anonymousLogin')}
             </Dialog.Action>
             <Dialog.Action
               className={styles.kakaoLoginButton}
               onClick={() => {
                 navigate(`/login?redirect=/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`)
               }}
-            >{t('meeting.annonymous.kakaoLoginButton')}
+            >{t('meeting.anonymous.dialog.kakaoLoginButton')}
             </Dialog.Action>
           </div>
         </Dialog.Content>

@@ -44,30 +44,30 @@ function AnonymousLoginForm ({
 
   return (
     <div className={styles.anonymousLoginForm}>
-      <p>{t('meeting.annonymous.description')}</p>
+      <p>{t('meeting.anonymous.description')}</p>
       <Input
         type='text'
-        placeholder={t('meeting.annonymous.usernamePlaceholder')}
+        placeholder={t('meeting.anonymous.usernamePlaceholder')}
         value={username}
         onChange={e => setUsername(e.target.value)}
       />
       <Input
         type='password'
-        placeholder={t('meeting.annonymous.passwordPlaceholder')}
+        placeholder={t('meeting.anonymous.passwordPlaceholder')}
         value={password}
         onChange={e => setPassword(e.target.value)}
       />
       <Button
         buttonType='primary'
         onClick={async () => {
-          await meetings.$meetingCode.auth.anymouse.post(meetingCode, {
+          await meetings.$meetingCode.auth.anonymous.post(meetingCode, {
             username,
             password,
           })
           nextStep()
         }}
       >
-        {t('meeting.annonymous.anonymousLogin')}
+        {t('meeting.anonymous.anonymousLogin')}
       </Button>
     </div>
   )

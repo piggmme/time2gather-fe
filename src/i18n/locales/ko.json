@@ -64,7 +64,7 @@
     "selectButton": "날짜 선택하러 가기",
     "selectTimeButton": "날짜와 시간 선택하러 가기",
     "resultButton": "결과 보러가기",
-    "annonymous": {
+    "anonymous": {
       "dialog" : {
         "title": "로그인 되어있지 않아요",
         "description": "익명으로 참여하겠어요?",
