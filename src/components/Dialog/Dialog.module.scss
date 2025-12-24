@@ -1,0 +1,99 @@
+@use "../../styles/variables.scss" as *;
+
+.Overlay {
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(1px);
+  z-index: 1000;
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.Content {
+  z-index: 1001;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: $c-gray-dark;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 500px;
+  max-height: 85vh;
+  padding: 25px;
+  box-sizing: border-box;
+  margin: 8px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  &:focus {
+    outline: none;
+  }
+}
+
+.Title {
+  margin: 0;
+  color: $c-black;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.Description {
+  margin-bottom: 20px;
+  color: $c-black;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.Button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 8px 15px;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 500;
+  user-select: none;
+  word-break: keep-all;
+
+  &:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: 1px;
+  }
+}
+
+.Cancel {
+  background-color: $c-gray-light;
+  color: $c-black;
+}
+
+.Action {
+  background-color: $c-blue-soft;
+  color: $c-blue;
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

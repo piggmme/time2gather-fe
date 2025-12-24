@@ -1,0 +1,19 @@
+@use "../../styles/variables.scss" as *;
+
+.dialogButtons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  word-break: keep-all;
+}
+
+.kakaoLoginButton {
+  background-color: #fee500;
+  color: $c-black;
+}
+
+.anonymousLoginButton {
+  background-color: $c-gray-light;
+  color: $c-black;
+}

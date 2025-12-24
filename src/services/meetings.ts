@@ -199,6 +199,15 @@ const get_meetings_$meetingCode_report = async (meetingCode: string) => {
   return response.data
 }
 
+const post_meetings_$meetingCode_auth_anymouse = async (meetingCode: string, body: post_meetings_$meetingCode_auth_anymouse_body) => {
+  const response = await api.post<success_response<null>>(`/v1/meetings/${meetingCode}/auth/anymouse`, body)
+  return response.data
+}
+export type post_meetings_$meetingCode_auth_anymouse_body = {
+  username: string
+  password: string
+}
+
 export const meetings = {
   post: post_meetings,
   $meetingCode: {
@@ -209,6 +218,11 @@ export const meetings = {
     },
     report: {
       get: get_meetings_$meetingCode_report,
+    },
+    auth: {
+      anymouse: {
+        post: post_meetings_$meetingCode_auth_anymouse,
+      },
     },
   },
 }

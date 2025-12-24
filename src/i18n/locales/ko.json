@@ -60,9 +60,22 @@
     "shareMeeting": "약속 공유하기",
     "shareResult": "결과 공유하기",
     "shareSuccess": "링크가 복사되었어요!",
+    "anonymousSelectButton": "익명으로 참여하기",
     "selectButton": "날짜 선택하러 가기",
     "selectTimeButton": "날짜와 시간 선택하러 가기",
     "resultButton": "결과 보러가기",
+    "annonymous": {
+      "dialog" : {
+        "title": "로그인 되어있지 않아요",
+        "description": "익명으로 참여하겠어요?",
+        "kakaoLoginButton": "카카오로 계속하기",
+        "anonymousLogin": "익명으로 계속하기"
+      },
+      "description": "익명으로 약속에 참여하러가요!",
+      "usernamePlaceholder": "닉네임",
+      "passwordPlaceholder": "비밀번호",
+      "anonymousLogin": "익명으로 계속하기"
+    },
     "result": {
       "tabs": {
         "aiSummary": "AI 요약",

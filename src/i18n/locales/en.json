@@ -60,6 +60,7 @@
     "shareResult": "Share Result",
     "shareMeeting": "Share Meeting",
     "shareSuccess": "The link has been copied.",
+    "anonymousSelectButton": "Participate Anonymously",
     "selectButton": "Select Dates",
     "selectTimeButton": "Select Date and Time",
     "resultButton": "View Result",
@@ -77,6 +78,18 @@
       "participantsCount": "Total {count} people",
       "people": "people",
       "noParticipants": "No participants"
+    },
+    "annonymous": {
+      "dialog" : {
+        "title": "You are not logged in",
+        "description": "Do you want to participate anonymously?",
+        "kakaoLoginButton": "Continue with Kakao",
+        "anonymousLogin": "Continue with Anonymous"
+      },
+      "description": "Let's participate in the meeting anonymously!",
+      "usernamePlaceholder": "Username",
+      "passwordPlaceholder": "Password",
+      "anonymousLogin": "Continue with Anonymous"
     }
   },
   "my": {

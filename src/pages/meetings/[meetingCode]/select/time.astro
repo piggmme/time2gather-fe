@@ -9,6 +9,7 @@ import RequireAuth from '../../../../components/RequireAuth';
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
 
+const anonymous = Astro.url.searchParams.get('anonymous') === 'true';
 const meetingCode = Astro.params.meetingCode as string;
 let data: get_meetings_$meetingCode_response['data'] | null = null;
 try {
@@ -19,7 +20,7 @@ try {
 }
 ---
 <Layout>
-  <RequireAuth client:only="react" />
+  {!anonymous && <RequireAuth client:only="react" />}
   <main>
     <h1>{data.meeting.title}</h1>
     <TimeSelectPage
