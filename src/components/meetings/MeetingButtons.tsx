@@ -40,12 +40,12 @@ export default function MeetingButtons (
     <>
       <Button
         as='a'
-        onClick={(e) => {
-          if (!me) {
-            e.preventDefault()
-            setIsDialogOpen(true)
-          }
-        }}
+        // onClick={(e) => {
+        //   if (!me) {
+        //     e.preventDefault()
+        //     setIsDialogOpen(true)
+        //   }
+        // }}
         href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`}
         buttonType='primary'
       >
