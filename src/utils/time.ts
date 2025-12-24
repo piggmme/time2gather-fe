@@ -7,7 +7,7 @@ export type AmPm = typeof amPmOptions[number]
 
 // 12시간 형식 시간 슬롯 (00:00 ~ 11:00, 1시간 단위)
 export const timeSlots12 = Array.from({ length: 12 }, (_, i) => {
-  const hours = i
+  const hours = i + 1
   return `${String(hours).padStart(2, '0')}:00`
 })
 
