@@ -5,6 +5,7 @@ import { meetings } from '../../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../../services/meetings';
 import TimeSelectPage from '../../../../components/SelectPage/TimeSelectPage';
 import RequireAuth from '../../../../components/RequireAuth';
+import AnonymousTimeSelectPage from '../../../../components/SelectPage/AnonymousTimeSelectPage';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -23,11 +24,19 @@ try {
   {!anonymous && <RequireAuth client:only="react" />}
   <main>
     <h1>{data.meeting.title}</h1>
-    <TimeSelectPage
-      client:only="react"
-      meetingCode={meetingCode}
-      data={data}
-    />
+    {
+      anonymous ?
+      <AnonymousTimeSelectPage
+        client:only="react"
+        meetingCode={meetingCode}
+        data={data}
+      /> :
+      <TimeSelectPage
+        client:only="react"
+        meetingCode={meetingCode}
+        data={data}
+      />
+    }
   </main>
 </Layout>
 
