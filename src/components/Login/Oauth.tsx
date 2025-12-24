@@ -12,13 +12,16 @@ export default function Oauth () {
 
     $me.set(undefined)
     try {
-      const response = await auth.oauth.$provider.post('kakao', {
+      await auth.oauth.$provider.post('kakao', {
         authorizationCode: code,
         redirectUrl: import.meta.env.DEV
           ? 'https://localhost:3000/login/oauth2/code/kakao'
           : 'https://time2gather.org/login/oauth2/code/kakao',
       })
-      $me.set(response.data)
+      const response = await auth.me.get()
+      if (response.data) {
+        $me.set(response.data)
+      }
       navigate($redirect.get() || '/meetings/create')
       $redirect.set('')
     } catch (error) {
