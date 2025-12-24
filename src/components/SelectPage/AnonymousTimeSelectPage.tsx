@@ -20,7 +20,7 @@ export default function AnonymousTimeSelectPage (
   const [step, setStep] = useState<'login' | 'select'>('login')
 
   useEffect(function initialize () {
-    if (me?.provider === 'ANONYMOUS') {
+    if (me?.provider === 'ANONYMOUS' && me.anonymousMeetingCode === meetingCode) {
       setStep('select')
     }
   }, [me?.provider])

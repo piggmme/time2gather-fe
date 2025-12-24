@@ -1,3 +1,4 @@
+import type { User } from '../stores/me'
 import api from '../utils/api'
 import type { success_response, error_response } from './type'
 
@@ -29,16 +30,7 @@ export type Meeting = {
   timezone: string
   title: string
 }
-type get_auth_me_response = success_response<{
-  userId: number
-  username: string
-  email: string
-  profileImageUrl: string
-  provider: 'kakao' | 'google' | 'ANONYMOUS'
-  createdAt: string
-  createdMeetings?: Meeting[]
-  participatedMeetings?: Meeting[]
-}>
+type get_auth_me_response = success_response<User>
 const get_auth_me = async () => {
   const response = await api.get<get_auth_me_response>('v1/auth/me')
   return response.data

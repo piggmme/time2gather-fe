@@ -46,7 +46,7 @@ export default function MeetingButtons (
             setIsDialogOpen(true)
           }
         }}
-        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`}
+        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')}
         buttonType='primary'
       >
         {data.meeting.selectionType === 'ALL_DAY'
