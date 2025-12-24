@@ -8,10 +8,14 @@ import { VisuallyHidden } from 'radix-ui'
 import { useTranslation } from '../../hooks/useTranslation'
 import { setLocale } from '../../stores/locale'
 import { type Locale } from '../../i18n'
+import { useStore } from '@nanostores/react'
+import { $me } from '../../stores/me'
+import Avatar from '../Avatar/Avatar'
 
 export default function Header () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { t, locale } = useTranslation()
+  const me = useStore($me)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -72,7 +76,18 @@ export default function Header () {
               href='/my'
               className={styles.desktopNavLink}
             >
-              <PersonIcon width={27} height={27} />
+              {
+                me && me?.provider !== 'ANONYMOUS'
+                  ? (
+                      <Avatar
+                        src={me.profileImageUrl}
+                        name={me.username}
+                      />
+                    )
+                  : (
+                      <PersonIcon width={27} height={27} />
+                    )
+              }
               <VisuallyHidden.Root>{t('common.myMeetings')}</VisuallyHidden.Root>
             </a>
             <a
@@ -123,7 +138,19 @@ export default function Header () {
               href='/my'
               className={styles.mobileNavLink}
             >
-              <PersonIcon width={27} height={27} />
+              {
+                me && me?.provider !== 'ANONYMOUS'
+                  ? (
+                      <Avatar
+                        src={me.profileImageUrl}
+                        name={me.username}
+                        size={27}
+                      />
+                    )
+                  : (
+                      <PersonIcon width={27} height={27} />
+                    )
+              }
               <span>{t('common.myMeetings')}</span>
             </a>
             <div className={styles.mobileNavBottomContents}>
