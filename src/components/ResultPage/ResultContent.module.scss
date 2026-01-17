@@ -411,3 +411,82 @@
   }
 }
 
+// 장소 투표 탭 스타일
+.Location {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ConfirmedLocationBanner {
+  padding: 12px;
+  background-color: $c-blue-soft;
+  border: 1px solid $primary-color-border;
+  border-radius: 8px;
+  font-size: 14px;
+  color: $c-blue;
+}
+
+.LocationList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.LocationItem {
+  padding: 12px 16px;
+  background-color: $c-gray-lightest;
+  border: 1px solid $c-gray-light;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.LocationItemConfirmed {
+  border-color: $c-blue;
+  background-color: $c-blue-soft;
+}
+
+.LocationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.LocationName {
+  font-size: 15px;
+  font-weight: 500;
+  color: $c-black;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ConfirmedBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background-color: $c-blue;
+  color: $c-white;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+.LocationVoteCount {
+  font-size: 13px;
+  color: $c-gray-darkest;
+}
+
+.LocationVoters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+

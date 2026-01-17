@@ -175,6 +175,11 @@ export default function ResultContent ({
         <Tabs.Trigger value='달력'>
           {t('meeting.result.tabs.calendar')}
         </Tabs.Trigger>
+        {meetingData.locationVote?.enabled && (
+          <Tabs.Trigger value='장소'>
+            {t('meeting.result.tabs.location')}
+          </Tabs.Trigger>
+        )}
         <Tabs.Trigger value='참여자'>
           {t('meeting.result.tabs.participants')} {meetingData.participants.length > 0 ? `(${meetingData.participants.length})` : ''}
         </Tabs.Trigger>
@@ -206,6 +211,9 @@ export default function ResultContent ({
               />
             )
       }
+      {meetingData.locationVote?.enabled && (
+        <LocationContent locationVote={meetingData.locationVote} />
+      )}
       <ParticipantsContent participants={meetingData.participants} />
     </Tabs.Root>
   )
@@ -624,6 +632,69 @@ function ParticipantsContent ({
               <span className={styles.ParticipantName}>{participant.username}</span>
             </li>
           ))}
+        </ul>
+      </div>
+    </Tabs.Content>
+  )
+}
+
+// 장소 투표 탭 컴포넌트
+function LocationContent ({
+  locationVote,
+}: {
+  locationVote: NonNullable<get_meetings_$meetingCode_response['data']['locationVote']>
+}) {
+  const { t } = useTranslation()
+
+  const sortedLocations = [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
+
+  return (
+    <Tabs.Content value='장소'>
+      <div className={styles.Location}>
+        <p className={styles.Title}>{t('locationVote.title')}</p>
+
+        {locationVote.confirmedLocation && (
+          <div className={styles.ConfirmedLocationBanner}>
+            {t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong>
+          </div>
+        )}
+
+        <ul className={styles.LocationList}>
+          {sortedLocations.map((location) => {
+            const isConfirmed = locationVote.confirmedLocation?.id === location.id
+
+            return (
+              <li
+                key={location.id}
+                className={`${styles.LocationItem} ${isConfirmed ? styles.LocationItemConfirmed : ''}`}
+              >
+                <div className={styles.LocationHeader}>
+                  <span className={styles.LocationName}>
+                    {location.name}
+                    {isConfirmed && (
+                      <span className={styles.ConfirmedBadge}>{t('locationVote.confirmed')}</span>
+                    )}
+                  </span>
+                  <span className={styles.LocationVoteCount}>
+                    {location.voteCount}{t('meeting.result.people')} ({location.percentage})
+                  </span>
+                </div>
+
+                {location.voters.length > 0 && (
+                  <div className={styles.LocationVoters}>
+                    {location.voters.map(voter => (
+                      <Avatar
+                        key={voter.userId}
+                        src={voter.profileImageUrl}
+                        name={voter.username}
+                        size={24}
+                      />
+                    ))}
+                  </div>
+                )}
+              </li>
+            )
+          })}
         </ul>
       </div>
     </Tabs.Content>

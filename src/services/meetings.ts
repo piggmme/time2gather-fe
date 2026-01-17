@@ -40,6 +40,21 @@ type User = {
   username: string
   profileImageUrl: string
 }
+
+type LocationInfo = {
+  id: number
+  name: string
+  displayOrder: number
+  voteCount: number
+  percentage: string
+  voters: User[]
+}
+
+type LocationVoteInfo = {
+  enabled: boolean
+  locations: LocationInfo[]
+  confirmedLocation: LocationInfo | null
+}
 /**
  * @description Get a meeting by meeting code
  * @example
@@ -151,6 +166,7 @@ export type get_meetings_$meetingCode_response = success_response<{
       percentage: string
     }[]
   }
+  locationVote: LocationVoteInfo | null
 }>
 const get_meetings_$meetingCode = async (meetingCode: string) => {
   const response = await api.get<get_meetings_$meetingCode_response>(`/v1/meetings/${meetingCode}`)
@@ -237,6 +253,31 @@ const delete_meetings_$meetingCode_confirm = async (meetingCode: string) => {
 }
 
 /**
+ * @description Get my location selections for a meeting
+ * @param meetingCode Meeting code
+ */
+export type get_meetings_$meetingCode_locationSelections_response = success_response<{
+  selectedLocationIds: number[]
+}>
+const get_meetings_$meetingCode_locationSelections = async (meetingCode: string) => {
+  const response = await api.get<get_meetings_$meetingCode_locationSelections_response>(`/v1/meetings/${meetingCode}/location-selections`)
+  return response.data
+}
+
+/**
+ * @description Save my location selections for a meeting
+ * @param meetingCode Meeting code
+ * @param locationIds Array of location IDs to vote for
+ */
+export type put_meetings_$meetingCode_locationSelections_body = {
+  locationIds: number[]
+}
+const put_meetings_$meetingCode_locationSelections = async (meetingCode: string, body: put_meetings_$meetingCode_locationSelections_body) => {
+  const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/location-selections`, body)
+  return response.data
+}
+
+/**
  * @description Generate export URL for calendar ICS file
  * @param meetingCode Meeting code
  * @param date Optional date in yyyy-MM-dd format
@@ -279,6 +320,10 @@ export const meetings = {
     selections: {
       get: get_meetings_$meetingCode_selections,
       put: put_meetings_$meetingCode_selections,
+    },
+    locationSelections: {
+      get: get_meetings_$meetingCode_locationSelections,
+      put: put_meetings_$meetingCode_locationSelections,
     },
     report: {
       get: get_meetings_$meetingCode_report,

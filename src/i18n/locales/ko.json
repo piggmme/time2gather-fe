@@ -116,7 +116,8 @@
         "aiSummary": "AI 요약",
         "summary": "요약",
         "calendar": "달력",
-        "participants": "참여자"
+        "participants": "참여자",
+        "location": "장소"
       },
       "summaryTitle": "약속 요약",
       "calendarTitle": "약속 달력",
@@ -157,6 +158,12 @@
     "welcomeHint": "예: \"내 미팅 목록 보여줘\", \"다음주 일정 뭐야?\"",
     "inputPlaceholder": "메시지를 입력하세요...",
     "errorMessage": "죄송합니다. 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+  },
+  "locationVote": {
+    "title": "장소 투표",
+    "description": "선호하는 장소를 선택해주세요",
+    "confirmedLocation": "확정된 장소",
+    "confirmed": "확정"
   }
 }
 

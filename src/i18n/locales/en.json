@@ -104,7 +104,8 @@
         "aiSummary": "AI Summary",
         "summary": "Summary",
         "calendar": "Calendar",
-        "participants": "Participants"
+        "participants": "Participants",
+        "location": "Location"
       },
       "summaryTitle": "Meeting Summary",
       "calendarTitle": "Meeting Calendar",
@@ -157,6 +158,12 @@
     "welcomeHint": "e.g. \"Show my meetings\", \"What's on next week?\"",
     "inputPlaceholder": "Type a message...",
     "errorMessage": "Sorry, an error occurred. Please try again later."
+  },
+  "locationVote": {
+    "title": "Location Vote",
+    "description": "Select your preferred location(s)",
+    "confirmedLocation": "Confirmed Location",
+    "confirmed": "Confirmed"
   }
 }
 

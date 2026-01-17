@@ -9,6 +9,7 @@ import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
 import { navigate } from 'astro:transitions/client'
 import { showDefaultToast } from '../../stores/toast'
+import LocationVoteSection from './LocationVoteSection'
 
 export default function TimeSelectPage (
   { meetingCode, data }:
@@ -18,6 +19,7 @@ export default function TimeSelectPage (
   const containerRef = useRef<HTMLDivElement>(null)
   const [height, setHeight] = useState<string>('100svh')
   const [selections, setSelections] = useState<{ [date: string]: string[] }>({})
+  const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
 
   useEffect(() => {
     if (containerRef.current) {
@@ -94,6 +96,15 @@ export default function TimeSelectPage (
           participantsCount={data.participants.length}
         />
       </div>
+      
+      {data.locationVote?.enabled && data.locationVote.locations && (
+        <LocationVoteSection
+          meetingCode={meetingCode}
+          locations={data.locationVote.locations}
+          confirmedLocation={data.locationVote.confirmedLocation}
+          onSelectionsChange={setSelectedLocationIds}
+        />
+      )}
       <div className={styles.buttonContainer}>
         <Button
           buttonType='ghost'
@@ -113,13 +124,21 @@ export default function TimeSelectPage (
           disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
           onClick={async () => {
             // selections 에서 빈배열인 날짜는 제거
-            await meetings.$meetingCode.selections.put(meetingCode, {
+            const timeSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
               selections: Object.entries(selections).filter(([_, times]) => times.length > 0).map(([date, times]) => ({
                 date,
                 type: 'TIME',
                 times,
               })),
             })
+
+            // 장소 투표가 활성화되어 있으면 장소 선택도 저장
+            const locationSelectionsPromise = data.locationVote?.enabled
+              ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
+              : Promise.resolve()
+
+            await Promise.all([timeSelectionsPromise, locationSelectionsPromise])
+
             setTimeout(() => {
               showDefaultToast({
                 message: t('meeting.resultSaved'),

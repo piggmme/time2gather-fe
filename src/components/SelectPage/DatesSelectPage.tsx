@@ -9,6 +9,7 @@ import { showDefaultToast } from '../../stores/toast'
 import Monthly from '../Monthly/Monthly'
 import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
+import LocationVoteSection from './LocationVoteSection'
 
 export default function DatesSelectPage (
   { meetingCode, data }:
@@ -17,6 +18,7 @@ export default function DatesSelectPage (
   const { t } = useTranslation()
   const containerRef = useRef<HTMLDivElement>(null)
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
+  const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
   const me = useStore($me)
 
   useEffect(function initializeSelections () {
@@ -69,6 +71,15 @@ export default function DatesSelectPage (
           availableDates={Object.keys(data.meeting.availableDates).map(date => dayjs(date))}
         />
       </div>
+      
+      {data.locationVote?.enabled && data.locationVote.locations && (
+        <LocationVoteSection
+          meetingCode={meetingCode}
+          locations={data.locationVote.locations}
+          confirmedLocation={data.locationVote.confirmedLocation}
+          onSelectionsChange={setSelectedLocationIds}
+        />
+      )}
       <div className={styles.buttonContainer}>
         <Button
           buttonType='ghost'
@@ -88,13 +99,21 @@ export default function DatesSelectPage (
           disabled={selectedDates.length === 0}
           onClick={async () => {
             // selections 에서 빈배열인 날짜는 제거
-            await meetings.$meetingCode.selections.put(meetingCode, {
+            const dateSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
               selections: selectedDates.map(date => ({
                 date: date.format('YYYY-MM-DD'),
                 type: 'ALL_DAY',
                 times: [],
               })),
             })
+
+            // 장소 투표가 활성화되어 있으면 장소 선택도 저장
+            const locationSelectionsPromise = data.locationVote?.enabled
+              ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
+              : Promise.resolve()
+
+            await Promise.all([dateSelectionsPromise, locationSelectionsPromise])
+
             setTimeout(() => {
               showDefaultToast({
                 message: t('meeting.resultSaved'),
