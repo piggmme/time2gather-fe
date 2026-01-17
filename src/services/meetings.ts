@@ -22,6 +22,8 @@ export type post_meetings_body = {
     [date: string]: string[] | null
   }
   selectionType: 'ALL_DAY' | 'TIME'
+  locationVoteEnabled?: boolean
+  locations?: string[]
 }
 export type post_meetings_response = success_response<{
   id: number

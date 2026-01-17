@@ -43,6 +43,18 @@
       "endTime": "End Time",
       "selectedDatesCount": "You have selected {count} date(s).",
       "createButton": "Create Meeting"
+    },
+    "locationStep": {
+      "heading": "Would you like to add locations?",
+      "enableLocationVote": "Enable Location Vote",
+      "enableLocationVoteDescription": "Participants can vote for their preferred location",
+      "locationPlaceholder": "Enter a location",
+      "addLocation": "Add Location",
+      "removeLocation": "Remove Location",
+      "minLocationsWarning": "At least 2 locations are required for location voting",
+      "maxLocationsWarning": "You can only add up to 5 locations",
+      "createButton": "Create Meeting",
+      "skipButton": "Skip"
     }
   },
   "meeting": {

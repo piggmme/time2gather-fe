@@ -7,7 +7,7 @@ import Button from '../Button/Button'
 import { navigate } from 'astro:transitions/client'
 import useSelectedDates from './useSelectedDates'
 import { Select } from '../Select/Select'
-import { meetings, type post_meetings_body } from '../../services/meetings'
+import { type post_meetings_body } from '../../services/meetings'
 import { useSearchParam } from 'react-use'
 import { useTranslation } from '../../hooks/useTranslation'
 import { useStore } from '@nanostores/react'
@@ -17,7 +17,6 @@ import {
   timeSlots12, amPmOptions, isTime12After, convertTo24Hour, getTimeRangeSlots,
 } from '../../utils/time'
 import type { AmPm } from '../../utils/time'
-import { showDefaultToast } from '../../stores/toast'
 
 export default function TimeRangeStep () {
   const [selectedDates] = useSelectedDates()
@@ -120,31 +119,13 @@ export default function TimeRangeStep () {
         <Button
           disabled={isTime12After({ time12: startTime12, amPm: startAmPm }, { time12: endTime12, amPm: endAmPm })}
           buttonType='primary'
-          onClick={async () => {
-            const response = await meetings.post({
-              title: title as string,
-              timezone: 'Asia/Seoul',
-              selectionType: 'TIME',
-              availableDates: selectedDates.reduce((acc, d) => {
-                const startTime24 = convertTo24Hour(startTime12, startAmPm)
-                const endTime24 = convertTo24Hour(endTime12, endAmPm)
-                acc[d.format('YYYY-MM-DD')] = getTimeRangeSlots(startTime24, endTime24)
-                return acc
-              }, {} as { [date: string]: string[] }),
-            })
-            if (response.success) {
-              navigate(`/meetings/${response.data.meetingCode}`)
-              navigator.clipboard.writeText(window.location.pathname + `/meetings/${response.data.meetingCode}`)
-              showDefaultToast({
-                message: t('meeting.shareSuccess'),
-                duration: 3000,
-              })
-            } else {
-              console.error(response.message)
-            }
+          onClick={() => {
+            const dateStrings = selectedDates.map(d => d.format('YYYY-MM-DD')).join(',')
+            const timeParams = `&startTime12=${encodeURIComponent(startTime12)}&endTime12=${encodeURIComponent(endTime12)}&startAmPm=${startAmPm}&endAmPm=${endAmPm}`
+            navigate(`/meetings/create?step=location&meetingType=TIME&dates=${dateStrings}&title=${encodeURIComponent(title as string)}${timeParams}`)
           }}
         >
-          {t('createMeeting.timeRangeStep.createButton')}
+          {t('common.next')}
         </Button>
       </div>
     </>

@@ -138,3 +138,98 @@
     transform: scale(0.98);
   }
 }
+
+// Location Step Styles
+.locationToggleContainer {
+  margin: 30px 0;
+}
+
+.locationToggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: $c-blue;
+    cursor: pointer;
+  }
+}
+
+.locationToggleLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: $c-black;
+}
+
+.locationToggleDescription {
+  margin: 8px 0 0 32px;
+  font-size: 14px;
+  color: $c-gray-darkest;
+}
+
+.locationInputsContainer {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.locationInputRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  > input {
+    flex: 1;
+  }
+}
+
+.locationRemoveButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid $c-gray;
+  border-radius: 6px;
+  background-color: $c-white;
+  color: $c-gray-darkest;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $c-gray-lightest;
+    border-color: $c-red;
+    color: $c-red;
+  }
+}
+
+.locationAddButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border: 1px dashed $c-gray;
+  border-radius: 6px;
+  background-color: $c-white;
+  color: $c-blue;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $c-gray-lightest;
+    border-color: $c-blue;
+  }
+}
+
+.locationWarning {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: $c-red;
+}

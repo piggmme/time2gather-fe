@@ -4,11 +4,12 @@ import DatesStep from '../../components/meetings/DatesStep';
 import TimeRangeStep from '../../components/meetings/TimeRangeStep';
 import TitleStep from '../../components/meetings/TitleStep';
 import DescriptionStep from '../../components/meetings/DescriptionStep';
+import LocationStep from '../../components/meetings/LocationStep';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n';
 import RequireAuth from '../../components/RequireAuth';
 import MeetingTypeStep from '../../components/meetings/MeetingTypeStep';
 
-type Step = 'meetingType' | 'title' | 'dates' | 'timeRange';
+type Step = 'meetingType' | 'title' | 'dates' | 'timeRange' | 'location';
 const step: Step = Astro.url.searchParams.get('step') as Step || 'meetingType';
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -24,6 +25,7 @@ const t = getTranslations(locale);
       <!-- {step === 'description' && <DescriptionStep client:only="react" />} -->
       {step === 'dates' && <DatesStep client:only="react" />}
       {step === 'timeRange' && <TimeRangeStep client:only="react" />}
+      {step === 'location' && <LocationStep client:only="react" />}
     </div>
   </main>
 </Layout>

@@ -5,8 +5,7 @@ import Button from '../Button/Button'
 import useSelectedDates from './useSelectedDates'
 import { useSearchParam } from 'react-use'
 import { useTranslation } from '../../hooks/useTranslation'
-import { meetings, type post_meetings_body } from '../../services/meetings'
-import { showDefaultToast } from '../../stores/toast'
+import { type post_meetings_body } from '../../services/meetings'
 
 export default function DatesStep () {
   const [selectedDates, setSelectedDates] = useSelectedDates()
@@ -48,31 +47,15 @@ export default function DatesStep () {
           <Button
             buttonType='primary'
             disabled={selectedDates.length === 0}
-            onClick={async () => {
+            onClick={() => {
               if (selectedDates.length === 0) return
 
-              const response = await meetings.post({
-                title: title as string,
-                timezone: 'Asia/Seoul',
-                availableDates: selectedDates.reduce((acc, d) => {
-                  acc[d.format('YYYY-MM-DD')] = null
-                  return acc
-                }, {} as { [date: string]: null }),
-                selectionType: 'ALL_DAY',
-              })
-              if (response.success) {
-                navigate(`/meetings/${response.data.meetingCode}`)
-                navigator.clipboard.writeText(window.location.pathname + `/meetings/${response.data.meetingCode}`)
-                showDefaultToast({
-                  message: t('meeting.shareSuccess'),
-                  duration: 3000,
-                })
-              } else {
-                console.error(response.message)
-              }
+              const dateStrings = selectedDates.map(date => date.format('YYYY-MM-DD'))
+              const newUrl = `/meetings/create?step=location&meetingType=${meetingTypeParam}&dates=${dateStrings.join(',')}&title=${encodeURIComponent(title as string)}`
+              navigate(newUrl)
             }}
           >
-            {t('createMeeting.timeRangeStep.createButton')}
+            {t('common.next')}
           </Button>
         )}
       </div>

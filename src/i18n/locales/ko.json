@@ -43,6 +43,18 @@
       "endTime": "종료 시간",
       "selectedDatesCount": "선택된 날짜는 총 {count}개에요.",
       "createButton": "약속 만들기"
+    },
+    "locationStep": {
+      "heading": "장소를 추가해 볼까요?",
+      "enableLocationVote": "장소 투표 활성화",
+      "enableLocationVoteDescription": "참여자들이 선호하는 장소에 투표할 수 있어요",
+      "locationPlaceholder": "장소를 입력해 주세요",
+      "addLocation": "장소 추가",
+      "removeLocation": "장소 삭제",
+      "minLocationsWarning": "장소 투표를 위해 최소 2개의 장소가 필요해요",
+      "maxLocationsWarning": "최대 5개의 장소만 추가할 수 있어요",
+      "createButton": "약속 만들기",
+      "skipButton": "건너뛰기"
     }
   },
   "meeting": {
