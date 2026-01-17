@@ -30,7 +30,7 @@ export default function ResultButtons (
 
   return (
     <>
-      {/* 호스트에게만 약속 확정 버튼 표시 */}
+      {/* 1. 호스트에게만 약속 확정 버튼 표시 */}
       {isHost && (
         <Button
           buttonType='primary'
@@ -39,8 +39,24 @@ export default function ResultButtons (
           {t('meeting.confirmButton')}
         </Button>
       )}
+      {/* 2. 내 캘린더로 옮기기 */}
       <Button
-        buttonType={isHost ? 'secondary' : 'primary'}
+        buttonType='secondary'
+        onClick={() => setIsExportDialogOpen(true)}
+      >
+        {t('meeting.exportToCalendar')}
+      </Button>
+      {/* 3. 시간 수정하러 가기 */}
+      <Button
+        as='a'
+        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')}
+        buttonType='ghost'
+      >
+        {didIParticipate ? t('meeting.modifyButton') : t('meeting.selectButton')}
+      </Button>
+      {/* 4. 결과 공유하기 */}
+      <Button
+        buttonType='ghost'
         onClick={() => {
           navigator.clipboard.writeText(window.location.href)
           showDefaultToast({
@@ -50,19 +66,6 @@ export default function ResultButtons (
         }}
       >
         {t('meeting.shareResult')}
-      </Button>
-      <Button
-        buttonType='secondary'
-        onClick={() => setIsExportDialogOpen(true)}
-      >
-        {t('meeting.exportToCalendar')}
-      </Button>
-      <Button
-        as='a'
-        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')}
-        buttonType='ghost'
-      >
-        {didIParticipate ? t('meeting.modifyButton') : t('meeting.selectButton')}
       </Button>
 
       <CalendarExportDialog
