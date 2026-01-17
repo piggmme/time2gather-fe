@@ -208,8 +208,44 @@ export type post_meetings_$meetingCode_auth_anonymous_body = {
   password: string
 }
 
+/**
+ * @description Generate export URL for calendar ICS file
+ * @param meetingCode Meeting code
+ * @param date Optional date in yyyy-MM-dd format
+ * @param slotIndex Optional slot index (-1 for ALL_DAY)
+ * @returns Full URL for ICS file download
+ */
+const getExportUrl = (meetingCode: string, date?: string, slotIndex?: number): string => {
+  const baseUrl = 'https://api.time2gather.org/api/v1/meetings'
+  const url = new URL(`${baseUrl}/${meetingCode}/export`)
+
+  if (date !== undefined && slotIndex !== undefined) {
+    url.searchParams.append('date', date)
+    url.searchParams.append('slotIndex', String(slotIndex))
+  }
+
+  return url.toString()
+}
+
+/**
+ * @description Convert time string (HH:mm) to slot index
+ * @param time Time string in HH:mm format (e.g., "09:00")
+ * @param intervalMinutes Interval in minutes (default: 60)
+ * @returns Slot index
+ */
+const timeToSlotIndex = (time: string, intervalMinutes: number = 60): number => {
+  if (time === 'ALL_DAY') {
+    return -1
+  }
+  const [hours, minutes] = time.split(':').map(Number)
+  const totalMinutes = hours * 60 + minutes
+  return Math.floor(totalMinutes / intervalMinutes)
+}
+
 export const meetings = {
   post: post_meetings,
+  getExportUrl,
+  timeToSlotIndex,
   $meetingCode: {
     get: get_meetings_$meetingCode,
     selections: {

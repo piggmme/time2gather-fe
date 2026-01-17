@@ -1,0 +1,74 @@
+@use "../../styles/variables.scss" as *;
+
+.dialogContent {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.slotList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.slotItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid $c-gray-light;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $c-gray-light;
+  }
+
+  &:has(.radioInput:checked) {
+    border-color: $primary-color;
+    background-color: rgba($primary-color, 0.05);
+  }
+}
+
+.radioInput {
+  width: 18px;
+  height: 18px;
+  accent-color: $primary-color;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.slotInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.slotDate {
+  font-size: 14px;
+  font-weight: 500;
+  color: $c-black;
+}
+
+.slotTime {
+  font-size: 13px;
+  color: $c-gray-dark;
+}
+
+.slotStats {
+  font-size: 13px;
+  color: $c-gray-dark;
+  white-space: nowrap;
+}
+
+.dialogButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}

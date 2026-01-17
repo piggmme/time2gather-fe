@@ -60,6 +60,16 @@
     "shareResult": "Share Result",
     "shareMeeting": "Share Meeting",
     "shareSuccess": "The link has been copied.",
+    "exportToCalendar": "Add to My Calendar",
+    "exportDialog": {
+      "title": "Add to Calendar",
+      "description": "Select the date and time to add to your calendar.",
+      "noSlots": "No dates have been voted on yet.",
+      "allDay": "All Day",
+      "cancel": "Cancel",
+      "confirm": "Add to Calendar",
+      "close": "Close"
+    },
     "anonymousSelectButton": "Participate Anonymously",
     "selectButton": "Select Dates",
     "selectTimeButton": "Select Date and Time",
