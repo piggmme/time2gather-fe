@@ -7,7 +7,7 @@ import styles from './ResultContent.module.scss'
 import { formatDate } from '../../utils/time'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
-import { HiChevronDown, HiChevronRight, HiX } from 'react-icons/hi'
+import { HiChevronDown, HiChevronRight, HiX, HiOutlineDocumentText, HiOutlineLocationMarker } from 'react-icons/hi'
 import { useTranslation } from '../../hooks/useTranslation'
 import { $me } from '../../stores/me'
 import { Tabs } from '../Tabs/Tabs'
@@ -240,13 +240,22 @@ function AISummaryContent ({
     ? [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
     : []
 
+  const getRankBadgeClass = (index: number) => {
+    if (index === 0) return styles.AISummaryRankBadgeFirst
+    if (index === 1) return styles.AISummaryRankBadgeSecond
+    if (index === 2) return styles.AISummaryRankBadgeThird
+    return ''
+  }
+
   return (
     <Tabs.Content value='AI 요약'>
       <div className={styles.AISummaryContainer}>
         {/* AI 요약 텍스트 카드 */}
         <div className={styles.AISummaryCard}>
           <div className={styles.AISummaryCardHeader}>
-            <span className={styles.AISummaryCardIcon}>📋</span>
+            <span className={styles.AISummaryCardIcon}>
+              <HiOutlineDocumentText />
+            </span>
             <span className={styles.AISummaryCardTitle}>{t('meeting.result.aiSummaryTitle')}</span>
           </div>
           <div className={styles.AISummaryCardContent}>
@@ -258,20 +267,20 @@ function AISummaryContent ({
         {locationVote?.enabled && sortedLocations.length > 0 && (
           <div className={styles.AISummaryLocationCard}>
             <div className={styles.AISummaryCardHeader}>
-              <span className={styles.AISummaryCardIcon}>📍</span>
+              <span className={`${styles.AISummaryCardIcon} ${styles.CardIconLocation}`}>
+                <HiOutlineLocationMarker />
+              </span>
               <span className={styles.AISummaryCardTitle}>{t('locationVote.title')}</span>
             </div>
             <div className={styles.AISummaryLocationContent}>
               {locationVote.confirmedLocation && (
                 <div className={styles.AISummaryConfirmedBanner}>
-                  <span className={styles.AISummaryConfirmedIcon}>🏆</span>
                   <span>{t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong></span>
                 </div>
               )}
               <ul className={styles.AISummaryLocationList}>
                 {sortedLocations.map((location, index) => {
                   const isConfirmed = locationVote.confirmedLocation?.id === location.id
-                  const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : ''
 
                   return (
                     <li
@@ -279,7 +288,9 @@ function AISummaryContent ({
                       className={`${styles.AISummaryLocationItem} ${isConfirmed ? styles.AISummaryLocationItemConfirmed : ''}`}
                     >
                       <div className={styles.AISummaryLocationRank}>
-                        {rankEmoji && <span className={styles.AISummaryRankEmoji}>{rankEmoji}</span>}
+                        <span className={`${styles.AISummaryRankBadge} ${getRankBadgeClass(index)}`}>
+                          {index + 1}
+                        </span>
                         <span className={styles.AISummaryLocationName}>{location.name}</span>
                         {isConfirmed && (
                           <span className={styles.AISummaryConfirmedBadge}>{t('locationVote.confirmed')}</span>
@@ -727,6 +738,13 @@ function LocationContent ({
 
   const sortedLocations = [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
 
+  const getRankBadgeClass = (index: number) => {
+    if (index === 0) return styles.LocationRankFirst
+    if (index === 1) return styles.LocationRankSecond
+    if (index === 2) return styles.LocationRankThird
+    return ''
+  }
+
   return (
     <Tabs.Content value='장소'>
       <div className={styles.Location}>
@@ -739,7 +757,7 @@ function LocationContent ({
         )}
 
         <ul className={styles.LocationList}>
-          {sortedLocations.map((location) => {
+          {sortedLocations.map((location, index) => {
             const isConfirmed = locationVote.confirmedLocation?.id === location.id
 
             return (
@@ -748,6 +766,9 @@ function LocationContent ({
                 className={`${styles.LocationItem} ${isConfirmed ? styles.LocationItemConfirmed : ''}`}
               >
                 <div className={styles.LocationHeader}>
+                  <span className={`${styles.LocationRank} ${getRankBadgeClass(index)}`}>
+                    {index + 1}
+                  </span>
                   <span className={styles.LocationName}>
                     {location.name}
                     {isConfirmed && (
