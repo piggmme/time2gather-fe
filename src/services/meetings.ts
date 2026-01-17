@@ -213,22 +213,15 @@ export type post_meetings_$meetingCode_auth_anonymous_body = {
  * @param meetingCode Meeting code
  * @param date Optional date in yyyy-MM-dd format
  * @param slotIndex Optional slot index (-1 for ALL_DAY)
- * @param useWebcal Use webcal:// protocol for auto-open in calendar apps (iOS/macOS)
  * @returns Full URL for ICS file download
  */
-const getExportUrl = (meetingCode: string, date?: string, slotIndex?: number, useWebcal: boolean = true): string => {
+const getExportUrl = (meetingCode: string, date?: string, slotIndex?: number): string => {
   const baseUrl = 'https://api.time2gather.org/api/v1/meetings'
   const url = new URL(`${baseUrl}/${meetingCode}/export`)
 
   if (date !== undefined && slotIndex !== undefined) {
     url.searchParams.append('date', date)
     url.searchParams.append('slotIndex', String(slotIndex))
-  }
-
-  // webcal:// 프로토콜은 iOS/macOS에서 캘린더 앱을 자동으로 열어줌
-  // Android는 지원하지 않으므로 https://로 폴백
-  if (useWebcal) {
-    return url.toString().replace('https://', 'webcal://')
   }
 
   return url.toString()

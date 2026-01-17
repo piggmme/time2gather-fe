@@ -5,7 +5,7 @@ import type { error_response } from '../services/type'
 
 const api = axios.create({
   withCredentials: true,
-  baseURL: 'https://api.time2gather.org/api',
+  baseURL: import.meta.env.PUBLIC_API_URL || 'https://api.time2gather.org/api',
 })
 
 const checkIsAuthError = (error: AxiosError<error_response>) => {
