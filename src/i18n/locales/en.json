@@ -123,6 +123,15 @@
     "siteDescription": "A service that makes it easy to schedule meetings with people. Create meetings, select multiple dates and time slots, and share them. When participants select their available times, we'll recommend the best date and time to meet.",
     "siteKeywords": "schedule meeting, schedule coordination, group meeting, group schedule, time coordination, meeting management, schedule sharing, Time2Gather",
     "ogImageAlt": "Time2Gather - Schedule with Multiple People"
+  },
+  "chatBot": {
+    "title": "Schedule Assistant",
+    "open": "Open Chat",
+    "close": "Close Chat",
+    "welcomeMessage": "Hello! Ask me about your schedule.",
+    "welcomeHint": "e.g. \"Show my meetings\", \"What's on next week?\"",
+    "inputPlaceholder": "Type a message...",
+    "errorMessage": "Sorry, an error occurred. Please try again later."
   }
 }
 

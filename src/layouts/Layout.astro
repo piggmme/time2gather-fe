@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions'
 import '../styles/global.scss';
 import Header from '../components/Header/Header';
+import ChatBot from '../components/ChatBot/ChatBot';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
 import Toast from '../components/Toast/Toast';
 
@@ -76,6 +77,7 @@ const ogImage = customOgImage || new URL('/favicon.svg', siteUrl).href;
 	  <slot />
 	</div>
 	<Toast client:only="react" />
+	<ChatBot client:only="react" />
   </body>
 </html>
 
