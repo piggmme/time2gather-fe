@@ -101,8 +101,8 @@
     "resultButton": "View Result",
     "result": {
       "tabs": {
-        "aiSummary": "AI Summary",
-        "summary": "Summary",
+        "aiSummary": "Summary",
+        "summary": "Result",
         "calendar": "Calendar",
         "participants": "Participants",
         "location": "Location"
@@ -116,7 +116,7 @@
       "people": "people",
       "noParticipants": "No participants",
       "buttons": {
-        "calendar": "Calendar",
+        "calendar": "Export",
         "share": "Share",
         "modify": "Modify",
         "select": "Select"

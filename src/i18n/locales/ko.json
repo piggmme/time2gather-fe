@@ -113,8 +113,8 @@
     },
     "result": {
       "tabs": {
-        "aiSummary": "AI 요약",
-        "summary": "요약",
+        "aiSummary": "요약",
+        "summary": "결과",
         "calendar": "달력",
         "participants": "참여자",
         "location": "장소"
@@ -128,7 +128,7 @@
       "people": "명",
       "noParticipants": "참여자가 없습니다",
       "buttons": {
-        "calendar": "캘린더",
+        "calendar": "내보내기",
         "share": "공유",
         "modify": "수정",
         "select": "선택"
