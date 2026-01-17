@@ -186,7 +186,7 @@ export default function ResultContent ({
       </Tabs.List>
 
       {reportData?.summaryText && (
-        <AISummaryContent summaryText={reportData.summaryText} />
+        <AISummaryContent summaryText={reportData.summaryText} meetingData={meetingData} />
       )}
       <SummaryContent
         meetingData={meetingData}
@@ -225,13 +225,92 @@ type GroupedBestSlot = {
 }
 
 // AI 요약 탭 컴포넌트
-function AISummaryContent ({ summaryText }: { summaryText: string }) {
+function AISummaryContent ({
+  summaryText,
+  meetingData,
+}: {
+  summaryText: string
+  meetingData: get_meetings_$meetingCode_response['data']
+}) {
+  const { t } = useTranslation()
+  const locationVote = meetingData.locationVote
+
+  // 장소 투표가 있으면 정렬
+  const sortedLocations = locationVote?.locations
+    ? [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
+    : []
+
   return (
     <Tabs.Content value='AI 요약'>
-      <div className={styles.Summary}>
-        <div className={styles.SummaryText}>
-          <ReactMarkdown>{summaryText}</ReactMarkdown>
+      <div className={styles.AISummaryContainer}>
+        {/* AI 요약 텍스트 카드 */}
+        <div className={styles.AISummaryCard}>
+          <div className={styles.AISummaryCardHeader}>
+            <span className={styles.AISummaryCardIcon}>📋</span>
+            <span className={styles.AISummaryCardTitle}>{t('meeting.result.aiSummaryTitle')}</span>
+          </div>
+          <div className={styles.AISummaryCardContent}>
+            <ReactMarkdown>{summaryText}</ReactMarkdown>
+          </div>
         </div>
+
+        {/* 장소 투표 카드 (enabled인 경우만) */}
+        {locationVote?.enabled && sortedLocations.length > 0 && (
+          <div className={styles.AISummaryLocationCard}>
+            <div className={styles.AISummaryCardHeader}>
+              <span className={styles.AISummaryCardIcon}>📍</span>
+              <span className={styles.AISummaryCardTitle}>{t('locationVote.title')}</span>
+            </div>
+            <div className={styles.AISummaryLocationContent}>
+              {locationVote.confirmedLocation && (
+                <div className={styles.AISummaryConfirmedBanner}>
+                  <span className={styles.AISummaryConfirmedIcon}>🏆</span>
+                  <span>{t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong></span>
+                </div>
+              )}
+              <ul className={styles.AISummaryLocationList}>
+                {sortedLocations.map((location, index) => {
+                  const isConfirmed = locationVote.confirmedLocation?.id === location.id
+                  const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : ''
+
+                  return (
+                    <li
+                      key={location.id}
+                      className={`${styles.AISummaryLocationItem} ${isConfirmed ? styles.AISummaryLocationItemConfirmed : ''}`}
+                    >
+                      <div className={styles.AISummaryLocationRank}>
+                        {rankEmoji && <span className={styles.AISummaryRankEmoji}>{rankEmoji}</span>}
+                        <span className={styles.AISummaryLocationName}>{location.name}</span>
+                        {isConfirmed && (
+                          <span className={styles.AISummaryConfirmedBadge}>{t('locationVote.confirmed')}</span>
+                        )}
+                      </div>
+                      <div className={styles.AISummaryLocationMeta}>
+                        <span className={styles.AISummaryVoteCount}>
+                          {location.voteCount}{t('meeting.result.people')} ({location.percentage})
+                        </span>
+                      </div>
+                      {location.voters.length > 0 && (
+                        <div className={styles.AISummaryVoters}>
+                          {location.voters.map(voter => (
+                            <div key={voter.userId} className={styles.AISummaryVoterChip}>
+                              <Avatar
+                                src={voter.profileImageUrl}
+                                name={voter.username}
+                                size={20}
+                              />
+                              <span>{voter.username}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </Tabs.Content>
   )

@@ -120,6 +120,7 @@
         "location": "장소"
       },
       "summaryTitle": "약속 요약",
+      "aiSummaryTitle": "투표 결과 요약",
       "calendarTitle": "약속 달력",
       "totalParticipants": "총 {count}명이 참여했어요!",
       "bestSlotsTitle": "가장 많은 참여자들이 가능한 시간:",

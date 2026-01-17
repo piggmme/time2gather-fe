@@ -108,6 +108,7 @@
         "location": "Location"
       },
       "summaryTitle": "Meeting Summary",
+      "aiSummaryTitle": "Vote Result Summary",
       "calendarTitle": "Meeting Calendar",
       "totalParticipants": "A total of {count} people participated!",
       "bestSlotsTitle": "Time slots with the most participants:",
