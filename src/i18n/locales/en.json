@@ -61,6 +61,7 @@
     "shareMeeting": "Share Meeting",
     "shareSuccess": "The link has been copied.",
     "exportToCalendar": "Add to My Calendar",
+    "confirmButton": "Confirm Meeting",
     "exportDialog": {
       "title": "Add to Calendar",
       "description": "Select the date and time to add to your calendar.",
@@ -69,6 +70,18 @@
       "cancel": "Cancel",
       "confirm": "Add to Calendar",
       "close": "Close"
+    },
+    "confirmDialog": {
+      "title": "Confirm Meeting",
+      "description": "Select the date and time to confirm. (Top 3)",
+      "noSlots": "No dates have been voted on yet.",
+      "allDay": "All Day",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "confirming": "Confirming...",
+      "close": "Close",
+      "success": "Meeting has been confirmed!",
+      "error": "Failed to confirm meeting. Please try again."
     },
     "anonymousSelectButton": "Participate Anonymously",
     "selectButton": "Select Dates",

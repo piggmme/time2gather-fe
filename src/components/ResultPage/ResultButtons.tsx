@@ -6,20 +6,41 @@ import Button from '../Button/Button'
 import { useTranslation } from '../../hooks/useTranslation'
 import { showDefaultToast } from '../../stores/toast'
 import CalendarExportDialog from './CalendarExportDialog'
+import ConfirmMeetingDialog from './ConfirmMeetingDialog'
 
 export default function ResultButtons (
-  { data }:
-  { data: get_meetings_$meetingCode_response['data'] },
+  { data, onMeetingUpdated }:
+  { data: get_meetings_$meetingCode_response['data'], onMeetingUpdated?: () => void },
 ) {
   const me = useStore($me)
   const didIParticipate = data.participants.some(participant => participant.userId === me?.userId)
+  const isHost = data.meeting.host.id === me?.userId
   const { t } = useTranslation()
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
+
+  const handleConfirmed = () => {
+    // 페이지 새로고침하여 확정 상태 반영
+    if (onMeetingUpdated) {
+      onMeetingUpdated()
+    } else {
+      window.location.reload()
+    }
+  }
 
   return (
     <>
+      {/* 호스트에게만 약속 확정 버튼 표시 */}
+      {isHost && (
+        <Button
+          buttonType='primary'
+          onClick={() => setIsConfirmDialogOpen(true)}
+        >
+          {t('meeting.confirmButton')}
+        </Button>
+      )}
       <Button
-        buttonType='primary'
+        buttonType={isHost ? 'secondary' : 'primary'}
         onClick={() => {
           navigator.clipboard.writeText(window.location.href)
           showDefaultToast({
@@ -47,6 +68,16 @@ export default function ResultButtons (
       <CalendarExportDialog
         isOpen={isExportDialogOpen}
         onClose={() => setIsExportDialogOpen(false)}
+        meetingCode={data.meeting.code}
+        meetingTitle={data.meeting.title}
+        bestSlots={data.summary.bestSlots}
+        selectionType={data.meeting.selectionType}
+      />
+
+      <ConfirmMeetingDialog
+        isOpen={isConfirmDialogOpen}
+        onClose={() => setIsConfirmDialogOpen(false)}
+        onConfirmed={handleConfirmed}
         meetingCode={data.meeting.code}
         meetingTitle={data.meeting.title}
         bestSlots={data.summary.bestSlots}

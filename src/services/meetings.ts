@@ -209,6 +209,30 @@ export type post_meetings_$meetingCode_auth_anonymous_body = {
 }
 
 /**
+ * @description Confirm a meeting with selected date and slot
+ * @param meetingCode Meeting code
+ * @param date Date in yyyy-MM-dd format
+ * @param slotIndex Slot index (null for ALL_DAY)
+ */
+export type put_meetings_$meetingCode_confirm_body = {
+  date: string
+  slotIndex: number | null
+}
+const put_meetings_$meetingCode_confirm = async (meetingCode: string, body: put_meetings_$meetingCode_confirm_body) => {
+  const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/confirm`, body)
+  return response.data
+}
+
+/**
+ * @description Cancel meeting confirmation
+ * @param meetingCode Meeting code
+ */
+const delete_meetings_$meetingCode_confirm = async (meetingCode: string) => {
+  const response = await api.delete<success_response<null>>(`/v1/meetings/${meetingCode}/confirm`)
+  return response.data
+}
+
+/**
  * @description Generate export URL for calendar ICS file
  * @param meetingCode Meeting code
  * @param date Optional date in yyyy-MM-dd format
@@ -259,6 +283,10 @@ export const meetings = {
       anonymous: {
         post: post_meetings_$meetingCode_auth_anonymous,
       },
+    },
+    confirm: {
+      put: put_meetings_$meetingCode_confirm,
+      delete: delete_meetings_$meetingCode_confirm,
     },
   },
 }
