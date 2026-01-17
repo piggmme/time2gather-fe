@@ -1,82 +1,86 @@
 @use "../../styles/variables.scss" as *;
 
+// =====================================================
+// 공통 섹션 스타일
+// =====================================================
+
 .Summary {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: $spacing-lg;
 }
+
+.Title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $c-black;
+  margin: 0;
+}
+
+.DetailText {
+  font-size: $font-size-lg;
+  color: $c-gray-darkest;
+  margin: 0;
+}
+
+// =====================================================
+// 마크다운 텍스트 스타일
+// =====================================================
 
 .SummaryText {
   word-break: keep-all;
-  line-height: 1.6;
+  line-height: $line-height-normal;
   color: $c-black;
 
-  // 마크다운 요소 스타일
   h1, h2, h3, h4, h5, h6 {
-    margin: 16px 0 8px 0;
-    font-weight: 600;
+    margin: $spacing-base 0 $spacing-sm 0;
+    font-weight: $font-weight-semibold;
     color: $c-black;
-    line-height: 1.4;
+    line-height: $line-height-tight;
 
     &:first-child {
       margin-top: 0;
     }
   }
 
-  h1 {
-    font-size: 24px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  h3 {
-    font-size: 18px;
-  }
-
-  h4, h5, h6 {
-    font-size: 16px;
-  }
+  h1 { font-size: $font-size-4xl; }
+  h2 { font-size: $font-size-2xl; }
+  h3 { font-size: $font-size-xl; }
+  h4, h5, h6 { font-size: $font-size-lg; }
 
   p {
-    margin: 8px 0;
-    line-height: 1.6;
+    margin: $spacing-sm 0;
+    line-height: $line-height-normal;
 
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
+    &:first-child { margin-top: 0; }
+    &:last-child { margin-bottom: 0; }
   }
 
   ul, ol {
-    margin: 8px 0;
-    padding-left: 24px;
+    margin: $spacing-sm 0;
+    padding-left: $spacing-xl;
   }
 
   li {
-    margin: 4px 0;
-    line-height: 1.6;
+    margin: $spacing-xs 0;
+    line-height: $line-height-normal;
   }
 
   code {
     background-color: $c-gray-lightest;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 2px $spacing-sm;
+    border-radius: $radius-xs;
     font-size: 0.9em;
     font-family: monospace;
   }
 
   pre {
     background-color: $c-gray-lightest;
-    padding: 12px;
-    border-radius: 6px;
+    padding: $spacing-md;
+    border-radius: $radius-sm;
     overflow-x: auto;
-    margin: 8px 0;
+    margin: $spacing-sm 0;
 
     code {
       background-color: transparent;
@@ -86,8 +90,8 @@
 
   blockquote {
     border-left: 4px solid $c-gray;
-    padding-left: 16px;
-    margin: 8px 0;
+    padding-left: $spacing-base;
+    margin: $spacing-sm 0;
     color: $c-gray-darkest;
     font-style: italic;
   }
@@ -102,7 +106,7 @@
   }
 
   strong {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
   }
 
   em {
@@ -112,32 +116,23 @@
   hr {
     border: none;
     border-top: 1px solid $c-gray-light;
-    margin: 16px 0;
+    margin: $spacing-base 0;
   }
 }
 
-.Title {
-  font-size: 18px;
-  font-weight: 600;
-  color: $c-black;
-  margin: 0;
-}
-
-.DetailText {
-  font-size: 16px;
-  color: $c-gray-darkest;
-  margin: 0;
-}
+// =====================================================
+// Best Slots (요약 탭)
+// =====================================================
 
 .BestSlots {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $spacing-md;
 }
 
 .BestSlotsTitle {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
   color: $c-gray-darkest;
   margin: 0;
 }
@@ -148,7 +143,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: $spacing-sm;
 }
 
 .BestSlotItem {
@@ -157,18 +152,18 @@
   gap: 0;
   padding: 0;
   background-color: $c-gray-lightest;
-  border-radius: 6px;
+  border-radius: $radius-sm;
   overflow: hidden;
 }
 
 .BestSlotHeader {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
-  font-size: 14px;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  font-size: $font-size-base;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color $transition-base;
 
   &:hover {
     background-color: $c-gray-light;
@@ -176,13 +171,13 @@
 }
 
 .BestSlotDate {
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   color: $c-black;
   min-width: 100px;
 }
 
 .BestSlotTime {
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   color: $primary-color;
   flex: 1;
 }
@@ -190,22 +185,22 @@
 .BestSlotCount {
   margin-left: auto;
   color: $c-gray-darkest;
-  font-size: 12px;
+  font-size: $font-size-sm;
 }
 
 .BestSlotExpandIcon {
   color: $c-gray-dark;
-  font-size: 12px;
-  margin-left: 8px;
-  transition: transform 0.2s ease;
+  font-size: $font-size-sm;
+  margin-left: $spacing-sm;
+  transition: transform $transition-base;
 }
 
 .BestSlotParticipants {
-  padding: 8px 12px;
+  padding: $spacing-sm $spacing-md;
   background-color: $c-white;
   border: 1px solid $c-gray-light;
   border-top: none;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 $radius-sm $radius-sm;
 }
 
 .BestSlotParticipantsList {
@@ -214,46 +209,54 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: $spacing-sm;
 }
 
 .BestSlotParticipantItem {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
 }
 
 .BestSlotParticipantName {
-  font-size: 14px;
+  font-size: $font-size-base;
   color: $c-black;
 }
+
+// =====================================================
+// 달력 탭
+// =====================================================
 
 .Calendar {
   width: 100%;
-  overflow: visible; // countBadge가 잘리지 않도록
+  overflow: visible;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: $spacing-lg;
 }
 
 .CalendarTitle {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
   color: $c-black;
   margin: 0;
 }
+
+// =====================================================
+// 참여자 탭
+// =====================================================
 
 .Participants {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: $spacing-lg;
 }
 
 .ParticipantsCount {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
   color: $c-gray-darkest;
   margin: 0;
 }
@@ -264,23 +267,27 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: $spacing-base;
 }
 
 .ParticipantItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
+  gap: $spacing-md;
+  padding: $spacing-md;
   background-color: $c-gray-lightest;
-  border-radius: 6px;
+  border-radius: $radius-sm;
 }
 
 .ParticipantName {
-  font-size: 16px;
+  font-size: $font-size-lg;
   color: $c-black;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
+
+// =====================================================
+// 모달
+// =====================================================
 
 .ModalOverlay {
   position: fixed;
@@ -292,34 +299,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 20px;
-  animation: fadeIn 0.2s ease-in-out;
+  z-index: $z-modal;
+  padding: $spacing-lg;
+  animation: fadeIn $transition-base;
 }
 
 .ModalContent {
   background-color: $c-white;
-  border-radius: 12px;
+  border-radius: $radius-base;
   width: 100%;
   max-width: 400px;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.3s ease-out;
+  box-shadow: $shadow-modal;
+  animation: slideUp $transition-slow;
 }
 
 .ModalHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
-  border-bottom: 1px solid $c-gray;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $c-gray-light;
 }
 
 .ModalTitle {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
   color: $c-black;
   margin: 0;
 }
@@ -329,12 +336,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
+  width: $button-height-sm;
+  height: $button-height-sm;
+  border-radius: $radius-sm;
   cursor: pointer;
   color: $c-gray-dark;
-  transition: all 0.2s ease;
+  transition: all $transition-base;
 
   &:hover {
     background-color: $c-gray-lightest;
@@ -348,16 +355,16 @@
 }
 
 .ModalBody {
-  padding: 20px;
+  padding: $spacing-lg;
   overflow-y: auto;
   flex: 1;
 }
 
 .ModalParticipantsCount {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
   color: $c-gray-darkest;
-  margin: 0 0 16px 0;
+  margin: 0 0 $spacing-base 0;
 }
 
 .ModalParticipantsList {
@@ -366,38 +373,34 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $spacing-md;
 }
 
 .ModalParticipantItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
+  gap: $spacing-md;
+  padding: $spacing-md;
   background-color: $c-gray-lightest;
-  border-radius: 6px;
+  border-radius: $radius-sm;
 }
 
 .ModalParticipantName {
-  font-size: 16px;
+  font-size: $font-size-lg;
   color: $c-black;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .ModalEmptyText {
   text-align: center;
   color: $c-gray-dark;
-  font-size: 14px;
-  margin: 40px 0;
+  font-size: $font-size-base;
+  margin: $spacing-3xl 0;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
@@ -412,29 +415,29 @@
 }
 
 // =====================================================
-// 장소 투표 탭 스타일 (AI 요약과 통일된 디자인)
+// 장소 투표 탭
 // =====================================================
 
 .Location {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: $spacing-base;
 }
 
 .ConfirmedLocationBanner {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 12px;
-  font-size: 14px;
-  color: #059669;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-base;
+  background: $success-color-soft;
+  border: 1px solid $success-color-border;
+  border-radius: $radius-base;
+  font-size: $font-size-base;
+  color: $success-text-color;
 
   strong {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
   }
 }
 
@@ -444,137 +447,136 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: $spacing-sm;
 }
 
 .LocationItem {
-  padding: 14px 16px;
+  padding: $spacing-md $spacing-base;
   background: $c-gray-lightest;
   border: 1px solid transparent;
-  border-radius: 12px;
+  border-radius: $radius-base;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: all 0.15s ease;
+  gap: $spacing-sm;
+  transition: all $transition-fast;
 }
 
 .LocationItemConfirmed {
-  border-color: rgba(16, 185, 129, 0.3);
-  background: rgba(16, 185, 129, 0.06);
+  border-color: $success-color-border;
+  background: $success-color-soft;
 }
 
 .LocationHeader {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: $spacing-sm;
 }
 
 .LocationRank {
-  width: 24px;
-  height: 24px;
+  width: $badge-size-base;
+  height: $badge-size-base;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $c-gray-dark;
+  background: $rank-default;
   color: $c-white;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 6px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-sm;
   flex-shrink: 0;
 }
 
 .LocationRankFirst {
-  background: $primary-color;
+  background: $rank-first;
 }
 
 .LocationRankSecond {
-  background: #64748b;
+  background: $rank-second;
 }
 
 .LocationRankThird {
-  background: #94a3b8;
+  background: $rank-third;
 }
 
 .LocationName {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
   color: $c-black;
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: $spacing-sm;
 }
 
 .ConfirmedBadge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
-  background: #10b981;
+  padding: $spacing-xs $spacing-sm;
+  background: $success-color;
   color: $c-white;
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: 6px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-sm;
 }
 
 .LocationVoteCount {
-  font-size: 13px;
+  font-size: $font-size-sm;
   color: $c-gray-darkest;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   margin-left: auto;
 }
 
 .LocationVoters {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  padding-left: 34px;
+  gap: $spacing-sm;
+  padding-left: calc($badge-size-base + $spacing-sm);
 }
 
 // =====================================================
-// 통일된 카드 디자인 시스템
+// 카드 디자인 시스템
 // =====================================================
 
-// 공통 카드 스타일
 .Card {
-  background: $c-white;
-  border-radius: 16px;
-  border: 1px solid $c-gray-light;
+  background: $card-bg;
+  border-radius: $card-radius;
+  border: $card-border;
   overflow: hidden;
 }
 
 .CardHeader {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 20px;
-  background: $c-gray-lightest;
+  gap: $spacing-sm;
+  padding: $card-header-padding;
+  background: $card-header-bg;
   border-bottom: 1px solid $c-gray-light;
 }
 
 .CardIcon {
-  width: 28px;
-  height: 28px;
+  width: $icon-size-lg;
+  height: $icon-size-lg;
   display: flex;
   align-items: center;
   justify-content: center;
   background: $primary-color;
   color: $c-white;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
 }
 
 .CardIconLocation {
-  background: #10b981;
+  background: $success-color;
 }
 
 .CardTitle {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
   color: $c-black;
 }
 
 .CardContent {
-  padding: 20px;
+  padding: $card-padding;
 }
 
 // =====================================================
@@ -584,10 +586,9 @@
 .AISummaryContainer {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: $spacing-base;
 }
 
-// AI 요약 카드
 .AISummaryCard {
   @extend .Card;
 }
@@ -607,52 +608,52 @@
 .AISummaryCardContent {
   @extend .CardContent;
   word-break: keep-all;
-  line-height: 1.7;
+  line-height: $line-height-relaxed;
   color: $c-black;
 
   h1, h2, h3, h4, h5, h6 {
-    margin: 20px 0 12px 0;
-    font-weight: 600;
+    margin: $spacing-lg 0 $spacing-md 0;
+    font-weight: $font-weight-semibold;
     color: $c-black;
-    line-height: 1.4;
+    line-height: $line-height-tight;
 
     &:first-child {
       margin-top: 0;
     }
   }
 
-  h1 { font-size: 22px; }
-  h2 { font-size: 18px; }
-  h3 { font-size: 16px; }
-  h4, h5, h6 { font-size: 15px; }
+  h1 { font-size: $font-size-3xl; }
+  h2 { font-size: $font-size-xl; }
+  h3 { font-size: $font-size-lg; }
+  h4, h5, h6 { font-size: $font-size-md; }
 
   p {
-    margin: 10px 0;
-    line-height: 1.7;
+    margin: $spacing-sm 0;
+    line-height: $line-height-relaxed;
 
     &:first-child { margin-top: 0; }
     &:last-child { margin-bottom: 0; }
   }
 
   ul, ol {
-    margin: 10px 0;
-    padding-left: 20px;
+    margin: $spacing-sm 0;
+    padding-left: $spacing-lg;
   }
 
   li {
-    margin: 6px 0;
-    line-height: 1.6;
+    margin: $spacing-sm 0;
+    line-height: $line-height-normal;
   }
 
   strong {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $c-black;
   }
 
   hr {
     border: none;
     border-top: 1px solid $c-gray-light;
-    margin: 20px 0;
+    margin: $spacing-lg 0;
   }
 }
 
@@ -668,27 +669,27 @@
   @extend .CardContent;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $spacing-md;
 }
 
 .AISummaryConfirmedBanner {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 12px;
-  font-size: 14px;
-  color: #059669;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-base;
+  background: $success-color-soft;
+  border: 1px solid $success-color-border;
+  border-radius: $radius-base;
+  font-size: $font-size-base;
+  color: $success-text-color;
 
   strong {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
   }
 }
 
 .AISummaryConfirmedIcon {
-  font-size: 16px;
+  font-size: $font-size-lg;
 }
 
 .AISummaryLocationList {
@@ -697,60 +698,60 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: $spacing-sm;
 }
 
 .AISummaryLocationItem {
-  padding: 14px 16px;
+  padding: $spacing-md $spacing-base;
   background: $c-gray-lightest;
   border: 1px solid transparent;
-  border-radius: 12px;
+  border-radius: $radius-base;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: all 0.15s ease;
+  gap: $spacing-sm;
+  transition: all $transition-fast;
 }
 
 .AISummaryLocationItemConfirmed {
-  border-color: rgba(16, 185, 129, 0.3);
-  background: rgba(16, 185, 129, 0.06);
+  border-color: $success-color-border;
+  background: $success-color-soft;
 }
 
 .AISummaryLocationRank {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: $spacing-sm;
 }
 
 .AISummaryRankBadge {
-  width: 24px;
-  height: 24px;
+  width: $badge-size-base;
+  height: $badge-size-base;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $c-gray-dark;
+  background: $rank-default;
   color: $c-white;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 6px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-sm;
   flex-shrink: 0;
 }
 
 .AISummaryRankBadgeFirst {
-  background: $primary-color;
+  background: $rank-first;
 }
 
 .AISummaryRankBadgeSecond {
-  background: #64748b;
+  background: $rank-second;
 }
 
 .AISummaryRankBadgeThird {
-  background: #94a3b8;
+  background: $rank-third;
 }
 
 .AISummaryLocationName {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
   color: $c-black;
   flex: 1;
 }
@@ -758,44 +759,43 @@
 .AISummaryConfirmedBadge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
-  background: #10b981;
+  padding: $spacing-xs $spacing-sm;
+  background: $success-color;
   color: $c-white;
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: 6px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-sm;
 }
 
 .AISummaryLocationMeta {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding-left: 34px;
+  gap: $spacing-sm;
+  padding-left: calc($badge-size-base + $spacing-sm);
 }
 
 .AISummaryVoteCount {
-  font-size: 13px;
+  font-size: $font-size-sm;
   color: $c-gray-darkest;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .AISummaryVoters {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  padding-left: 34px;
+  gap: $spacing-sm;
+  padding-left: calc($badge-size-base + $spacing-sm);
 }
 
 .AISummaryVoterChip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px 4px 4px;
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-sm $spacing-xs $spacing-xs;
   background: $c-white;
   border: 1px solid $c-gray-light;
-  border-radius: 20px;
-  font-size: 12px;
+  border-radius: $radius-full;
+  font-size: $font-size-sm;
   color: $c-gray-darkest;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
-
