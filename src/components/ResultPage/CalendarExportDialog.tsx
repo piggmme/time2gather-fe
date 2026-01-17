@@ -44,9 +44,11 @@ export default function CalendarExportDialog({
       ? -1
       : meetings.timeToSlotIndex(selectedSlot.time)
 
-    const exportUrl = meetings.getExportUrl(meetingCode, selectedSlot.date, slotIndex)
+    // Android는 webcal:// 프로토콜을 지원하지 않으므로 https:// 사용
+    const isAndroid = /android/i.test(navigator.userAgent)
+    const exportUrl = meetings.getExportUrl(meetingCode, selectedSlot.date, slotIndex, !isAndroid)
 
-    // ICS 파일 다운로드 트리거
+    // webcal:// 또는 https:// URL로 이동
     window.location.href = exportUrl
     onClose()
   }
