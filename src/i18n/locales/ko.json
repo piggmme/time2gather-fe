@@ -126,7 +126,13 @@
       "bestSlotsTitle": "가장 많은 참여자들이 가능한 시간:",
       "participantsCount": "총 {count}명",
       "people": "명",
-      "noParticipants": "참여자가 없습니다"
+      "noParticipants": "참여자가 없습니다",
+      "buttons": {
+        "calendar": "캘린더",
+        "share": "공유",
+        "modify": "수정",
+        "select": "선택"
+      }
     }
   },
   "my": {

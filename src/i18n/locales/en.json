@@ -114,7 +114,13 @@
       "bestSlotsTitle": "Time slots with the most participants:",
       "participantsCount": "Total {count} people",
       "people": "people",
-      "noParticipants": "No participants"
+      "noParticipants": "No participants",
+      "buttons": {
+        "calendar": "Calendar",
+        "share": "Share",
+        "modify": "Modify",
+        "select": "Select"
+      }
     },
     "anonymous": {
       "dialog" : {

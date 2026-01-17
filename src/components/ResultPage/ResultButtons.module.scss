@@ -1,0 +1,57 @@
+@use "../../styles/variables.scss" as *;
+
+.ResultButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.PrimaryButton {
+  width: 100%;
+}
+
+.IconButtonGroup {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.IconButton {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 8px;
+  min-height: 56px;
+  background-color: $c-gray-lightest;
+  border: 1px solid $c-gray-light;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: $c-gray-darkest;
+
+  &:hover {
+    background-color: $c-gray-light;
+    border-color: $c-gray;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.Icon {
+  font-size: 22px;
+  color: $c-gray-darkest;
+}
+
+.IconLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: $c-gray-darkest;
+  white-space: nowrap;
+}

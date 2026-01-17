@@ -7,6 +7,8 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { showDefaultToast } from '../../stores/toast'
 import CalendarExportDialog from './CalendarExportDialog'
 import ConfirmMeetingDialog from './ConfirmMeetingDialog'
+import { HiOutlineCalendar, HiOutlineShare, HiOutlinePencil } from 'react-icons/hi'
+import styles from './ResultButtons.module.scss'
 
 export default function ResultButtons (
   { data, onMeetingUpdated }:
@@ -29,7 +31,7 @@ export default function ResultButtons (
   }
 
   const handleExportToCalendar = () => {
-    const { confirmedDate, confirmedTime, selectionType } = data.meeting
+    const { confirmedDate, confirmedTime } = data.meeting
 
     // 확정된 날짜가 있으면 바로 캘린더로 이동
     if (confirmedDate && confirmedTime) {
@@ -46,45 +48,62 @@ export default function ResultButtons (
     setIsExportDialogOpen(true)
   }
 
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href)
+    showDefaultToast({
+      message: t('meeting.shareSuccess'),
+      duration: 3000,
+    })
+  }
+
+  const modifyUrl = `/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')
+
   return (
-    <>
-      {/* 1. 호스트에게만 약속 확정 버튼 표시 */}
+    <div className={styles.ResultButtons}>
+      {/* Primary 버튼: 호스트에게만 약속 확정 버튼 표시 */}
       {isHost && (
         <Button
           buttonType='primary'
           onClick={() => setIsConfirmDialogOpen(true)}
+          className={styles.PrimaryButton}
         >
           {t('meeting.confirmButton')}
         </Button>
       )}
-      {/* 2. 내 캘린더로 옮기기 */}
-      <Button
-        buttonType='secondary'
-        onClick={handleExportToCalendar}
-      >
-        {t('meeting.exportToCalendar')}
-      </Button>
-      {/* 3. 시간 수정하러 가기 */}
-      <Button
-        as='a'
-        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')}
-        buttonType='ghost'
-      >
-        {didIParticipate ? t('meeting.modifyButton') : t('meeting.selectButton')}
-      </Button>
-      {/* 4. 결과 공유하기 */}
-      <Button
-        buttonType='ghost'
-        onClick={() => {
-          navigator.clipboard.writeText(window.location.href)
-          showDefaultToast({
-            message: t('meeting.shareSuccess'),
-            duration: 3000,
-          })
-        }}
-      >
-        {t('meeting.shareResult')}
-      </Button>
+
+      {/* 아이콘 버튼 그룹 */}
+      <div className={styles.IconButtonGroup}>
+        {/* 캘린더 */}
+        <button
+          className={styles.IconButton}
+          onClick={handleExportToCalendar}
+          type='button'
+        >
+          <HiOutlineCalendar className={styles.Icon} />
+          <span className={styles.IconLabel}>{t('meeting.result.buttons.calendar')}</span>
+        </button>
+
+        {/* 공유 */}
+        <button
+          className={styles.IconButton}
+          onClick={handleShare}
+          type='button'
+        >
+          <HiOutlineShare className={styles.Icon} />
+          <span className={styles.IconLabel}>{t('meeting.result.buttons.share')}</span>
+        </button>
+
+        {/* 수정 */}
+        <a
+          className={styles.IconButton}
+          href={modifyUrl}
+        >
+          <HiOutlinePencil className={styles.Icon} />
+          <span className={styles.IconLabel}>
+            {didIParticipate ? t('meeting.result.buttons.modify') : t('meeting.result.buttons.select')}
+          </span>
+        </a>
+      </div>
 
       <CalendarExportDialog
         isOpen={isExportDialogOpen}
@@ -104,6 +123,6 @@ export default function ResultButtons (
         bestSlots={data.summary.bestSlots}
         selectionType={data.meeting.selectionType}
       />
-    </>
+    </div>
   )
 }
