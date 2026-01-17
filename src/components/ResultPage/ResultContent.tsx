@@ -354,7 +354,7 @@ function SummaryContent ({
                       className={styles.BestSlotHeader}
                       onClick={() => toggleSlot(groupIndex)}
                     >
-                      <span className={styles.BestSlotDate}>{formatDate(dayjs(group.date), locale)}</span>
+                      <span className={styles.BestSlotDate}>{formatDate(group.date, locale)}</span>
                       <span className={styles.BestSlotTime}>
                         {group.timeRanges.map((range, rangeIndex) => (
                           range.start === 'ALL_DAY'
@@ -439,7 +439,7 @@ function ParticipantsModal ({
 
   if (!isOpen) return null
 
-  const formattedDate = formatDate(dayjs(date), locale)
+  const formattedDate = formatDate(date, locale)
 
   return (
     <div className={styles.ModalOverlay} onClick={onClose}>

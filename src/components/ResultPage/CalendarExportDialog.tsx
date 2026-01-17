@@ -79,7 +79,7 @@ export default function CalendarExportDialog({
 
         <div className={styles.slotList}>
           {bestSlots.map((slot, index) => {
-            const formattedDate = formatDate(dayjs(slot.date), locale)
+            const formattedDate = formatDate(slot.date, locale)
             const timeDisplay = selectionType === 'ALL_DAY'
               ? t('meeting.exportDialog.allDay')
               : slot.time

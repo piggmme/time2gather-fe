@@ -103,7 +103,7 @@ export default function ConfirmMeetingDialog({
 
         <div className={styles.slotList}>
           {topSlots.map((slot, index) => {
-            const formattedDate = formatDate(dayjs(slot.date), locale)
+            const formattedDate = formatDate(slot.date, locale)
             const timeDisplay = selectionType === 'ALL_DAY'
               ? t('meeting.confirmDialog.allDay')
               : slot.time

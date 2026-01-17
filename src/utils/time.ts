@@ -1,6 +1,11 @@
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import 'dayjs/locale/en'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(customParseFormat)
+dayjs.extend(utc)
 
 export const amPmOptions = ['AM', 'PM'] as const
 export type AmPm = typeof amPmOptions[number]
@@ -68,11 +73,13 @@ export function getTimeRangeSlots (startTime24: string, endTime24: string): stri
   return timeSlots24.slice(startIndex, endIndex + 1)
 }
 
-export function formatDate (date: dayjs.Dayjs, locale: 'ko' | 'en'): string {
+export function formatDate (date: dayjs.Dayjs | string, locale: 'ko' | 'en'): string {
   const now = dayjs()
-  const isSameYear = date.year() === now.year()
+  // 문자열인 경우 UTC로 파싱하여 타임존 변환으로 인한 날짜 밀림 방지
+  const parsedDate = typeof date === 'string' ? dayjs.utc(date, 'YYYY-MM-DD') : date
+  const isSameYear = parsedDate.year() === now.year()
   // locale을 적용한 date 인스턴스 생성
-  const localizedDate = date.locale(locale === 'ko' ? 'ko' : 'en')
+  const localizedDate = parsedDate.locale(locale === 'ko' ? 'ko' : 'en')
   const weekday = localizedDate.format('ddd')
 
   if (locale === 'ko') {
