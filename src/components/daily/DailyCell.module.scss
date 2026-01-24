@@ -25,6 +25,9 @@
 
 .cell {
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; // iOS long-press 메뉴 방지
+  -webkit-tap-highlight-color: transparent; // 탭 하이라이트 제거
   padding: 0 16px;
   border-radius: 0;
   border: none;

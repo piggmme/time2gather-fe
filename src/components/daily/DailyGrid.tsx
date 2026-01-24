@@ -230,6 +230,13 @@ export default function DailyGrid ({
     touchStartRef.current = null
   }, [clearLongPressTimer])
 
+  // 컨텍스트 메뉴 방지 (long press 시 브라우저 기본 메뉴)
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    if (isEditMode) {
+      e.preventDefault()
+    }
+  }, [isEditMode])
+
   // 마우스 클릭 (데스크톱)
   const handleCellClick = (time: string) => {
     if ('ontouchstart' in window) return
@@ -248,6 +255,7 @@ export default function DailyGrid ({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchCancel}
+      onContextMenu={handleContextMenu}
     >
       <div className={styles.grid}>
         {availableTimes.map((time, index) => {
