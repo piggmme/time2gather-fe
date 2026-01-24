@@ -9,12 +9,12 @@ function triggerHaptic (duration = 10) {
   }
 }
 
-// 탭으로 인식할 최대 이동 거리 (픽셀)
-const TAP_THRESHOLD = 10
-
 type DailyCellProps = {
   time: string
+  index: number
   isSelected: boolean
+  isDragHighlighted?: boolean
+  dragMode?: 'select' | 'deselect'
   count?: number
   maxCount?: number
   mode?: 'edit' | 'view'
@@ -22,14 +22,19 @@ type DailyCellProps = {
 }
 
 export default function DailyCell ({
-  time, isSelected, count = 0, maxCount = 0, mode = 'edit', onClick,
+  time,
+  index,
+  isSelected,
+  isDragHighlighted = false,
+  dragMode,
+  count = 0,
+  maxCount = 0,
+  mode = 'edit',
+  onClick,
 }: DailyCellProps) {
   const isEditMode = mode === 'edit'
   const [justSelected, setJustSelected] = useState(false)
   const prevSelectedRef = useRef(isSelected)
-  
-  // 터치 시작 위치 저장
-  const touchStartRef = useRef<{ x: number, y: number } | null>(null)
 
   // 선택 상태 변경 시 애니메이션 트리거
   useEffect(() => {
@@ -51,31 +56,9 @@ export default function DailyCell ({
   const totalCount = count + (isSelected ? 1 : 0)
   const text = totalCount > 0 ? `${totalCount}/${maxCount}` : ''
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!isEditMode) return
-    const touch = e.touches[0]
-    touchStartRef.current = { x: touch.clientX, y: touch.clientY }
-  }
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!isEditMode || !touchStartRef.current) return
-    
-    const touch = e.changedTouches[0]
-    const dx = Math.abs(touch.clientX - touchStartRef.current.x)
-    const dy = Math.abs(touch.clientY - touchStartRef.current.y)
-    
-    // 이동 거리가 작으면 탭으로 인식
-    if (dx < TAP_THRESHOLD && dy < TAP_THRESHOLD) {
-      e.preventDefault() // 다른 이벤트 방지
-      onClick()
-    }
-    
-    touchStartRef.current = null
-  }
-
-  // 데스크톱에서는 기존 onClick 사용
+  // 데스크톱에서는 기존 onClick 사용 (터치는 DailyGrid에서 처리)
   const handleClick = (e: React.MouseEvent) => {
-    // 터치 디바이스에서는 touchEnd에서 처리하므로 무시
+    // 터치 디바이스에서는 DailyGrid에서 처리하므로 무시
     if ('ontouchstart' in window) return
     if (!isEditMode) return
     onClick()
@@ -83,9 +66,8 @@ export default function DailyCell ({
 
   return (
     <div
+      data-cell-index={index}
       onClick={handleClick}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
       className={classNames(
         styles.cell,
         {
@@ -95,6 +77,9 @@ export default function DailyCell ({
           [styles.halfHour]: !isFullHour,
           [styles.hasCount]: count > 0,
           [styles.viewMode]: !isEditMode,
+          [styles.dragHighlighted]: isDragHighlighted,
+          [styles.dragSelect]: isDragHighlighted && dragMode === 'select',
+          [styles.dragDeselect]: isDragHighlighted && dragMode === 'deselect',
         },
       )}
       style={count > 0 ? { '--intensity': intensity } as React.CSSProperties : undefined}

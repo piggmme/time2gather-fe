@@ -13,6 +13,16 @@
   }
 }
 
+// 드래그 중 깜빡임 애니메이션
+@keyframes dragPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
 .cell {
   user-select: none;
   padding: 0 16px;
@@ -78,5 +88,17 @@
   // 뷰어 모드
   &.viewMode {
     cursor: default;
+  }
+
+  // 드래그 중 하이라이트 (선택 모드)
+  &.dragHighlighted.dragSelect {
+    background: rgba($primary-color, 0.4);
+    animation: dragPulse 0.6s ease-in-out infinite;
+  }
+
+  // 드래그 중 하이라이트 (해제 모드)
+  &.dragHighlighted.dragDeselect {
+    background: rgba(#999, 0.3);
+    animation: dragPulse 0.6s ease-in-out infinite;
   }
 }
