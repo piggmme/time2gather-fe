@@ -26,7 +26,7 @@ $time-column-width-mobile: 42px;
   flex-direction: row;
   align-items: flex-start;
   overscroll-behavior: contain; // pull-to-refresh 방지
-  touch-action: pan-y; // 세로 스크롤만 이 컨테이너에서 처리
+  touch-action: auto; // 브라우저 기본 스크롤 허용
 
   // 스크롤바 숨기기
   scrollbar-width: none;
@@ -160,7 +160,7 @@ $time-column-width-mobile: 42px;
   -webkit-overflow-scrolling: touch;
   flex: 1;
   align-items: flex-start;
-  touch-action: pan-x pan-y; // 가로/세로 스크롤 모두 허용
+  touch-action: auto; // 브라우저 기본 스크롤 허용
 
   scrollbar-width: none;
   -ms-overflow-style: none;
