@@ -118,8 +118,10 @@
   @media (max-width: 699px) {
     position: sticky; // fixed 대신 sticky 사용하여 자연스러운 스크롤 흐름 유도
     bottom: 0;
-    margin: $spacing-xl -20px 0; // 좌우 여백 보정 (컨테이너 패딩 고려)
-    padding: $spacing-md $spacing-lg calc($spacing-md + env(safe-area-inset-bottom));
+    left: 0;
+    right: 0;
+    margin-top: $spacing-xl;
+    padding: $spacing-md $spacing-base calc($spacing-md + env(safe-area-inset-bottom));
     background-color: rgba(255, 255, 255, 0.95); // 투명도 조절로 가독성 확보
     backdrop-filter: blur(12px);
     z-index: 100;
