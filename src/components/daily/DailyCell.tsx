@@ -11,7 +11,8 @@ function triggerHaptic (duration = 10) {
 
 type DailyCellProps = {
   time: string
-  index: number
+  dateKey: string
+  timeIndex: number
   isSelected: boolean
   isDragHighlighted?: boolean
   dragMode?: 'select' | 'deselect'
@@ -23,7 +24,8 @@ type DailyCellProps = {
 
 export default function DailyCell ({
   time,
-  index,
+  dateKey,
+  timeIndex,
   isSelected,
   isDragHighlighted = false,
   dragMode,
@@ -56,9 +58,9 @@ export default function DailyCell ({
   const totalCount = count + (isSelected ? 1 : 0)
   const text = totalCount > 0 ? `${totalCount}/${maxCount}` : ''
 
-  // 데스크톱에서는 기존 onClick 사용 (터치는 DailyGrid에서 처리)
+  // 데스크톱에서는 기존 onClick 사용 (터치는 Daily.tsx에서 처리)
   const handleClick = (e: React.MouseEvent) => {
-    // 터치 디바이스에서는 DailyGrid에서 처리하므로 무시
+    // 터치 디바이스에서는 Daily.tsx에서 처리하므로 무시
     if ('ontouchstart' in window) return
     if (!isEditMode) return
     onClick()
@@ -66,7 +68,8 @@ export default function DailyCell ({
 
   return (
     <div
-      data-cell-index={index}
+      data-date-key={dateKey}
+      data-time-index={timeIndex}
       onClick={handleClick}
       className={classNames(
         styles.cell,

@@ -3,12 +3,22 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import 'dayjs/locale/en'
 import styles from './Daily.module.scss'
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback, useState, useMemo } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import { formatDate } from '../../utils/time'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
+
+// Long Press 인식 시간 (ms)
+const LONG_PRESS_DURATION = 300
+// 움직임 허용 범위 (Long Press 중 이 이상 움직이면 취소)
+const MOVE_THRESHOLD = 10
+
+type CellPosition = {
+  dateKey: string
+  timeIndex: number
+}
 
 type DailyProps = {
   dates: dayjs.Dayjs[]
@@ -42,6 +52,20 @@ export default function Daily ({
   const isSyncingRef = useRef(false)
 
   const isEditMode = mode === 'edit'
+
+  // 드래그 상태 관리
+  const [isDragMode, setIsDragMode] = useState(false)
+  const [dragStart, setDragStart] = useState<CellPosition | null>(null)
+  const [dragCurrent, setDragCurrent] = useState<CellPosition | null>(null)
+  const [dragAction, setDragAction] = useState<'select' | 'deselect'>('select')
+  
+  // Long Press 타이머
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const touchStartCellRef = useRef<CellPosition | null>(null)
+
+  // 날짜 키 배열 (인덱스로 접근용)
+  const dateKeys = useMemo(() => dates.map(d => d.format('YYYY-MM-DD')), [dates])
 
   // Update dayjs locale when locale changes
   useEffect(() => {
@@ -101,6 +125,277 @@ export default function Daily ({
     }))
   }, [isEditMode, availableTimes, selections, setSelections])
 
+  // 2D 드래그 범위 계산 (날짜 x 시간)
+  const draggedCells = useMemo(() => {
+    if (!dragStart || !dragCurrent) return []
+    
+    const startDateIdx = dateKeys.indexOf(dragStart.dateKey)
+    const endDateIdx = dateKeys.indexOf(dragCurrent.dateKey)
+    const startTimeIdx = dragStart.timeIndex
+    const endTimeIdx = dragCurrent.timeIndex
+    
+    const minDateIdx = Math.min(startDateIdx, endDateIdx)
+    const maxDateIdx = Math.max(startDateIdx, endDateIdx)
+    const minTimeIdx = Math.min(startTimeIdx, endTimeIdx)
+    const maxTimeIdx = Math.max(startTimeIdx, endTimeIdx)
+    
+    const cells: CellPosition[] = []
+    for (let dIdx = minDateIdx; dIdx <= maxDateIdx; dIdx++) {
+      for (let tIdx = minTimeIdx; tIdx <= maxTimeIdx; tIdx++) {
+        cells.push({ dateKey: dateKeys[dIdx], timeIndex: tIdx })
+      }
+    }
+    return cells
+  }, [dragStart, dragCurrent, dateKeys])
+
+  // 터치 위치에서 셀 정보 찾기
+  const getCellFromTouch = useCallback((touch: Touch): CellPosition | null => {
+    const elements = document.elementsFromPoint(touch.clientX, touch.clientY)
+    for (const el of elements) {
+      const dateKey = el.getAttribute('data-date-key')
+      const timeIndex = el.getAttribute('data-time-index')
+      if (dateKey && timeIndex !== null) {
+        return { dateKey, timeIndex: parseInt(timeIndex, 10) }
+      }
+    }
+    return null
+  }, [])
+
+  // Long Press 타이머 정리
+  const clearLongPressTimer = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
+    }
+  }, [])
+
+  // 햅틱 피드백
+  const triggerHaptic = useCallback((duration = 10) => {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      navigator.vibrate(duration)
+    }
+  }, [])
+
+  // 단일 셀 토글
+  const toggleCell = useCallback((dateKey: string, time: string) => {
+    setSelections(prev => {
+      const current = prev[dateKey] || []
+      if (current.includes(time)) {
+        return { ...prev, [dateKey]: current.filter(t => t !== time) }
+      } else {
+        return { ...prev, [dateKey]: [...current, time] }
+      }
+    })
+  }, [setSelections])
+
+  // 범위 내 셀들 일괄 선택/해제
+  const applyDragSelection = useCallback((cells: CellPosition[], action: 'select' | 'deselect') => {
+    setSelections(prev => {
+      const newSelections = { ...prev }
+      for (const cell of cells) {
+        const time = availableTimes[cell.timeIndex]
+        if (!time) continue
+        
+        const current = newSelections[cell.dateKey] || []
+        if (action === 'select') {
+          if (!current.includes(time)) {
+            newSelections[cell.dateKey] = [...current, time]
+          }
+        } else {
+          newSelections[cell.dateKey] = current.filter(t => t !== time)
+        }
+      }
+      return newSelections
+    })
+  }, [availableTimes, setSelections])
+
+  // 터치 시작 - Long Press 타이머 시작
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (!isEditMode) return
+    
+    const touch = e.touches[0]
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY }
+    
+    const cellPos = getCellFromTouch(touch)
+    if (!cellPos) return
+    
+    touchStartCellRef.current = cellPos
+    
+    // Long Press 타이머 시작
+    longPressTimerRef.current = setTimeout(() => {
+      // Long Press 성공 → 드래그 모드 진입
+      setIsDragMode(true)
+      setDragStart(cellPos)
+      setDragCurrent(cellPos)
+      
+      // 시작 셀 상태에 따라 선택/해제 모드 결정
+      const time = availableTimes[cellPos.timeIndex]
+      const isSelected = selections[cellPos.dateKey]?.includes(time)
+      setDragAction(isSelected ? 'deselect' : 'select')
+      
+      // 햅틱 피드백으로 드래그 모드 진입 알림
+      triggerHaptic(20)
+    }, LONG_PRESS_DURATION)
+  }, [isEditMode, getCellFromTouch, availableTimes, selections, triggerHaptic])
+
+  // 터치 이동
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isEditMode) return
+    
+    const touch = e.touches[0]
+    const startPos = touchStartRef.current
+    
+    // Long Press 대기 중에 움직이면 타이머 취소
+    if (!isDragMode && startPos) {
+      const dx = Math.abs(touch.clientX - startPos.x)
+      const dy = Math.abs(touch.clientY - startPos.y)
+      if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+        clearLongPressTimer()
+        // 스크롤은 브라우저가 처리하도록 그대로 둠
+      }
+      return
+    }
+    
+    // 드래그 모드에서는 스크롤 방지 + 셀 선택
+    if (isDragMode) {
+      e.preventDefault()
+      const cellPos = getCellFromTouch(touch)
+      if (cellPos && (cellPos.dateKey !== dragCurrent?.dateKey || cellPos.timeIndex !== dragCurrent?.timeIndex)) {
+        setDragCurrent(cellPos)
+        triggerHaptic(5)
+      }
+    }
+  }, [isEditMode, isDragMode, dragCurrent, getCellFromTouch, clearLongPressTimer, triggerHaptic])
+
+  // 터치 끝
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (!isEditMode) return
+    
+    clearLongPressTimer()
+    
+    const touch = e.changedTouches[0]
+    const startPos = touchStartRef.current
+    const startCell = touchStartCellRef.current
+    
+    if (isDragMode) {
+      // 드래그 완료 → 범위 선택/해제
+      if (draggedCells.length > 0) {
+        applyDragSelection(draggedCells, dragAction)
+      }
+    } else if (startPos && startCell) {
+      // 드래그 모드 아님 → 탭인지 확인
+      const dx = Math.abs(touch.clientX - startPos.x)
+      const dy = Math.abs(touch.clientY - startPos.y)
+      if (dx < MOVE_THRESHOLD && dy < MOVE_THRESHOLD) {
+        // 짧은 탭 → 단일 셀 토글
+        const time = availableTimes[startCell.timeIndex]
+        if (time) toggleCell(startCell.dateKey, time)
+      }
+    }
+    
+    // 상태 초기화
+    setIsDragMode(false)
+    setDragStart(null)
+    setDragCurrent(null)
+    touchStartRef.current = null
+    touchStartCellRef.current = null
+  }, [isEditMode, isDragMode, draggedCells, dragAction, availableTimes, toggleCell, applyDragSelection, clearLongPressTimer])
+
+  // 터치 취소
+  const handleTouchCancel = useCallback(() => {
+    clearLongPressTimer()
+    setIsDragMode(false)
+    setDragStart(null)
+    setDragCurrent(null)
+    touchStartRef.current = null
+    touchStartCellRef.current = null
+  }, [clearLongPressTimer])
+
+  // 컨텍스트 메뉴 방지
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    if (isEditMode) {
+      e.preventDefault()
+    }
+  }, [isEditMode])
+
+  // ===== PC 마우스 이벤트 (Long Press 없이 바로 드래그) =====
+  
+  // 마우스 위치에서 셀 정보 찾기
+  const getCellFromMouse = useCallback((e: React.MouseEvent | MouseEvent): CellPosition | null => {
+    const elements = document.elementsFromPoint(e.clientX, e.clientY)
+    for (const el of elements) {
+      const dateKey = el.getAttribute('data-date-key')
+      const timeIndex = el.getAttribute('data-time-index')
+      if (dateKey && timeIndex !== null) {
+        return { dateKey, timeIndex: parseInt(timeIndex, 10) }
+      }
+    }
+    return null
+  }, [])
+
+  // 마우스 다운 - 바로 드래그 모드 시작
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (!isEditMode) return
+    // 터치 디바이스에서는 무시
+    if ('ontouchstart' in window) return
+    // 왼쪽 클릭만
+    if (e.button !== 0) return
+    
+    const cellPos = getCellFromMouse(e)
+    if (!cellPos) return
+    
+    e.preventDefault()
+    
+    // 바로 드래그 모드 진입
+    setIsDragMode(true)
+    setDragStart(cellPos)
+    setDragCurrent(cellPos)
+    
+    // 시작 셀 상태에 따라 선택/해제 모드 결정
+    const time = availableTimes[cellPos.timeIndex]
+    const isSelected = selections[cellPos.dateKey]?.includes(time)
+    setDragAction(isSelected ? 'deselect' : 'select')
+  }, [isEditMode, getCellFromMouse, availableTimes, selections])
+
+  // 마우스 이동 - 드래그 중 셀 업데이트
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragMode) return
+    
+    const cellPos = getCellFromMouse(e)
+    if (cellPos && (cellPos.dateKey !== dragCurrent?.dateKey || cellPos.timeIndex !== dragCurrent?.timeIndex)) {
+      setDragCurrent(cellPos)
+    }
+  }, [isDragMode, dragCurrent, getCellFromMouse])
+
+  // 마우스 업 - 드래그 완료
+  const handleMouseUp = useCallback((e: React.MouseEvent) => {
+    if (!isDragMode) return
+    
+    // 드래그 완료 → 범위 선택/해제
+    if (draggedCells.length > 0) {
+      applyDragSelection(draggedCells, dragAction)
+    }
+    
+    // 상태 초기화
+    setIsDragMode(false)
+    setDragStart(null)
+    setDragCurrent(null)
+  }, [isDragMode, draggedCells, dragAction, applyDragSelection])
+
+  // 마우스가 그리드 밖으로 나갔을 때 드래그 완료 처리
+  const handleMouseLeave = useCallback((e: React.MouseEvent) => {
+    if (!isDragMode) return
+    
+    // 드래그 완료
+    if (draggedCells.length > 0) {
+      applyDragSelection(draggedCells, dragAction)
+    }
+    
+    setIsDragMode(false)
+    setDragStart(null)
+    setDragCurrent(null)
+  }, [isDragMode, draggedCells, dragAction, applyDragSelection])
+
   return (
     <div className={styles.container} style={{ maxHeight: height, height: 'auto' }}>
       <div className={styles.wrapper}>
@@ -142,27 +437,40 @@ export default function Daily ({
               )
             })}
           </div>
-          <div className={styles.gridScrollContainer} ref={gridScrollContainerRef}>
+          <div 
+            className={`${styles.gridScrollContainer} ${isDragMode ? styles.dragging : ''}`}
+            ref={gridScrollContainerRef}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchCancel}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            onContextMenu={handleContextMenu}
+          >
             {
-              dates.map(date => (
-                <div key={date.format('YYYY-MM-DD')} className={styles.dateWrapper}>
-                  <DailyGrid
-                    date={date}
-                    availableTimes={availableTimes}
-                    schedule={schedule?.[date.format('YYYY-MM-DD')]}
-                    participantsCount={participantsCount}
-                    initialSelectedTimeSlots={selections[date.format('YYYY-MM-DD')]}
-                    onSelectionsChange={(selectedTimeSlots) => {
-                      setSelections(prev => ({
-                        ...prev,
-                        [date.format('YYYY-MM-DD')]: selectedTimeSlots,
-                      }))
-                    }}
-                    mode={mode}
-                    onCellClick={onCellClick}
-                  />
-                </div>
-              ))
+              dates.map(date => {
+                const dateKey = date.format('YYYY-MM-DD')
+                return (
+                  <div key={dateKey} className={styles.dateWrapper}>
+                    <DailyGrid
+                      date={date}
+                      dateKey={dateKey}
+                      availableTimes={availableTimes}
+                      schedule={schedule?.[dateKey]}
+                      participantsCount={participantsCount}
+                      selectedTimeSlots={selections[dateKey] || []}
+                      isDragMode={isDragMode}
+                      dragAction={dragAction}
+                      draggedCells={draggedCells}
+                      mode={mode}
+                      onCellClick={onCellClick}
+                    />
+                  </div>
+                )
+              })
             }
           </div>
         </div>

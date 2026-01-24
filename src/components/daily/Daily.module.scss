@@ -193,4 +193,13 @@ $time-column-width-mobile: 42px;
   &::-webkit-scrollbar {
     display: none;
   }
+
+  // 드래그 모드일 때
+  &.dragging {
+    touch-action: none; // 스크롤 방지
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
