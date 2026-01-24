@@ -1,7 +1,15 @@
 import { useDraggable, useDroppable } from '@dnd-kit/core'
+import { useState, useEffect, useRef } from 'react'
 import styles from './DailyCell.module.scss'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
+
+// 햅틱 피드백 유틸리티
+function triggerHaptic (duration = 10) {
+  if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+    navigator.vibrate(duration)
+  }
+}
 
 type DailyCellProps = {
   time: string
@@ -18,8 +26,22 @@ export default function DailyCell ({
   time, date, isSelected, isDragged, count = 0, maxCount = 0, mode = 'edit', onClick,
 }: DailyCellProps) {
   const isEditMode = mode === 'edit'
+  const [justSelected, setJustSelected] = useState(false)
+  const prevSelectedRef = useRef(isSelected)
 
-  const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
+  // 선택 상태 변경 시 애니메이션 트리거
+  useEffect(() => {
+    if (isSelected && !prevSelectedRef.current) {
+      // 선택됨: pulse 애니메이션 + 햅틱
+      setJustSelected(true)
+      triggerHaptic(10)
+      const timer = setTimeout(() => setJustSelected(false), 200)
+      return () => clearTimeout(timer)
+    }
+    prevSelectedRef.current = isSelected
+  }, [isSelected])
+
+  const { setNodeRef: setDragRef, attributes, listeners, isDragging } = useDraggable({
     id: `drag-${date.format('YYYY-MM-DD')}-${time}`,
     data: { timeSlot: time },
     disabled: !isEditMode,
@@ -53,6 +75,8 @@ export default function DailyCell ({
         {
           [styles.selected]: isSelected,
           [styles.dragged]: isDragged,
+          [styles.dragging]: isDragging, // 드래그 시작점 (long-press 활성화 상태)
+          [styles.justSelected]: justSelected, // 방금 선택됨 애니메이션
           [styles.fullHour]: isFullHour,
           [styles.halfHour]: !isFullHour,
           [styles.hasCount]: count > 0,

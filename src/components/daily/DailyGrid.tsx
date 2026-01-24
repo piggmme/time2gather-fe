@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { DndContext } from '@dnd-kit/core'
 import DailyCell from './DailyCell'
 import dayjs from 'dayjs'
@@ -38,6 +38,7 @@ export default function DailyGrid ({
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<string[]>([])
   const [startTimeSlot, setStartTimeSlot] = useState<string | null>(null)
   const [endTimeSlot, setEndTimeSlot] = useState<string | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
   const gridWrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -85,6 +86,7 @@ export default function DailyGrid ({
   const draggedTimeSlots = getTimeSlotRange(startTimeSlot, endTimeSlot)
 
   const handleCellClick = (time: string) => {
+    if (isDragging) return // 드래그 중이면 클릭 무시
     if (isEditMode) {
       handleDraggedTimeSlots([time])
     } else if (onCellClick) {
@@ -126,6 +128,7 @@ export default function DailyGrid ({
       <DndContext
         sensors={sensors}
         onDragStart={(event) => {
+          setIsDragging(true)
           const timeSlot = event.active?.data?.current?.timeSlot
           if (timeSlot !== undefined && availableTimes.includes(timeSlot)) {
             setStartTimeSlot(timeSlot)
@@ -142,10 +145,12 @@ export default function DailyGrid ({
           handleDraggedTimeSlots(getTimeSlotRange(startTimeSlot, endTimeSlot))
           setStartTimeSlot(null)
           setEndTimeSlot(null)
+          setIsDragging(false)
         }}
         onDragCancel={() => {
           setStartTimeSlot(null)
           setEndTimeSlot(null)
+          setIsDragging(false)
         }}
       >
         {gridContent}
