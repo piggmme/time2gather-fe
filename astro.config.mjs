@@ -28,7 +28,7 @@ if (import.meta.env.DEV) {
 }
 
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://time2gather.com',
+  site: process.env.SITE_URL || 'https://time2gather.org',
   integrations: [
     react(),
     sitemap({
