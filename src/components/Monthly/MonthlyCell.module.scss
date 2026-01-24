@@ -107,18 +107,35 @@ $combined-selection-bg: linear-gradient(135deg, rgba($primary-color, 0.3) 0%, rg
     }
   }
 
-  // ===== 오늘 날짜 =====
+  // ===== 오늘 날짜 (테두리로만 표시) =====
   &.today {
-    color: $primary-color;
     font-weight: $font-weight-bold;
     
+    // 선택되지 않은 상태: 오렌지 테두리로 오늘 표시
     &:not(.selected):not(.hasCount) {
-      border-color: $primary-color;
-      background: $c-blue-soft;
+      border: 2px solid $c-orange;
+      color: $c-gray-darkest; // 기본 텍스트 색상 유지
+      background: $cell-bg; // 배경은 흰색 유지
     }
 
     &:not(.selected):not(.hasCount):hover {
-      background: rgba($primary-color, 0.15);
+      background: $cell-bg-hover;
+      box-shadow: $cell-shadow-hover;
+    }
+
+    // 오늘 + 선택됨: 선택 스타일 우선, 오렌지 테두리 추가
+    &.selected:not(.hasCount) {
+      border: 2px solid $c-orange;
+    }
+
+    // 오늘 + 다른사람 선택: hasCount 스타일 우선
+    &.hasCount:not(.selected) {
+      border: 2px solid $c-orange;
+    }
+
+    // 오늘 + 둘 다 선택
+    &.hasCount.selected {
+      border: 2px solid $c-orange;
     }
   }
 
