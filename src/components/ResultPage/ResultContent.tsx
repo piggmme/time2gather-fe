@@ -346,11 +346,14 @@ function SummaryContent ({
 
   return (
     <Tabs.Content value='요약'>
-      <div className={styles.Summary}>
-        <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
-        <p className={styles.DetailText}>
-          {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-        </p>
+      <div className={`${styles.Summary} ${styles.Card}`} style={{ padding: '24px' }}> {/* Card 클래스 적용 */}
+        <div>
+          <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
+          <p className={styles.DetailText}>
+            {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
+          </p>
+        </div>
+        
         {groupedBestSlots.length > 0 && (
           <div className={styles.BestSlots}>
             <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
@@ -395,6 +398,7 @@ function SummaryContent ({
                               <Avatar
                                 src={participant.profileImageUrl}
                                 name={participant.username}
+                                size={24}
                               />
                               <span className={styles.BestSlotParticipantName}>{participant.username}</span>
                             </li>
@@ -708,21 +712,24 @@ function ParticipantsContent ({
 
   return (
     <Tabs.Content value='참여자'>
-      <div className={styles.Participants}>
-        <p className={styles.ParticipantsCount}>
-          {t('meeting.result.participantsCount', { count: participants.length })}
-        </p>
-        <ul className={styles.ParticipantsList}>
-          {participants.map(participant => (
-            <li key={participant.userId} className={styles.ParticipantItem}>
-              <Avatar
-                src={participant.profileImageUrl}
-                name={participant.username}
-              />
-              <span className={styles.ParticipantName}>{participant.username}</span>
-            </li>
-          ))}
-        </ul>
+      <div className={styles.Card}> {/* Card 클래스 적용 */}
+        <div className={styles.Summary}>
+          <p className={styles.Title}>{t('meeting.result.participants')}</p>
+          <p className={styles.DetailText}>
+            {t('meeting.result.participantsCount', { count: participants.length })}
+          </p>
+          <ul className={styles.ParticipantsList}>
+            {participants.map(participant => (
+              <li key={participant.userId} className={styles.ParticipantItem}>
+                <Avatar
+                  src={participant.profileImageUrl}
+                  name={participant.username}
+                />
+                <span className={styles.ParticipantName}>{participant.username}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </Tabs.Content>
   )
@@ -747,55 +754,60 @@ function LocationContent ({
 
   return (
     <Tabs.Content value='장소'>
-      <div className={styles.Location}>
-        <p className={styles.Title}>{t('locationVote.title')}</p>
+      <div className={styles.Card}> {/* Card 클래스 적용 */}
+        <div className={styles.Summary}>
+          <p className={styles.Title}>{t('locationVote.title')}</p>
 
-        {locationVote.confirmedLocation && (
-          <div className={styles.ConfirmedLocationBanner}>
-            {t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong>
-          </div>
-        )}
+          {locationVote.confirmedLocation && (
+            <div className={styles.ConfirmedLocationBanner}>
+              {t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong>
+            </div>
+          )}
 
-        <ul className={styles.LocationList}>
-          {sortedLocations.map((location, index) => {
-            const isConfirmed = locationVote.confirmedLocation?.id === location.id
+          <ul className={styles.LocationList}>
+            {sortedLocations.map((location, index) => {
+              const isConfirmed = locationVote.confirmedLocation?.id === location.id
 
-            return (
-              <li
-                key={location.id}
-                className={`${styles.LocationItem} ${isConfirmed ? styles.LocationItemConfirmed : ''}`}
-              >
-                <div className={styles.LocationHeader}>
-                  <span className={`${styles.LocationRank} ${getRankBadgeClass(index)}`}>
-                    {index + 1}
-                  </span>
-                  <span className={styles.LocationName}>
-                    {location.name}
-                    {isConfirmed && (
-                      <span className={styles.ConfirmedBadge}>{t('locationVote.confirmed')}</span>
-                    )}
-                  </span>
-                  <span className={styles.LocationVoteCount}>
-                    {location.voteCount}{t('meeting.result.people')} ({location.percentage})
-                  </span>
-                </div>
-
-                {location.voters.length > 0 && (
-                  <div className={styles.LocationVoters}>
-                    {location.voters.map(voter => (
-                      <Avatar
-                        key={voter.userId}
-                        src={voter.profileImageUrl}
-                        name={voter.username}
-                        size={24}
-                      />
-                    ))}
+              return (
+                <li
+                  key={location.id}
+                  className={`${styles.LocationItem} ${isConfirmed ? styles.LocationItemConfirmed : ''}`}
+                >
+                  <div className={styles.LocationHeader}>
+                    <div className={styles.LocationInfo}>
+                      <span className={`${styles.LocationRank} ${getRankBadgeClass(index)}`}>
+                        {index + 1}
+                      </span>
+                      <span className={styles.LocationName}>
+                        {location.name}
+                        {isConfirmed && (
+                          <span className={styles.ConfirmedBadge}>{t('locationVote.confirmed')}</span>
+                        )}
+                      </span>
+                    </div>
+                    <span className={styles.LocationVoteCount}>
+                      {location.voteCount}{t('meeting.result.people')} ({location.percentage})
+                    </span>
                   </div>
-                )}
-              </li>
-            )
-          })}
-        </ul>
+
+                  {location.voters.length > 0 && (
+                    <div className={styles.LocationVoters}>
+                      {location.voters.map(voter => (
+                        <div key={voter.userId} className={styles.LocationVoterWrapper}>
+                          <Avatar
+                            src={voter.profileImageUrl}
+                            name={voter.username}
+                            size={24}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
     </Tabs.Content>
   )
