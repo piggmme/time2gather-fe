@@ -2,8 +2,13 @@
   flex-shrink: 0;
   height: auto;
   align-self: flex-start;
-  // 터치 스크롤 완전 허용 (탭-투-토글 방식)
+  // 기본: 터치 스크롤 허용
   touch-action: auto;
+
+  // 드래그 중: 스크롤 방지
+  &.dragging {
+    touch-action: none;
+  }
 }
 
 .grid {

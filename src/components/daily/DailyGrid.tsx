@@ -142,16 +142,18 @@ export default function DailyGrid ({
           setDragCurrentIndex(null)
           return
         } else {
-          // 세로 드래그 → 셀 선택 모드
+          // 세로 드래그 → 셀 선택 모드 + 스크롤 방지
           setIsDragging(true)
+          e.preventDefault()
         }
       }
     }
     
     if (isScrollingRef.current) return
     
-    // 드래그 중이면 현재 셀 업데이트
+    // 드래그 중이면 스크롤 방지 + 현재 셀 업데이트
     if (isDragging) {
+      e.preventDefault()
       const cellIndex = getCellIndexFromTouch(touch)
       if (cellIndex !== null && cellIndex !== dragCurrentIndex) {
         setDragCurrentIndex(cellIndex)
@@ -210,7 +212,7 @@ export default function DailyGrid ({
   return (
     <div 
       ref={gridRef}
-      className={`${styles.gridWrapper} ${!isEditMode ? styles.viewMode : ''}`}
+      className={`${styles.gridWrapper} ${!isEditMode ? styles.viewMode : ''} ${isDragging ? styles.dragging : ''}`}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
