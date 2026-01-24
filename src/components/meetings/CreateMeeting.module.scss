@@ -116,18 +116,22 @@
   }
 
   @media (max-width: 699px) {
-    position: fixed;
-    margin: 0;
-    box-sizing: border-box;
-    width: 100%;
+    position: sticky; // fixed 대신 sticky 사용하여 자연스러운 스크롤 흐름 유도
     bottom: 0;
-    left: 0;
+    margin: $spacing-xl -20px 0; // 좌우 여백 보정 (컨테이너 패딩 고려)
     padding: $spacing-md $spacing-lg calc($spacing-md + env(safe-area-inset-bottom));
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95); // 투명도 조절로 가독성 확보
+    backdrop-filter: blur(12px);
     z-index: 100;
     border-top: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.08); // 그림자 강화
+  }
+}
+
+// 모바일에서 스크롤 여백 확보를 위한 추가 클래스
+.scrollSpacer {
+  @media (max-width: 699px) {
+    height: 100px; // 버튼 컨테이너 높이만큼 여백 확보
   }
 }
 

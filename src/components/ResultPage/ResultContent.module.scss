@@ -137,28 +137,129 @@
   border-top: 1px solid rgba(0,0,0,0.05);
 }
 
-// ... (참여자 리스트 스타일은 유사하게 유지하되 간격/폰트 조정)
 
 // =====================================================
-// 마크다운 텍스트 스타일 (AI 요약)
+// 참여자 리스트 스타일 (Participants Content)
 // =====================================================
-.SummaryText {
-  // ... (기존 구조 유지하되 폰트/간격 Warm Theme 적용)
-  font-size: $font-size-base;
-  line-height: 1.7;
-  color: $c-gray-darkest;
-  
-  strong {
-    color: $primary-color; // 강조색 변경
-    font-weight: $font-weight-bold;
-  }
-  
-  code {
-    background-color: $c-orange; // 포인트 컬러로 변경 (Soft Orange)
-    color: #fff;
-    border-radius: $radius-sm;
-    padding: 2px 6px;
+.ParticipantsList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ParticipantItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background-color: $c-white;
+  border-radius: $radius-lg;
+  border: 1px solid $c-gray-light;
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: $c-gray-lightest;
+    transform: translateX(4px);
   }
 }
 
-// ... (나머지 모달, 탭 등의 스타일도 변수 기반으로 자동 적용됨)
+.ParticipantName {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $c-gray-darkest;
+}
+
+// =====================================================
+// AI Summary Styles
+// =====================================================
+.AISummaryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.AISummaryCard {
+  @extend .Card;
+  padding: $spacing-xl;
+  background: linear-gradient(135deg, #ffffff 0%, #fcfcfc 100%);
+}
+
+.AISummaryCardHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 2px solid $c-gray-lightest;
+}
+
+.AISummaryCardIcon {
+  font-size: 24px;
+  color: $primary-color;
+  background-color: rgba($primary-color, 0.1);
+  padding: 8px;
+  border-radius: $radius-full;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AISummaryCardTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $c-black;
+}
+
+.AISummaryCardContent {
+  @extend .SummaryText;
+  
+  // 마크다운 헤더 스타일링
+  h1, h2, h3 {
+    margin-top: $spacing-xl;
+    margin-bottom: $spacing-md;
+    color: $c-black;
+    font-weight: $font-weight-bold;
+    
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  h2 {
+    font-size: $font-size-lg;
+    border-left: 4px solid $primary-color;
+    padding-left: $spacing-sm;
+  }
+  
+  h3 {
+    font-size: $font-size-base;
+    color: $c-gray-darkest;
+  }
+
+  // 리스트 스타일링
+  ul, ol {
+    padding-left: $spacing-lg;
+    margin-bottom: $spacing-lg;
+  }
+
+  li {
+    margin-bottom: $spacing-xs;
+    position: relative;
+    
+    &::marker {
+      color: $primary-color;
+    }
+  }
+
+  // 구분선 스타일링
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: $c-gray-light;
+    margin: $spacing-xl 0;
+  }
+}
+
