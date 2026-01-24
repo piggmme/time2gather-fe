@@ -248,6 +248,8 @@ export default function Daily ({
   }, [])
 
   // 자동 스크롤 실행 (requestAnimationFrame 루프)
+  // 주의: 모바일에서는 네이티브 스크롤과 충돌하므로 scrollTop을 직접 변경하지 않음
+  // 대신 손가락 위치에서 셀을 찾아 업데이트하는 역할만 수행
   const performAutoScroll = useCallback(() => {
     const pos = lastPointerPosRef.current
     if (!pos || !isDragMode) {
@@ -262,56 +264,45 @@ export default function Daily ({
       return
     }
     
-    // scrollWrapper의 bounding rect 사용 (컨테이너 기준)
-    const rect = scrollWrapper.getBoundingClientRect()
+    // 터치 디바이스 감지
+    const isTouchDevice = 'ontouchstart' in window
     
-    // 컨테이너 높이가 너무 작을 경우 자동 스크롤 비활성화
-    if (rect.height < 100) {
-      autoScrollRef.current = requestAnimationFrame(performAutoScroll)
-      return
+    // 터치 디바이스에서는 네이티브 스크롤 사용 - JS 스크롤 비활성화
+    // PC에서만 자동 스크롤 적용
+    if (!isTouchDevice) {
+      const rect = scrollWrapper.getBoundingClientRect()
+      
+      if (rect.height >= 100) {
+        const edgeSize = Math.min(AUTO_SCROLL_EDGE, rect.height * 0.15)
+        const viewportWidth = window.innerWidth
+        
+        const distanceFromTop = pos.y - rect.top
+        const distanceFromBottom = rect.bottom - pos.y
+        
+        // 세로 스크롤 (PC만)
+        if (distanceFromTop < edgeSize && distanceFromTop >= 0) {
+          const intensity = 1 - (distanceFromTop / edgeSize)
+          scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
+        } else if (distanceFromBottom < edgeSize && distanceFromBottom >= 0) {
+          const intensity = 1 - (distanceFromBottom / edgeSize)
+          scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
+        }
+        
+        // 가로 스크롤 (PC만)
+        if (pos.x < AUTO_SCROLL_EDGE) {
+          const distance = AUTO_SCROLL_EDGE - pos.x
+          const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
+          gridContainer.scrollLeft -= speed
+        } else if (pos.x > viewportWidth - AUTO_SCROLL_EDGE) {
+          const distance = pos.x - (viewportWidth - AUTO_SCROLL_EDGE)
+          const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
+          gridContainer.scrollLeft += speed
+        }
+      }
     }
     
-    // 고정된 edge size (컨테이너가 충분히 크면 50px, 아니면 비례 축소)
-    const edgeSize = Math.min(AUTO_SCROLL_EDGE, rect.height * 0.15)
-    
-    const viewportWidth = window.innerWidth
-    
-    let didScroll = false
-    
-    // 세로 스크롤: 단순 로직 - 상단/하단 영역에서만 스크롤
-    // pos.y는 뷰포트 기준, rect.top/bottom도 뷰포트 기준이므로 직접 비교 가능
-    const distanceFromTop = pos.y - rect.top
-    const distanceFromBottom = rect.bottom - pos.y
-    
-    if (distanceFromTop < edgeSize && distanceFromTop >= 0) {
-      // 손가락이 컨테이너 상단 가장자리 (컨테이너 안에 있으면서 상단 근처)
-      const intensity = 1 - (distanceFromTop / edgeSize) // 가장자리에 가까울수록 1에 가까움
-      scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
-      didScroll = true
-    } else if (distanceFromBottom < edgeSize && distanceFromBottom >= 0) {
-      // 손가락이 컨테이너 하단 가장자리 (컨테이너 안에 있으면서 하단 근처)
-      const intensity = 1 - (distanceFromBottom / edgeSize)
-      scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
-      didScroll = true
-    }
-    
-    // 가로 스크롤: 뷰포트 좌우 가장자리 기준
-    if (pos.x < AUTO_SCROLL_EDGE) {
-      const distance = AUTO_SCROLL_EDGE - pos.x
-      const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
-      gridContainer.scrollLeft -= speed
-      didScroll = true
-    } else if (pos.x > viewportWidth - AUTO_SCROLL_EDGE) {
-      const distance = pos.x - (viewportWidth - AUTO_SCROLL_EDGE)
-      const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
-      gridContainer.scrollLeft += speed
-      didScroll = true
-    }
-    
-    // 스크롤 후 현재 위치의 셀 업데이트
-    if (didScroll) {
-      updateCellAtPointer()
-    }
+    // 모든 디바이스: 현재 위치의 셀 업데이트
+    updateCellAtPointer()
     
     // 다음 프레임 예약
     autoScrollRef.current = requestAnimationFrame(performAutoScroll)
@@ -371,11 +362,10 @@ export default function Daily ({
       return
     }
     
-    // 드래그 모드에서는 스크롤 방지 + 셀 선택 + 자동 스크롤
+    // 드래그 모드: 네이티브 스크롤 허용 + 셀 선택 업데이트
+    // e.preventDefault() 제거 - 브라우저 스크롤과 충돌 방지
     if (isDragMode) {
-      e.preventDefault()
-      
-      // 현재 터치 위치 저장 (자동 스크롤에서 사용)
+      // 현재 터치 위치 저장 (rAF 루프에서 셀 업데이트에 사용)
       lastPointerPosRef.current = { x: touch.clientX, y: touch.clientY }
       
       const cellPos = getCellFromTouch(touch)
@@ -384,7 +374,7 @@ export default function Daily ({
         triggerHaptic(5)
       }
       
-      // 자동 스크롤 시작 (이미 실행 중이면 무시됨)
+      // rAF 루프 시작 (셀 업데이트 담당, 모바일에서는 스크롤 안 함)
       startAutoScroll()
     }
   }, [isEditMode, isDragMode, dragCurrent, getCellFromTouch, clearLongPressTimer, triggerHaptic, startAutoScroll])
