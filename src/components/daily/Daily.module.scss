@@ -35,6 +35,7 @@ $time-column-width-mobile: 42px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  overscroll-behavior: contain; // pull-to-refresh 방지
 
   // 스크롤바 숨기기
   scrollbar-width: none; // Firefox
