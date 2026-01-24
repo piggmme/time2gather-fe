@@ -1,7 +1,5 @@
-import { useDraggable, useDroppable } from '@dnd-kit/core'
 import { useState, useEffect, useRef } from 'react'
 import styles from './DailyCell.module.scss'
-import dayjs from 'dayjs'
 import classNames from 'classnames'
 
 // 햅틱 피드백 유틸리티
@@ -13,9 +11,7 @@ function triggerHaptic (duration = 10) {
 
 type DailyCellProps = {
   time: string
-  date: dayjs.Dayjs
   isSelected: boolean
-  isDragged: boolean
   count?: number
   maxCount?: number
   mode?: 'edit' | 'view'
@@ -23,7 +19,7 @@ type DailyCellProps = {
 }
 
 export default function DailyCell ({
-  time, date, isSelected, isDragged, count = 0, maxCount = 0, mode = 'edit', onClick,
+  time, isSelected, count = 0, maxCount = 0, mode = 'edit', onClick,
 }: DailyCellProps) {
   const isEditMode = mode === 'edit'
   const [justSelected, setJustSelected] = useState(false)
@@ -41,19 +37,7 @@ export default function DailyCell ({
     prevSelectedRef.current = isSelected
   }, [isSelected])
 
-  const { setNodeRef: setDragRef, attributes, listeners, isDragging } = useDraggable({
-    id: `drag-${date.format('YYYY-MM-DD')}-${time}`,
-    data: { timeSlot: time },
-    disabled: !isEditMode,
-  })
-
-  const { setNodeRef: setDropRef } = useDroppable({
-    id: `drop-${date.format('YYYY-MM-DD')}-${time}`,
-    data: { timeSlot: time },
-    disabled: !isEditMode,
-  })
-
-  // 정각인지 30분인지 판단 (timeSlot % 2 === 0이면 정각)
+  // 정각인지 30분인지 판단
   const isFullHour = time.endsWith(':00')
 
   // count에 따른 색상 강도 계산 (0~1 사이의 값)
@@ -62,35 +46,21 @@ export default function DailyCell ({
   const totalCount = count + (isSelected ? 1 : 0)
   const text = totalCount > 0 ? `${totalCount}/${maxCount}` : ''
 
-  // 스타일 계산: count가 있으면 intensity 변수 추가, 드래그 중이 아니면 터치 스크롤 허용
-  const cellStyle: React.CSSProperties = {
-    ...(count > 0 ? { '--intensity': intensity } as React.CSSProperties : {}),
-    // dnd-kit이 touch-action: none을 설정하는데, 드래그 중이 아닐 때는 스크롤 허용
-    touchAction: isDragging ? 'none' : 'pan-y',
-  }
-
   return (
     <div
-      ref={(el) => {
-        setDragRef(el)
-        setDropRef(el)
-      }}
-      {...(isEditMode ? { ...attributes, ...listeners } : {})}
       onClick={onClick}
       className={classNames(
         styles.cell,
         {
           [styles.selected]: isSelected,
-          [styles.dragged]: isDragged,
-          [styles.dragging]: isDragging, // 드래그 시작점 (long-press 활성화 상태)
-          [styles.justSelected]: justSelected, // 방금 선택됨 애니메이션
+          [styles.justSelected]: justSelected,
           [styles.fullHour]: isFullHour,
           [styles.halfHour]: !isFullHour,
           [styles.hasCount]: count > 0,
           [styles.viewMode]: !isEditMode,
         },
       )}
-      style={cellStyle}
+      style={count > 0 ? { '--intensity': intensity } as React.CSSProperties : undefined}
     >
       {text}
     </div>
