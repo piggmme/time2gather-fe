@@ -264,8 +264,12 @@ export default function Daily ({
     
     // 뷰포트 높이 대신 scrollWrapper의 bounding rect 사용 (컨테이너 기준)
     const rect = scrollWrapper.getBoundingClientRect()
-    const topEdge = rect.top + AUTO_SCROLL_EDGE
-    const bottomEdge = rect.bottom - AUTO_SCROLL_EDGE
+    
+    // 컨테이너 높이가 너무 작을 경우 영역이 겹치지 않도록 edge 동적 조절 (최대 1/3 높이까지만)
+    const edgeSize = Math.min(AUTO_SCROLL_EDGE, rect.height / 3)
+    
+    const topEdge = rect.top + edgeSize
+    const bottomEdge = rect.bottom - edgeSize
     
     // 가로 스크롤은 gridContainer 기준 (혹은 뷰포트 너비 사용 - 모바일은 꽉 차므로 뷰포트도 OK지만 통일성 위해 rect 사용 고려)
     // 가로는 gridContainer가 화면 너비와 다를 수 있으므로 뷰포트나 gridContainer rect 사용
@@ -279,13 +283,13 @@ export default function Daily ({
       // 손가락이 컨테이너 상단 가장자리 → 위로 스크롤
       const distance = topEdge - pos.y
       // 거리가 멀수록 빠르게 (최대 속도 제한)
-      const intensity = Math.min(1, distance / AUTO_SCROLL_EDGE)
+      const intensity = Math.min(1, distance / edgeSize)
       scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * intensity
       didScroll = true
     } else if (pos.y > bottomEdge) {
       // 손가락이 컨테이너 하단 가장자리 → 아래로 스크롤
       const distance = pos.y - bottomEdge
-      const intensity = Math.min(1, distance / AUTO_SCROLL_EDGE)
+      const intensity = Math.min(1, distance / edgeSize)
       scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * intensity
       didScroll = true
     }
