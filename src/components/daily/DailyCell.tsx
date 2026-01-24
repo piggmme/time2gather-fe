@@ -62,6 +62,13 @@ export default function DailyCell ({
   const totalCount = count + (isSelected ? 1 : 0)
   const text = totalCount > 0 ? `${totalCount}/${maxCount}` : ''
 
+  // 스타일 계산: count가 있으면 intensity 변수 추가, 드래그 중이 아니면 터치 스크롤 허용
+  const cellStyle: React.CSSProperties = {
+    ...(count > 0 ? { '--intensity': intensity } as React.CSSProperties : {}),
+    // dnd-kit이 touch-action: none을 설정하는데, 드래그 중이 아닐 때는 스크롤 허용
+    touchAction: isDragging ? 'none' : 'pan-y',
+  }
+
   return (
     <div
       ref={(el) => {
@@ -83,7 +90,7 @@ export default function DailyCell ({
           [styles.viewMode]: !isEditMode,
         },
       )}
-      style={count > 0 ? { '--intensity': intensity } as React.CSSProperties : undefined}
+      style={cellStyle}
     >
       {text}
     </div>

@@ -39,7 +39,7 @@
   min-height: 30px;
   box-sizing: border-box;
   flex-shrink: 0;
-  touch-action: pan-y; // 세로 스크롤만 허용, 가로는 dnd-kit이 처리
+  // touch-action은 JS에서 동적으로 제어 (isDragging 상태에 따라)
   font-size: 12px;
   color: #fff;
 
@@ -51,7 +51,6 @@
 
   // 드래그 중인 셀 (시작점)
   &.dragging {
-    touch-action: none; // 드래그 중에만 스크롤 차단
     transform: scale(1.02);
     z-index: 10;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -105,7 +104,6 @@
   // 뷰어 모드
   &.viewMode {
     cursor: pointer;
-    touch-action: auto; // 뷰어 모드에서는 터치 스크롤 허용
   }
 }
 
