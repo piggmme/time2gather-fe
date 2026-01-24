@@ -42,7 +42,7 @@ export default function Home () {
           <Button 
             as='a' 
             buttonType='default' 
-            href='/meetings/my'
+            href='/my'
           >
             내 약속 확인하기
           </Button>
