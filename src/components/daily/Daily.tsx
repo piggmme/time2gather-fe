@@ -262,24 +262,31 @@ export default function Daily ({
       return
     }
     
-    // 뷰포트 높이 기준으로 가장자리 체크 (더 직관적)
-    const viewportHeight = window.innerHeight
+    // 뷰포트 높이 대신 scrollWrapper의 bounding rect 사용 (컨테이너 기준)
+    const rect = scrollWrapper.getBoundingClientRect()
+    const topEdge = rect.top + AUTO_SCROLL_EDGE
+    const bottomEdge = rect.bottom - AUTO_SCROLL_EDGE
+    
+    // 가로 스크롤은 gridContainer 기준 (혹은 뷰포트 너비 사용 - 모바일은 꽉 차므로 뷰포트도 OK지만 통일성 위해 rect 사용 고려)
+    // 가로는 gridContainer가 화면 너비와 다를 수 있으므로 뷰포트나 gridContainer rect 사용
+    // 여기서는 뷰포트 너비 유지 (가로 스크롤은 보통 전체 화면 사용)
     const viewportWidth = window.innerWidth
     
     let didScroll = false
     
-    // 세로 스크롤: 뷰포트 상단/하단 가장자리 기준
-    if (pos.y < AUTO_SCROLL_EDGE) {
-      // 손가락이 화면 상단 가장자리 → 위로 스크롤
-      const distance = AUTO_SCROLL_EDGE - pos.y
-      const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
-      scrollWrapper.scrollTop -= speed
+    // 세로 스크롤: 컨테이너 상단/하단 가장자리 기준
+    if (pos.y < topEdge) {
+      // 손가락이 컨테이너 상단 가장자리 → 위로 스크롤
+      const distance = topEdge - pos.y
+      // 거리가 멀수록 빠르게 (최대 속도 제한)
+      const intensity = Math.min(1, distance / AUTO_SCROLL_EDGE)
+      scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * intensity
       didScroll = true
-    } else if (pos.y > viewportHeight - AUTO_SCROLL_EDGE) {
-      // 손가락이 화면 하단 가장자리 → 아래로 스크롤
-      const distance = pos.y - (viewportHeight - AUTO_SCROLL_EDGE)
-      const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
-      scrollWrapper.scrollTop += speed
+    } else if (pos.y > bottomEdge) {
+      // 손가락이 컨테이너 하단 가장자리 → 아래로 스크롤
+      const distance = pos.y - bottomEdge
+      const intensity = Math.min(1, distance / AUTO_SCROLL_EDGE)
+      scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * intensity
       didScroll = true
     }
     
