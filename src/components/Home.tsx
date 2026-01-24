@@ -14,7 +14,7 @@ export default function Home () {
     <div className={styles.container}>
       {/* Hero Section */}
       <div className={styles.illustration}>
-        ⏰
+        <img src="/time2gather-icon.svg" alt="Time2Gather" className={styles.icon} />
       </div>
       
       <div className={styles.heroContent}>
