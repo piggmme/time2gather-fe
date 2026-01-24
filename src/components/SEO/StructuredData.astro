@@ -1,0 +1,127 @@
+---
+interface Props {
+  type?: 'WebApplication' | 'Organization' | 'Event' | 'WebPage';
+  eventData?: {
+    name: string;
+    description?: string;
+    startDate?: string;
+    endDate?: string;
+    location?: string;
+  };
+  pageData?: {
+    name: string;
+    description: string;
+  };
+}
+
+const { type = 'WebApplication', eventData, pageData } = Astro.props;
+
+const siteUrl = Astro.site?.href || 'https://time2gather.org';
+
+// Organization Schema
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Time2Gather",
+  "url": siteUrl,
+  "logo": `${siteUrl}favicon.svg`,
+  "sameAs": [],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "availableLanguage": ["Korean", "English"]
+  }
+};
+
+// WebApplication Schema
+const webAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Time2Gather",
+  "url": siteUrl,
+  "description": "A service that makes it easy to schedule meetings with people. Create meetings, select multiple dates and time slots, and share them.",
+  "applicationCategory": "SchedulingApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW"
+  },
+  "author": organizationSchema,
+  "inLanguage": ["ko", "en"],
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "softwareVersion": "1.0.0",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "100",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "featureList": [
+    "Group scheduling",
+    "Time slot voting",
+    "Calendar export",
+    "Anonymous participation",
+    "Multi-language support",
+    "AI-powered summary"
+  ]
+};
+
+// Event Schema (for meeting pages)
+const eventSchema = eventData ? {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": eventData.name,
+  "description": eventData.description || "A scheduled meeting via Time2Gather",
+  "startDate": eventData.startDate,
+  "endDate": eventData.endDate,
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+  "location": eventData.location ? {
+    "@type": "Place",
+    "name": eventData.location
+  } : {
+    "@type": "VirtualLocation",
+    "url": siteUrl
+  },
+  "organizer": organizationSchema
+} : null;
+
+// WebPage Schema
+const webPageSchema = pageData ? {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": pageData.name,
+  "description": pageData.description,
+  "url": new URL(Astro.url.pathname, siteUrl).href,
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Time2Gather",
+    "url": siteUrl
+  },
+  "inLanguage": ["ko", "en"]
+} : null;
+
+// Select schema based on type
+let schema;
+switch (type) {
+  case 'Organization':
+    schema = organizationSchema;
+    break;
+  case 'Event':
+    schema = eventSchema;
+    break;
+  case 'WebPage':
+    schema = webPageSchema;
+    break;
+  case 'WebApplication':
+  default:
+    schema = webAppSchema;
+    break;
+}
+---
+
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

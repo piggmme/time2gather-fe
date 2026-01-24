@@ -714,7 +714,7 @@ function ParticipantsContent ({
     <Tabs.Content value='참여자'>
       <div className={styles.Card}> {/* Card 클래스 적용 */}
         <div className={styles.Summary}>
-          <p className={styles.Title}>{t('meeting.result.participants')}</p>
+          <p className={styles.Title}>{t('meeting.result.tabs.participants')}</p>
           <p className={styles.DetailText}>
             {t('meeting.result.participantsCount', { count: participants.length })}
           </p>
