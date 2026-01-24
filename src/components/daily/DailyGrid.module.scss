@@ -1,31 +1,33 @@
 @use "../../styles/variables.scss" as *;
 
 // =====================================================
-// Glassmorphism Design Tokens
+// Grid Design Tokens
 // =====================================================
-$glass-border-subtle: 1px solid rgba(0, 0, 0, 0.06);
+$grid-gap-vertical: 2px;   // 상하 간격 (30분 단위 구분)
+$grid-gap-horizontal: 6px; // 좌우 간격 (날짜 구분)
 
 .gridWrapper {
   flex-shrink: 0;
   height: auto;
   align-self: flex-start;
-  // 기본: 터치 스크롤 허용
   touch-action: auto;
-  // 브라우저 기본 선택/컨텍스트 메뉴 방지
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
-  // 글래스 효과: 부드러운 경계
-  border-right: $glass-border-subtle;
-  transition: border-color $transition-fast;
+  
+  // 기존 border 방식 제거하고 padding/margin으로 간격 조정
+  border: none;
+  padding: 0 $spacing-xs; // 날짜별 좌우 여백 (기둥 느낌)
+  
+  transition: all $transition-base;
 
   &:first-of-type {
-    border-left: $glass-border-subtle;
+    padding-left: $spacing-md; // 첫 번째 컬럼 여백
   }
 
   &:last-of-type {
-    border-right: none;
+    padding-right: $spacing-md; // 마지막 컬럼 여백
   }
 
   // 드래그 중: 스크롤 방지
@@ -37,5 +39,13 @@ $glass-border-subtle: 1px solid rgba(0, 0, 0, 0.06);
 .grid {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  // gap을 주어 셀 간격을 명확하게 띄움 (타일 느낌)
+  gap: $grid-gap-vertical;
+  
+  // 배경에 가이드라인 추가 (선택적)
+  position: relative;
+  
+  // 정각마다 약간 더 넓은 간격 (시각적 그룹핑)
+  // nth-child는 동적으로 계산하기 어려우므로 gap으로 일괄 처리하되
+  // DailyCell에서 margin으로 미세 조정
 }

@@ -3,45 +3,86 @@
 .myInfo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background-color: $c-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  
+  // 프로필 이미지나 이름 강조 가능
+  font-weight: $font-weight-semibold;
+  color: $c-black;
 }
 
 .detail {
-  font-size: 14px;
+  font-size: $font-size-base;
   color: $c-gray-darkest;
-  margin-bottom: 20px;
+  margin-bottom: $spacing-lg;
+  line-height: $line-height-normal;
 }
 
 .List {
   all: unset;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $spacing-md;
 
   li {
     all: unset;
   }
+  
   a {
     all: unset;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    background-color: $c-gray-lightest;
-    padding: 10px;
-    border-radius: 5px;
+    gap: $spacing-md;
+    
+    background-color: $c-white;
+    padding: $spacing-lg;
+    border-radius: $radius-lg;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: $shadow-sm;
+    
     cursor: pointer;
     width: 100%;
     box-sizing: border-box;
+    transition: all $transition-base;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+      border-color: $primary-color-border;
+      
+      .title {
+        color: $primary-color;
+      }
+    }
   }
+  
   .title {
-    font-size: 14px;
-    font-weight: 500;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
     color: $c-black;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: calc(100% - 30px);
+    max-width: calc(100% - 40px);
+    transition: color $transition-base;
+  }
+  
+  // 화살표 아이콘 등을 위한 공간 (가상 요소)
+  a::after {
+    content: "→";
+    font-size: $font-size-lg;
+    color: $c-gray-dark;
+    font-weight: $font-weight-bold;
+    transition: transform $transition-base;
+  }
+  
+  a:hover::after {
+    transform: translateX(4px);
+    color: $primary-color;
   }
 }

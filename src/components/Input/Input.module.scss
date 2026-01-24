@@ -3,13 +3,39 @@
 .input {
   width: 100%;
   max-width: 600px;
-  padding: 10px 20px 10px 10px;
+  height: $button-height-base; // 버튼과 높이 맞춤
+  padding: 0 $spacing-base;
   box-sizing: border-box;
-  border: 1px solid $c-gray;
-  border-radius: 5px;
-  outline: none;
-  font-size: 16px;
-  font-weight: 500;
-  color: $c-black;
+  
+  border: 1px solid rgba(0, 0, 0, 0.1); // 아주 연한 테두리
+  border-radius: $radius-base;
   background-color: $c-white;
+  
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  color: $c-black;
+  
+  outline: none;
+  transition: all $transition-base;
+  box-shadow: $shadow-sm; // 살짝 떠있는 느낌
+
+  &::placeholder {
+    color: $c-gray-dark;
+    font-weight: $font-weight-normal;
+  }
+
+  // Focus 시 Warm Blue Glow
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px $primary-color-soft;
+    transform: translateY(-1px);
+  }
+  
+  // Disabled
+  &:disabled {
+    background-color: $c-gray-lightest;
+    color: $c-gray-dark;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 }

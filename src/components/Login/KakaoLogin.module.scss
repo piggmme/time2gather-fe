@@ -1,13 +1,69 @@
+@use "../../styles/variables.scss" as *;
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: $spacing-lg;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 400px;
+  background-color: $c-white;
+  padding: $spacing-2xl $spacing-xl;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg; // 부드러운 그림자
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $c-black;
+  margin-bottom: $spacing-xs;
+}
+
+.description {
+  color: $c-gray-dark;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+}
+
 .button {
   background-color: #fee500;
+  color: #3c1e1e;
   width: 100%;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 16px;
+  border-radius: $radius-base; // 12px -> 변수 사용
+  height: $button-height-lg; // 높이 통일
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
   border: none;
+  cursor: pointer;
+  transition: all $transition-base;
+  box-shadow: 0 4px 10px rgba(254, 229, 0, 0.3); // 카카오 옐로우 그림자
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(254, 229, 0, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.icon {
+  margin-right: $spacing-sm;
 }

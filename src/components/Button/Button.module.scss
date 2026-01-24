@@ -1,51 +1,98 @@
 @use "../../styles/variables.scss" as *;
 
 .button {
-  background-color: $primary-color;
-  color: #fff;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   width: 100%;
   max-width: 600px;
-  padding: 10px 20px;
+  height: $button-height-base;
+  padding: 0 $spacing-lg;
+  
   text-align: center;
   text-decoration: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  
+  border-radius: $radius-base; // 둥근 모서리
   border: none;
+  cursor: pointer;
+  
+  transition: all $transition-base;
+  
+  // 기본 터치감 향상
+  &:active {
+    transform: scale(0.98);
+  }
+
+  // ===== Variants =====
 
   &.primary {
     background-color: $primary-color;
     color: #fff;
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3); // Warm shadow
+    
+    &:hover {
+      background-color: $primary-color-hover;
+      box-shadow: 0 6px 16px rgba($primary-color, 0.4);
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 2px 8px rgba($primary-color, 0.3);
+    }
   }
 
   &.ghost {
     background-color: $c-gray-light;
-    color: $c-black;
+    color: $c-gray-darkest;
+    
+    &:hover {
+      background-color: rgba($c-gray-light, 0.8);
+      color: $c-black;
+    }
   }
 
   &.kakao {
     background-color: #fee500;
-    color: $c-black;
+    color: #3c1e1e; // 카카오 갈색
+    font-weight: $font-weight-bold;
+    
+    &:hover {
+      filter: brightness(0.95);
+    }
   }
 
   &.default {
-    background-color: #fff;
-    color: $c-black;
-    border: 1px solid $c-gray;
+    background-color: $c-white;
+    color: $c-gray-darkest;
+    border: 1px solid $c-gray; // Warm gray border
+    box-shadow: $shadow-sm;
+
+    &:hover {
+      border-color: $c-gray-dark;
+      background-color: $c-gray-lightest;
+    }
 
     &.active {
       border-color: $primary-color;
       background-color: $c-blue-soft;
-      color: $c-blue;
+      color: $primary-color;
+      font-weight: $font-weight-bold;
+      box-shadow: inset 0 0 0 1px $primary-color;
     }
   }
+  
+  // ===== Disabled State =====
 
   &[disabled] {
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: not-allowed;
     pointer-events: none;
+    box-shadow: none;
+    background-color: $c-gray-light;
+    color: $c-gray-dark;
   }
 }
