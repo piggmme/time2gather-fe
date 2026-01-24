@@ -262,43 +262,37 @@ export default function Daily ({
       return
     }
     
-    const wrapperRect = scrollWrapper.getBoundingClientRect()
-    const gridRect = gridContainer.getBoundingClientRect()
+    // 뷰포트 높이 기준으로 가장자리 체크 (더 직관적)
+    const viewportHeight = window.innerHeight
+    const viewportWidth = window.innerWidth
     
     let didScroll = false
     
-    // 세로 스크롤 (scrollWrapper)
-    // 위쪽 가장자리: 손가락이 위쪽에 있으면 위로 스크롤 (이전 시간대 보이기)
-    const topEdge = wrapperRect.top + AUTO_SCROLL_EDGE
-    const bottomEdge = wrapperRect.bottom - AUTO_SCROLL_EDGE
-    
-    if (pos.y < topEdge) {
-      // 손가락이 위쪽 가장자리 → 위로 스크롤 (scrollTop 감소)
-      const distance = Math.min(topEdge - pos.y, AUTO_SCROLL_EDGE)
+    // 세로 스크롤: 뷰포트 상단/하단 가장자리 기준
+    if (pos.y < AUTO_SCROLL_EDGE) {
+      // 손가락이 화면 상단 가장자리 → 위로 스크롤
+      const distance = AUTO_SCROLL_EDGE - pos.y
       const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       scrollWrapper.scrollTop -= speed
       didScroll = true
-    } else if (pos.y > bottomEdge) {
-      // 손가락이 아래쪽 가장자리 → 아래로 스크롤 (scrollTop 증가)
-      const distance = Math.min(pos.y - bottomEdge, AUTO_SCROLL_EDGE)
+    } else if (pos.y > viewportHeight - AUTO_SCROLL_EDGE) {
+      // 손가락이 화면 하단 가장자리 → 아래로 스크롤
+      const distance = pos.y - (viewportHeight - AUTO_SCROLL_EDGE)
       const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       scrollWrapper.scrollTop += speed
       didScroll = true
     }
     
-    // 가로 스크롤 (gridScrollContainer)
-    const leftEdge = gridRect.left + AUTO_SCROLL_EDGE
-    const rightEdge = gridRect.right - AUTO_SCROLL_EDGE
-    
-    if (pos.x < leftEdge) {
-      // 손가락이 왼쪽 가장자리 → 왼쪽으로 스크롤 (scrollLeft 감소)
-      const distance = Math.min(leftEdge - pos.x, AUTO_SCROLL_EDGE)
+    // 가로 스크롤: 뷰포트 좌우 가장자리 기준
+    if (pos.x < AUTO_SCROLL_EDGE) {
+      // 손가락이 화면 왼쪽 가장자리 → 왼쪽으로 스크롤
+      const distance = AUTO_SCROLL_EDGE - pos.x
       const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       gridContainer.scrollLeft -= speed
       didScroll = true
-    } else if (pos.x > rightEdge) {
-      // 손가락이 오른쪽 가장자리 → 오른쪽으로 스크롤 (scrollLeft 증가)
-      const distance = Math.min(pos.x - rightEdge, AUTO_SCROLL_EDGE)
+    } else if (pos.x > viewportWidth - AUTO_SCROLL_EDGE) {
+      // 손가락이 화면 오른쪽 가장자리 → 오른쪽으로 스크롤
+      const distance = pos.x - (viewportWidth - AUTO_SCROLL_EDGE)
       const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       gridContainer.scrollLeft += speed
       didScroll = true
