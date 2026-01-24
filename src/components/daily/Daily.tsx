@@ -267,32 +267,39 @@ export default function Daily ({
     
     let didScroll = false
     
-    // 세로 스크롤 (scrollWrapper) - 위쪽 가장자리
-    if (pos.y < wrapperRect.top + AUTO_SCROLL_EDGE && pos.y >= wrapperRect.top) {
-      const distance = wrapperRect.top + AUTO_SCROLL_EDGE - pos.y
-      const speed = Math.min(AUTO_SCROLL_SPEED, (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED)
+    // 세로 스크롤 (scrollWrapper)
+    // 위쪽 가장자리: 손가락이 위쪽에 있으면 위로 스크롤 (이전 시간대 보이기)
+    const topEdge = wrapperRect.top + AUTO_SCROLL_EDGE
+    const bottomEdge = wrapperRect.bottom - AUTO_SCROLL_EDGE
+    
+    if (pos.y < topEdge) {
+      // 손가락이 위쪽 가장자리 → 위로 스크롤 (scrollTop 감소)
+      const distance = Math.min(topEdge - pos.y, AUTO_SCROLL_EDGE)
+      const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       scrollWrapper.scrollTop -= speed
       didScroll = true
-    }
-    // 세로 스크롤 (scrollWrapper) - 아래쪽 가장자리
-    else if (pos.y > wrapperRect.bottom - AUTO_SCROLL_EDGE && pos.y <= wrapperRect.bottom) {
-      const distance = pos.y - (wrapperRect.bottom - AUTO_SCROLL_EDGE)
-      const speed = Math.min(AUTO_SCROLL_SPEED, (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED)
+    } else if (pos.y > bottomEdge) {
+      // 손가락이 아래쪽 가장자리 → 아래로 스크롤 (scrollTop 증가)
+      const distance = Math.min(pos.y - bottomEdge, AUTO_SCROLL_EDGE)
+      const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       scrollWrapper.scrollTop += speed
       didScroll = true
     }
     
-    // 가로 스크롤 (gridScrollContainer) - 왼쪽 가장자리
-    if (pos.x < gridRect.left + AUTO_SCROLL_EDGE && pos.x >= gridRect.left) {
-      const distance = gridRect.left + AUTO_SCROLL_EDGE - pos.x
-      const speed = Math.min(AUTO_SCROLL_SPEED, (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED)
+    // 가로 스크롤 (gridScrollContainer)
+    const leftEdge = gridRect.left + AUTO_SCROLL_EDGE
+    const rightEdge = gridRect.right - AUTO_SCROLL_EDGE
+    
+    if (pos.x < leftEdge) {
+      // 손가락이 왼쪽 가장자리 → 왼쪽으로 스크롤 (scrollLeft 감소)
+      const distance = Math.min(leftEdge - pos.x, AUTO_SCROLL_EDGE)
+      const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       gridContainer.scrollLeft -= speed
       didScroll = true
-    }
-    // 가로 스크롤 (gridScrollContainer) - 오른쪽 가장자리
-    else if (pos.x > gridRect.right - AUTO_SCROLL_EDGE && pos.x <= gridRect.right) {
-      const distance = pos.x - (gridRect.right - AUTO_SCROLL_EDGE)
-      const speed = Math.min(AUTO_SCROLL_SPEED, (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED)
+    } else if (pos.x > rightEdge) {
+      // 손가락이 오른쪽 가장자리 → 오른쪽으로 스크롤 (scrollLeft 증가)
+      const distance = Math.min(pos.x - rightEdge, AUTO_SCROLL_EDGE)
+      const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       gridContainer.scrollLeft += speed
       didScroll = true
     }
