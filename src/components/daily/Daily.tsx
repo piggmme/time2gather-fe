@@ -11,7 +11,7 @@ import { formatDate } from '../../utils/time'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
 
 // Long Press 인식 시간 (ms)
-const LONG_PRESS_DURATION = 300
+const LONG_PRESS_DURATION = 200
 // 움직임 허용 범위 (Long Press 중 이 이상 움직이면 취소)
 const MOVE_THRESHOLD = 10
 // 자동 스크롤 가장자리 영역 (px)

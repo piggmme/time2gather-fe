@@ -16,7 +16,7 @@ export function useDragSensors() {
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 300, // 300ms long-press 후 드래그 활성화 (Google Calendar 표준)
+        delay: 200, // 200ms long-press 후 드래그 활성화
         tolerance: 8, // long-press 중 8px까지 이동 허용
       },
     })
