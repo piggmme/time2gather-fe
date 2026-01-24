@@ -5,15 +5,23 @@
 // =====================================================
 $cell-border: 1px solid rgba(0, 0, 0, 0.06);
 $cell-bg: $c-white;
-$cell-bg-hover: $c-gray-lightest;
-$cell-bg-selected: $primary-color-soft;
-$cell-bg-selected-strong: rgba($primary-color, 0.2);
+$cell-bg-hover: rgba(0, 0, 0, 0.03); // 더 연하게
 $cell-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.08);
-$cell-shadow-selected: 0 2px 12px rgba($primary-color, 0.2);
+
+// 내 선택: 파란색
+$my-selection-bg: rgba($primary-color, 0.25);
+$my-selection-border: $primary-color;
+$my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
+
+// 다른 사람 선택: 민트/청록색 (intensity에 따라 변화)
+$others-selection-color: $c-green;
+
+// 내 선택 + 다른 사람 선택: 보라색 그라데이션
+$combined-selection-bg: linear-gradient(135deg, rgba($primary-color, 0.3) 0%, rgba($c-purple, 0.3) 100%);
 
 .cell {
   user-select: none;
-  border-radius: $radius-sm; // 둥근 사각형 (원형 X)
+  border-radius: $radius-sm;
   background: $cell-bg;
   border: $cell-border;
   transition: all $transition-base;
@@ -30,36 +38,64 @@ $cell-shadow-selected: 0 2px 12px rgba($primary-color, 0.2);
   font-weight: $font-weight-semibold;
   position: relative;
 
-  // 호버 효과: 배경색 + 살짝 떠오르는 그림자
-  &:hover {
+  // ===== 기본 호버 (선택 안 된 상태) =====
+  &:hover:not(.selected):not(.hasCount) {
     background: $cell-bg-hover;
     border-color: rgba(0, 0, 0, 0.1);
     box-shadow: $cell-shadow-hover;
     transform: translateY(-1px);
   }
 
-  // 선택된 상태 (편집 모드)
+  // ===== 내가 선택한 상태 (편집 모드) =====
   &:not(.viewMode) {
     &.selected {
-      background: $cell-bg-selected-strong;
-      border-color: $primary-color;
-      box-shadow: $cell-shadow-selected;
+      background: $my-selection-bg;
+      border-color: $my-selection-border;
+      box-shadow: $my-selection-shadow;
       color: $primary-color;
       font-weight: $font-weight-bold;
 
       &:hover {
-        background: rgba($primary-color, 0.25);
+        background: rgba($primary-color, 0.35);
+        transform: translateY(-1px);
       }
     }
   }
 
-  // 드래그 중
+  // ===== 다른 사람이 선택한 상태 (hasCount) =====
+  &.hasCount:not(.selected) {
+    // 배경색은 inline style로 적용됨 (intensity 기반)
+    border-color: rgba($others-selection-color, 0.4);
+    
+    &:hover {
+      border-color: rgba($others-selection-color, 0.6);
+      box-shadow: 0 2px 8px rgba($others-selection-color, 0.2);
+      transform: translateY(-1px);
+      // 배경색 유지 (inline style이 우선)
+    }
+  }
+
+  // ===== 내 선택 + 다른 사람 선택 (둘 다) =====
+  &.hasCount.selected {
+    background: $combined-selection-bg;
+    border-color: $c-purple;
+    box-shadow: 0 2px 12px rgba($c-purple, 0.25);
+    color: $c-purple;
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba($c-purple, 0.3);
+      transform: translateY(-1px);
+    }
+  }
+
+  // ===== 드래그 중 =====
   &.dragged {
     background: $primary-color-dragged;
     border-color: $primary-color-border;
   }
 
-  // 다른 달 날짜
+  // ===== 다른 달 날짜 =====
   &.otherMonth {
     opacity: 0.4;
     background: transparent;
@@ -71,52 +107,67 @@ $cell-shadow-selected: 0 2px 12px rgba($primary-color, 0.2);
     }
   }
 
-  // 오늘 날짜
+  // ===== 오늘 날짜 =====
   &.today {
     color: $primary-color;
     font-weight: $font-weight-bold;
-    border-color: $primary-color;
-    background: $c-blue-soft;
+    
+    &:not(.selected):not(.hasCount) {
+      border-color: $primary-color;
+      background: $c-blue-soft;
+    }
 
-    &:not(.selected):hover {
-      background: rgba($primary-color, 0.1);
+    &:not(.selected):not(.hasCount):hover {
+      background: rgba($primary-color, 0.15);
     }
   }
 
-  // 일요일
-  &.sunday {
+  // ===== 일요일 =====
+  &.sunday:not(.selected):not(.hasCount) {
     color: $sunday-color;
-
-    &.selected {
-      color: $sunday-color;
-      border-color: $sunday-color;
-      background: rgba($sunday-color, 0.15);
-    }
   }
 
-  // 토요일
-  &.saturday {
+  // ===== 토요일 =====
+  &.saturday:not(.selected):not(.hasCount) {
     color: $saturday-color;
-
-    &.selected {
-      color: $saturday-color;
-      border-color: $saturday-color;
-      background: rgba($saturday-color, 0.15);
-    }
   }
 
-  // 뷰어 모드 (읽기 전용)
+  // ===== 뷰어 모드 (읽기 전용) =====
   &.viewMode {
     cursor: default;
 
+    // 뷰어 모드에서 호버: 선택 상태 유지하면서 살짝 강조
     &:hover {
       transform: none;
-      box-shadow: none;
     }
 
-    &.selected {
-      border: 2px solid $c-blue;
-      background: $c-blue-soft;
+    // 뷰어 모드에서 내 선택
+    &.selected:not(.hasCount) {
+      border: 2px solid $primary-color;
+      background: rgba($primary-color, 0.15);
+      color: $primary-color;
+    }
+
+    // 뷰어 모드에서 다른 사람만 선택 (hasCount만)
+    &.hasCount:not(.selected) {
+      // inline style로 배경색 적용됨
+      border-color: rgba($others-selection-color, 0.5);
+      
+      &:hover {
+        border-color: rgba($others-selection-color, 0.7);
+        box-shadow: 0 2px 8px rgba($others-selection-color, 0.15);
+      }
+    }
+
+    // 뷰어 모드에서 둘 다 선택
+    &.hasCount.selected {
+      background: $combined-selection-bg;
+      border: 2px solid $c-purple;
+      color: $c-purple;
+      
+      &:hover {
+        box-shadow: 0 2px 12px rgba($c-purple, 0.2);
+      }
     }
   }
 
@@ -124,7 +175,7 @@ $cell-shadow-selected: 0 2px 12px rgba($primary-color, 0.2);
     pointer-events: none;
   }
 
-  // 비활성화
+  // ===== 비활성화 =====
   &.disabled {
     cursor: not-allowed;
     color: $c-gray;
@@ -140,12 +191,12 @@ $cell-shadow-selected: 0 2px 12px rgba($primary-color, 0.2);
     }
   }
 
-  // 참여자 수 배지
+  // ===== 참여자 수 배지 =====
   .countBadge {
     position: absolute;
     bottom: -4px;
     right: -4px;
-    background: $c-gray-dark;
+    background: $others-selection-color;
     color: $c-white;
     font-size: 9px;
     font-weight: $font-weight-bold;
@@ -158,8 +209,9 @@ $cell-shadow-selected: 0 2px 12px rgba($primary-color, 0.2);
     white-space: nowrap;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 
+    // 내가 선택한 경우 배지 색상 변경
     &.selected {
-      background: $primary-color;
+      background: $c-purple;
       color: $c-white;
     }
   }
