@@ -248,8 +248,7 @@ export default function Daily ({
   }, [])
 
   // 자동 스크롤 실행 (requestAnimationFrame 루프)
-  // 주의: 모바일에서는 네이티브 스크롤과 충돌하므로 scrollTop을 직접 변경하지 않음
-  // 대신 손가락 위치에서 셀을 찾아 업데이트하는 역할만 수행
+  // non-passive 터치 이벤트로 네이티브 스크롤을 막았으므로, 모바일에서도 JS 스크롤 적용
   const performAutoScroll = useCallback(() => {
     const pos = lastPointerPosRef.current
     if (!pos || !isDragMode) {
@@ -264,44 +263,37 @@ export default function Daily ({
       return
     }
     
-    // 터치 디바이스 감지
-    const isTouchDevice = 'ontouchstart' in window
+    const rect = scrollWrapper.getBoundingClientRect()
     
-    // 터치 디바이스에서는 네이티브 스크롤 사용 - JS 스크롤 비활성화
-    // PC에서만 자동 스크롤 적용
-    if (!isTouchDevice) {
-      const rect = scrollWrapper.getBoundingClientRect()
+    if (rect.height >= 100) {
+      const edgeSize = Math.min(AUTO_SCROLL_EDGE, rect.height * 0.15)
+      const viewportWidth = window.innerWidth
       
-      if (rect.height >= 100) {
-        const edgeSize = Math.min(AUTO_SCROLL_EDGE, rect.height * 0.15)
-        const viewportWidth = window.innerWidth
-        
-        const distanceFromTop = pos.y - rect.top
-        const distanceFromBottom = rect.bottom - pos.y
-        
-        // 세로 스크롤 (PC만)
-        if (distanceFromTop < edgeSize && distanceFromTop >= 0) {
-          const intensity = 1 - (distanceFromTop / edgeSize)
-          scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
-        } else if (distanceFromBottom < edgeSize && distanceFromBottom >= 0) {
-          const intensity = 1 - (distanceFromBottom / edgeSize)
-          scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
-        }
-        
-        // 가로 스크롤 (PC만)
-        if (pos.x < AUTO_SCROLL_EDGE) {
-          const distance = AUTO_SCROLL_EDGE - pos.x
-          const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
-          gridContainer.scrollLeft -= speed
-        } else if (pos.x > viewportWidth - AUTO_SCROLL_EDGE) {
-          const distance = pos.x - (viewportWidth - AUTO_SCROLL_EDGE)
-          const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
-          gridContainer.scrollLeft += speed
-        }
+      const distanceFromTop = pos.y - rect.top
+      const distanceFromBottom = rect.bottom - pos.y
+      
+      // 세로 스크롤
+      if (distanceFromTop < edgeSize && distanceFromTop >= 0) {
+        const intensity = 1 - (distanceFromTop / edgeSize)
+        scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
+      } else if (distanceFromBottom < edgeSize && distanceFromBottom >= 0) {
+        const intensity = 1 - (distanceFromBottom / edgeSize)
+        scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
+      }
+      
+      // 가로 스크롤
+      if (pos.x < AUTO_SCROLL_EDGE) {
+        const distance = AUTO_SCROLL_EDGE - pos.x
+        const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
+        gridContainer.scrollLeft -= speed
+      } else if (pos.x > viewportWidth - AUTO_SCROLL_EDGE) {
+        const distance = pos.x - (viewportWidth - AUTO_SCROLL_EDGE)
+        const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
+        gridContainer.scrollLeft += speed
       }
     }
     
-    // 모든 디바이스: 현재 위치의 셀 업데이트
+    // 현재 위치의 셀 업데이트
     updateCellAtPointer()
     
     // 다음 프레임 예약
@@ -362,10 +354,10 @@ export default function Daily ({
       return
     }
     
-    // 드래그 모드: 네이티브 스크롤 허용 + 셀 선택 업데이트
-    // e.preventDefault() 제거 - 브라우저 스크롤과 충돌 방지
+    // 드래그 모드: 셀 선택 업데이트
+    // preventDefault()는 non-passive 리스너에서 처리됨
     if (isDragMode) {
-      // 현재 터치 위치 저장 (rAF 루프에서 셀 업데이트에 사용)
+      // 현재 터치 위치 저장 (rAF 루프에서 사용)
       lastPointerPosRef.current = { x: touch.clientX, y: touch.clientY }
       
       const cellPos = getCellFromTouch(touch)
@@ -374,7 +366,7 @@ export default function Daily ({
         triggerHaptic(5)
       }
       
-      // rAF 루프 시작 (셀 업데이트 담당, 모바일에서는 스크롤 안 함)
+      // rAF 루프 시작
       startAutoScroll()
     }
   }, [isEditMode, isDragMode, dragCurrent, getCellFromTouch, clearLongPressTimer, triggerHaptic, startAutoScroll])
@@ -426,6 +418,32 @@ export default function Daily ({
     touchStartCellRef.current = null
     lastPointerPosRef.current = null
   }, [clearLongPressTimer, stopAutoScroll])
+
+  // ===== Non-passive 터치 이벤트 리스너 등록 =====
+  // React의 onTouchMove는 passive로 등록되어 preventDefault()가 무시됨
+  // 드래그 모드에서 네이티브 스크롤을 막으려면 non-passive 리스너가 필요
+  useEffect(() => {
+    const scrollWrapper = scrollWrapperRef.current
+    const gridContainer = gridScrollContainerRef.current
+    
+    if (!scrollWrapper || !gridContainer) return
+    
+    const handleTouchMoveNative = (e: TouchEvent) => {
+      // 드래그 모드일 때만 스크롤 방지
+      if (isDragMode) {
+        e.preventDefault()
+      }
+    }
+    
+    // { passive: false }로 등록해야 preventDefault() 작동
+    scrollWrapper.addEventListener('touchmove', handleTouchMoveNative, { passive: false })
+    gridContainer.addEventListener('touchmove', handleTouchMoveNative, { passive: false })
+    
+    return () => {
+      scrollWrapper.removeEventListener('touchmove', handleTouchMoveNative)
+      gridContainer.removeEventListener('touchmove', handleTouchMoveNative)
+    }
+  }, [isDragMode])
 
   // 컨텍스트 메뉴 방지
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
