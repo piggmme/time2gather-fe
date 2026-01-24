@@ -41,6 +41,8 @@ export default function Daily ({
   // 스크롤 동기화 중 무한 루프 방지용 플래그
   const isSyncingRef = useRef(false)
 
+  const isEditMode = mode === 'edit'
+
   // Update dayjs locale when locale changes
   useEffect(() => {
     dayjs.locale(locale === 'ko' ? 'ko' : 'en')
@@ -86,6 +88,19 @@ export default function Daily ({
     }
   }, [syncHeaderToGrid, syncGridToHeader])
 
+  // 날짜 헤더 클릭 시 해당 날짜 전체 시간 선택/해제
+  const handleDateHeaderClick = useCallback((dateKey: string) => {
+    if (!isEditMode) return
+    
+    const currentSelections = selections[dateKey] || []
+    const allSelected = availableTimes.every(time => currentSelections.includes(time))
+    
+    setSelections(prev => ({
+      ...prev,
+      [dateKey]: allSelected ? [] : [...availableTimes],
+    }))
+  }, [isEditMode, availableTimes, selections, setSelections])
+
   return (
     <div className={styles.container} style={{ maxHeight: height, height: 'auto' }}>
       <div className={styles.wrapper}>
@@ -93,11 +108,22 @@ export default function Daily ({
         <div className={styles.dateHeaderRow}>
           <div className={styles.timeColumnHeader} />
           <div className={styles.dateHeaderScroll} ref={dateHeaderScrollRef}>
-            {dates.map(date => (
-              <div key={date.format('YYYY-MM-DD')} className={styles.dateHeader}>
-                <span className={styles.dateTitle}>{formatDate(date, locale)}</span>
-              </div>
-            ))}
+            {dates.map(date => {
+              const dateKey = date.format('YYYY-MM-DD')
+              const currentSelections = selections[dateKey] || []
+              const allSelected = availableTimes.length > 0 && 
+                availableTimes.every(time => currentSelections.includes(time))
+              
+              return (
+                <div 
+                  key={dateKey} 
+                  className={`${styles.dateHeader} ${isEditMode ? styles.clickable : ''} ${allSelected ? styles.allSelected : ''}`}
+                  onClick={() => handleDateHeaderClick(dateKey)}
+                >
+                  <span className={styles.dateTitle}>{formatDate(date, locale)}</span>
+                </div>
+              )
+            })}
           </div>
         </div>
 

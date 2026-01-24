@@ -140,6 +140,7 @@ $time-column-width-mobile: 42px;
   border-right: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
   background: $c-white;
+  transition: background 0.15s ease;
 
   &:first-of-type {
     border-left: 1px solid #e0e0e0;
@@ -147,6 +148,30 @@ $time-column-width-mobile: 42px;
 
   &:last-of-type {
     border-right: none;
+  }
+
+  // 클릭 가능한 상태 (편집 모드)
+  &.clickable {
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background: rgba($primary-color, 0.05);
+    }
+
+    &:active {
+      background: rgba($primary-color, 0.1);
+    }
+  }
+
+  // 전체 선택된 상태
+  &.allSelected {
+    background: rgba($primary-color, 0.15);
+
+    .dateTitle {
+      color: $primary-color;
+      font-weight: 600;
+    }
   }
 }
 
