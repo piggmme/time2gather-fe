@@ -1,12 +1,21 @@
 @use "../../styles/variables.scss" as *;
 
+// =====================================================
+// Glassmorphism Design Tokens
+// =====================================================
+$glass-border-subtle: 1px solid rgba(0, 0, 0, 0.06);
+$cell-bg: rgba(255, 255, 255, 0.5);
+$cell-bg-hover: rgba($primary-color, 0.06);
+$cell-selected-bg: rgba($primary-color, 0.35);
+$cell-selected-border: rgba($primary-color, 0.2);
+
 // 선택 완료 시 pulse 애니메이션
 @keyframes cellPulse {
   0% {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
   100% {
     transform: scale(1);
@@ -19,7 +28,20 @@
     opacity: 0.5;
   }
   50% {
-    opacity: 0.8;
+    opacity: 0.85;
+  }
+}
+
+// 선택 시 부드러운 glow 효과
+@keyframes selectGlow {
+  0% {
+    box-shadow: inset 0 0 0 0 rgba($primary-color, 0);
+  }
+  50% {
+    box-shadow: inset 0 0 8px 0 rgba($primary-color, 0.2);
+  }
+  100% {
+    box-shadow: inset 0 0 0 0 rgba($primary-color, 0);
   }
 }
 
@@ -28,12 +50,15 @@
   -webkit-user-select: none;
   -webkit-touch-callout: none; // iOS long-press 메뉴 방지
   -webkit-tap-highlight-color: transparent; // 탭 하이라이트 제거
-  padding: 0 16px;
+  padding: 0 $spacing-base;
   border-radius: 0;
   border: none;
-  border-top: 1px solid #e0e0e0;
-  background: #fff;
-  transition: background 0.15s ease-out, transform 0.1s ease-out;
+  border-top: $glass-border-subtle;
+  background: $cell-bg;
+  transition: 
+    background $transition-fast,
+    transform 0.1s ease-out,
+    box-shadow $transition-fast;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -42,14 +67,15 @@
   min-height: 30px;
   box-sizing: border-box;
   flex-shrink: 0;
-  font-size: 12px;
-  color: #fff;
+  font-size: $font-size-sm;
+  color: $c-white;
   // 터치: 브라우저 기본 스크롤 허용, JS에서 탭 구분
   touch-action: auto;
 
   // 편집 모드에서 hover 하이라이트
   &:hover:not(.selected):not(.hasCount) {
-    background: rgba($primary-color, 0.08);
+    background: $cell-bg-hover;
+    box-shadow: inset 0 0 0 1px rgba($primary-color, 0.1);
   }
 
   // 탭 시 active 피드백
@@ -58,50 +84,60 @@
   }
 
   &.selected {
-    background: $primary-color-selected;
+    background: $cell-selected-bg;
+    box-shadow: inset 0 0 0 1px $cell-selected-border;
   }
 
   // 방금 선택된 셀 애니메이션
   &.justSelected {
-    animation: cellPulse 0.2s ease-out;
+    animation: cellPulse 0.2s ease-out, selectGlow 0.4s ease-out;
   }
 
   // 정각: 실선
   &.fullHour {
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid rgba($c-gray, 0.4);
   }
 
   // 30분: 점선
   &.halfHour {
-    border-top: 1px dashed #e0e0e0;
+    border-top: 1px dashed rgba($c-gray, 0.25);
   }
 
   // count가 있는 경우 빨간색 배경 적용 (selected가 아닐 때만)
   &.hasCount:not(.selected) {
-    background-color: $c-red-light;
-    opacity: calc(0.2 + var(--intensity, 0) * 0.6);
+    background-color: rgba($c-red-light, 0.7);
+    opacity: calc(0.3 + var(--intensity, 0) * 0.5);
+    box-shadow: inset 0 0 0 1px rgba($c-red, 0.15);
   }
 
   // count와 selected가 겹치는 경우 보라색 배경 적용
   &.hasCount.selected {
-    background: $c-purple;
-    opacity: calc(0.2 + var(--intensity, 0) * 0.6);
+    background: rgba($c-purple, 0.65);
+    opacity: calc(0.3 + var(--intensity, 0) * 0.5);
+    box-shadow: inset 0 0 0 1px rgba($c-purple, 0.2);
   }
 
   // 뷰어 모드
   &.viewMode {
     cursor: default;
+    
+    &:hover {
+      background: $cell-bg;
+      box-shadow: none;
+    }
   }
 
   // 드래그 중 하이라이트 (선택 모드)
   &.dragHighlighted.dragSelect {
-    background: rgba($primary-color, 0.4);
+    background: rgba($primary-color, 0.45);
+    box-shadow: inset 0 0 0 1px rgba($primary-color, 0.3);
     animation: dragPulse 0.6s ease-in-out infinite;
   }
 
   // 드래그 중 하이라이트 (해제 모드)
   &.dragHighlighted.dragDeselect {
-    background: rgba(#999, 0.3);
+    background: rgba($c-gray-dark, 0.25);
+    box-shadow: inset 0 0 0 1px rgba($c-gray-dark, 0.15);
     animation: dragPulse 0.6s ease-in-out infinite;
   }
 }

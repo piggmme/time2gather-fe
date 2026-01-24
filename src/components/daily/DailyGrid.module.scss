@@ -1,3 +1,10 @@
+@use "../../styles/variables.scss" as *;
+
+// =====================================================
+// Glassmorphism Design Tokens
+// =====================================================
+$glass-border-subtle: 1px solid rgba(0, 0, 0, 0.06);
+
 .gridWrapper {
   flex-shrink: 0;
   height: auto;
@@ -9,6 +16,17 @@
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
+  // 글래스 효과: 부드러운 경계
+  border-right: $glass-border-subtle;
+  transition: border-color $transition-fast;
+
+  &:first-of-type {
+    border-left: $glass-border-subtle;
+  }
+
+  &:last-of-type {
+    border-right: none;
+  }
 
   // 드래그 중: 스크롤 방지
   &.dragging {

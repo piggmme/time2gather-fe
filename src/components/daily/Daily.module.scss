@@ -4,16 +4,35 @@
 $time-column-width: 50px;
 $time-column-width-mobile: 42px;
 
+// =====================================================
+// Glassmorphism Design Tokens
+// =====================================================
+$glass-bg: rgba(255, 255, 255, 0.7);
+$glass-bg-header: rgba(255, 255, 255, 0.85);
+$glass-blur: 12px;
+$glass-border: 1px solid rgba(255, 255, 255, 0.4);
+$glass-border-subtle: 1px solid rgba(0, 0, 0, 0.06);
+$glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+$glass-shadow-header: 0 2px 12px rgba(0, 0, 0, 0.04);
+
 .container {
   width: 100%;
   display: flex;
   flex-direction: column;
   overflow: visible;
+  background: $glass-bg;
+  backdrop-filter: blur($glass-blur);
+  -webkit-backdrop-filter: blur($glass-blur);
+  border-radius: $radius-lg;
+  box-shadow: $glass-shadow;
+  border: $glass-border;
 }
 
 .wrapper {
   position: relative;
   max-height: inherit;
+  border-radius: $radius-lg;
+  overflow: hidden;
 }
 
 .scrollWrapper {
@@ -55,34 +74,37 @@ $time-column-width-mobile: 42px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  font-size: 12px;
-  font-weight: 500;
-  color: #666;
-  padding-right: 12px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $c-gray-darkest;
+  padding-right: $spacing-md;
   box-sizing: border-box;
   flex-shrink: 0;
-  border-top: 1px solid #e0e0e0;
+  border-top: $glass-border-subtle;
+  transition: color $transition-fast;
 
   @media (max-width: 699px) {
-    font-size: 11px;
-    padding-right: 8px;
+    font-size: $font-size-xs;
+    padding-right: $spacing-sm;
   }
 
   &.fullHour {
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid rgba($c-gray, 0.5);
   }
 
   &.halfHour {
-    border-top: 1px dashed #e0e0e0;
+    border-top: 1px dashed rgba($c-gray, 0.3);
   }
 }
 
 .dateWrapper {
   min-width: 100px;
-  border-right: 1px solid #e0e0e0;
+  border-right: $glass-border-subtle;
+  background: transparent;
+  transition: background $transition-fast;
 
   &:first-of-type {
-    border-left: 1px solid #e0e0e0;
+    border-left: $glass-border-subtle;
   }
 
   &:last-of-type {
@@ -94,11 +116,12 @@ $time-column-width-mobile: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  font-weight: 500;
-  color: #666;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $c-gray-darkest;
   height: 30px;
   white-space: nowrap;
+  transition: color $transition-fast;
 }
 
 // ===== 날짜 헤더 영역 (sticky) =====
@@ -109,7 +132,11 @@ $time-column-width-mobile: 42px;
   z-index: 20;
   display: flex;
   flex-direction: row;
-  background: $c-white;
+  background: $glass-bg-header;
+  backdrop-filter: blur($glass-blur);
+  -webkit-backdrop-filter: blur($glass-blur);
+  box-shadow: $glass-shadow-header;
+  border-bottom: $glass-border-subtle;
 }
 
 .timeColumnHeader {
@@ -137,13 +164,13 @@ $time-column-width-mobile: 42px;
 
 .dateHeader {
   min-width: 100px;
-  border-right: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
-  background: $c-white;
-  transition: background 0.15s ease;
+  border-right: $glass-border-subtle;
+  border-bottom: none; // 헤더 row에서 이미 처리
+  background: transparent;
+  transition: background $transition-fast, transform $transition-fast;
 
   &:first-of-type {
-    border-left: 1px solid #e0e0e0;
+    border-left: $glass-border-subtle;
   }
 
   &:last-of-type {
@@ -154,23 +181,27 @@ $time-column-width-mobile: 42px;
   &.clickable {
     cursor: pointer;
     user-select: none;
+    border-radius: $radius-sm;
 
     &:hover {
-      background: rgba($primary-color, 0.05);
+      background: rgba($primary-color, 0.08);
+      transform: translateY(-1px);
     }
 
     &:active {
-      background: rgba($primary-color, 0.1);
+      background: rgba($primary-color, 0.12);
+      transform: translateY(0);
     }
   }
 
   // 전체 선택된 상태
   &.allSelected {
     background: rgba($primary-color, 0.15);
+    border-radius: $radius-sm;
 
     .dateTitle {
       color: $primary-color;
-      font-weight: 600;
+      font-weight: $font-weight-semibold;
     }
   }
 }
