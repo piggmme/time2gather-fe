@@ -90,10 +90,15 @@ $glass-shadow-header: 0 2px 12px rgba(0, 0, 0, 0.04);
 
   &.fullHour {
     border-top: 1px solid rgba($c-gray, 0.5);
+    // 정각은 셀 상단에 시간 정렬
+    align-items: flex-start;
+    padding-top: 2px;
   }
 
   &.halfHour {
     border-top: 1px dashed rgba($c-gray, 0.3);
+    // 30분은 시간 텍스트 숨김
+    color: transparent;
   }
 }
 
