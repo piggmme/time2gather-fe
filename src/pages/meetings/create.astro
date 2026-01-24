@@ -13,9 +13,12 @@ type Step = 'meetingType' | 'title' | 'dates' | 'timeRange' | 'location';
 const step: Step = Astro.url.searchParams.get('step') as Step || 'meetingType';
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
+
+const title = t('meta.pages.create.title');
+const description = t('meta.pages.create.description');
 ---
 
-<Layout>
+<Layout title={title} description={description} schemaType="WebPage">
   <main>
     <RequireAuth client:only="react" />
     <h1>{t('createMeeting.title')}</h1>

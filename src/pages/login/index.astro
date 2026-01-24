@@ -5,9 +5,12 @@ import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../..
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
 const t = getTranslations(locale);
+
+const title = t('meta.pages.login.title');
+const description = t('meta.pages.login.description');
 ---
 
-<Layout>
+<Layout title={title} description={description} schemaType="WebPage">
   <main>
     <h1>{t('login.title')}</h1>
     <p>{t('login.description')}</p>

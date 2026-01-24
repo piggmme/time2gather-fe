@@ -5,9 +5,12 @@ import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i1
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
 const t = getTranslations(locale);
+
+const title = t('meta.pages.home.title');
+const description = t('meta.pages.home.description');
 ---
 
-<Layout>
+<Layout title={title} description={description}>
   <main>
     <Home client:only='react' />
   </main>

@@ -7,19 +7,20 @@
 .weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  margin-bottom: 8px;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
   width: 100%;
+  padding: 0 2px; // 셀과 정렬 맞추기
 }
 
 .weekday {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  font-weight: 500;
-  color: #666;
-  aspect-ratio: 1;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $c-gray-dark;
+  padding: $spacing-xs 0;
 
   &.sunday {
     color: $sunday-color;
@@ -33,8 +34,9 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  gap: $spacing-sm;
   width: 100%;
-  overflow: visible; // countBadge가 잘리지 않도록
+  overflow: visible;
+  padding: 2px; // 셀 그림자가 잘리지 않도록
 }
 

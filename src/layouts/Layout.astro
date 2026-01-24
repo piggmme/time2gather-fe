@@ -71,6 +71,15 @@ const hreflangUrls = {
     <link rel="alternate" hreflang="en" href={hreflangUrls.en} />
     <link rel="alternate" hreflang="x-default" href={hreflangUrls.xDefault} />
 
+    <!-- GEO Targeting Meta Tags (Primary: South Korea) -->
+    <meta name="geo.region" content="KR" />
+    <meta name="geo.placename" content="South Korea" />
+    <meta name="geo.position" content="37.5665;126.9780" />
+    <meta name="ICBM" content="37.5665, 126.9780" />
+    <meta name="DC.language" content={locale} />
+    <meta name="content-language" content={locale === 'ko' ? 'ko-KR' : 'en-US'} />
+    <meta http-equiv="content-language" content={locale === 'ko' ? 'ko-KR' : 'en-US'} />
+
     <!-- Open Graph / Facebook / 카카오톡 -->
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={currentUrl} />

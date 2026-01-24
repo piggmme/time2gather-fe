@@ -1,61 +1,122 @@
 @use "../../styles/variables.scss" as *;
 
+// =====================================================
+// Calendar Cell Design Tokens
+// =====================================================
+$cell-border: 1px solid rgba(0, 0, 0, 0.06);
+$cell-bg: $c-white;
+$cell-bg-hover: $c-gray-lightest;
+$cell-bg-selected: $primary-color-soft;
+$cell-bg-selected-strong: rgba($primary-color, 0.2);
+$cell-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.08);
+$cell-shadow-selected: 0 2px 12px rgba($primary-color, 0.2);
+
 .cell {
   user-select: none;
-  border-radius: 50%;
-  background: #fff;
-  transition: 0.15s;
+  border-radius: $radius-sm; // 둥근 사각형 (원형 X)
+  background: $cell-bg;
+  border: $cell-border;
+  transition: all $transition-base;
   cursor: pointer;
-  font-size: 13px;
+  font-size: $font-size-sm;
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 1;
   min-width: 0;
   box-sizing: border-box;
-  touch-action: none; // 모바일에서 스크롤 방지
-  color: $c-black;
-  font-weight: 600;
-  position: relative; // countBadge 위치 지정을 위해
+  touch-action: none;
+  color: $c-gray-darkest;
+  font-weight: $font-weight-semibold;
+  position: relative;
 
+  // 호버 효과: 배경색 + 살짝 떠오르는 그림자
   &:hover {
-    background: #f9f9f9;
+    background: $cell-bg-hover;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: $cell-shadow-hover;
+    transform: translateY(-1px);
   }
 
+  // 선택된 상태 (편집 모드)
   &:not(.viewMode) {
     &.selected {
-      background: $primary-color-selected;
-      backdrop-filter: blur(4px);
+      background: $cell-bg-selected-strong;
+      border-color: $primary-color;
+      box-shadow: $cell-shadow-selected;
+      color: $primary-color;
+      font-weight: $font-weight-bold;
+
+      &:hover {
+        background: rgba($primary-color, 0.25);
+      }
     }
   }
 
+  // 드래그 중
   &.dragged {
     background: $primary-color-dragged;
-    backdrop-filter: blur(4px);
+    border-color: $primary-color-border;
   }
 
+  // 다른 달 날짜
   &.otherMonth {
-    opacity: 0.8;
+    opacity: 0.4;
+    background: transparent;
+    border-color: transparent;
+
+    &:hover {
+      opacity: 0.6;
+      background: $cell-bg-hover;
+    }
   }
 
+  // 오늘 날짜
   &.today {
     color: $primary-color;
-    font-weight: 800;
+    font-weight: $font-weight-bold;
+    border-color: $primary-color;
+    background: $c-blue-soft;
+
+    &:not(.selected):hover {
+      background: rgba($primary-color, 0.1);
+    }
   }
 
+  // 일요일
   &.sunday {
     color: $sunday-color;
+
+    &.selected {
+      color: $sunday-color;
+      border-color: $sunday-color;
+      background: rgba($sunday-color, 0.15);
+    }
   }
 
+  // 토요일
   &.saturday {
     color: $saturday-color;
+
+    &.selected {
+      color: $saturday-color;
+      border-color: $saturday-color;
+      background: rgba($saturday-color, 0.15);
+    }
   }
 
+  // 뷰어 모드 (읽기 전용)
   &.viewMode {
     cursor: default;
 
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
     &.selected {
       border: 2px solid $c-blue;
+      background: $c-blue-soft;
     }
   }
 
@@ -63,14 +124,19 @@
     pointer-events: none;
   }
 
+  // 비활성화
   &.disabled {
     cursor: not-allowed;
-    color: $c-gray-light;
+    color: $c-gray;
+    opacity: 0.5;
     pointer-events: none;
-    font-family: normal;
+    background: $c-gray-lightest;
+    border-color: transparent;
 
     &:hover {
-      background: #fff;
+      background: $c-gray-lightest;
+      transform: none;
+      box-shadow: none;
     }
   }
 
@@ -79,22 +145,22 @@
     position: absolute;
     bottom: -4px;
     right: -4px;
-    background: $c-gray;
+    background: $c-gray-dark;
     color: $c-white;
     font-size: 9px;
-    font-weight: 700;
-    padding: 2px 4px;
-    border-radius: 8px;
-    min-width: 20px;
+    font-weight: $font-weight-bold;
+    padding: 2px 5px;
+    border-radius: $radius-full;
+    min-width: 16px;
     text-align: center;
     line-height: 1.2;
-    z-index: 10; // 다른 요소 위에 표시되도록
-    white-space: nowrap; // 텍스트 줄바꿈 방지
+    z-index: 10;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 
     &.selected {
-      background: $c-blue;
+      background: $primary-color;
       color: $c-white;
     }
   }
 }
-

@@ -6,9 +6,12 @@ import RequireAuth from '../components/RequireAuth'
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
 const t = getTranslations(locale);
+
+const title = t('meta.pages.my.title');
+const description = t('meta.pages.my.description');
 ---
 
-<Layout>
+<Layout title={title} description={description} schemaType="WebPage">
   <RequireAuth client:only='react' />
   <main>
     <h1>{t('my.title')}</h1>

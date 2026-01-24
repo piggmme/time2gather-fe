@@ -28,26 +28,16 @@ try {
 }
 
 // SEO 메타데이터 설정
-const siteUrl = Astro.site?.href || new URL(Astro.url.pathname, Astro.url.origin).href;
-const meetingUrl = new URL(Astro.url.pathname, Astro.url.origin).href;
-const meetingTitle = `${meetingData.meeting.title} - Time2Gather`;
+const siteUrl = Astro.site?.href || 'https://time2gather.org/';
+const meetingUrl = new URL(Astro.url.pathname, siteUrl).href;
+const meetingTitle = `${meetingData.meeting.title} 결과 - Time2Gather`;
 const meetingDescription = reportData?.summaryText || meetingData.meeting.description || t('meta.siteDescription');
-const ogImage = meetingData.meeting.host.profileImageUrl || new URL('/favicon.svg', siteUrl).href;
+const ogImage = new URL('/og-image.svg', siteUrl).href;
 
-// 구조화된 데이터 (JSON-LD)
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": meetingData.meeting.title,
-  "description": reportData?.summaryText || meetingData.meeting.description,
-  "organizer": {
-    "@type": "Person",
-    "name": meetingData.meeting.host.username,
-    "image": meetingData.meeting.host.profileImageUrl
-  },
-  "url": meetingUrl,
-  "eventStatus": "https://schema.org/EventScheduled",
-  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode"
+// Event 구조화된 데이터
+const eventData = {
+  name: meetingData.meeting.title,
+  description: reportData?.summaryText || meetingData.meeting.description,
 };
 ---
 <Layout
@@ -55,8 +45,9 @@ const structuredData = {
   description={meetingDescription}
   ogImage={ogImage}
   ogType="website"
+  schemaType="Event"
+  eventData={eventData}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} slot="head" />
   <main>
     <h1>
       <a href={`/meetings/${meetingCode}`}>{meetingData.meeting.title}</a>

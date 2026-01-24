@@ -155,7 +155,33 @@
     "siteTitle": "Time2Gather - Schedule with People",
     "siteDescription": "A service that makes it easy to schedule meetings with people. Create meetings, select multiple dates and time slots, and share them. When participants select their available times, we'll recommend the best date and time to meet.",
     "siteKeywords": "schedule meeting, schedule coordination, group meeting, group schedule, time coordination, meeting management, schedule sharing, Time2Gather",
-    "ogImageAlt": "Time2Gather - Schedule with Multiple People"
+    "ogImageAlt": "Time2Gather - Schedule with Multiple People",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - Schedule Meetings in 5 Seconds",
+        "description": "Struggling to coordinate schedules with multiple people? Use Time2Gather to easily collect votes and find the best time for everyone."
+      },
+      "create": {
+        "title": "Create Meeting - Time2Gather",
+        "description": "Create a new meeting and share it with friends. Easily decide on dates, times, and locations through voting."
+      },
+      "login": {
+        "title": "Login - Time2Gather",
+        "description": "Log in easily with KakaoTalk and start scheduling. Get started quickly with social login."
+      },
+      "my": {
+        "title": "My Meetings - Time2Gather",
+        "description": "View all your created and participated meetings at a glance. Meeting management made easy."
+      },
+      "meeting": {
+        "title": "{title} - Time2Gather",
+        "description": "Join the {title} meeting. Select your available times and vote."
+      },
+      "result": {
+        "title": "{title} Results - Time2Gather",
+        "description": "Check the voting results for {title}. AI-powered recommendations for the best meeting time."
+      }
+    }
   },
   "chatBot": {
     "title": "Schedule Assistant",
