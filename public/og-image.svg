@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.05" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Decorative circles -->
+  <circle cx="100" cy="100" r="200" fill="#ffffff" opacity="0.05"/>
+  <circle cx="1100" cy="530" r="250" fill="#ffffff" opacity="0.05"/>
+  <circle cx="900" cy="100" r="150" fill="#ffffff" opacity="0.03"/>
+  
+  <!-- Main card -->
+  <rect x="80" y="120" width="1040" height="390" rx="24" fill="url(#cardGradient)" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
+  
+  <!-- Calendar Icon -->
+  <g transform="translate(150, 200)">
+    <rect x="0" y="20" width="120" height="110" rx="12" fill="#ffffff"/>
+    <rect x="0" y="20" width="120" height="30" rx="12" fill="#667eea"/>
+    <rect x="25" y="0" width="12" height="30" rx="4" fill="#ffffff"/>
+    <rect x="83" y="0" width="12" height="30" rx="4" fill="#ffffff"/>
+    <!-- Calendar grid -->
+    <circle cx="35" cy="75" r="8" fill="#667eea"/>
+    <circle cx="60" cy="75" r="8" fill="#e0e0e0"/>
+    <circle cx="85" cy="75" r="8" fill="#e0e0e0"/>
+    <circle cx="35" cy="105" r="8" fill="#e0e0e0"/>
+    <circle cx="60" cy="105" r="8" fill="#667eea"/>
+    <circle cx="85" cy="105" r="8" fill="#764ba2"/>
+  </g>
+  
+  <!-- Text content -->
+  <text x="320" y="250" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="72" font-weight="700" fill="#ffffff">
+    Time2Gather
+  </text>
+  
+  <text x="320" y="320" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="400" fill="#ffffff" opacity="0.9">
+    약속 잡기, 이제 5초면 충분해요
+  </text>
+  
+  <text x="320" y="360" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" font-weight="400" fill="#ffffff" opacity="0.7">
+    Schedule meetings in just 5 seconds
+  </text>
+  
+  <!-- Feature badges -->
+  <g transform="translate(320, 400)">
+    <rect x="0" y="0" width="140" height="36" rx="18" fill="#ffffff" opacity="0.2"/>
+    <text x="70" y="24" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#ffffff" text-anchor="middle">📅 시간 투표</text>
+    
+    <rect x="160" y="0" width="140" height="36" rx="18" fill="#ffffff" opacity="0.2"/>
+    <text x="230" y="24" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#ffffff" text-anchor="middle">📍 장소 투표</text>
+    
+    <rect x="320" y="0" width="140" height="36" rx="18" fill="#ffffff" opacity="0.2"/>
+    <text x="390" y="24" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#ffffff" text-anchor="middle">🤖 AI 요약</text>
+  </g>
+  
+  <!-- URL -->
+  <text x="600" y="580" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="500" fill="#ffffff" opacity="0.6" text-anchor="middle">
+    time2gather.org
+  </text>
+</svg>
