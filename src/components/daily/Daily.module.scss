@@ -152,7 +152,6 @@ $glass-shadow-header: 0 2px 12px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: row;
   overflow-x: auto;
-  flex: 1;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -214,7 +213,6 @@ $glass-shadow-header: 0 2px 12px rgba(0, 0, 0, 0.04);
   overflow-x: auto;
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
-  flex: 1;
   align-items: flex-start;
   touch-action: auto; // 브라우저 기본 스크롤 허용
 
