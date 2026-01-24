@@ -3,40 +3,41 @@
 // =====================================================
 
 // =====================================================
-// Colors - Base Palette
+// Colors - Base Palette (Warm & Friendly)
 // =====================================================
 
-// Neutral Colors
-$c-black: #040404;
+// Neutral Colors - Warm Grays
+$c-black: #1a1a1a;
 $c-white: #ffffff;
-$c-gray: #d1d1d1;
-$c-gray-light: #ebebeb;
-$c-gray-lightest: #f7f7f7;
-$c-gray-dark: #a1a1a1;
-$c-gray-darkest: #6b6b6b;
+$c-gray: #d4d4d8;         // Warm gray 300
+$c-gray-light: #f4f4f5;   // Warm gray 100
+$c-gray-lightest: #fafafa; // Warm gray 50
+$c-gray-dark: #a1a1aa;    // Warm gray 400
+$c-gray-darkest: #52525b; // Warm gray 600
 
-// Semantic Colors
-$c-blue: #3b82f6;
-$c-blue-soft: #e6f0ff;
-$c-red: #e95454;
-$c-red-light: #ed8080;
-$c-red-soft: #f8e6e8;
-$c-purple: #a562c9;
-$c-purple-light: #c992e9;
-$c-orange: #fd7e14;
-$c-green: #10b981;
-$c-green-soft: rgba(16, 185, 129, 0.08);
+// Semantic Colors - Soft Pastels
+$c-blue: #60a5fa;         // Soft Blue
+$c-blue-soft: #eff6ff;
+$c-red: #f87171;          // Soft Red
+$c-red-light: #fca5a5;
+$c-red-soft: #fef2f2;
+$c-purple: #c084fc;       // Soft Purple
+$c-purple-light: #e9d5ff;
+$c-orange: #fb923c;       // Soft Orange
+$c-green: #34d399;        // Soft Green (Minty)
+$c-green-soft: rgba(52, 211, 153, 0.1);
 
 // =====================================================
 // Colors - Primary (Brand)
 // =====================================================
 
-$primary-color: #3b82f6;
+// Friendly Blue (Reference: Intercom/Figma style)
+$primary-color: #3b82f6; 
 $primary-color-hover: #2563eb;
-$primary-color-soft: rgba(59, 130, 246, 0.08);
-$primary-color-selected: rgba(59, 130, 246, 0.37);
-$primary-color-dragged: rgba(59, 130, 246, 0.1);
-$primary-color-border: rgba(59, 130, 246, 0.3);
+$primary-color-soft: rgba(59, 130, 246, 0.12);
+$primary-color-selected: rgba(59, 130, 246, 0.25); // Softer selection
+$primary-color-dragged: rgba(59, 130, 246, 0.15);
+$primary-color-border: rgba(59, 130, 246, 0.2);
 
 // =====================================================
 // Colors - Success (Confirmed State)
@@ -44,39 +45,39 @@ $primary-color-border: rgba(59, 130, 246, 0.3);
 
 $success-color: #10b981;
 $success-color-hover: #059669;
-$success-color-soft: rgba(16, 185, 129, 0.08);
+$success-color-soft: rgba(16, 185, 129, 0.1);
 $success-color-border: rgba(16, 185, 129, 0.2);
-$success-text-color: #059669;
+$success-text-color: #047857;
 
 // =====================================================
 // Colors - Rank Badges
 // =====================================================
 
-$rank-first: $primary-color;
-$rank-second: #64748b;
-$rank-third: #94a3b8;
+$rank-first: #fcd34d;  // Soft Gold
+$rank-second: #94a3b8; // Silver
+$rank-third: #fdba74;  // Bronze
 $rank-default: $c-gray-dark;
 
 // =====================================================
 // Colors - Day of Week
 // =====================================================
 
-$sunday-color: $c-red;
-$saturday-color: #6b6bea;
+$sunday-color: #f87171;
+$saturday-color: #60a5fa;
 
 // =====================================================
 // Typography
 // =====================================================
 
-$font-size-xs: 11px;
-$font-size-sm: 12px;
-$font-size-base: 14px;
-$font-size-md: 15px;
-$font-size-lg: 16px;
-$font-size-xl: 18px;
-$font-size-2xl: 20px;
-$font-size-3xl: 22px;
-$font-size-4xl: 24px;
+$font-size-xs: 12px;
+$font-size-sm: 13px;
+$font-size-base: 15px; // Slightly larger base
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-2xl: 24px;
+$font-size-3xl: 30px;
+$font-size-4xl: 36px;
 
 $font-weight-normal: 400;
 $font-weight-medium: 500;
@@ -85,7 +86,7 @@ $font-weight-bold: 700;
 
 $line-height-tight: 1.4;
 $line-height-normal: 1.6;
-$line-height-relaxed: 1.7;
+$line-height-relaxed: 1.8;
 
 // =====================================================
 // Spacing
@@ -95,40 +96,41 @@ $spacing-xs: 4px;
 $spacing-sm: 8px;
 $spacing-md: 12px;
 $spacing-base: 16px;
-$spacing-lg: 20px;
-$spacing-xl: 24px;
-$spacing-2xl: 32px;
-$spacing-3xl: 40px;
+$spacing-lg: 24px; // Increased spacing
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
 
 // =====================================================
-// Border Radius
+// Border Radius - More Rounded
 // =====================================================
 
-$radius-xs: 4px;
-$radius-sm: 6px;
-$radius-md: 8px;
-$radius-base: 12px;
-$radius-lg: 16px;
-$radius-xl: 20px;
+$radius-xs: 6px;
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-base: 16px;
+$radius-lg: 24px;
+$radius-xl: 32px;
 $radius-full: 9999px;
 
 // =====================================================
-// Shadows
+// Shadows - Softer & Diffused
 // =====================================================
 
-$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-$shadow-base: 0 2px 8px rgba(0, 0, 0, 0.06);
-$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-$shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
-$shadow-modal: 0 10px 40px rgba(0, 0, 0, 0.2);
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
 // =====================================================
 // Transitions
 // =====================================================
 
-$transition-fast: 0.15s ease;
-$transition-base: 0.2s ease;
-$transition-slow: 0.3s ease;
+$transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); // Bouncy effect
 
 // =====================================================
 // Z-Index
@@ -147,32 +149,32 @@ $z-toast: 1100;
 $icon-size-sm: 16px;
 $icon-size-base: 20px;
 $icon-size-md: 24px;
-$icon-size-lg: 28px;
+$icon-size-lg: 32px;
 
 // Badge sizes
 $badge-size-sm: 20px;
 $badge-size-base: 24px;
-$badge-size-lg: 28px;
+$badge-size-lg: 32px;
 
 // Avatar sizes
-$avatar-size-sm: 20px;
-$avatar-size-base: 32px;
-$avatar-size-md: 40px;
-$avatar-size-lg: 48px;
+$avatar-size-sm: 24px;
+$avatar-size-base: 36px;
+$avatar-size-md: 48px;
+$avatar-size-lg: 64px;
 
 // Button heights
 $button-height-sm: 32px;
-$button-height-base: 40px;
-$button-height-lg: 48px;
-$button-height-xl: 56px;
+$button-height-base: 44px; // Taller touch target
+$button-height-lg: 52px;
+$button-height-xl: 60px;
 
 // =====================================================
 // Card Styles
 // =====================================================
 
 $card-bg: $c-white;
-$card-border: 1px solid $c-gray-light;
+$card-border: 1px solid rgba(0,0,0,0.04); // Softer border
 $card-radius: $radius-lg;
 $card-padding: $spacing-lg;
-$card-header-bg: $c-gray-lightest;
+$card-header-bg: transparent;
 $card-header-padding: $spacing-base $spacing-lg;

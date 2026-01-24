@@ -8,19 +8,26 @@
   color: $c-black;
 }
 
-/* 모바일: 상단 햄버거 버튼 */
+// =====================================================
+// Mobile Header (Glassmorphism + Warm Tone)
+// =====================================================
 .mobileHeader {
   display: block;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
-  padding: 0 12px;
+  height: 56px; // 높이를 조금 키움 (터치 편의)
+  padding: 0 $spacing-base;
   z-index: 1001;
   margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
+  
+  // Glassmorphism
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03); // Subtle border
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); // Soft shadow
 
   @media (min-width: 700px) {
     display: none;
@@ -34,15 +41,22 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
-  color: inherit;
+  padding: $spacing-xs;
+  color: $c-gray-darkest; // 너무 검지 않은 색
   height: 100%;
+  transition: color $transition-base;
+  
+  &:hover {
+    color: $primary-color;
+  }
 }
 
-/* 데스크톱 네비게이션 */
+// =====================================================
+// Desktop Navigation (Clean Sidebar)
+// =====================================================
 .desktopNav {
   display: none;
-  position:absolute;
+  position: absolute;
 
   @media (min-width: 700px) {
     display: block;
@@ -51,78 +65,99 @@
     left: 0;
     box-sizing: border-box;
     height: 100svh;
-    background-color: $c-gray-lightest;
-    padding: 20px;
+    width: 260px; // 사이드바 너비 명시
+    
+    // Warm Background
+    background-color: #ffffff; 
+    border-right: 1px solid rgba(0, 0, 0, 0.04); // Softer border
+    padding: $spacing-xl $spacing-lg;
     overflow-y: auto;
     z-index: 1000;
   }
 }
 
 .desktopNavLogo {
-  display: block;
-  margin-bottom: 80px;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-3xl;
+  text-decoration: none;
+  color: $c-black;
+  
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .desktopNavAboutUs {
   display: block;
   position: absolute;
-  color: $c-black;
-  bottom: 20px;
+  color: $c-gray-dark;
+  bottom: $spacing-xl;
   left: 0;
   right: 0;
   text-align: center;
+  font-size: $font-size-xs;
 }
 
 .desktopNavContent {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: $spacing-lg;
 }
 
 .localeButton {
-  font-weight: 700;
-  font-size: 20px;
-  color: inherit;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-md;
+  color: $c-gray-darkest;
   background-color: transparent;
   border: none;
   cursor: pointer;
-}
-
-.desktopNavLink {
-  font-weight: 700;
-  font-size: 13px;
-  color: inherit;
-  text-decoration: none;
+  padding: $spacing-xs 0;
+  text-align: left;
+  transition: color $transition-base;
 
   &:hover {
     color: $primary-color;
   }
 }
 
+.desktopNavLink {
+  font-weight: $font-weight-medium;
+  font-size: $font-size-base;
+  color: $c-gray-darkest;
+  text-decoration: none;
+  padding: $spacing-xs 0;
+  transition: all $transition-base;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: $primary-color;
+    transform: translateX(4px); // 호버 시 살짝 오른쪽 이동
+  }
+}
+
 .desktopLogo {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 .desktopTitleText {
-  text-align: center;
+  text-align: left;
   line-height: 1.2;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-lg;
 }
 
-/* 모바일 네비게이션 */
+// =====================================================
+// Mobile Navigation (Slide Drawer)
+// =====================================================
 .mobileNav {
   display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: $c-gray-lightest;
-  padding: 24px;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease-in-out;
+  // ... (기존 스타일 상속)
 
   @media (max-width: 699px) {
     display: block;
@@ -132,12 +167,16 @@
     width: 280px;
     box-sizing: border-box;
     height: 100svh;
-    background-color: #fff;
-    padding: 24px;
+    
+    // Warm Off-white Background
+    background-color: #ffffff;
+    padding: $spacing-xl $spacing-lg;
+    
     transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
+    transition: transform $transition-bounce; // Bouncy animation
     z-index: 1002;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08); // Softer shadow
+    border-radius: 0 $radius-lg $radius-lg 0; // 오른쪽 모서리 둥글게
   }
 }
 
@@ -150,17 +189,20 @@
 .mobileNavContent {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: $spacing-lg;
+  margin-top: $spacing-xl;
 }
 
 .mobileNavLink {
-  font-size: 16px;
-  color: inherit;
+  font-size: $font-size-base;
+  color: $c-gray-darkest;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: $c-black;
+  gap: $spacing-md;
+  padding: $spacing-sm 0;
+  font-weight: $font-weight-medium;
+  transition: color $transition-base;
 
   &:hover {
     color: $primary-color;
@@ -170,37 +212,41 @@
 .mobileNavBottomContents {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: $spacing-lg;
   position: absolute;
-  bottom: 32px;
-  left: 24px;
-  right: 24px;
+  bottom: $spacing-xl;
+  left: $spacing-lg;
+  right: $spacing-lg;
 }
 
 .mobileNavBottomItem {
   border: none;
   background-color: transparent;
   cursor: pointer;
-  padding: 0;
-  font-size: 16px;
-  color: inherit;
+  padding: $spacing-sm 0;
+  font-size: $font-size-base;
+  color: $c-gray-darkest;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: $c-black;
+  gap: $spacing-md;
+  font-weight: $font-weight-medium;
+  
+  &:hover {
+    color: $primary-color;
+  }
 }
 
 .mobileTitle {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  font-size: 16px;
-  color: inherit;
+  gap: $spacing-md;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-lg;
+  color: $c-black;
   text-decoration: none;
-  padding: 12px 0;
+  padding: 0; // 여백 제거
 
   &:hover {
     opacity: 0.8;
@@ -208,34 +254,36 @@
 }
 
 .mobileLogo {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 .mobileTitleText {
-  font-size: 20px;
+  font-size: $font-size-xl;
 }
 
 .backButton {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: $spacing-xs;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px 12px;
-  color: inherit;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  padding: $spacing-sm $spacing-md;
+  color: $c-gray-darkest;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+  font-weight: $font-weight-medium;
 
   &:hover {
-    background-color: $c-gray-lightest;
+    background-color: $c-gray-light;
+    color: $primary-color;
   }
 
   span {
-    font-size: 14px;
+    font-size: $font-size-sm;
   }
 }
 
@@ -253,11 +301,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.01);
+    background-color: rgba(0, 0, 0, 0.2); // 약간 더 어둡게
     backdrop-filter: blur(4px);
     z-index: 1001;
     width: 100vw;
     box-sizing: border-box;
     height: 100svh;
+    transition: opacity $transition-base;
   }
 }
