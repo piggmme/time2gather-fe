@@ -7,19 +7,17 @@ import styles from './ResultContent.module.scss'
 import { formatDate } from '../../utils/time'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
-import { HiChevronDown, HiChevronRight, HiX, HiOutlineDocumentText, HiOutlineLocationMarker } from 'react-icons/hi'
+import { HiChevronDown, HiChevronRight, HiX, HiOutlineLocationMarker } from 'react-icons/hi'
 import { useTranslation } from '../../hooks/useTranslation'
 import { $me } from '../../stores/me'
 import { Tabs } from '../Tabs/Tabs'
-import ReactMarkdown from 'react-markdown'
 import Monthly from '../Monthly/Monthly'
 
 export default function ResultContent ({
   meetingData,
-  reportData,
 }: {
   meetingData: get_meetings_$meetingCode_response['data']
-  reportData: get_meetings_$meetingCode_report_response['data']
+  reportData?: get_meetings_$meetingCode_report_response['data'] // Keep for backwards compatibility
 }) {
   const { t } = useTranslation()
   const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set())
@@ -157,18 +155,9 @@ export default function ResultContent ({
     })
   }
 
-  const defaultValue = reportData?.summaryText ? 'AI 요약' : '요약'
-
   return (
-    <Tabs.Root defaultValue={defaultValue}>
+    <Tabs.Root defaultValue='요약'>
       <Tabs.List aria-label={t('meeting.result.tabs.summary')}>
-        {
-          reportData?.summaryText && (
-            <Tabs.Trigger value='AI 요약'>
-              {t('meeting.result.tabs.aiSummary')}
-            </Tabs.Trigger>
-          )
-        }
         <Tabs.Trigger value='요약'>
           {t('meeting.result.tabs.summary')}
         </Tabs.Trigger>
@@ -185,9 +174,6 @@ export default function ResultContent ({
         </Tabs.Trigger>
       </Tabs.List>
 
-      {reportData?.summaryText && (
-        <AISummaryContent summaryText={reportData.summaryText} meetingData={meetingData} />
-      )}
       <SummaryContent
         meetingData={meetingData}
         groupedBestSlots={groupedBestSlots}
@@ -224,18 +210,24 @@ type GroupedBestSlot = {
   timeRanges: Array<{ start: string, end: string, count: number, percentage: number }>
 }
 
-// AI 요약 탭 컴포넌트
-function AISummaryContent ({
-  summaryText,
+// 요약 탭 컴포넌트
+function SummaryContent ({
   meetingData,
+  groupedBestSlots,
+  expandedSlots,
+  toggleSlot,
+  getParticipantsForGroup,
 }: {
-  summaryText: string
   meetingData: get_meetings_$meetingCode_response['data']
+  groupedBestSlots: GroupedBestSlot[]
+  expandedSlots: Set<string>
+  toggleSlot: (groupIndex: number) => void
+  getParticipantsForGroup: (group: GroupedBestSlot) => typeof meetingData.participants
 }) {
+  const locale = useStore($locale)
   const { t } = useTranslation()
-  const locationVote = meetingData.locationVote
 
-  // 장소 투표가 있으면 정렬
+  const locationVote = meetingData.locationVote
   const sortedLocations = locationVote?.locations
     ? [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
     : []
@@ -248,19 +240,75 @@ function AISummaryContent ({
   }
 
   return (
-    <Tabs.Content value='AI 요약'>
+    <Tabs.Content value='요약'>
       <div className={styles.AISummaryContainer}>
-        {/* AI 요약 텍스트 카드 */}
-        <div className={styles.AISummaryCard}>
-          <div className={styles.AISummaryCardHeader}>
-            <span className={styles.AISummaryCardIcon}>
-              <HiOutlineDocumentText />
-            </span>
-            <span className={styles.AISummaryCardTitle}>{t('meeting.result.aiSummaryTitle')}</span>
+        {/* 시간 요약 카드 */}
+        <div className={`${styles.Summary} ${styles.Card}`} style={{ padding: '24px' }}>
+          <div>
+            <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
+            <p className={styles.DetailText}>
+              {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
+            </p>
           </div>
-          <div className={styles.AISummaryCardContent}>
-            <ReactMarkdown>{summaryText}</ReactMarkdown>
-          </div>
+          
+          {groupedBestSlots.length > 0 && (
+            <div className={styles.BestSlots}>
+              <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
+              <ul className={styles.BestSlotsList}>
+                {groupedBestSlots.map((group, groupIndex) => {
+                  const isExpanded = expandedSlots.has(`group-${groupIndex}`)
+                  const participants = getParticipantsForGroup(group)
+
+                  return (
+                    <li key={groupIndex} className={styles.BestSlotItem}>
+                      <div
+                        className={styles.BestSlotHeader}
+                        onClick={() => toggleSlot(groupIndex)}
+                      >
+                        <span className={styles.BestSlotDate}>{formatDate(group.date, locale)}</span>
+                        <span className={styles.BestSlotTime}>
+                          {group.timeRanges.map((range, rangeIndex) => (
+                            range.start === 'ALL_DAY'
+                              ? null
+                              : (
+                                  <span key={rangeIndex}>
+                                    {range.start === range.end
+                                      ? range.start
+                                      : `${range.start}~${range.end}`}
+                                    {rangeIndex < group.timeRanges.length - 1 && ', '}
+                                  </span>
+                                )
+                          ))}
+                        </span>
+                        <span className={styles.BestSlotCount}>
+                          {group.timeRanges[0].count}{t('meeting.result.people')} ({group.timeRanges[0].percentage})
+                        </span>
+                        <span className={styles.BestSlotExpandIcon}>
+                          {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
+                        </span>
+                      </div>
+                      {isExpanded && participants.length > 0 && (
+                        <div className={styles.BestSlotParticipants}>
+                          <ul className={styles.BestSlotParticipantsList}>
+                            {participants.map(participant => (
+                              <li key={participant.userId} className={styles.BestSlotParticipantItem}>
+                                <Avatar
+                                  src={participant.profileImageUrl}
+                                  name={participant.username}
+                                  size={24}
+                                />
+                                <span className={styles.BestSlotParticipantName}>{participant.username}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* 장소 투표 카드 (enabled인 경우만) */}
@@ -320,96 +368,6 @@ function AISummaryContent ({
                 })}
               </ul>
             </div>
-          </div>
-        )}
-      </div>
-    </Tabs.Content>
-  )
-}
-
-// 요약 탭 컴포넌트
-function SummaryContent ({
-  meetingData,
-  groupedBestSlots,
-  expandedSlots,
-  toggleSlot,
-  getParticipantsForGroup,
-}: {
-  meetingData: get_meetings_$meetingCode_response['data']
-  groupedBestSlots: GroupedBestSlot[]
-  expandedSlots: Set<string>
-  toggleSlot: (groupIndex: number) => void
-  getParticipantsForGroup: (group: GroupedBestSlot) => typeof meetingData.participants
-}) {
-  const locale = useStore($locale)
-  const { t } = useTranslation()
-
-  return (
-    <Tabs.Content value='요약'>
-      <div className={`${styles.Summary} ${styles.Card}`} style={{ padding: '24px' }}> {/* Card 클래스 적용 */}
-        <div>
-          <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
-          <p className={styles.DetailText}>
-            {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-          </p>
-        </div>
-        
-        {groupedBestSlots.length > 0 && (
-          <div className={styles.BestSlots}>
-            <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
-            <ul className={styles.BestSlotsList}>
-              {groupedBestSlots.map((group, groupIndex) => {
-                const isExpanded = expandedSlots.has(`group-${groupIndex}`)
-                const participants = getParticipantsForGroup(group)
-
-                return (
-                  <li key={groupIndex} className={styles.BestSlotItem}>
-                    <div
-                      className={styles.BestSlotHeader}
-                      onClick={() => toggleSlot(groupIndex)}
-                    >
-                      <span className={styles.BestSlotDate}>{formatDate(group.date, locale)}</span>
-                      <span className={styles.BestSlotTime}>
-                        {group.timeRanges.map((range, rangeIndex) => (
-                          range.start === 'ALL_DAY'
-                            ? null
-                            : (
-                                <span key={rangeIndex}>
-                                  {range.start === range.end
-                                    ? range.start
-                                    : `${range.start}~${range.end}`}
-                                  {rangeIndex < group.timeRanges.length - 1 && ', '}
-                                </span>
-                              )
-                        ))}
-                      </span>
-                      <span className={styles.BestSlotCount}>
-                        {group.timeRanges[0].count}{t('meeting.result.people')} ({group.timeRanges[0].percentage})
-                      </span>
-                      <span className={styles.BestSlotExpandIcon}>
-                        {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
-                      </span>
-                    </div>
-                    {isExpanded && participants.length > 0 && (
-                      <div className={styles.BestSlotParticipants}>
-                        <ul className={styles.BestSlotParticipantsList}>
-                          {participants.map(participant => (
-                            <li key={participant.userId} className={styles.BestSlotParticipantItem}>
-                              <Avatar
-                                src={participant.profileImageUrl}
-                                name={participant.username}
-                                size={24}
-                              />
-                              <span className={styles.BestSlotParticipantName}>{participant.username}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
           </div>
         )}
       </div>

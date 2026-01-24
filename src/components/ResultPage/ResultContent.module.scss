@@ -177,38 +177,10 @@
 // AI Summary Styles (Slate Blue Theme)
 // =====================================================
 
-// 마크다운 텍스트 기본 스타일
-.SummaryText {
-  font-size: $font-size-base;
-  line-height: 1.7;
-  color: $c-gray-darkest;
-  
-  strong {
-    color: $ai-color-accent;
-    font-weight: $font-weight-bold;
-  }
-  
-  code {
-    background-color: $ai-color-soft;
-    color: $ai-color;
-    border-radius: $radius-sm;
-    padding: 2px 6px;
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
-    font-size: 0.9em;
-  }
-}
-
 .AISummaryContainer {
   display: flex;
   flex-direction: column;
   gap: $spacing-xl;
-}
-
-.AISummaryCard {
-  @extend .Card;
-  padding: $spacing-xl;
-  background: linear-gradient(135deg, #ffffff 0%, $ai-color-soft 100%);
-  border: 1px solid $ai-color-border;
 }
 
 .AISummaryCardHeader {
@@ -235,56 +207,6 @@
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
   color: $ai-color-accent;
-}
-
-.AISummaryCardContent {
-  @extend .SummaryText;
-  
-  // 마크다운 헤더 스타일링
-  h1, h2, h3 {
-    margin-top: $spacing-xl;
-    margin-bottom: $spacing-md;
-    color: $ai-color-accent;
-    font-weight: $font-weight-bold;
-    
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-
-  h2 {
-    font-size: $font-size-lg;
-    border-left: 4px solid $ai-color;
-    padding-left: $spacing-sm;
-  }
-  
-  h3 {
-    font-size: $font-size-base;
-    color: $ai-color-light;
-  }
-
-  // 리스트 스타일링
-  ul, ol {
-    padding-left: $spacing-lg;
-    margin-bottom: $spacing-lg;
-  }
-
-  li {
-    margin-bottom: $spacing-xs;
-    position: relative;
-    
-    &::marker {
-      color: $ai-color;
-    }
-  }
-
-  // 구분선 스타일링
-  hr {
-    border: 0;
-    height: 1px;
-    background-color: $ai-color-border;
-    margin: $spacing-xl 0;
-  }
 }
 
 // =====================================================
@@ -518,6 +440,21 @@
   font-weight: $font-weight-bold;
   font-size: $font-size-xs;
   flex-shrink: 0;
+}
+
+.AISummaryRankBadgeFirst {
+  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
+  color: #78350f;
+}
+
+.AISummaryRankBadgeSecond {
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  color: #475569;
+}
+
+.AISummaryRankBadgeThird {
+  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+  color: #9a3412;
 }
 
 .AISummaryLocationName {
