@@ -12,6 +12,7 @@
   box-shadow: $shadow-base;
   overflow: hidden;
   transition: all $transition-base;
+  padding: $spacing-xl; // 패딩 추가
   
   &:hover {
     box-shadow: $shadow-md;
@@ -143,7 +144,7 @@
 // =====================================================
 .ParticipantsList {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: $spacing-sm;
   list-style: none;
   padding: 0;
@@ -151,23 +152,23 @@
 }
 
 .ParticipantItem {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: $spacing-md;
-  padding: $spacing-md;
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-md;
   background-color: $c-white;
-  border-radius: $radius-lg;
+  border-radius: $radius-full; // pill 형태
   border: 1px solid $c-gray-light;
   transition: all $transition-base;
 
   &:hover {
-    background-color: $c-gray-lightest;
-    transform: translateX(4px);
+    background-color: $c-blue-soft;
+    border-color: $primary-color-border;
   }
 }
 
 .ParticipantName {
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $c-gray-darkest;
 }
