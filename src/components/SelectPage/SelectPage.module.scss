@@ -4,9 +4,7 @@
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
-  @media (max-width: 699px) {
-    margin-bottom: 100px;
-  }
+  padding-bottom: 80px; // 하단 여백 (챗봇 버튼 고려)
 }
 
 .anonymousLoginForm {
