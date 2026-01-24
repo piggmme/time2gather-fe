@@ -35,6 +35,54 @@ export default defineConfig({
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),
+      // Multi-language sitemap with hreflang
+      i18n: {
+        defaultLocale: 'ko',
+        locales: {
+          ko: 'ko-KR',
+          en: 'en-US',
+        },
+      },
+      // Custom priority for different page types
+      serialize(item) {
+        // Homepage gets highest priority
+        if (item.url === 'https://time2gather.org/' || item.url === 'https://time2gather.org') {
+          item.priority = 1.0;
+          item.changefreq = 'daily';
+        }
+        // Meeting creation page
+        else if (item.url.includes('/meetings/create')) {
+          item.priority = 0.9;
+          item.changefreq = 'weekly';
+        }
+        // Login page
+        else if (item.url.includes('/login')) {
+          item.priority = 0.6;
+          item.changefreq = 'monthly';
+        }
+        // My page
+        else if (item.url.includes('/my')) {
+          item.priority = 0.5;
+          item.changefreq = 'weekly';
+        }
+        // 404 page - exclude from sitemap
+        else if (item.url.includes('/404')) {
+          return undefined;
+        }
+        return item;
+      },
+      // Filter out pages that shouldn't be indexed
+      filter: (page) => {
+        // Exclude OAuth callback pages
+        if (page.includes('/login/oauth2/')) {
+          return false;
+        }
+        // Exclude 404 page
+        if (page.includes('/404')) {
+          return false;
+        }
+        return true;
+      },
     }),
   ],
   output: "server",

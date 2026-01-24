@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://time2gather.org/sitemap.xml
+# Disallow OAuth callback and internal pages
+Disallow: /login/oauth2/
+Disallow: /404
 
+# Sitemap
+Sitemap: https://time2gather.org/sitemap-index.xml
