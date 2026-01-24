@@ -71,8 +71,6 @@ export default function Daily ({
   // 자동 스크롤용 refs
   const autoScrollRef = useRef<number | null>(null)
   const lastPointerPosRef = useRef<{ x: number; y: number } | null>(null)
-  // 스크롤 방향 잠금 (떨림 방지)
-  const autoScrollDirectionRef = useRef<'up' | 'down' | 'left' | 'right' | null>(null)
 
   // 날짜 키 배열 (인덱스로 접근용)
   const dateKeys = useMemo(() => dates.map(d => d.format('YYYY-MM-DD')), [dates])
@@ -225,8 +223,6 @@ export default function Daily ({
       cancelAnimationFrame(autoScrollRef.current)
       autoScrollRef.current = null
     }
-    // 방향 잠금 해제
-    autoScrollDirectionRef.current = null
   }, [])
 
   // 현재 포인터 위치에서 셀 찾아서 dragCurrent 업데이트
@@ -266,84 +262,46 @@ export default function Daily ({
       return
     }
     
-    // 뷰포트 높이 대신 scrollWrapper의 bounding rect 사용 (컨테이너 기준)
+    // scrollWrapper의 bounding rect 사용 (컨테이너 기준)
     const rect = scrollWrapper.getBoundingClientRect()
     
-    // 컨테이너 높이가 너무 작을 경우 영역이 겹치지 않도록 edge 동적 조절 (최대 1/3 높이까지만)
-    const edgeSize = Math.min(AUTO_SCROLL_EDGE, rect.height / 3)
+    // 컨테이너 높이가 너무 작을 경우 자동 스크롤 비활성화
+    if (rect.height < 100) {
+      autoScrollRef.current = requestAnimationFrame(performAutoScroll)
+      return
+    }
     
-    // 스크롤 시작 임계값 (edge zone)
-    const topEdge = rect.top + edgeSize
-    const bottomEdge = rect.bottom - edgeSize
+    // 고정된 edge size (컨테이너가 충분히 크면 50px, 아니면 비례 축소)
+    const edgeSize = Math.min(AUTO_SCROLL_EDGE, rect.height * 0.15)
     
-    // 스크롤 중지 임계값 (hysteresis - 더 안쪽으로 들어와야 중지)
-    // 중앙 영역의 20% 정도를 dead zone으로 추가
-    const centerY = (rect.top + rect.bottom) / 2
-    const safeZoneHalf = (rect.height / 2) - edgeSize - (edgeSize * 0.3) // 안전 영역 반쪽 크기
-    const topSafeEdge = centerY - safeZoneHalf  // 이 위치보다 아래로 와야 상단 스크롤 중지
-    const bottomSafeEdge = centerY + safeZoneHalf  // 이 위치보다 위로 와야 하단 스크롤 중지
-    
-    // 가로 스크롤은 gridContainer 기준 (혹은 뷰포트 너비 사용 - 모바일은 꽉 차므로 뷰포트도 OK지만 통일성 위해 rect 사용 고려)
-    // 가로는 gridContainer가 화면 너비와 다를 수 있으므로 뷰포트나 gridContainer rect 사용
-    // 여기서는 뷰포트 너비 유지 (가로 스크롤은 보통 전체 화면 사용)
     const viewportWidth = window.innerWidth
     
     let didScroll = false
-    const currentDirection = autoScrollDirectionRef.current
     
-    // 세로 스크롤: 컨테이너 상단/하단 가장자리 기준 (방향 잠금 적용)
-    if (currentDirection === 'up') {
-      // 이미 위로 스크롤 중 → 안전 영역으로 돌아올 때까지 계속
-      if (pos.y > topSafeEdge) {
-        // 안전 영역 진입 → 방향 잠금 해제
-        autoScrollDirectionRef.current = null
-      } else {
-        // 계속 위로 스크롤
-        const distance = topEdge - pos.y
-        const intensity = Math.min(1, Math.max(0.2, distance / edgeSize))
-        scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * intensity
-        didScroll = true
-      }
-    } else if (currentDirection === 'down') {
-      // 이미 아래로 스크롤 중 → 안전 영역으로 돌아올 때까지 계속
-      if (pos.y < bottomSafeEdge) {
-        // 안전 영역 진입 → 방향 잠금 해제
-        autoScrollDirectionRef.current = null
-      } else {
-        // 계속 아래로 스크롤
-        const distance = pos.y - bottomEdge
-        const intensity = Math.min(1, Math.max(0.2, distance / edgeSize))
-        scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * intensity
-        didScroll = true
-      }
-    } else {
-      // 방향 잠금 없음 → 새로 스크롤 시작 가능
-      if (pos.y < topEdge) {
-        // 손가락이 컨테이너 상단 가장자리 → 위로 스크롤 시작
-        autoScrollDirectionRef.current = 'up'
-        const distance = topEdge - pos.y
-        const intensity = Math.min(1, Math.max(0.2, distance / edgeSize))
-        scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * intensity
-        didScroll = true
-      } else if (pos.y > bottomEdge) {
-        // 손가락이 컨테이너 하단 가장자리 → 아래로 스크롤 시작
-        autoScrollDirectionRef.current = 'down'
-        const distance = pos.y - bottomEdge
-        const intensity = Math.min(1, Math.max(0.2, distance / edgeSize))
-        scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * intensity
-        didScroll = true
-      }
+    // 세로 스크롤: 단순 로직 - 상단/하단 영역에서만 스크롤
+    // pos.y는 뷰포트 기준, rect.top/bottom도 뷰포트 기준이므로 직접 비교 가능
+    const distanceFromTop = pos.y - rect.top
+    const distanceFromBottom = rect.bottom - pos.y
+    
+    if (distanceFromTop < edgeSize && distanceFromTop >= 0) {
+      // 손가락이 컨테이너 상단 가장자리 (컨테이너 안에 있으면서 상단 근처)
+      const intensity = 1 - (distanceFromTop / edgeSize) // 가장자리에 가까울수록 1에 가까움
+      scrollWrapper.scrollTop -= AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
+      didScroll = true
+    } else if (distanceFromBottom < edgeSize && distanceFromBottom >= 0) {
+      // 손가락이 컨테이너 하단 가장자리 (컨테이너 안에 있으면서 하단 근처)
+      const intensity = 1 - (distanceFromBottom / edgeSize)
+      scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
+      didScroll = true
     }
     
     // 가로 스크롤: 뷰포트 좌우 가장자리 기준
     if (pos.x < AUTO_SCROLL_EDGE) {
-      // 손가락이 화면 왼쪽 가장자리 → 왼쪽으로 스크롤
       const distance = AUTO_SCROLL_EDGE - pos.x
       const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       gridContainer.scrollLeft -= speed
       didScroll = true
     } else if (pos.x > viewportWidth - AUTO_SCROLL_EDGE) {
-      // 손가락이 화면 오른쪽 가장자리 → 오른쪽으로 스크롤
       const distance = pos.x - (viewportWidth - AUTO_SCROLL_EDGE)
       const speed = (distance / AUTO_SCROLL_EDGE) * AUTO_SCROLL_SPEED
       gridContainer.scrollLeft += speed
