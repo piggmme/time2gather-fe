@@ -71,17 +71,15 @@
     max-width: calc(100% - 40px);
     transition: color $transition-base;
   }
-  
-  // 화살표 아이콘 등을 위한 공간 (가상 요소)
-  a::after {
-    content: "→";
-    font-size: $font-size-lg;
+
+  // 화살표 아이콘 스타일
+  svg {
+    flex-shrink: 0;
     color: $c-gray-dark;
-    font-weight: $font-weight-bold;
-    transition: transform $transition-base;
+    transition: transform $transition-base, color $transition-base;
   }
-  
-  a:hover::after {
+
+  a:hover svg {
     transform: translateX(4px);
     color: $primary-color;
   }
