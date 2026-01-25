@@ -2,8 +2,7 @@
 node_modules/
 .pnpm-store/
 
-# 빌드 출력
-dist/
+# Astro 캐시
 .astro/
 certs/
 
