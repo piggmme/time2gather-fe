@@ -26,6 +26,11 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm
 
       - name: Install and Build Frontend
+        env:
+          PUBLIC_KAKAO_REST_API_KEY: ${{ secrets.PUBLIC_KAKAO_REST_API_KEY }}
+          PUBLIC_KAKAO_REDIRECT_URI: ${{ secrets.PUBLIC_KAKAO_REDIRECT_URI }}
+          PUBLIC_GOOGLE_CLIENT_ID: ${{ secrets.PUBLIC_GOOGLE_CLIENT_ID }}
+          PUBLIC_GOOGLE_REDIRECT_URI: ${{ secrets.PUBLIC_GOOGLE_REDIRECT_URI }}
         run: |
           corepack enable
           pnpm install --frozen-lockfile
