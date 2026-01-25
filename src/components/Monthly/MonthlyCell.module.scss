@@ -16,8 +16,8 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
 // 다른 사람 선택: 민트/청록색 (intensity에 따라 변화)
 $others-selection-color: $c-green;
 
-// 내 선택 + 다른 사람 선택: 보라색 그라데이션
-$combined-selection-bg: linear-gradient(135deg, rgba($primary-color, 0.3) 0%, rgba($c-purple, 0.3) 100%);
+// 내 선택 + 다른 사람 선택: 보라색 배경 (더 눈에 띄게)
+$combined-selection-bg: rgba($c-purple, 0.35);
 
 .cell {
   user-select: none;

@@ -78,6 +78,9 @@
     "shareSuccess": "The link has been copied.",
     "exportToCalendar": "Add to My Calendar",
     "confirmButton": "Confirm Meeting",
+    "cancelConfirmButton": "Cancel Confirmation",
+    "cancelConfirmSuccess": "Meeting confirmation has been cancelled!",
+    "cancelConfirmError": "Failed to cancel confirmation. Please try again.",
     "exportDialog": {
       "title": "Add to Calendar",
       "description": "Select the date and time to add to your calendar.",

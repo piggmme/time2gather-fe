@@ -20,11 +20,13 @@ export default function ResultButtons (
   const me = useStore($me)
   const didIParticipate = data.participants.some(participant => participant.userId === me?.userId)
   const isHost = data.meeting.host.id === me?.userId
+  const isConfirmed = !!data.meeting.confirmedDate
   const { t } = useTranslation()
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
   const [isAnonymousDialogOpen, setIsAnonymousDialogOpen] = useState(false)
   const [kakaoAvailable, setKakaoAvailable] = useState(false)
+  const [isCancelling, setIsCancelling] = useState(false)
 
   useEffect(() => {
     // 카카오 SDK 초기화 확인 (약간의 지연 후 체크)
@@ -43,6 +45,31 @@ export default function ResultButtons (
       onMeetingUpdated()
     } else {
       window.location.reload()
+    }
+  }
+
+  const handleCancelConfirmation = async () => {
+    if (isCancelling) return
+
+    setIsCancelling(true)
+    try {
+      await meetings.$meetingCode.confirm.delete(data.meeting.code)
+      showDefaultToast({
+        message: t('meeting.cancelConfirmSuccess'),
+        duration: 3000,
+      })
+      if (onMeetingUpdated) {
+        onMeetingUpdated()
+      } else {
+        window.location.reload()
+      }
+    } catch {
+      showDefaultToast({
+        message: t('meeting.cancelConfirmError'),
+        duration: 3000,
+      })
+    } finally {
+      setIsCancelling(false)
     }
   }
 
@@ -97,14 +124,24 @@ export default function ResultButtons (
 
   return (
     <div className={styles.ResultButtons}>
-      {/* Primary 버튼: 호스트에게만 약속 확정 버튼 표시 */}
-      {isHost && (
+      {/* Primary 버튼: 호스트에게만 약속 확정/취소 버튼 표시 */}
+      {isHost && !isConfirmed && (
         <Button
           buttonType='primary'
           onClick={() => setIsConfirmDialogOpen(true)}
           className={styles.PrimaryButton}
         >
           {t('meeting.confirmButton')}
+        </Button>
+      )}
+      {isHost && isConfirmed && (
+        <Button
+          buttonType='secondary'
+          onClick={handleCancelConfirmation}
+          className={styles.PrimaryButton}
+          disabled={isCancelling}
+        >
+          {t('meeting.cancelConfirmButton')}
         </Button>
       )}
 
