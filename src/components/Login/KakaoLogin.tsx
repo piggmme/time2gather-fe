@@ -1,5 +1,6 @@
 import Button from '../Button/Button'
 import { useTranslation } from '../../hooks/useTranslation'
+import KakaoLogo from '../../assets/kakao-logo.svg'
 
 const REST_API_KEY = import.meta.env.PUBLIC_KAKAO_REST_API_KEY || '4ea5e31b7c9fd5131c30f91acac4abb0'
 const KAKAO_REDIRECT_URI = import.meta.env.PUBLIC_KAKAO_REDIRECT_URI || 'https://time2gather.org/login/oauth2/code/kakao'
@@ -10,6 +11,7 @@ export default function KakaoLogin () {
 
   return (
     <Button buttonType='kakao' onClick={() => window.location.replace(`${KAKAO_AUTH_URL}`)}>
+      <img src={KakaoLogo.src} alt="Kakao" width={20} height={20} />
       {t('login.kakaoLogin')}
     </Button>
   )
