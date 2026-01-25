@@ -134,29 +134,42 @@ export default function TimeSelectPage (
           buttonType='primary'
           disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
           onClick={async () => {
-            // selections 에서 빈배열인 날짜는 제거
-            const timeSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
-              selections: Object.entries(selections).filter(([_, times]) => times.length > 0).map(([date, times]) => ({
-                date,
-                type: 'TIME',
-                times,
-              })),
-            })
-
-            // 장소 투표가 활성화되어 있으면 장소 선택도 저장
-            const locationSelectionsPromise = data.locationVote?.enabled
-              ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
-              : Promise.resolve()
-
-            await Promise.all([timeSelectionsPromise, locationSelectionsPromise])
-
-            setTimeout(() => {
-              showDefaultToast({
-                message: t('meeting.resultSaved'),
-                duration: 3000,
+            try {
+              // selections 에서 빈배열인 날짜는 제거
+              const timeSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
+                selections: Object.entries(selections).filter(([_, times]) => times.length > 0).map(([date, times]) => ({
+                  date,
+                  type: 'TIME',
+                  times,
+                })),
               })
-            }, 500)
-            navigate(`/meetings/${meetingCode}/result`)
+
+              // 장소 투표가 활성화되어 있으면 장소 선택도 저장
+              const locationSelectionsPromise = data.locationVote?.enabled
+                ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
+                : Promise.resolve()
+
+              await Promise.all([timeSelectionsPromise, locationSelectionsPromise])
+
+              setTimeout(() => {
+                showDefaultToast({
+                  message: t('meeting.resultSaved'),
+                  duration: 3000,
+                })
+              }, 500)
+              navigate(`/meetings/${meetingCode}/result`)
+            } catch (error) {
+              const errorResponse = error as { response?: { data?: { messageKey?: string } } }
+              if (errorResponse.response?.data?.messageKey === 'error.meeting.already.confirmed') {
+                alert(t('meeting.alreadyConfirmedError'))
+                navigate(`/meetings/${meetingCode}/result`)
+              } else {
+                showDefaultToast({
+                  message: t('common.error'),
+                  duration: 3000,
+                })
+              }
+            }
           }}
         >
           {t('common.submit')}

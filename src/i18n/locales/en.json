@@ -11,7 +11,8 @@
     "menu": "Menu",
     "openMenu": "Open Menu",
     "submit": "Submit",
-    "share": "Share"
+    "share": "Share",
+    "error": "An error occurred. Please try again."
   },
   "home": {
     "title": "Time2Gather",
@@ -81,6 +82,7 @@
     "cancelConfirmButton": "Cancel Confirmation",
     "cancelConfirmSuccess": "Meeting confirmation has been cancelled!",
     "cancelConfirmError": "Failed to cancel confirmation. Please try again.",
+    "alreadyConfirmedError": "This meeting is already confirmed. You cannot modify your vote.",
     "exportDialog": {
       "title": "Add to Calendar",
       "description": "Select the date and time to add to your calendar.",
