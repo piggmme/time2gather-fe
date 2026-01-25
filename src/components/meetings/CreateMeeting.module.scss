@@ -132,7 +132,6 @@
     padding: $spacing-md $spacing-base calc($spacing-md + env(safe-area-inset-bottom));
     background-color: $c-white;
     z-index: 100;
-    border-top: 1px solid rgba(0,0,0,0.06);
   }
 }
 
@@ -157,6 +156,13 @@
   padding: $spacing-xl;
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
+  
+  @media (max-width: 699px) {
+    padding: $spacing-md;
+  }
 }
 
 .timeRangeItem {
@@ -182,9 +188,11 @@
   gap: $spacing-sm;
   flex: 1;
   width: 100%;
+  min-width: 0; // flex shrink 허용
   
   > * {
     flex: 1;
+    min-width: 0; // Select가 shrink 되도록
   }
 }
 

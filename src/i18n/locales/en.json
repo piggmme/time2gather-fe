@@ -32,7 +32,7 @@
     "title": "Let's create a meeting!",
     "titleStep": {
       "heading": "Please enter a title.",
-      "placeholder": "Our year-end gathering! 🍔🍗🍣🍴"
+      "placeholder": "e.g., Friday Dinner"
     },
     "descriptionStep": {
       "heading": "What kind of meeting is this?",

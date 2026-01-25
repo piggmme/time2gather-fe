@@ -107,15 +107,27 @@ $combined-selection-bg: linear-gradient(135deg, rgba($primary-color, 0.3) 0%, rg
     }
   }
 
-  // ===== 오늘 날짜 (테두리로만 표시) =====
+  // ===== 오늘 날짜 (날짜 아래 작은 점으로 표시) =====
   &.today {
     font-weight: $font-weight-bold;
     
-    // 선택되지 않은 상태: 회색 테두리로 오늘 표시
+    // 오늘 표시용 점 (pseudo element)
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: $primary-color;
+    }
+    
+    // 선택되지 않은 상태: 기본 스타일 + 점
     &:not(.selected):not(.hasCount) {
-      border: 2px solid $c-gray-dark;
-      color: $c-gray-darkest; // 기본 텍스트 색상 유지
-      background: $cell-bg; // 배경은 흰색 유지
+      color: $c-gray-darkest;
+      background: $cell-bg;
     }
 
     &:not(.selected):not(.hasCount):hover {
@@ -123,19 +135,19 @@ $combined-selection-bg: linear-gradient(135deg, rgba($primary-color, 0.3) 0%, rg
       box-shadow: $cell-shadow-hover;
     }
 
-    // 오늘 + 선택됨: 선택 스타일 우선, 회색 테두리 추가
+    // 오늘 + 선택됨: 선택 스타일 우선
     &.selected:not(.hasCount) {
-      border: 2px solid $c-gray-dark;
+      // 선택 스타일 유지, 점은 보임
     }
 
     // 오늘 + 다른사람 선택: hasCount 스타일 우선
     &.hasCount:not(.selected) {
-      border: 2px solid $c-gray-dark;
+      // hasCount 스타일 유지, 점은 보임
     }
 
     // 오늘 + 둘 다 선택
     &.hasCount.selected {
-      border: 2px solid $c-gray-dark;
+      // combined 스타일 유지, 점은 보임
     }
   }
 
