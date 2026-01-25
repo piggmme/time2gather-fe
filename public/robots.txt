@@ -1,9 +1,63 @@
+# Time2Gather robots.txt
+# https://time2gather.org
+
+# Default rules for all crawlers
 User-agent: *
 Allow: /
+Disallow: /login/oauth2/
+Disallow: /404
+Disallow: /_astro/
+Disallow: /api/
 
-# Disallow OAuth callback and internal pages
+# Crawl-delay for general bots (be nice to server)
+Crawl-delay: 1
+
+# Google (no crawl-delay, Google ignores it anyway)
+User-agent: Googlebot
+Allow: /
 Disallow: /login/oauth2/
 Disallow: /404
 
-# Sitemap
+User-agent: Googlebot-Image
+Allow: /og-image.png
+Allow: /favicon.svg
+
+# Naver (Korea's primary search engine)
+User-agent: Yeti
+Allow: /
+Disallow: /login/oauth2/
+Disallow: /404
+Crawl-delay: 1
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Disallow: /login/oauth2/
+Disallow: /404
+Crawl-delay: 1
+
+# Daum (Korea)
+User-agent: Daumoa
+Allow: /
+Disallow: /login/oauth2/
+Disallow: /404
+Crawl-delay: 1
+
+# Block AI training crawlers (optional - preserves content rights)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# Sitemap location
 Sitemap: https://time2gather.org/sitemap-index.xml
