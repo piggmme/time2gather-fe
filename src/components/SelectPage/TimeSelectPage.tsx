@@ -17,16 +17,27 @@ export default function TimeSelectPage (
 ) {
   const { t } = useTranslation()
   const containerRef = useRef<HTMLDivElement>(null)
-  const [height, setHeight] = useState<string>('100svh')
+  const [height, setHeight] = useState<string>('auto')
   const [selections, setSelections] = useState<{ [date: string]: string[] }>({})
   const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
 
   useEffect(() => {
-    if (containerRef.current) {
-      // containerRef 의 왼쪽 상단 모서리 위치 계산
-      const leftTop = containerRef.current.getBoundingClientRect()
-      setHeight(`calc(100svh - ${leftTop.top}px - 30px - 60px)`)
+    const calculateHeight = () => {
+      if (containerRef.current) {
+        // containerRef 의 왼쪽 상단 모서리 위치 계산
+        const leftTop = containerRef.current.getBoundingClientRect()
+        // window.innerHeight를 사용하여 카카오톡 인앱 브라우저에서도 정확한 높이 계산
+        // 30px: 하단 여백, 60px: 버튼 컨테이너 높이
+        const calculatedHeight = window.innerHeight - leftTop.top - 30 - 60
+        setHeight(`${calculatedHeight}px`)
+      }
     }
+
+    calculateHeight()
+
+    // 화면 리사이즈 시 높이 재계산 (카카오톡 인앱에서 키보드 등으로 뷰포트 변경 시 대응)
+    window.addEventListener('resize', calculateHeight)
+    return () => window.removeEventListener('resize', calculateHeight)
   }, [])
 
   const me = useStore($me)

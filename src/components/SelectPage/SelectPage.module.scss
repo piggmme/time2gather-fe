@@ -34,21 +34,31 @@
 
   > *:first-child {
     flex: 1;
+    min-width: 0;
   }
 
   > *:nth-child(2) {
     flex: 3;
+    min-width: 0;
   }
 
   @media (max-width: 699px) {
-    position: fixed;
-    bottom: 0px;
+    // sticky 사용 (카카오톡 인앱 브라우저에서 fixed가 제대로 작동하지 않음)
+    position: sticky;
+    bottom: 0;
     left: 0;
     right: 0;
+    margin-top: 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+    width: calc(100% + 40px);
     padding: 16px 20px;
     padding-bottom: max(16px, env(safe-area-inset-bottom));
-    background-color: white;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
     z-index: 100;
   }
 }
