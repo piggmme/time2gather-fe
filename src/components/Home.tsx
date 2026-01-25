@@ -19,12 +19,10 @@ export default function Home () {
       
       <div className={styles.heroContent}>
         <h1 className={styles.title}>
-          <span>Time2Gather</span>에서<br />
-          약속을 잡아보세요
+          <span>Time2Gather</span>{t('home.heroTitleSuffix')}
         </h1>
         <p className={styles.subtitle}>
-          복잡한 일정 조율은 이제 그만.<br />
-          친구들과 가장 완벽한 시간을 찾아드려요.
+          {t('home.heroSubtitle')}
         </p>
       </div>
 
@@ -44,7 +42,7 @@ export default function Home () {
             buttonType='default' 
             href='/my'
           >
-            내 약속 확인하기
+            {t('home.viewMyMeetings')}
           </Button>
         )}
       </div>

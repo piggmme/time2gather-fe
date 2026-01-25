@@ -17,7 +17,10 @@
     "title": "Time2Gather",
     "greeting": "Welcome! 👋",
     "description": "It only takes 5 seconds to make plans now. Share your time slots, get votes, and instantly see the best time for everyone!",
-    "createMeetingButton": "Create a Meeting"
+    "createMeetingButton": "Create a Meeting",
+    "heroTitleSuffix": "\nSchedule with ease",
+    "heroSubtitle": "Say goodbye to complicated scheduling.\nFind the perfect time with your friends.",
+    "viewMyMeetings": "View My Meetings"
   },
   "login": {
     "title": "Ready to schedule?",
@@ -119,8 +122,17 @@
       "buttons": {
         "calendar": "Export",
         "share": "Share",
+        "shareKakao": "KakaoTalk",
         "modify": "Modify",
         "select": "Select"
+      },
+      "kakaoShare": {
+        "description": "Vote and find the best time for everyone!",
+        "buttonTitle": "Vote Now"
+      },
+      "viralCta": {
+        "title": "Want to create your own meeting?",
+        "button": "Create New Meeting"
       }
     },
     "anonymous": {

@@ -17,7 +17,10 @@
     "title": "Time2Gather",
     "greeting": "반가워요! 👋",
     "description": "약속 잡기, 이제 5초면 충분해요. 시간대 공유하고 투표받으세요. 최적 시간을 바로 확인할 수 있어요!",
-    "createMeetingButton": "약속 만들러 가기"
+    "createMeetingButton": "약속 만들러 가기",
+    "heroTitleSuffix": "에서\n약속을 잡아보세요",
+    "heroSubtitle": "복잡한 일정 조율은 이제 그만.\n친구들과 가장 완벽한 시간을 찾아드려요.",
+    "viewMyMeetings": "내 약속 확인하기"
   },
   "login": {
     "title": "약속 잡으러 갈까요?",
@@ -132,8 +135,17 @@
       "buttons": {
         "calendar": "내보내기",
         "share": "공유",
+        "shareKakao": "카카오톡",
         "modify": "수정",
         "select": "선택"
+      },
+      "kakaoShare": {
+        "description": "투표하고 가장 좋은 시간을 찾아보세요!",
+        "buttonTitle": "투표하러 가기"
+      },
+      "viralCta": {
+        "title": "나도 이런 약속 만들어볼까요?",
+        "button": "새 약속 만들기"
       }
     }
   },
