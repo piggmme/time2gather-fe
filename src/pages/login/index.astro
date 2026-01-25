@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro'
 import KakaoLogin from '../../components/Login/KakaoLogin'
+import GoogleLogin from '../../components/Login/GoogleLogin'
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n'
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
@@ -14,7 +15,10 @@ const description = t('meta.pages.login.description');
   <main>
     <h1>{t('login.title')}</h1>
     <p>{t('login.description')}</p>
-    <KakaoLogin client:only='react' />
+    <div class="login-buttons">
+      <KakaoLogin client:only='react' />
+      <GoogleLogin client:only='react' />
+    </div>
   </main>
 </Layout>
 
@@ -30,5 +34,10 @@ const description = t('meta.pages.login.description');
   p {
     margin-bottom: 20px;
     word-break: keep-all;
+  }
+  .login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 </style>

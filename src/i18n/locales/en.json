@@ -21,8 +21,9 @@
   },
   "login": {
     "title": "Ready to schedule?",
-    "description": "Log in easily with KakaoTalk and schedule your meeting.",
-    "kakaoLogin": "Continue with Kakao"
+    "description": "Log in and schedule your meeting.",
+    "kakaoLogin": "Continue with Kakao",
+    "googleLogin": "Continue with Google"
   },
   "createMeeting": {
     "title": "Let's create a meeting!",

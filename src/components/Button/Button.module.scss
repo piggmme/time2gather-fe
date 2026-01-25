@@ -76,6 +76,21 @@
     }
   }
 
+  &.google {
+    background-color: $c-white;
+    color: $c-black;
+    font-weight: $font-weight-semibold;
+    border: 1px solid $c-gray;
+    
+    &:hover:not([disabled]) {
+      background-color: $c-gray-lightest;
+    }
+    
+    &:active:not([disabled]) {
+      transform: scale(0.98);
+    }
+  }
+
   &.default {
     background-color: $c-white;
     color: $c-black;

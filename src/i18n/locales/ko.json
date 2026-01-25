@@ -21,8 +21,9 @@
   },
   "login": {
     "title": "약속 잡으러 갈까요?",
-    "description": "카카오톡으로 간편하게 로그인하고, 약속을 잡아보세요.",
-    "kakaoLogin": "카카오로 계속하기"
+    "description": "로그인하고, 약속을 잡아보세요.",
+    "kakaoLogin": "카카오로 계속하기",
+    "googleLogin": "Google로 계속하기"
   },
   "createMeeting": {
     "title": "약속을 만들어 볼까요?",
