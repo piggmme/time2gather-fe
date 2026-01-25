@@ -50,8 +50,8 @@
   word-break: keep-all;
   
   // Custom Card Style for Selection
-  background-color: $c-white;
-  border: 1px solid rgba(0,0,0,0.06);
+  background-color: $c-white !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
   transition: all $transition-base;
@@ -66,16 +66,16 @@
   &:hover {
     transform: translateY(-2px);
     box-shadow: $shadow-md;
-    border-color: $primary-color-border;
+    border-color: $primary-color-border !important;
   }
-  
-  // Button 컴포넌트의 active 클래스와 연동
-  &:global(.active) {
-    background-color: $c-blue-soft;
-    border-color: $primary-color;
-    color: $primary-color;
-    box-shadow: 0 0 0 2px $primary-color;
-  }
+}
+
+// 선택된 상태 - global class로 Button 컴포넌트의 active와 연동
+:global(.active).meetingTypeButton {
+  background-color: $c-blue-soft !important;
+  border-color: $primary-color !important;
+  color: $primary-color;
+  box-shadow: 0 0 0 2px $primary-color;
 }
 
 .monthlyContainer {
