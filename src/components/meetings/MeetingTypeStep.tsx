@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { navigate } from 'astro:transitions/client'
 import { useSearchParam } from 'react-use'
 import type { post_meetings_body } from '../../services/meetings'
+import { HiOutlineCalendar, HiOutlineClock } from 'react-icons/hi'
 
 export default function MeetingTypeStep () {
   const { t } = useTranslation()
@@ -21,6 +22,7 @@ export default function MeetingTypeStep () {
           active={meetingType === 'ALL_DAY'}
           onClick={() => setMeetingType('ALL_DAY')}
         >
+          <HiOutlineCalendar size={24} />
           날짜만 정하기
         </Button>
         <Button
@@ -29,6 +31,7 @@ export default function MeetingTypeStep () {
           active={meetingType === 'TIME'}
           onClick={() => setMeetingType('TIME')}
         >
+          <HiOutlineClock size={24} />
           날짜 + 시간까지
         </Button>
       </div>
