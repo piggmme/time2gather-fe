@@ -103,16 +103,20 @@
 .buttonContainer {
   margin-top: $spacing-3xl;
   width: 100%;
+  max-width: 100%; // 오버플로우 방지
   display: flex;
   gap: $spacing-md;
   padding-bottom: $spacing-xl;
+  box-sizing: border-box; // padding이 width에 포함되도록
 
   > *:first-child {
     flex: 1;
+    min-width: 0; // flex item shrink 허용
   }
 
   > *:nth-child(2) {
     flex: 3;
+    min-width: 0; // flex item shrink 허용
   }
 
   @media (max-width: 699px) {
@@ -120,7 +124,11 @@
     bottom: 0;
     left: 0;
     right: 0;
+    width: 100%;
+    max-width: 100%;
     margin-top: $spacing-xl;
+    margin-left: 0;
+    margin-right: 0;
     padding: $spacing-md $spacing-base calc($spacing-md + env(safe-area-inset-bottom));
     background-color: rgba(255, 255, 255, 0.95); // 투명도 조절로 가독성 확보
     backdrop-filter: blur(12px);
