@@ -11,21 +11,28 @@ import sitemap from '@astrojs/sitemap';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 개발 환경에서만 HTTPS 설정 적용
-let viteConfig = {};
-if (import.meta.env.DEV) {
-  try {
-    viteConfig = {
-      server: {
-        https: {
-          key: fs.readFileSync(path.resolve(__dirname, 'certs/time2gather-key.pem')),
-          cert: fs.readFileSync(path.resolve(__dirname, 'certs/time2gather-cert.pem')),
-        },
-      },
-    };
-  } catch (error) {
-    console.warn('HTTPS 인증서를 찾을 수 없습니다. HTTP로 실행됩니다.');
-  }
+let viteServerConfig = {};
+try {
+  viteServerConfig = {
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'certs/time2gather-key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'certs/time2gather-cert.pem')),
+    },
+  };
+} catch (error) {
+  // 인증서 없으면 HTTP로 실행
 }
+
+// Vite 설정 - 환경 변수 명시적 주입
+const viteConfig = {
+  server: viteServerConfig,
+  define: {
+    'import.meta.env.PUBLIC_KAKAO_REST_API_KEY': JSON.stringify(process.env.PUBLIC_KAKAO_REST_API_KEY || ''),
+    'import.meta.env.PUBLIC_KAKAO_REDIRECT_URI': JSON.stringify(process.env.PUBLIC_KAKAO_REDIRECT_URI || ''),
+    'import.meta.env.PUBLIC_GOOGLE_CLIENT_ID': JSON.stringify(process.env.PUBLIC_GOOGLE_CLIENT_ID || ''),
+    'import.meta.env.PUBLIC_GOOGLE_REDIRECT_URI': JSON.stringify(process.env.PUBLIC_GOOGLE_REDIRECT_URI || ''),
+  },
+};
 
 export default defineConfig({
   site: process.env.SITE_URL || 'https://time2gather.org',
