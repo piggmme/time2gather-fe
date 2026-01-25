@@ -162,6 +162,8 @@ export type get_meetings_$meetingCode_response = success_response<{
     bestSlots: {
       date: string
       time: string
+      startSlotIndex: number
+      endSlotIndex: number
       count: number
       percentage: string
     }[]

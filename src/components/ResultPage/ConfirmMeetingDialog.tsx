@@ -12,6 +12,8 @@ import { showDefaultToast } from '../../stores/toast'
 type BestSlot = {
   date: string
   time: string
+  startSlotIndex: number
+  endSlotIndex: number
   count: number
   percentage: string
 }
@@ -51,7 +53,7 @@ export default function ConfirmMeetingDialog({
       const selectedSlot = topSlots[selectedIndex]
       const slotIndex = selectionType === 'ALL_DAY'
         ? null
-        : meetings.timeToSlotIndex(selectedSlot.time)
+        : selectedSlot.startSlotIndex
 
       await meetings.$meetingCode.confirm.put(meetingCode, {
         date: selectedSlot.date,

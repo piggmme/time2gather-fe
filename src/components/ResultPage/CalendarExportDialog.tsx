@@ -11,6 +11,8 @@ import styles from './CalendarExportDialog.module.scss'
 type BestSlot = {
   date: string
   time: string
+  startSlotIndex: number
+  endSlotIndex: number
   count: number
   percentage: string
 }
@@ -42,7 +44,7 @@ export default function CalendarExportDialog({
     const selectedSlot = bestSlots[selectedIndex]
     const slotIndex = selectionType === 'ALL_DAY'
       ? -1
-      : meetings.timeToSlotIndex(selectedSlot.time)
+      : selectedSlot.startSlotIndex
 
     const exportUrl = meetings.getExportUrl(meetingCode, selectedSlot.date, slotIndex)
 
