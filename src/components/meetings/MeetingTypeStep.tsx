@@ -21,7 +21,7 @@ export default function MeetingTypeStep () {
           active={meetingType === 'ALL_DAY'}
           onClick={() => setMeetingType('ALL_DAY')}
         >
-          날짜만 정하기 📅
+          날짜만 정하기
         </Button>
         <Button
           buttonType='default'
@@ -29,7 +29,7 @@ export default function MeetingTypeStep () {
           active={meetingType === 'TIME'}
           onClick={() => setMeetingType('TIME')}
         >
-          날짜 + 시간까지 🕒
+          날짜 + 시간까지
         </Button>
       </div>
       <div className={styles.buttonContainer}>
