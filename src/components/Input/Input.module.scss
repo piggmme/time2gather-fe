@@ -15,7 +15,7 @@
   border-radius: $radius-sm;
   background-color: $c-white;
   
-  font-size: $font-size-sm;
+  font-size: $font-size-md; // 16px - iOS Safari 자동 줌 방지
   font-weight: $font-weight-normal;
   color: $c-black;
   

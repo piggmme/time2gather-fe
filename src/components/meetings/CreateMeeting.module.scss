@@ -44,7 +44,7 @@
 
 .meetingTypeButton {
   width: 100%;
-  padding: $spacing-xl;
+  padding: $spacing-2xl $spacing-xl;
   font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
   word-break: keep-all;
@@ -60,8 +60,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: $spacing-md;
-  height: 150px;
+  gap: $spacing-lg;
+  height: 170px;
   
   &:hover {
     transform: translateY(-2px);
