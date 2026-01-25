@@ -101,9 +101,9 @@ $cell-selected-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba($prima
     }
   }
 
-  // 내 선택 + 다른 사람 선택 겹침: Purple
+  // 내 선택 + 다른 사람 선택 겹침: 단색 보라색
   &.hasCount.selected {
-    background: linear-gradient(135deg, $c-blue 30%, $c-purple 100%);
+    background: rgba($c-purple, 0.5);
     box-shadow: 0 2px 4px rgba($c-purple, 0.3);
   }
 
