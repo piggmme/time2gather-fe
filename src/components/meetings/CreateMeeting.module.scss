@@ -120,7 +120,7 @@
   }
 
   @media (max-width: 699px) {
-    position: sticky; // fixed 대신 sticky 사용하여 자연스러운 스크롤 흐름 유도
+    position: sticky;
     bottom: 0;
     left: 0;
     right: 0;
@@ -130,11 +130,9 @@
     margin-left: 0;
     margin-right: 0;
     padding: $spacing-md $spacing-base calc($spacing-md + env(safe-area-inset-bottom));
-    background-color: rgba(255, 255, 255, 0.95); // 투명도 조절로 가독성 확보
-    backdrop-filter: blur(12px);
+    background-color: $c-white;
     z-index: 100;
-    border-top: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 -4px 24px rgba(0,0,0,0.08); // 그림자 강화
+    border-top: 1px solid rgba(0,0,0,0.06);
   }
 }
 

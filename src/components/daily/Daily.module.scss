@@ -5,30 +5,26 @@ $time-column-width: 60px; // 넓혀서 시원하게
 $time-column-width-mobile: 44px;
 
 // =====================================================
-// Soft Glassmorphism Tokens
+// Soft Card Design (흰색 배경에 맞게 조정)
 // =====================================================
-$glass-bg: rgba(255, 255, 255, 0.65);
-$glass-bg-header: rgba(255, 255, 255, 0.9); // 헤더는 좀 더 불투명하게
-$glass-blur: 20px; // 블러 강도 증가
-$glass-border: 1px solid rgba(255, 255, 255, 0.6); // 더 밝은 보더
-$glass-border-subtle: 1px solid rgba(0, 0, 0, 0.03); // 아주 연한 구분선
-$glass-shadow: 
-  0 20px 40px -10px rgba(0, 0, 0, 0.05),
-  0 0 1px rgba(0, 0, 0, 0.1),
-  inset 0 1px 0 rgba(255, 255, 255, 0.6); // Inner glow 느낌
+$card-bg: $c-white;
+$card-border: 1px solid rgba(0, 0, 0, 0.08);
+$card-shadow: 
+  0 1px 3px rgba(0, 0, 0, 0.04),
+  0 4px 12px rgba(0, 0, 0, 0.03);
 
-$glass-shadow-header: 0 4px 20px rgba(0, 0, 0, 0.03);
+$header-bg: $c-white;
+$header-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+$subtle-border: 1px solid rgba(0, 0, 0, 0.04);
 
 .container {
   display: inline-flex;
   flex-direction: column;
   overflow: visible;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
-  backdrop-filter: blur($glass-blur);
-  -webkit-backdrop-filter: blur($glass-blur);
+  background: $card-bg;
   border-radius: $radius-lg;
-  box-shadow: $glass-shadow;
-  border: $glass-border;
+  box-shadow: $card-shadow;
+  border: $card-border;
   max-width: 100%;
 }
 
@@ -84,7 +80,7 @@ $glass-shadow-header: 0 4px 20px rgba(0, 0, 0, 0.03);
   padding-right: $spacing-md;
   box-sizing: border-box;
   flex-shrink: 0;
-  border-top: $glass-border-subtle;
+  border-top: $subtle-border;
   transition: color $transition-base;
   
   // 폰트 스타일 개선
@@ -111,13 +107,13 @@ $glass-shadow-header: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .dateWrapper {
-  min-width: 100px; // 좀 더 넓게
-  border-right: $glass-border-subtle;
+  min-width: 100px;
+  border-right: $subtle-border;
   background: transparent;
   transition: background $transition-fast;
 
   &:first-of-type {
-    border-left: $glass-border-subtle;
+    border-left: $subtle-border;
   }
 
   &:last-of-type {
@@ -145,11 +141,9 @@ $glass-shadow-header: 0 4px 20px rgba(0, 0, 0, 0.03);
   z-index: 20;
   display: flex;
   flex-direction: row;
-  background: $glass-bg-header;
-  backdrop-filter: blur($glass-blur);
-  -webkit-backdrop-filter: blur($glass-blur);
-  box-shadow: $glass-shadow-header;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
+  background: $header-bg;
+  box-shadow: $header-shadow;
+  border-bottom: $subtle-border;
 }
 
 .timeColumnHeader {
@@ -175,14 +169,14 @@ $glass-shadow-header: 0 4px 20px rgba(0, 0, 0, 0.03);
 
 .dateHeader {
   min-width: 100px;
-  border-right: $glass-border-subtle;
+  border-right: $subtle-border;
   border-bottom: none;
   background: transparent;
   transition: all $transition-base;
-  padding: $spacing-xs 0; // 상하 패딩 추가
+  padding: $spacing-xs 0;
 
   &:first-of-type {
-    border-left: $glass-border-subtle;
+    border-left: $subtle-border;
   }
 
   &:last-of-type {

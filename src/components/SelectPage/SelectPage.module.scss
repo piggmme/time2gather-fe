@@ -43,7 +43,6 @@
   }
 
   @media (max-width: 699px) {
-    // sticky 사용 (카카오톡 인앱 브라우저에서 fixed가 제대로 작동하지 않음)
     position: sticky;
     bottom: 0;
     left: 0;
@@ -54,11 +53,8 @@
     width: calc(100% + 40px);
     padding: 16px 20px;
     padding-bottom: max(16px, env(safe-area-inset-bottom));
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: $c-white;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
     z-index: 100;
   }
 }
