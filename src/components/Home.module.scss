@@ -5,10 +5,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 80vh; // 화면 중앙 정렬
+  height: 100vh; // 전체 화면 높이
+  height: 100dvh; // 모바일 동적 뷰포트 높이 지원
   padding: $spacing-xl $spacing-lg;
   text-align: center;
   gap: $spacing-xl;
+  overflow: hidden; // 스크롤 방지
+  box-sizing: border-box;
   
   // 배경 장식 (Optional: 원형 그래픽 등)
   background: radial-gradient(circle at 50% 30%, rgba($c-blue, 0.05) 0%, transparent 70%);
