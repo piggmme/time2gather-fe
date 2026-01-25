@@ -89,9 +89,10 @@
 
 .BestSlotHeader {
   display: flex;
-  align-items: center;
-  gap: $spacing-md;
-  padding: $spacing-lg;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  padding: $spacing-md;
   cursor: pointer;
   background-color: transparent;
   transition: background-color $transition-base;
@@ -99,37 +100,67 @@
   &:hover {
     background-color: $c-blue-soft;
   }
+
+  @media (min-width: 480px) {
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+  }
 }
 
 .BestSlotDate {
   font-weight: $font-weight-semibold;
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
   color: $c-black;
-  min-width: 110px;
+  flex-shrink: 0;
+
+  @media (min-width: 480px) {
+    font-size: $font-size-base;
+    min-width: 110px;
+  }
 }
 
 .BestSlotTime {
   font-weight: $font-weight-bold;
-  font-size: $font-size-lg; // 시간 강조
+  font-size: $font-size-base;
   color: $primary-color;
   flex: 1;
+  min-width: 0; // Allow text to wrap
+  word-break: break-word;
+
+  @media (min-width: 480px) {
+    font-size: $font-size-lg;
+  }
 }
 
 .BestSlotCount {
-  margin-left: auto;
   color: $c-gray-darkest;
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   background: $c-gray-lightest;
-  padding: 4px 8px;
+  padding: 3px 6px;
   border-radius: $radius-full;
   font-weight: $font-weight-medium;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  @media (min-width: 480px) {
+    margin-left: auto;
+    font-size: $font-size-sm;
+    padding: 4px 8px;
+  }
 }
 
 .BestSlotExpandIcon {
   color: $c-gray-dark;
   font-size: $font-size-base;
-  margin-left: $spacing-sm;
+  margin-left: auto;
+  flex-shrink: 0;
   transition: transform $transition-base;
+
+  @media (min-width: 480px) {
+    margin-left: $spacing-sm;
+  }
 }
 
 .BestSlotParticipants {
@@ -508,5 +539,175 @@
   border-radius: $radius-full;
   font-size: $font-size-xs;
   color: $c-gray-darkest;
+}
+
+// =====================================================
+// Modal Styles
+// =====================================================
+
+.ModalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: $z-modal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-base;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ModalContent {
+  background-color: $c-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-modal;
+  width: 100%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow: hidden;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $c-gray-light;
+}
+
+.ModalTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $c-black;
+  margin: 0;
+}
+
+.ModalCloseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-full;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: $c-gray-dark;
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: $c-gray-lightest;
+    color: $c-black;
+  }
+}
+
+.ModalBody {
+  padding: $spacing-lg;
+  overflow-y: auto;
+  max-height: calc(80vh - 80px);
+}
+
+.ModalParticipantsCount {
+  font-size: $font-size-sm;
+  color: $c-gray-darkest;
+  margin: 0 0 $spacing-md 0;
+}
+
+.ModalParticipantsList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ModalParticipantItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-sm;
+  border-radius: $radius-md;
+  transition: background-color $transition-base;
+
+  &:hover {
+    background-color: $c-gray-lightest;
+  }
+}
+
+.ModalParticipantName {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $c-black;
+}
+
+.ModalEmptyText {
+  font-size: $font-size-base;
+  color: $c-gray-dark;
+  text-align: center;
+  padding: $spacing-xl 0;
+  margin: 0;
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// =====================================================
+// BestSlot Participants List
+// =====================================================
+
+.BestSlotParticipantsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.BestSlotParticipantItem {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 4px 8px 4px 4px;
+  background-color: $c-white;
+  border: 1px solid $c-gray-light;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+}
+
+.BestSlotParticipantName {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $c-gray-darkest;
+}
+
+// =====================================================
+// Calendar Tab
+// =====================================================
+
+.Calendar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
 }
 

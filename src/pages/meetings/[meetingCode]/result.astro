@@ -87,7 +87,14 @@ const eventData = {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    padding: 0 $spacing-base; // 모바일 좌우 패딩 추가
     padding-bottom: 80px; // 하단 여백 (챗봇 버튼 고려)
+    box-sizing: border-box;
+
+    @media (min-width: 700px) {
+      padding: 0; // 데스크톱에서는 패딩 제거
+      padding-bottom: 80px;
+    }
   }
 
   a {

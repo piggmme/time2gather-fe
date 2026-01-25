@@ -1,41 +1,53 @@
 @use "../../styles/variables.scss" as *;
 
+// =====================================================
+// Input Component - shadcn/ui inspired
+// =====================================================
+
 .input {
   width: 100%;
   max-width: 600px;
-  height: $button-height-base; // 버튼과 높이 맞춤
-  padding: 0 $spacing-base;
+  height: 40px;
+  padding: 0 $spacing-md;
   box-sizing: border-box;
   
-  border: 1px solid rgba(0, 0, 0, 0.1); // 아주 연한 테두리
-  border-radius: $radius-base;
+  border: 1px solid $c-gray;
+  border-radius: $radius-sm;
   background-color: $c-white;
   
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
   font-weight: $font-weight-normal;
   color: $c-black;
   
   outline: none;
-  transition: all $transition-base;
-  box-shadow: $shadow-sm; // 살짝 떠있는 느낌
+  transition: border-color $transition-fast, box-shadow $transition-fast;
 
   &::placeholder {
     color: $c-gray-dark;
-    font-weight: $font-weight-normal;
   }
 
-  // Focus 시 Warm Blue Glow
+  &:hover:not(:disabled):not(:focus) {
+    border-color: $c-gray-dark;
+  }
+
   &:focus {
     border-color: $primary-color;
-    box-shadow: 0 0 0 3px $primary-color-soft;
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 2px $primary-color-soft;
   }
   
-  // Disabled
   &:disabled {
     background-color: $c-gray-lightest;
     color: $c-gray-dark;
     cursor: not-allowed;
-    box-shadow: none;
+    opacity: 0.5;
+  }
+
+  // Error state (can be added via class)
+  &.error {
+    border-color: $c-red;
+    
+    &:focus {
+      box-shadow: 0 0 0 2px $c-red-soft;
+    }
   }
 }

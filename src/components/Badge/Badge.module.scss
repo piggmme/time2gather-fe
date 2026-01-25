@@ -1,26 +1,85 @@
 @use "../../styles/variables.scss" as *;
 
+// =====================================================
+// Badge Component - shadcn/ui inspired
+// =====================================================
+
 .badge {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #fff;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1.4;
   box-sizing: border-box;
   width: fit-content;
+  white-space: nowrap;
+  transition: background-color $transition-fast, color $transition-fast;
 
-  &.primary {
-    background-color: $c-blue-soft;
-    color: $c-blue;
-  }
-  &.ghost {
-    background-color: $c-gray-light;
-    color: $c-black;
-  }
+  // Default variant
   &.default {
-    background-color: #fff;
+    background-color: $c-gray-light;
     color: $c-gray-darkest;
-    border: 1px solid $c-gray-light;
+    border: 1px solid transparent;
+  }
+
+  // Primary variant
+  &.primary {
+    background-color: $primary-color;
+    color: $c-white;
+  }
+
+  // Secondary variant (soft primary)
+  &.secondary {
+    background-color: $primary-color-soft;
+    color: $primary-color;
+  }
+
+  // Ghost variant
+  &.ghost {
+    background-color: transparent;
+    color: $c-gray-darkest;
+    border: 1px solid $c-gray;
+  }
+
+  // Outline variant
+  &.outline {
+    background-color: transparent;
+    color: $c-black;
+    border: 1px solid $c-gray;
+  }
+
+  // Success variant
+  &.success {
+    background-color: $success-color-soft;
+    color: $success-text-color;
+  }
+
+  // Destructive variant
+  &.destructive {
+    background-color: $c-red-soft;
+    color: $c-red;
+  }
+
+  // Warning variant
+  &.warning {
+    background-color: rgba($c-orange, 0.1);
+    color: $c-orange;
+  }
+
+  // =====================================================
+  // Size variants
+  // =====================================================
+
+  &.sm {
+    padding: 2px 6px;
+    font-size: 11px;
+  }
+
+  &.lg {
+    padding: 6px 14px;
+    font-size: $font-size-sm;
   }
 }

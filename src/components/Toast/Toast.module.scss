@@ -1,18 +1,36 @@
 @use "../../styles/variables.scss" as *;
 
+// =====================================================
+// Toast Component - shadcn/ui inspired
+// =====================================================
+
 .container {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-  font-size: 13px;
+  top: 16px;
+  right: 16px;
+  z-index: $z-toast;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 420px;
+  width: calc(100vw - 32px);
+
+  @media (min-width: 480px) {
+    width: auto;
+    min-width: 320px;
+  }
 
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
+
     li {
       margin: 0;
+
+      & + li {
+        margin-top: 8px;
+      }
     }
   }
 }
@@ -20,33 +38,168 @@
 .toast {
   box-sizing: border-box;
   display: flex;
-  align-items: center;
-  justify-content: start;
+  align-items: flex-start;
+  gap: 12px;
   position: relative;
   width: 100%;
-  min-width: 200px;
-  max-width: 80vw;
-  border-radius: 5px;
-  padding: 15px 20px;
-  opacity: 0.9;
-  background-color: $c-blue;
-  color: #fff;
+  border-radius: $radius-sm;
+  padding: 14px 16px;
+  background-color: $c-white;
+  color: $c-black;
+  border: 1px solid $c-gray;
+  box-shadow: $shadow-lg;
 
-  animation: fadeIn 0.3s ease-in-out;
+  animation: slideIn 0.3s ease-out;
 
-  &:first-child {
-    margin-top: 0;
+  // Icon area
+  .icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
   }
-  &.caution {
-    background-color: $c-red;
+
+  // Content area
+  .content {
+    flex: 1;
+    min-width: 0;
+
+    .title {
+      font-size: $font-size-base;
+      font-weight: $font-weight-medium;
+      line-height: 1.4;
+      color: $c-black;
+    }
+
+    .description {
+      font-size: $font-size-sm;
+      line-height: 1.5;
+      color: $c-gray-darkest;
+      margin-top: 2px;
+    }
+  }
+
+  // Close button
+  .close {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    color: $c-gray-dark;
+    cursor: pointer;
+    border-radius: $radius-xs;
+    transition: color $transition-fast, background-color $transition-fast;
+
+    &:hover {
+      color: $c-black;
+      background-color: $c-gray-light;
+    }
+  }
+
+  // =====================================================
+  // Variants
+  // =====================================================
+
+  // Default (info)
+  &.default,
+  &.info {
+    background-color: $c-white;
+    border-color: $c-gray;
+
+    .icon {
+      color: $primary-color;
+    }
+  }
+
+  // Success
+  &.success {
+    background-color: $c-white;
+    border-color: $success-color-border;
+
+    .icon {
+      color: $success-color;
+    }
+  }
+
+  // Caution / Warning
+  &.caution,
+  &.warning {
+    background-color: $c-white;
+    border-color: rgba($c-orange, 0.3);
+
+    .icon {
+      color: $c-orange;
+    }
+  }
+
+  // Error / Destructive
+  &.error,
+  &.destructive {
+    background-color: $c-white;
+    border-color: rgba($c-red, 0.3);
+
+    .icon {
+      color: $c-red;
+    }
+  }
+
+  // Dark variant (legacy support)
+  &.dark {
+    background-color: $c-black;
+    color: $c-white;
+    border-color: transparent;
+
+    .content {
+      .title {
+        color: $c-white;
+      }
+
+      .description {
+        color: $c-gray;
+      }
+    }
+
+    .close {
+      color: $c-gray;
+
+      &:hover {
+        color: $c-white;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
   }
 }
 
-@keyframes fadeIn {
+// =====================================================
+// Animations
+// =====================================================
+
+@keyframes slideIn {
   from {
     opacity: 0;
+    transform: translateX(100%);
   }
   to {
     opacity: 1;
+    transform: translateX(0);
   }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.toast.exiting {
+  animation: slideOut 0.2s ease-in forwards;
 }

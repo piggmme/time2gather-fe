@@ -1,0 +1,19 @@
+@use "../../styles/variables.scss" as *;
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  word-break: keep-all;
+}
+
+.anonymousButton {
+  background-color: $c-gray-light;
+  color: $c-black;
+}
+
+.loginButton {
+  background-color: $primary-color;
+  color: $c-white;
+}

@@ -7,6 +7,7 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { showDefaultToast } from '../../stores/toast'
 import CalendarExportDialog from './CalendarExportDialog'
 import ConfirmMeetingDialog from './ConfirmMeetingDialog'
+import LoginDialog from '../LoginDialog/LoginDialog'
 import { HiOutlineCalendar, HiOutlineShare, HiOutlinePencil } from 'react-icons/hi'
 import styles from './ResultButtons.module.scss'
 
@@ -20,6 +21,7 @@ export default function ResultButtons (
   const { t } = useTranslation()
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
+  const [isAnonymousDialogOpen, setIsAnonymousDialogOpen] = useState(false)
 
   const handleConfirmed = () => {
     // 페이지 새로고침하여 확정 상태 반영
@@ -57,6 +59,13 @@ export default function ResultButtons (
   }
 
   const modifyUrl = `/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')
+
+  const handleModifyClick = (e: React.MouseEvent) => {
+    if (!me) {
+      e.preventDefault()
+      setIsAnonymousDialogOpen(true)
+    }
+  }
 
   return (
     <div className={styles.ResultButtons}>
@@ -97,6 +106,7 @@ export default function ResultButtons (
         <a
           className={styles.IconButton}
           href={modifyUrl}
+          onClick={handleModifyClick}
         >
           <HiOutlinePencil className={styles.Icon} />
           <span className={styles.IconLabel}>
@@ -121,6 +131,13 @@ export default function ResultButtons (
         meetingCode={data.meeting.code}
         meetingTitle={data.meeting.title}
         bestSlots={data.summary.bestSlots}
+        selectionType={data.meeting.selectionType}
+      />
+
+      <LoginDialog
+        isOpen={isAnonymousDialogOpen}
+        onOpenChange={setIsAnonymousDialogOpen}
+        meetingCode={data.meeting.code}
         selectionType={data.meeting.selectionType}
       />
     </div>

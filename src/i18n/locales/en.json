@@ -127,7 +127,8 @@
         "title": "You are not logged in",
         "description": "Do you want to participate anonymously?",
         "kakaoLoginButton": "Continue with Kakao",
-        "anonymousLogin": "Continue with Anonymous"
+        "loginButton": "Login",
+        "anonymousLogin": "Continue as Anonymous"
       },
       "description": "Let's participate in the meeting anonymously!",
       "usernamePlaceholder": "Username",
