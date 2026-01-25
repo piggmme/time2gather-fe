@@ -40,7 +40,7 @@ const currentPath = Astro.url.pathname;
 const title = customTitle || t('meta.siteTitle');
 const description = customDescription || t('meta.siteDescription');
 const keywords = t('meta.siteKeywords');
-const ogImage = customOgImage || new URL('/og-image.svg', siteUrl).href;
+const ogImage = customOgImage || new URL('/og-image.png', siteUrl).href;
 
 // hreflang URLs for multi-language SEO
 const hreflangUrls = {
