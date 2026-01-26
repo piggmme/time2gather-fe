@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import react from '@astrojs/react';
 import node from '@astrojs/node';
 import sitemap from '@astrojs/sitemap';
+import partytown from '@astrojs/partytown';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -38,6 +39,11 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://time2gather.org',
   integrations: [
     react(),
+    partytown({
+      config: {
+        forward: ['dataLayer.push'],
+      },
+    }),
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,
