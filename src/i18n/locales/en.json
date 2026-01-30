@@ -6,12 +6,15 @@
     "home": "Home",
     "createMeeting": "Create Meeting",
     "searchMeeting": "Search Meeting",
+    "searchMeetingPlaceholder": "Meeting code",
+    "searchMeetingButton": "Find Meeting",
     "myMeetings": "My Meetings",
     "aboutUs": "About Us",
     "menu": "Menu",
     "openMenu": "Open Menu",
     "submit": "Submit",
     "share": "Share",
+    "close": "Close",
     "error": "An error occurred. Please try again."
   },
   "home": {
@@ -31,6 +34,11 @@
   },
   "createMeeting": {
     "title": "Let's create a meeting!",
+    "meetingTypeStep": {
+      "heading": "What kind of meeting would you like to schedule?",
+      "allDay": "Pick dates only",
+      "time": "Pick dates + times"
+    },
     "titleStep": {
       "heading": "Please enter a title.",
       "placeholder": "e.g., Friday Dinner"

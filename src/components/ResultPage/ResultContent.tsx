@@ -156,20 +156,20 @@ export default function ResultContent ({
   }
 
   return (
-    <Tabs.Root defaultValue='요약'>
+    <Tabs.Root defaultValue='summary'>
       <Tabs.List aria-label={t('meeting.result.tabs.summary')}>
-        <Tabs.Trigger value='요약'>
+        <Tabs.Trigger value='summary'>
           {t('meeting.result.tabs.summary')}
         </Tabs.Trigger>
-        <Tabs.Trigger value='달력'>
+        <Tabs.Trigger value='calendar'>
           {t('meeting.result.tabs.calendar')}
         </Tabs.Trigger>
         {meetingData.locationVote?.enabled && (
-          <Tabs.Trigger value='장소'>
+          <Tabs.Trigger value='location'>
             {t('meeting.result.tabs.location')}
           </Tabs.Trigger>
         )}
-        <Tabs.Trigger value='참여자'>
+        <Tabs.Trigger value='participants'>
           {t('meeting.result.tabs.participants')} {meetingData.participants.length > 0 ? `(${meetingData.participants.length})` : ''}
         </Tabs.Trigger>
       </Tabs.List>
@@ -240,7 +240,7 @@ function SummaryContent ({
   }
 
   return (
-    <Tabs.Content value='요약'>
+    <Tabs.Content value='summary'>
       <div className={styles.AISummaryContainer}>
         {/* 시간 요약 카드 */}
         <div className={`${styles.Summary} ${styles.Card}`} style={{ padding: '24px' }}>
@@ -421,7 +421,7 @@ function ParticipantsModal ({
           <h3 className={styles.ModalTitle}>
             {formattedDate} {time ? time : ''}
           </h3>
-          <button className={styles.ModalCloseButton} onClick={onClose} aria-label='닫기'>
+          <button className={styles.ModalCloseButton} onClick={onClose} aria-label={t('common.close')}>
             <HiX />
           </button>
         </div>
@@ -517,7 +517,7 @@ function MonthlyCalendarContent ({
   }, [meetingData.schedule, me])
 
   return (
-    <Tabs.Content value='달력'>
+    <Tabs.Content value='calendar'>
       <div className={styles.Calendar}>
         <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
         <p className={styles.DetailText}>
@@ -633,7 +633,7 @@ function DailyCalendarContent ({
   }, [meetingData.schedule, me])
 
   return (
-    <Tabs.Content value='달력'>
+    <Tabs.Content value='calendar'>
       <div className={styles.Calendar}>
         <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
         <p className={styles.DetailText}>
@@ -669,7 +669,7 @@ function ParticipantsContent ({
   const { t } = useTranslation()
 
   return (
-    <Tabs.Content value='참여자'>
+    <Tabs.Content value='participants'>
       <div className={styles.Card}> {/* Card 클래스 적용 */}
         <div className={styles.Summary}>
           <p className={styles.Title}>{t('meeting.result.tabs.participants')}</p>
@@ -711,7 +711,7 @@ function LocationContent ({
   }
 
   return (
-    <Tabs.Content value='장소'>
+    <Tabs.Content value='location'>
       <div className={styles.Card}> {/* Card 클래스 적용 */}
         <div className={styles.Summary}>
           <p className={styles.Title}>{t('locationVote.title')}</p>

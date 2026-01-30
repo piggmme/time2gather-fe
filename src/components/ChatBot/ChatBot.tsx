@@ -3,6 +3,7 @@ import styles from './ChatBot.module.scss'
 import { chat, type ChatMessage } from '../../services/chat'
 import { $me } from '../../stores/me'
 import { useStore } from '@nanostores/react'
+import { useTranslation } from '../../hooks/useTranslation'
 
 const ChatIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,6 +26,7 @@ const SendIcon = () => (
 
 export default function ChatBot() {
   const me = useStore($me)
+  const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [inputValue, setInputValue] = useState('')
@@ -87,7 +89,7 @@ export default function ChatBot() {
       // 에러 메시지 추가
       const errorMessage: ChatMessage = {
         role: 'assistant',
-        content: '죄송합니다. 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+        content: t('chatBot.errorMessage'),
         timestamp: new Date(),
       }
       setMessages(prev => [...prev, errorMessage])
@@ -113,7 +115,7 @@ export default function ChatBot() {
       <button
         className={styles.floatingButton}
         onClick={toggleChat}
-        aria-label={isOpen ? '챗봇 닫기' : '챗봇 열기'}
+        aria-label={isOpen ? t('chatBot.close') : t('chatBot.open')}
       >
         {isOpen ? <CloseIcon /> : <ChatIcon />}
       </button>
@@ -123,8 +125,8 @@ export default function ChatBot() {
         <div className={styles.chatWindow}>
           {/* 헤더 */}
           <div className={styles.header}>
-            <h3>일정 도우미</h3>
-            <button onClick={toggleChat} aria-label="닫기">
+            <h3>{t('chatBot.title')}</h3>
+            <button onClick={toggleChat} aria-label={t('common.close')}>
               <CloseIcon />
             </button>
           </div>
@@ -133,8 +135,8 @@ export default function ChatBot() {
           <div className={styles.messageList}>
             {messages.length === 0 ? (
               <div className={styles.welcomeMessage}>
-                <p>안녕하세요! 일정 관련 질문을 해주세요.</p>
-                <p className={styles.hint}>예: "내 미팅 목록 보여줘", "다음주 일정 뭐야?"</p>
+                <p>{t('chatBot.welcomeMessage')}</p>
+                <p className={styles.hint}>{t('chatBot.welcomeHint')}</p>
               </div>
             ) : (
               messages.map((msg, index) => (
@@ -170,7 +172,7 @@ export default function ChatBot() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="메시지를 입력하세요..."
+              placeholder={t('chatBot.inputPlaceholder')}
               disabled={isLoading}
             />
             <button type="submit" disabled={!inputValue.trim() || isLoading}>

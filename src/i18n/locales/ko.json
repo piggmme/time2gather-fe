@@ -6,12 +6,15 @@
     "home": "홈",
     "createMeeting": "약속 만들기",
     "searchMeeting": "약속 검색",
+    "searchMeetingPlaceholder": "약속 코드",
+    "searchMeetingButton": "약속 찾기",
     "myMeetings": "내 약속",
     "aboutUs": "About Us",
     "menu": "메뉴",
     "openMenu": "메뉴 열기",
     "submit": "완료",
     "share": "공유하기",
+    "close": "닫기",
     "error": "오류가 발생했어요. 다시 시도해주세요."
   },
   "home": {
@@ -31,6 +34,11 @@
   },
   "createMeeting": {
     "title": "약속을 만들어 볼까요?",
+    "meetingTypeStep": {
+      "heading": "어떤 약속을 잡고싶어요?",
+      "allDay": "날짜만 정하기",
+      "time": "날짜 + 시간까지"
+    },
     "titleStep": {
       "heading": "제목을 입력해 주세요.",
       "placeholder": "예) 금요일 저녁 모임"

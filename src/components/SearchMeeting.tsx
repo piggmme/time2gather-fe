@@ -2,14 +2,16 @@ import { useState } from 'react'
 import Input from './Input/Input'
 import Button from './Button/Button'
 import { navigate } from 'astro:transitions/client'
+import { useTranslation } from '../hooks/useTranslation'
 
 export default function SearchMeeting () {
+  const { t } = useTranslation()
   const [value, setvalue] = useState('')
 
   return (
     <>
       <Input
-        placeholder='약속 코드'
+        placeholder={t('common.searchMeetingPlaceholder')}
         value={value}
         onChange={e => setvalue(e.target.value)}
       />
@@ -21,7 +23,7 @@ export default function SearchMeeting () {
           navigate(`/meetings/${meetingCode}`)
         }}
       >
-        약속 찾기
+        {t('common.searchMeetingButton')}
       </Button>
     </>
   )

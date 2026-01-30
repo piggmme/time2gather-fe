@@ -14,7 +14,7 @@ export default function MeetingTypeStep () {
 
   return (
     <>
-      <h2 className={styles.title}>어떤 약속을 잡고싶어요?</h2>
+      <h2 className={styles.title}>{t('createMeeting.meetingTypeStep.heading')}</h2>
       <div className={styles.meetingTypeContainer}>
         <Button
           buttonType='default'
@@ -23,7 +23,7 @@ export default function MeetingTypeStep () {
           onClick={() => setMeetingType('ALL_DAY')}
         >
           <HiOutlineCalendar size={24} />
-          날짜만 정하기
+          {t('createMeeting.meetingTypeStep.allDay')}
         </Button>
         <Button
           buttonType='default'
@@ -32,7 +32,7 @@ export default function MeetingTypeStep () {
           onClick={() => setMeetingType('TIME')}
         >
           <HiOutlineClock size={24} />
-          날짜 + 시간까지
+          {t('createMeeting.meetingTypeStep.time')}
         </Button>
       </div>
       <div className={styles.buttonContainer}>
