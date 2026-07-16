@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback, useEffect } from 'react'
-import type { get_meetings_$meetingCode_response, get_meetings_$meetingCode_report_response } from '../../services/meetings'
+import { meetings, type get_meetings_$meetingCode_response, type get_meetings_$meetingCode_report_response } from '../../services/meetings'
 import Daily from '../daily/Daily'
 import Avatar from '../Avatar/Avatar'
 import dayjs from 'dayjs'
@@ -20,127 +20,94 @@ export default function ResultContent ({
   reportData?: get_meetings_$meetingCode_report_response['data'] // Keep for backwards compatibility
 }) {
   const { t } = useTranslation()
+  const me = useStore($me)
   const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set())
+  const [anonymousMeetingData, setAnonymousMeetingData] = useState<typeof meetingData | null>(null)
+
+  useEffect(() => {
+    const isCurrentAnonymous = me?.provider === 'ANONYMOUS' && me.anonymousMeetingCode === meetingData.meeting.code
+    if (!isCurrentAnonymous) {
+      setAnonymousMeetingData(null)
+      return
+    }
+
+    let cancelled = false
+    meetings.$meetingCode.get(meetingData.meeting.code)
+      .then((response) => {
+        if (!cancelled) setAnonymousMeetingData(response.data)
+      })
+      .catch(() => {
+        // Keep the server-rendered public response available when a refresh fails.
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [me, meetingData.meeting.code])
+
+  const displayedMeetingData = anonymousMeetingData ?? meetingData
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = useMemo(() => {
-    return Object.keys(meetingData.meeting.availableDates)
+    return Object.keys(displayedMeetingData.meeting.availableDates)
       .sort()
       .map(date => dayjs(date))
-  }, [meetingData.meeting.availableDates])
+  }, [displayedMeetingData.meeting.availableDates])
 
   // availableDates에서 모든 시간 슬롯을 추출하여 정렬
   const availableTimes = useMemo(() => {
     const timeSet = new Set<string>()
-    Object.values(meetingData.meeting.availableDates).forEach((times) => {
+    Object.values(displayedMeetingData.meeting.availableDates).forEach((times) => {
       times.forEach(time => timeSet.add(time))
     })
     return Array.from(timeSet).sort()
-  }, [meetingData.meeting.availableDates])
+  }, [displayedMeetingData.meeting.availableDates])
 
   // 같은 날짜의 시간 슬롯들을 그룹화하고 범위로 변환
   const groupedBestSlots = useMemo(() => {
-    if (meetingData.summary.bestSlots.length === 0) return []
+    if (displayedMeetingData.summary.bestSlots.length === 0) return []
 
     // 날짜별로 그룹화
-    const groupedByDate = meetingData.summary.bestSlots.reduce((acc, slot) => {
+    const groupedByDate = displayedMeetingData.summary.bestSlots.reduce((acc, slot) => {
       if (!acc[slot.date]) {
         acc[slot.date] = []
       }
       acc[slot.date].push(slot)
       return acc
-    }, {} as Record<string, typeof meetingData.summary.bestSlots>)
+    }, {} as Record<string, typeof displayedMeetingData.summary.bestSlots>)
 
     // 각 날짜별로 시간 범위 생성
     return Object.entries(groupedByDate).map(([date, slots]) => {
-      // 시간으로 정렬
-      const sortedSlots = [...slots].sort((a, b) => a.time.localeCompare(b.time))
-
-      // 연속된 시간들을 범위로 묶기
-      const timeRanges: Array<{ start: string, end: string, count: number, percentage: string }> = []
-      let currentRange: { start: string, end: string, count: number, percentage: string } | null = null
-
-      sortedSlots.forEach((slot) => {
-        if (!currentRange) {
-          currentRange = {
-            start: slot.time,
-            end: slot.time,
-            count: slot.count,
-            percentage: slot.percentage,
-          }
-        } else {
-          // 현재 시간이 이전 시간의 30분 후인지 확인
-          const prevTime = dayjs(`2000-01-01 ${currentRange.end}`, 'YYYY-MM-DD HH:mm')
-          const currentTime = dayjs(`2000-01-01 ${slot.time}`, 'YYYY-MM-DD HH:mm')
-          const diffMinutes = currentTime.diff(prevTime, 'minute')
-
-          if (diffMinutes === 30 && slot.count === currentRange.count && slot.percentage === currentRange.percentage) {
-            // 연속된 시간이고 같은 참여자 수/비율이면 범위 확장
-            currentRange.end = slot.time
-          } else {
-            // 연속되지 않거나 다른 참여자 수/비율이면 새 범위 시작
-            timeRanges.push(currentRange)
-            currentRange = {
-              start: slot.time,
-              end: slot.time,
-              count: slot.count,
-              percentage: slot.percentage,
-            }
-          }
-        }
-      })
-
-      if (currentRange) {
-        timeRanges.push(currentRange)
-      }
-
       return {
         date,
-        timeRanges,
+        timeRanges: [...slots]
+          .sort((a, b) => a.startSlotIndex - b.startSlotIndex)
+          .map((slot) => {
+            const [start, end = start] = slot.time.split(' ~ ')
+            return {
+              start,
+              end,
+              count: slot.count,
+              percentage: slot.percentage,
+              participants: slot.participants,
+            }
+          }),
       }
     })
-  }, [meetingData.summary.bestSlots])
-
-  // 특정 날짜와 시간 범위에 참여한 사람들 가져오기
-  const getParticipantsForTimeRange = useCallback((date: string, timeRange: { start: string, end: string }) => {
-    const participantsMap = new Map<number, typeof meetingData.participants[0]>()
-    const scheduleForDate = meetingData.schedule[date]
-
-    if (!scheduleForDate) return []
-
-    // 시간 범위 내의 모든 시간 슬롯에 참여한 사람들 수집
-    const startTime = dayjs(`2000-01-01 ${timeRange.start}`, 'YYYY-MM-DD HH:mm')
-    const endTime = dayjs(`2000-01-01 ${timeRange.end}`, 'YYYY-MM-DD HH:mm')
-
-    Object.keys(scheduleForDate).forEach((time) => {
-      const currentTime = dayjs(`2000-01-01 ${time}`, 'YYYY-MM-DD HH:mm')
-      if ((currentTime.isAfter(startTime) || currentTime.isSame(startTime))
-        && (currentTime.isBefore(endTime) || currentTime.isSame(endTime))) {
-        const slotData = scheduleForDate[time]
-        if (slotData && slotData.participants) {
-          slotData.participants.forEach((participant) => {
-            participantsMap.set(participant.userId, participant)
-          })
-        }
-      }
-    })
-
-    return Array.from(participantsMap.values())
-  }, [meetingData.schedule, meetingData.participants])
+  }, [displayedMeetingData.summary.bestSlots])
 
   // 그룹의 모든 시간 범위에 참여한 사람들 가져오기
-  const getParticipantsForGroup = useCallback((group: { date: string, timeRanges: Array<{ start: string, end: string }> }) => {
-    const participantsMap = new Map<number, typeof meetingData.participants[0]>()
+  const getParticipantsForGroup = useCallback((group: GroupedBestSlot) => {
+    const participantsMap = new Map<number, typeof displayedMeetingData.participants[0]>()
 
     group.timeRanges.forEach((range) => {
-      const participants = getParticipantsForTimeRange(group.date, range)
-      participants.forEach((participant) => {
+      range.participants.forEach((participant) => {
         participantsMap.set(participant.userId, participant)
       })
     })
 
     return Array.from(participantsMap.values())
-  }, [getParticipantsForTimeRange])
+  }, [])
 
   const toggleSlot = (groupIndex: number) => {
     setExpandedSlots((prev) => {
@@ -164,50 +131,56 @@ export default function ResultContent ({
         <Tabs.Trigger value='calendar'>
           {t('meeting.result.tabs.calendar')}
         </Tabs.Trigger>
-        {meetingData.locationVote?.enabled && (
+        {displayedMeetingData.locationVote?.enabled && (
           <Tabs.Trigger value='location'>
             {t('meeting.result.tabs.location')}
           </Tabs.Trigger>
         )}
         <Tabs.Trigger value='participants'>
-          {t('meeting.result.tabs.participants')} {meetingData.participants.length > 0 ? `(${meetingData.participants.length})` : ''}
+          {t('meeting.result.tabs.participants')} {displayedMeetingData.participants.length > 0 ? `(${displayedMeetingData.participants.length})` : ''}
         </Tabs.Trigger>
       </Tabs.List>
 
       <SummaryContent
-        meetingData={meetingData}
+        meetingData={displayedMeetingData}
         groupedBestSlots={groupedBestSlots}
         expandedSlots={expandedSlots}
         toggleSlot={toggleSlot}
         getParticipantsForGroup={getParticipantsForGroup}
       />
       {
-        meetingData.meeting.selectionType === 'TIME'
+        displayedMeetingData.meeting.selectionType === 'TIME'
           ? (
               <DailyCalendarContent
-                meetingData={meetingData}
+                meetingData={displayedMeetingData}
                 dates={dates}
                 availableTimes={availableTimes}
               />
             )
           : (
               <MonthlyCalendarContent
-                meetingData={meetingData}
+                meetingData={displayedMeetingData}
                 dates={dates}
               />
             )
       }
-      {meetingData.locationVote?.enabled && (
-        <LocationContent locationVote={meetingData.locationVote} />
+      {displayedMeetingData.locationVote?.enabled && (
+        <LocationContent locationVote={displayedMeetingData.locationVote} />
       )}
-      <ParticipantsContent participants={meetingData.participants} />
+      <ParticipantsContent participants={displayedMeetingData.participants} />
     </Tabs.Root>
   )
 }
 
 type GroupedBestSlot = {
   date: string
-  timeRanges: Array<{ start: string, end: string, count: number, percentage: string }>
+  timeRanges: Array<{
+    start: string
+    end: string
+    count: number
+    percentage: string
+    participants: get_meetings_$meetingCode_response['data']['participants']
+  }>
 }
 
 // 요약 탭 컴포넌트

@@ -46,9 +46,9 @@ export default function LocationVoteSection ({
       try {
         const response = await meetings.$meetingCode.locationSelections.get(meetingCode)
         if (cancelled) return
-        if (!response.success || !Array.isArray(response.data.selectedLocationIds)) throw new Error('Invalid location selection response')
-        setSelectedLocationIds(response.data.selectedLocationIds)
-        onSelectionsChange(response.data.selectedLocationIds)
+        if (!response.success || !Array.isArray(response.data.locationIds)) throw new Error('Invalid location selection response')
+        setSelectedLocationIds(response.data.locationIds)
+        onSelectionsChange(response.data.locationIds)
         setStatus('ready')
         onStatusChange('ready')
       } catch (error) {

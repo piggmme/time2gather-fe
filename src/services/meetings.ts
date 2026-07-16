@@ -166,6 +166,7 @@ export type get_meetings_$meetingCode_response = success_response<{
       endSlotIndex: number
       count: number
       percentage: string
+      participants: User[]
     }[]
   }
   locationVote: LocationVoteInfo | null
@@ -259,7 +260,7 @@ const delete_meetings_$meetingCode_confirm = async (meetingCode: string) => {
  * @param meetingCode Meeting code
  */
 export type get_meetings_$meetingCode_locationSelections_response = success_response<{
-  selectedLocationIds: number[]
+  locationIds: number[]
 }>
 const get_meetings_$meetingCode_locationSelections = async (meetingCode: string) => {
   const response = await api.get<get_meetings_$meetingCode_locationSelections_response>(`/v1/meetings/${meetingCode}/location-selections`)
