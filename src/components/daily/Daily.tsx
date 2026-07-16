@@ -7,10 +7,10 @@ import {
   useRef, useEffect, useCallback, useState, useMemo,
 } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
-import { useStore } from '@nanostores/react'
-import { $locale } from '../../stores/locale'
 import { formatDate } from '../../utils/time'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
+import { useTranslation } from '../../hooks/useTranslation'
+import { HiOutlineHand } from 'react-icons/hi'
 
 // Long Press 인식 시간 (ms)
 const LONG_PRESS_DURATION = 200
@@ -49,7 +49,7 @@ export default function Daily ({
   mode = 'edit',
   onCellClick,
 }: DailyProps) {
-  const locale = useStore($locale)
+  const { t, locale } = useTranslation()
   const dateHeaderScrollRef = useRef<HTMLDivElement>(null)
   const gridScrollContainerRef = useRef<HTMLDivElement>(null)
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
@@ -559,25 +559,63 @@ export default function Daily ({
 
   return (
     <div className={styles.container} style={{ maxHeight: height, height: 'auto' }}>
+      {isEditMode && (
+        <div
+          className={`${styles.gestureHint} ${isDragMode ? styles.gestureHintActive : ''}`}
+          role='status'
+          aria-live='polite'
+        >
+          <span className={styles.gestureHintIcon} aria-hidden='true'>
+            <HiOutlineHand />
+          </span>
+          {isDragMode && <span>{t('meeting.timeGrid.draggingHint')}</span>}
+          {!isDragMode && (
+            <>
+              <span className={styles.touchHint}>{t('meeting.timeGrid.touchHint')}</span>
+              <span className={styles.pointerHint}>{t('meeting.timeGrid.pointerHint')}</span>
+            </>
+          )}
+        </div>
+      )}
       <div className={styles.wrapper}>
         {/* 날짜 헤더 - sticky 고정 */}
         <div className={styles.dateHeaderRow}>
-          <div className={styles.timeColumnHeader} />
+          <div className={styles.timeColumnHeader}>
+            <span className={styles.timeColumnLabel}>{t('meeting.timeGrid.timeLabel')}</span>
+          </div>
           <div className={styles.dateHeaderScroll} ref={dateHeaderScrollRef}>
             {dates.map((date) => {
               const dateKey = date.format('YYYY-MM-DD')
+              const dateLabel = formatDate(date, locale)
+              const isToday = date.isSame(dayjs(), 'day')
               const currentSelections = selections[dateKey] || []
               const allSelected = availableTimes.length > 0
                 && availableTimes.every(time => currentSelections.includes(time))
 
+              if (!isEditMode) {
+                return (
+                  <div
+                    key={dateKey}
+                    className={`${styles.dateHeader} ${isToday ? styles.today : ''}`}
+                    aria-current={isToday ? 'date' : undefined}
+                  >
+                    <span className={styles.dateTitle}>{dateLabel}</span>
+                  </div>
+                )
+              }
+
               return (
-                <div
+                <button
+                  type='button'
                   key={dateKey}
-                  className={`${styles.dateHeader} ${isEditMode ? styles.clickable : ''} ${allSelected ? styles.allSelected : ''}`}
+                  className={`${styles.dateHeader} ${styles.clickable} ${allSelected ? styles.allSelected : ''} ${isToday ? styles.today : ''}`}
                   onClick={() => handleDateHeaderClick(dateKey)}
+                  aria-pressed={allSelected}
+                  aria-current={isToday ? 'date' : undefined}
+                  aria-label={t('meeting.timeGrid.selectDate', { date: dateLabel })}
                 >
-                  <span className={styles.dateTitle}>{formatDate(date, locale)}</span>
-                </div>
+                  <span className={styles.dateTitle}>{dateLabel}</span>
+                </button>
               )
             })}
           </div>

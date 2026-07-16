@@ -9,7 +9,7 @@ type LocationInfo = {
   displayOrder: number
   voteCount: number
   percentage: string
-  voters: { userId: number; username: string; profileImageUrl: string }[]
+  voters: { userId: number, username: string, profileImageUrl: string }[]
 }
 
 type LocationVoteSectionProps = {
@@ -17,53 +17,89 @@ type LocationVoteSectionProps = {
   locations: LocationInfo[]
   confirmedLocation: LocationInfo | null
   onSelectionsChange: (selectedIds: number[]) => void
+  onStatusChange: (status: LocationSelectionStatus) => void
   initialSelectedIds?: number[]
 }
 
-export default function LocationVoteSection({
+export type LocationSelectionStatus = 'loading' | 'ready' | 'error'
+
+export default function LocationVoteSection ({
   meetingCode,
   locations,
   confirmedLocation,
   onSelectionsChange,
+  onStatusChange,
   initialSelectedIds = [],
 }: LocationVoteSectionProps) {
   const { t } = useTranslation()
   const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>(initialSelectedIds)
-  const [isLoading, setIsLoading] = useState(true)
+  const [status, setStatus] = useState<LocationSelectionStatus>('loading')
+  const [loadAttempt, setLoadAttempt] = useState(0)
 
   // 내 장소 선택 불러오기
   useEffect(() => {
+    let cancelled = false
+    setStatus('loading')
+    onStatusChange('loading')
+
     const fetchMySelections = async () => {
       try {
         const response = await meetings.$meetingCode.locationSelections.get(meetingCode)
-        if (response.success && response.data.selectedLocationIds) {
-          setSelectedLocationIds(response.data.selectedLocationIds)
-          onSelectionsChange(response.data.selectedLocationIds)
-        }
+        if (cancelled) return
+        if (!response.success || !Array.isArray(response.data.selectedLocationIds)) throw new Error('Invalid location selection response')
+        setSelectedLocationIds(response.data.selectedLocationIds)
+        onSelectionsChange(response.data.selectedLocationIds)
+        setStatus('ready')
+        onStatusChange('ready')
       } catch (error) {
         console.error('Failed to fetch location selections:', error)
-      } finally {
-        setIsLoading(false)
+        if (!cancelled) {
+          setStatus('error')
+          onStatusChange('error')
+        }
       }
     }
     fetchMySelections()
-  }, [meetingCode])
+
+    return () => {
+      cancelled = true
+    }
+  }, [loadAttempt, meetingCode, onSelectionsChange, onStatusChange])
 
   const handleToggleLocation = (locationId: number) => {
     const newSelectedIds = selectedLocationIds.includes(locationId)
       ? selectedLocationIds.filter(id => id !== locationId)
       : [...selectedLocationIds, locationId]
-    
+
     setSelectedLocationIds(newSelectedIds)
     onSelectionsChange(newSelectedIds)
   }
 
+  const handleRetry = () => {
+    setStatus('loading')
+    onStatusChange('loading')
+    setLoadAttempt(attempt => attempt + 1)
+  }
+
   const sortedLocations = [...locations].sort((a, b) => a.displayOrder - b.displayOrder)
 
-  if (isLoading) {
+  if (status === 'loading') {
     return (
       <div className={styles.container}>
-        <div className={styles.loading}>{t('common.loading') || 'Loading...'}</div>
+        <div className={styles.loading}>{t('common.loading')}</div>
+      </div>
+    )
+  }
+
+  if (status === 'error') {
+    return (
+      <div className={styles.container}>
+        <div className={styles.errorState} role='alert'>
+          <span>{t('locationVote.loadError')}</span>
+          <button type='button' onClick={handleRetry}>
+            {t('locationVote.retry')}
+          </button>
+        </div>
       </div>
     )
   }
@@ -72,7 +108,7 @@ export default function LocationVoteSection({
     <div className={styles.container}>
       <h3 className={styles.title}>{t('locationVote.title')}</h3>
       <p className={styles.description}>{t('locationVote.description')}</p>
-      
+
       {confirmedLocation && (
         <div className={styles.confirmedBanner}>
           {t('locationVote.confirmedLocation')}: <strong>{confirmedLocation.name}</strong>
@@ -90,7 +126,7 @@ export default function LocationVoteSection({
               className={`${styles.locationItem} ${isSelected ? styles.selected : ''} ${isConfirmed ? styles.confirmed : ''}`}
             >
               <input
-                type="checkbox"
+                type='checkbox'
                 checked={isSelected}
                 onChange={() => handleToggleLocation(location.id)}
                 className={styles.checkbox}

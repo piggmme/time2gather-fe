@@ -15,6 +15,7 @@
     "submit": "Submit",
     "share": "Share",
     "close": "Close",
+    "loading": "Loading...",
     "error": "An error occurred. Please try again."
   },
   "home": {
@@ -79,6 +80,23 @@
     "participantsCount": "Currently, {count} people have joined.",
     "selectedDates": "Select the available dates from {count} dates.",
     "selectedDatesAndTimes": "Select the available dates and time slots from {count} dates.",
+    "timeGrid": {
+      "timeLabel": "Time",
+      "touchHint": "Press, hold, then drag to select multiple times",
+      "pointerHint": "Drag to select multiple times at once",
+      "draggingHint": "Dragging · Release to apply your selection",
+      "selectDate": "Select all times on {date}"
+    },
+    "dateCalendar": {
+      "available": "Available",
+      "unavailable": "Unavailable",
+      "availableMonths": "Months with available dates",
+      "monthAvailability": "{count} available dates in {month}"
+    },
+    "dateParticipants": {
+      "title": "Available on {date}",
+      "count": "{count} people"
+    },
     "resultSaved": "The result has been saved.",
     "modifyButton": "Modify Time",
     "participate": "Participate in Meeting",
@@ -223,6 +241,8 @@
     "title": "Location Vote",
     "description": "Select your preferred location(s)",
     "confirmedLocation": "Confirmed Location",
-    "confirmed": "Confirmed"
+    "confirmed": "Confirmed",
+    "loadError": "Could not load your location choices.",
+    "retry": "Try again"
   }
 }

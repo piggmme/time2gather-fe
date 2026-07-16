@@ -9,7 +9,7 @@ import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
 import { navigate } from 'astro:transitions/client'
 import { showDefaultToast } from '../../stores/toast'
-import LocationVoteSection from './LocationVoteSection'
+import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
 
 export default function TimeSelectPage (
   { meetingCode, data }:
@@ -20,6 +20,7 @@ export default function TimeSelectPage (
   const [height, setHeight] = useState<string>('auto')
   const [selections, setSelections] = useState<{ [date: string]: string[] }>({})
   const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
+  const [locationStatus, setLocationStatus] = useState<LocationSelectionStatus>(data.locationVote?.enabled ? 'loading' : 'ready')
 
   useEffect(() => {
     const calculateHeight = () => {
@@ -91,7 +92,7 @@ export default function TimeSelectPage (
     <div>
       <div className={styles.selectedDatesInfo}>
         <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
-        <p>{t('meeting.selectedDates', { count: dates.length })}</p>
+        <p>{t('meeting.selectedDatesAndTimes', { count: dates.length })}</p>
       </div>
       <div
         className={styles.container}
@@ -107,13 +108,14 @@ export default function TimeSelectPage (
           participantsCount={data.participants.length}
         />
       </div>
-      
+
       {data.locationVote?.enabled && data.locationVote.locations && (
         <LocationVoteSection
           meetingCode={meetingCode}
           locations={data.locationVote.locations}
           confirmedLocation={data.locationVote.confirmedLocation}
           onSelectionsChange={setSelectedLocationIds}
+          onStatusChange={setLocationStatus}
         />
       )}
       <div className={styles.buttonContainer}>
@@ -132,12 +134,12 @@ export default function TimeSelectPage (
         </Button>
         <Button
           buttonType='primary'
-          disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
+          disabled={Object.entries(selections).every(([, times]) => times.length === 0) || locationStatus === 'loading'}
           onClick={async () => {
             try {
               // selections 에서 빈배열인 날짜는 제거
               const timeSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
-                selections: Object.entries(selections).filter(([_, times]) => times.length > 0).map(([date, times]) => ({
+                selections: Object.entries(selections).filter(([, times]) => times.length > 0).map(([date, times]) => ({
                   date,
                   type: 'TIME',
                   times,
@@ -145,7 +147,7 @@ export default function TimeSelectPage (
               })
 
               // 장소 투표가 활성화되어 있으면 장소 선택도 저장
-              const locationSelectionsPromise = data.locationVote?.enabled
+              const locationSelectionsPromise = data.locationVote?.enabled && locationStatus === 'ready'
                 ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
                 : Promise.resolve()
 

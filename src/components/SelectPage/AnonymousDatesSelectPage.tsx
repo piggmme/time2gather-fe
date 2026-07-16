@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { useTranslation } from '../../hooks/useTranslation'
 import styles from './SelectPage.module.scss'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Button from '../Button/Button'
 import { meetings, type get_meetings_$meetingCode_response } from '../../services/meetings'
 import { navigate } from 'astro:transitions/client'
@@ -11,6 +11,8 @@ import Input from '../Input/Input'
 import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
 import { auth } from '../../services/auth'
+import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
+import DateParticipantsPanel from './DateParticipantsPanel'
 
 export default function AnonymousDatesSelectPage (
   { meetingCode, data }:
@@ -103,6 +105,9 @@ function DatesSelectForm ({
   const containerRef = useRef<HTMLDivElement>(null)
   const dates = Object.keys(data.meeting.availableDates)
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
+  const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
+  const [locationStatus, setLocationStatus] = useState<LocationSelectionStatus>(data.locationVote?.enabled ? 'loading' : 'ready')
+  const [focusedDate, setFocusedDate] = useState<dayjs.Dayjs | null>(null)
   const me = useStore($me)
 
   useEffect(function initializeSelections () {
@@ -116,6 +121,25 @@ function DatesSelectForm ({
     }
     setSelectedDates(mySelectedDates)
   }, [me, data.schedule])
+
+  const dateSchedule = useMemo(() => {
+    const schedule: { [date: string]: { count: number, participants: typeof data.participants } } = {}
+    for (const [date, timeSlots] of Object.entries(data.schedule)) {
+      const allDaySlot = timeSlots['ALL_DAY']
+      if (!allDaySlot) continue
+      const includesMe = me ? allDaySlot.participants.some(participant => participant.userId === me.userId) : false
+      schedule[date] = {
+        count: includesMe ? Math.max(0, allDaySlot.count - 1) : allDaySlot.count,
+        participants: allDaySlot.participants,
+      }
+    }
+    return schedule
+  }, [data.schedule, data.participants, me])
+
+  const focusedDateKey = focusedDate?.format('YYYY-MM-DD') ?? ''
+  const focusedParticipants = focusedDateKey
+    ? data.schedule[focusedDateKey]?.ALL_DAY?.participants ?? []
+    : []
 
   return (
     <div>
@@ -133,8 +157,26 @@ function DatesSelectForm ({
           dates={selectedDates}
           setDates={setSelectedDates}
           availableDates={Object.keys(data.meeting.availableDates).map(date => dayjs(date))}
+          dateSchedule={dateSchedule}
+          participantsCount={data.summary.totalParticipants}
+          onDateClick={setFocusedDate}
         />
       </div>
+      <DateParticipantsPanel
+        date={focusedDate}
+        participants={focusedParticipants}
+        isSelected={Boolean(focusedDate && selectedDates.some(date => date.isSame(focusedDate, 'day')))}
+        me={me}
+      />
+      {data.locationVote?.enabled && data.locationVote.locations && (
+        <LocationVoteSection
+          meetingCode={meetingCode}
+          locations={data.locationVote.locations}
+          confirmedLocation={data.locationVote.confirmedLocation}
+          onSelectionsChange={setSelectedLocationIds}
+          onStatusChange={setLocationStatus}
+        />
+      )}
       <div className={styles.buttonContainer}>
         <Button
           buttonType='ghost'
@@ -151,23 +193,37 @@ function DatesSelectForm ({
         </Button>
         <Button
           buttonType='primary'
-          disabled={selectedDates.length === 0}
+          disabled={selectedDates.length === 0 || locationStatus === 'loading'}
           onClick={async () => {
-            // selections 에서 빈배열인 날짜는 제거
-            await meetings.$meetingCode.selections.put(meetingCode, {
-              selections: selectedDates.map(date => ({
-                date: date.format('YYYY-MM-DD'),
-                type: 'ALL_DAY',
-                times: [],
-              })),
-            })
-            setTimeout(() => {
-              showDefaultToast({
-                message: t('meeting.resultSaved'),
-                duration: 3000,
+            try {
+              const dateSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
+                selections: selectedDates.map(date => ({
+                  date: date.format('YYYY-MM-DD'),
+                  type: 'ALL_DAY',
+                  times: [],
+                })),
               })
-            }, 500)
-            navigate(`/meetings/${meetingCode}/result`)
+              const locationSelectionsPromise = data.locationVote?.enabled && locationStatus === 'ready'
+                ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
+                : Promise.resolve()
+
+              await Promise.all([dateSelectionsPromise, locationSelectionsPromise])
+              setTimeout(() => {
+                showDefaultToast({
+                  message: t('meeting.resultSaved'),
+                  duration: 3000,
+                })
+              }, 500)
+              navigate(`/meetings/${meetingCode}/result`)
+            } catch (error) {
+              const errorResponse = error as { response?: { data?: { messageKey?: string } } }
+              if (errorResponse.response?.data?.messageKey === 'error.meeting.already.confirmed') {
+                alert(t('meeting.alreadyConfirmedError'))
+                navigate(`/meetings/${meetingCode}/result`)
+              } else {
+                showDefaultToast({ message: t('common.error'), duration: 3000 })
+              }
+            }
           }}
         >
           {t('common.submit')}

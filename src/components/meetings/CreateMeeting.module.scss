@@ -130,16 +130,6 @@ button.meetingTypeButton {
     flex: 1 1 60%;
   }
 
-  > *:first-child:not(:only-child)::before {
-    content: '←';
-    font-size: 1.1em;
-  }
-
-  > *:last-child::after {
-    content: '→';
-    font-size: 1.1em;
-  }
-
   @media (max-width: 699px) {
     position: sticky;
     bottom: 0;

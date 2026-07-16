@@ -93,7 +93,7 @@ export default function DailyCell ({
       )}
       style={count > 0 ? { '--intensity': intensity } as React.CSSProperties : undefined}
     >
-      {text}
+      <span className={styles.cellText}>{text}</span>
     </button>
   )
 }

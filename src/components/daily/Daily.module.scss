@@ -1,26 +1,25 @@
 @use "../../styles/variables.scss" as *;
 
 // 시간 컬럼 너비
-$time-column-width: 60px; // 넓혀서 시원하게
-$time-column-width-mobile: 44px;
+$time-column-width: 60px;
+$time-column-width-mobile: 48px;
 
 // =====================================================
 // Soft Card Design (흰색 배경에 맞게 조정)
 // =====================================================
 $card-bg: $c-white;
-$card-border: 1px solid rgba(0, 0, 0, 0.08);
+$card-border: 1px solid rgba($c-gray-darkest, 0.1);
 $card-shadow: 
-  0 1px 3px rgba(0, 0, 0, 0.04),
-  0 4px 12px rgba(0, 0, 0, 0.03);
+  0 18px 40px -24px rgba($c-black, 0.32),
+  0 4px 14px rgba($c-black, 0.05);
 
-$header-bg: $c-white;
-$header-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
-$subtle-border: 1px solid rgba(0, 0, 0, 0.04);
+$header-bg: rgba($c-gray-lightest, 0.92);
+$subtle-border: 1px solid rgba($c-gray, 0.34);
 
 .container {
   display: inline-flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden;
   background: $card-bg;
   border-radius: $radius-lg;
   box-shadow: $card-shadow;
@@ -30,14 +29,79 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
 
 .wrapper {
   position: relative;
-  max-height: inherit;
-  border-radius: $radius-lg;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
   overflow: hidden;
+}
+
+.gestureHint {
+  min-height: 46px;
+  padding: 9px $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  color: $c-gray-darkest;
+  background: linear-gradient(135deg, rgba($primary-color, 0.09), rgba($c-purple, 0.07));
+  border-bottom: $subtle-border;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  word-break: keep-all;
+  transition: color $transition-base, background-color $transition-base;
+}
+
+.gestureHintIcon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $primary-color;
+  background: rgba($c-white, 0.9);
+  border-radius: $radius-sm;
+  box-shadow: inset 0 0 0 1px rgba($primary-color, 0.12);
+  transition: color $transition-fast, background-color $transition-fast, transform $transition-fast;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.gestureHintActive {
+  color: $primary-color-hover;
+  background: rgba($primary-color, 0.13);
+
+  .gestureHintIcon {
+    color: $c-white;
+    background: $primary-color;
+    transform: scale(1.05);
+  }
+}
+
+.pointerHint {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .touchHint {
+    display: none;
+  }
+
+  .pointerHint {
+    display: inline;
+  }
 }
 
 .scrollWrapper {
   max-width: 100%;
-  max-height: inherit;
+  min-height: 0;
+  flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -62,7 +126,8 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
   gap: 0;
   align-self: flex-start;
   width: $time-column-width;
-  padding-bottom: $spacing-lg; // 하단 여백 추가
+  padding-bottom: $spacing-sm;
+  background: rgba($c-gray-lightest, 0.48);
 
   @media (max-width: 699px) {
     width: $time-column-width-mobile;
@@ -93,7 +158,7 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
   }
 
   &.fullHour {
-    border-top: 1px solid rgba($c-gray, 0.3); // 연하게 변경
+    border-top: 1px solid rgba($c-gray-dark, 0.22);
     align-items: flex-start;
     padding-top: 2px;
     color: $c-gray-darkest;
@@ -101,7 +166,7 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
   }
 
   &.halfHour {
-    border-top: 1px dashed rgba($c-gray, 0.15); // 더 연하게
+    border-top: 1px solid rgba($c-gray, 0.25);
     color: transparent;
   }
 }
@@ -109,7 +174,7 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
 .dateWrapper {
   min-width: 100px;
   border-right: $subtle-border;
-  background: transparent;
+  background: $c-white;
   transition: background $transition-fast;
 
   &:first-of-type {
@@ -122,15 +187,19 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .dateTitle {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
+  min-height: 30px;
+  padding: 0 9px;
+  box-sizing: border-box;
+  border-radius: $radius-sm;
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
   color: $c-gray-darkest;
-  height: 44px;
+  line-height: 1.2;
   white-space: nowrap;
-  transition: color $transition-fast;
+  transition: color $transition-fast, background-color $transition-fast, box-shadow $transition-fast;
 }
 
 // ===== 날짜 헤더 영역 (sticky) =====
@@ -142,17 +211,28 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: row;
   background: $header-bg;
-  box-shadow: $header-shadow;
   border-bottom: $subtle-border;
 }
 
 .timeColumnHeader {
   width: $time-column-width;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: $subtle-border;
 
   @media (max-width: 699px) {
     width: $time-column-width-mobile;
   }
+}
+
+.timeColumnLabel {
+  color: $c-gray-dark;
+  font-size: 10px;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .dateHeaderScroll {
@@ -169,18 +249,27 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
 
 .dateHeader {
   min-width: 100px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  border: 0;
   border-right: $subtle-border;
-  border-bottom: none;
   background: transparent;
-  transition: all $transition-base;
+  transition: color $transition-base, background-color $transition-base, box-shadow $transition-base;
   padding: 0;
-
-  &:first-of-type {
-    border-left: $subtle-border;
-  }
 
   &:last-of-type {
     border-right: none;
+  }
+
+  &.today .dateTitle {
+    color: $primary-color-hover;
+    background: rgba($primary-color, 0.1);
+    box-shadow: inset 0 0 0 1px rgba($primary-color, 0.14);
   }
 
   // 클릭 가능한 상태 (편집 모드)
@@ -188,27 +277,25 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
     cursor: pointer;
     user-select: none;
     
-    // Hover 효과: 전체적으로 붕 뜨는 느낌
-    &:hover {
-      background: linear-gradient(to bottom, rgba($c-white, 0.8), rgba($c-blue-soft, 0.5));
-      .dateTitle {
-        color: $primary-color;
-        transform: translateY(-1px);
-      }
-    }
-
     &:active {
-      background: $c-blue-soft;
+      background: rgba($primary-color, 0.08);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &.clickable:hover {
+      background: rgba($primary-color, 0.06);
+
       .dateTitle {
-        transform: translateY(0);
+        color: $primary-color-hover;
       }
     }
   }
 
   // 전체 선택된 상태
   &.allSelected {
-    background: $c-blue-soft;
-    box-shadow: inset 0 -2px 0 $primary-color; // 하단 강조선
+    background: rgba($primary-color, 0.1);
+    box-shadow: inset 0 -2px 0 rgba($primary-color, 0.75);
 
     .dateTitle {
       color: $primary-color;
@@ -227,7 +314,8 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
   -webkit-overflow-scrolling: touch;
   align-items: flex-start;
   touch-action: auto;
-  padding-bottom: $spacing-lg; // 하단 여백
+  padding-bottom: $spacing-sm;
+  background: $c-white;
 
   scrollbar-width: none;
   -ms-overflow-style: none;

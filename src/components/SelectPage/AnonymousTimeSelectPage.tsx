@@ -11,6 +11,7 @@ import { navigate } from 'astro:transitions/client'
 import { showDefaultToast } from '../../stores/toast'
 import Input from '../Input/Input'
 import { auth } from '../../services/auth'
+import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
 
 export default function AnonymousTimeSelectPage (
   { meetingCode, data }:
@@ -103,6 +104,8 @@ function TimeSelectForm ({
   const containerRef = useRef<HTMLDivElement>(null)
   const [height, setHeight] = useState<string>('100svh')
   const [selections, setSelections] = useState<{ [date: string]: string[] }>({})
+  const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
+  const [locationStatus, setLocationStatus] = useState<LocationSelectionStatus>(data.locationVote?.enabled ? 'loading' : 'ready')
 
   useEffect(() => {
     if (containerRef.current) {
@@ -164,7 +167,7 @@ function TimeSelectForm ({
       <div className={styles.selectedDatesInfo}>
         <p>{me?.username}님 익명으로 투표중이에요.</p>
         <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
-        <p>{t('meeting.selectedDates', { count: dates.length })}</p>
+        <p>{t('meeting.selectedDatesAndTimes', { count: dates.length })}</p>
       </div>
       <div
         className={styles.container}
@@ -180,6 +183,15 @@ function TimeSelectForm ({
           participantsCount={data.participants.length}
         />
       </div>
+      {data.locationVote?.enabled && data.locationVote.locations && (
+        <LocationVoteSection
+          meetingCode={meetingCode}
+          locations={data.locationVote.locations}
+          confirmedLocation={data.locationVote.confirmedLocation}
+          onSelectionsChange={setSelectedLocationIds}
+          onStatusChange={setLocationStatus}
+        />
+      )}
       <div className={styles.buttonContainer}>
         <Button
           buttonType='ghost'
@@ -196,23 +208,37 @@ function TimeSelectForm ({
         </Button>
         <Button
           buttonType='primary'
-          disabled={Object.entries(selections).every(([_, times]) => times.length === 0)}
+          disabled={Object.entries(selections).every(([, times]) => times.length === 0) || locationStatus === 'loading'}
           onClick={async () => {
-            // selections 에서 빈배열인 날짜는 제거
-            await meetings.$meetingCode.selections.put(meetingCode, {
-              selections: Object.entries(selections).filter(([_, times]) => times.length > 0).map(([date, times]) => ({
-                date,
-                type: 'TIME',
-                times,
-              })),
-            })
-            setTimeout(() => {
-              showDefaultToast({
-                message: t('meeting.resultSaved'),
-                duration: 3000,
+            try {
+              const timeSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
+                selections: Object.entries(selections).filter(([, times]) => times.length > 0).map(([date, times]) => ({
+                  date,
+                  type: 'TIME',
+                  times,
+                })),
               })
-            }, 500)
-            navigate(`/meetings/${meetingCode}/result`)
+              const locationSelectionsPromise = data.locationVote?.enabled && locationStatus === 'ready'
+                ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
+                : Promise.resolve()
+
+              await Promise.all([timeSelectionsPromise, locationSelectionsPromise])
+              setTimeout(() => {
+                showDefaultToast({
+                  message: t('meeting.resultSaved'),
+                  duration: 3000,
+                })
+              }, 500)
+              navigate(`/meetings/${meetingCode}/result`)
+            } catch (error) {
+              const errorResponse = error as { response?: { data?: { messageKey?: string } } }
+              if (errorResponse.response?.data?.messageKey === 'error.meeting.already.confirmed') {
+                alert(t('meeting.alreadyConfirmedError'))
+                navigate(`/meetings/${meetingCode}/result`)
+              } else {
+                showDefaultToast({ message: t('common.error'), duration: 3000 })
+              }
+            }
           }}
         >
           {t('common.submit')}

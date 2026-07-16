@@ -8,8 +8,8 @@ $cell-bg: $c-white;
 $cell-bg-hover: rgba(0, 0, 0, 0.03); // 더 연하게
 $cell-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.08);
 
-// 내 선택: 파란색
-$my-selection-bg: rgba($primary-color, 0.25);
+// 내 선택: 브랜드 블루
+$my-selection-bg: linear-gradient(135deg, $primary-color, $c-blue);
 $my-selection-border: $primary-color;
 $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
 
@@ -60,11 +60,11 @@ $combined-selection-bg: rgba($c-purple, 0.35);
       background: $my-selection-bg;
       border-color: $my-selection-border;
       box-shadow: $my-selection-shadow;
-      color: $primary-color;
+      color: $c-white;
       font-weight: $font-weight-bold;
 
       &:hover {
-        background: rgba($primary-color, 0.35);
+        filter: brightness(1.03);
         transform: translateY(-1px);
       }
     }
@@ -105,9 +105,14 @@ $combined-selection-bg: rgba($c-purple, 0.35);
 
   // ===== 다른 달 날짜 =====
   &.otherMonth {
-    opacity: 0.4;
+    opacity: 0.32;
     background: transparent;
     border-color: transparent;
+
+    &.selected,
+    &.available {
+      opacity: 1;
+    }
 
     &:hover {
       opacity: 0.6;
@@ -115,57 +120,61 @@ $combined-selection-bg: rgba($c-purple, 0.35);
     }
   }
 
-  // ===== 오늘 날짜 (날짜 아래 작은 점으로 표시) =====
+  // ===== 투표 가능한 날짜 =====
+  &.available:not(.selected) {
+    opacity: 1;
+    color: $primary-color-hover;
+    background: $c-blue-soft;
+    border-color: rgba($primary-color, 0.34);
+    box-shadow: inset 0 0 0 1px rgba($c-white, 0.55);
+
+    &:hover {
+      color: $primary-color-hover;
+      background: rgba($primary-color, 0.14);
+      border-color: rgba($primary-color, 0.55);
+      box-shadow: 0 3px 10px rgba($primary-color, 0.14);
+    }
+  }
+
+  .dayNumber {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: min(32px, calc(100% - 12px));
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+
+  // ===== 오늘 날짜 (미선택 상태에서는 날짜 숫자에 얇은 링 표시) =====
   &.today {
     font-weight: $font-weight-bold;
-    
-    // 오늘 표시용 점 (pseudo element)
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: $primary-color;
+
+    &:not(.selected) .dayNumber {
+      color: $c-black;
+      background-color: rgba($c-white, 0.78);
+      box-shadow: inset 0 0 0 1.5px rgba($c-gray-darkest, 0.72);
     }
-    
-    // 선택되지 않은 상태: 기본 스타일 + 점
-    &:not(.selected):not(.hasCount) {
+
+    // 선택되지 않은 상태: 기본 셀 스타일 + 오늘 링
+    &:not(.selected):not(.hasCount):not(.available) {
       color: $c-gray-darkest;
       background: $cell-bg;
     }
 
-    &:not(.selected):not(.hasCount):hover {
+    &:not(.selected):not(.hasCount):not(.available):hover {
       background: $cell-bg-hover;
       box-shadow: $cell-shadow-hover;
     }
 
-    // 오늘 + 선택됨: 선택 스타일 우선
-    &.selected:not(.hasCount) {
-      // 선택 스타일 유지, 점은 보임
-    }
-
-    // 오늘 + 다른사람 선택: hasCount 스타일 우선
-    &.hasCount:not(.selected) {
-      // hasCount 스타일 유지, 점은 보임
-    }
-
-    // 오늘 + 둘 다 선택
-    &.hasCount.selected {
-      // combined 스타일 유지, 점은 보임
-    }
   }
 
   // ===== 일요일 =====
-  &.sunday:not(.selected):not(.hasCount) {
+  &.sunday:not(.selected):not(.hasCount):not(.disabled) {
     color: $sunday-color;
   }
 
   // ===== 토요일 =====
-  &.saturday:not(.selected):not(.hasCount) {
+  &.saturday:not(.selected):not(.hasCount):not(.disabled) {
     color: $saturday-color;
   }
 
@@ -215,10 +224,10 @@ $combined-selection-bg: rgba($c-purple, 0.35);
   // ===== 비활성화 =====
   &.disabled {
     cursor: not-allowed;
-    color: $c-gray;
-    opacity: 0.5;
+    color: $c-gray-dark;
+    opacity: 0.42;
     pointer-events: none;
-    background: $c-gray-lightest;
+    background: transparent;
     border-color: transparent;
 
     &:hover {

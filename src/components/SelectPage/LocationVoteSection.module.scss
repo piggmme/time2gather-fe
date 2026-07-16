@@ -105,3 +105,31 @@
   padding: 20px;
   color: $c-gray-darkest;
 }
+
+.errorState {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: $c-gray-darkest;
+  font-size: 14px;
+
+  button {
+    min-width: max-content;
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid rgba($primary-color, 0.3);
+    border-radius: 8px;
+    background: $c-white;
+    color: $primary-color-hover;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
+    }
+  }
+}

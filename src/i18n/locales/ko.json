@@ -15,6 +15,7 @@
     "submit": "완료",
     "share": "공유하기",
     "close": "닫기",
+    "loading": "불러오는 중...",
     "error": "오류가 발생했어요. 다시 시도해주세요."
   },
   "home": {
@@ -79,6 +80,23 @@
     "participantsCount": "현재까지 {count}명이 참여했어요!",
     "selectedDates": "{count}개의 날짜중에서 가능한 날짜를 선택해 주세요.",
     "selectedDatesAndTimes": "{count}개의 날짜에서 가능한 날짜와 시간대를 선택해 주세요.",
+    "timeGrid": {
+      "timeLabel": "시간",
+      "touchHint": "길게 누른 뒤 드래그해 여러 시간을 선택하세요",
+      "pointerHint": "드래그해 여러 시간을 한 번에 선택하세요",
+      "draggingHint": "드래그 중 · 손을 떼면 선택이 적용돼요",
+      "selectDate": "{date} 전체 시간 선택"
+    },
+    "dateCalendar": {
+      "available": "선택 가능",
+      "unavailable": "선택 불가",
+      "availableMonths": "선택 가능한 달",
+      "monthAvailability": "{month}에 선택 가능한 날짜 {count}개"
+    },
+    "dateParticipants": {
+      "title": "{date} 선택자",
+      "count": "{count}명"
+    },
     "resultSaved": "결과가 저장되었어요!",
     "modifyButton": "시간 수정하러 가기",
     "participate": "약속 참여하기",
@@ -223,6 +241,8 @@
     "title": "장소 투표",
     "description": "선호하는 장소를 선택해주세요",
     "confirmedLocation": "확정된 장소",
-    "confirmed": "확정"
+    "confirmed": "확정",
+    "loadError": "장소 선택을 불러오지 못했어요.",
+    "retry": "다시 시도"
   }
 }

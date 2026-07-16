@@ -7,6 +7,7 @@ type MonthlyCellProps = {
   isSelected: boolean
   isDragged: boolean
   isCurrentMonth: boolean
+  isAvailable?: boolean
   mode?: 'edit' | 'view'
   disabled?: boolean
   onClick?: () => void
@@ -15,7 +16,7 @@ type MonthlyCellProps = {
 }
 
 export default function MonthlyCell ({
-  date, isSelected, isDragged, isCurrentMonth, mode = 'edit', disabled = false, onClick, count = 0, maxCount = 0,
+  date, isSelected, isDragged, isCurrentMonth, isAvailable = false, mode = 'edit', disabled = false, onClick, count = 0, maxCount = 0,
 }: MonthlyCellProps) {
   const isEditMode = mode === 'edit'
   const isInteractive = !disabled && (isEditMode || Boolean(onClick))
@@ -45,6 +46,7 @@ export default function MonthlyCell ({
   const dayOfWeek = date.day() // 0 = 일요일, 6 = 토요일
   const isSunday = dayOfWeek === 0
   const isSaturday = dayOfWeek === 6
+  const isToday = date.isSame(dayjs(), 'day')
 
   return (
     <button
@@ -59,12 +61,14 @@ export default function MonthlyCell ({
       disabled={!isInteractive}
       aria-label={date.format('YYYY-MM-DD')}
       aria-pressed={isInteractive ? isSelected : undefined}
+      aria-current={isToday ? 'date' : undefined}
       className={`
         ${styles.cell}
         ${isCurrentMonth ? '' : styles.otherMonth}
+        ${isEditMode && isAvailable ? styles.available : ''}
         ${isSelected ? styles.selected : ''}
         ${isDragged ? styles.dragged : ''}
-        ${date.isSame(dayjs(), 'day') ? styles.today : ''}
+        ${isToday ? styles.today : ''}
         ${isSunday ? styles.sunday : ''}
         ${isSaturday ? styles.saturday : ''}
         ${!isEditMode ? styles.viewMode : ''}
@@ -74,8 +78,8 @@ export default function MonthlyCell ({
       `}
       style={backgroundColor ? { backgroundColor } as React.CSSProperties : undefined}
     >
-      {date.date()}
-      {!isEditMode && maxCount > 0 && totalCount > 0 && (
+      <span className={styles.dayNumber}>{date.date()}</span>
+      {maxCount > 0 && totalCount > 0 && (
         <span className={`${styles.countBadge} ${isSelected ? styles.selected : ''}`}>{totalCount}/{maxCount}</span>
       )}
     </button>

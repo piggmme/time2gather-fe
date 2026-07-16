@@ -26,7 +26,7 @@ const siteUrl = Astro.site?.href || 'https://time2gather.org/';
 const meetingUrl = new URL(Astro.url.pathname, siteUrl).href;
 const meetingTitle = `${data.meeting.title} - Time2Gather`;
 const meetingDescription = data.meeting.description || t('meta.siteDescription');
-const ogImage = new URL('/og-image.svg', siteUrl).href;
+const ogImage = new URL('/time2gather-share.png', siteUrl).href;
 
 // Event 구조화된 데이터
 const eventData = {

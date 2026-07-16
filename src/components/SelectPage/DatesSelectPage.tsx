@@ -9,7 +9,8 @@ import { showDefaultToast } from '../../stores/toast'
 import Monthly from '../Monthly/Monthly'
 import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
-import LocationVoteSection from './LocationVoteSection'
+import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
+import DateParticipantsPanel from './DateParticipantsPanel'
 
 export default function DatesSelectPage (
   { meetingCode, data }:
@@ -19,6 +20,8 @@ export default function DatesSelectPage (
   const containerRef = useRef<HTMLDivElement>(null)
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
   const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
+  const [locationStatus, setLocationStatus] = useState<LocationSelectionStatus>(data.locationVote?.enabled ? 'loading' : 'ready')
+  const [focusedDate, setFocusedDate] = useState<dayjs.Dayjs | null>(null)
   const me = useStore($me)
 
   useEffect(function initializeSelections () {
@@ -33,24 +36,24 @@ export default function DatesSelectPage (
     setSelectedDates(mySelectedDates)
   }, [me, data.schedule])
 
-  // ALL_DAY 타입의 schedule을 dateSchedule 형태로 변환
-  // 자신이 포함된 경우 count를 1 낮춤 (Daily와 동일한 로직)
-  // const dateSchedule = useMemo(() => {
-  //   const schedule: { [date: string]: { count: number, participants: typeof data.participants } } = {}
-  //   for (const [date, timeSlots] of Object.entries(data.schedule)) {
-  //     const allDaySlot = timeSlots['ALL_DAY']
-  //     if (allDaySlot) {
-  //       const isMeIncluded = me ? allDaySlot.participants.some(p => p.userId === me.userId) : false
-  //       schedule[date] = {
-  //         count: isMeIncluded ? Math.max(0, allDaySlot.count - 1) : allDaySlot.count,
-  //         participants: allDaySlot.participants,
-  //       }
-  //     }
-  //   }
-  //   return schedule
-  // }, [data.schedule, me])
+  const dateSchedule = useMemo(() => {
+    const schedule: { [date: string]: { count: number, participants: typeof data.participants } } = {}
+    for (const [date, timeSlots] of Object.entries(data.schedule)) {
+      const allDaySlot = timeSlots['ALL_DAY']
+      if (!allDaySlot) continue
+      const includesMe = me ? allDaySlot.participants.some(participant => participant.userId === me.userId) : false
+      schedule[date] = {
+        count: includesMe ? Math.max(0, allDaySlot.count - 1) : allDaySlot.count,
+        participants: allDaySlot.participants,
+      }
+    }
+    return schedule
+  }, [data.schedule, data.participants, me])
 
-  console.log({ selectedDates })
+  const focusedDateKey = focusedDate?.format('YYYY-MM-DD') ?? ''
+  const focusedParticipants = focusedDateKey
+    ? data.schedule[focusedDateKey]?.ALL_DAY?.participants ?? []
+    : []
 
   const dates = Object.keys(data.meeting.availableDates)
 
@@ -69,15 +72,25 @@ export default function DatesSelectPage (
           dates={selectedDates}
           setDates={setSelectedDates}
           availableDates={Object.keys(data.meeting.availableDates).map(date => dayjs(date))}
+          dateSchedule={dateSchedule}
+          participantsCount={data.summary.totalParticipants}
+          onDateClick={setFocusedDate}
         />
       </div>
-      
+      <DateParticipantsPanel
+        date={focusedDate}
+        participants={focusedParticipants}
+        isSelected={Boolean(focusedDate && selectedDates.some(date => date.isSame(focusedDate, 'day')))}
+        me={me}
+      />
+
       {data.locationVote?.enabled && data.locationVote.locations && (
         <LocationVoteSection
           meetingCode={meetingCode}
           locations={data.locationVote.locations}
           confirmedLocation={data.locationVote.confirmedLocation}
           onSelectionsChange={setSelectedLocationIds}
+          onStatusChange={setLocationStatus}
         />
       )}
       <div className={styles.buttonContainer}>
@@ -96,7 +109,7 @@ export default function DatesSelectPage (
         </Button>
         <Button
           buttonType='primary'
-          disabled={selectedDates.length === 0}
+          disabled={selectedDates.length === 0 || locationStatus === 'loading'}
           onClick={async () => {
             try {
               // selections 에서 빈배열인 날짜는 제거
@@ -109,7 +122,7 @@ export default function DatesSelectPage (
               })
 
               // 장소 투표가 활성화되어 있으면 장소 선택도 저장
-              const locationSelectionsPromise = data.locationVote?.enabled
+              const locationSelectionsPromise = data.locationVote?.enabled && locationStatus === 'ready'
                 ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
                 : Promise.resolve()
 

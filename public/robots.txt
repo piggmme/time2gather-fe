@@ -19,7 +19,7 @@ Disallow: /login/oauth2/
 Disallow: /404
 
 User-agent: Googlebot-Image
-Allow: /og-image.png
+Allow: /time2gather-share.png
 Allow: /favicon.svg
 
 # Naver (Korea's primary search engine)

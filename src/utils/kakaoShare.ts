@@ -1,44 +1,48 @@
 declare global {
   interface Window {
     Kakao: {
-      isInitialized: () => boolean;
-      init: (appKey: string) => void;
+      isInitialized: () => boolean
+      init: (appKey: string) => void
       Share: {
-        sendDefault: (settings: KakaoShareSettings) => void;
-      };
-    };
+        sendDefault: (settings: KakaoShareSettings) => void
+      }
+    }
   }
 }
 
 interface KakaoShareLink {
-  webUrl: string;
-  mobileWebUrl: string;
+  webUrl: string
+  mobileWebUrl: string
 }
 
 interface KakaoShareContent {
-  title: string;
-  description: string;
-  imageUrl: string;
-  link: KakaoShareLink;
+  title: string
+  description: string
+  imageUrl: string
+  imageWidth: number
+  imageHeight: number
+  link: KakaoShareLink
 }
 
 interface KakaoShareButton {
-  title: string;
-  link: KakaoShareLink;
+  title: string
+  link: KakaoShareLink
 }
 
 interface KakaoShareSettings {
-  objectType: 'feed';
-  content: KakaoShareContent;
-  buttons: KakaoShareButton[];
+  objectType: 'feed'
+  content: KakaoShareContent
+  buttons: KakaoShareButton[]
 }
 
 export interface ShareToKakaoParams {
-  title: string;
-  description: string;
-  imageUrl?: string;
-  url: string;
-  buttonTitle?: string;
+  title: string
+  description: string
+  imageUrl?: string
+  imageWidth?: number
+  imageHeight?: number
+  url: string
+  buttonTitle?: string
 }
 
 /**
@@ -46,27 +50,35 @@ export interface ShareToKakaoParams {
  * @param params 공유할 콘텐츠 정보
  * @returns 공유 성공 여부
  */
-export function shareToKakao(params: ShareToKakaoParams): boolean {
-  const { title, description, imageUrl, url, buttonTitle = '투표하러 가기' } = params;
+export function shareToKakao (params: ShareToKakaoParams): boolean {
+  const {
+    title,
+    description,
+    imageUrl,
+    imageWidth = 1200,
+    imageHeight = 630,
+    url,
+    buttonTitle = '투표하러 가기',
+  } = params
 
   if (typeof window === 'undefined') {
-    console.warn('shareToKakao: window is undefined (SSR context)');
-    return false;
+    console.warn('shareToKakao: window is undefined (SSR context)')
+    return false
   }
 
-  const Kakao = window.Kakao;
+  const Kakao = window.Kakao
 
   if (typeof Kakao === 'undefined') {
-    console.warn('shareToKakao: Kakao SDK is not loaded');
-    return false;
+    console.warn('shareToKakao: Kakao SDK is not loaded')
+    return false
   }
 
   if (!Kakao.isInitialized()) {
-    console.warn('shareToKakao: Kakao SDK is not initialized');
-    return false;
+    console.warn('shareToKakao: Kakao SDK is not initialized')
+    return false
   }
 
-  const defaultImageUrl = `${window.location.origin}/og-image.png`;
+  const defaultImageUrl = `${window.location.origin}/time2gather-share.png`
 
   try {
     Kakao.Share.sendDefault({
@@ -75,6 +87,8 @@ export function shareToKakao(params: ShareToKakaoParams): boolean {
         title,
         description,
         imageUrl: imageUrl || defaultImageUrl,
+        imageWidth,
+        imageHeight,
         link: {
           webUrl: url,
           mobileWebUrl: url,
@@ -89,11 +103,11 @@ export function shareToKakao(params: ShareToKakaoParams): boolean {
           },
         },
       ],
-    });
-    return true;
+    })
+    return true
   } catch (error) {
-    console.error('shareToKakao: Failed to share', error);
-    return false;
+    console.error('shareToKakao: Failed to share', error)
+    return false
   }
 }
 
@@ -101,11 +115,11 @@ export function shareToKakao(params: ShareToKakaoParams): boolean {
  * 카카오 SDK 사용 가능 여부 확인
  * @returns SDK 사용 가능 여부
  */
-export function isKakaoAvailable(): boolean {
+export function isKakaoAvailable (): boolean {
   if (typeof window === 'undefined') {
-    return false;
+    return false
   }
 
-  const Kakao = window.Kakao;
-  return typeof Kakao !== 'undefined' && Kakao.isInitialized();
+  const Kakao = window.Kakao
+  return typeof Kakao !== 'undefined' && Kakao.isInitialized()
 }

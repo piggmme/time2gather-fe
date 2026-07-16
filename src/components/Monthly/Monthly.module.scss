@@ -9,17 +9,17 @@
 
 .header {
   display: flex;
-  // justify-content: space-between;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: $spacing-md;
   color: $c-black;
 
   .title {
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: 500;
-    margin: 10px 20px;
+    min-width: 132px;
+    margin: 0 $spacing-sm;
+    text-align: center;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
   }
 
   button {
@@ -36,11 +36,6 @@
     border-radius: $radius-sm;
     transition: color $transition-base, background-color $transition-base, opacity $transition-base;
 
-    &:hover:not(:disabled) {
-      color: $primary-color;
-      background-color: $c-blue-soft;
-    }
-
     &:focus-visible {
       outline: 2px solid $primary-color;
       outline-offset: 2px;
@@ -51,4 +46,119 @@
       cursor: not-allowed;
     }
   }
+
+  @media (hover: hover) and (pointer: fine) {
+    button:hover:not(:disabled) {
+      color: $primary-color;
+      background-color: $c-blue-soft;
+    }
+  }
+}
+
+.availabilityMeta {
+  min-height: 42px;
+  margin: 0 2px $spacing-md;
+  padding: 6px $spacing-sm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  box-sizing: border-box;
+  border: 1px solid rgba($c-gray-dark, 0.16);
+  border-radius: $radius-md;
+  background: rgba($c-gray-lightest, 0.9);
+
+  &.legendOnly {
+    justify-content: flex-end;
+  }
+}
+
+.availableMonths {
+  min-width: 0;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  button {
+    min-width: max-content;
+    height: 30px;
+    padding: 3px 5px 3px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba($c-gray-dark, 0.2);
+    border-radius: $radius-full;
+    background: $c-white;
+    color: $c-gray-darkest;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    transition: color $transition-fast, background-color $transition-fast, border-color $transition-fast;
+
+    &.current {
+      color: $primary-color-hover;
+      background: $c-blue-soft;
+      border-color: rgba($primary-color, 0.35);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.monthCount {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: $radius-full;
+  background: rgba($primary-color, 0.12);
+  color: $primary-color-hover;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.availabilityLegend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  color: $c-gray-darkest;
+  font-size: 11px;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  i {
+    width: 11px;
+    height: 11px;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+}
+
+.availableSwatch {
+  background: $c-blue-soft;
+  border: 1px solid rgba($primary-color, 0.5);
+}
+
+.unavailableSwatch {
+  background: transparent;
+  border: 1px solid rgba($c-gray-dark, 0.35);
 }

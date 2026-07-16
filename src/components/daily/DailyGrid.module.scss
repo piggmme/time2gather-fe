@@ -1,10 +1,5 @@
 @use "../../styles/variables.scss" as *;
 
-// =====================================================
-// Grid Design Tokens
-// =====================================================
-$grid-border: 1px solid rgba(0, 0, 0, 0.08);
-
 .gridWrapper {
   flex-shrink: 0;
   height: auto;
@@ -16,8 +11,7 @@ $grid-border: 1px solid rgba(0, 0, 0, 0.08);
   -webkit-tap-highlight-color: transparent;
   
   border: none;
-  border-left: $grid-border; // 왼쪽 테두리 (첫 번째 셀의 왼쪽)
-  
+
   transition: all $transition-base;
 
   // 드래그 중: 스크롤 방지

@@ -160,6 +160,7 @@ export default function MonthlyGrid ({
               isSelected={isSelected}
               isDragged={selectedDays.some(d => d.isSame(day, 'day'))}
               isCurrentMonth={isCurrentMonth}
+              isAvailable={Boolean(availableDates) && !isDisabled}
               mode={mode}
               disabled={isDisabled}
               count={otherCount}
