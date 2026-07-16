@@ -3,7 +3,9 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import 'dayjs/locale/en'
 import styles from './Daily.module.scss'
-import { useRef, useEffect, useCallback, useState, useMemo } from 'react'
+import {
+  useRef, useEffect, useCallback, useState, useMemo,
+} from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
@@ -62,15 +64,15 @@ export default function Daily ({
   const [dragStart, setDragStart] = useState<CellPosition | null>(null)
   const [dragCurrent, setDragCurrent] = useState<CellPosition | null>(null)
   const [dragAction, setDragAction] = useState<'select' | 'deselect'>('select')
-  
+
   // Long Press 타이머
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const touchStartRef = useRef<{ x: number, y: number } | null>(null)
   const touchStartCellRef = useRef<CellPosition | null>(null)
-  
+
   // 자동 스크롤용 refs
   const autoScrollRef = useRef<number | null>(null)
-  const lastPointerPosRef = useRef<{ x: number; y: number } | null>(null)
+  const lastPointerPosRef = useRef<{ x: number, y: number } | null>(null)
 
   // 날짜 키 배열 (인덱스로 접근용)
   const dateKeys = useMemo(() => dates.map(d => d.format('YYYY-MM-DD')), [dates])
@@ -123,10 +125,10 @@ export default function Daily ({
   // 날짜 헤더 클릭 시 해당 날짜 전체 시간 선택/해제
   const handleDateHeaderClick = useCallback((dateKey: string) => {
     if (!isEditMode) return
-    
+
     const currentSelections = selections[dateKey] || []
     const allSelected = availableTimes.every(time => currentSelections.includes(time))
-    
+
     setSelections(prev => ({
       ...prev,
       [dateKey]: allSelected ? [] : [...availableTimes],
@@ -136,17 +138,17 @@ export default function Daily ({
   // 2D 드래그 범위 계산 (날짜 x 시간)
   const draggedCells = useMemo(() => {
     if (!dragStart || !dragCurrent) return []
-    
+
     const startDateIdx = dateKeys.indexOf(dragStart.dateKey)
     const endDateIdx = dateKeys.indexOf(dragCurrent.dateKey)
     const startTimeIdx = dragStart.timeIndex
     const endTimeIdx = dragCurrent.timeIndex
-    
+
     const minDateIdx = Math.min(startDateIdx, endDateIdx)
     const maxDateIdx = Math.max(startDateIdx, endDateIdx)
     const minTimeIdx = Math.min(startTimeIdx, endTimeIdx)
     const maxTimeIdx = Math.max(startTimeIdx, endTimeIdx)
-    
+
     const cells: CellPosition[] = []
     for (let dIdx = minDateIdx; dIdx <= maxDateIdx; dIdx++) {
       for (let tIdx = minTimeIdx; tIdx <= maxTimeIdx; tIdx++) {
@@ -186,7 +188,7 @@ export default function Daily ({
 
   // 단일 셀 토글
   const toggleCell = useCallback((dateKey: string, time: string) => {
-    setSelections(prev => {
+    setSelections((prev) => {
       const current = prev[dateKey] || []
       if (current.includes(time)) {
         return { ...prev, [dateKey]: current.filter(t => t !== time) }
@@ -198,12 +200,12 @@ export default function Daily ({
 
   // 범위 내 셀들 일괄 선택/해제
   const applyDragSelection = useCallback((cells: CellPosition[], action: 'select' | 'deselect') => {
-    setSelections(prev => {
+    setSelections((prev) => {
       const newSelections = { ...prev }
       for (const cell of cells) {
         const time = availableTimes[cell.timeIndex]
         if (!time) continue
-        
+
         const current = newSelections[cell.dateKey] || []
         if (action === 'select') {
           if (!current.includes(time)) {
@@ -229,14 +231,14 @@ export default function Daily ({
   const updateCellAtPointer = useCallback(() => {
     const pos = lastPointerPosRef.current
     if (!pos) return
-    
+
     const elements = document.elementsFromPoint(pos.x, pos.y)
     for (const el of elements) {
       const dateKey = el.getAttribute('data-date-key')
       const timeIndex = el.getAttribute('data-time-index')
       if (dateKey && timeIndex !== null) {
         const cellPos = { dateKey, timeIndex: parseInt(timeIndex, 10) }
-        setDragCurrent(prev => {
+        setDragCurrent((prev) => {
           if (prev?.dateKey === cellPos.dateKey && prev?.timeIndex === cellPos.timeIndex) {
             return prev
           }
@@ -255,23 +257,23 @@ export default function Daily ({
       autoScrollRef.current = null
       return
     }
-    
+
     const scrollWrapper = scrollWrapperRef.current
     const gridContainer = gridScrollContainerRef.current
     if (!scrollWrapper || !gridContainer) {
       autoScrollRef.current = null
       return
     }
-    
+
     const rect = scrollWrapper.getBoundingClientRect()
-    
+
     if (rect.height >= 100) {
       const edgeSize = Math.min(AUTO_SCROLL_EDGE, rect.height * 0.15)
       const viewportWidth = window.innerWidth
-      
+
       const distanceFromTop = pos.y - rect.top
       const distanceFromBottom = rect.bottom - pos.y
-      
+
       // 세로 스크롤
       if (distanceFromTop < edgeSize && distanceFromTop >= 0) {
         const intensity = 1 - (distanceFromTop / edgeSize)
@@ -280,7 +282,7 @@ export default function Daily ({
         const intensity = 1 - (distanceFromBottom / edgeSize)
         scrollWrapper.scrollTop += AUTO_SCROLL_SPEED * Math.max(0.3, intensity)
       }
-      
+
       // 가로 스크롤
       if (pos.x < AUTO_SCROLL_EDGE) {
         const distance = AUTO_SCROLL_EDGE - pos.x
@@ -292,10 +294,10 @@ export default function Daily ({
         gridContainer.scrollLeft += speed
       }
     }
-    
+
     // 현재 위치의 셀 업데이트
     updateCellAtPointer()
-    
+
     // 다음 프레임 예약
     autoScrollRef.current = requestAnimationFrame(performAutoScroll)
   }, [isDragMode, updateCellAtPointer])
@@ -309,28 +311,28 @@ export default function Daily ({
 
   // 터치 시작 - Long Press 타이머 시작
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!isEditMode) return
-    
     const touch = e.touches[0]
     touchStartRef.current = { x: touch.clientX, y: touch.clientY }
-    
+
     const cellPos = getCellFromTouch(touch)
     if (!cellPos) return
-    
+
     touchStartCellRef.current = cellPos
-    
+
+    if (!isEditMode) return
+
     // Long Press 타이머 시작
     longPressTimerRef.current = setTimeout(() => {
       // Long Press 성공 → 드래그 모드 진입
       setIsDragMode(true)
       setDragStart(cellPos)
       setDragCurrent(cellPos)
-      
+
       // 시작 셀 상태에 따라 선택/해제 모드 결정
       const time = availableTimes[cellPos.timeIndex]
       const isSelected = selections[cellPos.dateKey]?.includes(time)
       setDragAction(isSelected ? 'deselect' : 'select')
-      
+
       // 햅틱 피드백으로 드래그 모드 진입 알림
       triggerHaptic(20)
     }, LONG_PRESS_DURATION)
@@ -339,10 +341,10 @@ export default function Daily ({
   // 터치 이동
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isEditMode) return
-    
+
     const touch = e.touches[0]
     const startPos = touchStartRef.current
-    
+
     // Long Press 대기 중에 움직이면 타이머 취소
     if (!isDragMode && startPos) {
       const dx = Math.abs(touch.clientX - startPos.x)
@@ -353,19 +355,19 @@ export default function Daily ({
       }
       return
     }
-    
+
     // 드래그 모드: 셀 선택 업데이트
     // preventDefault()는 non-passive 리스너에서 처리됨
     if (isDragMode) {
       // 현재 터치 위치 저장 (rAF 루프에서 사용)
       lastPointerPosRef.current = { x: touch.clientX, y: touch.clientY }
-      
+
       const cellPos = getCellFromTouch(touch)
       if (cellPos && (cellPos.dateKey !== dragCurrent?.dateKey || cellPos.timeIndex !== dragCurrent?.timeIndex)) {
         setDragCurrent(cellPos)
         triggerHaptic(5)
       }
-      
+
       // rAF 루프 시작
       startAutoScroll()
     }
@@ -373,15 +375,28 @@ export default function Daily ({
 
   // 터치 끝
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (!isEditMode) return
-    
     clearLongPressTimer()
     stopAutoScroll()
-    
+
     const touch = e.changedTouches[0]
     const startPos = touchStartRef.current
     const startCell = touchStartCellRef.current
-    
+
+    if (!isEditMode) {
+      if (startPos && startCell) {
+        const dx = Math.abs(touch.clientX - startPos.x)
+        const dy = Math.abs(touch.clientY - startPos.y)
+        const time = availableTimes[startCell.timeIndex]
+        if (dx < MOVE_THRESHOLD && dy < MOVE_THRESHOLD && time) {
+          onCellClick?.(startCell.dateKey, time)
+        }
+      }
+
+      touchStartRef.current = null
+      touchStartCellRef.current = null
+      return
+    }
+
     if (isDragMode) {
       // 드래그 완료 → 범위 선택/해제
       if (draggedCells.length > 0) {
@@ -397,7 +412,7 @@ export default function Daily ({
         if (time) toggleCell(startCell.dateKey, time)
       }
     }
-    
+
     // 상태 초기화
     setIsDragMode(false)
     setDragStart(null)
@@ -405,7 +420,7 @@ export default function Daily ({
     touchStartRef.current = null
     touchStartCellRef.current = null
     lastPointerPosRef.current = null
-  }, [isEditMode, isDragMode, draggedCells, dragAction, availableTimes, toggleCell, applyDragSelection, clearLongPressTimer, stopAutoScroll])
+  }, [isEditMode, isDragMode, draggedCells, dragAction, availableTimes, onCellClick, toggleCell, applyDragSelection, clearLongPressTimer, stopAutoScroll])
 
   // 터치 취소
   const handleTouchCancel = useCallback(() => {
@@ -425,20 +440,20 @@ export default function Daily ({
   useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current
     const gridContainer = gridScrollContainerRef.current
-    
+
     if (!scrollWrapper || !gridContainer) return
-    
+
     const handleTouchMoveNative = (e: TouchEvent) => {
       // 드래그 모드일 때만 스크롤 방지
       if (isDragMode) {
         e.preventDefault()
       }
     }
-    
+
     // { passive: false }로 등록해야 preventDefault() 작동
     scrollWrapper.addEventListener('touchmove', handleTouchMoveNative, { passive: false })
     gridContainer.addEventListener('touchmove', handleTouchMoveNative, { passive: false })
-    
+
     return () => {
       scrollWrapper.removeEventListener('touchmove', handleTouchMoveNative)
       gridContainer.removeEventListener('touchmove', handleTouchMoveNative)
@@ -453,7 +468,7 @@ export default function Daily ({
   }, [isEditMode])
 
   // ===== PC 마우스 이벤트 (Long Press 없이 바로 드래그) =====
-  
+
   // 마우스 위치에서 셀 정보 찾기
   const getCellFromMouse = useCallback((e: React.MouseEvent | MouseEvent): CellPosition | null => {
     const elements = document.elementsFromPoint(e.clientX, e.clientY)
@@ -474,17 +489,17 @@ export default function Daily ({
     if ('ontouchstart' in window) return
     // 왼쪽 클릭만
     if (e.button !== 0) return
-    
+
     const cellPos = getCellFromMouse(e)
     if (!cellPos) return
-    
+
     e.preventDefault()
-    
+
     // 바로 드래그 모드 진입
     setIsDragMode(true)
     setDragStart(cellPos)
     setDragCurrent(cellPos)
-    
+
     // 시작 셀 상태에 따라 선택/해제 모드 결정
     const time = availableTimes[cellPos.timeIndex]
     const isSelected = selections[cellPos.dateKey]?.includes(time)
@@ -494,30 +509,30 @@ export default function Daily ({
   // 마우스 이동 - 드래그 중 셀 업데이트 + 자동 스크롤
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!isDragMode) return
-    
+
     // 현재 마우스 위치 저장 (자동 스크롤에서 사용)
     lastPointerPosRef.current = { x: e.clientX, y: e.clientY }
-    
+
     const cellPos = getCellFromMouse(e)
     if (cellPos && (cellPos.dateKey !== dragCurrent?.dateKey || cellPos.timeIndex !== dragCurrent?.timeIndex)) {
       setDragCurrent(cellPos)
     }
-    
+
     // 자동 스크롤 시작 (이미 실행 중이면 무시됨)
     startAutoScroll()
   }, [isDragMode, dragCurrent, getCellFromMouse, startAutoScroll])
 
   // 마우스 업 - 드래그 완료
-  const handleMouseUp = useCallback((e: React.MouseEvent) => {
+  const handleMouseUp = useCallback(() => {
     if (!isDragMode) return
-    
+
     stopAutoScroll()
-    
+
     // 드래그 완료 → 범위 선택/해제
     if (draggedCells.length > 0) {
       applyDragSelection(draggedCells, dragAction)
     }
-    
+
     // 상태 초기화
     setIsDragMode(false)
     setDragStart(null)
@@ -526,16 +541,16 @@ export default function Daily ({
   }, [isDragMode, draggedCells, dragAction, applyDragSelection, stopAutoScroll])
 
   // 마우스가 그리드 밖으로 나갔을 때 드래그 완료 처리
-  const handleMouseLeave = useCallback((e: React.MouseEvent) => {
+  const handleMouseLeave = useCallback(() => {
     if (!isDragMode) return
-    
+
     stopAutoScroll()
-    
+
     // 드래그 완료
     if (draggedCells.length > 0) {
       applyDragSelection(draggedCells, dragAction)
     }
-    
+
     setIsDragMode(false)
     setDragStart(null)
     setDragCurrent(null)
@@ -549,15 +564,15 @@ export default function Daily ({
         <div className={styles.dateHeaderRow}>
           <div className={styles.timeColumnHeader} />
           <div className={styles.dateHeaderScroll} ref={dateHeaderScrollRef}>
-            {dates.map(date => {
+            {dates.map((date) => {
               const dateKey = date.format('YYYY-MM-DD')
               const currentSelections = selections[dateKey] || []
-              const allSelected = availableTimes.length > 0 && 
-                availableTimes.every(time => currentSelections.includes(time))
-              
+              const allSelected = availableTimes.length > 0
+                && availableTimes.every(time => currentSelections.includes(time))
+
               return (
-                <div 
-                  key={dateKey} 
+                <div
+                  key={dateKey}
                   className={`${styles.dateHeader} ${isEditMode ? styles.clickable : ''} ${allSelected ? styles.allSelected : ''}`}
                   onClick={() => handleDateHeaderClick(dateKey)}
                 >
@@ -583,7 +598,7 @@ export default function Daily ({
               )
             })}
           </div>
-          <div 
+          <div
             className={`${styles.gridScrollContainer} ${isDragMode ? styles.dragging : ''}`}
             ref={gridScrollContainerRef}
             onTouchStart={handleTouchStart}
@@ -597,7 +612,7 @@ export default function Daily ({
             onContextMenu={handleContextMenu}
           >
             {
-              dates.map(date => {
+              dates.map((date) => {
                 const dateKey = date.format('YYYY-MM-DD')
                 return (
                   <div key={dateKey} className={styles.dateWrapper}>

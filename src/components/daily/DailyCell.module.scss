@@ -26,6 +26,7 @@ $cell-selected-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba($prima
 }
 
 .cell {
+  appearance: none;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
@@ -47,8 +48,8 @@ $cell-selected-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba($prima
   align-items: center;
   justify-content: center;
   
-  height: 30px;
-  min-height: 30px;
+  height: 44px;
+  min-height: 44px;
   width: 100%;
   
   box-sizing: border-box;
@@ -57,6 +58,12 @@ $cell-selected-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba($prima
   color: $c-white;
   touch-action: auto;
   position: relative;
+
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: -2px;
+    z-index: 2;
+  }
 
   // 편집 모드에서 hover
   &:hover:not(.selected):not(.hasCount) {
@@ -110,8 +117,19 @@ $cell-selected-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba($prima
   // 뷰어 모드
   &.viewMode {
     cursor: default;
+
     &:hover {
-      background: $cell-bg; // 뷰어 모드에서는 호버 효과 제거
+      filter: none;
+    }
+
+    &.interactive {
+      cursor: pointer;
+
+      &:hover {
+        filter: brightness(1.04);
+        outline: 2px solid rgba($primary-color, 0.45);
+        outline-offset: -2px;
+      }
     }
   }
 

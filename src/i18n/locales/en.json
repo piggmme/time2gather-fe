@@ -22,8 +22,8 @@
     "greeting": "Welcome! 👋",
     "description": "It only takes 5 seconds to make plans now. Share your time slots, get votes, and instantly see the best time for everyone!",
     "createMeetingButton": "Create a Meeting",
-    "heroTitleSuffix": "\nSchedule with ease",
-    "heroSubtitle": "Say goodbye to complicated scheduling.\nFind the perfect time with your friends.",
+    "heroTitleSuffix": " — Schedule with ease",
+    "heroSubtitle": "Say goodbye to complicated scheduling. Find the perfect time with your friends.",
     "viewMyMeetings": "View My Meetings"
   },
   "login": {
@@ -226,4 +226,3 @@
     "confirmed": "Confirmed"
   }
 }
-

@@ -13,17 +13,12 @@
 
 .title {
   margin-top: $spacing-2xl;
-  text-align: center; // 타이틀 중앙 정렬로 안정감
-  
-  h2 {
-    color: $c-black;
-    font-size: $font-size-2xl;
-  }
-  
-  p {
-    color: $c-gray-darkest;
-    margin-top: $spacing-xs;
-  }
+  margin-bottom: 0;
+  color: $c-black;
+  font-size: $font-size-2xl;
+  text-align: center;
+  word-break: keep-all;
+  text-wrap: balance;
 
   @media (max-width: 699px) {
     margin-top: $spacing-lg;
@@ -34,7 +29,7 @@
 // Meeting Type Selection (Cards)
 .meetingTypeContainer {
   display: flex;
-  gap: $spacing-md;
+  gap: $spacing-base;
   margin-top: $spacing-xl;
   
   @media (max-width: 699px) {
@@ -42,10 +37,14 @@
   }
 }
 
-.meetingTypeButton {
+button.meetingTypeButton {
+  flex: 1;
   width: 100%;
-  padding: $spacing-2xl $spacing-xl;
-  font-size: $font-size-lg;
+  max-width: none;
+  min-height: 148px;
+  height: auto;
+  padding: $spacing-lg $spacing-base;
+  font-size: $font-size-md;
   font-weight: $font-weight-semibold;
   word-break: keep-all;
   
@@ -60,22 +59,27 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: $spacing-lg;
-  height: 170px;
+  gap: $spacing-md;
   
   &:hover {
     transform: translateY(-2px);
     box-shadow: $shadow-md;
     border-color: $primary-color-border !important;
   }
-}
 
-// 선택된 상태 - global class로 Button 컴포넌트의 active와 연동
-:global(.active).meetingTypeButton {
-  background-color: $c-blue-soft !important;
-  border-color: $primary-color !important;
-  color: $primary-color;
-  box-shadow: 0 0 0 2px $primary-color;
+  &[aria-pressed='true'] {
+    background-color: $c-blue-soft !important;
+    border-color: $primary-color !important;
+    color: $primary-color;
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+  }
+
+  @media (max-width: 699px) {
+    min-height: 112px;
+    flex-direction: row;
+    padding: $spacing-lg;
+    font-size: $font-size-base;
+  }
 }
 
 .monthlyContainer {
@@ -110,14 +114,30 @@
   padding-bottom: $spacing-xl;
   box-sizing: border-box; // padding이 width에 포함되도록
 
-  > *:first-child {
-    flex: 1;
-    min-width: 0; // flex item shrink 허용
+  > * {
+    min-width: 0;
   }
 
-  > *:nth-child(2) {
-    flex: 3;
-    min-width: 0; // flex item shrink 허용
+  > *:only-child {
+    flex: 1 1 100%;
+  }
+
+  > *:first-child:not(:only-child) {
+    flex: 0 1 40%;
+  }
+
+  > *:last-child:not(:only-child) {
+    flex: 1 1 60%;
+  }
+
+  > *:first-child:not(:only-child)::before {
+    content: '←';
+    font-size: 1.1em;
+  }
+
+  > *:last-child::after {
+    content: '→';
+    font-size: 1.1em;
   }
 
   @media (max-width: 699px) {
@@ -132,6 +152,8 @@
     margin-right: 0;
     padding: $spacing-md $spacing-base calc($spacing-md + env(safe-area-inset-bottom));
     background-color: $c-white;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.05);
     z-index: 100;
   }
 }

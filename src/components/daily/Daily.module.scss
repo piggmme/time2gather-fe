@@ -70,7 +70,7 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .timeCell {
-  height: 30px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -128,7 +128,7 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
   color: $c-gray-darkest;
-  height: 36px; // 헤더 높이 증가
+  height: 44px;
   white-space: nowrap;
   transition: color $transition-fast;
 }
@@ -173,7 +173,7 @@ $subtle-border: 1px solid rgba(0, 0, 0, 0.04);
   border-bottom: none;
   background: transparent;
   transition: all $transition-base;
-  padding: $spacing-xs 0;
+  padding: 0;
 
   &:first-of-type {
     border-left: $subtle-border;

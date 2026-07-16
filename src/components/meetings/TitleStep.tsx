@@ -24,7 +24,7 @@ export default function TitleStep () {
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          buttonType='ghost'
+          buttonType='secondary'
           onClick={() => {
             const newUrl = `/meetings/create?step=meetingType&meetingType=${meetingTypeParam}`
             navigate(newUrl)

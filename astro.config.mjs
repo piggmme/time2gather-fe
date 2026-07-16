@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 
 import react from '@astrojs/react';
 import node from '@astrojs/node';
-import sitemap from '@astrojs/sitemap';
+import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import partytown from '@astrojs/partytown';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -61,22 +61,22 @@ export default defineConfig({
         // Homepage gets highest priority
         if (item.url === 'https://time2gather.org/' || item.url === 'https://time2gather.org') {
           item.priority = 1.0;
-          item.changefreq = 'daily';
+          item.changefreq = ChangeFreqEnum.DAILY;
         }
         // Meeting creation page
         else if (item.url.includes('/meetings/create')) {
           item.priority = 0.9;
-          item.changefreq = 'weekly';
+          item.changefreq = ChangeFreqEnum.WEEKLY;
         }
         // Login page
         else if (item.url.includes('/login')) {
           item.priority = 0.6;
-          item.changefreq = 'monthly';
+          item.changefreq = ChangeFreqEnum.MONTHLY;
         }
         // My page
         else if (item.url.includes('/my')) {
           item.priority = 0.5;
-          item.changefreq = 'weekly';
+          item.changefreq = ChangeFreqEnum.WEEKLY;
         }
         // 404 page - exclude from sitemap
         else if (item.url.includes('/404')) {

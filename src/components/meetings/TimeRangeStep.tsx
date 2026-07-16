@@ -14,7 +14,7 @@ import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import SelectedDates from './SelectedDates'
 import {
-  timeSlots12, amPmOptions, isTime12After, convertTo24Hour, getTimeRangeSlots,
+  timeSlots12, amPmOptions, isTime12After,
 } from '../../utils/time'
 import type { AmPm } from '../../utils/time'
 
@@ -108,9 +108,9 @@ export default function TimeRangeStep () {
 
       <div className={styles.buttonContainer}>
         <Button
-          buttonType='ghost'
+          buttonType='secondary'
           onClick={() => {
-            const newUrl = `/meetings/create?step=dates&dates=${selectedDates.map(d => d.format('YYYY-MM-DD')).join(',')}&title=${title}`
+            const newUrl = `/meetings/create?step=dates&meetingType=${meetingTypeParam}&dates=${selectedDates.map(d => d.format('YYYY-MM-DD')).join(',')}&title=${title}`
             navigate(newUrl)
           }}
         >

@@ -51,7 +51,7 @@ export default function DailyGrid ({
   }
 
   return (
-    <div 
+    <div
       className={`${styles.gridWrapper} ${!isEditMode ? styles.viewMode : ''} ${isDragMode ? styles.dragging : ''}`}
     >
       <div className={styles.grid}>
@@ -70,6 +70,7 @@ export default function DailyGrid ({
               count={count}
               maxCount={participantsCount}
               mode={mode}
+              interactive={isEditMode || Boolean(onCellClick)}
               onClick={() => handleCellClick(time)}
             />
           )

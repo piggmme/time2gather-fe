@@ -18,7 +18,7 @@ export default function LocationStep () {
   const [locationVoteEnabled, setLocationVoteEnabled] = useState(false)
   const [locations, setLocations] = useState<string[]>(['', ''])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  
+
   const [selectedDates] = useSelectedDates()
   const title = useSearchParam('title')
   const meetingTypeParam = useSearchParam('meetingType') as post_meetings_body['selectionType']
@@ -111,13 +111,13 @@ export default function LocationStep () {
   return (
     <>
       <h2 className={styles.title}>{t('createMeeting.locationStep.heading')}</h2>
-      
+
       <div className={styles.locationToggleContainer}>
         <label className={styles.locationToggle}>
           <input
-            type="checkbox"
+            type='checkbox'
             checked={locationVoteEnabled}
-            onChange={(e) => setLocationVoteEnabled(e.target.checked)}
+            onChange={e => setLocationVoteEnabled(e.target.checked)}
           />
           <span className={styles.locationToggleLabel}>
             {t('createMeeting.locationStep.enableLocationVote')}
@@ -135,11 +135,11 @@ export default function LocationStep () {
               <Input
                 placeholder={t('createMeeting.locationStep.locationPlaceholder')}
                 value={location}
-                onChange={(e) => handleLocationChange(index, e.target.value)}
+                onChange={e => handleLocationChange(index, e.target.value)}
               />
               {locations.length > MIN_LOCATIONS && (
                 <button
-                  type="button"
+                  type='button'
                   className={styles.locationRemoveButton}
                   onClick={() => handleRemoveLocation(index)}
                   aria-label={t('createMeeting.locationStep.removeLocation')}
@@ -149,17 +149,17 @@ export default function LocationStep () {
               )}
             </div>
           ))}
-          
+
           {locations.length < MAX_LOCATIONS && (
             <button
-              type="button"
+              type='button'
               className={styles.locationAddButton}
               onClick={handleAddLocation}
             >
               + {t('createMeeting.locationStep.addLocation')}
             </button>
           )}
-          
+
           {locationVoteEnabled && validLocations.length < MIN_LOCATIONS && (
             <p className={styles.locationWarning}>
               {t('createMeeting.locationStep.minLocationsWarning')}
@@ -169,7 +169,7 @@ export default function LocationStep () {
       )}
 
       <div className={styles.buttonContainer}>
-        <Button buttonType='ghost' onClick={handleBack}>
+        <Button buttonType='secondary' onClick={handleBack}>
           {t('common.previous')}
         </Button>
         <Button

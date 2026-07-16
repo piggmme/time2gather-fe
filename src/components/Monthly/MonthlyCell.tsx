@@ -18,6 +18,7 @@ export default function MonthlyCell ({
   date, isSelected, isDragged, isCurrentMonth, mode = 'edit', disabled = false, onClick, count = 0, maxCount = 0,
 }: MonthlyCellProps) {
   const isEditMode = mode === 'edit'
+  const isInteractive = !disabled && (isEditMode || Boolean(onClick))
 
   // count에 따른 색상 강도 계산 (0~1 사이의 값)
   const totalCount = count + (isSelected ? 1 : 0)
@@ -46,7 +47,8 @@ export default function MonthlyCell ({
   const isSaturday = dayOfWeek === 6
 
   return (
-    <div
+    <button
+      type='button'
       ref={(el) => {
         setDragRef(el)
         setDropRef(el)
@@ -54,6 +56,9 @@ export default function MonthlyCell ({
       {...(isEditMode && !disabled ? attributes : {})}
       {...(isEditMode && !disabled ? listeners : {})}
       onClick={disabled ? undefined : onClick}
+      disabled={!isInteractive}
+      aria-label={date.format('YYYY-MM-DD')}
+      aria-pressed={isInteractive ? isSelected : undefined}
       className={`
         ${styles.cell}
         ${isCurrentMonth ? '' : styles.otherMonth}
@@ -73,6 +78,6 @@ export default function MonthlyCell ({
       {!isEditMode && maxCount > 0 && totalCount > 0 && (
         <span className={`${styles.countBadge} ${isSelected ? styles.selected : ''}`}>{totalCount}/{maxCount}</span>
       )}
-    </div>
+    </button>
   )
 }

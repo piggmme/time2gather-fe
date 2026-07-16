@@ -1,6 +1,5 @@
 import styles from './Header.module.scss'
 import { useState } from 'react'
-import calendarIcon from '../../assets/calendar.svg?url'
 import {
   GlobeIcon, HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon, RocketIcon,
 } from '@radix-ui/react-icons'
@@ -52,7 +51,7 @@ export default function Header () {
               className={styles.desktopNavLogo}
             >
               <img
-                src={calendarIcon}
+                src='/favicon.svg'
                 alt='Time2Gather'
                 className={styles.desktopLogo}
               />

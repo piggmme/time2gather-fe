@@ -32,14 +32,16 @@
   display: flex;
   gap: 10px;
 
-  > *:first-child {
-    flex: 1;
+  > * {
     min-width: 0;
   }
 
-  > *:nth-child(2) {
-    flex: 3;
-    min-width: 0;
+  > *:first-child:not(:only-child) {
+    flex: 0 1 40%;
+  }
+
+  > *:last-child {
+    flex: 1 1 60%;
   }
 
   @media (max-width: 699px) {
@@ -48,13 +50,12 @@
     left: 0;
     right: 0;
     margin-top: 20px;
-    margin-left: -20px;
-    margin-right: -20px;
-    width: calc(100% + 40px);
-    padding: 16px 20px;
+    width: 100%;
+    padding: 16px 0;
     padding-bottom: max(16px, env(safe-area-inset-bottom));
     background-color: $c-white;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.05);
     z-index: 100;
   }
 }

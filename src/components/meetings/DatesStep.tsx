@@ -21,7 +21,7 @@ export default function DatesStep () {
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          buttonType='ghost'
+          buttonType='secondary'
           onClick={() => {
             navigate(`/meetings/create?step=title&meetingType=${meetingTypeParam}&title=${title}`)
           }}

@@ -23,8 +23,8 @@
   }
 
   button {
-    width: 30px;
-    height: 30px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,10 +33,17 @@
     cursor: pointer;
     font-size: 20px;
     color: $c-black;
-    transition: opacity 0.2s;
+    border-radius: $radius-sm;
+    transition: color $transition-base, background-color $transition-base, opacity $transition-base;
 
     &:hover:not(:disabled) {
-      opacity: 0.7;
+      color: $primary-color;
+      background-color: $c-blue-soft;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
     }
 
     &:disabled {
@@ -45,4 +52,3 @@
     }
   }
 }
-

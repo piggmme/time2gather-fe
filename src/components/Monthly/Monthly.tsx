@@ -121,14 +121,20 @@ export default function Monthly ({
     <div className={styles.container}>
       <div className={styles.header}>
         <button
+          type='button'
           onClick={handlePreviousMonth}
           disabled={isCurrentMonthBeforeToday}
           className={isCurrentMonthBeforeToday ? styles.disabled : ''}
+          aria-label={locale === 'ko' ? '이전 달' : 'Previous month'}
         >
           <HiChevronLeft />
         </button>
         <h2 className={styles.title}>{formatMonthYear(currentDate)}</h2>
-        <button onClick={handleNextMonth}>
+        <button
+          type='button'
+          onClick={handleNextMonth}
+          aria-label={locale === 'ko' ? '다음 달' : 'Next month'}
+        >
           <HiChevronRight />
         </button>
       </div>

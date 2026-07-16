@@ -3,8 +3,8 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# pnpm 설치
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# package.json에 고정된 pnpm 버전 사용
+RUN corepack enable
 
 # package.json 복사 (프로덕션 의존성만 설치하기 위해)
 COPY package.json pnpm-lock.yaml ./

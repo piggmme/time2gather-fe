@@ -20,6 +20,8 @@ $others-selection-color: $c-green;
 $combined-selection-bg: rgba($c-purple, 0.35);
 
 .cell {
+  appearance: none;
+  padding: 0;
   user-select: none;
   border-radius: $radius-sm;
   background: $cell-bg;
@@ -37,6 +39,12 @@ $combined-selection-bg: rgba($c-purple, 0.35);
   color: $c-gray-darkest;
   font-weight: $font-weight-semibold;
   position: relative;
+
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+    z-index: 20;
+  }
 
   // ===== 기본 호버 (선택 안 된 상태) =====
   &:hover:not(.selected):not(.hasCount) {

@@ -207,7 +207,7 @@ export default function ResultContent ({
 
 type GroupedBestSlot = {
   date: string
-  timeRanges: Array<{ start: string, end: string, count: number, percentage: number }>
+  timeRanges: Array<{ start: string, end: string, count: number, percentage: string }>
 }
 
 // 요약 탭 컴포넌트
@@ -250,7 +250,7 @@ function SummaryContent ({
               {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
             </p>
           </div>
-          
+
           {groupedBestSlots.length > 0 && (
             <div className={styles.BestSlots}>
               <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>

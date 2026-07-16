@@ -20,6 +20,7 @@ export default function MeetingTypeStep () {
           buttonType='default'
           className={styles.meetingTypeButton}
           active={meetingType === 'ALL_DAY'}
+          aria-pressed={meetingType === 'ALL_DAY'}
           onClick={() => setMeetingType('ALL_DAY')}
         >
           <HiOutlineCalendar size={24} />
@@ -29,6 +30,7 @@ export default function MeetingTypeStep () {
           buttonType='default'
           className={styles.meetingTypeButton}
           active={meetingType === 'TIME'}
+          aria-pressed={meetingType === 'TIME'}
           onClick={() => setMeetingType('TIME')}
         >
           <HiOutlineClock size={24} />

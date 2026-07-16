@@ -41,13 +41,17 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: $spacing-xs;
+  width: 44px;
+  height: 44px;
+  margin-top: 6px;
+  padding: 0;
+  border-radius: $radius-sm;
   color: $c-gray-darkest; // 너무 검지 않은 색
-  height: 100%;
-  transition: color $transition-base;
+  transition: color $transition-base, background-color $transition-base;
   
   &:hover {
     color: $primary-color;
+    background-color: $c-blue-soft;
   }
 }
 
@@ -65,12 +69,12 @@
     left: 0;
     box-sizing: border-box;
     height: 100svh;
-    width: 260px; // 사이드바 너비 명시
+    width: 80px;
     
     // Warm Background
     background-color: #ffffff; 
     border-right: 1px solid rgba(0, 0, 0, 0.04); // Softer border
-    padding: $spacing-xl $spacing-lg;
+    padding: $spacing-xl $spacing-base;
     overflow-y: auto;
     z-index: 1000;
   }
@@ -79,8 +83,11 @@
 .desktopNavLogo {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-3xl;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: $spacing-lg;
+  border-radius: $radius-md;
   text-decoration: none;
   color: $c-black;
   
@@ -90,20 +97,28 @@
 }
 
 .desktopNavAboutUs {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   color: $c-gray-dark;
   bottom: $spacing-xl;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: $font-size-xs;
+  left: $spacing-base;
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-md;
+
+  &:hover {
+    color: $primary-color;
+    background-color: $c-blue-soft;
+  }
 }
 
 .desktopNavContent {
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
+  align-items: center;
+  gap: $spacing-md;
 }
 
 .localeButton {
@@ -113,12 +128,16 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: $spacing-xs 0;
-  text-align: left;
-  transition: color $transition-base;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  text-align: center;
+  border-radius: $radius-md;
+  transition: color $transition-base, background-color $transition-base;
 
   &:hover {
     color: $primary-color;
+    background-color: $c-blue-soft;
   }
 }
 
@@ -127,14 +146,18 @@
   font-size: $font-size-base;
   color: $c-gray-darkest;
   text-decoration: none;
-  padding: $spacing-xs 0;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: $radius-md;
   transition: all $transition-base;
   display: flex;
   align-items: center;
+  justify-content: center;
 
   &:hover {
     color: $primary-color;
-    transform: translateX(4px); // 호버 시 살짝 오른쪽 이동
+    background-color: $c-blue-soft;
   }
 }
 

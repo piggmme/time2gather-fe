@@ -209,7 +209,21 @@ const hreflangUrls = {
 	h4,
 	h5,
 	h6 {
-		overflow-wrap: break-word;
+		word-break: keep-all;
+		overflow-wrap: anywhere;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
 	}
 
 	ul,
@@ -242,8 +256,9 @@ const hreflangUrls = {
 		padding-top: 50px;
 
 		@media (min-width: 700px) {
-		    padding-top: 0px;
-			padding-left: 100px;
+			padding-top: 0;
+			padding-right: 24px;
+			padding-left: 104px;
 			margin-top: 30px;
 		}
 	}

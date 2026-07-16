@@ -14,12 +14,12 @@ export default function Home () {
     <div className={styles.container}>
       {/* Hero Section */}
       <div className={styles.illustration}>
-        <img src="/time2gather-icon.svg" alt="Time2Gather" className={styles.icon} />
+        <img src='/favicon.svg' alt='' className={styles.icon} />
       </div>
-      
+
       <div className={styles.heroContent}>
         <h1 className={styles.title}>
-          <span>Time2Gather</span>{t('home.heroTitleSuffix')}
+          <span className={styles.brand}>Time2Gather</span>{t('home.heroTitleSuffix')}
         </h1>
         <p className={styles.subtitle}>
           {t('home.heroSubtitle')}
@@ -27,19 +27,19 @@ export default function Home () {
       </div>
 
       <div className={styles.actionGroup}>
-        <Button 
-          as='a' 
-          buttonType='primary' 
+        <Button
+          as='a'
+          buttonType='primary'
           href={isLoggedIn ? '/meetings/create' : '/login'}
           className={styles.mainButton}
         >
           {t('home.createMeetingButton')}
         </Button>
-        
+
         {isLoggedIn && (
-          <Button 
-            as='a' 
-            buttonType='default' 
+          <Button
+            as='a'
+            buttonType='default'
             href='/my'
           >
             {t('home.viewMyMeetings')}

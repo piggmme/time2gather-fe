@@ -12,14 +12,18 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 600px;
-  height: $button-height-base;
-  padding: 0 $spacing-base;
+  min-height: 48px;
+  height: auto;
+  padding: $spacing-md $spacing-lg;
   
   text-align: center;
   text-decoration: none;
-  font-size: $font-size-sm;
+  font-size: $font-size-base;
   font-weight: $font-weight-medium;
-  white-space: nowrap;
+  line-height: 1.35;
+  white-space: normal;
+  word-break: keep-all;
+  text-wrap: balance;
   
   border-radius: $radius-sm; // shadcn uses smaller radius (6-8px)
   border: none;
@@ -49,8 +53,9 @@
   }
 
   &.ghost {
-    background-color: transparent;
+    background-color: $c-gray-lightest;
     color: $c-gray-darkest;
+    border: 1px solid transparent;
     
     &:hover:not([disabled]) {
       background-color: $c-gray-light;
@@ -59,6 +64,24 @@
     
     &:active:not([disabled]) {
       background-color: $c-gray;
+    }
+  }
+
+  &.secondary {
+    background-color: $c-white;
+    color: $c-gray-darkest;
+    border: 1px solid $c-gray;
+    box-shadow: $shadow-sm;
+
+    &:hover:not([disabled]) {
+      background-color: $c-gray-lightest;
+      border-color: $c-gray-dark;
+      color: $c-black;
+    }
+
+    &:active:not([disabled]) {
+      background-color: $c-gray-light;
+      transform: scale(0.98);
     }
   }
 
@@ -117,7 +140,11 @@
   // ===== Disabled State =====
 
   &[disabled] {
-    opacity: 0.5;
+    background-color: $c-gray-light;
+    border-color: $c-gray-light;
+    box-shadow: none;
+    color: $c-gray-dark;
+    opacity: 1;
     cursor: not-allowed;
     pointer-events: none;
   }

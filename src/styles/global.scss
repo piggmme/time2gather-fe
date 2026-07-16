@@ -34,6 +34,9 @@ h1, h2, h3, h4, h5, h6 {
   color: $c-black;
   line-height: $line-height-tight;
   letter-spacing: -0.02em; // 타이트한 자간으로 모던한 느낌
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 h1 {
@@ -68,6 +71,9 @@ h4 {
 p {
   margin: 0 0 $spacing-base 0;
   color: $c-gray-darkest;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
   
   &:last-child {
     margin-bottom: 0;

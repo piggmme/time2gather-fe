@@ -19,6 +19,7 @@ type DailyCellProps = {
   count?: number
   maxCount?: number
   mode?: 'edit' | 'view'
+  interactive?: boolean
   onClick: () => void
 }
 
@@ -32,6 +33,7 @@ export default function DailyCell ({
   count = 0,
   maxCount = 0,
   mode = 'edit',
+  interactive = true,
   onClick,
 }: DailyCellProps) {
   const isEditMode = mode === 'edit'
@@ -59,18 +61,21 @@ export default function DailyCell ({
   const text = totalCount > 0 ? `${totalCount}/${maxCount}` : ''
 
   // 데스크톱에서는 기존 onClick 사용 (터치는 Daily.tsx에서 처리)
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = () => {
     // 터치 디바이스에서는 Daily.tsx에서 처리하므로 무시
     if ('ontouchstart' in window) return
-    if (!isEditMode) return
     onClick()
   }
 
   return (
-    <div
+    <button
+      type='button'
       data-date-key={dateKey}
       data-time-index={timeIndex}
       onClick={handleClick}
+      disabled={!interactive}
+      aria-label={`${dateKey} ${time}${text ? ` ${text}` : ''}`}
+      aria-pressed={isEditMode ? isSelected : undefined}
       className={classNames(
         styles.cell,
         {
@@ -80,6 +85,7 @@ export default function DailyCell ({
           [styles.halfHour]: !isFullHour,
           [styles.hasCount]: count > 0,
           [styles.viewMode]: !isEditMode,
+          [styles.interactive]: interactive,
           [styles.dragHighlighted]: isDragHighlighted,
           [styles.dragSelect]: isDragHighlighted && dragMode === 'select',
           [styles.dragDeselect]: isDragHighlighted && dragMode === 'deselect',
@@ -88,6 +94,6 @@ export default function DailyCell ({
       style={count > 0 ? { '--intensity': intensity } as React.CSSProperties : undefined}
     >
       {text}
-    </div>
+    </button>
   )
 }
