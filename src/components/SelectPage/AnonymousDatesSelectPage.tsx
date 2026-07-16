@@ -13,47 +13,38 @@ import { $me } from '../../stores/me'
 import { auth } from '../../services/auth'
 import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
 import DateParticipantsPanel from './DateParticipantsPanel'
+import { useAnonymousMeetingData } from '../../hooks/useAnonymousMeetingData'
 
 export default function AnonymousDatesSelectPage (
-  { meetingCode, data }:
-  { meetingCode: string, data: get_meetings_$meetingCode_response['data'] },
+  { meetingCode }:
+  { meetingCode: string },
 ) {
-  const me = useStore($me)
-  const [step, setStep] = useState<'login' | 'select'>('login')
+  const { t } = useTranslation()
+  const { data, status, retry } = useAnonymousMeetingData(meetingCode)
 
-  useEffect(function initialize () {
-    if (me?.provider === 'ANONYMOUS' && me.anonymousMeetingCode === meetingCode) {
-      setStep('select')
-    }
-  }, [me?.provider])
+  if (status === 'checking' || status === 'loading') {
+    return <p className={styles.anonymousMeetingState} role='status'>{t('common.loading')}</p>
+  }
 
-  return (
-    <>
-      {step === 'login'
-        ? (
-            <AnonymousLoginForm
-              meetingCode={meetingCode}
-              nextStep={() => {
-                setStep('select')
-              }}
-            />
-          )
-        : (
-            <DatesSelectForm
-              data={data}
-              meetingCode={meetingCode}
-            />
-          )}
-    </>
-  )
+  if (status === 'error') {
+    return (
+      <div className={styles.anonymousLoginForm} role='alert'>
+        <p>{t('common.error')}</p>
+        <Button buttonType='secondary' onClick={retry}>{t('locationVote.retry')}</Button>
+      </div>
+    )
+  }
+
+  if (status === 'login') return <AnonymousLoginForm meetingCode={meetingCode} />
+  if (!data) return null
+
+  return <DatesSelectForm data={data} meetingCode={meetingCode} />
 }
 
 function AnonymousLoginForm ({
   meetingCode,
-  nextStep,
 }: {
   meetingCode: string
-  nextStep: () => void
 }) {
   const { t } = useTranslation()
   const [username, setUsername] = useState<string>('')
@@ -85,7 +76,6 @@ function AnonymousLoginForm ({
           if (response.data) {
             $me.set(response.data)
           }
-          nextStep()
         }}
       >
         {t('meeting.anonymous.anonymousLogin')}

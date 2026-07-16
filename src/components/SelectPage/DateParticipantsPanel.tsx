@@ -5,6 +5,7 @@ import { formatDate } from '../../utils/time'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
 import type { User } from '../../stores/me'
 import styles from './DateParticipantsPanel.module.scss'
+import { useEffect, useRef } from 'react'
 
 type Participant = get_meetings_$meetingCode_response['data']['participants'][number]
 
@@ -20,6 +21,18 @@ export default function DateParticipantsPanel ({
   me: User | null | undefined
 }) {
   const { t, locale } = useTranslation()
+  const containerRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!date) return
+    const frame = requestAnimationFrame(() => {
+      containerRef.current?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'nearest',
+      })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [date])
 
   if (!date) return null
 
@@ -32,7 +45,7 @@ export default function DateParticipantsPanel ({
     : participants
 
   return (
-    <section className={styles.container} aria-live='polite'>
+    <section ref={containerRef} className={styles.container} aria-live='polite'>
       <div className={styles.header}>
         <h3>{t('meeting.dateParticipants.title', { date: formatDate(date, locale) })}</h3>
         <span>{t('meeting.dateParticipants.count', { count: visibleParticipants.length })}</span>
