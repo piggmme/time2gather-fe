@@ -26,6 +26,17 @@ export default function Header () {
 
   const handleLocaleChange = (newLocale: Locale) => {
     setLocale(newLocale)
+
+    if (window.location.pathname === '/' && newLocale === 'en') {
+      window.location.assign('/en/')
+      return
+    }
+
+    if ((window.location.pathname === '/en' || window.location.pathname === '/en/') && newLocale === 'ko') {
+      window.location.assign('/')
+      return
+    }
+
     window.location.reload()
   }
 

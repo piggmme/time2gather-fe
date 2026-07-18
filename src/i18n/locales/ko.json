@@ -27,11 +27,71 @@
     "heroSubtitle": "복잡한 일정 조율은 이제 그만. 친구들과 가장 완벽한 시간을 찾아드려요.",
     "viewMyMeetings": "내 약속 확인하기"
   },
+  "landing": {
+    "eyebrow": "여러 사람의 일정을 한 번에 조율하세요",
+    "title": "약속 잡기와 일정 조율을 더 간단하게",
+    "description": "Time2Gather는 날짜, 시간, 장소를 함께 투표해 모두가 가능한 약속 시간을 찾는 무료 일정 조율 서비스입니다.",
+    "primaryCta": "약속 만들기",
+    "secondaryCta": "약속 코드로 찾기",
+    "featuresHeading": "복잡한 일정 조율을 한 화면에서",
+    "features": {
+      "dates": {
+        "title": "여러 날짜를 한 번에",
+        "description": "후보 날짜를 골라 참여자에게 바로 공유하세요."
+      },
+      "times": {
+        "title": "가능한 시간 투표",
+        "description": "세부 시간까지 받아 가장 많은 사람이 가능한 시간을 찾습니다."
+      },
+      "locations": {
+        "title": "장소도 함께 결정",
+        "description": "필요할 때는 장소 후보를 추가해 선호도를 함께 모을 수 있어요."
+      },
+      "sharing": {
+        "title": "링크 하나로 참여",
+        "description": "링크를 공유하면 로그인 또는 익명 참여로 빠르게 투표할 수 있어요."
+      }
+    },
+    "stepsHeading": "3단계로 약속을 정하세요",
+    "steps": {
+      "create": {
+        "title": "1. 후보 만들기",
+        "description": "약속 이름과 가능한 날짜·시간을 정합니다."
+      },
+      "share": {
+        "title": "2. 링크 공유하기",
+        "description": "친구, 팀원, 모임 구성원에게 링크를 보냅니다."
+      },
+      "decide": {
+        "title": "3. 결과 확인하기",
+        "description": "투표 결과를 보고 모두에게 맞는 시간을 확정합니다."
+      }
+    },
+    "faqHeading": "자주 묻는 질문",
+    "faq": {
+      "what": {
+        "question": "Time2Gather는 어떤 서비스인가요?",
+        "answer": "여러 사람의 가능한 날짜와 시간을 투표로 모아 약속을 정하는 일정 조율 서비스입니다."
+      },
+      "login": {
+        "question": "참여자는 로그인해야 하나요?",
+        "answer": "약속을 만든 사람이 익명 참여를 허용하면, 참여자는 닉네임과 비밀번호로도 투표할 수 있습니다."
+      },
+      "location": {
+        "question": "장소도 투표할 수 있나요?",
+        "answer": "네. 약속을 만들 때 장소 투표를 켜면 참여자가 후보 장소 중 선호하는 곳을 선택할 수 있습니다."
+      }
+    }
+  },
   "login": {
     "title": "약속 잡으러 갈까요?",
     "description": "로그인하고, 약속을 잡아보세요.",
     "kakaoLogin": "카카오로 계속하기",
     "googleLogin": "Google로 계속하기"
+  },
+  "search": {
+    "title": "약속을 찾아봐요",
+    "description": "공유받은 약속 코드를 입력해 주세요."
   },
   "createMeeting": {
     "title": "약속을 만들어 볼까요?",
@@ -143,6 +203,7 @@
         "anonymousLogin": "익명으로 계속하기"
       },
       "description": "익명으로 약속에 참여하러가요!",
+      "votingAs": "{username}님, 익명으로 투표 중이에요.",
       "usernamePlaceholder": "닉네임",
       "passwordPlaceholder": "비밀번호",
       "anonymousLogin": "익명으로 계속하기"
@@ -162,6 +223,7 @@
       "bestSlotsTitle": "가장 많은 참여자들이 가능한 시간:",
       "participantsCount": "총 {count}명",
       "people": "명",
+      "voteCount": "{count}명 ({percentage})",
       "noParticipants": "참여자가 없습니다",
       "buttons": {
         "calendar": "내보내기",
@@ -183,7 +245,7 @@
   "my": {
     "title": "내 약속",
     "tabs": {
-      "myMeetings": "내가 만든 악속",
+      "myMeetings": "내가 만든 약속",
       "participatedMeetings": "참여한 약속"
     },
     "noMeetings": "아직 약속을 만들지 않았어요.",

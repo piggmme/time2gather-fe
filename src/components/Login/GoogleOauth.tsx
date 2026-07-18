@@ -3,6 +3,7 @@ import { auth } from '../../services/auth'
 import { navigate } from 'astro:transitions/client'
 import { $me } from '../../stores/me'
 import { $redirect } from '../../stores/redirect'
+import { getAuthRedirectOrDefault } from '../../utils/authRedirect'
 
 export default function GoogleOauth () {
   const code = useSearchParam('code')
@@ -22,8 +23,9 @@ export default function GoogleOauth () {
       if (response.data) {
         $me.set(response.data)
       }
-      navigate($redirect.get() || '/meetings/create')
+      const redirect = getAuthRedirectOrDefault($redirect.get())
       $redirect.set('')
+      navigate(redirect)
     } catch (error) {
       console.error(error)
     }

@@ -3,7 +3,7 @@ import { ClientRouter } from 'astro:transitions'
 import '../styles/global.scss';
 import Header from '../components/Header/Header';
 import ChatBot from '../components/ChatBot/ChatBot';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale, type Locale } from '../i18n';
 import Toast from '../components/Toast/Toast';
 import StructuredData from '../components/SEO/StructuredData.astro';
 
@@ -12,14 +12,10 @@ interface Props {
   description?: string;
   ogImage?: string;
   ogType?: string;
-  schemaType?: 'WebApplication' | 'Organization' | 'Event' | 'WebPage';
-  eventData?: {
-    name: string;
-    description?: string;
-    startDate?: string;
-    endDate?: string;
-    location?: string;
-  };
+  schemaType?: 'WebApplication' | 'Organization' | 'WebPage';
+  indexable?: boolean;
+  locale?: Locale;
+  alternates?: Partial<Record<Locale, string>>;
 }
 
 const {
@@ -28,10 +24,12 @@ const {
   ogImage: customOgImage,
   ogType = 'website',
   schemaType = 'WebApplication',
-  eventData
+  indexable = false,
+  locale: localeOverride,
+  alternates,
 } = Astro.props;
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const locale = localeOverride || getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
 
 const siteUrl = Astro.site?.href || 'https://time2gather.org/';
@@ -39,14 +37,10 @@ const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 const currentPath = Astro.url.pathname;
 const title = customTitle || t('meta.siteTitle');
 const description = customDescription || t('meta.siteDescription');
-const keywords = t('meta.siteKeywords');
-const ogImage = customOgImage || new URL('/time2gather-share.png', siteUrl).href;
-
-// hreflang URLs for multi-language SEO
-const hreflangUrls = {
-  ko: new URL(currentPath, siteUrl).href,
-  en: new URL(currentPath, siteUrl).href,
-  xDefault: new URL(currentPath, siteUrl).href // Default to Korean market
+const ogImage = customOgImage || new URL('/time2gather-share.png?v=2', siteUrl).href;
+const hreflangUrls = alternates && {
+  ko: alternates.ko && new URL(alternates.ko, siteUrl).href,
+  en: alternates.en && new URL(alternates.en, siteUrl).href,
 };
 ---
 <!doctype html>
@@ -72,24 +66,13 @@ const hreflangUrls = {
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="keywords" content={keywords} />
     <meta name="author" content="Time2Gather" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={indexable ? 'index, follow' : 'noindex, nofollow'} />
     <link rel="canonical" href={currentUrl} />
 
-    <!-- Hreflang Tags for Multi-language SEO -->
-    <link rel="alternate" hreflang="ko" href={hreflangUrls.ko} />
-    <link rel="alternate" hreflang="en" href={hreflangUrls.en} />
-    <link rel="alternate" hreflang="x-default" href={hreflangUrls.xDefault} />
-
-    <!-- GEO Targeting Meta Tags (Primary: South Korea) -->
-    <meta name="geo.region" content="KR" />
-    <meta name="geo.placename" content="South Korea" />
-    <meta name="geo.position" content="37.5665;126.9780" />
-    <meta name="ICBM" content="37.5665, 126.9780" />
-    <meta name="DC.language" content={locale} />
-    <meta name="content-language" content={locale === 'ko' ? 'ko-KR' : 'en-US'} />
-    <meta http-equiv="content-language" content={locale === 'ko' ? 'ko-KR' : 'en-US'} />
+    {hreflangUrls?.ko && <link rel="alternate" hreflang="ko" href={hreflangUrls.ko} />}
+    {hreflangUrls?.en && <link rel="alternate" hreflang="en" href={hreflangUrls.en} />}
+    {hreflangUrls?.ko && <link rel="alternate" hreflang="x-default" href={hreflangUrls.ko} />}
 
     <!-- Open Graph / Facebook / 카카오톡 -->
     <meta property="og:type" content={ogType} />
@@ -101,7 +84,6 @@ const hreflangUrls = {
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={title} />
     <meta property="og:locale" content={locale === 'ko' ? 'ko_KR' : 'en_US'} />
-    <meta property="og:locale:alternate" content={locale === 'ko' ? 'en_US' : 'ko_KR'} />
     <meta property="og:site_name" content="Time2Gather" />
 
     <!-- Twitter -->
@@ -129,12 +111,13 @@ const hreflangUrls = {
     <ClientRouter />
     <slot name="head" />
 
-    <!-- Structured Data (Schema.org) -->
-    <StructuredData 
-      type={schemaType} 
-      eventData={eventData}
-      pageData={{ name: title, description }}
-    />
+    {indexable && (
+      <StructuredData
+        type={schemaType}
+        locale={locale}
+        pageData={{ name: title, description }}
+      />
+    )}
   </head>
   <body>
 	<Header client:only="react" />

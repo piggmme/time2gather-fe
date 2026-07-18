@@ -196,7 +196,6 @@ export default function ResultButtons (
         isOpen={isExportDialogOpen}
         onClose={() => setIsExportDialogOpen(false)}
         meetingCode={data.meeting.code}
-        meetingTitle={data.meeting.title}
         bestSlots={data.summary.bestSlots}
         selectionType={data.meeting.selectionType}
       />
@@ -206,7 +205,6 @@ export default function ResultButtons (
         onClose={() => setIsConfirmDialogOpen(false)}
         onConfirmed={handleConfirmed}
         meetingCode={data.meeting.code}
-        meetingTitle={data.meeting.title}
         bestSlots={data.summary.bestSlots}
         selectionType={data.meeting.selectionType}
       />
@@ -221,7 +219,7 @@ export default function ResultButtons (
       {/* 바이럴 CTA 섹션 */}
       <div className={styles.ViralCtaSection}>
         <span className={styles.ViralCtaTitle}>{t('meeting.result.viralCta.title')}</span>
-        <a href="/" className={styles.ViralCtaButton}>
+        <a href='/' className={styles.ViralCtaButton}>
           <HiOutlineSparkles />
           {t('meeting.result.viralCta.button')}
         </a>

@@ -1,0 +1,20 @@
+---
+import HomeLanding from '../../components/HomeLanding.astro'
+import { getTranslations, type Locale } from '../../i18n'
+import Layout from '../../layouts/Layout.astro'
+
+const locale: Locale = 'en'
+const t = getTranslations(locale)
+const title = t('meta.pages.home.title')
+const description = t('meta.pages.home.description')
+---
+
+<Layout
+  title={title}
+  description={description}
+  locale={locale}
+  indexable={true}
+  alternates={{ ko: '/', en: '/en/' }}
+>
+  <HomeLanding locale={locale} />
+</Layout>

@@ -1,25 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import Home from '../components/Home'
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n'
+import HomeLanding from '../components/HomeLanding.astro'
+import { getTranslations, defaultLocale } from '../i18n'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
+const locale = defaultLocale
 const t = getTranslations(locale);
 
 const title = t('meta.pages.home.title');
 const description = t('meta.pages.home.description');
 ---
 
-<Layout title={title} description={description}>
-  <main>
-    <Home client:only='react' />
-  </main>
+<Layout
+  title={title}
+  description={description}
+  locale={locale}
+  indexable={true}
+  alternates={{ ko: '/', en: '/en/' }}
+>
+  <HomeLanding locale={locale} />
 </Layout>
-
-<style>
-  main {
-    width: 100%;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-</style>

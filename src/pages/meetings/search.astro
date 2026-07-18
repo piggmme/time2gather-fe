@@ -11,8 +11,8 @@ const t = getTranslations(locale);
 
 <Layout>
   <main>
-    <h1>약속을 찾아봐요 🔍</h1>
-    <p>약속 코드를 입력해 주세요.</p>
+    <h1>{t('search.title')}</h1>
+    <p>{t('search.description')}</p>
     <div class='search-meeting'>
       <SearchMeeting client:only='react' />
     </div>

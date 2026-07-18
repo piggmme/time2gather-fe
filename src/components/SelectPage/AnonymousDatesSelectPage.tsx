@@ -134,7 +134,7 @@ function DatesSelectForm ({
   return (
     <div>
       <div className={styles.selectedDatesInfo}>
-        <p>{me?.username}님 익명으로 투표중이에요.</p>
+        <p>{t('meeting.anonymous.votingAs', { username: me?.username || '' })}</p>
         <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
         <p>{t('meeting.selectedDates', { count: dates.length })}</p>
       </div>

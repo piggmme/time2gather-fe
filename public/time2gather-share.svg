@@ -2,139 +2,68 @@
   <defs>
     <linearGradient id="background" x1="80" y1="40" x2="1120" y2="590" gradientUnits="userSpaceOnUse">
       <stop stop-color="#fbfcff" />
-      <stop offset="1" stop-color="#f0f4ff" />
+      <stop offset="1" stop-color="#eef2ff" />
     </linearGradient>
-    <linearGradient id="clock" x1="742" y1="136" x2="1054" y2="456" gradientUnits="userSpaceOnUse">
+    <linearGradient id="clock" x1="154" y1="122" x2="506" y2="500" gradientUnits="userSpaceOnUse">
       <stop stop-color="#6366f1" />
       <stop offset="1" stop-color="#8b5cf6" />
     </linearGradient>
-    <linearGradient id="center" x1="888" y1="280" x2="916" y2="308" gradientUnits="userSpaceOnUse">
+    <linearGradient id="center" x1="316" y1="294" x2="342" y2="320" gradientUnits="userSpaceOnUse">
       <stop stop-color="#f472b6" />
       <stop offset="1" stop-color="#ec4899" />
     </linearGradient>
-    <filter id="panelShadow" x="-20%" y="-20%" width="140%" height="150%">
-      <feDropShadow dx="0" dy="18" stdDeviation="26" flood-color="#312e81" flood-opacity=".12" />
-    </filter>
     <filter id="clockShadow" x="-30%" y="-30%" width="160%" height="170%">
-      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#4f46e5" flood-opacity=".24" />
-    </filter>
-    <filter id="chipShadow" x="-30%" y="-40%" width="160%" height="180%">
-      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#334155" flood-opacity=".12" />
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#4f46e5" flood-opacity=".22" />
     </filter>
   </defs>
 
   <rect width="1200" height="630" fill="url(#background)" />
-  <circle cx="1135" cy="48" r="210" fill="#ddd6fe" opacity=".35" />
-  <circle cx="61" cy="605" r="185" fill="#dbeafe" opacity=".5" />
-  <path d="M0 493c162-69 280-60 432 18 157 80 313 81 463 15 113-49 206-51 305-10v114H0Z" fill="#fff" opacity=".64" />
-
-  <g font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Segoe UI', sans-serif">
-    <g transform="translate(88 78)">
-      <g transform="translate(0 1)">
-        <circle cx="24" cy="24" r="24" fill="url(#clock)" />
-        <circle cx="24" cy="24" r="16" fill="#fff" />
-        <path d="M24 23V14M24 23l8-5" fill="none" stroke="#6366f1" stroke-width="2.7" stroke-linecap="round" />
-        <circle cx="24" cy="23" r="2.5" fill="#ec4899" />
-      </g>
-      <text x="64" y="35" fill="#111827" font-size="29" font-weight="750" letter-spacing="-.5">Time2Gather</text>
-    </g>
-
-    <g transform="translate(88 179)">
-      <rect width="185" height="40" rx="20" fill="#eef2ff" />
-      <circle cx="22" cy="20" r="6" fill="#6366f1" />
-      <text x="39" y="27" fill="#4f46e5" font-size="17" font-weight="700">모두의 시간을 한눈에</text>
-    </g>
-
-    <text x="88" y="288" fill="#111827" font-size="52" font-weight="800" letter-spacing="-2.4">
-      약속 잡기, 이제
-    </text>
-    <text x="88" y="354" fill="#4f46e5" font-size="52" font-weight="800" letter-spacing="-2.4">
-      5초면 충분해요
-    </text>
-    <text x="88" y="416" fill="#475569" font-size="23" font-weight="500" letter-spacing="-.5">
-      날짜 · 시간 · 장소를 함께 투표하고
-    </text>
-    <text x="88" y="451" fill="#475569" font-size="23" font-weight="500" letter-spacing="-.5">
-      가장 좋은 약속 시간을 찾아보세요.
-    </text>
-
-    <g transform="translate(88 503)">
-      <g>
-        <circle cx="15" cy="15" r="15" fill="#dcfce7" />
-        <path d="m9 15 4 4 8-9" fill="none" stroke="#16a34a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
-        <text x="40" y="22" fill="#334155" font-size="18" font-weight="650">링크로 바로 참여</text>
-      </g>
-      <g transform="translate(196)">
-        <circle cx="15" cy="15" r="15" fill="#dbeafe" />
-        <path d="M9 16h12M12 11h6M12 21h6" fill="none" stroke="#2563eb" stroke-width="2.3" stroke-linecap="round" />
-        <text x="40" y="22" fill="#334155" font-size="18" font-weight="650">결과를 한눈에</text>
-      </g>
-    </g>
-
-    <text x="88" y="586" fill="#64748b" font-size="18" font-weight="650" letter-spacing=".2">time2gather.org</text>
-  </g>
-
-  <g filter="url(#panelShadow)">
-    <rect x="695" y="77" width="427" height="476" rx="44" fill="#fff" />
-    <rect x="696" y="78" width="425" height="474" rx="43" fill="none" stroke="#e0e7ff" stroke-width="2" />
-  </g>
-  <circle cx="736" cy="120" r="7" fill="#f472b6" />
-  <circle cx="760" cy="120" r="7" fill="#34d399" />
-  <circle cx="784" cy="120" r="7" fill="#fbbf24" />
+  <circle cx="1127" cy="45" r="220" fill="#ddd6fe" opacity=".38" />
+  <circle cx="46" cy="606" r="180" fill="#dbeafe" opacity=".56" />
 
   <g filter="url(#clockShadow)">
-    <circle cx="905" cy="310" r="154" fill="url(#clock)" />
-    <circle cx="905" cy="310" r="105" fill="#fff" />
+    <circle cx="330" cy="316" r="184" fill="url(#clock)" />
+    <circle cx="330" cy="316" r="125" fill="#fff" fill-opacity=".96" />
   </g>
   <g fill="none" stroke="#e2e8f0" stroke-width="2">
-    <path d="M905 217v14M905 389v14M812 310h14M984 310h14" />
+    <path d="M330 204v17M330 411v17M218 316h17M425 316h17" />
   </g>
   <g fill="none" stroke-linecap="round">
-    <path d="M905 310v-58" stroke="#4f46e5" stroke-width="8" />
-    <path d="m905 310 53-35" stroke="#6366f1" stroke-width="6" />
+    <path d="M330 316v-69" stroke="#4f46e5" stroke-width="9" />
+    <path d="m330 316 63-42" stroke="#6366f1" stroke-width="7" />
   </g>
-  <circle cx="905" cy="310" r="12" fill="url(#center)" />
+  <circle cx="330" cy="316" r="14" fill="url(#center)" />
 
-  <g transform="translate(759 170)">
-    <circle r="25" fill="#f472b6" />
-    <circle cy="-6" r="10" fill="#fff" />
-    <ellipse cy="10" rx="13" ry="9" fill="#fff" />
-  </g>
-  <g transform="translate(1050 170)">
-    <circle r="25" fill="#34d399" />
-    <circle cy="-6" r="10" fill="#fff" />
-    <ellipse cy="10" rx="13" ry="9" fill="#fff" />
-  </g>
-  <g transform="translate(759 452)">
-    <circle r="25" fill="#fbbf24" />
-    <circle cy="-6" r="10" fill="#fff" />
-    <ellipse cy="10" rx="13" ry="9" fill="#fff" />
-  </g>
-  <g transform="translate(1050 452)">
-    <circle r="25" fill="#60a5fa" />
-    <circle cy="-6" r="10" fill="#fff" />
-    <ellipse cy="10" rx="13" ry="9" fill="#fff" />
+  <g fill="#fff">
+    <g transform="translate(154 145)">
+      <circle r="30" fill="#f472b6" />
+      <circle cy="-7" r="12" />
+      <ellipse cy="12" rx="15" ry="10" />
+    </g>
+    <g transform="translate(506 145)">
+      <circle r="30" fill="#34d399" />
+      <circle cy="-7" r="12" />
+      <ellipse cy="12" rx="15" ry="10" />
+    </g>
+    <g transform="translate(154 487)">
+      <circle r="30" fill="#fbbf24" />
+      <circle cy="-7" r="12" />
+      <ellipse cy="12" rx="15" ry="10" />
+    </g>
+    <g transform="translate(506 487)">
+      <circle r="30" fill="#60a5fa" />
+      <circle cy="-7" r="12" />
+      <ellipse cy="12" rx="15" ry="10" />
+    </g>
   </g>
 
-  <g filter="url(#chipShadow)" font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Segoe UI', sans-serif" font-size="17" font-weight="750">
-    <g transform="translate(658 250)">
-      <rect width="123" height="48" rx="24" fill="#fff" stroke="#e0e7ff" />
-      <circle cx="25" cy="24" r="12" fill="#eef2ff" />
-      <path d="M20 24h10M25 19v10" stroke="#6366f1" stroke-width="2" stroke-linecap="round" />
-      <text x="48" y="31" fill="#334155">날짜</text>
-    </g>
-    <g transform="translate(1002 250)">
-      <rect width="123" height="48" rx="24" fill="#fff" stroke="#e0e7ff" />
-      <circle cx="25" cy="24" r="12" fill="#fdf2f8" />
-      <path d="M25 18v7l5 3" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" />
-      <text x="48" y="31" fill="#334155">시간</text>
-    </g>
-    <g transform="translate(829 491)">
-      <rect width="150" height="48" rx="24" fill="#fff" stroke="#e0e7ff" />
-      <circle cx="25" cy="24" r="12" fill="#ecfdf5" />
-      <path d="M25 31s6-6 6-11a6 6 0 0 0-12 0c0 5 6 11 6 11Z" fill="none" stroke="#10b981" stroke-width="2" />
-      <circle cx="25" cy="20" r="2" fill="#10b981" />
-      <text x="49" y="31" fill="#334155">장소 투표</text>
-    </g>
+  <g font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Segoe UI', sans-serif">
+    <text x="625" y="188" fill="#4f46e5" font-size="30" font-weight="750" letter-spacing="-.6">Time2Gather</text>
+    <text x="625" y="288" fill="#111827" font-size="64" font-weight="850" letter-spacing="-3">
+      모두 되는 시간,
+    </text>
+    <text x="625" y="372" fill="#111827" font-size="64" font-weight="850" letter-spacing="-3">
+      한 번에 찾아요
+    </text>
   </g>
 </svg>

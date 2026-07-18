@@ -587,6 +587,9 @@ export default function Daily ({
             {dates.map((date) => {
               const dateKey = date.format('YYYY-MM-DD')
               const dateLabel = formatDate(date, locale)
+              const compactDateLabel = date
+                .locale(locale === 'ko' ? 'ko' : 'en')
+                .format(locale === 'ko' ? 'M/D (dd)' : 'MMM D (ddd)')
               const isToday = date.isSame(dayjs(), 'day')
               const currentSelections = selections[dateKey] || []
               const allSelected = availableTimes.length > 0
@@ -598,8 +601,9 @@ export default function Daily ({
                     key={dateKey}
                     className={`${styles.dateHeader} ${isToday ? styles.today : ''}`}
                     aria-current={isToday ? 'date' : undefined}
+                    aria-label={dateLabel}
                   >
-                    <span className={styles.dateTitle}>{dateLabel}</span>
+                    <span className={styles.dateTitle}>{compactDateLabel}</span>
                   </div>
                 )
               }
@@ -614,7 +618,7 @@ export default function Daily ({
                   aria-current={isToday ? 'date' : undefined}
                   aria-label={t('meeting.timeGrid.selectDate', { date: dateLabel })}
                 >
-                  <span className={styles.dateTitle}>{dateLabel}</span>
+                  <span className={styles.dateTitle}>{compactDateLabel}</span>
                 </button>
               )
             })}

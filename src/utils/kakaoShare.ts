@@ -78,7 +78,7 @@ export function shareToKakao (params: ShareToKakaoParams): boolean {
     return false
   }
 
-  const defaultImageUrl = `${window.location.origin}/time2gather-share.png`
+  const defaultImageUrl = `${window.location.origin}/time2gather-share.png?v=2`
 
   try {
     Kakao.Share.sendDefault({

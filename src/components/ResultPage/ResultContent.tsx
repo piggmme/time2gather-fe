@@ -216,7 +216,7 @@ function SummaryContent ({
     <Tabs.Content value='summary'>
       <div className={styles.AISummaryContainer}>
         {/* 시간 요약 카드 */}
-        <div className={`${styles.Summary} ${styles.Card}`} style={{ padding: '24px' }}>
+        <div className={`${styles.Summary} ${styles.Card}`}>
           <div>
             <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
             <p className={styles.DetailText}>
@@ -231,35 +231,40 @@ function SummaryContent ({
                 {groupedBestSlots.map((group, groupIndex) => {
                   const isExpanded = expandedSlots.has(`group-${groupIndex}`)
                   const participants = getParticipantsForGroup(group)
+                  const visibleTimeRanges = group.timeRanges.filter(range => range.start !== 'ALL_DAY')
 
                   return (
                     <li key={groupIndex} className={styles.BestSlotItem}>
-                      <div
+                      <button
+                        type='button'
                         className={styles.BestSlotHeader}
                         onClick={() => toggleSlot(groupIndex)}
+                        aria-expanded={isExpanded}
                       >
-                        <span className={styles.BestSlotDate}>{formatDate(group.date, locale)}</span>
-                        <span className={styles.BestSlotTime}>
-                          {group.timeRanges.map((range, rangeIndex) => (
-                            range.start === 'ALL_DAY'
-                              ? null
-                              : (
-                                  <span key={rangeIndex}>
-                                    {range.start === range.end
-                                      ? range.start
-                                      : `${range.start}~${range.end}`}
-                                    {rangeIndex < group.timeRanges.length - 1 && ', '}
-                                  </span>
-                                )
-                          ))}
+                        <span className={styles.BestSlotMainLine}>
+                          <span className={styles.BestSlotDate}>{formatDate(group.date, locale)}</span>
+                          <span className={styles.BestSlotCount}>
+                            {t('meeting.result.voteCount', {
+                              count: group.timeRanges[0].count,
+                              percentage: group.timeRanges[0].percentage,
+                            })}
+                          </span>
+                          <span className={styles.BestSlotExpandIcon} aria-hidden='true'>
+                            {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
+                          </span>
                         </span>
-                        <span className={styles.BestSlotCount}>
-                          {group.timeRanges[0].count}{t('meeting.result.people')} ({group.timeRanges[0].percentage})
-                        </span>
-                        <span className={styles.BestSlotExpandIcon}>
-                          {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
-                        </span>
-                      </div>
+                        {visibleTimeRanges.length > 0 && (
+                          <span className={styles.BestSlotTime}>
+                            {visibleTimeRanges.map((range, rangeIndex) => (
+                              <span key={rangeIndex} className={styles.BestSlotTimeRange}>
+                                {range.start === range.end
+                                  ? range.start
+                                  : `${range.start}–${range.end}`}
+                              </span>
+                            ))}
+                          </span>
+                        )}
+                      </button>
                       {isExpanded && participants.length > 0 && (
                         <div className={styles.BestSlotParticipants}>
                           <ul className={styles.BestSlotParticipantsList}>
@@ -319,7 +324,10 @@ function SummaryContent ({
                       </div>
                       <div className={styles.AISummaryLocationMeta}>
                         <span className={styles.AISummaryVoteCount}>
-                          {location.voteCount}{t('meeting.result.people')} ({location.percentage})
+                          {t('meeting.result.voteCount', {
+                            count: location.voteCount,
+                            percentage: location.percentage,
+                          })}
                         </span>
                       </div>
                       {location.voters.length > 0 && (
@@ -392,7 +400,8 @@ function ParticipantsModal ({
       <div className={styles.ModalContent} onClick={e => e.stopPropagation()}>
         <div className={styles.ModalHeader}>
           <h3 className={styles.ModalTitle}>
-            {formattedDate} {time ? time : ''}
+            <span>{formattedDate}</span>
+            {time && <span className={styles.ModalTime}>{time}</span>}
           </h3>
           <button className={styles.ModalCloseButton} onClick={onClose} aria-label={t('common.close')}>
             <HiX />
@@ -403,7 +412,7 @@ function ParticipantsModal ({
             ? (
                 <>
                   <p className={styles.ModalParticipantsCount}>
-                    {participants.length}{t('meeting.result.people')}
+                    {t('meeting.result.participantsCount', { count: participants.length })}
                   </p>
                   <ul className={styles.ModalParticipantsList}>
                     {participants.map(participant => (
@@ -717,7 +726,10 @@ function LocationContent ({
                       </span>
                     </div>
                     <span className={styles.LocationVoteCount}>
-                      {location.voteCount}{t('meeting.result.people')} ({location.percentage})
+                      {t('meeting.result.voteCount', {
+                        count: location.voteCount,
+                        percentage: location.percentage,
+                      })}
                     </span>
                   </div>
 

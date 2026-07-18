@@ -10,7 +10,7 @@ type LoginDialogProps = {
   selectionType: string
 }
 
-export default function LoginDialog({
+export default function LoginDialog ({
   isOpen,
   onOpenChange,
   meetingCode,
@@ -30,7 +30,7 @@ export default function LoginDialog({
       key: 'login',
       label: t('meeting.anonymous.dialog.loginButton'),
       className: styles.loginButton,
-      onClick: () => navigate(`/login?redirect=${selectPath}`),
+      onClick: () => navigate(`/login?redirect=${encodeURIComponent(selectPath)}`),
     },
   ]
 
@@ -40,7 +40,7 @@ export default function LoginDialog({
         <Dialog.Title>{t('meeting.anonymous.dialog.title')}</Dialog.Title>
         <Dialog.Description>{t('meeting.anonymous.dialog.description')}</Dialog.Description>
         <div className={styles.buttonGroup}>
-          {loginOptions.map((option) => (
+          {loginOptions.map(option => (
             <Dialog.Action
               key={option.key}
               className={option.className}

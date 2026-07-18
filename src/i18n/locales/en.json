@@ -27,21 +27,81 @@
     "heroSubtitle": "Say goodbye to complicated scheduling. Find the perfect time with your friends.",
     "viewMyMeetings": "View My Meetings"
   },
+  "landing": {
+    "eyebrow": "Coordinate everyone’s schedule in one place",
+    "title": "Make meeting scheduling simpler",
+    "description": "Time2Gather is a free scheduling service for voting on dates, times, and locations to find a meeting time that works for everyone.",
+    "primaryCta": "Create a meeting",
+    "secondaryCta": "Find with a code",
+    "featuresHeading": "Everything you need to coordinate a meeting",
+    "features": {
+      "dates": {
+        "title": "Compare multiple dates",
+        "description": "Choose candidate dates and share them with your participants right away."
+      },
+      "times": {
+        "title": "Vote on available times",
+        "description": "Collect detailed availability to find the time that works for the most people."
+      },
+      "locations": {
+        "title": "Decide on a location too",
+        "description": "Add location options when your group needs to choose where to meet."
+      },
+      "sharing": {
+        "title": "Join from one link",
+        "description": "Share a link so participants can vote quickly, with sign-in or anonymously."
+      }
+    },
+    "stepsHeading": "Settle plans in three steps",
+    "steps": {
+      "create": {
+        "title": "1. Create options",
+        "description": "Set a meeting title and the dates or times to compare."
+      },
+      "share": {
+        "title": "2. Share the link",
+        "description": "Send the link to friends, teammates, or your group."
+      },
+      "decide": {
+        "title": "3. Confirm the result",
+        "description": "Review the votes and choose the best time for everyone."
+      }
+    },
+    "faqHeading": "Frequently asked questions",
+    "faq": {
+      "what": {
+        "question": "What is Time2Gather?",
+        "answer": "It is a scheduling service that collects date and time availability from a group through voting."
+      },
+      "login": {
+        "question": "Do participants need to sign in?",
+        "answer": "When the meeting owner allows anonymous participation, people can vote with a nickname and password instead."
+      },
+      "location": {
+        "question": "Can we vote on locations?",
+        "answer": "Yes. Turn on location voting while creating a meeting to let participants choose from location options."
+      }
+    }
+  },
   "login": {
     "title": "Ready to schedule?",
-    "description": "Log in and schedule your meeting.",
+    "description": "Sign in to create and manage your meetings.",
     "kakaoLogin": "Continue with Kakao",
     "googleLogin": "Continue with Google"
   },
+  "search": {
+    "title": "Find a meeting",
+    "description": "Enter the meeting code you received."
+  },
   "createMeeting": {
-    "title": "Let's create a meeting!",
+    "title": "Create a meeting",
     "meetingTypeStep": {
-      "heading": "What kind of meeting would you like to schedule?",
-      "allDay": "Pick dates only",
-      "time": "Pick dates + times"
+      "heading": "What should participants choose?",
+      "allDay": "Dates only",
+      "time": "Dates and times"
     },
     "titleStep": {
-      "heading": "Please enter a title.",
+      "heading": "Give your meeting a name",
       "placeholder": "e.g., Friday Dinner"
     },
     "descriptionStep": {
@@ -49,19 +109,19 @@
       "placeholder": "Let's meet in Gangnam, everyone!"
     },
     "datesStep": {
-      "heading": "Please select dates."
+      "heading": "Choose candidate dates"
     },
     "timeRangeStep": {
-      "heading": "Please select a time range.",
-      "startTime": "Start Time",
-      "endTime": "End Time",
-      "selectedDatesCount": "You have selected {count} date(s).",
+      "heading": "Set the available time range",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "selectedDatesCount": "Selected dates: {count}",
       "createButton": "Create Meeting"
     },
     "locationStep": {
-      "heading": "Would you like to add locations?",
-      "enableLocationVote": "Enable Location Vote",
-      "enableLocationVoteDescription": "Participants can vote for their preferred location",
+      "heading": "Add location voting?",
+      "enableLocationVote": "Let participants vote on a location",
+      "enableLocationVoteDescription": "Add at least two options for participants to choose from.",
       "locationPlaceholder": "Enter a location",
       "addLocation": "Add Location",
       "removeLocation": "Remove Location",
@@ -77,9 +137,9 @@
       "description": "The meeting you requested does not exist or has been deleted."
     },
     "participantsEmpty": "No participants yet.",
-    "participantsCount": "Currently, {count} people have joined.",
-    "selectedDates": "Select the available dates from {count} dates.",
-    "selectedDatesAndTimes": "Select the available dates and time slots from {count} dates.",
+    "participantsCount": "Participants: {count}",
+    "selectedDates": "Choose the dates that work for you from {count} options.",
+    "selectedDatesAndTimes": "Choose the dates and times that work for you from {count} date options.",
     "timeGrid": {
       "timeLabel": "Time",
       "touchHint": "Press, hold, then drag to select multiple times",
@@ -137,7 +197,7 @@
     "result": {
       "tabs": {
         "aiSummary": "Summary",
-        "summary": "Result",
+        "summary": "Summary",
         "calendar": "Calendar",
         "participants": "Participants",
         "location": "Location"
@@ -145,21 +205,22 @@
       "summaryTitle": "Meeting Summary",
       "aiSummaryTitle": "Vote Result Summary",
       "calendarTitle": "Meeting Calendar",
-      "totalParticipants": "A total of {count} people participated!",
-      "bestSlotsTitle": "Time slots with the most participants:",
-      "participantsCount": "Total {count} people",
+      "totalParticipants": "Participants: {count}",
+      "bestSlotsTitle": "Best options",
+      "participantsCount": "Participants: {count}",
       "people": "people",
+      "voteCount": "{count} people ({percentage})",
       "noParticipants": "No participants",
       "buttons": {
         "calendar": "Export",
         "share": "Share",
         "shareKakao": "KakaoTalk",
-        "modify": "Modify",
-        "select": "Select"
+        "modify": "Edit vote",
+        "select": "Vote"
       },
       "kakaoShare": {
-        "description": "Vote and find the best time for everyone!",
-        "buttonTitle": "Vote Now"
+        "description": "Pick the times that work for you.",
+        "buttonTitle": "Join the vote"
       },
       "viralCta": {
         "title": "Want to create your own meeting?",
@@ -168,16 +229,17 @@
     },
     "anonymous": {
       "dialog" : {
-        "title": "You are not logged in",
-        "description": "Do you want to participate anonymously?",
+        "title": "You’re not signed in",
+        "description": "Sign in to keep your vote, or continue anonymously.",
         "kakaoLoginButton": "Continue with Kakao",
-        "loginButton": "Login",
-        "anonymousLogin": "Continue as Anonymous"
+        "loginButton": "Sign in",
+        "anonymousLogin": "Continue anonymously"
       },
-      "description": "Let's participate in the meeting anonymously!",
+      "description": "Enter a nickname and password to vote anonymously.",
+      "votingAs": "Voting anonymously as {username}.",
       "usernamePlaceholder": "Username",
       "passwordPlaceholder": "Password",
-      "anonymousLogin": "Continue with Anonymous"
+      "anonymousLogin": "Continue anonymously"
     }
   },
   "my": {
@@ -224,7 +286,7 @@
       },
       "result": {
         "title": "{title} Results - Time2Gather",
-        "description": "Check the voting results for {title}. AI-powered recommendations for the best meeting time."
+        "description": "Join {title} and choose the times that work for you."
       }
     }
   },

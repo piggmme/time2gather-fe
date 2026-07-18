@@ -30,23 +30,16 @@ try {
 // SEO 메타데이터 설정
 const siteUrl = Astro.site?.href || 'https://time2gather.org/';
 const meetingUrl = new URL(Astro.url.pathname, siteUrl).href;
-const meetingTitle = `${meetingData.meeting.title} 결과 - Time2Gather`;
-const meetingDescription = reportData?.summaryText || meetingData.meeting.description || t('meta.siteDescription');
-const ogImage = new URL('/time2gather-share.png', siteUrl).href;
+const meetingTitle = t('meta.pages.result.title', { title: meetingData.meeting.title });
+const meetingDescription = t('meeting.result.kakaoShare.description');
+const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
 
-// Event 구조화된 데이터
-const eventData = {
-  name: meetingData.meeting.title,
-  description: reportData?.summaryText || meetingData.meeting.description,
-};
 ---
 <Layout
   title={meetingTitle}
   description={meetingDescription}
   ogImage={ogImage}
   ogType="website"
-  schemaType="Event"
-  eventData={eventData}
 >
   <main>
     <h1>
@@ -83,6 +76,21 @@ const eventData = {
     word-break: keep-all;
     color: $c-black;
   }
+  h1 {
+    margin: 0 0 $spacing-sm;
+    font-size: $font-size-3xl;
+    line-height: 1.35;
+
+    @media (max-width: 699px) {
+      font-size: $font-size-2xl;
+    }
+  }
+  main > p {
+    margin: 0 0 $spacing-base;
+    color: $c-gray-darkest;
+    font-size: $font-size-base;
+    line-height: $line-height-normal;
+  }
   main {
     width: 100%;
     max-width: 600px;
@@ -117,6 +125,10 @@ const eventData = {
 
   .report {
     margin-top: 30px;
+
+    @media (max-width: 699px) {
+      margin-top: $spacing-lg;
+    }
   }
 
   .button-container {

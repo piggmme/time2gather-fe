@@ -5,7 +5,6 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import { formatDate } from '../../utils/time'
-import dayjs from 'dayjs'
 import styles from './CalendarExportDialog.module.scss'
 import { showDefaultToast } from '../../stores/toast'
 
@@ -23,17 +22,15 @@ type ConfirmMeetingDialogProps = {
   onClose: () => void
   onConfirmed: () => void
   meetingCode: string
-  meetingTitle: string
   bestSlots: BestSlot[]
   selectionType: 'ALL_DAY' | 'TIME'
 }
 
-export default function ConfirmMeetingDialog({
+export default function ConfirmMeetingDialog ({
   isOpen,
   onClose,
   onConfirmed,
   meetingCode,
-  meetingTitle,
   bestSlots,
   selectionType,
 }: ConfirmMeetingDialogProps) {
@@ -113,8 +110,8 @@ export default function ConfirmMeetingDialog({
             return (
               <label key={`${slot.date}-${slot.time}`} className={styles.slotItem}>
                 <input
-                  type="radio"
-                  name="selectedSlot"
+                  type='radio'
+                  name='selectedSlot'
                   value={index}
                   checked={selectedIndex === index}
                   onChange={() => setSelectedIndex(index)}
@@ -125,7 +122,7 @@ export default function ConfirmMeetingDialog({
                   <span className={styles.slotTime}>{timeDisplay}</span>
                 </span>
                 <span className={styles.slotStats}>
-                  {slot.count}{t('meeting.result.people')} ({slot.percentage})
+                  {t('meeting.result.voteCount', { count: slot.count, percentage: slot.percentage })}
                 </span>
               </label>
             )

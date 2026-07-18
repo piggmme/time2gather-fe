@@ -12,12 +12,18 @@
   box-shadow: $shadow-base;
   overflow: hidden;
   transition: all $transition-base;
-  padding: $spacing-xl; // 패딩 추가
+  padding: $spacing-lg;
   max-width: 100%; // 오버플로우 방지
   box-sizing: border-box;
   
   &:hover {
     box-shadow: $shadow-md;
+  }
+
+  @media (max-width: 699px) {
+    padding: $spacing-base;
+    border-radius: $radius-base;
+    box-shadow: 0 8px 24px -22px rgba($c-black, 0.4);
   }
 }
 
@@ -26,14 +32,14 @@
   max-width: 100%; // 오버플로우 방지
   display: flex;
   flex-direction: column;
-  gap: $spacing-xl;
+  gap: $spacing-lg;
   box-sizing: border-box;
   overflow: hidden; // 자식 요소 오버플로우 방지
 }
 
 // 제목 스타일 개선
 .Title {
-  font-size: $font-size-2xl;
+  font-size: $font-size-xl;
   font-weight: $font-weight-bold;
   color: $c-black;
   margin: 0 0 $spacing-xs 0;
@@ -54,13 +60,13 @@
 .BestSlots {
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
+  gap: $spacing-md;
   max-width: 100%; // 오버플로우 방지
   overflow: hidden;
 }
 
 .BestSlotsTitle {
-  font-size: $font-size-lg;
+  font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   color: $c-gray-darkest;
   margin: 0 0 $spacing-xs 0;
@@ -97,11 +103,16 @@
 }
 
 .BestSlotHeader {
+  width: 100%;
   display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
   gap: $spacing-sm;
   padding: $spacing-md;
+  border: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
   cursor: pointer;
   background-color: transparent;
   transition: background-color $transition-base;
@@ -113,11 +124,21 @@
     background-color: $c-blue-soft;
   }
 
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: -2px;
+  }
+}
+
+.BestSlotMainLine {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: $spacing-xs $spacing-sm;
+
   @media (min-width: 480px) {
-    align-items: center;
-    flex-wrap: nowrap;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     gap: $spacing-md;
-    padding: $spacing-lg;
   }
 }
 
@@ -125,7 +146,8 @@
   font-weight: $font-weight-semibold;
   font-size: $font-size-sm;
   color: $c-black;
-  flex-shrink: 0;
+  min-width: 0;
+  white-space: nowrap;
 
   @media (min-width: 480px) {
     font-size: $font-size-base;
@@ -134,16 +156,28 @@
 }
 
 .BestSlotTime {
-  font-weight: $font-weight-bold;
-  font-size: $font-size-base;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
   color: $primary-color;
-  flex: 1;
-  min-width: 0; // Allow text to wrap
-  word-break: break-word;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
 
   @media (min-width: 480px) {
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
   }
+}
+
+.BestSlotTimeRange {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  background: $c-blue-soft;
+  border-radius: $radius-xs;
+  white-space: nowrap;
 }
 
 .BestSlotCount {
@@ -154,10 +188,12 @@
   border-radius: $radius-full;
   font-weight: $font-weight-medium;
   white-space: nowrap;
-  flex-shrink: 0;
+  grid-column: 1 / -1;
+  justify-self: start;
 
   @media (min-width: 480px) {
-    margin-left: auto;
+    grid-column: auto;
+    justify-self: end;
     font-size: $font-size-sm;
     padding: 4px 8px;
   }
@@ -166,12 +202,15 @@
 .BestSlotExpandIcon {
   color: $c-gray-dark;
   font-size: $font-size-base;
-  margin-left: auto;
+  grid-column: 2;
+  grid-row: 1;
+  margin-left: 0;
   flex-shrink: 0;
   transition: transform $transition-base;
 
   @media (min-width: 480px) {
-    margin-left: $spacing-sm;
+    grid-column: 3;
+    margin-left: 0;
   }
 }
 
@@ -223,7 +262,7 @@
 .AISummaryContainer {
   display: flex;
   flex-direction: column;
-  gap: $spacing-xl;
+  gap: $spacing-lg;
 }
 
 .AISummaryCardHeader {
@@ -247,7 +286,7 @@
 }
 
 .AISummaryCardTitle {
-  font-size: $font-size-xl;
+  font-size: $font-size-lg;
   font-weight: $font-weight-bold;
   color: $ai-color-accent;
 }
@@ -296,6 +335,7 @@
   align-items: center;
   justify-content: space-between;
   gap: $spacing-md;
+  flex-wrap: wrap;
 }
 
 .LocationInfo {
@@ -364,6 +404,10 @@
   border-radius: $radius-full;
   font-weight: $font-weight-medium;
   white-space: nowrap;
+
+  @media (max-width: 479px) {
+    margin-left: 40px;
+  }
 }
 
 .LocationVoters {
@@ -406,6 +450,10 @@
   padding: $spacing-xl;
   background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); // 연한 녹색 그라데이션
   border: 1px solid $success-color-border;
+
+  @media (max-width: 699px) {
+    padding: $spacing-base;
+  }
 }
 
 .CardIconLocation {
@@ -590,10 +638,20 @@
 }
 
 .ModalTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: $spacing-xs $spacing-sm;
   font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
   color: $c-black;
   margin: 0;
+}
+
+.ModalTime {
+  color: $primary-color;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .ModalCloseButton {
@@ -722,4 +780,3 @@
   flex-direction: column;
   gap: $spacing-md;
 }
-

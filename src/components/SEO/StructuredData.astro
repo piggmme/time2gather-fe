@@ -1,20 +1,16 @@
 ---
+import type { Locale } from '../../i18n';
+
 interface Props {
-  type?: 'WebApplication' | 'Organization' | 'Event' | 'WebPage';
-  eventData?: {
-    name: string;
-    description?: string;
-    startDate?: string;
-    endDate?: string;
-    location?: string;
-  };
+  type?: 'WebApplication' | 'Organization' | 'WebPage';
+  locale?: Locale;
   pageData?: {
     name: string;
     description: string;
   };
 }
 
-const { type = 'WebApplication', eventData, pageData } = Astro.props;
+const { type = 'WebApplication', locale = 'ko', pageData } = Astro.props;
 
 const siteUrl = Astro.site?.href || 'https://time2gather.org';
 
@@ -24,13 +20,7 @@ const organizationSchema = {
   "@type": "Organization",
   "name": "Time2Gather",
   "url": siteUrl,
-  "logo": `${siteUrl}favicon.svg`,
-  "sameAs": [],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "contactType": "customer service",
-    "availableLanguage": ["Korean", "English"]
-  }
+  "logo": new URL('/favicon.svg', siteUrl).href,
 };
 
 // WebApplication Schema
@@ -39,54 +29,18 @@ const webAppSchema = {
   "@type": "WebApplication",
   "name": "Time2Gather",
   "url": siteUrl,
-  "description": "A service that makes it easy to schedule meetings with people. Create meetings, select multiple dates and time slots, and share them.",
+  "description": pageData?.description,
   "applicationCategory": "SchedulingApplication",
   "operatingSystem": "All",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "KRW"
-  },
   "author": organizationSchema,
-  "inLanguage": ["ko", "en"],
-  "browserRequirements": "Requires JavaScript. Requires HTML5.",
-  "softwareVersion": "1.0.0",
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "ratingCount": "100",
-    "bestRating": "5",
-    "worstRating": "1"
-  },
+  "inLanguage": locale,
   "featureList": [
     "Group scheduling",
     "Time slot voting",
     "Calendar export",
-    "Anonymous participation",
-    "Multi-language support",
-    "AI-powered summary"
+    "Anonymous participation"
   ]
 };
-
-// Event Schema (for meeting pages)
-const eventSchema = eventData ? {
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": eventData.name,
-  "description": eventData.description || "A scheduled meeting via Time2Gather",
-  "startDate": eventData.startDate,
-  "endDate": eventData.endDate,
-  "eventStatus": "https://schema.org/EventScheduled",
-  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-  "location": eventData.location ? {
-    "@type": "Place",
-    "name": eventData.location
-  } : {
-    "@type": "VirtualLocation",
-    "url": siteUrl
-  },
-  "organizer": organizationSchema
-} : null;
 
 // WebPage Schema
 const webPageSchema = pageData ? {
@@ -100,7 +54,7 @@ const webPageSchema = pageData ? {
     "name": "Time2Gather",
     "url": siteUrl
   },
-  "inLanguage": ["ko", "en"]
+  "inLanguage": locale
 } : null;
 
 // Select schema based on type
@@ -108,9 +62,6 @@ let schema;
 switch (type) {
   case 'Organization':
     schema = organizationSchema;
-    break;
-  case 'Event':
-    schema = eventSchema;
     break;
   case 'WebPage':
     schema = webPageSchema;

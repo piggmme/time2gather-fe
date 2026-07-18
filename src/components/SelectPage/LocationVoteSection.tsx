@@ -137,7 +137,10 @@ export default function LocationVoteSection ({
                   {isConfirmed && <span className={styles.confirmedBadge}>{t('locationVote.confirmed')}</span>}
                 </span>
                 <span className={styles.voteInfo}>
-                  {location.voteCount}{t('meeting.result.people')} ({location.percentage})
+                  {t('meeting.result.voteCount', {
+                    count: location.voteCount,
+                    percentage: location.percentage,
+                  })}
                 </span>
               </div>
             </label>

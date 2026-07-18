@@ -5,7 +5,6 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import { formatDate } from '../../utils/time'
-import dayjs from 'dayjs'
 import styles from './CalendarExportDialog.module.scss'
 
 type BestSlot = {
@@ -21,16 +20,14 @@ type CalendarExportDialogProps = {
   isOpen: boolean
   onClose: () => void
   meetingCode: string
-  meetingTitle: string
   bestSlots: BestSlot[]
   selectionType: 'ALL_DAY' | 'TIME'
 }
 
-export default function CalendarExportDialog({
+export default function CalendarExportDialog ({
   isOpen,
   onClose,
   meetingCode,
-  meetingTitle,
   bestSlots,
   selectionType,
 }: CalendarExportDialogProps) {
@@ -89,8 +86,8 @@ export default function CalendarExportDialog({
             return (
               <label key={`${slot.date}-${slot.time}`} className={styles.slotItem}>
                 <input
-                  type="radio"
-                  name="selectedSlot"
+                  type='radio'
+                  name='selectedSlot'
                   value={index}
                   checked={selectedIndex === index}
                   onChange={() => setSelectedIndex(index)}
@@ -101,7 +98,7 @@ export default function CalendarExportDialog({
                   <span className={styles.slotTime}>{timeDisplay}</span>
                 </span>
                 <span className={styles.slotStats}>
-                  {slot.count}{t('meeting.result.people')} ({slot.percentage})
+                  {t('meeting.result.voteCount', { count: slot.count, percentage: slot.percentage })}
                 </span>
               </label>
             )

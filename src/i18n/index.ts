@@ -57,6 +57,14 @@ function getNestedValue(obj: any, keys: string[]): any {
 // Helper function to get locale from URL, cookie, or browser
 export function getLocaleFromContext(): Locale {
   if (typeof window !== 'undefined') {
+    if (window.location.pathname === '/en' || window.location.pathname === '/en/') {
+      return 'en';
+    }
+
+    if (window.location.pathname === '/') {
+      return 'ko';
+    }
+
     // Client-side: check localStorage first
     const stored = localStorage.getItem('locale') as Locale;
     if (stored && (stored === 'ko' || stored === 'en')) {
@@ -115,4 +123,3 @@ export function setLocale(locale: Locale) {
     document.cookie = `locale=${locale}; path=/; max-age=31536000`; // 1 year
   }
 }
-

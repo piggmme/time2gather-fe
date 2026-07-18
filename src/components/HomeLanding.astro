@@ -1,0 +1,297 @@
+---
+import { getTranslations, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+const features = ['dates', 'times', 'locations', 'sharing'] as const;
+const steps = ['create', 'share', 'decide'] as const;
+const faqs = ['what', 'login', 'location'] as const;
+---
+
+<main class="landing">
+  <section class="hero" aria-labelledby="landing-title">
+    <div class="hero-copy">
+      <img class="brand-mark" src="/favicon.svg" alt="" width="144" height="144" />
+      <p class="eyebrow">{t('landing.eyebrow')}</p>
+      <h1 id="landing-title">{t('landing.title')}</h1>
+      <p class="intro">{t('landing.description')}</p>
+      <div class="actions">
+        <a class="primary-action" href="/meetings/create">{t('landing.primaryCta')}</a>
+        <a class="secondary-action" href="/meetings/search">{t('landing.secondaryCta')}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="features-title">
+    <h2 id="features-title">{t('landing.featuresHeading')}</h2>
+    <ul class="feature-grid">
+      {features.map((feature, index) => (
+        <li class="feature-card">
+          <span class="feature-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <h3>{t(`landing.features.${feature}.title`)}</h3>
+          <p>{t(`landing.features.${feature}.description`)}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section steps-section" aria-labelledby="steps-title">
+    <h2 id="steps-title">{t('landing.stepsHeading')}</h2>
+    <ol class="steps">
+      {steps.map((step) => (
+        <li>
+          <h3>{t(`landing.steps.${step}.title`)}</h3>
+          <p>{t(`landing.steps.${step}.description`)}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="section faq-section" aria-labelledby="faq-title">
+    <h2 id="faq-title">{t('landing.faqHeading')}</h2>
+    <dl class="faq-list">
+      {faqs.map((faq) => (
+        <div>
+          <dt><h3>{t(`landing.faq.${faq}.question`)}</h3></dt>
+          <dd><p>{t(`landing.faq.${faq}.answer`)}</p></dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+</main>
+
+<style lang="scss">
+  @use "../styles/variables.scss" as *;
+
+  .landing {
+    width: min(100%, 960px);
+    margin: 0 auto;
+    padding: clamp(40px, 7vw, 88px) $spacing-lg 96px;
+  }
+
+  .hero {
+    display: grid;
+    place-items: center;
+    min-height: min(580px, calc(100svh - 120px));
+    padding: clamp(40px, 7vw, 76px) clamp(24px, 6vw, 72px);
+    border: 1px solid rgba(24, 39, 75, 0.08);
+    border-radius: 32px;
+    background:
+      radial-gradient(circle at 50% 0%, rgba($primary-color, 0.12), transparent 46%),
+      $c-white;
+    box-shadow: 0 24px 56px -42px rgba(24, 39, 75, 0.54);
+    text-align: center;
+  }
+
+  .hero-copy {
+    display: grid;
+    justify-items: center;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .brand-mark {
+    width: clamp(104px, 16vw, 144px);
+    height: clamp(104px, 16vw, 144px);
+    margin-bottom: $spacing-lg;
+  }
+
+  .eyebrow {
+    margin: 0 0 $spacing-sm;
+    color: $primary-color;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    letter-spacing: 0.02em;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    color: $c-black;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.18;
+    letter-spacing: -0.04em;
+  }
+
+  .intro {
+    max-width: 620px;
+    margin-top: $spacing-lg;
+    color: $c-gray-darkest;
+    font-size: clamp($font-size-base, 2vw, $font-size-lg);
+    line-height: 1.7;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacing-sm;
+    width: 100%;
+    margin-top: $spacing-xl;
+  }
+
+  .primary-action,
+  .secondary-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: $spacing-sm $spacing-lg;
+    border-radius: $radius-base;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    transition: background-color $transition-fast, border-color $transition-fast, color $transition-fast;
+  }
+
+  .primary-action {
+    min-width: 184px;
+    background: $primary-color;
+    color: $c-white;
+
+    &:hover,
+    &:focus-visible {
+      background: $primary-color-hover;
+    }
+  }
+
+  .secondary-action {
+    min-width: 164px;
+    border: 1px solid $c-gray;
+    background: $c-white;
+    color: $c-gray-darkest;
+
+    &:hover,
+    &:focus-visible {
+      border-color: $primary-color;
+      color: $primary-color;
+    }
+  }
+
+  .section {
+    margin-top: clamp(64px, 10vw, 112px);
+  }
+
+  h2 {
+    color: $c-black;
+    font-size: clamp(24px, 3vw, 34px);
+    letter-spacing: -0.03em;
+    text-align: center;
+  }
+
+  .feature-grid,
+  .steps {
+    display: grid;
+    gap: $spacing-base;
+    margin: $spacing-xl 0 0;
+    padding: 0;
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .feature-card,
+  .steps li,
+  .faq-list > div {
+    border: 1px solid rgba(24, 39, 75, 0.09);
+    background: $c-white;
+    box-shadow: 0 12px 28px -26px rgba(24, 39, 75, 0.62);
+  }
+
+  .feature-card {
+    padding: $spacing-xl;
+    border-radius: $radius-lg;
+  }
+
+  .feature-index {
+    display: inline-flex;
+    margin-bottom: $spacing-lg;
+    color: $primary-color;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    letter-spacing: 0.08em;
+  }
+
+  h3 {
+    color: $c-black;
+    font-size: $font-size-md;
+    line-height: 1.4;
+  }
+
+  .feature-card p,
+  .steps p,
+  .faq-list p {
+    margin-top: $spacing-sm;
+    color: $c-gray-dark;
+    font-size: $font-size-base;
+    line-height: 1.65;
+  }
+
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    counter-reset: step;
+  }
+
+  .steps li {
+    position: relative;
+    padding: $spacing-xl;
+    border-radius: $radius-lg;
+  }
+
+  .faq-section {
+    max-width: 760px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: $spacing-sm;
+    margin: $spacing-xl 0 0;
+  }
+
+  .faq-list > div {
+    padding: $spacing-lg;
+    border-radius: $radius-base;
+  }
+
+  @media (max-width: 699px) {
+    .landing {
+      padding: $spacing-lg $spacing-base 88px;
+    }
+
+    .hero {
+      min-height: auto;
+      padding: $spacing-2xl $spacing-lg;
+      border-radius: 24px;
+    }
+
+    .actions {
+      flex-direction: column;
+    }
+
+    .primary-action,
+    .secondary-action {
+      width: 100%;
+    }
+
+    .feature-grid,
+    .steps {
+      grid-template-columns: 1fr;
+    }
+
+    .feature-card,
+    .steps li {
+      padding: $spacing-lg;
+    }
+  }
+</style>
