@@ -302,6 +302,10 @@
   "locationVote": {
     "title": "Location Vote",
     "description": "Select your preferred location(s)",
+    "scheduleStepLabel": "1 / 2 · Availability",
+    "locationStepLabel": "2 / 2 · Location",
+    "selectionTitle": "Where should we meet?",
+    "selectionDescription": "Choose all the locations that work for you.",
     "confirmedLocation": "Confirmed Location",
     "confirmed": "Confirmed",
     "loadError": "Could not load your location choices.",

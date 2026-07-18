@@ -173,7 +173,7 @@ button.meetingTypeButton {
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
-  margin-bottom: $spacing-xl;
+  margin: $spacing-lg 0 $spacing-xl;
   background: transparent;
   padding: 0;
   border-radius: 0;

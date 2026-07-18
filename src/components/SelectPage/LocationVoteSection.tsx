@@ -106,8 +106,8 @@ export default function LocationVoteSection ({
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>{t('locationVote.title')}</h3>
-      <p className={styles.description}>{t('locationVote.description')}</p>
+      <h2 className={styles.title}>{t('locationVote.selectionTitle')}</h2>
+      <p className={styles.description}>{t('locationVote.selectionDescription')}</p>
 
       {confirmedLocation && (
         <div className={styles.confirmedBanner}>

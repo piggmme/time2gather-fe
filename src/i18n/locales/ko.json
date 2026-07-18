@@ -302,6 +302,10 @@
   "locationVote": {
     "title": "장소 투표",
     "description": "선호하는 장소를 선택해주세요",
+    "scheduleStepLabel": "1 / 2 · 일정 선택",
+    "locationStepLabel": "2 / 2 · 장소 선택",
+    "selectionTitle": "어디에서 만날까요?",
+    "selectionDescription": "함께 만나기 좋은 장소를 모두 선택해 주세요.",
     "confirmedLocation": "확정된 장소",
     "confirmed": "확정",
     "loadError": "장소 선택을 불러오지 못했어요.",

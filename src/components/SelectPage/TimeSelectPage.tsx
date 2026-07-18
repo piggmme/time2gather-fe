@@ -21,6 +21,9 @@ export default function TimeSelectPage (
   const [selections, setSelections] = useState<{ [date: string]: string[] }>({})
   const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
   const [locationStatus, setLocationStatus] = useState<LocationSelectionStatus>(data.locationVote?.enabled ? 'loading' : 'ready')
+  const [step, setStep] = useState<'schedule' | 'location'>('schedule')
+  const locationVote = data.locationVote?.enabled ? data.locationVote : null
+  const isLocationStep = step === 'location'
 
   useEffect(() => {
     const calculateHeight = () => {
@@ -88,93 +91,120 @@ export default function TimeSelectPage (
     return processedSchedule
   }, [data.schedule, me])
 
+  const hasTimeSelections = Object.values(selections).some(times => times.length > 0)
+
+  const moveToStep = (nextStep: 'schedule' | 'location') => {
+    setStep(nextStep)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleCancel = () => {
+    if (window.history.length === 1) {
+      navigate(`/meetings/${meetingCode}`)
+    } else {
+      window.history.back()
+    }
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const timeSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
+        selections: Object.entries(selections).filter(([, times]) => times.length > 0).map(([date, times]) => ({
+          date,
+          type: 'TIME',
+          times,
+        })),
+      })
+
+      const locationSelectionsPromise = locationVote && locationStatus === 'ready'
+        ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
+        : Promise.resolve()
+
+      await Promise.all([timeSelectionsPromise, locationSelectionsPromise])
+
+      setTimeout(() => {
+        showDefaultToast({
+          message: t('meeting.resultSaved'),
+          duration: 3000,
+        })
+      }, 500)
+      navigate(`/meetings/${meetingCode}/result`)
+    } catch (error) {
+      const errorResponse = error as { response?: { data?: { messageKey?: string } } }
+      if (errorResponse.response?.data?.messageKey === 'error.meeting.already.confirmed') {
+        alert(t('meeting.alreadyConfirmedError'))
+        navigate(`/meetings/${meetingCode}/result`)
+      } else {
+        showDefaultToast({
+          message: t('common.error'),
+          duration: 3000,
+        })
+      }
+    }
+  }
+
   return (
     <div>
-      <div className={styles.selectedDatesInfo}>
-        <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
-        <p>{t('meeting.selectedDatesAndTimes', { count: dates.length })}</p>
-      </div>
-      <div
-        className={styles.container}
-        ref={containerRef}
-      >
-        <Daily
-          dates={dateList}
-          availableTimes={availableTimes}
-          height={height}
-          selections={selections}
-          setSelections={setSelections}
-          schedule={schedule}
-          participantsCount={data.participants.length}
-        />
+      {locationVote && (
+        <p className={styles.stepIndicator} aria-live='polite'>
+          {t(isLocationStep ? 'locationVote.locationStepLabel' : 'locationVote.scheduleStepLabel')}
+        </p>
+      )}
+
+      <div hidden={isLocationStep}>
+        <div className={styles.selectedDatesInfo}>
+          <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
+          <p>{t('meeting.selectedDatesAndTimes', { count: dates.length })}</p>
+        </div>
+        <div
+          className={styles.container}
+          ref={containerRef}
+        >
+          <Daily
+            dates={dateList}
+            availableTimes={availableTimes}
+            height={height}
+            selections={selections}
+            setSelections={setSelections}
+            schedule={schedule}
+            participantsCount={data.participants.length}
+          />
+        </div>
       </div>
 
-      {data.locationVote?.enabled && data.locationVote.locations && (
-        <LocationVoteSection
-          meetingCode={meetingCode}
-          locations={data.locationVote.locations}
-          confirmedLocation={data.locationVote.confirmedLocation}
-          onSelectionsChange={setSelectedLocationIds}
-          onStatusChange={setLocationStatus}
-        />
+      {locationVote && (
+        <div className={styles.locationStep} hidden={!isLocationStep}>
+          <LocationVoteSection
+            meetingCode={meetingCode}
+            locations={locationVote.locations}
+            confirmedLocation={locationVote.confirmedLocation}
+            onSelectionsChange={setSelectedLocationIds}
+            onStatusChange={setLocationStatus}
+          />
+        </div>
       )}
       <div className={styles.buttonContainer}>
         <Button
           buttonType='ghost'
           onClick={() => {
-            // 이번 페이지가 없을 때는 미팅 페이지로 이동
-            if (window.history.length === 1) {
-              navigate(`/meetings/${meetingCode}`)
-            } else {
-              window.history.back()
-            }
+            if (isLocationStep) moveToStep('schedule')
+            else handleCancel()
           }}
         >
-          {t('common.cancel')}
+          {t(isLocationStep ? 'common.previous' : 'common.cancel')}
         </Button>
         <Button
           buttonType='primary'
-          disabled={Object.entries(selections).every(([, times]) => times.length === 0) || locationStatus === 'loading'}
-          onClick={async () => {
-            try {
-              // selections 에서 빈배열인 날짜는 제거
-              const timeSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
-                selections: Object.entries(selections).filter(([, times]) => times.length > 0).map(([date, times]) => ({
-                  date,
-                  type: 'TIME',
-                  times,
-                })),
-              })
-
-              // 장소 투표가 활성화되어 있으면 장소 선택도 저장
-              const locationSelectionsPromise = data.locationVote?.enabled && locationStatus === 'ready'
-                ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
-                : Promise.resolve()
-
-              await Promise.all([timeSelectionsPromise, locationSelectionsPromise])
-
-              setTimeout(() => {
-                showDefaultToast({
-                  message: t('meeting.resultSaved'),
-                  duration: 3000,
-                })
-              }, 500)
-              navigate(`/meetings/${meetingCode}/result`)
-            } catch (error) {
-              const errorResponse = error as { response?: { data?: { messageKey?: string } } }
-              if (errorResponse.response?.data?.messageKey === 'error.meeting.already.confirmed') {
-                alert(t('meeting.alreadyConfirmedError'))
-                navigate(`/meetings/${meetingCode}/result`)
-              } else {
-                showDefaultToast({
-                  message: t('common.error'),
-                  duration: 3000,
-                })
-              }
+          disabled={!hasTimeSelections || (isLocationStep && locationStatus === 'loading')}
+          onClick={() => {
+            if (locationVote && !isLocationStep) {
+              moveToStep('location')
+              return
             }
+            return handleSubmit()
           }}
         >
-          {t('common.submit')}
+          {t(locationVote && !isLocationStep ? 'common.next' : 'common.submit')}
         </Button>
       </div>
     </div>
