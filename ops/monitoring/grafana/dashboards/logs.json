@@ -1,0 +1,59 @@
+{
+  "annotations": { "list": [] },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": { "type": "loki", "uid": "loki" },
+      "gridPos": { "h": 18, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "options": {
+        "dedupStrategy": "none",
+        "enableInfiniteScrolling": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "datasource": { "type": "loki", "uid": "loki" },
+          "editorMode": "code",
+          "expr": "{environment=\"production\", container=~\"$container\"}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Application logs",
+      "type": "logs"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 41,
+  "tags": ["time2gather", "logs"],
+  "templating": {
+    "list": [
+      {
+        "current": { "text": "All", "value": "$__all" },
+        "datasource": { "type": "loki", "uid": "loki" },
+        "definition": "label_values({environment=\"production\"}, container)",
+        "includeAll": true,
+        "label": "Container",
+        "name": "container",
+        "query": "label_values({environment=\"production\"}, container)",
+        "refresh": 2,
+        "type": "query"
+      }
+    ]
+  },
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Time2Gather Logs",
+  "uid": "time2gather-logs",
+  "version": 1
+}

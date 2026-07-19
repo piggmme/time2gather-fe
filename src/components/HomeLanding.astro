@@ -294,4 +294,16 @@ const faqs = ['what', 'login', 'location'] as const;
       padding: $spacing-lg;
     }
   }
+
+  @media (max-width: 359px) {
+    .landing {
+      padding-right: $spacing-xs;
+      padding-left: $spacing-xs;
+    }
+
+    .hero {
+      padding: $spacing-xl $spacing-base;
+      border-radius: 20px;
+    }
+  }
 </style>

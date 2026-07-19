@@ -1,0 +1,70 @@
+name: time2gather-monitoring
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  loki:
+    image: grafana/loki:3.7.3
+    command: -config.file=/etc/loki/local-config.yml
+    restart: unless-stopped
+    mem_limit: 384m
+    cpus: 0.50
+    ports:
+      - "127.0.0.1:3100:3100"
+    volumes:
+      - ./loki-config.yml:/etc/loki/local-config.yml:ro
+      - loki-data:/loki
+    logging: *default-logging
+
+  alloy:
+    image: grafana/alloy:v1.17.1
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+    restart: unless-stopped
+    user: "0"
+    mem_limit: 128m
+    cpus: 0.25
+    depends_on:
+      - loki
+    volumes:
+      - ./alloy-config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - alloy-data:/var/lib/alloy/data
+    logging: *default-logging
+
+  grafana:
+    image: grafana/grafana:13.1.0
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.50
+    depends_on:
+      - loki
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?GRAFANA_ADMIN_PASSWORD is required}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_SERVER_ROOT_URL: http://localhost:3001
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    logging: *default-logging
+
+volumes:
+  alloy-data:
+  grafana-data:
+  loki-data:
