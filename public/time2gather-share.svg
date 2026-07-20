@@ -58,12 +58,9 @@
   </g>
 
   <g font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Segoe UI', sans-serif">
-    <text x="625" y="188" fill="#4f46e5" font-size="30" font-weight="750" letter-spacing="-.6">Time2Gather</text>
-    <text x="625" y="288" fill="#111827" font-size="64" font-weight="850" letter-spacing="-3">
-      모두 되는 시간,
-    </text>
-    <text x="625" y="372" fill="#111827" font-size="64" font-weight="850" letter-spacing="-3">
-      한 번에 찾아요
+    <text x="625" y="246" fill="#4f46e5" font-size="34" font-weight="750">time2gather.org</text>
+    <text x="625" y="352" fill="#111827" font-size="76" font-weight="850">
+      Time2Gather
     </text>
   </g>
 </svg>

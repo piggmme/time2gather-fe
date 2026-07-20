@@ -107,7 +107,7 @@ export default function MonthlyGrid ({
 
   // 요일 헤더 생성 (0=일요일부터 6=토요일까지)
   const weekdays = Array.from({ length: 7 }, (_, i) => {
-    const day = dayjs().day(i)
+    const day = dayjs().locale(locale === 'ko' ? 'ko' : 'en').day(i)
     return {
       number: i,
       name: day.format('ddd'), // 한국어 축약형 요일 (일, 월, 화, 수, 목, 금, 토)

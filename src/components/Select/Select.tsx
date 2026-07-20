@@ -10,7 +10,7 @@ import styles from './Select.module.scss'
 
 export const Select = ({ text, options, value, setValue }: { text: string, options: string[], value: string, setValue: (value: string) => void }) => (
   <SelectRa.Root value={value} onValueChange={setValue}>
-    <SelectRa.Trigger className={styles.Trigger} aria-label='Food'>
+    <SelectRa.Trigger className={styles.Trigger} aria-label={text}>
       <SelectRa.Value placeholder={text} />
       <SelectRa.Icon className={styles.Icon}>
         <ChevronDownIcon />

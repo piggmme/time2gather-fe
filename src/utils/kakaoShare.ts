@@ -58,7 +58,7 @@ export function shareToKakao (params: ShareToKakaoParams): boolean {
     imageWidth = 1200,
     imageHeight = 630,
     url,
-    buttonTitle = '투표하러 가기',
+    buttonTitle = 'Time2Gather',
   } = params
 
   if (typeof window === 'undefined') {

@@ -16,7 +16,9 @@
     "share": "Share",
     "close": "Close",
     "loading": "Loading...",
-    "error": "An error occurred. Please try again."
+    "error": "An error occurred. Please try again.",
+    "switchToEnglish": "Switch to English",
+    "switchToKorean": "Switch to Korean"
   },
   "home": {
     "title": "Time2Gather",
@@ -151,7 +153,9 @@
       "available": "Available",
       "unavailable": "Unavailable",
       "availableMonths": "Months with available dates",
-      "monthAvailability": "{count} available dates in {month}"
+      "monthAvailability": "{count} available dates in {month}",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month"
     },
     "dateParticipants": {
       "title": "Available on {date}",

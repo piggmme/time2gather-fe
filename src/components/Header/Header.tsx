@@ -15,6 +15,8 @@ export default function Header () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { t, locale } = useTranslation()
   const me = useStore($me)
+  const nextLocale = locale === 'ko' ? 'en' : 'ko'
+  const languageButtonLabel = t(nextLocale === 'ko' ? 'common.switchToKorean' : 'common.switchToEnglish')
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -110,8 +112,8 @@ export default function Header () {
             </a>
             <button
               className={styles.localeButton}
-              onClick={() => handleLocaleChange(locale === 'ko' ? 'en' : 'ko')}
-              aria-label='한국어'
+              onClick={() => handleLocaleChange(nextLocale)}
+              aria-label={languageButtonLabel}
             >
               {locale === 'ko' ? 'A' : '가'}
             </button>
@@ -166,8 +168,8 @@ export default function Header () {
             <div className={styles.mobileNavBottomContents}>
               <button
                 className={styles.mobileNavBottomItem}
-                onClick={() => handleLocaleChange(locale === 'ko' ? 'en' : 'ko')}
-                aria-label='한국어'
+                onClick={() => handleLocaleChange(nextLocale)}
+                aria-label={languageButtonLabel}
               >
                 <GlobeIcon width={27} height={27} />
                 <span>{locale === 'ko' ? 'English' : '한국어'}</span>

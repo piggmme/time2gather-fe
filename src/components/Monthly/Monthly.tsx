@@ -138,14 +138,18 @@ export default function Monthly ({
 
   // Format date based on locale
   const formatMonthYear = (date: dayjs.Dayjs) => {
+    const localizedDate = date.locale(locale === 'ko' ? 'ko' : 'en')
     if (locale === 'ko') {
-      return date.format('YYYY년 MM월')
+      return localizedDate.format('YYYY년 MM월')
     } else {
-      return date.format('MMMM YYYY')
+      return localizedDate.format('MMMM YYYY')
     }
   }
 
-  const formatMonth = (date: dayjs.Dayjs) => locale === 'ko' ? date.format('M월') : date.format('MMM')
+  const formatMonth = (date: dayjs.Dayjs) => {
+    const localizedDate = date.locale(locale === 'ko' ? 'ko' : 'en')
+    return locale === 'ko' ? localizedDate.format('M월') : localizedDate.format('MMM')
+  }
 
   return (
     <div className={styles.container}>
@@ -155,7 +159,7 @@ export default function Monthly ({
           onClick={handlePreviousMonth}
           disabled={isPreviousDisabled}
           className={isPreviousDisabled ? styles.disabled : ''}
-          aria-label={locale === 'ko' ? '이전 달' : 'Previous month'}
+          aria-label={t('meeting.dateCalendar.previousMonth')}
         >
           <HiChevronLeft />
         </button>
@@ -165,7 +169,7 @@ export default function Monthly ({
           onClick={handleNextMonth}
           disabled={isNextDisabled}
           className={isNextDisabled ? styles.disabled : ''}
-          aria-label={locale === 'ko' ? '다음 달' : 'Next month'}
+          aria-label={t('meeting.dateCalendar.nextMonth')}
         >
           <HiChevronRight />
         </button>

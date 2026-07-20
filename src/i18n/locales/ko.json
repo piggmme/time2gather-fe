@@ -16,7 +16,9 @@
     "share": "공유하기",
     "close": "닫기",
     "loading": "불러오는 중...",
-    "error": "오류가 발생했어요. 다시 시도해주세요."
+    "error": "오류가 발생했어요. 다시 시도해주세요.",
+    "switchToEnglish": "영어로 전환",
+    "switchToKorean": "한국어로 전환"
   },
   "home": {
     "title": "Time2Gather",
@@ -151,7 +153,9 @@
       "available": "선택 가능",
       "unavailable": "선택 불가",
       "availableMonths": "선택 가능한 달",
-      "monthAvailability": "{month}에 선택 가능한 날짜 {count}개"
+      "monthAvailability": "{month}에 선택 가능한 날짜 {count}개",
+      "previousMonth": "이전 달",
+      "nextMonth": "다음 달"
     },
     "dateParticipants": {
       "title": "{date} 선택자",

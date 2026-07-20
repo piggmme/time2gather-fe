@@ -1,7 +1,8 @@
-import axios, { AxiosError } from 'axios'
+import axios, { type AxiosError } from 'axios'
 import { $me } from '../stores/me'
 import { showCautionToast } from '../stores/toast'
 import type { error_response } from '../services/type'
+import { getLocaleFromContext, getTranslations } from '../i18n'
 
 const api = axios.create({
   withCredentials: true,
@@ -20,8 +21,9 @@ api.interceptors.response.use(
     if (checkIsAuthError(error)) {
       $me.set(null)
     } else {
+      const t = getTranslations(getLocaleFromContext())
       showCautionToast({
-        message: error.response.data.message || error.response.data.error || '문제가 발생했습니다. 잠시후 다시 시도해주세요.',
+        message: error.response?.data?.message || error.response?.data?.error || t('common.error'),
       })
     }
     return Promise.reject(error)
