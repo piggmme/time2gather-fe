@@ -11,7 +11,7 @@ export default function GoogleLogin () {
 
   return (
     <Button buttonType='google' onClick={() => window.location.replace(`${GOOGLE_AUTH_URL}`)}>
-      <img src={GoogleLogo.src} alt="Google" width={20} height={20} />
+      <img src={GoogleLogo.src} alt='' aria-hidden='true' width={20} height={20} />
       {t('login.googleLogin')}
     </Button>
   )

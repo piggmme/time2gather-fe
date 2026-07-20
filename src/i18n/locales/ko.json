@@ -89,7 +89,14 @@
     "title": "약속 잡으러 갈까요?",
     "description": "로그인하고, 약속을 잡아보세요.",
     "kakaoLogin": "카카오로 계속하기",
-    "googleLogin": "Google로 계속하기"
+    "googleLogin": "Google로 계속하기",
+    "oauth": {
+      "loadingTitle": "로그인하고 있어요",
+      "loadingDescription": "잠시만 기다리면 이전 화면으로 돌아가요.",
+      "errorTitle": "로그인을 완료하지 못했어요",
+      "errorDescription": "로그인 화면으로 돌아가 다시 시도해 주세요.",
+      "retry": "로그인 다시 시도"
+    }
   },
   "search": {
     "title": "약속을 찾아봐요",
@@ -278,7 +285,7 @@
       },
       "login": {
         "title": "로그인 - Time2Gather",
-        "description": "카카오톡으로 간편하게 로그인하고 약속을 잡아보세요. 소셜 로그인으로 빠르게 시작할 수 있습니다."
+        "description": "카카오 또는 Google 계정으로 간편하게 로그인하고 약속을 잡아보세요."
       },
       "my": {
         "title": "내 약속 - Time2Gather",

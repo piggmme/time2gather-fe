@@ -57,6 +57,11 @@ function getNestedValue(obj: any, keys: string[]): any {
 // Helper function to get locale from URL, cookie, or browser
 export function getLocaleFromContext(): Locale {
   if (typeof window !== 'undefined') {
+    const documentLocale = document.documentElement.lang.split('-')[0];
+    if (documentLocale === 'ko' || documentLocale === 'en') {
+      return documentLocale;
+    }
+
     if (window.location.pathname === '/en' || window.location.pathname === '/en/') {
       return 'en';
     }

@@ -20,7 +20,7 @@ api.interceptors.response.use(
   (error) => {
     if (checkIsAuthError(error)) {
       $me.set(null)
-    } else {
+    } else if (!error.config?.url?.includes('/auth/oauth/')) {
       const t = getTranslations(getLocaleFromContext())
       showCautionToast({
         message: error.response?.data?.message || error.response?.data?.error || t('common.error'),

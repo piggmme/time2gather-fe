@@ -11,7 +11,7 @@ export default function KakaoLogin () {
 
   return (
     <Button buttonType='kakao' onClick={() => window.location.replace(`${KAKAO_AUTH_URL}`)}>
-      <img src={KakaoLogo.src} alt="Kakao" width={20} height={20} />
+      <img src={KakaoLogo.src} alt='' aria-hidden='true' width={20} height={20} />
       {t('login.kakaoLogin')}
     </Button>
   )

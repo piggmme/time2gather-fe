@@ -89,7 +89,14 @@
     "title": "Ready to schedule?",
     "description": "Sign in to create and manage your meetings.",
     "kakaoLogin": "Continue with Kakao",
-    "googleLogin": "Continue with Google"
+    "googleLogin": "Continue with Google",
+    "oauth": {
+      "loadingTitle": "Signing you in",
+      "loadingDescription": "You'll return to your previous screen in a moment.",
+      "errorTitle": "We couldn't sign you in",
+      "errorDescription": "Return to the sign-in page and try again.",
+      "retry": "Try signing in again"
+    }
   },
   "search": {
     "title": "Find a meeting",
@@ -278,7 +285,7 @@
       },
       "login": {
         "title": "Login - Time2Gather",
-        "description": "Log in easily with KakaoTalk and start scheduling. Get started quickly with social login."
+        "description": "Sign in with Kakao or Google to start scheduling."
       },
       "my": {
         "title": "My Meetings - Time2Gather",

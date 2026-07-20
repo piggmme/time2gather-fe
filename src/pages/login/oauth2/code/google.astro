@@ -1,8 +1,8 @@
 ---
 import Layout from '../../../../layouts/Layout.astro'
-import GoogleOauth from '../../../../components/Login/GoogleOauth';
+import Oauth from '../../../../components/Login/Oauth';
 ---
 
 <Layout>
-  <GoogleOauth client:only='react' />
+  <Oauth provider='google' client:only='react' />
 </Layout>
