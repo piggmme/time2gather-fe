@@ -112,7 +112,9 @@ export default function Header () {
               </a>
             )}
             <a
-              href='mailto:wlsdn3578@gmail.com?subject=Time2Gather%20Contact'
+              href='https://mail.google.com/mail/?view=cm&fs=1&to=wlsdn3578@gmail.com&su=Time2Gather%20Contact'
+              target='_blank'
+              rel='noreferrer'
               className={styles.desktopNavContact}
             >
               <EnvelopeClosedIcon width={27} height={27} />
@@ -193,7 +195,9 @@ export default function Header () {
                 <span>{locale === 'ko' ? 'English' : '한국어'}</span>
               </button>
               <a
-                href='mailto:wlsdn3578@gmail.com?subject=Time2Gather%20Contact'
+                href='https://mail.google.com/mail/?view=cm&fs=1&to=wlsdn3578@gmail.com&su=Time2Gather%20Contact'
+                target='_blank'
+                rel='noreferrer'
                 className={styles.mobileNavBottomItem}
                 onClick={closeMobileMenu}
               >
