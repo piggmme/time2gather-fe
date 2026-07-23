@@ -1,49 +1,72 @@
-# Feature: UI polish and responsive interaction pass
+# Feature: Time2Gather Admin Dashboard
 
 ## Overview
 
-Improve the app's shared layout, typography, cards, controls, and step navigation so Korean and English content reads naturally and interactive elements remain clear on mobile and desktop.
+Add a server-enforced `ADMIN` role and a responsive admin dashboard that shows user and meeting status, summary counts, and simple paginated search.
 
 ## Acceptance Criteria
 
-- [x] Home hero title and description avoid orphaned short final lines from 320px through 1440px.
-- [x] Home uses the maintained brand SVG and remains scroll-safe on short mobile viewports.
-- [x] Meeting type cards have balanced internal spacing, a clear selected state, and no clipped or crowded label.
-- [x] Previous and next actions both look like buttons, use a clear secondary/primary hierarchy, and avoid decorative arrow glyphs.
-- [x] Shared buttons keep at least a 44px target, readable horizontal padding, clear focus, hover, active, and disabled states.
-- [x] Desktop navigation no longer overlaps content at 700–1024px and its icon targets remain at least 44px.
-- [x] Calendar month controls and selectable calendar/time cells are keyboard-visible and have practical touch targets where layout allows.
-- [x] Existing create-flow parameters, including `meetingType` when navigating back from time range, are preserved.
-- [x] CI and Docker use the repository-pinned pnpm version that is compatible with Node 20 instead of resolving `pnpm@latest`.
-- [x] No horizontal overflow or clipped labels at 320, 390, 768, 1024, and 1440px.
-- [x] Available dates, unavailable dates, today, and selected dates remain visually distinct across single- and multi-month votes.
-- [x] Authenticated and anonymous all-day votes reveal participants on date click, and anonymous date/time flows save location votes safely.
-- [x] Kakao and Open Graph previews use the new 1200x630 Time2Gather brand share image.
+- [x] Persist `USER` and `ADMIN` roles on users; migrate every existing user to `USER` by default.
+- [x] Include the role in JWT authentication, OAuth responses, and `/api/v1/auth/me`.
+- [x] Return `401` for unauthenticated admin API requests and `403` for authenticated non-admin users.
+- [x] Expose an admin summary with total/registered/anonymous/admin user counts and total/active/confirmed meeting counts.
+- [x] Expose paginated user search by username or email with bounded page size.
+- [x] Expose paginated meeting search by title or meeting code, including host information.
+- [x] Add a noindex `/admin` page that redirects signed-out users to login and shows access denied to non-admin users.
+- [x] Show the admin navigation item only to users with the `ADMIN` role.
+- [x] Present responsive summary cards, searchable user/meeting panels, loading, empty, error, and pagination states in Korean and English.
+- [x] Do not add destructive admin actions or role-management UI in this first version.
+- [x] Keep the pending Korean login label fix separate from the admin feature.
 
-## Test Cases
+## Test Cases (TDD)
 
-- [x] At 320px and 390px, home copy wraps by meaningful Korean word groups without a one-word orphan.
-- [x] At 768px and 1024px, main content begins outside the desktop navigation rail.
-- [x] Meeting type labels fit in Korean and English and selection is exposed through `aria-pressed`.
-- [x] Back and next buttons remain visible and usable when next is disabled, without decorative pseudo-element arrows.
-- [x] Month navigation controls expose accessible labels and a minimum 44px target.
-- [x] Time-range Back returns to Dates with `meetingType=TIME` intact.
-- [x] Corepack resolves pnpm 10.23.0 from `package.json`, frozen-lockfile install succeeds, and the production build completes on the Node 20-compatible toolchain.
-- [x] Astro production build succeeds and changed files pass focused lint/type checks where the existing baseline allows.
-- [x] Kakao payloads and home/meeting/result OG metadata reference the new PNG with explicit 1200x630 dimensions.
+### Backend
+
+- [x] Existing and newly created users default to `USER`.
+- [x] JWT preserves an `ADMIN` role and treats role-less legacy tokens as `USER`.
+- [x] Admin endpoints reject unauthenticated and normal users.
+- [x] Admin endpoints return summary counts for an admin user.
+- [x] User search matches username/email and respects page-size bounds.
+- [x] Meeting search matches title/code and returns host information.
+- [x] Empty search results return a valid empty page.
+
+### Frontend
+
+- [x] Signed-out `/admin` access uses the existing validated return-to-action flow.
+- [x] A normal user sees access denied and no admin data.
+- [x] An admin receives localized counts, users, meetings, search, and pagination UI.
+- [x] Korean and English admin locale trees have no mixed or missing keys.
+- [ ] 390px and desktop browser screenshots/DOM overflow metrics (browser runtime unavailable; responsive CSS and production build verified).
 
 ## Technical Approach
 
-- Reuse the existing design tokens and SVG assets; add no dependencies.
-- Fix shared `Button` variants and states first, then update create/select step actions.
-- Replace conflicting fixed height/padding combinations in meeting cards with content-driven minimum sizing.
-- Apply balanced wrapping and responsive max-widths to the home hero.
-- Align the desktop rail width with the layout offset and enlarge navigation/calendar hit areas.
-- Prefer semantic/ARIA improvements in touched interactive controls without redesigning business logic.
-- Add a single `packageManager` pin for pnpm 10.23.0 and remove Docker's `pnpm@latest` override so CI and container builds share the same toolchain.
-- Verify rendered screenshots and DOM overflow metrics at representative mobile and desktop widths.
+### Backend (`time2gather-be`)
+
+- Add a Flyway migration for `users.role VARCHAR(20) NOT NULL DEFAULT 'USER'`.
+- Add `UserRole`, expose role in auth DTOs, and add a signed JWT role claim with a legacy-token fallback to `USER`.
+- Give `JwtAuthentication` and `CustomUserPrincipal` Spring Security authorities.
+- Protect `/api/v1/admin/**` with `hasRole('ADMIN')` before controller execution.
+- Add read-only admin summary, user search, and meeting search services/controllers with `page >= 0` and `1 <= size <= 50`.
+- Reuse Spring Data paging and parameterized derived queries; add no dependencies.
+
+### Frontend (`time2gather-fe`)
+
+- Extend the current-user type with `role`.
+- Add a small admin API service and a client-side admin access gate.
+- Add `/admin`, a responsive dashboard component, module styles, localized copy, and an admin-only header item.
+- Keep the backend as the security boundary; frontend checks only prevent confusing navigation and unnecessary requests.
 
 ## Dependencies
 
-- Existing Astro, React, SCSS, and react-icons packages only.
-- Deprecated `public/og-image.*` and `public/time2gather-icon.svg` assets are replaced by the maintained `favicon.svg` and `time2gather-share.png` assets.
+- Existing Spring Security, Spring Data JPA, Flyway, Astro, React, Axios, and Radix Icons only.
+- One existing user ID or email must be explicitly selected for promotion after the role migration.
+
+## Verification
+
+- Backend: targeted authorization/service/controller tests, full Gradle test and build.
+- Frontend: locale parity, TypeScript, focused ESLint, production build, mocked admin API browser tests, mobile/desktop screenshots and DOM overflow metrics.
+- Security: verify `401/403/200` boundaries directly against admin endpoints.
+
+## Open Decision
+
+- Which existing user should receive `ADMIN`: provide a user ID or login email. Recommendation: perform one explicit database update after deployment; do not hardcode personal email in a migration or source file.

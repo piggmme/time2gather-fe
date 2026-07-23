@@ -1,0 +1,532 @@
+@use "../../styles/variables.scss" as *;
+
+.page {
+  width: 100%;
+  max-width: 1120px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: $spacing-lg 0 $spacing-3xl;
+}
+
+.pageHeader {
+  margin-bottom: $spacing-2xl;
+
+  h1 {
+    margin: $spacing-xs 0 $spacing-md;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.2;
+  }
+
+  p {
+    max-width: 680px;
+    color: $c-gray-darkest;
+    font-size: $font-size-md;
+  }
+}
+
+.eyebrow {
+  color: $primary-color;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sectionHeading,
+.panelHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-lg;
+
+  h2 {
+    margin: 0 0 $spacing-xs;
+    color: $c-black;
+  }
+
+  p {
+    color: $c-gray-darkest;
+    font-size: $font-size-sm;
+  }
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  color: $c-gray-darkest;
+  border: 1px solid $c-gray-light;
+  border-radius: $radius-md;
+  background: $c-white;
+  transition: color $transition-fast, border-color $transition-fast, background-color $transition-fast;
+
+  &:hover {
+    color: $primary-color;
+    border-color: $primary-color-border;
+    background: $c-blue-soft;
+  }
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-2xl;
+}
+
+.summaryCard {
+  position: relative;
+  min-width: 0;
+  padding: $spacing-lg;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: $radius-base;
+  background: linear-gradient(145deg, $c-white, $c-gray-lightest);
+  box-shadow: $shadow-sm;
+
+  > span {
+    display: block;
+    margin-top: $spacing-lg;
+    color: $c-gray-darkest;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  > strong {
+    display: block;
+    margin-top: 2px;
+    color: $c-black;
+    font-size: clamp(28px, 4vw, 38px);
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+  }
+
+  > small {
+    display: block;
+    margin-top: $spacing-sm;
+    color: $c-gray-darkest;
+    font-size: $font-size-xs;
+  }
+}
+
+.summaryIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: $primary-color;
+  border-radius: $radius-md;
+  background: $primary-color-soft;
+
+  svg {
+    width: 19px;
+    height: 19px;
+  }
+}
+
+.panel {
+  min-width: 0;
+  margin-top: $spacing-xl;
+  padding: $spacing-lg;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: $radius-lg;
+  background: $c-white;
+  box-shadow: $shadow-sm;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  width: min(100%, 390px);
+  min-width: 0;
+  height: 48px;
+  padding-left: $spacing-md;
+  border: 1px solid $c-gray;
+  border-radius: $radius-md;
+  background: $c-white;
+  color: $c-gray-darkest;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &:focus-within {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px $primary-color-soft;
+  }
+
+  svg {
+    flex: 0 0 auto;
+  }
+
+  input {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 0 $spacing-sm;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: $c-black;
+  }
+
+  button {
+    align-self: stretch;
+    flex: 0 0 auto;
+    min-width: 72px;
+    padding: 0 $spacing-base;
+    border-radius: 0 10px 10px 0;
+    background: $primary-color;
+    color: $c-white;
+    font-weight: $font-weight-semibold;
+
+    &:hover {
+      background: $primary-color-hover;
+    }
+  }
+}
+
+.list {
+  min-width: 0;
+  border-top: 1px solid $c-gray-light;
+}
+
+.listHeader,
+.listRow {
+  display: grid;
+  align-items: center;
+  gap: $spacing-md;
+  min-width: 0;
+}
+
+.userGrid {
+  grid-template-columns: minmax(210px, 2fr) minmax(100px, 0.8fr) minmax(90px, 0.7fr) minmax(120px, 0.9fr);
+}
+
+.meetingGrid {
+  grid-template-columns: minmax(240px, 2fr) minmax(120px, 0.9fr) minmax(180px, 1.2fr) minmax(120px, 0.8fr);
+}
+
+.listHeader {
+  min-height: 44px;
+  padding: 0 $spacing-md;
+  color: $c-gray-darkest;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+}
+
+.listRow {
+  min-height: 76px;
+  padding: $spacing-md;
+  border-top: 1px solid $c-gray-light;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+
+  &:first-of-type {
+    border-top: 0;
+  }
+}
+
+.primaryCell {
+  min-width: 0;
+
+  strong,
+  span {
+    display: block;
+    min-width: 0;
+  }
+
+  strong {
+    overflow: hidden;
+    color: $c-black;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    margin-top: 2px;
+    overflow-wrap: anywhere;
+    color: $c-gray-darkest;
+    font-size: $font-size-xs;
+  }
+
+  a:hover strong {
+    color: $primary-color;
+  }
+}
+
+.dataCell {
+  min-width: 0;
+}
+
+.mobileLabel {
+  display: none;
+}
+
+.badgeGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 10px;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.neutral {
+  background: $c-gray-light;
+  color: $c-gray-darkest;
+}
+
+.primary {
+  background: $primary-color-soft;
+  color: $primary-color-hover;
+}
+
+.success {
+  background: $success-color-soft;
+  color: $success-text-color;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-md;
+  margin-top: $spacing-lg;
+
+  > span {
+    min-width: 90px;
+    color: $c-gray-darkest;
+    font-size: $font-size-sm;
+    text-align: center;
+  }
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    min-height: 44px;
+    padding: 0 $spacing-md;
+    border: 1px solid $c-gray;
+    border-radius: $radius-md;
+    color: $c-gray-darkest;
+    font-weight: $font-weight-medium;
+
+    &:hover:not(:disabled) {
+      border-color: $primary-color-border;
+      background: $c-blue-soft;
+      color: $primary-color;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+  }
+}
+
+.inlineState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
+  min-height: 150px;
+  padding: $spacing-xl $spacing-md;
+  color: $c-gray-darkest;
+  text-align: center;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    min-height: 44px;
+    padding: 0 $spacing-md;
+    border-radius: $radius-md;
+    background: $c-gray-light;
+    color: $c-black;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.pageState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  min-height: min(680px, calc(100svh - 90px));
+  padding: $spacing-2xl $spacing-base;
+  text-align: center;
+
+  h1 {
+    margin: $spacing-base 0 $spacing-sm;
+    font-size: $font-size-2xl;
+  }
+
+  p {
+    max-width: 480px;
+    color: $c-gray-darkest;
+  }
+}
+
+.pageStateIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: $radius-base;
+  background: $c-gray-light;
+  color: $c-gray-darkest;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  min-height: 48px;
+  margin-top: $spacing-lg;
+  padding: 0 $spacing-lg;
+  border-radius: $radius-md;
+  background: $primary-color;
+  color: $c-white;
+  font-weight: $font-weight-semibold;
+}
+
+@media (max-width: 899px) {
+  .summaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .panelHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .searchForm {
+    width: 100%;
+  }
+
+  .listHeader {
+    display: none;
+  }
+
+  .list {
+    display: grid;
+    gap: $spacing-md;
+    border-top: 0;
+  }
+
+  .listRow.userGrid,
+  .listRow.meetingGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $spacing-base;
+    padding: $spacing-base;
+    border: 1px solid $c-gray-light;
+    border-radius: $radius-md;
+    background: $c-gray-lightest;
+  }
+
+  .primaryCell {
+    grid-column: 1 / -1;
+  }
+
+  .mobileLabel {
+    display: block;
+    margin-bottom: $spacing-xs;
+    color: $c-gray-dark;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+@media (max-width: 699px) {
+  .page {
+    padding-top: $spacing-base;
+  }
+
+  .pageHeader {
+    margin-bottom: $spacing-xl;
+  }
+
+  .summaryGrid {
+    gap: $spacing-sm;
+  }
+
+  .summaryCard {
+    padding: $spacing-base;
+
+    > span {
+      margin-top: $spacing-base;
+    }
+  }
+
+  .panel {
+    margin-top: $spacing-lg;
+    padding: $spacing-base;
+    border-radius: $radius-base;
+  }
+
+  .searchForm {
+    height: auto;
+    min-height: 48px;
+    flex-wrap: wrap;
+    padding: $spacing-xs;
+
+    > svg {
+      margin-left: $spacing-sm;
+    }
+
+    input {
+      width: calc(100% - 38px);
+      height: 42px;
+      padding-right: $spacing-sm;
+    }
+
+    button {
+      width: 100%;
+      min-height: 44px;
+      border-radius: $radius-sm;
+    }
+  }
+
+  .pagination {
+    justify-content: space-between;
+    gap: $spacing-xs;
+
+    button {
+      min-width: 44px;
+      padding: 0 $spacing-sm;
+
+      span {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .listRow.userGrid,
+  .listRow.meetingGrid {
+    grid-template-columns: 1fr;
+  }
+}

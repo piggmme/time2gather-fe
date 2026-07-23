@@ -1,7 +1,7 @@
 import styles from './Header.module.scss'
 import { useState } from 'react'
 import {
-  GlobeIcon, HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon, RocketIcon,
+  DashboardIcon, EnvelopeClosedIcon, GlobeIcon, HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon,
 } from '@radix-ui/react-icons'
 import { VisuallyHidden } from 'radix-ui'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -102,13 +102,21 @@ export default function Header () {
               }
               <VisuallyHidden.Root>{t('common.myMeetings')}</VisuallyHidden.Root>
             </a>
+            {me?.role === 'ADMIN' && (
+              <a
+                href='/admin'
+                className={styles.desktopNavLink}
+              >
+                <DashboardIcon width={27} height={27} />
+                <VisuallyHidden.Root>{t('common.adminDashboard')}</VisuallyHidden.Root>
+              </a>
+            )}
             <a
-              href='https://github.com/piggmme/time2gather-fe'
-              target='_blank'
-              className={styles.desktopNavAboutUs}
+              href='mailto:wlsdn3578@gmail.com?subject=Time2Gather%20Contact'
+              className={styles.desktopNavContact}
             >
-              <RocketIcon width={27} height={27} />
-              <VisuallyHidden.Root>{t('common.aboutUs')}</VisuallyHidden.Root>
+              <EnvelopeClosedIcon width={27} height={27} />
+              <VisuallyHidden.Root>{t('common.contactUs')}</VisuallyHidden.Root>
             </a>
             <button
               className={styles.localeButton}
@@ -165,6 +173,16 @@ export default function Header () {
               }
               <span>{t('common.myMeetings')}</span>
             </a>
+            {me?.role === 'ADMIN' && (
+              <a
+                href='/admin'
+                className={styles.mobileNavLink}
+                onClick={closeMobileMenu}
+              >
+                <DashboardIcon width={27} height={27} />
+                <span>{t('common.adminDashboard')}</span>
+              </a>
+            )}
             <div className={styles.mobileNavBottomContents}>
               <button
                 className={styles.mobileNavBottomItem}
@@ -175,12 +193,12 @@ export default function Header () {
                 <span>{locale === 'ko' ? 'English' : '한국어'}</span>
               </button>
               <a
-                href='https://github.com/piggmme/time2gather-fe'
-                target='_blank'
+                href='mailto:wlsdn3578@gmail.com?subject=Time2Gather%20Contact'
                 className={styles.mobileNavBottomItem}
+                onClick={closeMobileMenu}
               >
-                <RocketIcon width={27} height={27} />
-                <span>{t('common.aboutUs')}</span>
+                <EnvelopeClosedIcon width={27} height={27} />
+                <span>{t('common.contactUs')}</span>
               </a>
             </div>
           </div>

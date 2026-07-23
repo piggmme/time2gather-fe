@@ -9,8 +9,8 @@ const api = axios.create({
   baseURL: import.meta.env.PUBLIC_API_URL || 'https://api.time2gather.org/api',
 })
 
-const checkIsAuthError = (error: AxiosError<error_response>) => {
-  return error.response?.status === 401 || error.response?.status === 403 || error.response?.data?.message === 'OAuth login failed: JWT 인증 정보가 아닙니다.'
+const shouldResetSession = (error: AxiosError<error_response>) => {
+  return error.response?.status === 401 || error.response?.data?.message === 'OAuth login failed: JWT 인증 정보가 아닙니다.'
 }
 
 api.interceptors.response.use(
@@ -18,7 +18,7 @@ api.interceptors.response.use(
     return response
   },
   (error) => {
-    if (checkIsAuthError(error)) {
+    if (shouldResetSession(error)) {
       $me.set(null)
     } else if (!error.config?.url?.includes('/auth/oauth/')) {
       const t = getTranslations(getLocaleFromContext())

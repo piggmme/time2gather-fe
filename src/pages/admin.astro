@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro'
+import RequireAuth from '../components/RequireAuth'
+import AdminDashboard from '../components/Admin/AdminDashboard'
+import { defaultLocale, getLocaleFromAstroRequest, getTranslations } from '../i18n'
+
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
+const t = getTranslations(locale)
+---
+
+<Layout
+  title={t('admin.metaTitle')}
+  description={t('admin.metaDescription')}
+  schemaType='WebPage'
+  indexable={false}
+  locale={locale}
+>
+  <RequireAuth client:only='react' />
+  <AdminDashboard client:only='react' />
+</Layout>

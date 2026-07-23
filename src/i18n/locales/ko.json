@@ -9,7 +9,8 @@
     "searchMeetingPlaceholder": "약속 코드",
     "searchMeetingButton": "약속 찾기",
     "myMeetings": "내 약속",
-    "aboutUs": "About Us",
+    "adminDashboard": "관리자 대시보드",
+    "contactUs": "문의하기",
     "menu": "메뉴",
     "openMenu": "메뉴 열기",
     "submit": "완료",
@@ -89,7 +90,7 @@
     "title": "약속 잡으러 갈까요?",
     "description": "로그인하고, 약속을 잡아보세요.",
     "kakaoLogin": "카카오로 계속하기",
-    "googleLogin": "Google로 계속하기",
+    "googleLogin": "구글로 계속하기",
     "oauth": {
       "loadingTitle": "로그인하고 있어요",
       "loadingDescription": "잠시만 기다리면 이전 화면으로 돌아가요.",
@@ -264,6 +265,74 @@
     "myMeetingsDetails": "내가 만든 약속은 총 {count}개에요.",
     "participatedMeetingsDetails": "참여한 약속은 총 {count}개에요."
   },
+  "admin": {
+    "metaTitle": "관리자 대시보드 - Time2Gather",
+    "metaDescription": "Time2Gather 사용자와 약속 현황을 확인하는 관리자 전용 화면입니다.",
+    "eyebrow": "ADMIN CONSOLE",
+    "title": "서비스 현황",
+    "description": "사용자와 약속의 주요 지표를 확인하고 필요한 항목을 빠르게 찾아보세요.",
+    "summaryTitle": "한눈에 보기",
+    "summaryDescription": "현재 저장된 사용자와 약속을 기준으로 집계한 수치입니다.",
+    "loading": "관리자 화면을 준비하고 있어요.",
+    "loadingDescription": "권한과 최신 현황을 확인하는 중입니다.",
+    "accessDeniedTitle": "접근 권한이 없습니다",
+    "accessDeniedDescription": "관리자 권한이 있는 계정만 이 화면을 볼 수 있습니다.",
+    "refresh": "현황 새로고침",
+    "retry": "다시 시도",
+    "loadError": "현황을 불러오지 못했어요.",
+    "search": "검색",
+    "notAvailable": "정보 없음",
+    "pageOf": "{current} / {total} 페이지",
+    "stats": {
+      "totalUsers": "전체 사용자",
+      "registeredUsers": "가입 사용자",
+      "anonymousUsers": "익명 사용자",
+      "adminUsers": "관리자 {count}명",
+      "totalMeetings": "전체 약속",
+      "activeMeetings": "활성 약속",
+      "confirmedMeetings": "확정된 약속"
+    },
+    "users": {
+      "title": "사용자 현황",
+      "description": "총 {count}명의 사용자가 검색되었습니다.",
+      "searchPlaceholder": "이름 또는 이메일 검색",
+      "loadError": "사용자 목록을 불러오지 못했어요.",
+      "empty": "검색 조건에 맞는 사용자가 없습니다.",
+      "user": "사용자",
+      "provider": "로그인 방식",
+      "role": "권한",
+      "joinedAt": "가입일",
+      "noEmail": "이메일 없음"
+    },
+    "meetings": {
+      "title": "약속 현황",
+      "description": "총 {count}개의 약속이 검색되었습니다.",
+      "searchPlaceholder": "약속 제목 또는 코드 검색",
+      "loadError": "약속 목록을 불러오지 못했어요.",
+      "empty": "검색 조건에 맞는 약속이 없습니다.",
+      "meeting": "약속",
+      "host": "만든 사람",
+      "status": "상태",
+      "createdAt": "생성일",
+      "active": "활성",
+      "inactive": "비활성",
+      "confirmed": "확정",
+      "unknownHost": "알 수 없는 사용자"
+    },
+    "providers": {
+      "ANONYMOUS": "익명",
+      "KAKAO": "카카오",
+      "GOOGLE": "구글"
+    },
+    "roles": {
+      "USER": "일반",
+      "ADMIN": "관리자"
+    },
+    "selectionTypes": {
+      "TIME": "날짜 + 시간",
+      "ALL_DAY": "날짜만"
+    }
+  },
   "404": {
     "title": "페이지를 찾을 수 없습니다",
     "description": "요청하신 페이지가 존재하지 않거나 삭제되었습니다.",
@@ -285,7 +354,7 @@
       },
       "login": {
         "title": "로그인 - Time2Gather",
-        "description": "카카오 또는 Google 계정으로 간편하게 로그인하고 약속을 잡아보세요."
+        "description": "카카오 또는 구글 계정으로 간편하게 로그인하고 약속을 잡아보세요."
       },
       "my": {
         "title": "내 약속 - Time2Gather",

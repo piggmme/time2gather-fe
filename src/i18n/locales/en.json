@@ -9,7 +9,8 @@
     "searchMeetingPlaceholder": "Meeting code",
     "searchMeetingButton": "Find Meeting",
     "myMeetings": "My Meetings",
-    "aboutUs": "About Us",
+    "adminDashboard": "Admin Dashboard",
+    "contactUs": "Contact us",
     "menu": "Menu",
     "openMenu": "Open Menu",
     "submit": "Submit",
@@ -263,6 +264,74 @@
     "noParticipatedMeetings": "You haven't participated in any meetings yet.",
     "myMeetingsDetails": "You have created {count} meetings.",
     "participatedMeetingsDetails": "You have participated in {count} meetings."
+  },
+  "admin": {
+    "metaTitle": "Admin Dashboard - Time2Gather",
+    "metaDescription": "A private dashboard for reviewing Time2Gather users and meetings.",
+    "eyebrow": "ADMIN CONSOLE",
+    "title": "Service overview",
+    "description": "Review key user and meeting metrics, then quickly find the records you need.",
+    "summaryTitle": "At a glance",
+    "summaryDescription": "Counts are based on the users and meetings currently stored.",
+    "loading": "Preparing the admin dashboard.",
+    "loadingDescription": "Checking your access and loading the latest data.",
+    "accessDeniedTitle": "You don't have access",
+    "accessDeniedDescription": "Only accounts with the admin role can view this page.",
+    "refresh": "Refresh overview",
+    "retry": "Try again",
+    "loadError": "We couldn't load the overview.",
+    "search": "Search",
+    "notAvailable": "Not available",
+    "pageOf": "Page {current} of {total}",
+    "stats": {
+      "totalUsers": "Total users",
+      "registeredUsers": "Signed-up users",
+      "anonymousUsers": "Anonymous users",
+      "adminUsers": "{count} admins",
+      "totalMeetings": "Total meetings",
+      "activeMeetings": "Active meetings",
+      "confirmedMeetings": "Confirmed meetings"
+    },
+    "users": {
+      "title": "Users",
+      "description": "{count} users found.",
+      "searchPlaceholder": "Search name or email",
+      "loadError": "We couldn't load the users.",
+      "empty": "No users match your search.",
+      "user": "User",
+      "provider": "Sign-in method",
+      "role": "Role",
+      "joinedAt": "Joined",
+      "noEmail": "No email"
+    },
+    "meetings": {
+      "title": "Meetings",
+      "description": "{count} meetings found.",
+      "searchPlaceholder": "Search title or meeting code",
+      "loadError": "We couldn't load the meetings.",
+      "empty": "No meetings match your search.",
+      "meeting": "Meeting",
+      "host": "Host",
+      "status": "Status",
+      "createdAt": "Created",
+      "active": "Active",
+      "inactive": "Inactive",
+      "confirmed": "Confirmed",
+      "unknownHost": "Unknown user"
+    },
+    "providers": {
+      "ANONYMOUS": "Anonymous",
+      "KAKAO": "Kakao",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "User",
+      "ADMIN": "Admin"
+    },
+    "selectionTypes": {
+      "TIME": "Date and time",
+      "ALL_DAY": "Dates only"
+    }
   },
   "404": {
     "title": "Page Not Found",

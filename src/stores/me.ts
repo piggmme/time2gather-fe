@@ -9,10 +9,11 @@ type BasicUser = {
   createdAt?: string
   createdMeetings?: Meeting[]
   participatedMeetings?: Meeting[]
+  role: 'USER' | 'ADMIN'
 }
 
 type NormalUser = BasicUser & {
-  provider: 'kakao' | 'google'
+  provider: 'kakao' | 'google' | 'KAKAO' | 'GOOGLE'
 }
 
 type AnonymousUser = BasicUser & {
@@ -29,7 +30,7 @@ const fetchMe = async () => {
   try {
     const response = await auth.me.get()
     $me.set(response.data || null)
-  } catch (error) {
+  } catch {
     $me.set(null)
   }
 }

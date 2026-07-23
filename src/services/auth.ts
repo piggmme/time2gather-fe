@@ -1,6 +1,6 @@
 import type { User } from '../stores/me'
 import api from '../utils/api'
-import type { success_response, error_response } from './type'
+import type { success_response } from './type'
 
 type post_auth_oauth_$provider_body = {
   authorizationCode: string
@@ -12,6 +12,7 @@ type post_auth_oauth_$provider_response = success_response<{
   email: string
   profileImageUrl: string
   provider: 'kakao' | 'google'
+  role: 'USER' | 'ADMIN'
   isNewUser: boolean
 }>
 const post_auth_oauth_$provider = async (provider: 'kakao' | 'google', body: post_auth_oauth_$provider_body) => {
