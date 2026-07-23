@@ -11,7 +11,15 @@ import LoginDialog from '../LoginDialog/LoginDialog'
 import { HiOutlineCalendar, HiOutlineShare, HiOutlinePencil, HiOutlineSparkles } from 'react-icons/hi'
 import { RiKakaoTalkFill } from 'react-icons/ri'
 import { shareToKakao, isKakaoAvailable } from '../../utils/kakaoShare'
+import { formatDate, formatTime } from '../../utils/time'
 import styles from './ResultButtons.module.scss'
+
+const compactShareText = (value: string, maxLength: number) => {
+  const characters = Array.from(value.trim())
+  return characters.length > maxLength
+    ? `${characters.slice(0, maxLength - 1).join('')}…`
+    : characters.join('')
+}
 
 export default function ResultButtons (
   { data, onMeetingUpdated }:
@@ -21,7 +29,7 @@ export default function ResultButtons (
   const didIParticipate = data.participants.some(participant => participant.userId === me?.userId)
   const isHost = data.meeting.host.id === me?.userId
   const isConfirmed = !!data.meeting.confirmedDate
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
   const [isAnonymousDialogOpen, setIsAnonymousDialogOpen] = useState(false)
@@ -100,11 +108,42 @@ export default function ResultButtons (
   }
 
   const handleShareKakao = () => {
+    const confirmedDate = isConfirmed
+      ? formatDate(data.meeting.confirmedDate!, locale)
+      : ''
+    const confirmedLocationName = data.locationVote?.confirmedLocation?.name
+      || t('meeting.result.kakaoShare.locationPending')
+    const confirmedLocation = data.locationVote?.enabled
+      ? compactShareText(
+          confirmedLocationName,
+          28,
+        )
+      : null
+    const confirmedDetails = isConfirmed
+      ? [
+          formatTime(
+            data.meeting.confirmedTime ?? 'ALL_DAY',
+            locale,
+            t('meeting.confirmDialog.allDay'),
+          ),
+          confirmedLocation,
+        ].filter((detail): detail is string => !!detail).join(' · ')
+      : ''
+
     const success = shareToKakao({
-      title: data.meeting.title,
-      description: t('meeting.result.kakaoShare.description'),
+      title: isConfirmed
+        ? t('meeting.result.kakaoShare.confirmedTitle', { date: confirmedDate })
+        : data.meeting.title,
+      description: isConfirmed
+        ? t('meeting.result.kakaoShare.confirmedDescription', {
+            title: compactShareText(data.meeting.title, 32),
+            details: confirmedDetails,
+          })
+        : t('meeting.result.kakaoShare.description'),
       url: window.location.href,
-      buttonTitle: t('meeting.result.kakaoShare.buttonTitle'),
+      buttonTitle: isConfirmed
+        ? t('meeting.result.kakaoShare.confirmedButtonTitle')
+        : t('meeting.result.kakaoShare.buttonTitle'),
     })
 
     if (!success) {
@@ -207,6 +246,7 @@ export default function ResultButtons (
         meetingCode={data.meeting.code}
         bestSlots={data.summary.bestSlots}
         selectionType={data.meeting.selectionType}
+        locationVote={data.locationVote}
       />
 
       <LoginDialog

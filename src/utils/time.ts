@@ -96,3 +96,20 @@ export function formatDate (date: dayjs.Dayjs | string, locale: 'ko' | 'en'): st
     }
   }
 }
+
+export function formatTime (time: string, locale: 'ko' | 'en', allDayLabel: string): string {
+  if (time === 'ALL_DAY') {
+    return allDayLabel
+  }
+
+  const [hours, minutes] = time.split(':').map(Number)
+  if (!Number.isInteger(hours) || !Number.isInteger(minutes)) {
+    return time
+  }
+
+  return new Intl.DateTimeFormat(locale === 'ko' ? 'ko-KR' : 'en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(2000, 0, 1, hours, minutes)))
+}

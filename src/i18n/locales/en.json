@@ -192,9 +192,17 @@
     },
     "confirmDialog": {
       "title": "Confirm Meeting",
-      "description": "Select the date and time to confirm. (Top 3)",
+      "description": "Choose the final schedule from {count} tied top options.",
       "noSlots": "No dates have been voted on yet.",
       "allDay": "All Day",
+      "scheduleTitle": "Date and time",
+      "scheduleDescription": "These options work for the most participants.",
+      "locationTitle": "Location",
+      "locationDescription": "Choose where to meet using the vote results.",
+      "locationStepDescription": "Choose where to meet to finish confirming the plan.",
+      "progressLabel": "Meeting confirmation steps",
+      "locationVoteCount": "{count} votes",
+      "noLocations": "There are no locations available to confirm.",
       "cancel": "Cancel",
       "confirm": "Confirm",
       "confirming": "Confirming...",
@@ -232,7 +240,11 @@
       },
       "kakaoShare": {
         "description": "Pick the times that work for you.",
-        "buttonTitle": "Join the vote"
+        "buttonTitle": "Join the vote",
+        "confirmedTitle": "{date} · Confirmed",
+        "confirmedDescription": "{title}\n{details}",
+        "confirmedButtonTitle": "View confirmed plan",
+        "locationPending": "Location pending"
       },
       "viralCta": {
         "title": "Want to create your own meeting?",
@@ -366,7 +378,9 @@
       },
       "result": {
         "title": "{title} Results - Time2Gather",
-        "description": "Join {title} and choose the times that work for you."
+        "description": "Join {title} and choose the times that work for you.",
+        "confirmedTitle": "{title} Confirmed - Time2Gather",
+        "confirmedDescription": "Confirmed plan: {details}"
       }
     }
   },

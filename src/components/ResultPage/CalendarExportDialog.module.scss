@@ -1,42 +1,142 @@
 @use "../../styles/variables.scss" as *;
 
 .dialogContent {
-  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 520px;
+  max-height: min(760px, calc(100dvh - 32px));
+  overflow: hidden;
+}
+
+.dialogHeader {
+  flex: 0 0 auto;
+}
+
+.dialogBody {
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+}
+
+.stepIndicator {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background-color: $c-gray-light;
+    color: $c-gray-dark;
+    font-size: 13px;
+    font-weight: 600;
+    word-break: keep-all;
+  }
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: $c-white;
+    font-size: 12px;
+  }
+
+  .activeStep {
+    background-color: rgba($primary-color, 0.1);
+    color: $primary-color;
+
+    span {
+      background-color: $primary-color;
+      color: $c-white;
+    }
+  }
+
+  .completedStep {
+    color: $primary-color;
+
+    span {
+      background-color: $primary-color;
+      color: $c-white;
+    }
+  }
+}
+
+.selectionSection {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+}
+
+.sectionTitle {
+  padding: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: $c-black;
+}
+
+.sectionDescription {
+  margin: 4px 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: $c-gray-darkest;
+  word-break: keep-all;
 }
 
 .slotList {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 16px 0;
-  max-height: 300px;
-  overflow-y: auto;
+  margin: 0;
 }
 
 .slotItem {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px;
+  min-height: 58px;
+  padding: 11px 12px;
+  box-sizing: border-box;
   border: 1px solid $c-gray-light;
-  border-radius: 8px;
+  border-radius: 12px;
+  background-color: $c-white;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 
-  &:hover {
-    background-color: $c-gray-light;
+  &:focus-within {
+    outline: 2px solid rgba($primary-color, 0.25);
+    outline-offset: 1px;
   }
 
   &:has(.radioInput:checked) {
     border-color: $primary-color;
-    background-color: rgba($primary-color, 0.05);
+    background-color: rgba($primary-color, 0.07);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: rgba($primary-color, 0.5);
+    }
   }
 }
 
 .radioInput {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
   accent-color: $primary-color;
   cursor: pointer;
   flex-shrink: 0;
@@ -47,28 +147,62 @@
   flex-direction: column;
   gap: 2px;
   flex: 1;
+  min-width: 0;
 }
 
 .slotDate {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1.4;
   color: $c-black;
+  overflow-wrap: anywhere;
 }
 
 .slotTime {
   font-size: 13px;
+  line-height: 1.4;
   color: $c-gray-dark;
 }
 
 .slotStats {
+  flex-shrink: 0;
+  max-width: 45%;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background-color: $c-gray-light;
   font-size: 13px;
+  line-height: 1.35;
   color: $c-gray-dark;
-  white-space: nowrap;
+  text-align: right;
+  word-break: keep-all;
+}
+
+.emptyMessage {
+  margin: 0;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: $c-gray-light;
+  color: $c-gray-darkest;
+  font-size: 14px;
+  text-align: center;
 }
 
 .dialogButtons {
+  flex: 0 0 auto;
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid $c-gray-light;
+
+  > button {
+    min-height: 44px;
+  }
+
+  @media (max-width: 479px) {
+    > button {
+      flex: 1;
+    }
+  }
 }

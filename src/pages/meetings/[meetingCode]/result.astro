@@ -6,6 +6,7 @@ import type { get_meetings_$meetingCode_report_response, get_meetings_$meetingCo
 import Avatar from '../../../components/Avatar/Avatar';
 import ResultButtons from '../../../components/ResultPage/ResultButtons';
 import ResultContent from '../../../components/ResultPage/ResultContent';
+import { formatDate, formatTime } from '../../../utils/time';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
@@ -30,8 +31,27 @@ try {
 // SEO 메타데이터 설정
 const siteUrl = Astro.site?.href || 'https://time2gather.org/';
 const meetingUrl = new URL(Astro.url.pathname, siteUrl).href;
-const meetingTitle = t('meta.pages.result.title', { title: meetingData.meeting.title });
-const meetingDescription = t('meeting.result.kakaoShare.description');
+const isConfirmed = !!meetingData.meeting.confirmedDate;
+const confirmedDetails = isConfirmed
+  ? [
+      formatDate(meetingData.meeting.confirmedDate!, locale),
+      formatTime(
+        meetingData.meeting.confirmedTime ?? 'ALL_DAY',
+        locale,
+        t('meeting.confirmDialog.allDay'),
+      ),
+      meetingData.locationVote?.enabled
+        ? meetingData.locationVote.confirmedLocation?.name ?? t('meeting.result.kakaoShare.locationPending')
+        : null,
+    ].filter((detail): detail is string => !!detail)
+  : [];
+const meetingTitle = t(
+  isConfirmed ? 'meta.pages.result.confirmedTitle' : 'meta.pages.result.title',
+  { title: meetingData.meeting.title },
+);
+const meetingDescription = isConfirmed
+  ? t('meta.pages.result.confirmedDescription', { details: confirmedDetails.join(' · ') })
+  : t('meeting.result.kakaoShare.description');
 const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
 
 ---

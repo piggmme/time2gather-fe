@@ -41,7 +41,7 @@ type User = {
   profileImageUrl: string
 }
 
-type LocationInfo = {
+export type LocationInfo = {
   id: number
   name: string
   displayOrder: number
@@ -50,7 +50,7 @@ type LocationInfo = {
   voters: User[]
 }
 
-type LocationVoteInfo = {
+export type LocationVoteInfo = {
   enabled: boolean
   locations: LocationInfo[]
   confirmedLocation: LocationInfo | null
@@ -240,6 +240,7 @@ export type post_meetings_$meetingCode_auth_anonymous_body = {
 export type put_meetings_$meetingCode_confirm_body = {
   date: string
   slotIndex: number | null
+  locationId?: number
 }
 const put_meetings_$meetingCode_confirm = async (meetingCode: string, body: put_meetings_$meetingCode_confirm_body) => {
   const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/confirm`, body)
