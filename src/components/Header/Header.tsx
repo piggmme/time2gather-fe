@@ -195,9 +195,7 @@ export default function Header () {
                 <span>{locale === 'ko' ? 'English' : '한국어'}</span>
               </button>
               <a
-                href='https://mail.google.com/mail/?view=cm&fs=1&to=wlsdn3578@gmail.com&su=Time2Gather%20Contact'
-                target='_blank'
-                rel='noreferrer'
+                href='mailto:wlsdn3578@gmail.com?subject=Time2Gather%20Contact'
                 className={styles.mobileNavBottomItem}
                 onClick={closeMobileMenu}
               >
