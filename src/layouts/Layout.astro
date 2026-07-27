@@ -46,6 +46,18 @@ const hreflangUrls = alternates && {
 <!doctype html>
 <html lang={locale}>
   <head>
+    <script is:inline define:vars={{ resolvedLocale: locale }}>
+      (() => {
+        try {
+          window.localStorage.setItem('locale', resolvedLocale)
+        } catch {
+          // localStorage may be unavailable in privacy-restricted browser contexts.
+        }
+
+        const secureAttribute = window.location.protocol === 'https:' ? '; Secure' : ''
+        document.cookie = `locale=${resolvedLocale}; Path=/; Max-Age=31536000; SameSite=Lax${secureAttribute}`
+      })()
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />

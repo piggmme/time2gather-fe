@@ -125,6 +125,7 @@ export function setLocale(locale: Locale) {
   if (typeof window !== 'undefined') {
     localStorage.setItem('locale', locale);
     // Also set cookie for server-side access
-    document.cookie = `locale=${locale}; path=/; max-age=31536000`; // 1 year
+    const secureAttribute = window.location.protocol === 'https:' ? '; Secure' : ''
+    document.cookie = `locale=${locale}; Path=/; Max-Age=31536000; SameSite=Lax${secureAttribute}` // 1 year
   }
 }
