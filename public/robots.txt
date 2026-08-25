@@ -22,6 +22,8 @@ User-agent: Googlebot-Image
 Allow: /time2gather-share.png
 Allow: /favicon.png
 Allow: /favicon.svg
+Allow: /favicon.ico
+Allow: /apple-touch-icon.png
 
 # Naver (Korea's primary search engine)
 User-agent: Yeti
