@@ -25,8 +25,7 @@ export default function ResultContent ({
   const [anonymousMeetingData, setAnonymousMeetingData] = useState<typeof meetingData | null>(null)
 
   useEffect(() => {
-    const isCurrentAnonymous = me?.provider === 'ANONYMOUS' && me.anonymousMeetingCode === meetingData.meeting.code
-    if (!isCurrentAnonymous) {
+    if (!me) {
       setAnonymousMeetingData(null)
       return
     }

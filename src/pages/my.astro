@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro'
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n'
 import MyMeetings from '../components/MyMeetings/MyMeetings'
-import RequireAuth from '../components/RequireAuth'
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
 const t = getTranslations(locale);
@@ -12,7 +11,6 @@ const description = t('meta.pages.my.description');
 ---
 
 <Layout title={title} description={description} schemaType="WebPage">
-  <RequireAuth client:only='react' />
   <main>
     <h1>{t('my.title')}</h1>
     <MyMeetings client:only='react' />

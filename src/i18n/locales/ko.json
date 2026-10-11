@@ -52,7 +52,7 @@
       },
       "sharing": {
         "title": "링크 하나로 참여",
-        "description": "링크를 공유하면 로그인 또는 익명 참여로 빠르게 투표할 수 있어요."
+        "description": "링크를 공유하면 닉네임만 입력하고 바로 투표할 수 있어요."
       }
     },
     "stepsHeading": "3단계로 약속을 정하세요",
@@ -78,7 +78,7 @@
       },
       "login": {
         "question": "참여자는 로그인해야 하나요?",
-        "answer": "약속을 만든 사람이 익명 참여를 허용하면, 참여자는 닉네임과 비밀번호로도 투표할 수 있습니다."
+        "answer": "아니요. 닉네임만 입력하면 누구나 투표할 수 있고, 익명 세션은 현재 브라우저에 저장됩니다."
       },
       "location": {
         "question": "장소도 투표할 수 있나요?",
@@ -129,9 +129,17 @@
       "createButton": "약속 만들기"
     },
     "locationStep": {
-      "heading": "장소를 추가해 볼까요?",
-      "enableLocationVote": "장소 투표 활성화",
-      "enableLocationVoteDescription": "참여자들이 선호하는 장소에 투표할 수 있어요",
+      "heading": "약속 만들기를 마무리해요",
+      "requiredLabel": "필수",
+      "creatorHeading": "누가 약속을 만드나요?",
+      "creatorDescription": "입력한 닉네임은 약속을 만든 사람으로 표시돼요.",
+      "usernameLabel": "내 닉네임",
+      "usernamePlaceholder": "예) 지우",
+      "usernameChangeHelp": "이름을 바꿔도 기존 약속과 투표는 유지되고, 표시 이름만 새 이름으로 바뀌어요.",
+      "optionalLabel": "선택",
+      "locationHeading": "장소 투표도 받을까요?",
+      "locationDescription": "장소를 함께 정하고 싶다면 투표를 켜 주세요.",
+      "enableLocationVote": "참여자에게 장소 투표 받기",
       "locationPlaceholder": "장소를 입력해 주세요",
       "addLocation": "장소 추가",
       "removeLocation": "장소 삭제",
@@ -222,10 +230,9 @@
         "loginButton": "로그인",
         "anonymousLogin": "익명으로 계속하기"
       },
-      "description": "익명으로 약속에 참여하러가요!",
+      "description": "닉네임만 입력하고 약속에 참여해요!",
       "votingAs": "{username}님, 익명으로 투표 중이에요.",
       "usernamePlaceholder": "닉네임",
-      "passwordPlaceholder": "비밀번호",
       "anonymousLogin": "익명으로 계속하기"
     },
     "result": {

@@ -2,27 +2,6 @@ import type { User } from '../stores/me'
 import api from '../utils/api'
 import type { success_response } from './type'
 
-type post_auth_oauth_$provider_body = {
-  authorizationCode: string
-  redirectUrl?: string
-}
-type post_auth_oauth_$provider_response = success_response<{
-  userId: number
-  username: string
-  email: string
-  profileImageUrl: string
-  provider: 'kakao' | 'google'
-  role: 'USER' | 'ADMIN'
-  isNewUser: boolean
-}>
-const post_auth_oauth_$provider = async (provider: 'kakao' | 'google', body: post_auth_oauth_$provider_body) => {
-  const response = await api.post<post_auth_oauth_$provider_response>(
-    `v1/auth/oauth/${provider}`,
-    body,
-  )
-  return response.data
-}
-
 export type Meeting = {
   code: string
   createdAt: string
@@ -31,19 +10,30 @@ export type Meeting = {
   timezone: string
   title: string
 }
+
+type post_auth_anonymous_response = success_response<{
+  userId: number
+  username: string
+  isNewUser: boolean
+}>
+
+const post_auth_anonymous = async (username: string) => {
+  const response = await api.post<post_auth_anonymous_response>('/v1/auth/anonymous', { username })
+  return response.data
+}
+
 type get_auth_me_response = success_response<User>
 const get_auth_me = async () => {
-  const response = await api.get<get_auth_me_response>('v1/auth/me')
+  const response = await api.get<get_auth_me_response>('/v1/auth/me')
+  return response.data
+}
+
+const put_auth_me = async (username: string) => {
+  const response = await api.put<post_auth_anonymous_response>('/v1/auth/me', { username })
   return response.data
 }
 
 export const auth = {
-  oauth: {
-    $provider: {
-      post: post_auth_oauth_$provider,
-    },
-  },
-  me: {
-    get: get_auth_me,
-  },
+  anonymous: { post: post_auth_anonymous },
+  me: { get: get_auth_me, put: put_auth_me },
 }

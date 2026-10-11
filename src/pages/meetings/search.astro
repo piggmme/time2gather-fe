@@ -1,8 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro'
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n'
-import MyMeetings from '../../components/MyMeetings/MyMeetings'
-import RequireAuth from '../../components/RequireAuth'
 import SearchMeeting from '../../components/SearchMeeting'
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale

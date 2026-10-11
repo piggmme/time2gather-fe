@@ -3,14 +3,11 @@ import Layout from '../../../../layouts/Layout.astro';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../../i18n';
 import { meetings } from '../../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../../services/meetings';
-import DatesSelectPage from '../../../../components/SelectPage/DatesSelectPage';
-import RequireAuth from '../../../../components/RequireAuth';
 import AnonymousDatesSelectPage from '../../../../components/SelectPage/AnonymousDatesSelectPage';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
 const t = getTranslations(locale);
 
-const anonymous = Astro.url.searchParams.get('anonymous') === 'true';
 const meetingCode = Astro.params.meetingCode as string;
 let data: get_meetings_$meetingCode_response['data'] | null = null;
 try {
@@ -21,21 +18,9 @@ try {
 }
 ---
 <Layout>
-  {!anonymous && <RequireAuth client:only="react" />}
   <main>
     <h1>{data.meeting.title}</h1>
-    {
-      anonymous ?
-      <AnonymousDatesSelectPage
-        client:only="react"
-        meetingCode={meetingCode}
-      /> :    
-      <DatesSelectPage
-        client:only="react"
-        meetingCode={meetingCode}
-        data={data}
-      />
-    }
+    <AnonymousDatesSelectPage client:only="react" meetingCode={meetingCode} />
   </main>
 </Layout>
 

@@ -27,12 +27,6 @@ try {
 // Vite 설정 - 환경 변수 명시적 주입
 const viteConfig = {
   server: viteServerConfig,
-  define: {
-    'import.meta.env.PUBLIC_KAKAO_REST_API_KEY': JSON.stringify(process.env.PUBLIC_KAKAO_REST_API_KEY || ''),
-    'import.meta.env.PUBLIC_KAKAO_REDIRECT_URI': JSON.stringify(process.env.PUBLIC_KAKAO_REDIRECT_URI || ''),
-    'import.meta.env.PUBLIC_GOOGLE_CLIENT_ID': JSON.stringify(process.env.PUBLIC_GOOGLE_CLIENT_ID || ''),
-    'import.meta.env.PUBLIC_GOOGLE_REDIRECT_URI': JSON.stringify(process.env.PUBLIC_GOOGLE_REDIRECT_URI || ''),
-  },
 };
 
 export default defineConfig({

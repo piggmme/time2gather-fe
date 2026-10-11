@@ -1,0 +1,12 @@
+.git
+.gitignore
+.astro
+.idea
+.env
+.env.*
+certs
+dist
+node_modules
+ops/monitoring/.env*
+*.log
+**/.DS_Store

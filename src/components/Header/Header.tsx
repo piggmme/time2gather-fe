@@ -89,7 +89,7 @@ export default function Header () {
               className={styles.desktopNavLink}
             >
               {
-                me && me?.provider !== 'ANONYMOUS'
+                me
                   ? (
                       <Avatar
                         src={me.profileImageUrl}
@@ -161,7 +161,7 @@ export default function Header () {
               className={styles.mobileNavLink}
             >
               {
-                me && me?.provider !== 'ANONYMOUS'
+                me
                   ? (
                       <Avatar
                         src={me.profileImageUrl}

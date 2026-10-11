@@ -1,13 +1,8 @@
 import styles from './Home.module.scss'
 import Button from './Button/Button'
-import { useStore } from '@nanostores/react'
-
-import { $me } from '../stores/me'
 import { useTranslation } from '../hooks/useTranslation'
 
 export default function Home () {
-  const me = useStore($me)
-  const isLoggedIn = me !== null
   const { t } = useTranslation()
 
   return (
@@ -30,21 +25,15 @@ export default function Home () {
         <Button
           as='a'
           buttonType='primary'
-          href={isLoggedIn ? '/meetings/create' : '/login'}
+          href='/meetings/create'
           className={styles.mainButton}
         >
           {t('home.createMeetingButton')}
         </Button>
 
-        {isLoggedIn && (
-          <Button
-            as='a'
-            buttonType='default'
-            href='/my'
-          >
-            {t('home.viewMyMeetings')}
-          </Button>
-        )}
+        <Button as='a' buttonType='default' href='/my'>
+          {t('home.viewMyMeetings')}
+        </Button>
       </div>
     </div>
   )

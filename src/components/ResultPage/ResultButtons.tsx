@@ -7,7 +7,6 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { showDefaultToast } from '../../stores/toast'
 import CalendarExportDialog from './CalendarExportDialog'
 import ConfirmMeetingDialog from './ConfirmMeetingDialog'
-import LoginDialog from '../LoginDialog/LoginDialog'
 import { HiOutlineCalendar, HiOutlineShare, HiOutlinePencil, HiOutlineSparkles } from 'react-icons/hi'
 import { RiKakaoTalkFill } from 'react-icons/ri'
 import { shareToKakao, isKakaoAvailable } from '../../utils/kakaoShare'
@@ -32,7 +31,6 @@ export default function ResultButtons (
   const { t, locale } = useTranslation()
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
-  const [isAnonymousDialogOpen, setIsAnonymousDialogOpen] = useState(false)
   const [kakaoAvailable, setKakaoAvailable] = useState(false)
   const [isCancelling, setIsCancelling] = useState(false)
 
@@ -152,14 +150,7 @@ export default function ResultButtons (
     }
   }
 
-  const modifyUrl = `/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')
-
-  const handleModifyClick = (e: React.MouseEvent) => {
-    if (!me) {
-      e.preventDefault()
-      setIsAnonymousDialogOpen(true)
-    }
-  }
+  const modifyUrl = `/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`
 
   return (
     <div className={styles.ResultButtons}>
@@ -222,7 +213,6 @@ export default function ResultButtons (
         <a
           className={styles.IconButton}
           href={modifyUrl}
-          onClick={handleModifyClick}
         >
           <HiOutlinePencil className={styles.Icon} />
           <span className={styles.IconLabel}>
@@ -247,13 +237,6 @@ export default function ResultButtons (
         bestSlots={data.summary.bestSlots}
         selectionType={data.meeting.selectionType}
         locationVote={data.locationVote}
-      />
-
-      <LoginDialog
-        isOpen={isAnonymousDialogOpen}
-        onOpenChange={setIsAnonymousDialogOpen}
-        meetingCode={data.meeting.code}
-        selectionType={data.meeting.selectionType}
       />
 
       {/* 바이럴 CTA 섹션 */}

@@ -34,20 +34,15 @@ export default function AnonymousTimeSelectPage (
     )
   }
 
-  if (status === 'login') return <AnonymousLoginForm meetingCode={meetingCode} />
+  if (status === 'login') return <AnonymousLoginForm />
   if (!data) return null
 
   return <TimeSelectForm data={data} meetingCode={meetingCode} />
 }
 
-function AnonymousLoginForm ({
-  meetingCode,
-}: {
-  meetingCode: string
-}) {
+function AnonymousLoginForm () {
   const { t } = useTranslation()
   const [username, setUsername] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
 
   return (
     <div className={styles.anonymousLoginForm}>
@@ -58,19 +53,11 @@ function AnonymousLoginForm ({
         value={username}
         onChange={e => setUsername(e.target.value)}
       />
-      <Input
-        type='password'
-        placeholder={t('meeting.anonymous.passwordPlaceholder')}
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
       <Button
         buttonType='primary'
+        disabled={!username.trim()}
         onClick={async () => {
-          await meetings.$meetingCode.auth.anonymous.post(meetingCode, {
-            username,
-            password,
-          })
+          await auth.anonymous.post(username.trim())
           const response = await auth.me.get()
           if (response.data) {
             $me.set(response.data)

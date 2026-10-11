@@ -274,19 +274,100 @@ button.meetingTypeButton {
 }
 
 // Location Step Styles
-.locationToggleContainer {
-  margin: $spacing-xl 0;
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-  border: 0;
+.formSection {
+  margin-top: $spacing-xl;
+  padding-top: $spacing-xl;
+  border-top: 1px solid $c-gray-light;
+
+  &:first-of-type {
+    margin-top: $spacing-lg;
+    padding-top: 0;
+    border-top: 0;
+  }
 
   @media (max-width: 699px) {
-    margin: $spacing-lg 0 0;
-    padding: 0;
-    background: transparent;
-    border: none;
-    border-radius: 0;
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+  }
+}
+
+.sectionHeader {
+  margin-bottom: $spacing-base;
+
+  h3 {
+    margin: $spacing-sm 0 $spacing-xs;
+    color: $c-black;
+    font-size: $font-size-lg;
+    line-height: $line-height-tight;
+    word-break: keep-all;
+  }
+
+  p {
+    margin: 0;
+    color: $c-gray-darkest;
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
+    word-break: keep-all;
+  }
+}
+
+.requiredBadge,
+.optionalBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+}
+
+.requiredBadge {
+  background: $primary-color-soft;
+  color: $primary-color-hover;
+}
+
+.optionalBadge {
+  background: $c-gray-light;
+  color: $c-gray-darkest;
+}
+
+.identityField {
+  label {
+    display: block;
+    margin-bottom: $spacing-sm;
+    color: $c-gray-darkest;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+  }
+
+  input {
+    height: 48px;
+  }
+}
+
+.identityHelp {
+  margin: $spacing-xs 0 0;
+  color: $c-gray-darkest;
+  font-size: $font-size-xs;
+  line-height: $line-height-normal;
+}
+
+.locationToggleContainer {
+  margin: 0;
+  padding: $spacing-sm $spacing-base;
+  border: 1px solid $c-gray;
+  border-radius: $radius-sm;
+  background: $c-white;
+  transition: border-color $transition-fast, background-color $transition-fast;
+
+  &:has(input:checked) {
+    border-color: $primary-color;
+    background: $c-blue-soft;
+  }
+
+  @media (max-width: 699px) {
+    padding: $spacing-sm $spacing-md;
   }
 }
 
@@ -298,7 +379,7 @@ button.meetingTypeButton {
 
   @media (max-width: 699px) {
     min-height: 44px;
-    padding: 10px 0;
+    padding: 4px 0;
   }
 
   input[type="checkbox"] {
@@ -315,12 +396,6 @@ button.meetingTypeButton {
   color: $c-black;
 }
 
-.locationToggleDescription {
-  margin: $spacing-xs 0 0 32px;
-  font-size: $font-size-sm;
-  color: $c-gray-dark;
-}
-
 .locationInputsContainer {
   margin: $spacing-lg 0;
   display: flex;
@@ -328,9 +403,7 @@ button.meetingTypeButton {
   gap: $spacing-md;
 
   @media (max-width: 699px) {
-    margin: $spacing-lg 0 0;
-    padding-top: $spacing-lg;
-    border-top: 1px solid rgba($c-gray-dark, 0.18);
+    margin: $spacing-base 0 0;
   }
 }
 

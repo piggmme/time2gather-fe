@@ -52,7 +52,7 @@
       },
       "sharing": {
         "title": "Join from one link",
-        "description": "Share a link so participants can vote quickly, with sign-in or anonymously."
+        "description": "Share a link so participants can vote right away with only a nickname."
       }
     },
     "stepsHeading": "Settle plans in three steps",
@@ -78,7 +78,7 @@
       },
       "login": {
         "question": "Do participants need to sign in?",
-        "answer": "When the meeting owner allows anonymous participation, people can vote with a nickname and password instead."
+        "answer": "No. Anyone can vote with only a nickname, and the anonymous session is stored in the current browser."
       },
       "location": {
         "question": "Can we vote on locations?",
@@ -129,9 +129,17 @@
       "createButton": "Create Meeting"
     },
     "locationStep": {
-      "heading": "Add location voting?",
+      "heading": "Finish creating your meeting",
+      "requiredLabel": "Required",
+      "creatorHeading": "Who is creating this meeting?",
+      "creatorDescription": "Your nickname will be shown as the meeting host.",
+      "usernameLabel": "Your nickname",
+      "usernamePlaceholder": "e.g., Jamie",
+      "usernameChangeHelp": "Changing your name keeps your existing meetings and votes and updates only your display name.",
+      "optionalLabel": "Optional",
+      "locationHeading": "Would you like a location vote?",
+      "locationDescription": "Turn this on if you want participants to choose the place together.",
       "enableLocationVote": "Let participants vote on a location",
-      "enableLocationVoteDescription": "Add at least two options for participants to choose from.",
       "locationPlaceholder": "Enter a location",
       "addLocation": "Add Location",
       "removeLocation": "Remove Location",
@@ -259,10 +267,9 @@
         "loginButton": "Sign in",
         "anonymousLogin": "Continue anonymously"
       },
-      "description": "Enter a nickname and password to vote anonymously.",
+      "description": "Enter a nickname to vote anonymously.",
       "votingAs": "Voting anonymously as {username}.",
       "usernamePlaceholder": "Username",
-      "passwordPlaceholder": "Password",
       "anonymousLogin": "Continue anonymously"
     }
   },

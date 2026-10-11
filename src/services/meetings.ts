@@ -228,7 +228,6 @@ const post_meetings_$meetingCode_auth_anonymous = async (meetingCode: string, bo
 }
 export type post_meetings_$meetingCode_auth_anonymous_body = {
   username: string
-  password: string
 }
 
 /**
@@ -289,8 +288,10 @@ const put_meetings_$meetingCode_locationSelections = async (meetingCode: string,
  * @returns Full URL for ICS file download
  */
 const getExportUrl = (meetingCode: string, date?: string, slotIndex?: number): string => {
-  const baseUrl = 'https://api.time2gather.org/api/v1/meetings'
-  const url = new URL(`${baseUrl}/${meetingCode}/export`)
+  const apiBaseUrl = import.meta.env.PUBLIC_API_URL || '/api'
+  const origin = typeof window === 'undefined' ? 'http://localhost:4321' : window.location.origin
+  const baseUrl = new URL(`${apiBaseUrl.replace(/\/$/, '')}/v1/meetings`, origin)
+  const url = new URL(`${baseUrl.toString().replace(/\/$/, '')}/${meetingCode}/export`)
 
   if (date !== undefined && slotIndex !== undefined) {
     url.searchParams.append('date', date)

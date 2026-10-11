@@ -18,8 +18,7 @@ export function useAnonymousMeetingData (meetingCode: string) {
       return
     }
 
-    const isCurrentAnonymous = me?.provider === 'ANONYMOUS' && me.anonymousMeetingCode === meetingCode
-    if (!isCurrentAnonymous) {
+    if (!me) {
       setData(null)
       setStatus('login')
       return

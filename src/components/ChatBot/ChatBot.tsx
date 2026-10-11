@@ -35,7 +35,7 @@ export default function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // 로그인하지 않은 사용자에게는 챗봇을 표시하지 않음
+  // 익명 세션이 아직 없는 사용자에게는 챗봇을 표시하지 않음
   if (!me) {
     return null
   }

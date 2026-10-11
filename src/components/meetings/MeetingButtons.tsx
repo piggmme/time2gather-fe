@@ -3,8 +3,6 @@ import { $me } from '../../stores/me'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
 import Button from '../Button/Button'
 import { useTranslation } from '../../hooks/useTranslation'
-import LoginDialog from '../LoginDialog/LoginDialog'
-import { useState } from 'react'
 
 export default function MeetingButtons (
   { data }:
@@ -13,7 +11,6 @@ export default function MeetingButtons (
   const me = useStore($me)
   const didIParticipate = data.participants.some(participant => participant.userId === me?.userId)
   const { t } = useTranslation()
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   if (didIParticipate) return (
     <>
@@ -26,7 +23,7 @@ export default function MeetingButtons (
       </Button>
       <Button
         as='a'
-        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')}
+        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`}
         buttonType='ghost'
       >
         {t('meeting.modifyButton')}
@@ -38,13 +35,7 @@ export default function MeetingButtons (
     <>
       <Button
         as='a'
-        onClick={(e) => {
-          if (!me) {
-            e.preventDefault()
-            setIsDialogOpen(true)
-          }
-        }}
-        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}` + (me?.provider === 'ANONYMOUS' ? '?anonymous=true' : '')}
+        href={`/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`}
         buttonType='primary'
       >
         {data.meeting.selectionType === 'ALL_DAY'
@@ -58,12 +49,6 @@ export default function MeetingButtons (
       >
         {t('meeting.resultButton')}
       </Button>
-      <LoginDialog
-        isOpen={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        meetingCode={data.meeting.code}
-        selectionType={data.meeting.selectionType}
-      />
     </>
   )
 }
