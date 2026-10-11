@@ -53,6 +53,12 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   line-height: $line-height-tight;
   word-break: keep-all;
   transition: color $transition-base, background-color $transition-base;
+
+  @media (max-width: 699px) {
+    min-height: 40px;
+    padding: 6px $spacing-sm;
+    font-size: $font-size-xs;
+  }
 }
 
 .gestureHintIcon {
@@ -71,6 +77,16 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   svg {
     width: 18px;
     height: 18px;
+  }
+
+  @media (max-width: 699px) {
+    width: 24px;
+    height: 24px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 }
 

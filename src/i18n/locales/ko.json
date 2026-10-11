@@ -156,6 +156,7 @@
     },
     "participantsEmpty": "아직 참여자가 없어요.",
     "participantsCount": "현재까지 {count}명이 참여했어요!",
+    "participantsCountCompact": "{count}명 참여",
     "selectedDates": "{count}개의 날짜중에서 가능한 날짜를 선택해 주세요.",
     "selectedDatesAndTimes": "{count}개의 날짜에서 가능한 날짜와 시간대를 선택해 주세요.",
     "timeGrid": {
@@ -168,6 +169,7 @@
     "dateCalendar": {
       "available": "선택 가능",
       "unavailable": "선택 불가",
+      "today": "오늘",
       "availableMonths": "선택 가능한 달",
       "monthAvailability": "{month}에 선택 가능한 날짜 {count}개",
       "previousMonth": "이전 달",
@@ -232,6 +234,7 @@
       },
       "description": "닉네임만 입력하고 약속에 참여해요!",
       "votingAs": "{username}님, 익명으로 투표 중이에요.",
+      "votingAsCompact": "{username}님으로 투표",
       "usernamePlaceholder": "닉네임",
       "anonymousLogin": "익명으로 계속하기"
     },

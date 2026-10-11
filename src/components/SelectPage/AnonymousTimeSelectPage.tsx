@@ -199,9 +199,9 @@ function TimeSelectForm ({
 
       <div hidden={isLocationStep}>
         <div className={styles.selectedDatesInfo}>
-          <p>{t('meeting.anonymous.votingAs', { username: me?.username || '' })}</p>
-          <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
-          <p>{t('meeting.selectedDatesAndTimes', { count: dates.length })}</p>
+          <span>{t('meeting.anonymous.votingAsCompact', { username: me?.username || '' })}</span>
+          <span className={styles.metaDivider} aria-hidden='true'>·</span>
+          <span>{t('meeting.participantsCountCompact', { count: data.participants.length })}</span>
         </div>
         <div
           className={styles.container}

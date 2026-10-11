@@ -137,6 +137,7 @@ $combined-selection-bg: rgba($c-purple, 0.35);
   }
 
   .dayNumber {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -145,17 +146,14 @@ $combined-selection-bg: rgba($c-purple, 0.35);
     border-radius: 50%;
   }
 
-  // ===== 오늘 날짜 (미선택 상태에서는 날짜 숫자에 얇은 링 표시) =====
+  // ===== 오늘 날짜 (기호 대신 명시적인 텍스트 라벨로 표시) =====
   &.today {
     font-weight: $font-weight-bold;
 
-    &:not(.selected) .dayNumber {
-      color: $c-black;
-      background-color: rgba($c-white, 0.78);
-      box-shadow: inset 0 0 0 1.5px rgba($c-gray-darkest, 0.72);
+    .dayNumber {
+      transform: translateY(-4px);
     }
 
-    // 선택되지 않은 상태: 기본 셀 스타일 + 오늘 링
     &:not(.selected):not(.hasCount):not(.available) {
       color: $c-gray-darkest;
       background: $cell-bg;
@@ -165,7 +163,22 @@ $combined-selection-bg: rgba($c-purple, 0.35);
       background: $cell-bg-hover;
       box-shadow: $cell-shadow-hover;
     }
+  }
 
+  .todayLabel {
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    color: $primary-color-hover;
+    font-size: 9px;
+    font-weight: $font-weight-bold;
+    line-height: 1;
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+
+  &.selected .todayLabel {
+    color: $c-white;
   }
 
   // ===== 일요일 =====

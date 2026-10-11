@@ -1,6 +1,7 @@
 import { useDraggable, useDroppable } from '@dnd-kit/core'
 import styles from './MonthlyCell.module.scss'
 import dayjs from 'dayjs'
+import { useTranslation } from '../../hooks/useTranslation'
 
 type MonthlyCellProps = {
   date: dayjs.Dayjs
@@ -18,6 +19,7 @@ type MonthlyCellProps = {
 export default function MonthlyCell ({
   date, isSelected, isDragged, isCurrentMonth, isAvailable = false, mode = 'edit', disabled = false, onClick, count = 0, maxCount = 0,
 }: MonthlyCellProps) {
+  const { t } = useTranslation()
   const isEditMode = mode === 'edit'
   const isInteractive = !disabled && (isEditMode || Boolean(onClick))
 
@@ -79,6 +81,9 @@ export default function MonthlyCell ({
       style={backgroundColor ? { backgroundColor } as React.CSSProperties : undefined}
     >
       <span className={styles.dayNumber}>{date.date()}</span>
+      {isEditMode && isToday && (
+        <span className={styles.todayLabel}>{t('meeting.dateCalendar.today')}</span>
+      )}
       {maxCount > 0 && totalCount > 0 && (
         <span className={`${styles.countBadge} ${isSelected ? styles.selected : ''}`}>{totalCount}/{maxCount}</span>
       )}

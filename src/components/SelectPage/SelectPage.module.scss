@@ -5,6 +5,10 @@
   max-width: 500px;
   margin: 0 auto;
   padding-bottom: 80px; // 하단 여백 (챗봇 버튼 고려)
+
+  @media (max-width: 699px) {
+    padding-bottom: 0;
+  }
 }
 
 .anonymousLoginForm {
@@ -23,12 +27,23 @@
 }
 
 .selectedDatesInfo {
-  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  margin: $spacing-base 0;
   word-break: keep-all;
-  color: $c-black;
-  p {
-    margin: 6px 0;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+
+  @media (max-width: 699px) {
+    margin: $spacing-sm 0 $spacing-md;
+    font-size: $font-size-xs;
   }
+}
+
+.metaDivider {
+  color: $c-gray-dark;
 }
 
 .stepIndicator {

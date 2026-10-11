@@ -156,6 +156,7 @@
     },
     "participantsEmpty": "No participants yet.",
     "participantsCount": "Participants: {count}",
+    "participantsCountCompact": "{count} participating",
     "selectedDates": "Choose the dates that work for you from {count} options.",
     "selectedDatesAndTimes": "Choose the dates and times that work for you from {count} date options.",
     "timeGrid": {
@@ -168,6 +169,7 @@
     "dateCalendar": {
       "available": "Available",
       "unavailable": "Unavailable",
+      "today": "Today",
       "availableMonths": "Months with available dates",
       "monthAvailability": "{count} available dates in {month}",
       "previousMonth": "Previous month",
@@ -269,6 +271,7 @@
       },
       "description": "Enter a nickname to vote anonymously.",
       "votingAs": "Voting anonymously as {username}.",
+      "votingAsCompact": "Voting as {username}",
       "usernamePlaceholder": "Username",
       "anonymousLogin": "Continue anonymously"
     }
