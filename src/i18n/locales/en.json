@@ -192,9 +192,9 @@
     "cancelConfirmError": "Failed to cancel confirmation. Please try again.",
     "alreadyConfirmedError": "This meeting is already confirmed. You cannot modify your vote.",
     "editDates": {
-      "openButton": "Edit voting dates",
+      "openButton": "Manage available dates",
       "hostOnly": "Host only",
-      "title": "Edit voting dates",
+      "title": "Manage available voting dates",
       "description": "Choose the dates participants can vote on. The existing time range stays the same.",
       "selectedCount": "{count} dates selected",
       "selectionHint": "Tap or drag to select dates.",
@@ -259,7 +259,13 @@
         "share": "Share",
         "shareKakao": "KakaoTalk",
         "modify": "Edit vote",
-        "select": "Vote"
+        "select": "Vote",
+        "modifyVote": "Edit my vote",
+        "selectVote": "Join the vote",
+        "modifyDatesDescription": "Choose my available dates again",
+        "modifyTimesDescription": "Choose my available dates and times again",
+        "selectDatesDescription": "Choose the dates that work for me",
+        "selectTimesDescription": "Choose the dates and times that work for me"
       },
       "kakaoShare": {
         "description": "Pick the times that work for you.",
