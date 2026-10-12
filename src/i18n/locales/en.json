@@ -255,17 +255,13 @@
       "voteCount": "{count} people ({percentage})",
       "noParticipants": "No participants",
       "buttons": {
-        "calendar": "Export",
+        "calendar": "Add to calendar",
         "share": "Share",
         "shareKakao": "KakaoTalk",
-        "modify": "Edit vote",
-        "select": "Vote",
-        "modifyVote": "Edit my vote",
-        "selectVote": "Join the vote",
-        "modifyDatesDescription": "Choose my available dates again",
-        "modifyTimesDescription": "Choose my available dates and times again",
-        "selectDatesDescription": "Choose the dates that work for me",
-        "selectTimesDescription": "Choose the dates and times that work for me"
+        "modifyDates": "Edit my date selection",
+        "modifyTimes": "Edit my date and time selection",
+        "selectDates": "Select my available dates",
+        "selectTimes": "Select my available dates and times"
       },
       "kakaoShare": {
         "description": "Pick the times that work for you.",

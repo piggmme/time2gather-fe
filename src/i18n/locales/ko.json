@@ -269,17 +269,13 @@
       "voteCount": "{count}명 ({percentage})",
       "noParticipants": "참여자가 없습니다",
       "buttons": {
-        "calendar": "내보내기",
+        "calendar": "캘린더 추가",
         "share": "공유",
         "shareKakao": "카카오톡",
-        "modify": "수정",
-        "select": "선택",
-        "modifyVote": "내 투표 수정",
-        "selectVote": "투표 참여하기",
-        "modifyDatesDescription": "내가 가능한 날짜를 다시 선택해요",
-        "modifyTimesDescription": "내가 가능한 날짜와 시간을 다시 선택해요",
-        "selectDatesDescription": "내가 가능한 날짜를 선택해요",
-        "selectTimesDescription": "내가 가능한 날짜와 시간을 선택해요"
+        "modifyDates": "내 날짜 선택 수정",
+        "modifyTimes": "내 날짜·시간 선택 수정",
+        "selectDates": "가능한 날짜 선택하기",
+        "selectTimes": "가능한 날짜·시간 선택하기"
       },
       "kakaoShare": {
         "description": "투표하고 가장 좋은 시간을 찾아보세요!",

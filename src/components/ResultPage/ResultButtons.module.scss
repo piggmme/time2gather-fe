@@ -22,62 +22,13 @@
   }
 }
 
-.VoteAction {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
+.VoteActionButton {
   width: 100%;
-  min-height: 72px;
-  padding: $spacing-md $spacing-base;
-  box-sizing: border-box;
-  border: 1px solid rgba($primary-color, 0.35);
-  border-radius: $radius-md;
-  background: $primary-color-soft;
-  color: $c-black;
-  text-decoration: none;
-  transition: all $transition-base;
-
-  &:hover {
-    border-color: $primary-color;
-    background: rgba($primary-color, 0.14);
-  }
-
-  &:active {
-    transform: scale(0.99);
-  }
 }
 
-.VoteActionIcon {
-  display: inline-flex;
-  flex: 0 0 40px;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: $radius-full;
-  background: $primary-color;
-  color: $c-white;
-  font-size: 21px;
-}
-
-.VoteActionText {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 3px;
-  line-height: $line-height-normal;
-  word-break: keep-all;
-
-  strong {
-    color: $primary-color-hover;
-    font-size: $font-size-base;
-    font-weight: $font-weight-semibold;
-  }
-
-  > span {
-    color: $c-gray-darkest;
-    font-size: $font-size-sm;
-  }
+.ActionButtonIcon {
+  flex-shrink: 0;
+  font-size: 19px;
 }
 
 .IconButtonGroup {

@@ -151,9 +151,9 @@ export default function ResultButtons (
   }
 
   const modifyUrl = `/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`
-  const voteActionDescription = data.meeting.selectionType === 'ALL_DAY'
-    ? t(`meeting.result.buttons.${didIParticipate ? 'modifyDatesDescription' : 'selectDatesDescription'}`)
-    : t(`meeting.result.buttons.${didIParticipate ? 'modifyTimesDescription' : 'selectTimesDescription'}`)
+  const voteActionLabel = data.meeting.selectionType === 'ALL_DAY'
+    ? t(`meeting.result.buttons.${didIParticipate ? 'modifyDates' : 'selectDates'}`)
+    : t(`meeting.result.buttons.${didIParticipate ? 'modifyTimes' : 'selectTimes'}`)
 
   return (
     <div className={styles.ResultButtons}>
@@ -188,21 +188,17 @@ export default function ResultButtons (
         </Button>
       )}
 
-      {/* 개인 투표 행동은 방장용 투표 날짜 관리와 분리해 강조 */}
+      {/* 개인 투표 행동은 방장용 투표 날짜 관리와 별도 버튼으로 분리 */}
       {!isConfirmed && (
-        <a className={styles.VoteAction} href={modifyUrl}>
-          <span className={styles.VoteActionIcon} aria-hidden='true'>
-            <HiOutlinePencil />
-          </span>
-          <span className={styles.VoteActionText}>
-            <strong>
-              {didIParticipate
-                ? t('meeting.result.buttons.modifyVote')
-                : t('meeting.result.buttons.selectVote')}
-            </strong>
-            <span>{voteActionDescription}</span>
-          </span>
-        </a>
+        <Button
+          as='a'
+          href={modifyUrl}
+          buttonType={didIParticipate ? 'secondary' : 'primary'}
+          className={styles.VoteActionButton}
+        >
+          <HiOutlinePencil className={styles.ActionButtonIcon} aria-hidden='true' />
+          {voteActionLabel}
+        </Button>
       )}
 
       {/* 아이콘 버튼 그룹 */}
