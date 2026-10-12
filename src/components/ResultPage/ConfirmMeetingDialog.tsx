@@ -39,7 +39,7 @@ export default function ConfirmMeetingDialog ({
   const { t } = useTranslation()
   const locale = useStore($locale)
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
-  const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null)
+  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null)
   const [step, setStep] = useState<'schedule' | 'location'>('schedule')
   const [isLoading, setIsLoading] = useState(false)
   const dialogBodyRef = useRef<HTMLDivElement>(null)
@@ -58,7 +58,7 @@ export default function ConfirmMeetingDialog ({
     setSelectedIndex(0)
     setStep('schedule')
     setSelectedLocationId(
-      locationVote?.confirmedLocation?.id ?? null,
+      locationVote?.confirmedLocation ? String(locationVote.confirmedLocation.id) : null,
     )
   }, [isOpen, locationVote?.confirmedLocation?.id, sortedLocations])
 
@@ -202,13 +202,13 @@ export default function ConfirmMeetingDialog ({
                     ? (
                         <div className={styles.slotList}>
                           {sortedLocations.map(location => (
-                            <label key={location.id} className={styles.slotItem}>
+                            <label key={String(location.id)} className={styles.slotItem}>
                               <input
                                 type='radio'
                                 name='selectedLocation'
-                                value={location.id}
-                                checked={selectedLocationId === location.id}
-                                onChange={() => setSelectedLocationId(location.id)}
+                                value={String(location.id)}
+                                checked={selectedLocationId === String(location.id)}
+                                onChange={() => setSelectedLocationId(String(location.id))}
                                 className={styles.radioInput}
                               />
                               <span className={styles.slotInfo}>

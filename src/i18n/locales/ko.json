@@ -220,23 +220,23 @@
       "success": "약속이 확정되었어요!",
       "error": "약속 확정에 실패했어요. 다시 시도해주세요."
     },
-    "anonymousSelectButton": "익명으로 참여하기",
+    "anonymousSelectButton": "이름으로 참여하기",
     "selectButton": "날짜 선택하러 가기",
     "selectTimeButton": "날짜와 시간 선택하러 가기",
     "resultButton": "결과 보러가기",
     "anonymous": {
       "dialog" : {
         "title": "로그인 되어있지 않아요",
-        "description": "익명으로 참여하겠어요?",
+        "description": "로그인 없이 이름만 입력하고 참여할 수 있어요.",
         "kakaoLoginButton": "카카오로 계속하기",
         "loginButton": "로그인",
-        "anonymousLogin": "익명으로 계속하기"
+        "anonymousLogin": "이름 입력하고 참여하기"
       },
-      "description": "닉네임만 입력하고 약속에 참여해요!",
-      "votingAs": "{username}님, 익명으로 투표 중이에요.",
-      "votingAsCompact": "{username}님으로 투표",
-      "usernamePlaceholder": "닉네임",
-      "anonymousLogin": "익명으로 계속하기"
+      "description": "약속에서 사용할 이름을 입력해 주세요.",
+      "votingAs": "{username}님으로 참여 중이에요.",
+      "votingAsCompact": "{username}님으로 참여 중",
+      "usernamePlaceholder": "이름",
+      "anonymousLogin": "이 이름으로 참여하기"
     },
     "result": {
       "tabs": {

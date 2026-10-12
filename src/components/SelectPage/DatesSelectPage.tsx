@@ -19,7 +19,7 @@ export default function DatesSelectPage (
   const { t } = useTranslation()
   const containerRef = useRef<HTMLDivElement>(null)
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
-  const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
+  const [selectedLocationIds, setSelectedLocationIds] = useState<string[]>([])
   const [locationStatus, setLocationStatus] = useState<LocationSelectionStatus>(data.locationVote?.enabled ? 'loading' : 'ready')
   const [focusedDate, setFocusedDate] = useState<dayjs.Dayjs | null>(null)
   const [step, setStep] = useState<'schedule' | 'location'>('schedule')
@@ -120,9 +120,9 @@ export default function DatesSelectPage (
 
       <div hidden={isLocationStep}>
         <div className={styles.selectedDatesInfo}>
-          <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
-          <p>{t('meeting.selectedDates', { count: dates.length })}</p>
+          <span>{t('meeting.participantsCountCompact', { count: data.participants.length })}</span>
         </div>
+        <p className={styles.selectionInstruction}>{t('meeting.selectedDates', { count: dates.length })}</p>
         <div
           className={styles.container}
           ref={containerRef}
@@ -156,7 +156,7 @@ export default function DatesSelectPage (
           />
         </div>
       )}
-      <div className={styles.buttonContainer}>
+      <div className={`${styles.buttonContainer} ${!isLocationStep ? styles.calendarButtonContainer : ''}`}>
         <Button
           buttonType='ghost'
           onClick={() => {

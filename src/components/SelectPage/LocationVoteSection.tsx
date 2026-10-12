@@ -4,7 +4,7 @@ import { meetings } from '../../services/meetings'
 import styles from './LocationVoteSection.module.scss'
 
 type LocationInfo = {
-  id: number
+  id: string | number
   name: string
   displayOrder: number
   voteCount: number
@@ -16,9 +16,9 @@ type LocationVoteSectionProps = {
   meetingCode: string
   locations: LocationInfo[]
   confirmedLocation: LocationInfo | null
-  onSelectionsChange: (selectedIds: number[]) => void
+  onSelectionsChange: (selectedIds: string[]) => void
   onStatusChange: (status: LocationSelectionStatus) => void
-  initialSelectedIds?: number[]
+  initialSelectedIds?: string[]
 }
 
 export type LocationSelectionStatus = 'loading' | 'ready' | 'error'
@@ -32,7 +32,7 @@ export default function LocationVoteSection ({
   initialSelectedIds = [],
 }: LocationVoteSectionProps) {
   const { t } = useTranslation()
-  const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>(initialSelectedIds)
+  const [selectedLocationIds, setSelectedLocationIds] = useState<string[]>(initialSelectedIds)
   const [status, setStatus] = useState<LocationSelectionStatus>('loading')
   const [loadAttempt, setLoadAttempt] = useState(0)
 
@@ -47,8 +47,9 @@ export default function LocationVoteSection ({
         const response = await meetings.$meetingCode.locationSelections.get(meetingCode)
         if (cancelled) return
         if (!response.success || !Array.isArray(response.data.locationIds)) throw new Error('Invalid location selection response')
-        setSelectedLocationIds(response.data.locationIds)
-        onSelectionsChange(response.data.locationIds)
+        const normalizedLocationIds = response.data.locationIds.map(String)
+        setSelectedLocationIds(normalizedLocationIds)
+        onSelectionsChange(normalizedLocationIds)
         setStatus('ready')
         onStatusChange('ready')
       } catch (error) {
@@ -66,7 +67,7 @@ export default function LocationVoteSection ({
     }
   }, [loadAttempt, meetingCode, onSelectionsChange, onStatusChange])
 
-  const handleToggleLocation = (locationId: number) => {
+  const handleToggleLocation = (locationId: string) => {
     const newSelectedIds = selectedLocationIds.includes(locationId)
       ? selectedLocationIds.filter(id => id !== locationId)
       : [...selectedLocationIds, locationId]
@@ -117,18 +118,19 @@ export default function LocationVoteSection ({
 
       <div className={styles.locationList}>
         {sortedLocations.map((location) => {
-          const isSelected = selectedLocationIds.includes(location.id)
-          const isConfirmed = confirmedLocation?.id === location.id
+          const locationId = String(location.id)
+          const isSelected = selectedLocationIds.includes(locationId)
+          const isConfirmed = confirmedLocation !== null && String(confirmedLocation.id) === locationId
 
           return (
             <label
-              key={location.id}
+              key={locationId}
               className={`${styles.locationItem} ${isSelected ? styles.selected : ''} ${isConfirmed ? styles.confirmed : ''}`}
             >
               <input
                 type='checkbox'
                 checked={isSelected}
-                onChange={() => handleToggleLocation(location.id)}
+                onChange={() => handleToggleLocation(locationId)}
                 className={styles.checkbox}
               />
               <div className={styles.locationInfo}>

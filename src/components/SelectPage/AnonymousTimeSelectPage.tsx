@@ -81,7 +81,7 @@ function TimeSelectForm ({
   const containerRef = useRef<HTMLDivElement>(null)
   const [height, setHeight] = useState<string>('100svh')
   const [selections, setSelections] = useState<{ [date: string]: string[] }>({})
-  const [selectedLocationIds, setSelectedLocationIds] = useState<number[]>([])
+  const [selectedLocationIds, setSelectedLocationIds] = useState<string[]>([])
   const [locationStatus, setLocationStatus] = useState<LocationSelectionStatus>(data.locationVote?.enabled ? 'loading' : 'ready')
   const [step, setStep] = useState<'schedule' | 'location'>('schedule')
   const locationVote = data.locationVote?.enabled ? data.locationVote : null

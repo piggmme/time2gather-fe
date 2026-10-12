@@ -42,7 +42,7 @@ type User = {
 }
 
 export type LocationInfo = {
-  id: number
+  id: string | number
   name: string
   displayOrder: number
   voteCount: number
@@ -239,7 +239,7 @@ export type post_meetings_$meetingCode_auth_anonymous_body = {
 export type put_meetings_$meetingCode_confirm_body = {
   date: string
   slotIndex: number | null
-  locationId?: number
+  locationId?: string
 }
 const put_meetings_$meetingCode_confirm = async (meetingCode: string, body: put_meetings_$meetingCode_confirm_body) => {
   const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/confirm`, body)
@@ -260,7 +260,7 @@ const delete_meetings_$meetingCode_confirm = async (meetingCode: string) => {
  * @param meetingCode Meeting code
  */
 export type get_meetings_$meetingCode_locationSelections_response = success_response<{
-  locationIds: number[]
+  locationIds: Array<string | number>
 }>
 const get_meetings_$meetingCode_locationSelections = async (meetingCode: string) => {
   const response = await api.get<get_meetings_$meetingCode_locationSelections_response>(`/v1/meetings/${meetingCode}/location-selections`)
@@ -273,7 +273,7 @@ const get_meetings_$meetingCode_locationSelections = async (meetingCode: string)
  * @param locationIds Array of location IDs to vote for
  */
 export type put_meetings_$meetingCode_locationSelections_body = {
-  locationIds: number[]
+  locationIds: string[]
 }
 const put_meetings_$meetingCode_locationSelections = async (meetingCode: string, body: put_meetings_$meetingCode_locationSelections_body) => {
   const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/location-selections`, body)

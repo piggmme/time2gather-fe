@@ -46,6 +46,19 @@
   color: $c-gray-dark;
 }
 
+.selectionInstruction {
+  margin: 0 0 $spacing-lg;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  word-break: keep-all;
+
+  @media (max-width: 699px) {
+    margin-bottom: $spacing-base;
+    font-size: $font-size-sm;
+  }
+}
+
 .stepIndicator {
   display: inline-flex;
   align-items: center;
@@ -99,5 +112,15 @@
     border-top: 1px solid rgba(0, 0, 0, 0.06);
     box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.05);
     z-index: 100;
+  }
+}
+
+.calendarButtonContainer {
+  @media (max-width: 699px) {
+    position: static;
+    padding-top: $spacing-sm;
+    background: $c-white;
+    border-top: 0;
+    box-shadow: none;
   }
 }

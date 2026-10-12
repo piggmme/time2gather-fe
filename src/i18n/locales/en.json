@@ -220,7 +220,7 @@
       "success": "Meeting has been confirmed!",
       "error": "Failed to confirm meeting. Please try again."
     },
-    "anonymousSelectButton": "Participate Anonymously",
+    "anonymousSelectButton": "Join with a name",
     "selectButton": "Select Dates",
     "selectTimeButton": "Select Date and Time",
     "resultButton": "View Result",
@@ -264,16 +264,16 @@
     "anonymous": {
       "dialog" : {
         "title": "You’re not signed in",
-        "description": "Sign in to keep your vote, or continue anonymously.",
+        "description": "Join without signing in by entering a name.",
         "kakaoLoginButton": "Continue with Kakao",
         "loginButton": "Sign in",
-        "anonymousLogin": "Continue anonymously"
+        "anonymousLogin": "Enter a name to join"
       },
-      "description": "Enter a nickname to vote anonymously.",
-      "votingAs": "Voting anonymously as {username}.",
-      "votingAsCompact": "Voting as {username}",
-      "usernamePlaceholder": "Username",
-      "anonymousLogin": "Continue anonymously"
+      "description": "Enter the name you’ll use for this meeting.",
+      "votingAs": "Joining as {username}.",
+      "votingAsCompact": "Joining as {username}",
+      "usernamePlaceholder": "Name",
+      "anonymousLogin": "Join with this name"
     }
   },
   "my": {

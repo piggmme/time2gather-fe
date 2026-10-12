@@ -13,6 +13,7 @@ import type { AmPm } from '../../utils/time'
 import { useStore } from '@nanostores/react'
 import { $me, refreshMe } from '../../stores/me'
 import { auth } from '../../services/auth'
+import { PlusIcon } from '@radix-ui/react-icons'
 
 const MAX_LOCATIONS = 5
 const MIN_LOCATIONS = 2
@@ -205,7 +206,8 @@ export default function LocationStep () {
                 className={styles.locationAddButton}
                 onClick={handleAddLocation}
               >
-                + {t('createMeeting.locationStep.addLocation')}
+                <PlusIcon aria-hidden='true' />
+                <span>{t('createMeeting.locationStep.addLocation')}</span>
               </button>
             )}
 

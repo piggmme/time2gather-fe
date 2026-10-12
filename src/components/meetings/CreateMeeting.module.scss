@@ -443,22 +443,38 @@ button.meetingTypeButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $spacing-md;
-  border: 1px dashed $c-gray;
+  gap: $spacing-sm;
+  min-height: 48px;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $primary-color-border;
   border-radius: $radius-base;
-  background-color: transparent;
-  color: $c-blue;
+  background-color: $c-blue-soft;
+  color: $primary-color-hover;
   font-size: $font-size-base;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-semibold;
   cursor: pointer;
   transition: all $transition-base;
   width: 100%;
   margin-top: $spacing-sm;
 
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+  }
+
   &:hover {
-    background-color: $c-blue-soft;
-    border-color: $c-blue;
-    border-style: solid;
+    background-color: rgba($primary-color, 0.14);
+    border-color: $primary-color;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.99);
   }
 }
 
