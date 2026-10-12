@@ -9,7 +9,7 @@
 }
 
 // =====================================================
-// Mobile Header (Glassmorphism + Warm Tone)
+// Mobile Header
 // =====================================================
 .mobileHeader {
   display: block;
@@ -22,10 +22,7 @@
   z-index: 1001;
   margin: 0 auto;
   
-  // Glassmorphism
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: #ffffff;
   border-bottom: none;
   box-shadow: none;
 
