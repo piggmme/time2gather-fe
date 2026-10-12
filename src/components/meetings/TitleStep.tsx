@@ -14,7 +14,7 @@ export default function TitleStep () {
 
   return (
     <>
-      <h2 className={styles.title}>{t('createMeeting.titleStep.heading')}</h2>
+      <h1 className={styles.title}>{t('createMeeting.titleStep.heading')}</h1>
       <div className={styles.inputContainer}>
         <Input
           placeholder={t('createMeeting.titleStep.placeholder')}

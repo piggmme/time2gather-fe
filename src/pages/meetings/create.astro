@@ -19,7 +19,6 @@ const description = t('meta.pages.create.description');
 
 <Layout title={title} description={description} schemaType="WebPage">
   <main>
-    <h1>{t('createMeeting.title')}</h1>
     <div class="content">
       {step === 'meetingType' && <MeetingTypeStep client:only="react" />}
       {step === 'title' && <TitleStep client:only="react" />}
@@ -42,13 +41,6 @@ const description = t('meta.pages.create.description');
       min-height: calc(100svh - 70px);
       position: relative;
       padding: 0 4px 96px;
-    }
-  }
-  h1 {
-    @media (max-width: 699px) {
-      margin: 8px 0 24px;
-      font-size: 24px;
-      line-height: 1.35;
     }
   }
   .content {

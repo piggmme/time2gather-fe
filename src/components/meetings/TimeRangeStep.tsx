@@ -75,7 +75,7 @@ export default function TimeRangeStep () {
 
   return (
     <>
-      <h2 className={styles.title}>{t('createMeeting.timeRangeStep.heading')}</h2>
+      <h1 className={styles.title}>{t('createMeeting.timeRangeStep.heading')}</h1>
       <div className={styles.timeRangeContainer}>
         <div className={styles.timeRangeItem}>
           <TimeRangeSelector

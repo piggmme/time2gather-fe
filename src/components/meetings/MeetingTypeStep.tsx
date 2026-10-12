@@ -14,7 +14,7 @@ export default function MeetingTypeStep () {
 
   return (
     <>
-      <h2 className={styles.title}>{t('createMeeting.meetingTypeStep.heading')}</h2>
+      <h1 className={styles.title}>{t('createMeeting.meetingTypeStep.heading')}</h1>
       <div className={styles.meetingTypeContainer}>
         <Button
           buttonType='default'

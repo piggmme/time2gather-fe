@@ -14,7 +14,7 @@ export default function DescriptionStep () {
 
   return (
     <>
-      <h2 className={styles.title}>{t('createMeeting.descriptionStep.heading')}</h2>
+      <h1 className={styles.title}>{t('createMeeting.descriptionStep.heading')}</h1>
       <div className={styles.inputContainer}>
         <Input
           placeholder={t('createMeeting.descriptionStep.placeholder')}

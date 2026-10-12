@@ -15,7 +15,7 @@ export default function DatesStep () {
 
   return (
     <>
-      <h2 className={styles.title}>{t('createMeeting.datesStep.heading')}</h2>
+      <h1 className={styles.title}>{t('createMeeting.datesStep.heading')}</h1>
       <div className={styles.monthlyContainer}>
         <Monthly dates={selectedDates} setDates={setSelectedDates} />
       </div>

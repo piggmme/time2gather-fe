@@ -128,7 +128,7 @@ export default function LocationStep () {
 
   return (
     <>
-      <h2 className={styles.title}>{t('createMeeting.locationStep.heading')}</h2>
+      <h1 className={styles.title}>{t('createMeeting.locationStep.heading')}</h1>
 
       <section className={styles.formSection} aria-labelledby='creator-section-title'>
         <div className={styles.sectionHeader}>
