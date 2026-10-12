@@ -26,9 +26,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: $c-blue-soft;
   color: $primary-color;
-  font-size: 16px;
-  line-height: 1;
-  font-weight: 700;
+
+  svg {
+    width: 52%;
+    height: 52%;
+  }
 }

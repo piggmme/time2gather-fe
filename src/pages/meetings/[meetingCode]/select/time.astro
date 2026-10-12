@@ -20,7 +20,7 @@ try {
 <Layout>
   <main>
     <h1>{data.meeting.title}</h1>
-    <AnonymousTimeSelectPage client:only="react" meetingCode={meetingCode} />
+    <AnonymousTimeSelectPage client:only="react" meetingCode={meetingCode} initialData={data} />
   </main>
 </Layout>
 

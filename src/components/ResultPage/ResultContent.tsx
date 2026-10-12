@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback, useEffect } from 'react'
-import { meetings, type get_meetings_$meetingCode_response, type get_meetings_$meetingCode_report_response } from '../../services/meetings'
+import { type get_meetings_$meetingCode_response } from '../../services/meetings'
 import Daily from '../daily/Daily'
 import Avatar from '../Avatar/Avatar'
 import dayjs from 'dayjs'
@@ -17,34 +17,10 @@ export default function ResultContent ({
   meetingData,
 }: {
   meetingData: get_meetings_$meetingCode_response['data']
-  reportData?: get_meetings_$meetingCode_report_response['data'] // Keep for backwards compatibility
 }) {
   const { t } = useTranslation()
-  const me = useStore($me)
   const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set())
-  const [anonymousMeetingData, setAnonymousMeetingData] = useState<typeof meetingData | null>(null)
-
-  useEffect(() => {
-    if (!me) {
-      setAnonymousMeetingData(null)
-      return
-    }
-
-    let cancelled = false
-    meetings.$meetingCode.get(meetingData.meeting.code)
-      .then((response) => {
-        if (!cancelled) setAnonymousMeetingData(response.data)
-      })
-      .catch(() => {
-        // Keep the server-rendered public response available when a refresh fails.
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [me, meetingData.meeting.code])
-
-  const displayedMeetingData = anonymousMeetingData ?? meetingData
+  const displayedMeetingData = meetingData
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = useMemo(() => {

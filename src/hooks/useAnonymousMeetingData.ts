@@ -6,9 +6,9 @@ import { $me } from '../stores/me'
 type MeetingData = get_meetings_$meetingCode_response['data']
 type Status = 'checking' | 'login' | 'loading' | 'ready' | 'error'
 
-export function useAnonymousMeetingData (meetingCode: string) {
+export function useAnonymousMeetingData (meetingCode: string, initialData?: MeetingData) {
   const me = useStore($me)
-  const [data, setData] = useState<MeetingData | null>(null)
+  const [data, setData] = useState<MeetingData | null>(initialData ?? null)
   const [status, setStatus] = useState<Status>('checking')
   const [loadAttempt, setLoadAttempt] = useState(0)
 
@@ -19,8 +19,13 @@ export function useAnonymousMeetingData (meetingCode: string) {
     }
 
     if (!me) {
-      setData(null)
       setStatus('login')
+      return
+    }
+
+    if (initialData) {
+      setData(initialData)
+      setStatus('ready')
       return
     }
 
@@ -41,7 +46,7 @@ export function useAnonymousMeetingData (meetingCode: string) {
     return () => {
       cancelled = true
     }
-  }, [loadAttempt, me, meetingCode])
+  }, [initialData, loadAttempt, me, meetingCode])
 
   return {
     data,

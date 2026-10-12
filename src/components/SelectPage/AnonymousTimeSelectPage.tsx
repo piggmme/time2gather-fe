@@ -15,11 +15,11 @@ import LocationVoteSection, { type LocationSelectionStatus } from './LocationVot
 import { useAnonymousMeetingData } from '../../hooks/useAnonymousMeetingData'
 
 export default function AnonymousTimeSelectPage (
-  { meetingCode }:
-  { meetingCode: string },
+  { meetingCode, initialData }:
+  { meetingCode: string, initialData: get_meetings_$meetingCode_response['data'] },
 ) {
   const { t } = useTranslation()
-  const { data, status, retry } = useAnonymousMeetingData(meetingCode)
+  const { data, status, retry } = useAnonymousMeetingData(meetingCode, initialData)
 
   if (status === 'checking' || status === 'loading') {
     return <p className={styles.anonymousMeetingState} role='status'>{t('common.loading')}</p>

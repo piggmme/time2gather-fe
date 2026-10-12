@@ -1,18 +1,19 @@
 import { Avatar as AvatarRa } from 'radix-ui'
+import { PersonIcon } from '@radix-ui/react-icons'
 import styles from './Avatar.module.scss'
 
-export default function Avatar ({ src, name, size = 36 }: { src: string, name: string, size?: number }) {
-  const fallback = name.trim().charAt(0).toUpperCase() || '?'
-
+export default function Avatar ({ src, name, size = 36 }: { src?: string | null, name: string, size?: number }) {
   return (
     <AvatarRa.Root className={styles.Root} style={{ width: size, height: size }}>
-      <AvatarRa.Image
-        className={styles.Image}
-        src={src}
-        alt={name}
-      />
-      <AvatarRa.Fallback className={styles.Fallback} delayMs={600}>
-        {fallback}
+      {src && (
+        <AvatarRa.Image
+          className={styles.Image}
+          src={src}
+          alt={name}
+        />
+      )}
+      <AvatarRa.Fallback className={styles.Fallback}>
+        <PersonIcon aria-hidden='true' />
       </AvatarRa.Fallback>
     </AvatarRa.Root>
   )

@@ -2,7 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
 import { meetings } from '../../../services/meetings';
-import type { get_meetings_$meetingCode_report_response, get_meetings_$meetingCode_response } from '../../../services/meetings';
+import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
 import Avatar from '../../../components/Avatar/Avatar';
 import ResultButtons from '../../../components/ResultPage/ResultButtons';
 import ResultContent from '../../../components/ResultPage/ResultContent';
@@ -16,14 +16,6 @@ let meetingData: get_meetings_$meetingCode_response['data'] | null = null;
 try {
   const response = await meetings.$meetingCode.get(meetingCode);
   meetingData = response.data;
-} catch (error) {
-  return Astro.redirect('/404',);
-}
-
-let reportData: get_meetings_$meetingCode_report_response['data'] | null = null;
-try {
-  const response = await meetings.$meetingCode.report.get(meetingCode);
-  reportData = response.data;
 } catch (error) {
   return Astro.redirect('/404',);
 }
@@ -78,7 +70,6 @@ const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
       <ResultContent
         client:only="react"
         meetingData={meetingData}
-        reportData={reportData}
       />
     </div>
     <div class="button-container">
