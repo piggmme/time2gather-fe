@@ -103,6 +103,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '20'
+          package-manager-cache: false
 
       - name: Deploy Firebase Hosting
         run: npx --yes firebase-tools@15 deploy --only hosting --project "$GCP_PROJECT_ID"
