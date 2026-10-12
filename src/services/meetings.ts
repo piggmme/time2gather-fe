@@ -255,6 +255,17 @@ const delete_meetings_$meetingCode_confirm = async (meetingCode: string) => {
   return response.data
 }
 
+export type put_meetings_$meetingCode_availableDates_body = {
+  dates: string[]
+}
+const put_meetings_$meetingCode_availableDates = async (
+  meetingCode: string,
+  body: put_meetings_$meetingCode_availableDates_body,
+) => {
+  const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/available-dates`, body)
+  return response.data
+}
+
 /**
  * @description Get my location selections for a meeting
  * @param meetingCode Meeting code
@@ -341,6 +352,9 @@ export const meetings = {
     confirm: {
       put: put_meetings_$meetingCode_confirm,
       delete: delete_meetings_$meetingCode_confirm,
+    },
+    availableDates: {
+      put: put_meetings_$meetingCode_availableDates,
     },
   },
 }

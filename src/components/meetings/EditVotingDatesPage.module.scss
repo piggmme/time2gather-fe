@@ -1,0 +1,100 @@
+@use "../../styles/variables.scss" as *;
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+  box-sizing: border-box;
+  border: 1px solid rgba($c-gray-dark, 0.12);
+  border-radius: $radius-lg;
+  background: $c-white;
+  box-shadow: $shadow-sm;
+
+  @media (max-width: 699px) {
+    padding: 0 0 $spacing-xl;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.header {
+  h1 {
+    margin: $spacing-sm 0;
+    color: $c-black;
+    font-size: $font-size-2xl;
+    line-height: $line-height-tight;
+    word-break: keep-all;
+  }
+
+  p {
+    margin: 0;
+    color: $c-gray-darkest;
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
+    word-break: keep-all;
+  }
+}
+
+.hostBadge {
+  display: inline-flex;
+  padding: 4px 9px;
+  border-radius: $radius-full;
+  background: $primary-color-soft;
+  color: $primary-color-hover;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  margin: $spacing-lg 0 $spacing-base;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  background: $c-gray-lightest;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+
+  strong {
+    flex-shrink: 0;
+    color: $primary-color-hover;
+  }
+
+  span {
+    text-align: right;
+  }
+}
+
+.calendar {
+  margin: 0 auto;
+}
+
+.warning {
+  margin: $spacing-base 0 0;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid rgba($c-red, 0.25);
+  border-radius: $radius-md;
+  background: $c-red-soft;
+  color: $c-red;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  word-break: keep-all;
+}
+
+.buttons {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-xl;
+
+  > *:first-child {
+    flex: 0 1 40%;
+  }
+
+  > *:last-child {
+    flex: 1 1 60%;
+  }
+}

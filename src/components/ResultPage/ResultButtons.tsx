@@ -156,13 +156,23 @@ export default function ResultButtons (
     <div className={styles.ResultButtons}>
       {/* Primary 버튼: 호스트에게만 약속 확정/취소 버튼 표시 */}
       {isHost && !isConfirmed && (
-        <Button
-          buttonType='primary'
-          onClick={() => setIsConfirmDialogOpen(true)}
-          className={styles.PrimaryButton}
-        >
-          {t('meeting.confirmButton')}
-        </Button>
+        <div className={styles.HostActions}>
+          <Button
+            buttonType='primary'
+            onClick={() => setIsConfirmDialogOpen(true)}
+            className={styles.PrimaryButton}
+          >
+            {t('meeting.confirmButton')}
+          </Button>
+          <Button
+            as='a'
+            href={`/meetings/${data.meeting.code}/edit-dates`}
+            buttonType='secondary'
+            className={styles.PrimaryButton}
+          >
+            {t('meeting.editDates.openButton')}
+          </Button>
+        </div>
       )}
       {isHost && isConfirmed && (
         <Button

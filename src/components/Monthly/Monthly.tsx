@@ -63,6 +63,7 @@ type MonthlyProps
     availableDates?: dayjs.Dayjs[]
     dateSchedule?: DateSchedule
     participantsCount?: number
+    allowPastSelected?: boolean
   }
   | {
     dates?: dayjs.Dayjs[]
@@ -72,6 +73,7 @@ type MonthlyProps
     availableDates?: dayjs.Dayjs[]
     dateSchedule?: DateSchedule
     participantsCount?: number
+    allowPastSelected?: boolean
   }
 
 export default function Monthly ({
@@ -82,6 +84,7 @@ export default function Monthly ({
   availableDates,
   dateSchedule,
   participantsCount,
+  allowPastSelected = false,
 }: MonthlyProps) {
   const isEditMode = mode === 'edit'
   const { t, locale } = useTranslation()
@@ -97,7 +100,7 @@ export default function Monthly ({
       return months
     }, new Map<string, { key: string, date: dayjs.Dayjs, count: number }>()).values(),
   ).sort((a, b) => a.date.diff(b.date))
-  const [currentDate, setCurrentDate] = useState(() => availableMonths[0]?.date ?? dayjs())
+  const [currentDate, setCurrentDate] = useState(() => availableMonths[0]?.date ?? dates?.[0]?.startOf('month') ?? dayjs())
   const monthDays = getMonthDays(currentDate.year(), currentDate.month())
   const currentMonthKey = currentDate.format('YYYY-MM')
   const currentAvailableMonthIndex = availableMonths.findIndex(month => month.key === currentMonthKey)
@@ -214,6 +217,7 @@ export default function Monthly ({
         availableDates={availableDates}
         dateSchedule={dateSchedule}
         participantsCount={participantsCount}
+        allowPastSelected={allowPastSelected}
       />
     </div>
   )

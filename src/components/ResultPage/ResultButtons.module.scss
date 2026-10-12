@@ -12,6 +12,16 @@
   width: 100%;
 }
 
+.HostActions {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: $spacing-sm;
+
+  @media (max-width: 419px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .IconButtonGroup {
   display: flex;
   gap: $spacing-sm;

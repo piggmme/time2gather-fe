@@ -50,6 +50,7 @@ export default function MonthlyGrid ({
   availableDates,
   dateSchedule,
   participantsCount,
+  allowPastSelected = false,
 }: {
   monthDays: dayjs.Dayjs[]
   dates: dayjs.Dayjs[]
@@ -61,6 +62,7 @@ export default function MonthlyGrid ({
   availableDates?: dayjs.Dayjs[]
   dateSchedule?: DateSchedule
   participantsCount?: number
+  allowPastSelected?: boolean
 }) {
   const locale = useStore($locale)
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null)
@@ -150,7 +152,7 @@ export default function MonthlyGrid ({
             isDisabled = !availableDates.some(availableDate => availableDate.isSame(day, 'day'))
           } else {
             // 기존 로직: 과거 날짜만 disabled
-            isDisabled = day.isBefore(today, 'day')
+            isDisabled = day.isBefore(today, 'day') && !(allowPastSelected && isSelected)
           }
 
           return (
@@ -198,7 +200,7 @@ export default function MonthlyGrid ({
         const today = dayjs()
         const isDateAvailable = availableDates
           ? availableDates.some(availableDate => availableDate.isSame(date, 'day'))
-          : !date.isBefore(today, 'day')
+          : !date.isBefore(today, 'day') || (allowPastSelected && dates.some(selected => selected.isSame(date, 'day')))
 
         if (isDateAvailable) {
           setStartDate(date)
@@ -212,7 +214,7 @@ export default function MonthlyGrid ({
         const today = dayjs()
         const isDateAvailable = availableDates
           ? availableDates.some(availableDate => availableDate.isSame(date, 'day'))
-          : !date.isBefore(today, 'day')
+          : !date.isBefore(today, 'day') || (allowPastSelected && dates.some(selected => selected.isSame(date, 'day')))
 
         if (isDateAvailable) {
           setEndDate(date)

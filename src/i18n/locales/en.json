@@ -191,6 +191,19 @@
     "cancelConfirmSuccess": "Meeting confirmation has been cancelled!",
     "cancelConfirmError": "Failed to cancel confirmation. Please try again.",
     "alreadyConfirmedError": "This meeting is already confirmed. You cannot modify your vote.",
+    "editDates": {
+      "openButton": "Edit voting dates",
+      "hostOnly": "Host only",
+      "title": "Edit voting dates",
+      "description": "Choose the dates participants can vote on. The existing time range stays the same.",
+      "selectedCount": "{count} dates selected",
+      "selectionHint": "Tap or drag to select dates.",
+      "removedWarning": "Votes on {count} removed dates will be deleted when you save.",
+      "maxDates": "You can select up to {count} dates.",
+      "save": "Save dates",
+      "success": "Voting dates updated.",
+      "error": "Couldn’t update voting dates. Please try again."
+    },
     "exportDialog": {
       "title": "Add to Calendar",
       "description": "Select the date and time to add to your calendar.",

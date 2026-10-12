@@ -1,0 +1,37 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import EditVotingDatesPage from '../../../components/meetings/EditVotingDatesPage';
+import { meetings } from '../../../services/meetings';
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
+
+const meetingCode = Astro.params.meetingCode as string;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const t = getTranslations(locale);
+
+let data;
+try {
+  const response = await meetings.$meetingCode.get(meetingCode);
+  data = response.data;
+} catch (error) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={`${t('meeting.editDates.title')} - ${data.meeting.title}`}>
+  <main>
+    <EditVotingDatesPage
+      client:only="react"
+      meetingCode={meetingCode}
+      initialDates={Object.keys(data.meeting.availableDates)}
+    />
+  </main>
+</Layout>
+
+<style>
+  main {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+  }
+</style>
