@@ -3,7 +3,7 @@
     "public": "dist/client",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
-      { "source": "/api/**", "run": { "serviceId": "time2gather-api", "region": "asia-northeast3", "pinTag": true } },
+      { "source": "/api/**", "run": { "serviceId": "time2gather-api", "region": "asia-northeast3" } },
       { "source": "**", "run": { "serviceId": "time2gather-web", "region": "asia-northeast3", "pinTag": true } }
     ],
     "headers": [
