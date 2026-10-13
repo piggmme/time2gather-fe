@@ -57,7 +57,7 @@ export default function MeetingLiveView ({ initialData }: { initialData: Meeting
   return (
     <div className={styles.LiveView}>
       <div className={styles.Report}>
-        <ResultContent meetingData={meetingData} />
+        <ResultContent meetingData={meetingData} onMeetingUpdated={refreshMeeting} />
       </div>
       <div className={styles.ButtonContainer}>
         <ResultButtons data={meetingData} onMeetingUpdated={refreshMeeting} />

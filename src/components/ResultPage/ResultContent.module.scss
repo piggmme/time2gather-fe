@@ -267,10 +267,12 @@
 
 .ConfirmedPlan {
   padding: $spacing-lg;
-  background: $primary-color;
-  color: $c-white;
+  background: #f7f9fc;
+  color: $c-black;
+  border: 1px solid #dce3ed;
+  border-top: 4px solid #7185a3;
   border-radius: $radius-lg;
-  box-shadow: 0 16px 36px -24px rgba($primary-color-hover, 0.8);
+  box-shadow: 0 16px 36px -30px rgba(51, 65, 85, 0.45);
 
   @media (max-width: 699px) {
     padding: $spacing-base;
@@ -288,20 +290,21 @@
     width: 28px;
     height: 28px;
     flex: 0 0 auto;
+    color: #607897;
   }
 }
 
 .ConfirmedPlanEyebrow {
   display: block;
   margin-bottom: 2px;
-  color: rgba($c-white, 0.76);
+  color: #607897;
   font-size: $font-size-xs;
   font-weight: $font-weight-semibold;
 }
 
 .ConfirmedPlanTitle {
   margin: 0;
-  color: $c-white;
+  color: $c-black;
   font-size: $font-size-xl;
 }
 
@@ -314,8 +317,8 @@
   > div {
     min-width: 0;
     padding: $spacing-md;
-    background: rgba($c-white, 0.12);
-    border: 1px solid rgba($c-white, 0.14);
+    background: $c-white;
+    border: 1px solid #e2e7ef;
     border-radius: $radius-md;
   }
 
@@ -324,7 +327,7 @@
     align-items: center;
     gap: $spacing-xs;
     margin-bottom: $spacing-xs;
-    color: rgba($c-white, 0.72);
+    color: $c-gray-darkest;
     font-size: $font-size-xs;
 
     svg { flex: 0 0 auto; }
@@ -332,7 +335,7 @@
 
   dd {
     margin: 0;
-    color: $c-white;
+    color: $c-black;
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
     word-break: keep-all;
@@ -348,6 +351,7 @@
   padding: $spacing-base;
   background: $c-white;
   color: $c-black;
+  border: 1px solid #e2e7ef;
   border-radius: $radius-md;
 }
 
@@ -367,7 +371,64 @@
 
   strong {
     font-size: $font-size-sm;
-    color: $primary-color;
+    color: #526b8f;
+  }
+}
+
+.ConfirmedTimeValue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex: 0 0 auto;
+    padding: 4px 7px;
+    color: #526b8f;
+    background: #eef2f7;
+    border-radius: $radius-xs;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+
+    &:hover { background: #e3e9f1; }
+    &:focus-visible { outline: 2px solid #7185a3; outline-offset: 2px; }
+  }
+}
+
+.TimeInputLabel {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+
+  input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 $spacing-md;
+    color: $c-black;
+    background: $c-white;
+    border: 1px solid $c-gray;
+    border-radius: $radius-sm;
+    font: inherit;
+    font-size: $font-size-base;
+
+    &:focus { outline: 2px solid #7185a3; outline-offset: 1px; }
+  }
+}
+
+.TimeDialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-lg;
+
+  @media (max-width: 479px) {
+    > button { flex: 1; }
   }
 }
 

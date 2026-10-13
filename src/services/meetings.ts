@@ -261,6 +261,17 @@ const delete_meetings_$meetingCode_confirm = async (meetingCode: string) => {
   return response.data
 }
 
+export type put_meetings_$meetingCode_confirmedTime_body = {
+  time: string
+}
+const put_meetings_$meetingCode_confirmedTime = async (
+  meetingCode: string,
+  body: put_meetings_$meetingCode_confirmedTime_body,
+) => {
+  const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/confirmed-time`, body)
+  return response.data
+}
+
 export type put_meetings_$meetingCode_availableDates_body = {
   dates: string[]
 }
@@ -358,6 +369,9 @@ export const meetings = {
     confirm: {
       put: put_meetings_$meetingCode_confirm,
       delete: delete_meetings_$meetingCode_confirm,
+    },
+    confirmedTime: {
+      put: put_meetings_$meetingCode_confirmedTime,
     },
     availableDates: {
       put: put_meetings_$meetingCode_availableDates,

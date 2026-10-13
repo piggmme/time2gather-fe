@@ -45,6 +45,22 @@ export default function CalendarExportDialog ({
   const locale = useStore($locale)
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
   const isIos = isIosDevice()
+  const confirmedBestSlot = initialDate
+    ? bestSlots.find((slot) => {
+        const [slotStart] = slot.time.split(' ~ ')
+        return slot.date === initialDate && slotStart === (initialTime ?? 'ALL_DAY')
+      })
+    : undefined
+  const displayedSlots = initialDate
+    ? [{
+        date: initialDate,
+        time: initialTime ?? 'ALL_DAY',
+        startSlotIndex: confirmedBestSlot?.startSlotIndex ?? -1,
+        endSlotIndex: confirmedBestSlot?.endSlotIndex ?? -1,
+        count: confirmedBestSlot?.count ?? 0,
+        percentage: confirmedBestSlot?.percentage ?? '',
+      }]
+    : bestSlots
 
   useEffect(() => {
     if (!isOpen || !initialDate) return
@@ -59,9 +75,15 @@ export default function CalendarExportDialog ({
   }, [bestSlots, initialDate, initialTime, isOpen])
 
   const handleExport = () => {
-    if (bestSlots.length === 0) return
+    if (displayedSlots.length === 0) return
 
-    const selectedSlot = bestSlots[selectedIndex]
+    if (initialDate) {
+      window.location.href = meetings.getExportUrl(meetingCode)
+      onClose()
+      return
+    }
+
+    const selectedSlot = displayedSlots[selectedIndex]
     const slotIndex = selectionType === 'ALL_DAY'
       ? -1
       : selectedSlot.startSlotIndex
@@ -73,7 +95,7 @@ export default function CalendarExportDialog ({
     onClose()
   }
 
-  if (bestSlots.length === 0) {
+  if (displayedSlots.length === 0) {
     return (
       <Dialog.Root open={isOpen} onOpenChange={onClose}>
         <Dialog.Content>
@@ -108,9 +130,9 @@ export default function CalendarExportDialog ({
 
         <div className={styles.dialogBody}>
           <div className={styles.slotList}>
-            {bestSlots.map((slot, index) => {
+            {displayedSlots.map((slot, index) => {
               const formattedDate = formatDate(slot.date, locale)
-              const timeDisplay = selectionType === 'ALL_DAY'
+              const timeDisplay = slot.time === 'ALL_DAY'
                 ? t('meeting.exportDialog.allDay')
                 : slot.time
 
@@ -128,9 +150,11 @@ export default function CalendarExportDialog ({
                     <span className={styles.slotDate}>{formattedDate}</span>
                     <span className={styles.slotTime}>{timeDisplay}</span>
                   </span>
-                  <span className={styles.slotStats}>
-                    {t('meeting.result.voteCount', { count: slot.count, percentage: slot.percentage })}
-                  </span>
+                  {slot.percentage && (
+                    <span className={styles.slotStats}>
+                      {t('meeting.result.voteCount', { count: slot.count, percentage: slot.percentage })}
+                    </span>
+                  )}
                 </label>
               )
             })}

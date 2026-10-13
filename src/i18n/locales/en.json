@@ -275,7 +275,14 @@
         "time": "Time",
         "location": "Location",
         "attendees": "Available attendees",
-        "attendanceSummary": "{count} people · {percentage} of the group"
+        "attendanceSummary": "{count} people · {percentage} of the group",
+        "editTime": "Edit",
+        "editTimeTitle": "Edit meeting time",
+        "editTimeDescription": "Keep the confirmed date and set the exact time you plan to meet.",
+        "saveTime": "Save time",
+        "savingTime": "Saving...",
+        "timeUpdateSuccess": "The meeting time was updated.",
+        "timeUpdateError": "The meeting time could not be updated. Please try again."
       },
       "actions": {
         "confirmed": "Confirmed plan",
@@ -292,7 +299,7 @@
         "description": "Pick the times that work for you.",
         "buttonTitle": "Join the vote",
         "confirmedTitle": "{date} · Confirmed",
-        "confirmedDescription": "{title}\n{details}",
+        "confirmedDescription": "{title} · {details}",
         "confirmedButtonTitle": "View confirmed plan",
         "locationPending": "Location pending"
       },

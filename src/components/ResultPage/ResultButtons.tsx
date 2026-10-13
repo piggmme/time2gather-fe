@@ -228,7 +228,7 @@ export default function ResultButtons (
         {isConfirmed && (
           <Button
             buttonType='primary'
-            onClick={handleShare}
+            onClick={handleShareKakao}
             className={styles.ConfirmedShareButton}
           >
             <HiOutlineShare className={styles.ActionButtonIcon} aria-hidden='true' />
@@ -249,7 +249,7 @@ export default function ResultButtons (
           </button>
 
           {/* 카카오톡 공유 */}
-          {kakaoAvailable && (
+          {kakaoAvailable && !isConfirmed && (
             <button
               className={`${styles.IconButton} ${styles.KakaoButton}`}
               onClick={handleShareKakao}

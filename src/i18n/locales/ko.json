@@ -289,7 +289,14 @@
         "time": "시간",
         "location": "장소",
         "attendees": "참여 가능",
-        "attendanceSummary": "{count}명 · 전체의 {percentage}"
+        "attendanceSummary": "{count}명 · 전체의 {percentage}",
+        "editTime": "수정",
+        "editTimeTitle": "약속 시간 수정",
+        "editTimeDescription": "확정된 날짜는 그대로 두고 실제로 만날 시간을 정할 수 있어요.",
+        "saveTime": "시간 저장",
+        "savingTime": "저장 중...",
+        "timeUpdateSuccess": "약속 시간이 수정되었어요.",
+        "timeUpdateError": "약속 시간을 수정하지 못했어요. 다시 시도해주세요."
       },
       "actions": {
         "confirmed": "확정된 약속",
@@ -306,7 +313,7 @@
         "description": "투표하고 가장 좋은 시간을 찾아보세요!",
         "buttonTitle": "투표하러 가기",
         "confirmedTitle": "{date} · 약속 확정",
-        "confirmedDescription": "{title}\n{details}",
+        "confirmedDescription": "{title} · {details}",
         "confirmedButtonTitle": "확정 일정 보기",
         "locationPending": "장소 확정 대기"
       },

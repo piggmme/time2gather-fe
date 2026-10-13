@@ -8,17 +8,22 @@ import { formatDate, formatTime } from '../../utils/time'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import {
-  HiChevronDown, HiChevronRight, HiX, HiOutlineLocationMarker, HiOutlineCalendar, HiOutlineClock, HiOutlineCheckCircle,
+  HiChevronDown, HiChevronRight, HiX, HiOutlineLocationMarker, HiOutlineCalendar, HiOutlineClock, HiOutlineCheckCircle, HiOutlinePencil,
 } from 'react-icons/hi'
 import { useTranslation } from '../../hooks/useTranslation'
 import { $me } from '../../stores/me'
 import { Tabs } from '../Tabs/Tabs'
 import Monthly from '../Monthly/Monthly'
+import { Dialog } from '../Dialog/Dialog'
+import { meetings } from '../../services/meetings'
+import { showDefaultToast } from '../../stores/toast'
 
 export default function ResultContent ({
   meetingData,
+  onMeetingUpdated,
 }: {
   meetingData: get_meetings_$meetingCode_response['data']
+  onMeetingUpdated?: () => void
 }) {
   const { t } = useTranslation()
   const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set())
@@ -125,6 +130,7 @@ export default function ResultContent ({
         expandedSlots={expandedSlots}
         toggleSlot={toggleSlot}
         getParticipantsForGroup={getParticipantsForGroup}
+        onMeetingUpdated={onMeetingUpdated}
       />
       {
         displayedMeetingData.meeting.selectionType === 'TIME'
@@ -168,15 +174,21 @@ function SummaryContent ({
   expandedSlots,
   toggleSlot,
   getParticipantsForGroup,
+  onMeetingUpdated,
 }: {
   meetingData: get_meetings_$meetingCode_response['data']
   groupedBestSlots: GroupedBestSlot[]
   expandedSlots: Set<string>
   toggleSlot: (groupIndex: number) => void
   getParticipantsForGroup: (group: GroupedBestSlot) => typeof meetingData.participants
+  onMeetingUpdated?: () => void
 }) {
   const locale = useStore($locale)
+  const me = useStore($me)
   const { t } = useTranslation()
+  const [isTimeDialogOpen, setIsTimeDialogOpen] = useState(false)
+  const [editedTime, setEditedTime] = useState('18:00')
+  const [isSavingTime, setIsSavingTime] = useState(false)
 
   const locationVote = meetingData.locationVote
   const sortedLocations = locationVote?.locations
@@ -192,14 +204,37 @@ function SummaryContent ({
 
   const confirmedDate = meetingData.meeting.confirmedDate
   const confirmedTime = meetingData.meeting.confirmedTime ?? 'ALL_DAY'
+  const confirmedAvailabilityTime = meetingData.meeting.selectionType === 'ALL_DAY'
+    ? 'ALL_DAY'
+    : confirmedTime
+  const isHost = meetingData.meeting.host.id === me?.userId
+
+  useEffect(() => {
+    if (confirmedTime !== 'ALL_DAY') setEditedTime(confirmedTime)
+  }, [confirmedTime])
+
+  const handleSaveConfirmedTime = async () => {
+    if (!editedTime || isSavingTime) return
+    setIsSavingTime(true)
+    try {
+      await meetings.$meetingCode.confirmedTime.put(meetingData.meeting.code, { time: editedTime })
+      showDefaultToast({ message: t('meeting.result.confirmedPlan.timeUpdateSuccess'), duration: 3000 })
+      setIsTimeDialogOpen(false)
+      onMeetingUpdated?.()
+    } catch {
+      showDefaultToast({ message: t('meeting.result.confirmedPlan.timeUpdateError'), duration: 3000 })
+    } finally {
+      setIsSavingTime(false)
+    }
+  }
   const confirmedBestSlot = confirmedDate
     ? meetingData.summary.bestSlots.find((slot) => {
         const [slotStart] = slot.time.split(' ~ ')
-        return slot.date === confirmedDate && slotStart === confirmedTime
+        return slot.date === confirmedDate && slotStart === confirmedAvailabilityTime
       })
     : undefined
   const confirmedSchedule = confirmedDate
-    ? meetingData.schedule[confirmedDate]?.[confirmedTime]
+    ? meetingData.schedule[confirmedDate]?.[confirmedAvailabilityTime]
     : undefined
   const confirmedParticipants = confirmedBestSlot?.participants ?? confirmedSchedule?.participants ?? []
   const confirmedParticipantCount = confirmedBestSlot?.count ?? confirmedSchedule?.count ?? confirmedParticipants.length
@@ -228,7 +263,15 @@ function SummaryContent ({
               </div>
               <div>
                 <dt><HiOutlineClock aria-hidden='true' /> {t('meeting.result.confirmedPlan.time')}</dt>
-                <dd>{formatTime(meetingData.meeting.confirmedTime ?? 'ALL_DAY', locale, t('meeting.confirmDialog.allDay'))}</dd>
+                <dd className={styles.ConfirmedTimeValue}>
+                  <span>{formatTime(confirmedTime, locale, t('meeting.confirmDialog.allDay'))}</span>
+                  {isHost && (
+                    <button type='button' onClick={() => setIsTimeDialogOpen(true)}>
+                      <HiOutlinePencil aria-hidden='true' />
+                      {t('meeting.result.confirmedPlan.editTime')}
+                    </button>
+                  )}
+                </dd>
               </div>
               {locationVote?.enabled && (
                 <div>
@@ -270,6 +313,29 @@ function SummaryContent ({
             </div>
           </section>
         )}
+
+        <Dialog.Root open={isTimeDialogOpen} onOpenChange={setIsTimeDialogOpen}>
+          <Dialog.Content>
+            <Dialog.Title>{t('meeting.result.confirmedPlan.editTimeTitle')}</Dialog.Title>
+            <Dialog.Description>{t('meeting.result.confirmedPlan.editTimeDescription')}</Dialog.Description>
+            <label className={styles.TimeInputLabel}>
+              <span>{t('meeting.result.confirmedPlan.time')}</span>
+              <input
+                type='time'
+                value={editedTime}
+                onChange={event => setEditedTime(event.target.value)}
+                step='60'
+                required
+              />
+            </label>
+            <div className={styles.TimeDialogActions}>
+              <Dialog.Cancel>{t('meeting.exportDialog.cancel')}</Dialog.Cancel>
+              <Dialog.Action onClick={handleSaveConfirmedTime} disabled={!editedTime || isSavingTime}>
+                {t(isSavingTime ? 'meeting.result.confirmedPlan.savingTime' : 'meeting.result.confirmedPlan.saveTime')}
+              </Dialog.Action>
+            </div>
+          </Dialog.Content>
+        </Dialog.Root>
 
         {/* 시간 요약 카드 */}
         {!meetingData.meeting.confirmedDate && (
