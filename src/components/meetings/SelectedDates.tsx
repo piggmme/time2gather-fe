@@ -7,7 +7,9 @@ import { formatDate } from '../../utils/time'
 export default function SelectedDates ({ dates, locale, visibleCount }: { dates: (string | dayjs.Dayjs)[], locale: 'ko' | 'en', visibleCount?: number }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const formattedDates = dates.map(d => d instanceof dayjs ? d : dayjs(d))
+  const formattedDates = dates
+    .map(d => d instanceof dayjs ? d : dayjs(d))
+    .sort((a, b) => a.diff(b))
   const INITIAL_COUNT = visibleCount ?? 2
   const visibleDates = isExpanded ? formattedDates : formattedDates.slice(0, INITIAL_COUNT)
   const remainingCount = formattedDates.length - INITIAL_COUNT
@@ -19,6 +21,7 @@ export default function SelectedDates ({ dates, locale, visibleCount }: { dates:
       ))}
       {!isExpanded && remainingCount > 0 && (
         <button
+          type='button'
           className={styles.moreButton}
           onClick={() => setIsExpanded(true)}
         >

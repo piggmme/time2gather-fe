@@ -20,8 +20,8 @@ type Toast = DefaultToast | CautionToast
 const $toastTimerIds = atom<Record<string, NodeJS.Timeout>>({})
 export const $toasts = atom<Toast[]>([])
 
-const MAX_SIZE = 10
-const DELAY = 7000
+const MAX_SIZE = 3
+const DELAY = 4000
 
 export function showDefaultToast (toast: Pick<DefaultToast, 'message' | 'duration' | 'permanent'>) {
   return showToast({

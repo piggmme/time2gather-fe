@@ -35,10 +35,14 @@ try {
     max-width: 600px;
     margin: 0 auto;
     padding-bottom: 80px;
+
+    @media (max-width: 699px) {
+      padding-bottom: $spacing-xl;
+    }
   }
 
   h1 {
-    margin: 0;
+    margin: 0 0 $spacing-base;
     color: $c-black;
     font-size: $font-size-2xl;
     line-height: $line-height-tight;

@@ -8,7 +8,7 @@ import { meetings, type get_meetings_$meetingCode_response } from '../../service
 import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
 import { navigate } from 'astro:transitions/client'
-import { showDefaultToast } from '../../stores/toast'
+import { showCautionToast, showDefaultToast } from '../../stores/toast'
 import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
 
 export default function TimeSelectPage (
@@ -128,12 +128,12 @@ export default function TimeSelectPage (
           duration: 3000,
         })
       }, 500)
-      navigate(`/meetings/${meetingCode}/result`)
+      navigate(`/meetings/${meetingCode}`)
     } catch (error) {
       const errorResponse = error as { response?: { data?: { messageKey?: string } } }
       if (errorResponse.response?.data?.messageKey === 'error.meeting.already.confirmed') {
-        alert(t('meeting.alreadyConfirmedError'))
-        navigate(`/meetings/${meetingCode}/result`)
+        showCautionToast({ message: t('meeting.alreadyConfirmedError'), duration: 4000 })
+        navigate(`/meetings/${meetingCode}`)
       } else {
         showDefaultToast({
           message: t('common.error'),

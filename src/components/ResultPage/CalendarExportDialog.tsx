@@ -76,33 +76,35 @@ export default function CalendarExportDialog ({
           {t('meeting.exportDialog.description')}
         </Dialog.Description>
 
-        <div className={styles.slotList}>
-          {bestSlots.map((slot, index) => {
-            const formattedDate = formatDate(slot.date, locale)
-            const timeDisplay = selectionType === 'ALL_DAY'
-              ? t('meeting.exportDialog.allDay')
-              : slot.time
+        <div className={styles.dialogBody}>
+          <div className={styles.slotList}>
+            {bestSlots.map((slot, index) => {
+              const formattedDate = formatDate(slot.date, locale)
+              const timeDisplay = selectionType === 'ALL_DAY'
+                ? t('meeting.exportDialog.allDay')
+                : slot.time
 
-            return (
-              <label key={`${slot.date}-${slot.time}`} className={styles.slotItem}>
-                <input
-                  type='radio'
-                  name='selectedSlot'
-                  value={index}
-                  checked={selectedIndex === index}
-                  onChange={() => setSelectedIndex(index)}
-                  className={styles.radioInput}
-                />
-                <span className={styles.slotInfo}>
-                  <span className={styles.slotDate}>{formattedDate}</span>
-                  <span className={styles.slotTime}>{timeDisplay}</span>
-                </span>
-                <span className={styles.slotStats}>
-                  {t('meeting.result.voteCount', { count: slot.count, percentage: slot.percentage })}
-                </span>
-              </label>
-            )
-          })}
+              return (
+                <label key={`${slot.date}-${slot.time}`} className={styles.slotItem}>
+                  <input
+                    type='radio'
+                    name='selectedSlot'
+                    value={index}
+                    checked={selectedIndex === index}
+                    onChange={() => setSelectedIndex(index)}
+                    className={styles.radioInput}
+                  />
+                  <span className={styles.slotInfo}>
+                    <span className={styles.slotDate}>{formattedDate}</span>
+                    <span className={styles.slotTime}>{timeDisplay}</span>
+                  </span>
+                  <span className={styles.slotStats}>
+                    {t('meeting.result.voteCount', { count: slot.count, percentage: slot.percentage })}
+                  </span>
+                </label>
+              )
+            })}
+          </div>
         </div>
 
         <div className={styles.dialogButtons}>

@@ -40,7 +40,7 @@ const description = t('meta.pages.create.description');
       box-sizing: border-box;
       min-height: calc(100svh - 70px);
       position: relative;
-      padding: 0 4px 96px;
+      padding: 0 0 max(32px, env(safe-area-inset-bottom));
     }
   }
   .content {

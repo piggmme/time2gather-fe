@@ -6,12 +6,11 @@ import { useSearchParam } from 'react-use'
 import Input from '../Input/Input'
 import { useTranslation } from '../../hooks/useTranslation'
 import { meetings, type post_meetings_body } from '../../services/meetings'
-import { showDefaultToast } from '../../stores/toast'
 import useSelectedDates from './useSelectedDates'
 import { convertTo24Hour, getTimeRangeSlots } from '../../utils/time'
 import type { AmPm } from '../../utils/time'
 import { useStore } from '@nanostores/react'
-import { $me, refreshMe } from '../../stores/me'
+import { $me } from '../../stores/me'
 import { auth } from '../../services/auth'
 import { PlusIcon } from '@radix-ui/react-icons'
 
@@ -82,11 +81,16 @@ export default function LocationStep () {
 
     try {
       if (!me) {
-        await auth.anonymous.post(hostName.trim())
-        await refreshMe()
+        const response = await auth.anonymous.post(hostName.trim())
+        $me.set({
+          userId: response.data.userId,
+          username: response.data.username,
+          provider: 'ANONYMOUS',
+          role: 'USER',
+        })
       } else if (hostName.trim() !== me.username) {
-        await auth.me.put(hostName.trim())
-        await refreshMe()
+        const response = await auth.me.put(hostName.trim())
+        $me.set({ ...me, username: response.data.username })
       }
 
       const body: post_meetings_body = {
@@ -103,12 +107,7 @@ export default function LocationStep () {
 
       const response = await meetings.post(body)
       if (response.success) {
-        navigate(`/meetings/${response.data.meetingCode}`)
-        navigator.clipboard.writeText(window.location.origin + `/meetings/${response.data.meetingCode}`)
-        showDefaultToast({
-          message: t('meeting.shareSuccess'),
-          duration: 3000,
-        })
+        await navigate(`/meetings/${response.data.meetingCode}`)
       } else {
         console.error(response.message)
       }
@@ -229,7 +228,9 @@ export default function LocationStep () {
           disabled={!canSubmit || isSubmitting}
           onClick={handleSubmit}
         >
-          {t('createMeeting.locationStep.createButton')}
+          {isSubmitting
+            ? t('createMeeting.locationStep.creatingButton')
+            : t('createMeeting.locationStep.createButton')}
         </Button>
       </div>
     </>

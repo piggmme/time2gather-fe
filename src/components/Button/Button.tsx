@@ -59,6 +59,7 @@ export default function Button<T extends 'button' | 'a' = 'button'> (
       className={classNames(buttonClassNames, { [styles.active]: active })}
       onClick={handleClick}
       disabled={isDisabled}
+      aria-busy={isLoading || undefined}
       {...otherButtonProps}
     />
   )

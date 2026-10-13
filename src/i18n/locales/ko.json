@@ -146,6 +146,7 @@
       "minLocationsWarning": "장소 투표를 위해 최소 2개의 장소가 필요해요",
       "maxLocationsWarning": "최대 5개의 장소만 추가할 수 있어요",
       "createButton": "약속 만들기",
+      "creatingButton": "약속 만드는 중...",
       "skipButton": "건너뛰기"
     }
   },
@@ -236,7 +237,6 @@
     "anonymousSelectButton": "이름으로 참여하기",
     "selectButton": "날짜 선택하러 가기",
     "selectTimeButton": "날짜와 시간 선택하러 가기",
-    "resultButton": "결과 보러가기",
     "anonymous": {
       "dialog" : {
         "title": "로그인 되어있지 않아요",

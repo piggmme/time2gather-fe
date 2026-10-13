@@ -24,7 +24,7 @@ export default function EditVotingDatesPage ({
   const [isSaving, setIsSaving] = useState(false)
   const selectedDateKeys = selectedDates.map(date => date.format('YYYY-MM-DD'))
   const removedCount = initialDates.filter(date => !selectedDateKeys.includes(date)).length
-  const resultUrl = `/meetings/${meetingCode}/result`
+  const resultUrl = `/meetings/${meetingCode}`
 
   const handleDatesChange = (dates: dayjs.Dayjs[]) => {
     if (dates.length > MAX_DATES) {

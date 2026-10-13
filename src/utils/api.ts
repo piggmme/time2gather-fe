@@ -15,6 +15,11 @@ const api = axios.create({
   baseURL: apiBaseUrl,
 })
 
+api.interceptors.request.use((config) => {
+  config.headers.set('Accept-Language', getLocaleFromContext())
+  return config
+})
+
 const shouldResetSession = (error: AxiosError<error_response>) => {
   return error.response?.status === 401
 }

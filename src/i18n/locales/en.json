@@ -146,6 +146,7 @@
       "minLocationsWarning": "At least 2 locations are required for location voting",
       "maxLocationsWarning": "You can only add up to 5 locations",
       "createButton": "Create Meeting",
+      "creatingButton": "Creating meeting...",
       "skipButton": "Skip"
     }
   },
@@ -236,7 +237,6 @@
     "anonymousSelectButton": "Join with a name",
     "selectButton": "Select Dates",
     "selectTimeButton": "Select Date and Time",
-    "resultButton": "View Result",
     "result": {
       "tabs": {
         "aiSummary": "Summary",
