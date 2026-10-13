@@ -7,7 +7,7 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { showDefaultToast } from '../../stores/toast'
 import CalendarExportDialog from './CalendarExportDialog'
 import ConfirmMeetingDialog from './ConfirmMeetingDialog'
-import { HiOutlineCalendar, HiOutlineShare, HiOutlinePencil, HiOutlineSparkles } from 'react-icons/hi'
+import { HiOutlineCalendar, HiOutlineShare, HiOutlinePencil, HiArrowRight } from 'react-icons/hi'
 import { RiKakaoTalkFill } from 'react-icons/ri'
 import { shareToKakao, isKakaoAvailable } from '../../utils/kakaoShare'
 import { formatDate, formatTime } from '../../utils/time'
@@ -132,7 +132,11 @@ export default function ResultButtons (
     })
   }
 
-  const handleShareKakao = () => {
+  const handleShareKakao = async () => {
+    for (let attempt = 0; attempt < 15 && !isKakaoAvailable(); attempt += 1) {
+      await new Promise(resolve => window.setTimeout(resolve, 100))
+    }
+
     const confirmedDate = isConfirmed
       ? formatDate(data.meeting.confirmedDate!, locale)
       : ''
@@ -172,8 +176,16 @@ export default function ResultButtons (
     })
 
     if (!success) {
-      // 카카오 공유 실패 시 일반 공유로 폴백
-      handleShare()
+      const shareContent = getShareContent()
+      try {
+        await navigator.clipboard.writeText(`${shareContent.text}\n${shareContent.url}`)
+        showDefaultToast({
+          message: t('meeting.result.share.kakaoFallbackCopied'),
+          duration: 3000,
+        })
+      } catch {
+        showDefaultToast({ message: t('common.error'), duration: 3000 })
+      }
     }
   }
 
@@ -309,8 +321,8 @@ export default function ResultButtons (
       <div className={styles.ViralCtaSection}>
         <span className={styles.ViralCtaTitle}>{t('meeting.result.viralCta.title')}</span>
         <a href='/' className={styles.ViralCtaButton}>
-          <HiOutlineSparkles />
           {t('meeting.result.viralCta.button')}
+          <HiArrowRight aria-hidden='true' />
         </a>
       </div>
     </div>

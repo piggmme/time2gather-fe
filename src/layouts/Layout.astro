@@ -141,11 +141,15 @@ const hreflangUrls = alternates && {
 	
 	<!-- Kakao SDK Initialization -->
 	<script>
-	  document.addEventListener('DOMContentLoaded', function() {
+	  const initializeKakao = () => {
 	    if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
 	      Kakao.init('a13214e3367a5df735d7d8167fee5d0c');
 	    }
-	  });
+	  };
+
+	  initializeKakao();
+	  document.addEventListener('DOMContentLoaded', initializeKakao);
+	  document.addEventListener('astro:page-load', initializeKakao);
 	</script>
   </body>
 </html>

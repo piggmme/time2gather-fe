@@ -24,15 +24,10 @@ interface KakaoShareContent {
   link: KakaoShareLink
 }
 
-interface KakaoShareButton {
-  title: string
-  link: KakaoShareLink
-}
-
 interface KakaoShareSettings {
   objectType: 'feed'
   content: KakaoShareContent
-  buttons: KakaoShareButton[]
+  buttonTitle: string
 }
 
 export interface ShareToKakaoParams {
@@ -94,15 +89,7 @@ export function shareToKakao (params: ShareToKakaoParams): boolean {
           mobileWebUrl: url,
         },
       },
-      buttons: [
-        {
-          title: buttonTitle,
-          link: {
-            webUrl: url,
-            mobileWebUrl: url,
-          },
-        },
-      ],
+      buttonTitle,
     })
     return true
   } catch (error) {

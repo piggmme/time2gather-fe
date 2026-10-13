@@ -307,7 +307,8 @@
       "share": {
         "confirmedTitle": "{title} 일정이 확정됐어요",
         "confirmedHeading": "약속이 확정됐어요!",
-        "detailsCopied": "확정 일정과 링크를 함께 복사했어요."
+        "detailsCopied": "확정 일정과 링크를 함께 복사했어요.",
+        "kakaoFallbackCopied": "카카오톡을 열지 못해 확정 일정 링크를 복사했어요."
       },
       "kakaoShare": {
         "description": "투표하고 가장 좋은 시간을 찾아보세요!",

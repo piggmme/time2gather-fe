@@ -16,11 +16,11 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
-  padding: $spacing-lg;
+  padding: 22px;
   background: $c-white;
-  border: 1px solid $c-gray-light;
-  border-radius: $radius-base;
-  box-shadow: 0 18px 45px -38px rgba($c-black, 0.55);
+  border: 1px solid #f0f2f5;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
 
   @media (max-width: 699px) {
     padding: $spacing-base;
@@ -28,17 +28,18 @@
 }
 
 .ActionPanelEyebrow {
-  color: $primary-color;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-bold;
+  color: #3182f6;
+  font-size: 12px;
+  font-weight: $font-weight-semibold;
 }
 
 .ActionPanelTitle {
   margin: -$spacing-xs 0 $spacing-xs;
   color: $c-black;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-tight;
+  color: #4e5968;
+  font-size: 14px;
+  font-weight: $font-weight-medium;
+  line-height: 1.55;
 }
 
 .PrimaryButton {
@@ -61,9 +62,12 @@
 
 .ConfirmedShareButton {
   width: 100%;
-  background-color: #526b8f !important;
+  min-height: 52px;
+  background-color: #3182f6 !important;
+  border-radius: 12px !important;
+  font-weight: $font-weight-bold !important;
 
-  &:hover { background-color: #435b7c !important; }
+  &:hover { background-color: #1b64da !important; }
 }
 
 .ActionButtonIcon {
@@ -85,23 +89,22 @@
   min-width: 0;
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: $spacing-md $spacing-sm;
+  gap: 8px;
+  padding: 14px $spacing-sm;
   min-height: 52px;
-  background-color: $c-white;
-  border: 1px solid $c-gray;
-  border-radius: $radius-sm;
+  background-color: #f7f8fa;
+  border: 0;
+  border-radius: 12px;
   cursor: pointer;
   transition: all $transition-base;
   text-decoration: none;
-  color: $c-gray-darkest;
+  color: #4e5968;
 
   &:hover {
-    background-color: $c-gray-lightest;
-    border-color: $c-gray-dark;
+    background-color: #f2f4f6;
   }
 
   &:active {
@@ -119,18 +122,17 @@
 .CancelConfirmationButton {
   align-self: center;
   padding: $spacing-xs;
-  color: $c-gray-darkest;
+  color: #8b95a1;
   font-size: $font-size-xs;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration: none;
 
   &:hover { color: $c-black; }
   &:disabled { opacity: 0.5; cursor: wait; }
 }
 
 .Icon {
-  font-size: 20px;
-  color: $c-gray-darkest;
+  font-size: 19px;
+  color: #4e5968;
 
   @media (min-width: 480px) {
     font-size: 22px;
@@ -138,9 +140,9 @@
 }
 
 .IconLabel {
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
-  color: $c-gray-darkest;
+  font-size: 13px;
+  font-weight: $font-weight-semibold;
+  color: #4e5968;
   line-height: $line-height-tight;
   white-space: normal;
   text-align: center;
@@ -223,11 +225,11 @@
   flex-direction: column;
   align-items: center;
   gap: $spacing-sm;
-  padding: $spacing-lg $spacing-base;
+  padding: 20px $spacing-base;
   margin-top: $spacing-md;
-  background: $c-gray-lightest;
-  border-radius: $radius-base;
-  border: 1px solid $c-gray-light;
+  background: #f7f8fa;
+  border-radius: 16px;
+  border: 0;
 }
 
 .ViralCtaTitle {
@@ -242,11 +244,11 @@
   align-items: center;
   justify-content: center;
   gap: $spacing-xs;
-  padding: $spacing-sm $spacing-lg;
-  background-color: $primary-color;
-  color: $c-white;
+  padding: 6px 8px;
+  background-color: transparent;
+  color: #3182f6;
   border: none;
-  border-radius: $radius-md;
+  border-radius: 8px;
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
   cursor: pointer;
@@ -254,8 +256,8 @@
   text-decoration: none;
 
   &:hover {
-    background-color: $primary-color-hover;
-    transform: translateY(-1px);
+    background-color: #edf6ff;
+    transform: none;
   }
 
   &:active {

@@ -256,7 +256,7 @@
 }
 
 // =====================================================
-// AI Summary Styles (Slate Blue Theme)
+// Confirmed plan - calm, product-led hierarchy
 // =====================================================
 
 .AISummaryContainer {
@@ -266,69 +266,76 @@
 }
 
 .ConfirmedPlan {
-  padding: $spacing-lg;
-  background: #f7f9fc;
+  padding: 28px;
+  background: $c-white;
   color: $c-black;
-  border: 1px solid #dce3ed;
-  border-top: 4px solid #7185a3;
-  border-radius: $radius-lg;
-  box-shadow: 0 16px 36px -30px rgba(51, 65, 85, 0.45);
+  border: 1px solid #f0f2f5;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
 
   @media (max-width: 699px) {
-    padding: $spacing-base;
-    border-radius: $radius-base;
+    padding: 22px 20px;
+    border-radius: 18px;
   }
 }
 
 .ConfirmedPlanHeading {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
-  margin-bottom: $spacing-lg;
+  gap: 12px;
+  margin-bottom: 24px;
 
   > svg {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     flex: 0 0 auto;
-    color: #607897;
+    padding: 8px;
+    color: #3182f6;
+    background: #edf6ff;
+    border-radius: 12px;
   }
 }
 
 .ConfirmedPlanEyebrow {
   display: block;
-  margin-bottom: 2px;
-  color: #607897;
-  font-size: $font-size-xs;
+  margin-bottom: 3px;
+  color: #3182f6;
+  font-size: 12px;
   font-weight: $font-weight-semibold;
+  letter-spacing: -0.01em;
 }
 
 .ConfirmedPlanTitle {
   margin: 0;
   color: $c-black;
-  font-size: $font-size-xl;
+  font-size: 22px;
+  font-weight: $font-weight-bold;
+  letter-spacing: -0.035em;
 }
 
 .ConfirmedPlanDetails {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: $spacing-sm;
+  gap: 0;
   margin: 0;
+  border-top: 1px solid #f2f4f6;
+  border-bottom: 1px solid #f2f4f6;
 
   > div {
     min-width: 0;
-    padding: $spacing-md;
-    background: $c-white;
-    border: 1px solid #e2e7ef;
-    border-radius: $radius-md;
+    padding: 18px 20px;
+
+    & + div { border-left: 1px solid #f2f4f6; }
   }
 
   dt {
     display: flex;
     align-items: center;
     gap: $spacing-xs;
-    margin-bottom: $spacing-xs;
-    color: $c-gray-darkest;
-    font-size: $font-size-xs;
+    margin-bottom: 7px;
+    color: #8b95a1;
+    font-size: 12px;
+    font-weight: $font-weight-medium;
 
     svg { flex: 0 0 auto; }
   }
@@ -336,23 +343,33 @@
   dd {
     margin: 0;
     color: $c-black;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-semibold;
+    font-size: 16px;
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.025em;
     word-break: keep-all;
   }
 
   @media (max-width: 559px) {
     grid-template-columns: 1fr;
+
+    > div {
+      padding: 16px 4px;
+
+      & + div {
+        border-left: 0;
+        border-top: 1px solid #f2f4f6;
+      }
+    }
   }
 }
 
 .ConfirmedAttendance {
-  margin-top: $spacing-md;
-  padding: $spacing-base;
-  background: $c-white;
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: #f7f8fa;
   color: $c-black;
-  border: 1px solid #e2e7ef;
-  border-radius: $radius-md;
+  border: 0;
+  border-radius: 14px;
 }
 
 .ConfirmedAttendanceHeader {
@@ -371,7 +388,7 @@
 
   strong {
     font-size: $font-size-sm;
-    color: #526b8f;
+    color: #3182f6;
   }
 }
 
@@ -386,15 +403,15 @@
     align-items: center;
     gap: 3px;
     flex: 0 0 auto;
-    padding: 4px 7px;
-    color: #526b8f;
-    background: #eef2f7;
-    border-radius: $radius-xs;
+    padding: 4px 2px;
+    color: #3182f6;
+    background: transparent;
+    border-radius: 6px;
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
 
-    &:hover { background: #e3e9f1; }
-    &:focus-visible { outline: 2px solid #7185a3; outline-offset: 2px; }
+    &:hover { color: #1b64da; }
+    &:focus-visible { outline: 2px solid #3182f6; outline-offset: 2px; }
   }
 }
 
@@ -417,7 +434,7 @@
     font: inherit;
     font-size: $font-size-base;
 
-    &:focus { outline: 2px solid #7185a3; outline-offset: 1px; }
+    &:focus { outline: 2px solid #3182f6; outline-offset: 1px; }
   }
 }
 

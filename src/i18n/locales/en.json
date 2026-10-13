@@ -293,7 +293,8 @@
       "share": {
         "confirmedTitle": "{title} is confirmed",
         "confirmedHeading": "The plan is confirmed!",
-        "detailsCopied": "The confirmed details and link were copied."
+        "detailsCopied": "The confirmed details and link were copied.",
+        "kakaoFallbackCopied": "KakaoTalk could not be opened, so the confirmed plan link was copied."
       },
       "kakaoShare": {
         "description": "Pick the times that work for you.",
