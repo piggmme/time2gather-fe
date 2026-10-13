@@ -132,11 +132,7 @@ export default function ResultButtons (
     })
   }
 
-  const handleShareKakao = async () => {
-    for (let attempt = 0; attempt < 15 && !isKakaoAvailable(); attempt += 1) {
-      await new Promise(resolve => window.setTimeout(resolve, 100))
-    }
-
+  const handleShareKakao = () => {
     const confirmedDate = isConfirmed
       ? formatDate(data.meeting.confirmedDate!, locale)
       : ''
@@ -176,16 +172,7 @@ export default function ResultButtons (
     })
 
     if (!success) {
-      const shareContent = getShareContent()
-      try {
-        await navigator.clipboard.writeText(`${shareContent.text}\n${shareContent.url}`)
-        showDefaultToast({
-          message: t('meeting.result.share.kakaoFallbackCopied'),
-          duration: 3000,
-        })
-      } catch {
-        showDefaultToast({ message: t('common.error'), duration: 3000 })
-      }
+      handleShare()
     }
   }
 
