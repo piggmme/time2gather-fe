@@ -4,8 +4,7 @@ import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../..
 import { meetings } from '../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
 import Avatar from '../../../components/Avatar/Avatar';
-import ResultButtons from '../../../components/ResultPage/ResultButtons';
-import ResultContent from '../../../components/ResultPage/ResultContent';
+import MeetingLiveView from '../../../components/ResultPage/MeetingLiveView';
 import { formatDate, formatTime } from '../../../utils/time';
 
 const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
@@ -63,15 +62,7 @@ const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
       />
       <span>{data.meeting.host.username}</span>
     </div>
-    <div class="report">
-      <ResultContent
-        client:only="react"
-        meetingData={data}
-      />
-    </div>
-    <div class="button-container">
-      <ResultButtons client:only="react" data={data} />
-    </div>
+    <MeetingLiveView client:only="react" initialData={data} />
   </main>
 </Layout>
 
@@ -109,18 +100,4 @@ const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
     gap: 10px;
   }
 
-  .report {
-    margin-top: $spacing-lg;
-
-    @media (max-width: 699px) {
-      margin-top: $spacing-base;
-    }
-  }
-
-  .button-container {
-    margin: $spacing-xl 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-sm;
-  }
 </style>

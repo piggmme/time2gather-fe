@@ -56,7 +56,7 @@ export default function DailyCell ({
 
   const totalCount = count + (isSelected ? 1 : 0)
   const voteRatio = maxCount > 0 ? Math.min(totalCount / maxCount, 1) : 0
-  const heatStrength = Math.pow(voteRatio, 0.75)
+  const heatLevel = voteRatio >= 0.8 ? 4 : voteRatio >= 0.55 ? 3 : voteRatio >= 0.3 ? 2 : 1
   const text = totalCount > 0 ? `${totalCount}/${maxCount}` : ''
 
   // 데스크톱에서는 기존 onClick 사용 (터치는 Daily.tsx에서 처리)
@@ -75,6 +75,7 @@ export default function DailyCell ({
       disabled={!interactive}
       aria-label={`${dateKey} ${time}${text ? ` ${text}` : ''}`}
       aria-pressed={isEditMode ? isSelected : undefined}
+      data-heat-level={totalCount > 0 && maxCount > 0 ? heatLevel : undefined}
       className={classNames(
         styles.cell,
         {
@@ -90,7 +91,6 @@ export default function DailyCell ({
           [styles.dragDeselect]: isDragHighlighted && dragMode === 'deselect',
         },
       )}
-      style={totalCount > 0 ? { '--heat-strength': heatStrength } as React.CSSProperties : undefined}
     >
       <span className={styles.cellText}>{text}</span>
     </button>

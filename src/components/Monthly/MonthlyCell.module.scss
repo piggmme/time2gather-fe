@@ -13,9 +13,6 @@ $my-selection-bg: linear-gradient(135deg, $primary-color, $c-blue);
 $my-selection-border: $primary-color;
 $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
 
-// 투표 결과 히트맵: 참여 비율이 높을수록 브랜드 블루가 선명해진다.
-$others-selection-color: $c-green;
-
 .cell {
   appearance: none;
   padding: 0;
@@ -36,6 +33,30 @@ $others-selection-color: $c-green;
   color: $c-gray-darkest;
   font-weight: $font-weight-semibold;
   position: relative;
+
+  &[data-heat-level='1'] {
+    --heat-bg: #eef5ff;
+    --heat-border: #c6dcfa;
+    --heat-text: #334155;
+  }
+
+  &[data-heat-level='2'] {
+    --heat-bg: #d4e6ff;
+    --heat-border: #8dbaf5;
+    --heat-text: #244b78;
+  }
+
+  &[data-heat-level='3'] {
+    --heat-bg: #9fc5f8;
+    --heat-border: #4b8fe8;
+    --heat-text: #153d70;
+  }
+
+  &[data-heat-level='4'] {
+    --heat-bg: #3478d4;
+    --heat-border: #1e5fb9;
+    --heat-text: #ffffff;
+  }
 
   &:focus-visible {
     outline: 2px solid $primary-color;
@@ -69,20 +90,14 @@ $others-selection-color: $c-green;
 
   // ===== 다른 사람이 선택한 상태 (hasCount) =====
   &.hasCount:not(.selected) {
-    color: $c-gray-darkest;
-    background: linear-gradient(
-      135deg,
-      rgba($c-green, calc(0.08 + var(--heat-strength, 0) * 0.58)),
-      rgba($primary-color, calc(0.04 + var(--heat-strength, 0) * 0.32))
-    );
-    border-color: rgba($primary-color, calc(0.2 + var(--heat-strength, 0) * 0.58));
-    box-shadow:
-      inset 0 0 0 1px rgba($c-white, 0.45),
-      0 2px calc(3px + var(--heat-strength, 0) * 7px) rgba($primary-color, calc(var(--heat-strength, 0) * 0.18));
+    color: var(--heat-text, $c-gray-darkest);
+    background: var(--heat-bg, $c-blue-soft);
+    border-color: var(--heat-border, rgba($primary-color, 0.34));
+    box-shadow: none;
     
     &:hover {
-      border-color: rgba($others-selection-color, 0.6);
-      box-shadow: 0 2px 8px rgba($others-selection-color, 0.2);
+      border-color: var(--heat-border, $primary-color);
+      box-shadow: 0 2px 8px rgba($primary-color, 0.16);
       transform: translateY(-1px);
       // 배경색 유지 (inline style이 우선)
     }
@@ -90,16 +105,10 @@ $others-selection-color: $c-green;
 
   // ===== 내 선택 + 다른 사람 선택 (둘 다) =====
   &.hasCount.selected {
-    background: linear-gradient(
-      135deg,
-      rgba($c-purple, calc(0.18 + var(--heat-strength, 0) * 0.46)),
-      rgba($primary-color, calc(0.1 + var(--heat-strength, 0) * 0.34))
-    );
-    border-color: rgba($c-purple, calc(0.52 + var(--heat-strength, 0) * 0.4));
-    box-shadow:
-      inset 0 0 0 1px rgba($c-white, 0.42),
-      0 2px calc(4px + var(--heat-strength, 0) * 8px) rgba($c-purple, calc(0.12 + var(--heat-strength, 0) * 0.2));
-    color: $c-gray-darkest;
+    background: var(--heat-bg, $c-blue-soft);
+    border: 2px solid $c-purple;
+    box-shadow: inset 0 0 0 1px rgba($c-white, 0.58);
+    color: var(--heat-text, $c-gray-darkest);
     font-weight: $font-weight-bold;
 
     &:hover {
@@ -258,11 +267,7 @@ $others-selection-color: $c-green;
     position: absolute;
     bottom: -4px;
     right: -4px;
-    background: linear-gradient(
-      135deg,
-      $others-selection-color,
-      rgba($primary-color, calc(0.5 + var(--heat-strength, 0) * 0.5))
-    );
+    background: $primary-color;
     color: $c-white;
     font-size: 9px;
     font-weight: $font-weight-bold;

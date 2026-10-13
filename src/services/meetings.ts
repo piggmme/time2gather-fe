@@ -171,8 +171,14 @@ export type get_meetings_$meetingCode_response = success_response<{
   }
   locationVote: LocationVoteInfo | null
 }>
-const get_meetings_$meetingCode = async (meetingCode: string) => {
-  const response = await api.get<get_meetings_$meetingCode_response>(`/v1/meetings/${meetingCode}`)
+const get_meetings_$meetingCode = async (
+  meetingCode: string,
+  options: { suppressErrorToast?: boolean } = {},
+) => {
+  const response = await api.get<get_meetings_$meetingCode_response>(
+    `/v1/meetings/${meetingCode}`,
+    options,
+  )
   return response.data
 }
 

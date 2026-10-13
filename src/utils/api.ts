@@ -4,6 +4,16 @@ import { showCautionToast } from '../stores/toast'
 import type { error_response } from '../services/type'
 import { getLocaleFromContext, getTranslations } from '../i18n'
 
+declare module 'axios' {
+  interface AxiosRequestConfig {
+    suppressErrorToast?: boolean
+  }
+
+  interface InternalAxiosRequestConfig {
+    suppressErrorToast?: boolean
+  }
+}
+
 const apiBaseUrl = import.meta.env.SSR
   ? import.meta.env.API_URL
   || import.meta.env.PUBLIC_API_URL
@@ -31,7 +41,7 @@ api.interceptors.response.use(
   (error) => {
     if (shouldResetSession(error)) {
       $me.set(null)
-    } else {
+    } else if (!error.config?.suppressErrorToast) {
       const t = getTranslations(getLocaleFromContext())
       showCautionToast({
         message: error.response?.data?.message || error.response?.data?.error || t('common.error'),

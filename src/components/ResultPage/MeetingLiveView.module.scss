@@ -1,0 +1,16 @@
+@use '../../styles/variables.scss' as *;
+
+.Report {
+  margin-top: $spacing-lg;
+
+  @media (max-width: 699px) {
+    margin-top: $spacing-base;
+  }
+}
+
+.ButtonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: $spacing-xl 0 0;
+}

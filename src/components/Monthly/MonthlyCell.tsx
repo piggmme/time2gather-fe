@@ -25,11 +25,7 @@ export default function MonthlyCell ({
 
   const totalCount = count + (isSelected ? 1 : 0)
   const voteRatio = maxCount > 0 ? Math.min(totalCount / maxCount, 1) : 0
-  // 낮은 득표 구간도 구분되면서, 유력 후보로 갈수록 대비가 빠르게 커지도록 보정한다.
-  const heatStrength = Math.pow(voteRatio, 0.75)
-  const heatStyle = totalCount > 0
-    ? { '--heat-strength': heatStrength } as React.CSSProperties
-    : undefined
+  const heatLevel = voteRatio >= 0.8 ? 4 : voteRatio >= 0.55 ? 3 : voteRatio >= 0.3 ? 2 : 1
 
   const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
     id: `drag-${date.format('YYYY-MM-DD')}`,
@@ -62,6 +58,7 @@ export default function MonthlyCell ({
       aria-label={date.format('YYYY-MM-DD')}
       aria-pressed={isInteractive ? isSelected : undefined}
       aria-current={isToday ? 'date' : undefined}
+      data-heat-level={totalCount > 0 && maxCount > 0 ? heatLevel : undefined}
       className={`
         ${styles.cell}
         ${isCurrentMonth ? '' : styles.otherMonth}
@@ -76,7 +73,6 @@ export default function MonthlyCell ({
         ${disabled ? styles.disabled : ''}
         ${count > 0 ? styles.hasCount : ''}
       `}
-      style={heatStyle}
     >
       <span className={styles.dayNumber}>{date.date()}</span>
       {isEditMode && isToday && (
