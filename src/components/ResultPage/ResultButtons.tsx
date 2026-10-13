@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
 import { meetings, type get_meetings_$meetingCode_response } from '../../services/meetings'
@@ -8,17 +8,8 @@ import { showDefaultToast } from '../../stores/toast'
 import CalendarExportDialog from './CalendarExportDialog'
 import ConfirmMeetingDialog from './ConfirmMeetingDialog'
 import { HiOutlineCalendar, HiOutlineShare, HiOutlinePencil, HiArrowRight } from 'react-icons/hi'
-import { RiKakaoTalkFill } from 'react-icons/ri'
-import { shareToKakao, isKakaoAvailable } from '../../utils/kakaoShare'
 import { formatDate, formatTime } from '../../utils/time'
 import styles from './ResultButtons.module.scss'
-
-const compactShareText = (value: string, maxLength: number) => {
-  const characters = Array.from(value.trim())
-  return characters.length > maxLength
-    ? `${characters.slice(0, maxLength - 1).join('')}…`
-    : characters.join('')
-}
 
 export default function ResultButtons (
   { data, onMeetingUpdated }:
@@ -31,19 +22,7 @@ export default function ResultButtons (
   const { t, locale } = useTranslation()
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
-  const [kakaoAvailable, setKakaoAvailable] = useState(false)
   const [isCancelling, setIsCancelling] = useState(false)
-
-  useEffect(() => {
-    // 카카오 SDK 초기화 확인 (약간의 지연 후 체크)
-    const checkKakao = () => {
-      setKakaoAvailable(isKakaoAvailable())
-    }
-    checkKakao()
-    // SDK 로딩이 늦을 수 있으므로 재확인
-    const timer = setTimeout(checkKakao, 1000)
-    return () => clearTimeout(timer)
-  }, [])
 
   const handleConfirmed = () => {
     // 페이지 새로고침하여 확정 상태 반영
@@ -132,50 +111,6 @@ export default function ResultButtons (
     })
   }
 
-  const handleShareKakao = () => {
-    const confirmedDate = isConfirmed
-      ? formatDate(data.meeting.confirmedDate!, locale)
-      : ''
-    const confirmedLocationName = data.locationVote?.confirmedLocation?.name
-      || t('meeting.result.kakaoShare.locationPending')
-    const confirmedLocation = data.locationVote?.enabled
-      ? compactShareText(
-          confirmedLocationName,
-          28,
-        )
-      : null
-    const confirmedDetails = isConfirmed
-      ? [
-          formatTime(
-            data.meeting.confirmedTime ?? 'ALL_DAY',
-            locale,
-            t('meeting.confirmDialog.allDay'),
-          ),
-          confirmedLocation,
-        ].filter((detail): detail is string => !!detail).join(' · ')
-      : ''
-
-    const success = shareToKakao({
-      title: isConfirmed
-        ? t('meeting.result.kakaoShare.confirmedTitle', { date: confirmedDate })
-        : data.meeting.title,
-      description: isConfirmed
-        ? t('meeting.result.kakaoShare.confirmedDescription', {
-            title: compactShareText(data.meeting.title, 32),
-            details: confirmedDetails,
-          })
-        : t('meeting.result.kakaoShare.description'),
-      url: window.location.href,
-      buttonTitle: isConfirmed
-        ? t('meeting.result.kakaoShare.confirmedButtonTitle')
-        : t('meeting.result.kakaoShare.buttonTitle'),
-    })
-
-    if (!success) {
-      handleShare()
-    }
-  }
-
   const modifyUrl = `/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`
   const voteActionLabel = data.meeting.selectionType === 'ALL_DAY'
     ? t(`meeting.result.buttons.${didIParticipate ? 'modifyDates' : 'selectDates'}`)
@@ -227,7 +162,7 @@ export default function ResultButtons (
         {isConfirmed && (
           <Button
             buttonType='primary'
-            onClick={handleShareKakao}
+            onClick={handleShare}
             className={styles.ConfirmedShareButton}
           >
             <HiOutlineShare className={styles.ActionButtonIcon} aria-hidden='true' />
@@ -246,18 +181,6 @@ export default function ResultButtons (
             <HiOutlineCalendar className={styles.Icon} />
             <span className={styles.IconLabel}>{t('meeting.result.buttons.calendar')}</span>
           </button>
-
-          {/* 카카오톡 공유 */}
-          {kakaoAvailable && !isConfirmed && (
-            <button
-              className={`${styles.IconButton} ${styles.KakaoButton}`}
-              onClick={handleShareKakao}
-              type='button'
-            >
-              <RiKakaoTalkFill className={styles.Icon} />
-              <span className={styles.IconLabel}>{t('meeting.result.buttons.shareKakao')}</span>
-            </button>
-          )}
 
           {!isConfirmed && (
             <button

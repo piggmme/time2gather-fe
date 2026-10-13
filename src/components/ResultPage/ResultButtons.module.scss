@@ -148,25 +148,6 @@
   text-align: center;
 }
 
-// 카카오톡 공유 버튼
-.KakaoButton {
-  background-color: $c-white;
-  border-color: $c-gray;
-
-  &:hover {
-    background-color: $c-gray-lightest;
-    border-color: $c-gray-dark;
-  }
-
-  .Icon {
-    color: $c-gray-darkest;
-  }
-
-  .IconLabel {
-    color: $c-gray-darkest;
-  }
-}
-
 .dialogButtons {
   display: flex;
   flex-direction: column;
