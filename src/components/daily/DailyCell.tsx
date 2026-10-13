@@ -54,10 +54,9 @@ export default function DailyCell ({
   // 정각인지 30분인지 판단
   const isFullHour = time.endsWith(':00')
 
-  // count에 따른 색상 강도 계산 (0~1 사이의 값)
-  const intensity = maxCount > 0 ? count / maxCount : 0
-
   const totalCount = count + (isSelected ? 1 : 0)
+  const voteRatio = maxCount > 0 ? Math.min(totalCount / maxCount, 1) : 0
+  const heatStrength = Math.pow(voteRatio, 0.75)
   const text = totalCount > 0 ? `${totalCount}/${maxCount}` : ''
 
   // 데스크톱에서는 기존 onClick 사용 (터치는 Daily.tsx에서 처리)
@@ -91,7 +90,7 @@ export default function DailyCell ({
           [styles.dragDeselect]: isDragHighlighted && dragMode === 'deselect',
         },
       )}
-      style={count > 0 ? { '--intensity': intensity } as React.CSSProperties : undefined}
+      style={totalCount > 0 ? { '--heat-strength': heatStrength } as React.CSSProperties : undefined}
     >
       <span className={styles.cellText}>{text}</span>
     </button>

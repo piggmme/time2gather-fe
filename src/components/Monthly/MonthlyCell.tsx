@@ -23,14 +23,12 @@ export default function MonthlyCell ({
   const isEditMode = mode === 'edit'
   const isInteractive = !disabled && (isEditMode || Boolean(onClick))
 
-  // count에 따른 색상 강도 계산 (0~1 사이의 값)
   const totalCount = count + (isSelected ? 1 : 0)
-  const intensity = maxCount > 0 ? totalCount / maxCount : 0
-
-  // 다른 사람 선택: 민트/청록색 (52, 211, 153 = $c-green)
-  // 내 선택 + 다른 사람 선택: 보라색 그라데이션은 CSS에서 처리
-  const backgroundColor = (mode === 'view' && count > 0 && !isSelected)
-    ? `rgba(52, 211, 153, ${0.15 + intensity * 0.35})`
+  const voteRatio = maxCount > 0 ? Math.min(totalCount / maxCount, 1) : 0
+  // 낮은 득표 구간도 구분되면서, 유력 후보로 갈수록 대비가 빠르게 커지도록 보정한다.
+  const heatStrength = Math.pow(voteRatio, 0.75)
+  const heatStyle = totalCount > 0
+    ? { '--heat-strength': heatStrength } as React.CSSProperties
     : undefined
 
   const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
@@ -78,7 +76,7 @@ export default function MonthlyCell ({
         ${disabled ? styles.disabled : ''}
         ${count > 0 ? styles.hasCount : ''}
       `}
-      style={backgroundColor ? { backgroundColor } as React.CSSProperties : undefined}
+      style={heatStyle}
     >
       <span className={styles.dayNumber}>{date.date()}</span>
       {isEditMode && isToday && (
