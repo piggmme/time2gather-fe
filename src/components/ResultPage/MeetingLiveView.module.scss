@@ -1,5 +1,16 @@
 @use '../../styles/variables.scss' as *;
 
+.LiveView {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 304px;
+  align-items: start;
+  gap: $spacing-xl;
+
+  @media (max-width: 899px) {
+    display: block;
+  }
+}
+
 .Report {
   margin-top: $spacing-lg;
 
@@ -12,5 +23,12 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
-  margin: $spacing-xl 0 0;
+  margin: 76px 0 0;
+  position: sticky;
+  top: $spacing-lg;
+
+  @media (max-width: 899px) {
+    position: static;
+    margin-top: $spacing-xl;
+  }
 }

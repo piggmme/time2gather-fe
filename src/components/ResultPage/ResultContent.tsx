@@ -4,10 +4,12 @@ import Daily from '../daily/Daily'
 import Avatar from '../Avatar/Avatar'
 import dayjs from 'dayjs'
 import styles from './ResultContent.module.scss'
-import { formatDate } from '../../utils/time'
+import { formatDate, formatTime } from '../../utils/time'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
-import { HiChevronDown, HiChevronRight, HiX, HiOutlineLocationMarker } from 'react-icons/hi'
+import {
+  HiChevronDown, HiChevronRight, HiX, HiOutlineLocationMarker, HiOutlineCalendar, HiOutlineClock, HiOutlineCheckCircle,
+} from 'react-icons/hi'
 import { useTranslation } from '../../hooks/useTranslation'
 import { $me } from '../../stores/me'
 import { Tabs } from '../Tabs/Tabs'
@@ -21,6 +23,7 @@ export default function ResultContent ({
   const { t } = useTranslation()
   const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set())
   const displayedMeetingData = meetingData
+  const isConfirmed = !!displayedMeetingData.meeting.confirmedDate
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = useMemo(() => {
@@ -101,7 +104,7 @@ export default function ResultContent ({
     <Tabs.Root defaultValue='summary'>
       <Tabs.List aria-label={t('meeting.result.tabs.summary')}>
         <Tabs.Trigger value='summary'>
-          {t('meeting.result.tabs.summary')}
+          {t(isConfirmed ? 'meeting.result.tabs.confirmed' : 'meeting.result.tabs.summary')}
         </Tabs.Trigger>
         <Tabs.Trigger value='calendar'>
           {t('meeting.result.tabs.calendar')}
@@ -187,85 +190,165 @@ function SummaryContent ({
     return ''
   }
 
+  const confirmedDate = meetingData.meeting.confirmedDate
+  const confirmedTime = meetingData.meeting.confirmedTime ?? 'ALL_DAY'
+  const confirmedBestSlot = confirmedDate
+    ? meetingData.summary.bestSlots.find((slot) => {
+        const [slotStart] = slot.time.split(' ~ ')
+        return slot.date === confirmedDate && slotStart === confirmedTime
+      })
+    : undefined
+  const confirmedSchedule = confirmedDate
+    ? meetingData.schedule[confirmedDate]?.[confirmedTime]
+    : undefined
+  const confirmedParticipants = confirmedBestSlot?.participants ?? confirmedSchedule?.participants ?? []
+  const confirmedParticipantCount = confirmedBestSlot?.count ?? confirmedSchedule?.count ?? confirmedParticipants.length
+  const confirmedPercentage = confirmedBestSlot?.percentage ?? (
+    meetingData.summary.totalParticipants > 0
+      ? `${Math.round((confirmedParticipantCount / meetingData.summary.totalParticipants) * 100)}%`
+      : '0%'
+  )
+
   return (
     <Tabs.Content value='summary'>
       <div className={styles.AISummaryContainer}>
-        {/* 시간 요약 카드 */}
-        <div className={`${styles.Summary} ${styles.Card}`}>
-          <div>
-            <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
-            <p className={styles.DetailText}>
-              {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-            </p>
-          </div>
-
-          {groupedBestSlots.length > 0 && (
-            <div className={styles.BestSlots}>
-              <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
-              <ul className={styles.BestSlotsList}>
-                {groupedBestSlots.map((group, groupIndex) => {
-                  const isExpanded = expandedSlots.has(`group-${groupIndex}`)
-                  const participants = getParticipantsForGroup(group)
-                  const visibleTimeRanges = group.timeRanges.filter(range => range.start !== 'ALL_DAY')
-
-                  return (
-                    <li key={groupIndex} className={styles.BestSlotItem}>
-                      <button
-                        type='button'
-                        className={styles.BestSlotHeader}
-                        onClick={() => toggleSlot(groupIndex)}
-                        aria-expanded={isExpanded}
-                      >
-                        <span className={styles.BestSlotMainLine}>
-                          <span className={styles.BestSlotDate}>{formatDate(group.date, locale)}</span>
-                          <span className={styles.BestSlotCount}>
-                            {t('meeting.result.voteCount', {
-                              count: group.timeRanges[0].count,
-                              percentage: group.timeRanges[0].percentage,
-                            })}
-                          </span>
-                          <span className={styles.BestSlotExpandIcon} aria-hidden='true'>
-                            {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
-                          </span>
-                        </span>
-                        {visibleTimeRanges.length > 0 && (
-                          <span className={styles.BestSlotTime}>
-                            {visibleTimeRanges.map((range, rangeIndex) => (
-                              <span key={rangeIndex} className={styles.BestSlotTimeRange}>
-                                {range.start === range.end
-                                  ? range.start
-                                  : `${range.start}–${range.end}`}
-                              </span>
-                            ))}
-                          </span>
-                        )}
-                      </button>
-                      {isExpanded && participants.length > 0 && (
-                        <div className={styles.BestSlotParticipants}>
-                          <ul className={styles.BestSlotParticipantsList}>
-                            {participants.map(participant => (
-                              <li key={participant.userId} className={styles.BestSlotParticipantItem}>
-                                <Avatar
-                                  src={participant.profileImageUrl}
-                                  name={participant.username}
-                                  size={24}
-                                />
-                                <span className={styles.BestSlotParticipantName}>{participant.username}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </li>
-                  )
-                })}
-              </ul>
+        {meetingData.meeting.confirmedDate && (
+          <section className={styles.ConfirmedPlan} aria-label={t('meeting.result.confirmedPlan.title')}>
+            <div className={styles.ConfirmedPlanHeading}>
+              <HiOutlineCheckCircle aria-hidden='true' />
+              <div>
+                <span className={styles.ConfirmedPlanEyebrow}>{t('meeting.result.confirmedPlan.eyebrow')}</span>
+                <h2 className={styles.ConfirmedPlanTitle}>{t('meeting.result.confirmedPlan.title')}</h2>
+              </div>
             </div>
-          )}
-        </div>
+            <dl className={styles.ConfirmedPlanDetails}>
+              <div>
+                <dt><HiOutlineCalendar aria-hidden='true' /> {t('meeting.result.confirmedPlan.date')}</dt>
+                <dd>{formatDate(meetingData.meeting.confirmedDate, locale)}</dd>
+              </div>
+              <div>
+                <dt><HiOutlineClock aria-hidden='true' /> {t('meeting.result.confirmedPlan.time')}</dt>
+                <dd>{formatTime(meetingData.meeting.confirmedTime ?? 'ALL_DAY', locale, t('meeting.confirmDialog.allDay'))}</dd>
+              </div>
+              {locationVote?.enabled && (
+                <div>
+                  <dt><HiOutlineLocationMarker aria-hidden='true' /> {t('meeting.result.confirmedPlan.location')}</dt>
+                  <dd>{locationVote.confirmedLocation?.name ?? t('meeting.result.kakaoShare.locationPending')}</dd>
+                </div>
+              )}
+            </dl>
+            <div className={styles.ConfirmedAttendance}>
+              <div className={styles.ConfirmedAttendanceHeader}>
+                <div>
+                  <span className={styles.ConfirmedAttendanceLabel}>{t('meeting.result.confirmedPlan.attendees')}</span>
+                  <strong>
+                    {t('meeting.result.confirmedPlan.attendanceSummary', {
+                      count: confirmedParticipantCount,
+                      percentage: confirmedPercentage,
+                    })}
+                  </strong>
+                </div>
+              </div>
+              {confirmedParticipants.length > 0
+                ? (
+                    <ul className={styles.ConfirmedParticipantList}>
+                      {confirmedParticipants.map(participant => (
+                        <li key={participant.userId}>
+                          <Avatar
+                            src={participant.profileImageUrl}
+                            name={participant.username}
+                            size={28}
+                          />
+                          <span>{participant.username}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                : (
+                    <p className={styles.ConfirmedParticipantEmpty}>{t('meeting.result.noParticipants')}</p>
+                  )}
+            </div>
+          </section>
+        )}
+
+        {/* 시간 요약 카드 */}
+        {!meetingData.meeting.confirmedDate && (
+          <div className={`${styles.Summary} ${styles.Card}`}>
+            <div>
+              <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
+              <p className={styles.DetailText}>
+                {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
+              </p>
+            </div>
+
+            {groupedBestSlots.length > 0 && (
+              <div className={styles.BestSlots}>
+                <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
+                <ul className={styles.BestSlotsList}>
+                  {groupedBestSlots.map((group, groupIndex) => {
+                    const isExpanded = expandedSlots.has(`group-${groupIndex}`)
+                    const participants = getParticipantsForGroup(group)
+                    const visibleTimeRanges = group.timeRanges.filter(range => range.start !== 'ALL_DAY')
+
+                    return (
+                      <li key={groupIndex} className={styles.BestSlotItem}>
+                        <button
+                          type='button'
+                          className={styles.BestSlotHeader}
+                          onClick={() => toggleSlot(groupIndex)}
+                          aria-expanded={isExpanded}
+                        >
+                          <span className={styles.BestSlotMainLine}>
+                            <span className={styles.BestSlotDate}>{formatDate(group.date, locale)}</span>
+                            <span className={styles.BestSlotCount}>
+                              {t('meeting.result.voteCount', {
+                                count: group.timeRanges[0].count,
+                                percentage: group.timeRanges[0].percentage,
+                              })}
+                            </span>
+                            <span className={styles.BestSlotExpandIcon} aria-hidden='true'>
+                              {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
+                            </span>
+                          </span>
+                          {visibleTimeRanges.length > 0 && (
+                            <span className={styles.BestSlotTime}>
+                              {visibleTimeRanges.map((range, rangeIndex) => (
+                                <span key={rangeIndex} className={styles.BestSlotTimeRange}>
+                                  {range.start === range.end
+                                    ? range.start
+                                    : `${range.start}–${range.end}`}
+                                </span>
+                              ))}
+                            </span>
+                          )}
+                        </button>
+                        {isExpanded && participants.length > 0 && (
+                          <div className={styles.BestSlotParticipants}>
+                            <ul className={styles.BestSlotParticipantsList}>
+                              {participants.map(participant => (
+                                <li key={participant.userId} className={styles.BestSlotParticipantItem}>
+                                  <Avatar
+                                    src={participant.profileImageUrl}
+                                    name={participant.username}
+                                    size={24}
+                                  />
+                                  <span className={styles.BestSlotParticipantName}>{participant.username}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 장소 투표 카드 (enabled인 경우만) */}
-        {locationVote?.enabled && sortedLocations.length > 0 && (
+        {!meetingData.meeting.confirmedDate && locationVote?.enabled && sortedLocations.length > 0 && (
           <div className={styles.AISummaryLocationCard}>
             <div className={styles.AISummaryCardHeader}>
               <span className={`${styles.AISummaryCardIcon} ${styles.CardIconLocation}`}>

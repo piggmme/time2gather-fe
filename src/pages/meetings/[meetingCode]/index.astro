@@ -52,15 +52,17 @@ const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
   ogType="website"
 >
   <main>
-    <h1>{data.meeting.title}</h1>
-    <p>{data.meeting.description}</p>
-    <div class="host">
-      <Avatar
-        client:only="react"
-        src={data.meeting.host.profileImageUrl}
-        name={data.meeting.host.username}
-      />
-      <span>{data.meeting.host.username}</span>
+    <div class="meeting-intro">
+      <h1>{data.meeting.title}</h1>
+      <p>{data.meeting.description}</p>
+      <div class="host">
+        <Avatar
+          client:only="react"
+          src={data.meeting.host.profileImageUrl}
+          name={data.meeting.host.username}
+        />
+        <span>{data.meeting.host.username}</span>
+      </div>
     </div>
     <MeetingLiveView client:only="react" initialData={data} />
   </main>
@@ -89,9 +91,13 @@ const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
   }
   main {
     width: 100%;
-    max-width: 600px;
+    max-width: 1040px;
     margin: 0 auto;
     padding-bottom: $spacing-xl;
+  }
+
+  .meeting-intro {
+    max-width: 680px;
   }
 
   .host {

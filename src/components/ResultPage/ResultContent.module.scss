@@ -265,6 +265,142 @@
   gap: $spacing-lg;
 }
 
+.ConfirmedPlan {
+  padding: $spacing-lg;
+  background: $primary-color;
+  color: $c-white;
+  border-radius: $radius-lg;
+  box-shadow: 0 16px 36px -24px rgba($primary-color-hover, 0.8);
+
+  @media (max-width: 699px) {
+    padding: $spacing-base;
+    border-radius: $radius-base;
+  }
+}
+
+.ConfirmedPlanHeading {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+
+  > svg {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 auto;
+  }
+}
+
+.ConfirmedPlanEyebrow {
+  display: block;
+  margin-bottom: 2px;
+  color: rgba($c-white, 0.76);
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+}
+
+.ConfirmedPlanTitle {
+  margin: 0;
+  color: $c-white;
+  font-size: $font-size-xl;
+}
+
+.ConfirmedPlanDetails {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $spacing-sm;
+  margin: 0;
+
+  > div {
+    min-width: 0;
+    padding: $spacing-md;
+    background: rgba($c-white, 0.12);
+    border: 1px solid rgba($c-white, 0.14);
+    border-radius: $radius-md;
+  }
+
+  dt {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-xs;
+    color: rgba($c-white, 0.72);
+    font-size: $font-size-xs;
+
+    svg { flex: 0 0 auto; }
+  }
+
+  dd {
+    margin: 0;
+    color: $c-white;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    word-break: keep-all;
+  }
+
+  @media (max-width: 559px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ConfirmedAttendance {
+  margin-top: $spacing-md;
+  padding: $spacing-base;
+  background: $c-white;
+  color: $c-black;
+  border-radius: $radius-md;
+}
+
+.ConfirmedAttendanceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+
+  > div {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+
+  strong {
+    font-size: $font-size-sm;
+    color: $primary-color;
+  }
+}
+
+.ConfirmedAttendanceLabel {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+}
+
+.ConfirmedParticipantList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: 4px 10px 4px 4px;
+    background: $c-gray-lightest;
+    border: 1px solid $c-gray-light;
+    border-radius: $radius-full;
+    color: $c-gray-darkest;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.ConfirmedParticipantEmpty {
+  margin: 0;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+}
+
 .AISummaryCardHeader {
   display: flex;
   align-items: center;
@@ -322,11 +458,11 @@
 }
 
 .LocationItemConfirmed {
-  background: linear-gradient(135deg, $success-color-soft 0%, #ffffff 100%);
-  border-color: $success-color-border;
+  background: $primary-color-soft;
+  border-color: $primary-color-border;
   
   &:hover {
-    border-color: $success-color;
+    border-color: $primary-color;
   }
 }
 
@@ -361,8 +497,8 @@
 }
 
 .LocationRankFirst {
-  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
-  color: #78350f;
+  background: $primary-color-soft;
+  color: $primary-color;
 }
 
 .LocationRankSecond {
@@ -371,8 +507,8 @@
 }
 
 .LocationRankThird {
-  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
-  color: #9a3412;
+  background: $c-gray-light;
+  color: $c-gray-darkest;
 }
 
 .LocationName {
@@ -389,7 +525,7 @@
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  background-color: $success-color;
+  background-color: $primary-color;
   color: $c-white;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
@@ -429,15 +565,15 @@
   align-items: center;
   gap: $spacing-sm;
   padding: $spacing-md $spacing-lg;
-  background: linear-gradient(135deg, $success-color-soft 0%, rgba(255,255,255,0.8) 100%);
-  border: 1px solid $success-color-border;
+  background: $primary-color-soft;
+  border: 1px solid $primary-color-border;
   border-radius: $radius-lg;
-  color: $success-text-color;
+  color: $c-gray-darkest;
   font-size: $font-size-base;
   
   strong {
     font-weight: $font-weight-bold;
-    color: $success-color;
+    color: $primary-color;
   }
 }
 
@@ -448,8 +584,8 @@
 .AISummaryLocationCard {
   @extend .Card;
   padding: $spacing-xl;
-  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); // 연한 녹색 그라데이션
-  border: 1px solid $success-color-border;
+  background: $c-white;
+  border: 1px solid rgba(0,0,0,0.04);
 
   @media (max-width: 699px) {
     padding: $spacing-base;
@@ -457,8 +593,8 @@
 }
 
 .CardIconLocation {
-  background-color: $success-color-soft !important;
-  color: $success-color !important;
+  background-color: $primary-color-soft !important;
+  color: $primary-color !important;
 }
 
 .AISummaryLocationContent {
@@ -472,14 +608,14 @@
   align-items: center;
   gap: $spacing-sm;
   padding: $spacing-sm $spacing-md;
-  background-color: $success-color-soft;
+  background-color: $primary-color-soft;
   border-radius: $radius-md;
-  color: $success-text-color;
+  color: $c-gray-darkest;
   font-size: $font-size-sm;
   
   strong {
     font-weight: $font-weight-bold;
-    color: $success-color;
+    color: $primary-color;
   }
 }
 
@@ -504,13 +640,13 @@
   
   &:hover {
     background-color: $c-white;
-    border-color: $success-color-border;
+    border-color: $primary-color-border;
   }
 }
 
 .AISummaryLocationItemConfirmed {
-  background-color: $success-color-soft;
-  border-color: $success-color-border;
+  background-color: $primary-color-soft;
+  border-color: $primary-color-border;
 }
 
 .AISummaryLocationRank {
@@ -534,8 +670,8 @@
 }
 
 .AISummaryRankBadgeFirst {
-  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
-  color: #78350f;
+  background: $primary-color-soft;
+  color: $primary-color;
 }
 
 .AISummaryRankBadgeSecond {
@@ -544,8 +680,8 @@
 }
 
 .AISummaryRankBadgeThird {
-  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
-  color: #9a3412;
+  background: $c-gray-light;
+  color: $c-gray-darkest;
 }
 
 .AISummaryLocationName {
@@ -558,7 +694,7 @@
   display: inline-flex;
   align-items: center;
   padding: 2px 6px;
-  background-color: $success-color;
+  background-color: $primary-color;
   color: $c-white;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;

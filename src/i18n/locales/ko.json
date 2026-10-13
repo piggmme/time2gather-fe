@@ -210,6 +210,9 @@
       "description": "캘린더에 추가할 날짜와 시간을 선택하세요.",
       "noSlots": "아직 투표된 날짜가 없어요.",
       "allDay": "종일",
+      "iosGuideTitle": "iPhone에서는 한 번 더 눌러야 저장돼요",
+      "iosGuideDescription": "다음 화면 맨 아래의 ‘캘린더에 추가’를 눌러주세요. 오른쪽 위 체크는 저장이 아니라 미리보기 닫기예요.",
+      "openIosCalendar": "iPhone 캘린더 열기",
       "cancel": "취소",
       "confirm": "캘린더에 추가",
       "close": "닫기"
@@ -255,6 +258,7 @@
       "tabs": {
         "aiSummary": "요약",
         "summary": "결과",
+        "confirmed": "확정 일정",
         "calendar": "달력",
         "participants": "참여자",
         "location": "장소"
@@ -271,11 +275,32 @@
       "buttons": {
         "calendar": "캘린더 추가",
         "share": "공유",
+        "shareConfirmed": "확정 일정 공유하기",
         "shareKakao": "카카오톡",
         "modifyDates": "내 날짜 선택 수정",
         "modifyTimes": "내 날짜·시간 선택 수정",
         "selectDates": "가능한 날짜 선택하기",
         "selectTimes": "가능한 날짜·시간 선택하기"
+      },
+      "confirmedPlan": {
+        "eyebrow": "일정 확정 완료",
+        "title": "우리 약속이 정해졌어요",
+        "date": "날짜",
+        "time": "시간",
+        "location": "장소",
+        "attendees": "참여 가능",
+        "attendanceSummary": "{count}명 · 전체의 {percentage}"
+      },
+      "actions": {
+        "confirmed": "확정된 약속",
+        "confirmedDescription": "일정을 공유하거나 내 캘린더에 추가하세요.",
+        "inProgress": "약속 조율 중",
+        "inProgressDescription": "참여 현황을 확인하고 다음 단계를 진행하세요."
+      },
+      "share": {
+        "confirmedTitle": "{title} 일정이 확정됐어요",
+        "confirmedHeading": "약속이 확정됐어요!",
+        "detailsCopied": "확정 일정과 링크를 함께 복사했어요."
       },
       "kakaoShare": {
         "description": "투표하고 가장 좋은 시간을 찾아보세요!",

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dialog } from '../Dialog/Dialog'
 import { meetings } from '../../services/meetings'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -22,6 +22,14 @@ type CalendarExportDialogProps = {
   meetingCode: string
   bestSlots: BestSlot[]
   selectionType: 'ALL_DAY' | 'TIME'
+  initialDate?: string | null
+  initialTime?: string | null
+}
+
+const isIosDevice = () => {
+  if (typeof navigator === 'undefined') return false
+  return /iPad|iPhone|iPod/.test(navigator.userAgent)
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 }
 
 export default function CalendarExportDialog ({
@@ -30,10 +38,25 @@ export default function CalendarExportDialog ({
   meetingCode,
   bestSlots,
   selectionType,
+  initialDate,
+  initialTime,
 }: CalendarExportDialogProps) {
   const { t } = useTranslation()
   const locale = useStore($locale)
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
+  const isIos = isIosDevice()
+
+  useEffect(() => {
+    if (!isOpen || !initialDate) return
+
+    const targetTime = initialTime ?? 'ALL_DAY'
+    const confirmedIndex = bestSlots.findIndex((slot) => {
+      const [slotStart] = slot.time.split(' ~ ')
+      return slot.date === initialDate && slotStart === targetTime
+    })
+
+    if (confirmedIndex >= 0) setSelectedIndex(confirmedIndex)
+  }, [bestSlots, initialDate, initialTime, isOpen])
 
   const handleExport = () => {
     if (bestSlots.length === 0) return
@@ -76,6 +99,13 @@ export default function CalendarExportDialog ({
           {t('meeting.exportDialog.description')}
         </Dialog.Description>
 
+        {isIos && (
+          <div className={styles.iosGuide} role='note'>
+            <strong>{t('meeting.exportDialog.iosGuideTitle')}</strong>
+            <span>{t('meeting.exportDialog.iosGuideDescription')}</span>
+          </div>
+        )}
+
         <div className={styles.dialogBody}>
           <div className={styles.slotList}>
             {bestSlots.map((slot, index) => {
@@ -112,7 +142,7 @@ export default function CalendarExportDialog ({
             {t('meeting.exportDialog.cancel')}
           </Dialog.Cancel>
           <Dialog.Action onClick={handleExport}>
-            {t('meeting.exportDialog.confirm')}
+            {t(isIos ? 'meeting.exportDialog.openIosCalendar' : 'meeting.exportDialog.confirm')}
           </Dialog.Action>
         </div>
       </Dialog.Content>

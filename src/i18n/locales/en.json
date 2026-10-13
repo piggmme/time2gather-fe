@@ -210,6 +210,9 @@
       "description": "Select the date and time to add to your calendar.",
       "noSlots": "No dates have been voted on yet.",
       "allDay": "All Day",
+      "iosGuideTitle": "One more tap is required on iPhone",
+      "iosGuideDescription": "On the next screen, tap ‘Add to Calendar’ at the bottom. The checkmark at the top only closes the preview.",
+      "openIosCalendar": "Open iPhone Calendar",
       "cancel": "Cancel",
       "confirm": "Add to Calendar",
       "close": "Close"
@@ -241,6 +244,7 @@
       "tabs": {
         "aiSummary": "Summary",
         "summary": "Summary",
+        "confirmed": "Confirmed plan",
         "calendar": "Calendar",
         "participants": "Participants",
         "location": "Location"
@@ -257,11 +261,32 @@
       "buttons": {
         "calendar": "Add to calendar",
         "share": "Share",
+        "shareConfirmed": "Share confirmed plan",
         "shareKakao": "KakaoTalk",
         "modifyDates": "Edit my date selection",
         "modifyTimes": "Edit my date and time selection",
         "selectDates": "Select my available dates",
         "selectTimes": "Select my available dates and times"
+      },
+      "confirmedPlan": {
+        "eyebrow": "PLAN CONFIRMED",
+        "title": "Your plan is all set",
+        "date": "Date",
+        "time": "Time",
+        "location": "Location",
+        "attendees": "Available attendees",
+        "attendanceSummary": "{count} people · {percentage} of the group"
+      },
+      "actions": {
+        "confirmed": "Confirmed plan",
+        "confirmedDescription": "Share the details or add them to your calendar.",
+        "inProgress": "Planning in progress",
+        "inProgressDescription": "Review responses and choose the next step."
+      },
+      "share": {
+        "confirmedTitle": "{title} is confirmed",
+        "confirmedHeading": "The plan is confirmed!",
+        "detailsCopied": "The confirmed details and link were copied."
       },
       "kakaoShare": {
         "description": "Pick the times that work for you.",

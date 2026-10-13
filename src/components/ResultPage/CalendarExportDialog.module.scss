@@ -19,6 +19,25 @@
   padding-right: 4px;
 }
 
+.iosGuide {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  background: $primary-color-soft;
+  border: 1px solid $primary-color-border;
+  border-radius: $radius-sm;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+
+  strong {
+    color: $primary-color;
+    font-weight: $font-weight-bold;
+  }
+}
+
 .stepIndicator {
   display: grid;
   grid-template-columns: 1fr 1fr;
