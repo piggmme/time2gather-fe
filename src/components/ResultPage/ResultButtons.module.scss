@@ -58,6 +58,10 @@
 
 .VoteActionButton {
   width: 100%;
+
+  @media (max-width: 899px) {
+    display: none;
+  }
 }
 
 .ConfirmedShareButton {

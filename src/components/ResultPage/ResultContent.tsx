@@ -17,6 +17,7 @@ import Monthly from '../Monthly/Monthly'
 import { Dialog } from '../Dialog/Dialog'
 import { meetings } from '../../services/meetings'
 import { showDefaultToast } from '../../stores/toast'
+import Button from '../Button/Button'
 
 export default function ResultContent ({
   meetingData,
@@ -29,6 +30,12 @@ export default function ResultContent ({
   const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set())
   const displayedMeetingData = meetingData
   const isConfirmed = !!displayedMeetingData.meeting.confirmedDate
+  const me = useStore($me)
+  const didIParticipate = displayedMeetingData.participants.some(participant => participant.userId === me?.userId)
+  const selectionPath = displayedMeetingData.meeting.selectionType.toLowerCase()
+  const voteActionLabel = displayedMeetingData.meeting.selectionType === 'ALL_DAY'
+    ? t(`meeting.result.buttons.${didIParticipate ? 'modifyDates' : 'selectDates'}`)
+    : t(`meeting.result.buttons.${didIParticipate ? 'modifyTimes' : 'selectTimes'}`)
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = useMemo(() => {
@@ -123,6 +130,20 @@ export default function ResultContent ({
           {t('meeting.result.tabs.participants')} {displayedMeetingData.participants.length > 0 ? `(${displayedMeetingData.participants.length})` : ''}
         </Tabs.Trigger>
       </Tabs.List>
+
+      {!isConfirmed && (
+        <div className={styles.MobileVoteAction}>
+          <Button
+            as='a'
+            href={`/meetings/${displayedMeetingData.meeting.code}/select/${selectionPath}`}
+            buttonType={didIParticipate ? 'secondary' : 'primary'}
+            className={styles.MobileVoteActionButton}
+          >
+            <HiOutlinePencil aria-hidden='true' />
+            {voteActionLabel}
+          </Button>
+        </div>
+      )}
 
       <SummaryContent
         meetingData={displayedMeetingData}

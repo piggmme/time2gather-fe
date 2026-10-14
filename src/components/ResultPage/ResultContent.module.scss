@@ -265,6 +265,26 @@
   gap: $spacing-lg;
 }
 
+.MobileVoteAction {
+  display: none;
+
+  @media (max-width: 899px) {
+    display: block;
+    margin: -4px 0 $spacing-base;
+  }
+}
+
+.MobileVoteActionButton {
+  min-height: 54px;
+  border-radius: 14px !important;
+  font-weight: $font-weight-semibold !important;
+
+  > svg {
+    flex: 0 0 auto;
+    font-size: 19px;
+  }
+}
+
 .ConfirmedPlan {
   padding: 28px;
   background: $c-white;
