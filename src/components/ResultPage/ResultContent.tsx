@@ -8,7 +8,7 @@ import { formatDate, formatTime } from '../../utils/time'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import {
-  HiChevronDown, HiChevronRight, HiX, HiOutlineLocationMarker, HiOutlineCalendar, HiOutlineClock, HiOutlineCheckCircle, HiOutlinePencil,
+  HiChevronDown, HiChevronRight, HiChevronUp, HiX, HiOutlineLocationMarker, HiOutlineCalendar, HiOutlineClock, HiOutlineCheckCircle, HiOutlinePencil,
 } from 'react-icons/hi'
 import { useTranslation } from '../../hooks/useTranslation'
 import { $me } from '../../stores/me'
@@ -188,6 +188,9 @@ type GroupedBestSlot = {
   }>
 }
 
+const INITIAL_VISIBLE_BEST_SLOT_COUNT = 3
+const INITIAL_VISIBLE_TIME_RANGE_COUNT = 2
+
 // 요약 탭 컴포넌트
 function SummaryContent ({
   meetingData,
@@ -210,11 +213,16 @@ function SummaryContent ({
   const [isTimeDialogOpen, setIsTimeDialogOpen] = useState(false)
   const [editedTime, setEditedTime] = useState('18:00')
   const [isSavingTime, setIsSavingTime] = useState(false)
+  const [showAllBestSlots, setShowAllBestSlots] = useState(false)
 
   const locationVote = meetingData.locationVote
   const sortedLocations = locationVote?.locations
     ? [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
     : []
+  const visibleBestSlots = showAllBestSlots
+    ? groupedBestSlots
+    : groupedBestSlots.slice(0, INITIAL_VISIBLE_BEST_SLOT_COUNT)
+  const hiddenBestSlotCount = groupedBestSlots.length - INITIAL_VISIBLE_BEST_SLOT_COUNT
 
   const getRankBadgeClass = (index: number) => {
     if (index === 0) return styles.AISummaryRankBadgeFirst
@@ -372,10 +380,14 @@ function SummaryContent ({
               <div className={styles.BestSlots}>
                 <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
                 <ul className={styles.BestSlotsList}>
-                  {groupedBestSlots.map((group, groupIndex) => {
+                  {visibleBestSlots.map((group, groupIndex) => {
                     const isExpanded = expandedSlots.has(`group-${groupIndex}`)
                     const participants = getParticipantsForGroup(group)
                     const visibleTimeRanges = group.timeRanges.filter(range => range.start !== 'ALL_DAY')
+                    const displayedTimeRanges = isExpanded
+                      ? visibleTimeRanges
+                      : visibleTimeRanges.slice(0, INITIAL_VISIBLE_TIME_RANGE_COUNT)
+                    const hiddenTimeRangeCount = visibleTimeRanges.length - displayedTimeRanges.length
 
                     return (
                       <li key={groupIndex} className={styles.BestSlotItem}>
@@ -399,13 +411,21 @@ function SummaryContent ({
                           </span>
                           {visibleTimeRanges.length > 0 && (
                             <span className={styles.BestSlotTime}>
-                              {visibleTimeRanges.map((range, rangeIndex) => (
+                              {displayedTimeRanges.map((range, rangeIndex) => (
                                 <span key={rangeIndex} className={styles.BestSlotTimeRange}>
                                   {range.start === range.end
                                     ? range.start
                                     : `${range.start}–${range.end}`}
                                 </span>
                               ))}
+                              {hiddenTimeRangeCount > 0 && (
+                                <span
+                                  className={styles.BestSlotMoreTimeRanges}
+                                  aria-label={t('meeting.result.moreTimeOptions', { count: hiddenTimeRangeCount })}
+                                >
+                                  +{hiddenTimeRangeCount}
+                                </span>
+                              )}
                             </span>
                           )}
                         </button>
@@ -429,6 +449,19 @@ function SummaryContent ({
                     )
                   })}
                 </ul>
+                {hiddenBestSlotCount > 0 && (
+                  <button
+                    type='button'
+                    className={styles.BestSlotsToggle}
+                    onClick={() => setShowAllBestSlots(current => !current)}
+                    aria-expanded={showAllBestSlots}
+                  >
+                    {showAllBestSlots
+                      ? t('meeting.result.showFewerOptions')
+                      : t('meeting.result.showMoreOptions', { count: hiddenBestSlotCount })}
+                    {showAllBestSlots ? <HiChevronUp aria-hidden='true' /> : <HiChevronDown aria-hidden='true' />}
+                  </button>
+                )}
               </div>
             )}
           </div>

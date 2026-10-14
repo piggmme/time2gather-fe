@@ -180,6 +180,48 @@
   white-space: nowrap;
 }
 
+.BestSlotMoreTimeRanges {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  color: $c-gray-darkest;
+  background: $c-gray-lightest;
+  border-radius: $radius-xs;
+  white-space: nowrap;
+}
+
+.BestSlotsToggle {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 40px;
+  padding: 8px 12px;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  background: transparent;
+  border: 0;
+  border-radius: $radius-sm;
+  cursor: pointer;
+
+  &:hover {
+    color: $c-black;
+    background: $c-gray-lightest;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+
+  svg {
+    font-size: 16px;
+  }
+}
+
 .BestSlotCount {
   color: $c-gray-darkest;
   font-size: $font-size-xs;
