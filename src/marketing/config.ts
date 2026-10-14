@@ -38,3 +38,8 @@ export function localizedPath (locale: MarketingLocale, page: MarketingPage = 'h
 export function appLocaleFor (locale: MarketingLocale): 'ko' | 'en' {
   return locale === 'ko' ? 'ko' : 'en'
 }
+
+export function localizedAppPath (locale: MarketingLocale, path: string): string {
+  const separator = path.includes('?') ? '&' : '?'
+  return `${path}${separator}lang=${appLocaleFor(locale)}`
+}

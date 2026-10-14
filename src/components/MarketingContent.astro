@@ -1,6 +1,6 @@
 ---
 import type { MarketingLocale, MarketingPage } from '../marketing/config'
-import { localizedPath } from '../marketing/config'
+import { localizedAppPath, localizedPath } from '../marketing/config'
 import { marketingCopy } from '../marketing/copy'
 import MarketingLayout from '../layouts/MarketingLayout.astro'
 
@@ -20,8 +20,8 @@ const pageCopy = page === 'home' ? null : copy[page]
             <h1>{copy.hero.title}</h1>
             <p class='hero-description'>{copy.hero.description}</p>
             <div class='actions'>
-              <a class='primary' href='/meetings/create'>{copy.hero.primary}</a>
-              <a class='secondary' href='/meetings/search'>{copy.hero.secondary}</a>
+              <a class='primary' href={localizedAppPath(locale, '/meetings/create')}>{copy.hero.primary}</a>
+              <a class='secondary' href={localizedAppPath(locale, '/meetings/search')}>{copy.hero.secondary}</a>
             </div>
           </section>
 
@@ -67,7 +67,7 @@ const pageCopy = page === 'home' ? null : copy[page]
 
 <style>
   main { width: min(960px, calc(100% - 40px)); margin: 0 auto; }
-  .hero { display: grid; justify-items: center; min-height: min(620px, calc(100svh - 72px)); padding: clamp(56px, 9vw, 96px) 20px; text-align: center; }
+  .hero { box-sizing: border-box; display: grid; justify-items: center; min-height: min(620px, calc(100svh - 72px)); padding: clamp(56px, 9vw, 96px) 20px; text-align: center; }
   .hero-mark { display: grid; place-items: center; width: 112px; height: 112px; margin-bottom: 20px; border-radius: 34px; background: #edf6ff; }
   .eyebrow { margin: 0 0 10px; color: #3182f6; font-size: 14px; font-weight: 700; }
   h1, h2, h3, p { margin-top: 0; }
@@ -109,7 +109,7 @@ const pageCopy = page === 'home' ? null : copy[page]
   .updated { margin-top: 24px; color: #8b95a1; font-size: 14px; }
   @media (max-width: 680px) {
     main { width: min(100% - 32px, 960px); }
-    .hero { min-height: auto; padding: 44px 4px 28px; }
+    .hero { align-content: center; min-height: calc(100svh - 72px); padding: 32px 4px; }
     .hero-mark { width: 84px; height: 84px; margin-bottom: 18px; border-radius: 26px; }
     .hero-mark img { width: 68px; height: 68px; }
     .hero .eyebrow { margin-bottom: 8px; font-size: 13px; }

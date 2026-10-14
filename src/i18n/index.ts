@@ -87,8 +87,13 @@ export function getLocaleFromContext(): Locale {
 }
 
 // Helper function to get locale from Astro request (for server-side)
-export function getLocaleFromAstroRequest(cookies?: any, headers?: Headers): Locale {
-  // First, check cookie (user preference)
+export function getLocaleFromAstroRequest(cookies?: any, headers?: Headers, requestedLocale?: string | null): Locale {
+  // An explicit language carried from a localized landing page takes priority.
+  if (requestedLocale === 'ko' || requestedLocale === 'en') {
+    return requestedLocale
+  }
+
+  // Then check the saved user preference.
   if (cookies) {
     const localeCookie = cookies.get('locale')?.value;
     if (localeCookie && (localeCookie === 'ko' || localeCookie === 'en')) {
@@ -124,6 +129,7 @@ export function getLocaleFromAstroRequest(cookies?: any, headers?: Headers): Loc
 export function setLocale(locale: Locale) {
   if (typeof window !== 'undefined') {
     localStorage.setItem('locale', locale);
+    localStorage.setItem('marketingLocale', locale);
     // Also set cookie for server-side access
     const secureAttribute = window.location.protocol === 'https:' ? '; Secure' : ''
     document.cookie = `locale=${locale}; Path=/; Max-Age=31536000; SameSite=Lax${secureAttribute}` // 1 year

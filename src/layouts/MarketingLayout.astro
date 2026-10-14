@@ -20,6 +20,8 @@ const title = customTitle || (page === 'home' ? copy.metaTitle : `${copy[page].t
 const description = customDescription || (page === 'home' ? copy.metaDescription : copy[page].intro)
 const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href
 const appLocale = appLocaleFor(locale)
+const marketingLocale = locale
+const localizedHomePaths = Object.fromEntries(marketingLocales.map(language => [language, localizedPath(language)]))
 const pageType = page === 'about' ? 'AboutPage' : page === 'contact' ? 'ContactPage' : 'WebPage'
 
 const organization = {
@@ -113,14 +115,25 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     <meta name='twitter:image' content={ogImage} />
     <script type='application/ld+json' set:html={JSON.stringify(structuredData)} />
 
-    <script is:inline define:vars={{ appLocale }}>
-      try {
-        window.localStorage.setItem('locale', appLocale)
-        const secure = window.location.protocol === 'https:' ? '; Secure' : ''
-        document.cookie = `locale=${appLocale}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`
-      } catch {
-        // Storage may be unavailable in privacy modes; the page remains usable.
-      }
+    <script is:inline define:vars={{ appLocale, marketingLocale, localizedHomePaths, page }}>
+      (() => {
+        try {
+          const savedMarketingLocale = window.localStorage.getItem('marketingLocale')
+          const savedHomePath = savedMarketingLocale && localizedHomePaths[savedMarketingLocale]
+
+          if (page === 'home' && marketingLocale === 'ko' && window.location.pathname === '/' && savedHomePath && savedHomePath !== '/') {
+            window.location.replace(savedHomePath)
+            return
+          }
+
+          window.localStorage.setItem('marketingLocale', marketingLocale)
+          window.localStorage.setItem('locale', appLocale)
+          const secure = window.location.protocol === 'https:' ? '; Secure' : ''
+          document.cookie = `locale=${appLocale}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`
+        } catch {
+          // Storage may be unavailable in privacy modes; the page remains usable.
+        }
+      })()
     </script>
     <script is:inline async src='https://www.googletagmanager.com/gtag/js?id=G-RXQ2QH23CQ'></script>
     <script is:inline>
@@ -148,6 +161,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
           {marketingLocales.map(language => (
             <a
               href={localizedPath(language, page)}
+              data-marketing-locale={language}
               hreflang={language}
               lang={language}
               aria-current={language === locale ? 'page' : undefined}
@@ -158,6 +172,25 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
         </div>
       </details>
     </header>
+
+    <script is:inline>
+      document.querySelectorAll('[data-marketing-locale]').forEach((link) => {
+        link.addEventListener('click', () => {
+          const selectedLocale = link.getAttribute('data-marketing-locale')
+          if (!selectedLocale) return
+
+          try {
+            const selectedAppLocale = selectedLocale === 'ko' ? 'ko' : 'en'
+            window.localStorage.setItem('marketingLocale', selectedLocale)
+            window.localStorage.setItem('locale', selectedAppLocale)
+            const secure = window.location.protocol === 'https:' ? '; Secure' : ''
+            document.cookie = `locale=${selectedAppLocale}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`
+          } catch {
+            // The destination page still carries the selected language in its URL.
+          }
+        })
+      })
+    </script>
 
     <slot />
 

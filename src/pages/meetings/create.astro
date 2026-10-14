@@ -10,14 +10,14 @@ import MeetingTypeStep from '../../components/meetings/MeetingTypeStep';
 
 type Step = 'meetingType' | 'title' | 'dates' | 'timeRange' | 'location';
 const step: Step = Astro.url.searchParams.get('step') as Step || 'meetingType';
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale;
 const t = getTranslations(locale);
 
 const title = t('meta.pages.create.title');
 const description = t('meta.pages.create.description');
 ---
 
-<Layout title={title} description={description} schemaType="WebPage">
+<Layout title={title} description={description} schemaType="WebPage" locale={locale}>
   <main>
     <div class="content">
       {step === 'meetingType' && <MeetingTypeStep client:only="react" />}

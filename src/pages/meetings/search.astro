@@ -3,11 +3,11 @@ import Layout from '../../layouts/Layout.astro'
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n'
 import SearchMeeting from '../../components/SearchMeeting'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale
 const t = getTranslations(locale);
 ---
 
-<Layout>
+<Layout locale={locale}>
   <main>
     <h1>{t('search.title')}</h1>
     <p>{t('search.description')}</p>
