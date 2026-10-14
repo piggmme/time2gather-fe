@@ -1,0 +1,209 @@
+---
+import {
+  appLocaleFor, localeMeta, localizedPath, marketingLocales, type MarketingLocale, type MarketingPage,
+} from '../marketing/config'
+import { marketingCopy } from '../marketing/copy'
+
+interface Props {
+  locale: MarketingLocale
+  page: MarketingPage
+  title?: string
+  description?: string
+}
+
+const { locale, page, title: customTitle, description: customDescription } = Astro.props
+const copy = marketingCopy[locale]
+const siteUrl = Astro.site?.href || 'https://time2gather.org/'
+const canonicalPath = localizedPath(locale, page)
+const canonical = new URL(canonicalPath, siteUrl).href
+const title = customTitle || (page === 'home' ? copy.metaTitle : `${copy[page].title} | Time2Gather`)
+const description = customDescription || (page === 'home' ? copy.metaDescription : copy[page].intro)
+const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href
+const appLocale = appLocaleFor(locale)
+const pageType = page === 'about' ? 'AboutPage' : page === 'contact' ? 'ContactPage' : 'WebPage'
+
+const organization = {
+  '@type': 'Organization',
+  '@id': new URL('/#organization', siteUrl).href,
+  'name': 'Time2Gather',
+  'url': siteUrl,
+  'logo': new URL('/favicon.svg', siteUrl).href,
+  'email': 'wlsdn3578@gmail.com',
+}
+
+const graph: Record<string, unknown>[] = [
+  organization,
+  {
+    '@type': 'WebSite',
+    '@id': new URL('/#website', siteUrl).href,
+    'name': 'Time2Gather',
+    'url': siteUrl,
+    'publisher': { '@id': organization['@id'] },
+    'inLanguage': marketingLocales,
+  },
+  {
+    '@type': pageType,
+    '@id': `${canonical}#page`,
+    'name': title,
+    description,
+    'url': canonical,
+    'inLanguage': locale,
+    'isPartOf': { '@id': new URL('/#website', siteUrl).href },
+    'about': { '@id': organization['@id'] },
+  },
+]
+
+if (page === 'home') {
+  graph.push({
+    '@type': 'WebApplication',
+    '@id': new URL('/#application', siteUrl).href,
+    'name': 'Time2Gather',
+    'url': siteUrl,
+    description,
+    'applicationCategory': 'SchedulingApplication',
+    'operatingSystem': 'All',
+    'inLanguage': locale,
+    'isAccessibleForFree': true,
+    'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
+    'featureList': ['Group scheduling', 'Date and time voting', 'Location voting', 'Calendar export', 'Anonymous participation'],
+    'publisher': { '@id': organization['@id'] },
+  })
+  graph.push({
+    '@type': 'FAQPage',
+    'mainEntity': copy.faqs.map(item => ({
+      '@type': 'Question',
+      'name': item.title,
+      'acceptedAnswer': { '@type': 'Answer', 'text': item.body },
+    })),
+  })
+}
+
+const structuredData = { '@context': 'https://schema.org', '@graph': graph }
+---
+
+<!doctype html>
+<html lang={locale} dir={localeMeta[locale].dir}>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='icon' type='image/png' sizes='192x192' href='/favicon.png' />
+    <title>{title}</title>
+    <meta name='description' content={description} />
+    <meta name='author' content='Time2Gather' />
+    <meta name='robots' content='index, follow, max-image-preview:large' />
+    <link rel='canonical' href={canonical} />
+    {marketingLocales.map(language => (
+      <link rel='alternate' hreflang={language} href={new URL(localizedPath(language, page), siteUrl).href} />
+    ))}
+    <link rel='alternate' hreflang='x-default' href={new URL(localizedPath('en', page), siteUrl).href} />
+
+    <meta property='og:type' content='website' />
+    <meta property='og:url' content={canonical} />
+    <meta property='og:title' content={title} />
+    <meta property='og:description' content={description} />
+    <meta property='og:image' content={ogImage} />
+    <meta property='og:image:width' content='1200' />
+    <meta property='og:image:height' content='630' />
+    <meta property='og:image:alt' content={title} />
+    <meta property='og:locale' content={locale.replace('-', '_')} />
+    <meta property='og:site_name' content='Time2Gather' />
+    <meta name='twitter:card' content='summary_large_image' />
+    <meta name='twitter:title' content={title} />
+    <meta name='twitter:description' content={description} />
+    <meta name='twitter:image' content={ogImage} />
+    <script type='application/ld+json' set:html={JSON.stringify(structuredData)} />
+
+    <script is:inline define:vars={{ appLocale }}>
+      try {
+        window.localStorage.setItem('locale', appLocale)
+        const secure = window.location.protocol === 'https:' ? '; Secure' : ''
+        document.cookie = `locale=${appLocale}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`
+      } catch {
+        // Storage may be unavailable in privacy modes; the page remains usable.
+      }
+    </script>
+    <script is:inline async src='https://www.googletagmanager.com/gtag/js?id=G-RXQ2QH23CQ'></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || []
+      function gtag (...args) {
+        dataLayer.push(args)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-RXQ2QH23CQ')
+    </script>
+  </head>
+  <body>
+    <header class='site-header'>
+      <a class='brand' href={localizedPath(locale, 'home')} aria-label='Time2Gather'>
+        <img src='/favicon.svg' alt='' width='34' height='34' />
+        <span>Time2Gather</span>
+      </a>
+      <nav class='main-nav' aria-label='Primary'>
+        <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
+        <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
+      </nav>
+      <details class='language-menu'>
+        <summary aria-label={copy.nav.language}>{localeMeta[locale].label}</summary>
+        <div class='language-list'>
+          {marketingLocales.map(language => (
+            <a
+              href={localizedPath(language, page)}
+              hreflang={language}
+              lang={language}
+              aria-current={language === locale ? 'page' : undefined}
+            >
+              {localeMeta[language].label}
+            </a>
+          ))}
+        </div>
+      </details>
+    </header>
+
+    <slot />
+
+    <footer class='site-footer'>
+      <div>
+        <a class='footer-brand' href={localizedPath(locale, 'home')}>Time2Gather</a>
+        <p>{copy.footer}</p>
+      </div>
+      <nav aria-label='Legal'>
+        <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
+        <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
+        <a href={localizedPath(locale, 'privacy')}>{copy.nav.privacy}</a>
+        <a href={localizedPath(locale, 'terms')}>{copy.nav.terms}</a>
+      </nav>
+      <p class='copyright'>© 2026 Time2Gather</p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  :root { color-scheme: light; font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; color: #191f28; background: #fff; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .site-header { position: relative; z-index: 10; display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 24px; width: min(1120px, calc(100% - 40px)); min-height: 72px; margin: 0 auto; }
+  .brand, .footer-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -0.03em; }
+  .brand { font-size: 20px; }
+  .main-nav { display: flex; gap: 22px; color: #4e5968; font-size: 14px; font-weight: 600; }
+  .main-nav a:hover, .site-footer a:hover { color: #3182f6; }
+  .language-menu { position: relative; }
+  .language-menu summary { min-width: 112px; padding: 9px 12px; border-radius: 10px; background: #f2f4f6; color: #333d4b; font-size: 14px; font-weight: 650; cursor: pointer; list-style: none; text-align: center; }
+  .language-menu summary::-webkit-details-marker { display: none; }
+  .language-list { position: absolute; inset-inline-end: 0; top: calc(100% + 8px); display: grid; grid-template-columns: repeat(2, minmax(130px, 1fr)); gap: 3px; width: 294px; max-height: 360px; overflow: auto; padding: 8px; border: 1px solid #e5e8eb; border-radius: 16px; background: #fff; box-shadow: 0 16px 40px rgba(0, 27, 55, 0.12); }
+  .language-list a { padding: 9px 10px; border-radius: 9px; color: #4e5968; font-size: 14px; }
+  .language-list a:hover, .language-list a[aria-current="page"] { color: #1b64da; background: #edf6ff; }
+  .site-footer { display: grid; grid-template-columns: 1.4fr 2fr auto; gap: 32px; align-items: start; width: min(1120px, calc(100% - 40px)); margin: 80px auto 0; padding: 40px 0 48px; border-top: 1px solid #e5e8eb; color: #6b7684; font-size: 14px; }
+  .site-footer p { margin: 6px 0 0; }
+  .site-footer nav { display: flex; flex-wrap: wrap; gap: 18px; }
+  .copyright { white-space: nowrap; }
+  @media (max-width: 720px) {
+    .site-header { grid-template-columns: 1fr auto; width: min(100% - 28px, 1120px); }
+    .main-nav { display: none; }
+    .language-menu summary { min-width: 0; }
+    .language-list { position: fixed; inset-inline: 14px; top: 68px; width: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .site-footer { grid-template-columns: 1fr; width: min(100% - 40px, 1120px); margin-top: 56px; }
+  }
+</style>

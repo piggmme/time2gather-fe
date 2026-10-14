@@ -117,9 +117,6 @@ const hreflangUrls = alternates && {
       gtag('config', 'G-RXQ2QH23CQ');
     </script>
     
-    <!-- Kakao SDK for KakaoTalk sharing -->
-    <script defer src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Ber8xa2" crossorigin="anonymous"></script>
-    
     <ClientRouter />
     <slot name="head" />
 
@@ -139,18 +136,6 @@ const hreflangUrls = alternates && {
 	<Toast client:only="react" />
 	<!-- <ChatBot client:only="react" /> -->
 	
-	<!-- Kakao SDK Initialization -->
-	<script>
-	  const initializeKakao = () => {
-	    if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
-	      Kakao.init('a13214e3367a5df735d7d8167fee5d0c');
-	    }
-	  };
-
-	  initializeKakao();
-	  document.addEventListener('DOMContentLoaded', initializeKakao);
-	  document.addEventListener('astro:page-load', initializeKakao);
-	</script>
   </body>
 </html>
 

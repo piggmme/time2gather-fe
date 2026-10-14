@@ -1,21 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import HomeLanding from '../components/HomeLanding.astro'
-import { getTranslations, defaultLocale } from '../i18n'
-
-const locale = defaultLocale
-const t = getTranslations(locale);
-
-const title = t('meta.pages.home.title');
-const description = t('meta.pages.home.description');
+import MarketingContent from '../components/MarketingContent.astro'
 ---
 
-<Layout
-  title={title}
-  description={description}
-  locale={locale}
-  indexable={true}
-  alternates={{ ko: '/', en: '/en/' }}
->
-  <HomeLanding locale={locale} />
-</Layout>
+<MarketingContent locale='ko' page='home' />

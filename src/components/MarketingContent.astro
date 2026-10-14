@@ -1,0 +1,121 @@
+---
+import type { MarketingLocale, MarketingPage } from '../marketing/config'
+import { localizedPath } from '../marketing/config'
+import { marketingCopy } from '../marketing/copy'
+import MarketingLayout from '../layouts/MarketingLayout.astro'
+
+interface Props { locale: MarketingLocale, page: MarketingPage }
+const { locale, page } = Astro.props
+const copy = marketingCopy[locale]
+const pageCopy = page === 'home' ? null : copy[page]
+---
+
+<MarketingLayout locale={locale} page={page}>
+  {page === 'home'
+    ? (
+        <main>
+          <section class='hero'>
+            <div class='hero-mark'><img src='/favicon.svg' alt='' width='94' height='94' /></div>
+            <p class='eyebrow'>{copy.hero.eyebrow}</p>
+            <h1>{copy.hero.title}</h1>
+            <p class='hero-description'>{copy.hero.description}</p>
+            <div class='actions'>
+              <a class='primary' href='/meetings/create'>{copy.hero.primary}</a>
+              <a class='secondary' href='/meetings/search'>{copy.hero.secondary}</a>
+            </div>
+          </section>
+
+          <section class='section' aria-labelledby='features-title'>
+            <h2 id='features-title'>{copy.featuresTitle}</h2>
+            <div class='card-grid'>
+              {copy.features.map((item, index) => (
+                <article class='card'><span>{String(index + 1).padStart(2, '0')}</span><h3>{item.title}</h3><p>{item.body}</p></article>
+              ))}
+            </div>
+          </section>
+
+          <section class='section steps' aria-labelledby='steps-title'>
+            <h2 id='steps-title'>{copy.stepsTitle}</h2>
+            <div class='step-grid'>{copy.steps.map(item => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+          </section>
+
+          <section class='section faq' aria-labelledby='faq-title'>
+            <h2 id='faq-title'>{copy.faqTitle}</h2>
+            <div>{copy.faqs.map(item => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+          </section>
+        </main>
+      )
+    : (
+        <main class='document'>
+          <nav class='breadcrumb' aria-label='Breadcrumb'><a href={localizedPath(locale, 'home')}>{copy.nav.home}</a><span>/</span><span>{pageCopy?.title}</span></nav>
+          <header><p class='eyebrow'>Time2Gather</p><h1>{pageCopy?.title}</h1><p class='document-intro'>{pageCopy?.intro}</p></header>
+
+          {page === 'contact'
+            ? (
+                <div class='document-sections contact-grid'>
+                  <section><h2>{copy.contact.emailTitle}</h2><p>{copy.contact.emailBody}</p><a class='email' href='mailto:wlsdn3578@gmail.com'>wlsdn3578@gmail.com</a></section>
+                  <section><h2>{copy.contact.responseTitle}</h2><p>{copy.contact.responseBody}</p></section>
+                </div>
+              )
+            : (
+                <div class='document-sections'>{'sections' in (pageCopy || {}) && pageCopy?.sections.map(item => <section><h2>{item.title}</h2><p>{item.body}</p></section>)}</div>
+              )}
+          {(page === 'privacy' || page === 'terms') && <p class='updated'>{copy.updated}</p>}
+        </main>
+      )}
+</MarketingLayout>
+
+<style>
+  main { width: min(960px, calc(100% - 40px)); margin: 0 auto; }
+  .hero { display: grid; justify-items: center; min-height: min(620px, calc(100svh - 72px)); padding: clamp(64px, 10vw, 112px) 20px; text-align: center; }
+  .hero-mark { display: grid; place-items: center; width: 112px; height: 112px; margin-bottom: 24px; border-radius: 34px; background: #edf6ff; }
+  .eyebrow { margin: 0 0 10px; color: #3182f6; font-size: 14px; font-weight: 700; }
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { max-width: 760px; margin-bottom: 20px; font-size: clamp(38px, 6vw, 64px); line-height: 1.12; letter-spacing: -0.045em; }
+  .hero-description { max-width: 660px; margin-bottom: 0; color: #4e5968; font-size: clamp(17px, 2.3vw, 21px); line-height: 1.7; }
+  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
+  .actions a { display: inline-flex; align-items: center; justify-content: center; min-width: 174px; min-height: 52px; padding: 0 22px; border-radius: 14px; font-weight: 700; }
+  .primary { color: #fff; background: #3182f6; }
+  .primary:hover { background: #1b64da; }
+  .secondary { color: #333d4b; background: #f2f4f6; }
+  .secondary:hover { background: #e5e8eb; }
+  .section { margin-top: clamp(80px, 12vw, 132px); }
+  .section > h2 { max-width: 680px; margin: 0 auto 32px; font-size: clamp(28px, 4vw, 40px); line-height: 1.25; text-align: center; letter-spacing: -0.035em; }
+  .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .card { min-height: 210px; padding: 30px; border: 1px solid #e5e8eb; border-radius: 22px; background: #fff; box-shadow: 0 12px 30px -28px rgba(0, 27, 55, .7); }
+  .card span { color: #1b64da; font-size: 13px; font-weight: 800; }
+  .card h3, .step-grid h3, .faq h3 { margin: 28px 0 8px; font-size: 20px; letter-spacing: -0.02em; }
+  .card p, .step-grid p, .faq p { margin-bottom: 0; color: #4e5968; }
+  .steps { padding: 48px; border-radius: 28px; background: #f7f8fa; }
+  .step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .step-grid h3 { margin-top: 0; }
+  .faq { margin-bottom: 100px; }
+  .faq > div { border-top: 1px solid #e5e8eb; }
+  .faq article { padding: 26px 4px; border-bottom: 1px solid #e5e8eb; }
+  .faq h3 { margin-top: 0; }
+  .document { min-height: 70svh; padding-top: clamp(56px, 9vw, 96px); }
+  .breadcrumb { display: flex; gap: 8px; margin-bottom: 40px; color: #8b95a1; font-size: 14px; }
+  .breadcrumb a:hover { color: #3182f6; }
+  .document header { max-width: 760px; }
+  .document h1 { font-size: clamp(36px, 6vw, 56px); }
+  .document-intro { color: #4e5968; font-size: 19px; line-height: 1.75; }
+  .document-sections { display: grid; gap: 0; max-width: 780px; margin-top: 56px; border-top: 1px solid #e5e8eb; }
+  .document-sections section { padding: 30px 0; border-bottom: 1px solid #e5e8eb; }
+  .document-sections h2 { margin-bottom: 10px; font-size: 21px; letter-spacing: -0.02em; }
+  .document-sections p { margin-bottom: 0; color: #4e5968; }
+  .contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: none; border: 0; }
+  .contact-grid section { padding: 28px; border: 1px solid #e5e8eb; border-radius: 20px; }
+  .email { display: inline-block; margin-top: 18px; color: #1b64da; font-weight: 700; }
+  .updated { margin-top: 24px; color: #8b95a1; font-size: 14px; }
+  @media (max-width: 680px) {
+    main { width: min(100% - 32px, 960px); }
+    .hero { min-height: auto; padding: 64px 4px 36px; }
+    .hero-mark { width: 88px; height: 88px; border-radius: 28px; }
+    .hero-mark img { width: 72px; height: 72px; }
+    .actions, .actions a { width: 100%; }
+    .card-grid, .step-grid, .contact-grid { grid-template-columns: 1fr; }
+    .card { min-height: 0; padding: 24px; }
+    .steps { padding: 32px 24px; }
+    .step-grid { gap: 24px; }
+  }
+</style>

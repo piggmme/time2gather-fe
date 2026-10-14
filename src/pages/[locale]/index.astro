@@ -1,0 +1,16 @@
+---
+import MarketingContent from '../../components/MarketingContent.astro'
+import { marketingLocales, type MarketingLocale } from '../../marketing/config'
+
+export const prerender = true
+
+export function getStaticPaths () {
+  return marketingLocales
+    .filter(locale => locale !== 'ko')
+    .map(locale => ({ params: { locale }, props: { locale } }))
+}
+
+const { locale } = Astro.props as { locale: MarketingLocale }
+---
+
+<MarketingContent locale={locale} page='home' />

@@ -1,0 +1,20 @@
+---
+import MarketingContent from '../../components/MarketingContent.astro'
+import { marketingLocales, type MarketingLocale, type MarketingPage } from '../../marketing/config'
+
+export const prerender = true
+
+export function getStaticPaths () {
+  const trustPages = ['about', 'contact', 'privacy', 'terms'] as const
+  return marketingLocales
+    .filter(locale => locale !== 'ko')
+    .flatMap(locale => trustPages.map(trustPage => ({
+      params: { locale, trustPage },
+      props: { locale, trustPage },
+    })))
+}
+
+const { locale, trustPage } = Astro.props as { locale: MarketingLocale, trustPage: MarketingPage }
+---
+
+<MarketingContent locale={locale} page={trustPage} />

@@ -44,24 +44,27 @@ Disallow: /login/oauth2/
 Disallow: /404
 Crawl-delay: 1
 
-# ChatGPT Search is allowed. GPTBot remains blocked below to opt out of training.
+# AI search crawlers are allowed. Training crawlers remain blocked below.
 User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
 Allow: /
 
 # Block AI training crawlers (optional - preserves content rights)
 User-agent: GPTBot
 Disallow: /
 
-User-agent: ChatGPT-User
+User-agent: ClaudeBot
 Disallow: /
 
 User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Claude-Web
 Disallow: /
 
 # Sitemap location
