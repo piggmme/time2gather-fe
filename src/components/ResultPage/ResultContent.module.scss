@@ -307,23 +307,56 @@
   gap: $spacing-lg;
 }
 
-.MobileVoteAction {
+.SummaryHeader {
+  min-width: 0;
+}
+
+.SummaryVoteAction {
   display: none;
 
   @media (max-width: 899px) {
-    display: block;
-    margin: -4px 0 $spacing-base;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 38px;
+    padding: 8px 11px;
+    color: $primary-color-hover;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    background: $c-blue-soft;
+    border-radius: $radius-sm;
+
+    &:hover {
+      background: rgba($primary-color, 0.14);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
+    }
+
+    svg {
+      flex: 0 0 auto;
+      font-size: 16px;
+    }
   }
 }
 
-.MobileVoteActionButton {
-  min-height: 54px;
-  border-radius: 14px !important;
-  font-weight: $font-weight-semibold !important;
+@media (max-width: 899px) {
+  .SummaryHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-sm;
 
-  > svg {
-    flex: 0 0 auto;
-    font-size: 19px;
+    > div {
+      min-width: 0;
+    }
   }
 }
 

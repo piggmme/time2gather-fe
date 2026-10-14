@@ -9,6 +9,7 @@ import CalendarExportDialog from './CalendarExportDialog'
 import ConfirmMeetingDialog from './ConfirmMeetingDialog'
 import { HiOutlineCalendar, HiOutlineShare, HiOutlinePencil, HiArrowRight } from 'react-icons/hi'
 import { formatDate, formatTime } from '../../utils/time'
+import { hasUserScheduleSelection } from '../../utils/meetingSelection'
 import styles from './ResultButtons.module.scss'
 
 export default function ResultButtons (
@@ -16,7 +17,7 @@ export default function ResultButtons (
   { data: get_meetings_$meetingCode_response['data'], onMeetingUpdated?: () => void },
 ) {
   const me = useStore($me)
-  const didIParticipate = data.participants.some(participant => participant.userId === me?.userId)
+  const didIParticipate = hasUserScheduleSelection(data.schedule, me?.userId)
   const isHost = data.meeting.host.id === me?.userId
   const isConfirmed = !!data.meeting.confirmedDate
   const { t, locale } = useTranslation()

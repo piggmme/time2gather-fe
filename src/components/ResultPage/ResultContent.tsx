@@ -17,7 +17,7 @@ import Monthly from '../Monthly/Monthly'
 import { Dialog } from '../Dialog/Dialog'
 import { meetings } from '../../services/meetings'
 import { showDefaultToast } from '../../stores/toast'
-import Button from '../Button/Button'
+import { hasUserScheduleSelection } from '../../utils/meetingSelection'
 
 export default function ResultContent ({
   meetingData,
@@ -30,12 +30,6 @@ export default function ResultContent ({
   const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set())
   const displayedMeetingData = meetingData
   const isConfirmed = !!displayedMeetingData.meeting.confirmedDate
-  const me = useStore($me)
-  const didIParticipate = displayedMeetingData.participants.some(participant => participant.userId === me?.userId)
-  const selectionPath = displayedMeetingData.meeting.selectionType.toLowerCase()
-  const voteActionLabel = displayedMeetingData.meeting.selectionType === 'ALL_DAY'
-    ? t(`meeting.result.buttons.${didIParticipate ? 'modifyDates' : 'selectDates'}`)
-    : t(`meeting.result.buttons.${didIParticipate ? 'modifyTimes' : 'selectTimes'}`)
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
   const dates = useMemo(() => {
@@ -131,20 +125,6 @@ export default function ResultContent ({
         </Tabs.Trigger>
       </Tabs.List>
 
-      {!isConfirmed && (
-        <div className={styles.MobileVoteAction}>
-          <Button
-            as='a'
-            href={`/meetings/${displayedMeetingData.meeting.code}/select/${selectionPath}`}
-            buttonType={didIParticipate ? 'secondary' : 'primary'}
-            className={styles.MobileVoteActionButton}
-          >
-            <HiOutlinePencil aria-hidden='true' />
-            {voteActionLabel}
-          </Button>
-        </div>
-      )}
-
       <SummaryContent
         meetingData={displayedMeetingData}
         groupedBestSlots={groupedBestSlots}
@@ -223,6 +203,8 @@ function SummaryContent ({
     ? groupedBestSlots
     : groupedBestSlots.slice(0, INITIAL_VISIBLE_BEST_SLOT_COUNT)
   const hiddenBestSlotCount = groupedBestSlots.length - INITIAL_VISIBLE_BEST_SLOT_COUNT
+  const hasSelection = hasUserScheduleSelection(meetingData.schedule, me?.userId)
+  const selectionPath = meetingData.meeting.selectionType.toLowerCase()
 
   const getRankBadgeClass = (index: number) => {
     if (index === 0) return styles.AISummaryRankBadgeFirst
@@ -369,11 +351,20 @@ function SummaryContent ({
         {/* 시간 요약 카드 */}
         {!meetingData.meeting.confirmedDate && (
           <div className={`${styles.Summary} ${styles.Card}`}>
-            <div>
-              <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
-              <p className={styles.DetailText}>
-                {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-              </p>
+            <div className={styles.SummaryHeader}>
+              <div>
+                <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
+                <p className={styles.DetailText}>
+                  {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
+                </p>
+              </div>
+              <a
+                href={`/meetings/${meetingData.meeting.code}/select/${selectionPath}`}
+                className={styles.SummaryVoteAction}
+              >
+                <HiOutlinePencil aria-hidden='true' />
+                {t(`meeting.result.buttons.${hasSelection ? 'editAvailability' : 'enterAvailability'}`)}
+              </a>
             </div>
 
             {groupedBestSlots.length > 0 && (

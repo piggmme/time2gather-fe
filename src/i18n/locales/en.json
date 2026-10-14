@@ -269,7 +269,9 @@
         "modifyDates": "Edit my date selection",
         "modifyTimes": "Edit my date and time selection",
         "selectDates": "Select my available dates",
-        "selectTimes": "Select my available dates and times"
+        "selectTimes": "Select my available dates and times",
+        "enterAvailability": "Add availability",
+        "editAvailability": "Edit availability"
       },
       "confirmedPlan": {
         "eyebrow": "PLAN CONFIRMED",
