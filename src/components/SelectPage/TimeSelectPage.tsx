@@ -10,6 +10,7 @@ import { $me } from '../../stores/me'
 import { navigate } from 'astro:transitions/client'
 import { showCautionToast, showDefaultToast } from '../../stores/toast'
 import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
+import { getProspectiveParticipantCount } from '../../utils/participantCount'
 
 export default function TimeSelectPage (
   { meetingCode, data }:
@@ -48,6 +49,11 @@ export default function TimeSelectPage (
   const dates = Object.keys(data.meeting.availableDates)
   const dateList = dates.map(date => dayjs(date)).sort((a, b) => a.diff(b))
   const availableTimes = Object.values(data.meeting.availableDates)[0] || []
+  const participantCount = getProspectiveParticipantCount(
+    data.participants,
+    me?.userId,
+    data.summary.totalParticipants,
+  )
 
   // schedule에서 내가 선택한 날짜와 시간대를 selections의 초기값으로 설정
   useEffect(function initializeSelections () {
@@ -153,7 +159,7 @@ export default function TimeSelectPage (
 
       <div hidden={isLocationStep}>
         <div className={styles.selectedDatesInfo}>
-          <p>{t('meeting.participantsCount', { count: data.participants.length })}</p>
+          <p>{t('meeting.participantsCount', { count: participantCount })}</p>
           <p>{t('meeting.selectedDatesAndTimes', { count: dates.length })}</p>
         </div>
         <div
@@ -167,7 +173,7 @@ export default function TimeSelectPage (
             selections={selections}
             setSelections={setSelections}
             schedule={schedule}
-            participantsCount={data.participants.length}
+            participantsCount={participantCount}
           />
         </div>
       </div>

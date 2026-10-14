@@ -12,6 +12,7 @@ import { showCautionToast, showDefaultToast } from '../../stores/toast'
 import Input from '../Input/Input'
 import { auth } from '../../services/auth'
 import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
+import { getProspectiveParticipantCount } from '../../utils/participantCount'
 import { useAnonymousMeetingData } from '../../hooks/useAnonymousMeetingData'
 
 export default function AnonymousTimeSelectPage (
@@ -99,6 +100,11 @@ function TimeSelectForm ({
   const dates = Object.keys(data.meeting.availableDates)
   const dateList = dates.map(date => dayjs(date)).sort((a, b) => a.diff(b))
   const availableTimes = Object.values(data.meeting.availableDates)[0] || []
+  const participantCount = getProspectiveParticipantCount(
+    data.participants,
+    me?.userId,
+    data.summary.totalParticipants,
+  )
 
   // schedule에서 내가 선택한 날짜와 시간대를 selections의 초기값으로 설정
   useEffect(function initializeSelections () {
@@ -201,7 +207,7 @@ function TimeSelectForm ({
         <div className={styles.selectedDatesInfo}>
           <span>{t('meeting.anonymous.votingAsCompact', { username: me?.username || '' })}</span>
           <span className={styles.metaDivider} aria-hidden='true'>·</span>
-          <span>{t('meeting.participantsCountCompact', { count: data.participants.length })}</span>
+          <span>{t('meeting.participantsCountCompact', { count: participantCount })}</span>
         </div>
         <div
           className={styles.container}
@@ -214,7 +220,7 @@ function TimeSelectForm ({
             selections={selections}
             setSelections={setSelections}
             schedule={schedule}
-            participantsCount={data.participants.length}
+            participantsCount={participantCount}
           />
         </div>
       </div>

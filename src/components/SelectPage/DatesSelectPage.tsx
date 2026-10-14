@@ -11,6 +11,7 @@ import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
 import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
 import DateParticipantsPanel from './DateParticipantsPanel'
+import { getProspectiveParticipantCount } from '../../utils/participantCount'
 
 export default function DatesSelectPage (
   { meetingCode, data }:
@@ -26,6 +27,11 @@ export default function DatesSelectPage (
   const me = useStore($me)
   const locationVote = data.locationVote?.enabled ? data.locationVote : null
   const isLocationStep = step === 'location'
+  const participantCount = getProspectiveParticipantCount(
+    data.participants,
+    me?.userId,
+    data.summary.totalParticipants,
+  )
 
   useEffect(function initializeSelections () {
     if (!me) return
@@ -120,7 +126,7 @@ export default function DatesSelectPage (
 
       <div hidden={isLocationStep}>
         <div className={styles.selectedDatesInfo}>
-          <span>{t('meeting.participantsCountCompact', { count: data.participants.length })}</span>
+          <span>{t('meeting.participantsCountCompact', { count: participantCount })}</span>
         </div>
         <p className={styles.selectionInstruction}>{t('meeting.selectedDates', { count: dates.length })}</p>
         <div
@@ -133,7 +139,7 @@ export default function DatesSelectPage (
             setDates={setSelectedDates}
             availableDates={Object.keys(data.meeting.availableDates).map(date => dayjs(date))}
             dateSchedule={dateSchedule}
-            participantsCount={data.summary.totalParticipants}
+            participantsCount={participantCount}
             onDateClick={setFocusedDate}
           />
         </div>
