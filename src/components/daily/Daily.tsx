@@ -1,16 +1,20 @@
+import TimeZoneSelect from '../Timezone/TimeZoneSelect'
+import { useDisplayTimeZone } from '../../hooks/useDisplayTimeZone'
+import { projectVotingTimeZone } from '../../utils/votingTimeZone'
 import DailyGrid from './DailyGrid'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import 'dayjs/locale/en'
 import styles from './Daily.module.scss'
 import {
-  useRef, useEffect, useCallback, useState, useMemo,
+  useRef, useEffect, useLayoutEffect, useCallback, useState, useMemo, useId,
 } from 'react'
-import type { Dispatch, SetStateAction } from 'react'
-import { formatDate } from '../../utils/time'
+import type { CSSProperties, Dispatch, SetStateAction, RefObject } from 'react'
+import { intlLocale, localeMeta } from '../../i18n/config'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
 import { useTranslation } from '../../hooks/useTranslation'
-import { HiOutlineHand } from 'react-icons/hi'
+import { HiOutlineHand, HiChevronLeft, HiChevronRight } from 'react-icons/hi'
+import { Tooltip } from 'radix-ui'
 
 // Long Press 인식 시간 (ms)
 const LONG_PRESS_DURATION = 200
@@ -27,7 +31,12 @@ type CellPosition = {
 }
 
 type DailyProps = {
+  className?: string
   dates: dayjs.Dayjs[]
+  heading?: string
+  timezone?: string
+  availableDates?: Record<string, string[]>
+  allowedSlots?: Record<string, Record<string, unknown>>
   availableTimes: string[]
   height?: string
   selections?: { [date: string]: string[] }
@@ -38,9 +47,68 @@ type DailyProps = {
   onCellClick?: (date: string, time: string) => void
 }
 
-export default function Daily ({
+export default function Daily (props: DailyProps) {
+  const viewportRef = useRef({ left: 0, top: 0 })
+  const sourceZone = props.timezone ?? 'UTC'
+  const [displayZone, setDisplayZone] = useDisplayTimeZone(sourceZone)
+  const { t } = useTranslation()
+  const isEditMode = props.mode !== 'view'
+  const availableDates = useMemo(() => props.availableDates ?? Object.fromEntries(
+    props.dates.map(date => [date.format('YYYY-MM-DD'), props.availableTimes]),
+  ), [props.availableDates, props.dates, props.availableTimes])
+  const projection = useMemo(() => isEditMode
+    ? projectVotingTimeZone(availableDates, sourceZone, displayZone)
+    : undefined, [availableDates, sourceZone, displayZone, isEditMode])
+  const shownZone = projection ? displayZone : sourceZone
+  const displayedSchedule = useMemo(() => {
+    if (!projection || !props.schedule) return props.schedule
+    const result: NonNullable<DailyProps['schedule']> = {}
+    for (const [date, slots] of Object.entries(props.schedule)) {
+      for (const [time, slot] of Object.entries(slots)) {
+        const local = projection.displayBySource[date]?.[time]
+        if (local) (result[local.date] ??= {})[local.time] = slot
+      }
+    }
+    return result
+  }, [projection, props.schedule])
+  const setSelections: DailyProps['setSelections'] = (update) => {
+    props.setSelections?.((previous) => {
+      if (!projection) return typeof update === 'function' ? update(previous) : update
+      const displayed = projection.toDisplay(previous)
+      return projection.toSource(typeof update === 'function' ? update(displayed) : update)
+    })
+  }
+  return (
+    <Tooltip.Provider delayDuration={200} skipDelayDuration={100}>
+      {isEditMode && <TimeZoneSelect value={shownZone} onChange={setDisplayZone} label={t('timezone.display')} />}
+      {isEditMode && !projection && displayZone !== sourceZone && <p role='status'>{t('timezone.overlap')}</p>}
+      <DailyContent
+        {...props}
+        key={shownZone}
+        viewportRef={viewportRef}
+        timezone={shownZone}
+        dates={projection ? projection.dates.map(date => dayjs(date)) : props.dates}
+        availableTimes={projection?.availableTimes ?? props.availableTimes}
+        allowedSlots={projection?.sourceByDisplay}
+        selections={projection ? projection.toDisplay(props.selections ?? {}) : props.selections}
+        setSelections={setSelections}
+        schedule={displayedSchedule}
+      />
+    </Tooltip.Provider>
+  )
+}
+
+function dateKeysForViewport (dates: dayjs.Dayjs[]) {
+  return dates.map(date => date.format('YYYY-MM-DD')).join(',')
+}
+
+function DailyContent ({
+  className = '',
   dates,
+  heading,
+  timezone = 'UTC',
   availableTimes,
+  allowedSlots,
   height = 'auto',
   selections = {},
   setSelections = () => {},
@@ -48,14 +116,85 @@ export default function Daily ({
   participantsCount,
   mode = 'edit',
   onCellClick,
-}: DailyProps) {
+  viewportRef,
+}: DailyProps & { viewportRef: RefObject<{ left: number, top: number }> }) {
   const { t, locale } = useTranslation()
+  const direction = localeMeta[locale].dir
+  const rtl = direction === 'rtl'
+  const formatters = useMemo(() => ({
+    date: new Intl.DateTimeFormat(intlLocale(locale), { calendar: 'gregory', month: 'numeric', day: 'numeric', timeZone: 'UTC' }),
+    weekday: new Intl.DateTimeFormat(intlLocale(locale), { weekday: 'short', timeZone: 'UTC' }),
+    full: new Intl.DateTimeFormat(intlLocale(locale), { calendar: 'gregory', dateStyle: 'full', timeZone: 'UTC' }),
+    time: new Intl.DateTimeFormat(intlLocale(locale), { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'UTC' }),
+  }), [locale])
   const dateHeaderScrollRef = useRef<HTMLDivElement>(null)
   const gridScrollContainerRef = useRef<HTMLDivElement>(null)
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null)
+  const pageAnimationRef = useRef<number | null>(null)
+  const pageTargetRef = useRef<number | null>(null)
+  const cancelPageScroll = useCallback(() => {
+    if (pageAnimationRef.current !== null) cancelAnimationFrame(pageAnimationRef.current)
+    pageAnimationRef.current = null
+    pageTargetRef.current = null
+  }, [])
+  const gridId = useId()
+  const [scrollEdges, setScrollEdges] = useState({ before: false, after: false })
+  const updateScrollEdges = useCallback(() => {
+    const grid = gridScrollContainerRef.current
+    if (!grid || grid.clientWidth === 0) return
+    const offset = Math.abs(grid.scrollLeft)
+    const before = offset > 1
+    const after = grid.scrollWidth - grid.clientWidth - offset > 1
+    setScrollEdges(previous => previous.before === before && previous.after === after ? previous : { before, after })
+    viewportRef.current.left = offset
+    const indicator = scrollIndicatorRef.current
+    if (indicator) {
+      indicator.style.width = `${Math.min(100, grid.clientWidth / grid.scrollWidth * 100)}%`
+      indicator.style.insetInlineStart = `${Math.min(offset, grid.scrollWidth - grid.clientWidth) / grid.scrollWidth * 100}%`
+    }
+  }, [viewportRef])
 
-  // 스크롤 동기화 중 무한 루프 방지용 플래그
-  const isSyncingRef = useRef(false)
+  useLayoutEffect(() => {
+    const grid = gridScrollContainerRef.current
+    const wrapper = scrollWrapperRef.current
+    if (!grid || !wrapper) return
+    grid.scrollLeft = (rtl ? -1 : 1) * viewportRef.current.left
+    wrapper.scrollTop = viewportRef.current.top
+    if (dateHeaderScrollRef.current) dateHeaderScrollRef.current.scrollLeft = grid.scrollLeft
+    updateScrollEdges()
+    const observer = new ResizeObserver(updateScrollEdges)
+    observer.observe(grid)
+    if (grid.firstElementChild) observer.observe(grid.firstElementChild)
+    return () => observer.disconnect()
+  }, [dateKeysForViewport(dates), updateScrollEdges, viewportRef, rtl])
+
+  const moveDates = (direction: -1 | 1) => {
+    const grid = gridScrollContainerRef.current
+    if (!grid) return
+    const columnWidth = grid.firstElementChild?.getBoundingClientRect().width || 100
+    const page = Math.max(1, Math.floor(grid.clientWidth / columnWidth)) * columnWidth
+    const limit = grid.scrollWidth - grid.clientWidth
+    const start = grid.scrollLeft
+    const target = Math.max(rtl ? -limit : 0, Math.min(rtl ? 0 : limit, (pageTargetRef.current ?? start) + direction * page))
+    cancelPageScroll()
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || target === start) {
+      grid.scrollLeft = target
+      return
+    }
+    pageTargetRef.current = target
+    const started = performance.now()
+    const animate = (now: number) => {
+      const progress = Math.min(1, (now - started) / 130)
+      grid.scrollLeft = start + (target - start) * (1 - (1 - progress) ** 3)
+      if (progress < 1) pageAnimationRef.current = requestAnimationFrame(animate)
+      else {
+        pageAnimationRef.current = null
+        pageTargetRef.current = null
+      }
+    }
+    pageAnimationRef.current = requestAnimationFrame(animate)
+  }
 
   const isEditMode = mode === 'edit'
 
@@ -77,63 +216,59 @@ export default function Daily ({
   // 날짜 키 배열 (인덱스로 접근용)
   const dateKeys = useMemo(() => dates.map(d => d.format('YYYY-MM-DD')), [dates])
 
-  // Update dayjs locale when locale changes
+  // Write only when positions differ. Mirrored scroll events must not write back
+  // into the surface receiving a native momentum gesture.
   useEffect(() => {
-    dayjs.locale(locale === 'ko' ? 'ko' : 'en')
-  }, [locale])
-
-  // 날짜 헤더 → 그리드 스크롤 동기화
-  const syncHeaderToGrid = useCallback(() => {
-    if (isSyncingRef.current) return
-    if (dateHeaderScrollRef.current && gridScrollContainerRef.current) {
-      isSyncingRef.current = true
-      gridScrollContainerRef.current.scrollLeft = dateHeaderScrollRef.current.scrollLeft
-      requestAnimationFrame(() => {
-        isSyncingRef.current = false
-      })
+    const header = dateHeaderScrollRef.current
+    const grid = gridScrollContainerRef.current
+    if (!header || !grid) return
+    let mirroredHeader = header.scrollLeft
+    let mirroredGrid = grid.scrollLeft
+    const fromHeader = () => {
+      if (header.scrollLeft === mirroredHeader) return
+      grid.scrollLeft = header.scrollLeft
+      mirroredGrid = grid.scrollLeft
+      updateScrollEdges()
     }
-  }, [])
-
-  // 그리드 → 날짜 헤더 스크롤 동기화
-  const syncGridToHeader = useCallback(() => {
-    if (isSyncingRef.current) return
-    if (dateHeaderScrollRef.current && gridScrollContainerRef.current) {
-      isSyncingRef.current = true
-      dateHeaderScrollRef.current.scrollLeft = gridScrollContainerRef.current.scrollLeft
-      requestAnimationFrame(() => {
-        isSyncingRef.current = false
-      })
+    const fromGrid = () => {
+      updateScrollEdges()
+      if (grid.scrollLeft === mirroredGrid) return
+      header.scrollLeft = grid.scrollLeft
+      mirroredHeader = header.scrollLeft
     }
-  }, [])
-
-  // 가로 스크롤 동기화 설정
-  useEffect(() => {
-    const dateHeaderScroll = dateHeaderScrollRef.current
-    const gridScrollContainer = gridScrollContainerRef.current
-
-    if (dateHeaderScroll && gridScrollContainer) {
-      dateHeaderScroll.addEventListener('scroll', syncHeaderToGrid)
-      gridScrollContainer.addEventListener('scroll', syncGridToHeader)
-
-      return () => {
-        dateHeaderScroll.removeEventListener('scroll', syncHeaderToGrid)
-        gridScrollContainer.removeEventListener('scroll', syncGridToHeader)
+    // A direct gesture always takes over from button paging immediately.
+    for (const surface of [header, grid]) {
+      surface.addEventListener('pointerdown', cancelPageScroll, { passive: true })
+      surface.addEventListener('touchstart', cancelPageScroll, { passive: true })
+      surface.addEventListener('wheel', cancelPageScroll, { passive: true })
+    }
+    header.addEventListener('scroll', fromHeader, { passive: true })
+    grid.addEventListener('scroll', fromGrid, { passive: true })
+    return () => {
+      cancelPageScroll()
+      for (const surface of [header, grid]) {
+        surface.removeEventListener('pointerdown', cancelPageScroll)
+        surface.removeEventListener('touchstart', cancelPageScroll)
+        surface.removeEventListener('wheel', cancelPageScroll)
       }
+      header.removeEventListener('scroll', fromHeader)
+      grid.removeEventListener('scroll', fromGrid)
     }
-  }, [syncHeaderToGrid, syncGridToHeader])
+  }, [updateScrollEdges, cancelPageScroll])
 
   // 날짜 헤더 클릭 시 해당 날짜 전체 시간 선택/해제
   const handleDateHeaderClick = useCallback((dateKey: string) => {
     if (!isEditMode) return
 
     const currentSelections = selections[dateKey] || []
-    const allSelected = availableTimes.every(time => currentSelections.includes(time))
+    const times = availableTimes.filter(time => !allowedSlots || allowedSlots[dateKey]?.[time])
+    const allSelected = times.every(time => currentSelections.includes(time))
 
     setSelections(prev => ({
       ...prev,
-      [dateKey]: allSelected ? [] : [...availableTimes],
+      [dateKey]: allSelected ? [] : times,
     }))
-  }, [isEditMode, availableTimes, selections, setSelections])
+  }, [isEditMode, availableTimes, allowedSlots, selections, setSelections])
 
   // 2D 드래그 범위 계산 (날짜 x 시간)
   const draggedCells = useMemo(() => {
@@ -164,7 +299,7 @@ export default function Daily ({
     for (const el of elements) {
       const dateKey = el.getAttribute('data-date-key')
       const timeIndex = el.getAttribute('data-time-index')
-      if (dateKey && timeIndex !== null) {
+      if (dateKey && timeIndex !== null && !el.hasAttribute('disabled')) {
         return { dateKey, timeIndex: parseInt(timeIndex, 10) }
       }
     }
@@ -204,7 +339,7 @@ export default function Daily ({
       const newSelections = { ...prev }
       for (const cell of cells) {
         const time = availableTimes[cell.timeIndex]
-        if (!time) continue
+        if (!time || (allowedSlots && !allowedSlots[cell.dateKey]?.[time])) continue
 
         const current = newSelections[cell.dateKey] || []
         if (action === 'select') {
@@ -217,7 +352,7 @@ export default function Daily ({
       }
       return newSelections
     })
-  }, [availableTimes, setSelections])
+  }, [availableTimes, allowedSlots, setSelections])
 
   // 자동 스크롤 중지
   const stopAutoScroll = useCallback(() => {
@@ -236,7 +371,7 @@ export default function Daily ({
     for (const el of elements) {
       const dateKey = el.getAttribute('data-date-key')
       const timeIndex = el.getAttribute('data-time-index')
-      if (dateKey && timeIndex !== null) {
+      if (dateKey && timeIndex !== null && !el.hasAttribute('disabled')) {
         const cellPos = { dateKey, timeIndex: parseInt(timeIndex, 10) }
         setDragCurrent((prev) => {
           if (prev?.dateKey === cellPos.dateKey && prev?.timeIndex === cellPos.timeIndex) {
@@ -441,7 +576,7 @@ export default function Daily ({
     const scrollWrapper = scrollWrapperRef.current
     const gridContainer = gridScrollContainerRef.current
 
-    if (!scrollWrapper || !gridContainer) return
+    if (!isEditMode || !isDragMode || !scrollWrapper || !gridContainer) return
 
     const handleTouchMoveNative = (e: TouchEvent) => {
       // 드래그 모드일 때만 스크롤 방지
@@ -452,13 +587,11 @@ export default function Daily ({
 
     // { passive: false }로 등록해야 preventDefault() 작동
     scrollWrapper.addEventListener('touchmove', handleTouchMoveNative, { passive: false })
-    gridContainer.addEventListener('touchmove', handleTouchMoveNative, { passive: false })
 
     return () => {
       scrollWrapper.removeEventListener('touchmove', handleTouchMoveNative)
-      gridContainer.removeEventListener('touchmove', handleTouchMoveNative)
     }
-  }, [isDragMode])
+  }, [isEditMode, isDragMode])
 
   // 컨텍스트 메뉴 방지
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
@@ -475,7 +608,7 @@ export default function Daily ({
     for (const el of elements) {
       const dateKey = el.getAttribute('data-date-key')
       const timeIndex = el.getAttribute('data-time-index')
-      if (dateKey && timeIndex !== null) {
+      if (dateKey && timeIndex !== null && !el.hasAttribute('disabled')) {
         return { dateKey, timeIndex: parseInt(timeIndex, 10) }
       }
     }
@@ -558,126 +691,146 @@ export default function Daily ({
   }, [isDragMode, draggedCells, dragAction, applyDragSelection, stopAutoScroll])
 
   return (
-    <div className={styles.container} style={{ maxHeight: height, height: 'auto' }}>
-      {isEditMode && (
-        <div
-          className={`${styles.gestureHint} ${isDragMode ? styles.gestureHintActive : ''}`}
-          role='status'
-          aria-live='polite'
-        >
-          <span className={styles.gestureHintIcon} aria-hidden='true'>
-            <HiOutlineHand />
-          </span>
-          {isDragMode && <span>{t('meeting.timeGrid.draggingHint')}</span>}
-          {!isDragMode && (
-            <>
-              <span className={styles.touchHint}>{t('meeting.timeGrid.touchHint')}</span>
-              <span className={styles.pointerHint}>{t('meeting.timeGrid.pointerHint')}</span>
-            </>
-          )}
-        </div>
-      )}
-      <div className={styles.wrapper}>
-        {/* 날짜 헤더 - sticky 고정 */}
-        <div className={styles.dateHeaderRow}>
-          <div className={styles.timeColumnHeader}>
-            <span className={styles.timeColumnLabel}>{t('meeting.timeGrid.timeLabel')}</span>
+    <>
+      <div className={styles.calendarToolbar} dir={direction}>
+        <h3 className={styles.calendarTitle}>{heading ?? t('meeting.result.calendarTitle')}</h3>
+        {(scrollEdges.before || scrollEdges.after) && (
+          <div className={styles.dateNavigation} dir='ltr'>
+            <button type='button' onClick={() => moveDates(-1)} disabled={rtl ? !scrollEdges.after : !scrollEdges.before} aria-label={t(rtl ? 'meeting.timeGrid.nextDates' : 'meeting.timeGrid.previousDates')} aria-controls={gridId}>
+              <HiChevronLeft aria-hidden='true' />
+            </button>
+            <button type='button' onClick={() => moveDates(1)} disabled={rtl ? !scrollEdges.before : !scrollEdges.after} aria-label={t(rtl ? 'meeting.timeGrid.previousDates' : 'meeting.timeGrid.nextDates')} aria-controls={gridId}>
+              <HiChevronRight aria-hidden='true' />
+            </button>
           </div>
-          <div className={styles.dateHeaderScroll} ref={dateHeaderScrollRef}>
-            {dates.map((date) => {
-              const dateKey = date.format('YYYY-MM-DD')
-              const dateLabel = formatDate(date, locale)
-              const compactDateLabel = date
-                .locale(locale === 'ko' ? 'ko' : 'en')
-                .format(locale === 'ko' ? 'M/D (dd)' : 'MMM D (ddd)')
-              const isToday = date.isSame(dayjs(), 'day')
-              const currentSelections = selections[dateKey] || []
-              const allSelected = availableTimes.length > 0
-                && availableTimes.every(time => currentSelections.includes(time))
+        )}
+      </div>
+      <div className={`${styles.container} ${className} ${!isEditMode ? styles.resultCalendar : ''} ${height !== 'auto' ? styles.bounded : ''}`} dir={direction} style={{ '--date-count': dates.length, 'maxHeight': height, 'height': 'auto' } as CSSProperties}>
+        {isEditMode && (
+          <div
+            className={`${styles.gestureHint} ${isDragMode ? styles.gestureHintActive : ''}`}
+            role='status'
+            aria-live='polite'
+          >
+            <span className={styles.gestureHintIcon} aria-hidden='true'>
+              <HiOutlineHand />
+            </span>
+            {isDragMode && <span>{t('meeting.timeGrid.draggingHint')}</span>}
+            {!isDragMode && (
+              <>
+                <span className={styles.touchHint}>{t('meeting.timeGrid.touchHint')}</span>
+                <span className={styles.pointerHint}>{t('meeting.timeGrid.pointerHint')}</span>
+              </>
+            )}
+          </div>
+        )}
+        <div className={styles.wrapper} dir={direction}>
+          <div className={styles.stickyHeader}>
+            <div className={styles.dateHeaderRow}>
+              <div className={styles.timeColumnHeader}>
+                <span className={styles.timeColumnLabel}>{t('meeting.timeGrid.timeLabel')}</span>
 
-              if (!isEditMode) {
+              </div>
+              <div className={styles.dateHeaderScroll} ref={dateHeaderScrollRef}>
+                {dates.map((date) => {
+                  const dateKey = date.format('YYYY-MM-DD')
+                  const instant = new Date(`${dateKey}T12:00:00Z`)
+                  const dateLabel = formatters.full.format(instant)
+                  const compactDateLabel = formatters.date.format(instant)
+                  const weekdayLabel = formatters.weekday.format(instant)
+                  const currentSelections = selections[dateKey] || []
+                  const times = availableTimes.filter(time => !allowedSlots || allowedSlots[dateKey]?.[time])
+                  const allSelected = times.length > 0
+                    && times.every(time => currentSelections.includes(time))
+
+                  if (!isEditMode) {
+                    return (
+                      <div
+                        key={dateKey}
+                        className={styles.dateHeader}
+                        aria-label={dateLabel}
+                      >
+                        <span className={styles.dateTitle}><bdi>{compactDateLabel}</bdi><span className={styles.weekday}>{weekdayLabel}</span></span>
+                      </div>
+                    )
+                  }
+
+                  return (
+                    <button
+                      type='button'
+                      key={dateKey}
+                      className={`${styles.dateHeader} ${styles.clickable} ${allSelected ? styles.allSelected : ''}`}
+                      onClick={() => handleDateHeaderClick(dateKey)}
+                      aria-pressed={allSelected}
+                      aria-label={t('meeting.timeGrid.selectDate', { date: dateLabel })}
+                    >
+                      <span className={styles.dateTitle}><bdi>{compactDateLabel}</bdi><span className={styles.weekday}>{weekdayLabel}</span></span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+            <div className={styles.scrollTrack} aria-hidden='true' data-overflow={scrollEdges.before || scrollEdges.after}>
+              <div className={styles.scrollIndicator} ref={scrollIndicatorRef} />
+            </div>
+          </div>
+          {/* 시간 그리드 */}
+          <div className={styles.scrollWrapper} ref={scrollWrapperRef} onScroll={(event) => { viewportRef.current.top = event.currentTarget.scrollTop }}>
+            <div className={styles.timeColumn}>
+              {availableTimes.map((time) => {
+                const isFullHour = time.endsWith(':00')
                 return (
                   <div
-                    key={dateKey}
-                    className={`${styles.dateHeader} ${isToday ? styles.today : ''}`}
-                    aria-current={isToday ? 'date' : undefined}
-                    aria-label={dateLabel}
+                    key={time}
+                    className={`${styles.timeCell} ${isFullHour ? styles.fullHour : styles.halfHour}`}
                   >
-                    <span className={styles.dateTitle}>{compactDateLabel}</span>
+                    <bdi>{formatters.time.format(new Date(`2000-01-01T${time}:00Z`))}</bdi>
                   </div>
                 )
+              })}
+            </div>
+            <div
+              className={`${styles.gridScrollContainer} ${isDragMode ? styles.dragging : ''}`}
+              ref={gridScrollContainerRef}
+              id={gridId}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchCancel}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              onContextMenu={handleContextMenu}
+            >
+              {
+                dates.map((date) => {
+                  const dateKey = date.format('YYYY-MM-DD')
+                  return (
+                    <div key={dateKey} className={styles.dateWrapper}>
+                      <DailyGrid
+                        date={date}
+                        timezone={timezone}
+                        dateKey={dateKey}
+                        availableTimes={availableTimes}
+                        allowedTimes={allowedSlots ? Object.keys(allowedSlots[dateKey] ?? {}) : undefined}
+                        schedule={schedule?.[dateKey]}
+                        participantsCount={participantsCount}
+                        selectedTimeSlots={selections[dateKey] || []}
+                        isDragMode={isDragMode}
+                        dragAction={dragAction}
+                        draggedCells={draggedCells}
+                        mode={mode}
+                        onCellClick={isEditMode ? toggleCell : onCellClick}
+                      />
+                    </div>
+                  )
+                })
               }
-
-              return (
-                <button
-                  type='button'
-                  key={dateKey}
-                  className={`${styles.dateHeader} ${styles.clickable} ${allSelected ? styles.allSelected : ''} ${isToday ? styles.today : ''}`}
-                  onClick={() => handleDateHeaderClick(dateKey)}
-                  aria-pressed={allSelected}
-                  aria-current={isToday ? 'date' : undefined}
-                  aria-label={t('meeting.timeGrid.selectDate', { date: dateLabel })}
-                >
-                  <span className={styles.dateTitle}>{compactDateLabel}</span>
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* 시간 그리드 */}
-        <div className={styles.scrollWrapper} ref={scrollWrapperRef}>
-          <div className={styles.timeColumn}>
-            {availableTimes.map((time) => {
-              const isFullHour = time.endsWith(':00')
-              return (
-                <div
-                  key={time}
-                  className={`${styles.timeCell} ${isFullHour ? styles.fullHour : styles.halfHour}`}
-                >
-                  {time}
-                </div>
-              )
-            })}
-          </div>
-          <div
-            className={`${styles.gridScrollContainer} ${isDragMode ? styles.dragging : ''}`}
-            ref={gridScrollContainerRef}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onTouchCancel={handleTouchCancel}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            onContextMenu={handleContextMenu}
-          >
-            {
-              dates.map((date) => {
-                const dateKey = date.format('YYYY-MM-DD')
-                return (
-                  <div key={dateKey} className={styles.dateWrapper}>
-                    <DailyGrid
-                      date={date}
-                      dateKey={dateKey}
-                      availableTimes={availableTimes}
-                      schedule={schedule?.[dateKey]}
-                      participantsCount={participantsCount}
-                      selectedTimeSlots={selections[dateKey] || []}
-                      isDragMode={isDragMode}
-                      dragAction={dragAction}
-                      draggedCells={draggedCells}
-                      mode={mode}
-                      onCellClick={onCellClick}
-                    />
-                  </div>
-                )
-              })
-            }
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -1,0 +1,18 @@
+steps:
+- name: gcr.io/cloud-builders/docker
+  args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:share-memory-r2-20261103', '.']
+- name: gcr.io/cloud-builders/docker
+  entrypoint: bash
+  args:
+  - -ceu
+  - |
+    docker create --name hosting-files asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:share-memory-r2-20261103
+    mkdir -p /workspace/hosting-static
+    docker cp hosting-files:/app/dist/client/. /workspace/hosting-static/
+    tar -czf /workspace/hosting-client.tgz -C /workspace/hosting-static .
+images: ['asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:share-memory-r2-20261103']
+artifacts:
+  objects:
+    location: gs://time2gather-prod-2026_cloudbuild/share-memory-r2-20261103/
+    paths: ['hosting-client.tgz']
+timeout: 1200s

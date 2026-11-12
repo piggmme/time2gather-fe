@@ -1,23 +1,29 @@
+import { trackMeetingResponseSaved } from '../../utils/meetingAnalytics'
+import UnavailableOption from './UnavailableOption'
+import { useUnavailableResponse } from '../../hooks/useUnavailableResponse'
+import { useStepScrollRestoration } from '../../hooks/useStepScrollRestoration'
+import TimezoneNotice from '../Timezone/TimezoneNotice'
 import dayjs from 'dayjs'
 import { useTranslation } from '../../hooks/useTranslation'
 import styles from './SelectPage.module.scss'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Button from '../Button/Button'
 import { meetings, type get_meetings_$meetingCode_response } from '../../services/meetings'
-import { navigate } from 'astro:transitions/client'
+import { navigateBack } from '../../utils/navigation'
 import { showCautionToast, showDefaultToast } from '../../stores/toast'
 import Monthly from '../Monthly/Monthly'
 import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
 import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
 import DateParticipantsPanel from './DateParticipantsPanel'
-import { getProspectiveParticipantCount } from '../../utils/participantCount'
+import { getOtherParticipantCount } from '../../utils/participantCount'
 
 export default function DatesSelectPage (
   { meetingCode, data }:
   { meetingCode: string, data: get_meetings_$meetingCode_response['data'] },
 ) {
   const { t } = useTranslation()
+  const responseSaved = useRef(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
   const [selectedLocationIds, setSelectedLocationIds] = useState<string[]>([])
@@ -27,7 +33,9 @@ export default function DatesSelectPage (
   const me = useStore($me)
   const locationVote = data.locationVote?.enabled ? data.locationVote : null
   const isLocationStep = step === 'location'
-  const participantCount = getProspectiveParticipantCount(
+  const responseStatus = me ? data.participants.find(person => person.userId === me.userId)?.availabilityResponse : undefined
+  const none = useUnavailableResponse(responseStatus ?? undefined, selectedDates, setSelectedDates, () => [])
+  const participantCount = getOtherParticipantCount(
     data.participants,
     me?.userId,
     data.summary.totalParticipants,
@@ -66,34 +74,31 @@ export default function DatesSelectPage (
 
   const dates = Object.keys(data.meeting.availableDates)
 
-  const moveToStep = (nextStep: 'schedule' | 'location') => {
-    setStep(nextStep)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  const moveToStep = useStepScrollRestoration(step, setStep)
 
   const handleCancel = () => {
-    if (window.history.length === 1) {
-      navigate(`/meetings/${meetingCode}`)
-    } else {
-      window.history.back()
-    }
+    return navigateBack(`/meetings/${meetingCode}`)
   }
 
   const handleSubmit = async () => {
     try {
-      const dateSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
-        selections: selectedDates.map(date => ({
-          date: date.format('YYYY-MM-DD'),
-          type: 'ALL_DAY',
-          times: [],
-        })),
-      })
+      const dateSelectionsPromise = none.unavailable
+        ? meetings.$meetingCode.unavailable(meetingCode, Object.keys(data.meeting.availableDates))
+        : meetings.$meetingCode.selections.put(meetingCode, {
+            selections: selectedDates.map(date => ({
+              date: date.format('YYYY-MM-DD'),
+              type: 'ALL_DAY',
+              times: [],
+            })),
+          })
 
-      const locationSelectionsPromise = locationVote && locationStatus === 'ready'
+      const locationSelectionsPromise = !none.unavailable && locationVote && locationStatus === 'ready'
         ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
         : Promise.resolve()
 
       await Promise.all([dateSelectionsPromise, locationSelectionsPromise])
+      trackMeetingResponseSaved(data, me?.userId, none.unavailable, responseSaved.current)
+      responseSaved.current = true
 
       setTimeout(() => {
         showDefaultToast({
@@ -101,12 +106,12 @@ export default function DatesSelectPage (
           duration: 3000,
         })
       }, 500)
-      navigate(`/meetings/${meetingCode}`)
+      await navigateBack(`/meetings/${meetingCode}`)
     } catch (error) {
       const errorResponse = error as { response?: { data?: { messageKey?: string } } }
       if (errorResponse.response?.data?.messageKey === 'error.meeting.already.confirmed') {
         showCautionToast({ message: t('meeting.alreadyConfirmedError'), duration: 4000 })
-        navigate(`/meetings/${meetingCode}`)
+        await navigateBack(`/meetings/${meetingCode}`)
       } else {
         showDefaultToast({
           message: t('common.error'),
@@ -125,6 +130,7 @@ export default function DatesSelectPage (
       )}
 
       <div hidden={isLocationStep}>
+        <TimezoneNotice zone={data.meeting.timezone} dateOnly />
         <div className={styles.selectedDatesInfo}>
           <span>{t('meeting.participantsCountCompact', { count: participantCount })}</span>
         </div>
@@ -136,7 +142,7 @@ export default function DatesSelectPage (
           <Monthly
             mode='edit'
             dates={selectedDates}
-            setDates={setSelectedDates}
+            setDates={none.select}
             availableDates={Object.keys(data.meeting.availableDates).map(date => dayjs(date))}
             dateSchedule={dateSchedule}
             participantsCount={participantCount}
@@ -146,10 +152,17 @@ export default function DatesSelectPage (
         <DateParticipantsPanel
           date={focusedDate}
           participants={focusedParticipants}
-          isSelected={Boolean(focusedDate && selectedDates.some(date => date.isSame(focusedDate, 'day')))}
           me={me}
         />
       </div>
+
+      {!isLocationStep && (
+        <UnavailableOption
+          checked={none.unavailable}
+          onChange={none.toggle}
+          time={false}
+        />
+      )}
 
       {locationVote && (
         <div className={styles.locationStep} hidden={!isLocationStep}>
@@ -166,24 +179,23 @@ export default function DatesSelectPage (
         <Button
           buttonType='ghost'
           onClick={() => {
-            if (isLocationStep) moveToStep('schedule')
-            else handleCancel()
+            if (isLocationStep) return moveToStep('schedule')
+            return handleCancel()
           }}
         >
           {t(isLocationStep ? 'common.previous' : 'common.cancel')}
         </Button>
         <Button
           buttonType='primary'
-          disabled={selectedDates.length === 0 || (isLocationStep && locationStatus === 'loading')}
+          disabled={(selectedDates.length === 0 && !none.unavailable) || (isLocationStep && locationStatus === 'loading')}
           onClick={() => {
-            if (locationVote && !isLocationStep) {
-              moveToStep('location')
-              return
+            if (locationVote && !isLocationStep && !none.unavailable) {
+              return moveToStep('location')
             }
             return handleSubmit()
           }}
         >
-          {t(locationVote && !isLocationStep ? 'common.next' : 'common.submit')}
+          {t(locationVote && !isLocationStep && !none.unavailable ? 'common.next' : 'common.submit')}
         </Button>
       </div>
     </div>

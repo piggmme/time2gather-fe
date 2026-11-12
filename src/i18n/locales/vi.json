@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "trước đó",
+    "cancel": "Hủy bỏ",
+    "next": "Tiếp theo",
+    "home": "Trang chủ",
+    "createMeeting": "Tạo cuộc họp",
+    "searchMeeting": "Tìm một cuộc họp",
+    "searchMeetingPlaceholder": "Mã cuộc họp",
+    "searchMeetingButton": "Tìm cuộc họp",
+    "myMeetings": "Cuộc họp của tôi",
+    "adminDashboard": "Trang tổng quan dành cho quản trị viên",
+    "contactUs": "Liên hệ với chúng tôi",
+    "menu": "Thực đơn",
+    "openMenu": "Mở trình đơn",
+    "submit": "Gửi",
+    "share": "Chia sẻ",
+    "close": "Đóng",
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi. Vui lòng thử lại.",
+    "switchToEnglish": "Chuyển sang tiếng Anh",
+    "switchToKorean": "Chuyển sang tiếng Hàn",
+    "language": "Ngôn ngữ",
+    "searchLanguages": "Chọn ngôn ngữ của bạn"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "Chào mừng! 👋",
+    "description": "Bây giờ chỉ mất 5 giây để lập kế hoạch. Chia sẻ các khoảng thời gian của bạn, nhận phiếu bầu và ngay lập tức xem thời gian tốt nhất cho mọi người!",
+    "createMeetingButton": "Tạo một cuộc họp",
+    "heroTitleSuffix": " - Lên lịch một cách dễ dàng",
+    "heroSubtitle": "Nói lời tạm biệt với lịch trình phức tạp. Tìm thời gian hoàn hảo với bạn bè của bạn.",
+    "viewMyMeetings": "Xem cuộc họp của tôi"
+  },
+  "landing": {
+    "eyebrow": "Điều phối lịch trình của mọi người ở một nơi",
+    "title": "Làm cho việc lên lịch cuộc họp trở nên đơn giản hơn",
+    "description": "Time2Gather là dịch vụ lên lịch miễn phí để bỏ phiếu theo ngày, giờ và địa điểm nhằm tìm thời gian họp phù hợp với mọi người.",
+    "primaryCta": "Tạo cuộc họp",
+    "secondaryCta": "Tìm bằng mã",
+    "featuresHeading": "Mọi thứ bạn cần để điều phối một cuộc họp",
+    "features": {
+      "dates": {
+        "title": "So sánh nhiều ngày",
+        "description": "Chọn ngày ứng cử viên và chia sẻ chúng với những người tham gia của bạn ngay lập tức."
+      },
+      "times": {
+        "title": "Bỏ phiếu vào thời gian có sẵn",
+        "description": "Thu thập chi tiết tình trạng sẵn sàng để tìm thời gian phù hợp với hầu hết mọi người."
+      },
+      "locations": {
+        "title": "Quyết định về một địa điểm quá",
+        "description": "Thêm tùy chọn địa điểm khi nhóm của bạn cần chọn địa điểm gặp mặt."
+      },
+      "sharing": {
+        "title": "Tham gia từ một liên kết",
+        "description": "Chia sẻ liên kết để người tham gia có thể bỏ phiếu ngay chỉ bằng biệt hiệu."
+      }
+    },
+    "stepsHeading": "Giải quyết kế hoạch theo ba bước",
+    "steps": {
+      "create": {
+        "title": "1. Tạo tùy chọn",
+        "description": "Đặt tiêu đề cuộc họp và ngày hoặc giờ để so sánh."
+      },
+      "share": {
+        "title": "2. Chia sẻ liên kết",
+        "description": "Gửi liên kết cho bạn bè, đồng đội hoặc nhóm của bạn."
+      },
+      "decide": {
+        "title": "3. Xác nhận kết quả",
+        "description": "Xem xét phiếu bầu và chọn thời điểm tốt nhất cho mọi người."
+      }
+    },
+    "faqHeading": "Câu hỏi thường gặp",
+    "faq": {
+      "what": {
+        "question": "Làm sao tìm lịch chung cho buổi gặp bạn bè hoặc họp nhóm?",
+        "answer": "Tạo các lựa chọn ngày và giờ trên Time2Gather rồi chia sẻ liên kết. Mỗi người chọn lúc rảnh, sau đó bạn so sánh kết quả và chốt lịch. Dịch vụ miễn phí cho bạn bè, nhóm học tập và nhóm làm việc."
+      },
+      "login": {
+        "question": "Có thể tạo và tham gia bình chọn mà không đăng ký hay cài ứng dụng không?",
+        "answer": "Có. Người tổ chức và người tham gia chỉ cần nhập tên, không cần đăng ký hoặc đăng nhập qua mạng xã hội. Bạn có thể tạo cuộc hẹn và bình chọn bằng trình duyệt trên điện thoại hoặc máy tính."
+      },
+      "location": {
+        "question": "Có thể bình chọn cả địa điểm gặp không?",
+        "answer": "Có. Bật bình chọn địa điểm khi tạo cuộc hẹn và thêm các lựa chọn. Người tham gia có thể chọn địa điểm yêu thích và trao đổi trong phần bình luận."
+      }
+    }
+  },
+  "login": {
+    "title": "Sẵn sàng để lên lịch?",
+    "description": "Đăng nhập để tạo và quản lý các cuộc họp của bạn.",
+    "kakaoLogin": "Tiếp tục với Kakao",
+    "googleLogin": "Tiếp tục với Google",
+    "oauth": {
+      "loadingTitle": "Đang đăng nhập cho bạn",
+      "loadingDescription": "Bạn sẽ quay lại màn hình trước đó trong giây lát.",
+      "errorTitle": "Chúng tôi không thể giúp bạn đăng nhập",
+      "errorDescription": "Quay lại trang đăng nhập và thử lại.",
+      "retry": "Hãy thử đăng nhập lại"
+    }
+  },
+  "search": {
+    "title": "Tìm một cuộc họp",
+    "description": "Nhập mã cuộc họp bạn nhận được."
+  },
+  "createMeeting": {
+    "title": "Tạo cuộc họp",
+    "meetingTypeStep": {
+      "heading": "Người tham gia nên chọn gì?",
+      "allDay": "Chỉ ngày",
+      "time": "Ngày và giờ"
+    },
+    "titleStep": {
+      "heading": "Đặt tên cho cuộc họp của bạn",
+      "placeholder": "ví dụ: Bữa tối Thứ Sáu"
+    },
+    "descriptionStep": {
+      "heading": "Đây là cuộc họp kiểu gì vậy?",
+      "placeholder": "Hãy gặp nhau ở Gangnam nhé mọi người!"
+    },
+    "datesStep": {
+      "heading": "Chọn ngày phù hợp"
+    },
+    "timeRangeStep": {
+      "heading": "Đặt phạm vi thời gian có sẵn",
+      "startTime": "Thời gian bắt đầu",
+      "endTime": "Thời gian kết thúc",
+      "selectedDatesCount": "Ngày đã chọn: {count}",
+      "createButton": "Tạo cuộc họp"
+    },
+    "locationStep": {
+      "heading": "Hoàn tất việc tạo cuộc họp của bạn",
+      "requiredLabel": "Bắt buộc",
+      "creatorHeading": "Ai đang tạo ra cuộc họp này?",
+      "creatorDescription": "Biệt hiệu của bạn sẽ được hiển thị với tư cách là người tổ chức cuộc họp.",
+      "usernameLabel": "Biệt hiệu của bạn",
+      "usernamePlaceholder": "ví dụ: Jamie",
+      "usernameChangeHelp": "Việc thay đổi tên sẽ giữ nguyên các cuộc họp và phiếu bầu hiện có của bạn, đồng thời chỉ cập nhật tên hiển thị của bạn.",
+      "optionalLabel": "Tùy chọn",
+      "locationHeading": "Bạn có muốn bỏ phiếu về địa điểm không?",
+      "locationDescription": "Hãy bật tính năng này nếu bạn muốn người tham gia cùng nhau chọn địa điểm.",
+      "enableLocationVote": "Cho phép người tham gia bỏ phiếu tại một địa điểm",
+      "locationPlaceholder": "Nhập một vị trí",
+      "addLocation": "Thêm vị trí",
+      "removeLocation": "Xóa vị trí",
+      "minLocationsWarning": "Cần có ít nhất 2 địa điểm để bỏ phiếu theo địa điểm",
+      "maxLocationsWarning": "Bạn chỉ có thể thêm tối đa 5 địa điểm",
+      "createButton": "Tạo cuộc họp",
+      "creatingButton": "Đang tạo cuộc họp...",
+      "skipButton": "Bỏ qua"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "Không tìm thấy cuộc họp",
+      "description": "Cuộc họp bạn yêu cầu không tồn tại hoặc đã bị xóa."
+    },
+    "participantsEmpty": "Chưa có người tham gia.",
+    "participantsCount": "Người tham gia: {count}",
+    "participantsCountCompact": "{count} tham gia",
+    "selectedDates": "Chọn ngày phù hợp với bạn từ các tùy chọn {count}.",
+    "selectedDatesAndTimes": "Chọn ngày và giờ phù hợp với bạn từ các tùy chọn ngày {count}.",
+    "timeGrid": {
+      "timeLabel": "thời gian",
+      "touchHint": "Nhấn, giữ rồi kéo để chọn nhiều lần",
+      "pointerHint": "Kéo để chọn nhiều lần cùng một lúc",
+      "draggingHint": "Kéo · Nhả để áp dụng lựa chọn của bạn",
+      "selectDate": "Chọn tất cả thời gian trên {date}",
+      "previousDates": "Ngày trước",
+      "nextDates": "Ngày sau"
+    },
+    "dateCalendar": {
+      "mySelection": "Lựa chọn của tôi",
+      "fewerVotes": "Ít phiếu hơn",
+      "moreVotes": "Nhiều phiếu hơn",
+      "available": "Có sẵn",
+      "unavailable": "Không có sẵn",
+      "today": "hôm nay",
+      "availableMonths": "Tháng có sẵn ngày",
+      "monthAvailability": "Ngày có sẵn {count} trong {month}",
+      "previousMonth": "Tháng trước",
+      "nextMonth": "Tháng tiếp theo"
+    },
+    "dateParticipants": {
+      "title": "Có sẵn trên {date}",
+      "count": {
+        "one": "người {count}",
+        "other": "{count} người"
+      }
+    },
+    "resultSaved": "Kết quả đã được lưu.",
+    "modifyButton": "Chỉnh sửa phòng trống",
+    "participate": "Tham gia cuộc họp",
+    "shareResult": "Chia sẻ kết quả",
+    "shareMeeting": "Chia sẻ cuộc họp",
+    "shareSuccess": "Liên kết đã được sao chép.",
+    "exportToCalendar": "Thêm vào Lịch của tôi",
+    "confirmButton": "Xác nhận cuộc họp",
+    "confirmButtonShort": "Xác nhận cuộc họp",
+    "cancelConfirmButton": "Hủy xác nhận",
+    "cancelConfirmSuccess": "Xác nhận cuộc họp đã bị hủy!",
+    "cancelConfirmError": "Không hủy được xác nhận. Vui lòng thử lại.",
+    "alreadyConfirmedError": "Cuộc họp này đã được xác nhận. Bạn không thể sửa đổi phiếu bầu của mình.",
+    "editDates": {
+      "openButton": "Sửa lựa chọn bình chọn",
+      "hostOnly": "Chỉ lưu trữ",
+      "title": "Sửa lựa chọn bình chọn",
+      "description": "Thay đổi các lựa chọn mà mọi người có thể bình chọn.",
+      "selectedCount": "Đã chọn ngày {count}",
+      "selectionHint": "Nhấn hoặc kéo để chọn ngày.",
+      "removedWarning": "Các phiếu bầu vào ngày đã xóa {count} sẽ bị xóa khi bạn lưu.",
+      "maxDates": "Bạn có thể chọn tối đa ngày {count}.",
+      "save": "Lưu lựa chọn",
+      "success": "Đã cập nhật lựa chọn bình chọn.",
+      "error": "Không thể cập nhật lựa chọn. Vui lòng thử lại.",
+      "timeOpenButton": "Sửa lựa chọn bình chọn",
+      "timeTitle": "Sửa lựa chọn bình chọn",
+      "timeDescription": "Thay đổi các lựa chọn mà mọi người có thể bình chọn.",
+      "timeSave": "Lưu lựa chọn",
+      "timeSuccess": "Đã cập nhật lựa chọn bình chọn.",
+      "timeError": "Không thể cập nhật lựa chọn. Vui lòng thử lại.",
+      "timeRangeHint": "Khi thay đổi khoảng thời gian, thay đổi sẽ áp dụng cho tất cả ngày đã chọn.",
+      "timeRemovedWarning": "Khi lưu, phiếu cho {count} lựa chọn thời gian đã bỏ sẽ bị xóa. Các phiếu khác được giữ nguyên.",
+      "locationRemovedWarning": "Khi lưu, phiếu cho {count} lựa chọn địa điểm đã thay đổi hoặc xóa sẽ bị xóa. Các phiếu khác được giữ lại."
+    },
+    "exportDialog": {
+      "title": "Thêm vào lịch",
+      "description": "Chọn ngày và giờ để thêm vào lịch của bạn.",
+      "noSlots": "Chưa có ngày nào được bình chọn.",
+      "allDay": "cả ngày",
+      "cancel": "Hủy bỏ",
+      "confirm": "Thêm vào lịch",
+      "close": "Đóng"
+    },
+    "confirmDialog": {
+      "title": "Xác nhận cuộc họp",
+      "description": "Chọn lịch trình cuối cùng từ các tùy chọn hàng đầu gắn liền với {count}.",
+      "noSlots": "Chưa có ngày nào được bình chọn.",
+      "allDay": "cả ngày",
+      "scheduleTitle": "Ngày và giờ",
+      "scheduleDescription": "Các tùy chọn này phù hợp với hầu hết người tham gia.",
+      "locationTitle": "Vị trí",
+      "locationDescription": "Chọn nơi gặp mặt bằng cách sử dụng kết quả bỏ phiếu.",
+      "locationStepDescription": "Chọn địa điểm gặp mặt để hoàn tất việc xác nhận kế hoạch.",
+      "progressLabel": "Các bước xác nhận cuộc họp",
+      "locationVoteCount": {
+        "one": "phiếu bầu {count}",
+        "other": "phiếu {count}"
+      },
+      "noLocations": "Không có địa điểm nào có sẵn để xác nhận.",
+      "cancel": "Hủy bỏ",
+      "confirm": "Xác nhận",
+      "confirming": "Đang xác nhận...",
+      "close": "Đóng",
+      "success": "Cuộc họp đã được xác nhận!",
+      "error": "Không thể xác nhận cuộc họp. Vui lòng thử lại.",
+      "allCandidatesDescription": "Chọn lịch cuối cùng từ tất cả {count} lựa chọn.",
+      "groupedDescription": "Chọn một trong {count} ngày, rồi chọn giờ bắt đầu.",
+      "recommendationsDescription": "Các lựa chọn có nhiều người tham gia rảnh, mỗi ngày một lựa chọn.",
+      "allDates": "Chọn trong tất cả {count} ngày",
+      "backToRecommendations": "Xem đề xuất"
+    },
+    "anonymousSelectButton": "Tham gia với một cái tên",
+    "selectButton": "Chọn ngày",
+    "selectTimeButton": "Chọn ngày và giờ",
+    "result": {
+      "tabs": {
+        "aiSummary": "Tóm tắt",
+        "summary": "Tóm tắt",
+        "confirmed": "Kế hoạch đã được xác nhận",
+        "calendar": "Lịch",
+        "participants": "Người tham gia",
+        "location": "Vị trí"
+      },
+      "summaryTitle": "Tóm tắt cuộc họp",
+      "aiSummaryTitle": "Tóm tắt kết quả bình chọn",
+      "calendarTitle": "Lịch họp",
+      "totalParticipants": "Người tham gia: {count}",
+      "bestSlotsTitle": "Ngày có nhiều người rảnh nhất",
+      "showMoreOptions": "Hiển thị thêm {count}",
+      "showFewerOptions": "Hiển thị ít hơn",
+      "moreTimeOptions": "{count} thêm tùy chọn thời gian",
+      "participantsCount": "Người tham gia: {count}",
+      "people": "mọi người",
+      "voteCount": {
+        "one": "Người {count} ({percentage})",
+        "other": "Người {count} ({percentage})"
+      },
+      "noParticipants": "Không có người tham gia",
+      "buttons": {
+        "calendar": "Thêm vào lịch",
+        "share": "Chia sẻ bình chọn",
+        "shareConfirmed": "Chia sẻ kế hoạch đã được xác nhận",
+        "shareKakao": "KakaoTalk",
+        "modifyDates": "Chỉnh sửa lựa chọn ngày của tôi",
+        "modifyTimes": "Chỉnh sửa lựa chọn ngày và giờ của tôi",
+        "selectDates": "Chọn ngày có sẵn của tôi",
+        "selectTimes": "Chọn ngày và giờ rảnh của tôi",
+        "enterAvailability": "Thêm phòng trống",
+        "editAvailability": "Sửa bình chọn của tôi"
+      },
+      "confirmedPlan": {
+        "eyebrow": "KẾ HOẠCH ĐƯỢC XÁC NHẬN",
+        "title": "Kế hoạch của bạn đã được thiết lập xong",
+        "date": "Ngày",
+        "time": "thời gian",
+        "location": "Vị trí",
+        "attendees": "Người tham dự có sẵn",
+        "attendanceSummary": {
+          "one": "Người {count} · {percentage} của nhóm",
+          "other": "Người {count} · {percentage} của nhóm"
+        },
+        "confirmTime": "Xác nhận giờ",
+        "confirmTimeTitle": "Xác nhận giờ gặp",
+        "confirmTimeDescription": "Chọn giờ gặp vào ngày đã xác nhận.",
+        "timeConfirmSuccess": "Đã xác nhận giờ gặp.",
+        "timeConfirmError": "Không thể xác nhận giờ gặp. Vui lòng thử lại.",
+        "timePending": "Chưa xác định",
+        "editTime": "Chỉnh sửa",
+        "editTimeTitle": "Chỉnh sửa thời gian họp",
+        "editTimeDescription": "Giữ ngày đã xác nhận và đặt thời gian chính xác mà bạn dự định gặp.",
+        "saveTime": "Lưu",
+        "savingTime": "Đang lưu...",
+        "timeUpdateSuccess": "Thời gian họp đã được cập nhật.",
+        "timeUpdateError": "Không thể cập nhật thời gian cuộc họp. Vui lòng thử lại.",
+        "addTime": "Thêm giờ (không bắt buộc)",
+        "addTimeTitle": "Thêm giờ",
+        "optionalTimeDescription": "Chỉ thêm giờ khi cần.",
+        "attendanceCount": "{count} trên {total} người có thể tham gia",
+        "cancelTitle": "Hủy xác nhận?",
+        "cancelDescription": "Lịch đã xác nhận sẽ được xóa. Câu trả lời của người tham gia vẫn được giữ lại.",
+        "keepConfirmation": "Giữ xác nhận"
+      },
+      "actions": {
+        "confirmed": "Kế hoạch đã được xác nhận",
+        "confirmedDescription": "Chia sẻ chi tiết hoặc thêm chúng vào lịch của bạn.",
+        "inProgress": "Đang lập kế hoạch",
+        "manage": "Quản lý bình chọn"
+      },
+      "share": {
+        "confirmedTitle": "{title} đã được xác nhận",
+        "confirmedHeading": "Kế hoạch đã được xác nhận!",
+        "detailsCopied": "Các chi tiết và liên kết được xác nhận đã được sao chép.",
+        "manualCopyDescription": "Không thể tự động chia sẻ hoặc sao chép. Hãy chọn và sao chép nội dung bên dưới."
+      },
+      "kakaoShare": {
+        "description": "Chọn thời gian phù hợp với bạn.",
+        "buttonTitle": "Tham gia bỏ phiếu",
+        "confirmedTitle": "{date} · Đã xác nhận",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "Xem kế hoạch đã được xác nhận",
+        "locationPending": "Vị trí đang chờ xử lý"
+      },
+      "attendance": {
+        "available": "Có thể tham gia",
+        "unavailable": "Không thể tham gia",
+        "everyoneAvailable": "Mọi người đều có thể tham gia",
+        "noneAvailable": "Không ai có thể tham gia"
+      },
+      "bestTimesTitle": "Giờ có nhiều người rảnh nhất",
+      "availabilityBasis": "Dựa trên {count} phản hồi.",
+      "allAvailable": "Cả {count} người đều rảnh",
+      "someAvailable": "{count}/{total} người rảnh",
+      "viewSlotPeople": "Nhấn vào một lựa chọn để xem ai rảnh.",
+      "decision": {
+        "allHeadline": "Cả {count} người {availability}",
+        "allHeadlineHighlight": "đều rảnh",
+        "allDates": "Ngày phù hợp với tất cả {count} người",
+        "allTimes": "Giờ phù hợp với tất cả {count} người",
+        "partial": "Tối đa {count} người có thể gặp nhau",
+        "basis": "Dựa trên thời gian rảnh đã nhập đến hiện tại",
+        "notAll": "Chưa có lựa chọn phù hợp với tất cả.",
+        "emptyDates": "Chưa có ngày nào được chọn",
+        "emptyTimes": "Chưa có giờ nào được chọn",
+        "pending": "Đang chờ phản hồi cho các lựa chọn mới",
+        "allUnavailable": "Cả {count} người đã phản hồi đều cho biết các lựa chọn được đề xuất không phù hợp.",
+        "notSelected": "Những người không chọn phương án này",
+        "people": "Xem ai có thể tham gia",
+        "chooseDate": "Chốt cuộc hẹn vào ngày này",
+        "chooseTime": "Chốt cuộc hẹn vào giờ này",
+        "confirmedDate": "Ngày hẹn đã được chốt",
+        "setMeeting": "Xác nhận cuộc họp"
+      },
+      "calendarFilter": {
+        "selectAll": "Chọn tất cả",
+        "selectedCount": "Đã chọn {selected}/{total} người",
+        "selectPrompt": "Chọn người tham gia để xem lịch rảnh của họ.",
+        "noAvailability": "Những người được chọn không có khung giờ rảnh nào."
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "Bạn chưa đăng nhập",
+        "description": "Tham gia mà không cần đăng nhập bằng cách nhập tên.",
+        "kakaoLoginButton": "Tiếp tục với Kakao",
+        "loginButton": "Đăng nhập",
+        "anonymousLogin": "Nhập tên để tham gia"
+      },
+      "description": "Nhập tên bạn sẽ sử dụng cho cuộc họp này.",
+      "votingAs": "Tham gia với tên {username}.",
+      "votingAsCompact": "Tham gia với tên {username}",
+      "usernamePlaceholder": "Tên",
+      "anonymousLogin": "Tham gia với tên này"
+    },
+    "identity": {
+      "label": "Tên cho cuộc hẹn này",
+      "hint": "Thay đổi tên chỉ áp dụng cho cuộc hẹn này.",
+      "change": "Đổi tên"
+    },
+    "unavailable": {
+      "dates": "Không ngày nào trong số này phù hợp",
+      "times": "Không giờ nào trong số này phù hợp",
+      "hint": "Chọn mục này nếu không có phương án nào phù hợp với bạn.",
+      "selectedHint": "Câu trả lời sẽ cho biết không phương án nào phù hợp. Bạn có thể sửa sau.",
+      "changed": "Các ngày đề xuất đã thay đổi. Hãy tải lại trang và trả lời lại.",
+      "respondents": "Người đã trả lời",
+      "datesStatus": "Không có ngày phù hợp",
+      "timesStatus": "Không có giờ phù hợp",
+      "pending": "Cần trả lời các phương án mới",
+      "selected": "Đã chọn lịch",
+      "noneStatus": "Không có lịch phù hợp",
+      "picked": "Người tham gia có thể tham dự",
+      "emptyTitle": "Chưa có lịch được đề xuất",
+      "emptyHint": "Hãy chờ thêm câu trả lời từ những người tham gia.",
+      "viewPeople": "Xem người tham gia",
+      "morePeople": "Xem thêm {count} người",
+      "lessPeople": "Thu gọn",
+      "basis": "Dựa trên bình chọn thời gian rảnh cho lịch đã xác nhận.",
+      "otherSelection": "Đã chọn lịch khác"
+    }
+  },
+  "my": {
+    "title": "Cuộc họp của tôi",
+    "tabs": {
+      "myMeetings": "Cuộc họp của tôi",
+      "participatedMeetings": "Các cuộc họp tôi đã tham gia"
+    },
+    "noMeetings": "Bạn chưa tạo bất kỳ cuộc họp nào.",
+    "noParticipatedMeetings": "Bạn chưa tham gia bất kỳ cuộc họp nào.",
+    "myMeetingsDetails": "Bạn đã tạo cuộc họp {count}.",
+    "participatedMeetingsDetails": "Bạn đã tham gia các cuộc họp {count}."
+  },
+  "admin": {
+    "metaTitle": "Bảng điều khiển dành cho quản trị viên - Time2Gather",
+    "metaDescription": "Trang tổng quan riêng để xem xét người dùng và cuộc họp Time2Gather.",
+    "eyebrow": "BẢNG ĐIỀU KHIỂN QUẢN TRỊ QUẢN TRỊ",
+    "title": "Tổng quan về dịch vụ",
+    "description": "Xem lại các số liệu chính về người dùng và cuộc họp, sau đó nhanh chóng tìm thấy các bản ghi bạn cần.",
+    "summaryTitle": "Trong nháy mắt",
+    "summaryDescription": "Số lượng được tính dựa trên người dùng và cuộc họp hiện được lưu trữ.",
+    "loading": "Đang chuẩn bị bảng điều khiển quản trị.",
+    "loadingDescription": "Kiểm tra quyền truy cập của bạn và tải dữ liệu mới nhất.",
+    "accessDeniedTitle": "Bạn không có quyền truy cập",
+    "accessDeniedDescription": "Chỉ những tài khoản có vai trò quản trị viên mới có thể xem trang này.",
+    "refresh": "Làm mới tổng quan",
+    "retry": "Thử lại",
+    "loadError": "Chúng tôi không thể tải phần tổng quan.",
+    "search": "Tìm kiếm",
+    "notAvailable": "Không có sẵn",
+    "pageOf": "Trang {current} của {total}",
+    "stats": {
+      "totalUsers": "Tổng số người dùng",
+      "registeredUsers": "Người dùng đã đăng ký",
+      "anonymousUsers": "Người dùng ẩn danh",
+      "adminUsers": "Quản trị viên {count}",
+      "totalMeetings": "Tổng số cuộc họp",
+      "activeMeetings": "Các cuộc họp đang hoạt động",
+      "confirmedMeetings": "Cuộc họp đã được xác nhận",
+      "confirmationRate": "Tỷ lệ xác nhận: {rate}"
+    },
+    "users": {
+      "title": "Người dùng",
+      "description": "Đã tìm thấy người dùng {count}.",
+      "searchPlaceholder": "Tìm kiếm tên hoặc email",
+      "loadError": "Chúng tôi không thể tải người dùng.",
+      "empty": "Không có người dùng phù hợp với tìm kiếm của bạn.",
+      "user": "người dùng",
+      "provider": "Phương thức đăng nhập",
+      "role": "Vai trò",
+      "joinedAt": "Đã tham gia",
+      "participatedMeetings": "Cuộc hẹn đã tham gia",
+      "noParticipatedMeetings": "Chưa tham gia cuộc hẹn nào.",
+      "noEmail": "Không có email"
+    },
+    "meetings": {
+      "title": "Cuộc họp",
+      "description": "Đã tìm thấy cuộc họp {count}.",
+      "searchPlaceholder": "Tìm kiếm tiêu đề hoặc mã cuộc họp",
+      "loadError": "Chúng tôi không thể tải các cuộc họp.",
+      "empty": "Không có cuộc họp nào phù hợp với tìm kiếm của bạn.",
+      "meeting": "Cuộc họp",
+      "host": "Máy chủ",
+      "status": "Trạng thái",
+      "createdAt": "Đã tạo",
+      "active": "Đang hoạt động",
+      "inactive": "Không hoạt động",
+      "confirmed": "Đã xác nhận",
+      "confirmedOnly": "Chỉ hiện cuộc hẹn đã xác nhận",
+      "unknownHost": "Người dùng không xác định",
+      "openNewTab": "Mở cuộc hẹn trong thẻ mới"
+    },
+    "providers": {
+      "ANONYMOUS": "Ẩn danh",
+      "KAKAO": "Kakao",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "người dùng",
+      "ADMIN": "Quản trị viên"
+    },
+    "selectionTypes": {
+      "TIME": "Ngày và giờ",
+      "ALL_DAY": "Chỉ ngày"
+    },
+    "login": {
+      "checking": "Đang kiểm tra cài đặt đăng nhập...",
+      "expired": "Quyền truy cập của quản trị viên đã hết hạn hoặc không khả dụng. Vui lòng đăng nhập lại.",
+      "notConfigured": "Đăng nhập quản trị viên không được định cấu hình. Liên hệ với nhà điều hành.",
+      "verifying": "Đang kiểm tra quyền truy cập của quản trị viên...",
+      "notAllowed": "Sử dụng tài khoản quản trị viên được ủy quyền.",
+      "google": "Đăng nhập bằng Google",
+      "unavailable": "Không thể tải dịch vụ đăng nhập.",
+      "networkError": "Hãy kiểm tra kết nối của bạn và thử lại.",
+      "logout": "Đăng xuất",
+      "title": "Đăng nhập quản trị viên",
+      "description": "Chỉ những tài khoản Google được ủy quyền mới có thể truy cập khu vực này.",
+      "retry": "Thử lại",
+      "sessionHelp": "Quyền truy cập của quản trị viên sử dụng một phiên riêng biệt với việc tham gia cuộc họp."
+    }
+  },
+  "404": {
+    "title": "Không tìm thấy trang",
+    "description": "Trang bạn yêu cầu không tồn tại hoặc đã bị xóa.",
+    "homeButton": "Về Nhà"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - Lên lịch với mọi người",
+    "siteDescription": "Một dịch vụ giúp bạn dễ dàng lên lịch các cuộc họp với mọi người. Tạo cuộc họp, chọn nhiều ngày và khung thời gian rồi chia sẻ chúng. Khi người tham gia chọn thời gian rảnh, chúng tôi sẽ đề xuất ngày và giờ phù hợp nhất để gặp mặt.",
+    "siteKeywords": "lên lịch họp, điều phối lịch, họp nhóm, lịch nhóm, điều phối thời gian, quản lý cuộc họp, chia sẻ lịch trình, Time2Gather",
+    "ogImageAlt": "Time2Gather - Lên lịch với nhiều người",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - Lên lịch cuộc họp trong 5 giây",
+        "description": "Bạn đang gặp khó khăn trong việc phối hợp lịch trình với nhiều người? Sử dụng Time2Gather để dễ dàng thu thập phiếu bầu và tìm thời điểm tốt nhất cho mọi người."
+      },
+      "create": {
+        "title": "Tạo cuộc họp - Time2Gather",
+        "description": "Tạo một cuộc họp mới và chia sẻ nó với bạn bè. Dễ dàng quyết định ngày, giờ và địa điểm thông qua bỏ phiếu."
+      },
+      "login": {
+        "title": "Đăng nhập - Time2Gather",
+        "description": "Đăng nhập bằng Kakao hoặc Google để bắt đầu lên lịch."
+      },
+      "my": {
+        "title": "Cuộc họp của tôi - Time2Gather",
+        "description": "Xem nhanh tất cả các cuộc họp đã tạo và tham gia của bạn. Quản lý cuộc họp được thực hiện dễ dàng."
+      },
+      "meeting": {
+        "title": "{title} - Time2Gather",
+        "description": "Tham gia cuộc họp {title}. Chọn thời gian có sẵn của bạn và bỏ phiếu."
+      },
+      "result": {
+        "title": "Kết quả {title} - Time2Gather",
+        "description": "Tham gia {title} và chọn thời gian phù hợp với bạn.",
+        "confirmedTitle": "{title} đã được xác nhận - Time2Gather",
+        "confirmedDescription": "Kế hoạch đã được xác nhận: {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "Trợ lý lịch trình",
+    "open": "Mở trò chuyện",
+    "close": "Đóng trò chuyện",
+    "welcomeMessage": "Xin chào! Hỏi tôi về lịch trình của bạn.",
+    "welcomeHint": "ví dụ. \"Cho tôi xem các cuộc họp của tôi\", \"Tuần tới có gì?\"",
+    "inputPlaceholder": "Nhập tin nhắn...",
+    "errorMessage": "Rất tiếc, đã xảy ra lỗi. Vui lòng thử lại sau."
+  },
+  "locationVote": {
+    "title": "Bình chọn địa điểm",
+    "description": "Chọn (các) địa điểm ưa thích của bạn",
+    "scheduleStepLabel": "1 / 2 · Sẵn có",
+    "locationStepLabel": "2 / 2 · Vị trí",
+    "selectionTitle": "Chúng ta nên gặp nhau ở đâu?",
+    "selectionDescription": "Chọn tất cả các vị trí phù hợp với bạn.",
+    "confirmedLocation": "Vị trí đã được xác nhận",
+    "confirmed": "Đã xác nhận",
+    "loadError": "Không thể tải lựa chọn vị trí của bạn.",
+    "retry": "Thử lại",
+    "voters": "Người bình chọn địa điểm này",
+    "noVotes": "Chưa có ai bình chọn"
+  },
+  "timezone": {
+    "title": "Múi giờ",
+    "meeting": "Múi giờ họp: {zone}",
+    "display": "Múi giờ hiển thị của bạn",
+    "hint": "Ngày và giờ được nhập vào múi giờ cuộc họp. Mọi người đều bỏ phiếu vào những thời điểm giống nhau.",
+    "gridHint": "Ngày của cột và trục thời gian sử dụng múi giờ của cuộc họp. Mỗi ô cũng hiển thị ngày và giờ theo múi giờ bạn đã chọn.",
+    "local": "Trong {zone}: {time}",
+    "invalid": "Chọn múi giờ hợp lệ.",
+    "gap": "Thời gian này không tồn tại vì đồng hồ di chuyển về phía trước. Hãy chọn thời điểm khác.",
+    "overlap": "Thời gian này xảy ra hai lần khi đồng hồ quay ngược lại. Chọn một thời điểm rõ ràng.",
+    "allDay": "Phiếu bầu chỉ có ngày giữ nguyên ngày dương lịch ở mọi múi giờ.",
+    "useDevice": "Sử dụng múi giờ của thiết bị",
+    "search": "Tìm kiếm múi giờ",
+    "noResults": "Không tìm thấy múi giờ. Hãy thử thành phố hoặc khu vực khác."
+  },
+  "errors": {
+    "error.internal": "Đã xảy ra lỗi máy chủ nội bộ",
+    "error.validation.failed": "Xác thực đầu vào không thành công",
+    "error.request.invalid": "Yêu cầu không hợp lệ. {0}",
+    "error.state.invalid": "Yêu cầu này không thể được thực hiện ở trạng thái hiện tại",
+    "error.resource.not.found": "Không thể tìm thấy tài nguyên được yêu cầu",
+    "error.null.pointer": "Thiếu dữ liệu cần thiết. Vui lòng kiểm tra yêu cầu của bạn.",
+    "error.number.format": "Định dạng số không hợp lệ. Vui lòng kiểm tra đầu vào của bạn.",
+    "error.auth.required": "Cần phải xác thực",
+    "error.auth.required.login": "Cần phải xác thực. Vui lòng đăng nhập và thử lại.",
+    "error.auth.access.denied": "Quyền truy cập bị từ chối",
+    "error.auth.not.authenticated": "Người dùng chưa được xác thực",
+    "error.user.not.found": "Không tìm thấy người dùng",
+    "error.user.not.found.email": "Không tìm thấy người dùng có email: {0}",
+    "error.user.id.required": "ID người dùng là bắt buộc",
+    "error.oauth.invalid.code": "Mã ủy quyền không hợp lệ hoặc đã hết hạn. Vui lòng xác thực lại. Lỗi: {0}",
+    "error.oauth.api.failed": "Không thể giao tiếp với API OAuth: {0}",
+    "error.oauth.no.id.token": "Không nhận được mã thông báo ID từ nhà cung cấp OAuth",
+    "error.oauth.no.user.info": "Không lấy được thông tin người dùng từ nhà cung cấp OAuth",
+    "error.meeting.not.found": "Không tìm thấy cuộc họp",
+    "error.meeting.not.found.code": "Không tìm thấy cuộc họp: {0}",
+    "error.meeting.id.required": "Cần có ID cuộc họp",
+    "error.meeting.already.confirmed": "Cuộc họp đã được xác nhận. Vui lòng hủy xác nhận trước.",
+    "error.meeting.not.confirmed": "Cuộc họp không được xác nhận",
+    "error.meeting.invalid.date": "Ngày không hợp lệ: {0}",
+    "error.meeting.date.not.available": "Ngày này không có trong cuộc họp: {0}",
+    "error.meeting.no.interval.info": "Thiếu thông tin về khoảng thời gian họp",
+    "error.meeting.host.only": "Chỉ chủ nhà mới có thể thực hiện hành động này",
+    "error.meeting.no.participants": "Không thể tạo lịch vì chưa có người tham gia bình chọn",
+    "error.meeting.date.format.invalid": "Định dạng ngày không hợp lệ. Vui lòng sử dụng định dạng yyyy-MM-dd.",
+    "error.meeting.validation.date.required": "Phải chọn ít nhất một ngày",
+    "error.meeting.validation.date.slot.required": "Phải chọn ít nhất một khoảng thời gian cho mỗi ngày",
+    "error.meeting.validation.time.required": "Phải chọn ít nhất một khung ngày và giờ",
+    "error.meeting.validation.all.day.empty.slots": "Đối với loại ALL_DAY, các khe thời gian phải là một mảng trống",
+    "error.meeting.validation.slot.index.required": "slotIndex là bắt buộc đối với các cuộc họp loại TIME",
+    "error.meeting.validation.slot.index.invalid": "Chỉ số vị trí không hợp lệ: {0}",
+    "error.meeting.validation.date.slot.together": "ngày và slotIndex phải được chỉ định cùng nhau",
+    "error.location.not.found": "Không tìm thấy vị trí",
+    "error.location.not.belong.to.meeting": "Địa điểm không thuộc về cuộc họp này",
+    "error.location.vote.not.enabled": "Bỏ phiếu theo vị trí không được bật cho cuộc họp này",
+    "error.location.already.confirmed": "Vị trí đã được xác nhận. Vui lòng hủy xác nhận vị trí trước.",
+    "error.location.not.confirmed": "Vị trí chưa được xác nhận",
+    "error.location.id.required": "ID vị trí là bắt buộc",
+    "error.location.name.required": "Tên vị trí là bắt buộc",
+    "error.location.name.too.long": "Tên vị trí không thể vượt quá 200 ký tự",
+    "error.location.max.exceeded": "Có thể thêm tối đa vị trí {0}",
+    "error.location.min.required": "Cần có ít nhất (các) vị trí {0}",
+    "error.location.min.for.vote": "Cần có ít nhất các vị trí {0} để cho phép bỏ phiếu theo vị trí",
+    "error.location.cannot.disable": "Không thể tắt bỏ phiếu vị trí khi vị trí được xác nhận",
+    "error.location.not.exist": "Vị trí không tồn tại: {0}",
+    "error.selection.empty": "Dữ liệu lựa chọn trống",
+    "error.selection.date.required": "Ngày là bắt buộc",
+    "error.selection.type.required": "Loại là bắt buộc",
+    "error.selection.type.unknown": "Loại không xác định: {0} (chỉ cho phép TIME hoặc ALL_DAY)",
+    "error.selection.time.required": "Ngày '{0}' là loại THỜI GIAN nhưng không có thời gian được chỉ định",
+    "error.selection.time.empty": "Giá trị thời gian trống",
+    "error.selection.time.format.invalid": "Định dạng thời gian không hợp lệ cho ngày '{0}'. {1}",
+    "error.selection.date.not.available": "Ngày {0} không có mặt trong cuộc họp này",
+    "error.selection.slot.null": "Mảng vị trí không thể rỗng. Sử dụng bản đồ trống để loại trừ ngày.",
+    "error.selection.slot.not.available": "Khe {0} không có sẵn trên {1}",
+    "error.selection.slot.empty.for.time": "Mảng trống không được phép đối với các cuộc họp loại TIME. Sử dụng bản đồ trống để loại trừ ngày.",
+    "error.timeslot.invalid.format": "Định dạng thời gian không hợp lệ. HH dự kiến:mm",
+    "error.timeslot.invalid.hour": "Giờ phải nằm trong khoảng từ 0 đến 23",
+    "error.timeslot.invalid.minute": "Phút phải nằm trong khoảng từ 0 đến 59",
+    "error.timeslot.not.aligned": "Thời gian phải được căn chỉnh theo khoảng thời gian phút {0}",
+    "error.timeslot.index.out.of.range": "Chỉ số vị trí phải nằm trong khoảng {1} và {2} trong khoảng thời gian {0}-phút, nhưng có: {3}",
+    "error.timeslot.interval.positive": "Khoảng thời gian phút phải là số dương",
+    "error.timeslot.interval.divisor": "Số phút ngắt quãng phải là ước số của {0}",
+    "error.calendar.export.failed": "Không tạo được tệp lịch",
+    "error.ai.api.failed": "Cuộc gọi API AI không thành công",
+    "error.ai.provider.unknown": "Nhà cung cấp AI không xác định: {0}",
+    "mcp.meeting.created": "Cuộc họp được tạo thành công",
+    "mcp.vote.time.saved": "Đã lưu thành công phiếu bầu sẵn có",
+    "mcp.vote.location.saved": "Đã lưu phiếu bầu vị trí thành công",
+    "mcp.meeting.confirmed": "Lịch họp đã được xác nhận thành công",
+    "mcp.location.confirmed": "Địa điểm cuộc họp đã được xác nhận thành công",
+    "mcp.ics.created": "Tệp ICS được tạo thành công",
+    "validation.meeting.title.required": "Tiêu đề là bắt buộc",
+    "validation.meeting.dates.required": "Ngày/giờ có sẵn là bắt buộc",
+    "validation.meeting.location.max": "Có thể thêm tối đa 5 địa điểm",
+    "validation.selection.required": "Cần có các khoảng thời gian đã chọn",
+    "validation.date.required": "Ngày là bắt buộc",
+    "validation.date.format": "Định dạng ngày phải là yyyy-MM-dd",
+    "validation.time.required": "Thời gian là cần thiết",
+    "validation.time.format": "Định dạng thời gian phải là HH:mm",
+    "validation.location.id.required": "ID vị trí là bắt buộc",
+    "validation.location.ids.required": "Danh sách ID vị trí là bắt buộc",
+    "validation.location.name.required": "Tên vị trí là bắt buộc",
+    "validation.location.max": "Có thể thêm tối đa 5 địa điểm",
+    "validation.auth.code.required": "Cần có mã ủy quyền",
+    "validation.username.required": "Tên người dùng là bắt buộc",
+    "validation.password.required": "Cần có mật khẩu",
+    "validation.selection.date.min.max": "Vui lòng chọn từ 1 đến 31 ngày",
+    "validation.type.required": "Loại là bắt buộc",
+    "validation.slot.index.required": "Chỉ mục vị trí cần xác nhận (bắt buộc đối với loại TIME, cho phép null đối với loại ALL_DAY)",
+    "error.meeting.timezone.invalid": "Chọn múi giờ IANA hợp lệ.",
+    "error.meeting.time.nonexistent": "Thời gian này không tồn tại vì đồng hồ di chuyển về phía trước. Hãy chọn thời điểm khác.",
+    "error.meeting.time.ambiguous": "Thời gian này xảy ra hai lần khi đồng hồ quay ngược lại. Chọn một thời điểm rõ ràng.",
+    "error.comment.rate.limit": "Vui lòng chờ vài giây trước khi đăng tiếp.",
+    "error.selection.candidates.changed": "Các ngày đề xuất đã thay đổi. Hãy tải lại trang và trả lời lại."
+  },
+  "comments": {
+    "title": "Bình luận",
+    "placeholder": "Trao đổi về cuộc hẹn này",
+    "reply": "Trả lời",
+    "replyTo": "Trả lời {name}",
+    "replies": "Trả lời ({count})",
+    "collapse": "Thu gọn trả lời",
+    "post": "Đăng",
+    "save": "Lưu",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "hide": "Ẩn",
+    "hidden": "Người tổ chức đã ẩn bình luận này.",
+    "deleted": "Bình luận này đã bị xóa.",
+    "edited": "Đã sửa",
+    "host": "Người tổ chức",
+    "mention": "Nhập @ để nhắc đến ai đó",
+    "noPeople": "Không có người tham gia phù hợp",
+    "session": "Nhập tên sẽ hiển thị trên bình luận của bạn.",
+    "failed": "Không thể hoàn tất yêu cầu. Nội dung của bạn được giữ lại; hãy thử lại.",
+    "rateLimit": "Vui lòng chờ vài giây trước khi đăng tiếp.",
+    "new": "Xem bình luận mới ({count})",
+    "mentioned": "Bình luận mới gửi đến bạn",
+    "moreReplies": "Thêm trả lời",
+    "more": "Bình luận cũ hơn",
+    "copy": "Sao chép liên kết bình luận",
+    "copied": "Đã sao chép liên kết.",
+    "actions": "Thao tác bình luận",
+    "newReply": "Mới",
+    "removeConfirm": "Xóa nội dung này? Các câu trả lời hiện có vẫn được giữ lại.",
+    "retry": "Thử lại",
+    "reactions": {
+      "add": "Thêm cảm xúc",
+      "view": "Xem ai đã bày tỏ cảm xúc",
+      "title": "Cảm xúc",
+      "react": "Bày tỏ cảm xúc",
+      "remove": "Gỡ cảm xúc",
+      "empty": "Chưa có cảm xúc nào.",
+      "you": "Bạn",
+      "session": "Nhập tên hiển thị cùng cảm xúc của bạn.",
+      "failed": "Không thể cập nhật cảm xúc. Vui lòng thử lại.",
+      "like": "Đồng ý",
+      "love": "Yêu thích",
+      "laugh": "Hài hước",
+      "celebrate": "Chúc mừng",
+      "thanks": "Cảm ơn",
+      "think": "Đang suy nghĩ",
+      "eyes": "Đang theo dõi",
+      "hundred": "Hoàn hảo"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "Hẹn gặp nhau thật dễ",
+    "title": "Lịch riêng của mỗi người. Một cuộc hẹn chung.",
+    "description": "Gửi liên kết, chọn lúc rảnh và tìm thời gian mọi người có thể gặp nhau.",
+    "steps": {
+      "share": {
+        "title": "Chia sẻ một liên kết",
+        "description": "Người được mời tham gia không cần đăng nhập"
+      },
+      "select": {
+        "title": "Chọn thời gian rảnh",
+        "description": "Tập hợp lịch rảnh của mọi người"
+      },
+      "decide": {
+        "title": "Tìm thời gian trùng nhau",
+        "description": "Chốt thời gian phù hợp nhất"
+      }
+    },
+    "sample": "Ví dụ sử dụng",
+    "meetingTitle": "Tuần này gặp nhau nhé",
+    "responses": "{count} người tham gia",
+    "hint": "Đổi thời gian của bạn để xem kết quả cập nhật.",
+    "filtersLabel": "Thời gian rảnh theo người tham gia",
+    "allResults": "Tất cả kết quả",
+    "personAvailability": "Thời gian rảnh của {name}",
+    "tableLabel": "Số người rảnh theo thời gian",
+    "timeLabel": "Giờ",
+    "legendTitle": "Số người rảnh",
+    "legendMax": "Nhiều",
+    "resultTitle": "Đã tìm được giờ cho cả {count} người!",
+    "resultHint": "Chọn Tất cả kết quả để xem thời gian trùng nhau.",
+    "available": "Rảnh",
+    "unavailable": "Không rảnh",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "Thời gian bạn rảnh",
+    "hourly": "Cách nhau 1 giờ",
+    "me": "Bạn",
+    "legend": "Có thể tham gia / tổng số",
+    "create": "Tạo cuộc hẹn của bạn",
+    "compactTime": "Thứ Bảy, 19 giờ",
+    "compactResult": "Mọi người đều rảnh"
+  }
+}

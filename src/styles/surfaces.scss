@@ -1,0 +1,48 @@
+@use './variables.scss' as *;
+
+// Content is grouped by alignment and spacing. Surface fills identify controls.
+$section-gap: $spacing-xl;
+$section-gap-wide: $spacing-2xl;
+$control-bg: #f7f8fa;
+$control-hover-bg: #eef1f5;
+$control-radius: $radius-md;
+
+@mixin content {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@mixin action {
+  background: $control-bg;
+  border: 1px solid transparent;
+  border-radius: $control-radius;
+  box-shadow: none;
+}
+
+@mixin person {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: $spacing-xs 0;
+}
+
+// Separate major sections without enclosing every piece of content in a card.
+$section-line: #dce2ea;
+
+@mixin section-start($space: $spacing-lg) {
+  border-block-start: 1px solid $section-line;
+  padding-block-start: $space;
+}
+
+// The following section owns both sides of a boundary; preceding content has no end spacing.
+@mixin section-boundary($before: $spacing-lg, $after: $spacing-lg) {
+  margin-block-start: $before;
+  @include section-start($after);
+}
+
+@mixin section-side($space: $spacing-lg) {
+  border-inline-start: 1px solid $section-line;
+  padding-inline-start: $space;
+}

@@ -27,3 +27,8 @@ pnpm-debug.log*
 # SSL certificates for local development
 localhost-key.pem
 localhost-cert.pem
+# Generated release evidence and CI measurements
+release-manifest.json
+image-metadata.json
+build-metrics.json
+image-build.log

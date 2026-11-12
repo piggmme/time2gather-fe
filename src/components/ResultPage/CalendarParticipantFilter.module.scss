@@ -1,0 +1,77 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/surfaces.scss' as surfaces;
+
+.Section {
+  @include surfaces.section-start;
+  min-width: 0;
+  margin-block-start: $spacing-sm;
+}
+
+.Filter {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.Title {
+  padding: 0;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+}
+
+.Heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 $spacing-base;
+  margin-block: $spacing-xs;
+}
+
+.Count, .Hint {
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+  overflow-wrap: anywhere;
+}
+
+.Hint { margin: $spacing-sm 0 0; line-height: 1.6; }
+
+.People {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+  gap: $spacing-xs $spacing-base;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  li { min-width: 0; }
+}
+
+.Person, .SelectAll {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  min-height: 44px;
+  padding: $spacing-xs;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  cursor: pointer;
+
+  &:hover { background: surfaces.$control-bg; }
+  &:focus-within { outline: 2px solid $primary-color; outline-offset: -2px; }
+
+  input {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: $primary-color;
+    cursor: pointer;
+  }
+
+  > span[aria-hidden] { flex: 0 0 auto; }
+  bdi { min-width: 0; overflow-wrap: anywhere; }
+}

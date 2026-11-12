@@ -1,0 +1,10 @@
+---
+import type { Locale } from '../i18n/config'
+import { getFontStylesheetURL, getTypographyCSS } from '../i18n/fonts'
+interface Props { locale: Locale }
+const { locale } = Astro.props
+---
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link id="locale-font-stylesheet" data-locale-font={locale} rel="stylesheet" href={getFontStylesheetURL(locale)} />
+<style is:inline id="locale-typography" set:html={getTypographyCSS()} />

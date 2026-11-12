@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react'
+import { formatWeekday, getWeekStart } from '../../utils/time'
+import { useState, useRef } from 'react'
 import { DndContext } from '@dnd-kit/core'
 import MonthlyCell from './MonthlyCell'
 import dayjs from 'dayjs'
@@ -69,11 +70,6 @@ export default function MonthlyGrid ({
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Update dayjs locale when locale changes
-  useEffect(() => {
-    dayjs.locale(locale === 'ko' ? 'ko' : 'en')
-  }, [locale])
-
   const addDates = (newDates: dayjs.Dayjs[]) => {
     if (!setDates) return
     const allDates = [...dates, ...newDates]
@@ -109,10 +105,10 @@ export default function MonthlyGrid ({
 
   // 요일 헤더 생성 (0=일요일부터 6=토요일까지)
   const weekdays = Array.from({ length: 7 }, (_, i) => {
-    const day = dayjs().locale(locale === 'ko' ? 'ko' : 'en').day(i)
+    const day = (i + getWeekStart(locale)) % 7
     return {
-      number: i,
-      name: day.format('ddd'), // 한국어 축약형 요일 (일, 월, 화, 수, 목, 금, 토)
+      number: day,
+      name: formatWeekday(day, locale), // 한국어 축약형 요일 (일, 월, 화, 수, 목, 금, 토)
     }
   })
 
@@ -135,6 +131,8 @@ export default function MonthlyGrid ({
       <div className={styles.grid}>
         {monthDays.map((day: dayjs.Dayjs) => {
           const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth
+          // Keep weekday positions without displaying or making adjacent months interactive.
+          if (!isCurrentMonth) return <div key={day.format('YYYY-MM-DD')} aria-hidden='true' />
           const today = dayjs()
           const dateKey = day.format('YYYY-MM-DD')
           const isSelected = dates.some(d => d.isSame(day, 'day'))
@@ -167,6 +165,7 @@ export default function MonthlyGrid ({
               disabled={isDisabled}
               count={otherCount}
               maxCount={participantsCount}
+              isVoting={Boolean(availableDates || dateSchedule) || !isEditMode}
               {...(isEditMode && !isDisabled && {
                 onClick: () => {
                   handleDragedDates([day])

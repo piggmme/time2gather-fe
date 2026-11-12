@@ -19,7 +19,9 @@
     "loading": "불러오는 중...",
     "error": "오류가 발생했어요. 다시 시도해주세요.",
     "switchToEnglish": "영어로 전환",
-    "switchToKorean": "한국어로 전환"
+    "switchToKorean": "한국어로 전환",
+    "language": "언어",
+    "searchLanguages": "언어 선택"
   },
   "home": {
     "title": "Time2Gather",
@@ -73,16 +75,16 @@
     "faqHeading": "자주 묻는 질문",
     "faq": {
       "what": {
-        "question": "Time2Gather는 어떤 서비스인가요?",
-        "answer": "여러 사람의 가능한 날짜와 시간을 투표로 모아 약속을 정하는 일정 조율 서비스입니다."
+        "question": "친구 모임이나 팀 회의, 여러 사람의 일정을 어떻게 맞추나요?",
+        "answer": "Time2Gather에서 날짜와 시간 후보를 만들고 링크를 공유하세요. 각자 가능한 일정을 선택하면 결과를 비교해 최종 일정을 확정할 수 있습니다. 친구 모임, 스터디, 팀 회의에 무료로 이용할 수 있습니다."
       },
       "login": {
-        "question": "참여자는 로그인해야 하나요?",
-        "answer": "아니요. 닉네임만 입력하면 누구나 투표할 수 있고, 익명 세션은 현재 브라우저에 저장됩니다."
+        "question": "회원가입이나 앱 설치 없이 약속을 만들고 참여할 수 있나요?",
+        "answer": "네. 주최자와 참여자 모두 회원가입이나 소셜 로그인 없이 이름만 입력하면 됩니다. 휴대폰이나 PC의 웹브라우저에서 약속을 만들고 투표할 수 있습니다."
       },
       "location": {
-        "question": "장소도 투표할 수 있나요?",
-        "answer": "네. 약속을 만들 때 장소 투표를 켜면 참여자가 후보 장소 중 선호하는 곳을 선택할 수 있습니다."
+        "question": "모임 장소도 함께 투표할 수 있나요?",
+        "answer": "네. 약속을 만들 때 장소 투표를 켜고 후보를 추가하세요. 참여자는 선호하는 장소에 투표하고, 댓글로 모임에 필요한 의견을 나눌 수 있습니다."
       }
     }
   },
@@ -122,10 +124,10 @@
       "heading": "날짜를 선택해 주세요."
     },
     "timeRangeStep": {
-      "heading": "시간대를 선택해 주세요.",
+      "heading": "몇 시부터 몇 시까지 만날까요?",
       "startTime": "시작 시간",
       "endTime": "종료 시간",
-      "selectedDatesCount": "선택된 날짜는 총 {count}개에요.",
+      "selectedDatesCount": "선택한 날짜 {count}일",
       "createButton": "약속 만들기"
     },
     "locationStep": {
@@ -165,9 +167,14 @@
       "touchHint": "길게 누른 뒤 드래그해 여러 시간을 선택하세요",
       "pointerHint": "드래그해 여러 시간을 한 번에 선택하세요",
       "draggingHint": "드래그 중 · 손을 떼면 선택이 적용돼요",
-      "selectDate": "{date} 전체 시간 선택"
+      "selectDate": "{date} 전체 시간 선택",
+      "previousDates": "이전 날짜",
+      "nextDates": "다음 날짜"
     },
     "dateCalendar": {
+      "mySelection": "내 선택",
+      "fewerVotes": "참여 인원 적음",
+      "moreVotes": "많음",
       "available": "선택 가능",
       "unavailable": "선택 불가",
       "today": "오늘",
@@ -188,31 +195,38 @@
     "shareSuccess": "링크가 복사되었어요!",
     "exportToCalendar": "내 캘린더로 옮기기",
     "confirmButton": "약속 확정하기",
+    "confirmButtonShort": "약속 확정",
     "cancelConfirmButton": "확정 취소하기",
     "cancelConfirmSuccess": "약속 확정이 취소되었어요!",
     "cancelConfirmError": "약속 확정 취소에 실패했어요. 다시 시도해주세요.",
     "alreadyConfirmedError": "이미 확정된 약속입니다. 투표를 수정할 수 없어요.",
     "editDates": {
-      "openButton": "투표 가능 날짜 관리",
+      "openButton": "투표 후보 수정",
       "hostOnly": "방장 전용",
-      "title": "투표 가능 날짜를 관리해요",
-      "description": "참여자에게 다시 받을 날짜를 선택해 주세요. 기존 시간 범위는 그대로 유지돼요.",
+      "title": "투표 후보를 수정해요",
+      "description": "참여자 모두가 투표할 후보를 바꿔요.",
       "selectedCount": "{count}일 선택",
       "selectionHint": "날짜를 누르거나 드래그해 선택하세요.",
       "removedWarning": "제외한 날짜 {count}일의 기존 투표는 저장 시 삭제돼요.",
       "maxDates": "날짜는 최대 {count}일까지 선택할 수 있어요.",
-      "save": "날짜 저장",
-      "success": "투표 날짜를 수정했어요.",
-      "error": "투표 날짜를 수정하지 못했어요. 다시 시도해 주세요."
+      "save": "후보 저장",
+      "success": "투표 후보를 수정했어요.",
+      "error": "투표 후보를 수정하지 못했어요. 다시 시도해 주세요.",
+      "timeOpenButton": "투표 후보 수정",
+      "timeTitle": "투표 후보를 수정해요",
+      "timeDescription": "참여자 모두가 투표할 후보를 바꿔요.",
+      "timeSave": "후보 저장",
+      "timeSuccess": "투표 후보를 수정했어요.",
+      "timeError": "투표 후보를 수정하지 못했어요. 다시 시도해 주세요.",
+      "timeRangeHint": "시간 범위를 바꾸면 선택한 모든 날짜에 적용돼요.",
+      "timeRemovedWarning": "제외한 시간 후보 {count}개의 기존 투표는 저장 시 삭제돼요. 나머지 투표는 유지돼요.",
+      "locationRemovedWarning": "변경하거나 삭제한 장소 후보 {count}개의 기존 투표는 저장 시 삭제돼요. 나머지 투표는 유지돼요."
     },
     "exportDialog": {
       "title": "캘린더에 추가",
       "description": "캘린더에 추가할 날짜와 시간을 선택하세요.",
       "noSlots": "아직 투표된 날짜가 없어요.",
       "allDay": "종일",
-      "iosGuideTitle": "iPhone에서는 한 번 더 눌러야 저장돼요",
-      "iosGuideDescription": "다음 화면 맨 아래의 ‘캘린더에 추가’를 눌러주세요. 오른쪽 위 체크는 저장이 아니라 미리보기 닫기예요.",
-      "openIosCalendar": "iPhone 캘린더 열기",
       "cancel": "취소",
       "confirm": "캘린더에 추가",
       "close": "닫기"
@@ -235,13 +249,18 @@
       "confirming": "확정 중...",
       "close": "닫기",
       "success": "약속이 확정되었어요!",
-      "error": "약속 확정에 실패했어요. 다시 시도해주세요."
+      "error": "약속 확정에 실패했어요. 다시 시도해주세요.",
+      "allCandidatesDescription": "전체 후보 {count}개 중 최종 일정을 선택하세요.",
+      "groupedDescription": "{count}개 날짜 중 하나를 고르고 시작 시간을 선택하세요.",
+      "recommendationsDescription": "참여 가능한 인원이 많은 후보를 날짜별로 하나씩 추천해요.",
+      "allDates": "전체 {count}개 날짜에서 선택",
+      "backToRecommendations": "추천 일정 보기"
     },
     "anonymousSelectButton": "이름으로 참여하기",
     "selectButton": "날짜 선택하러 가기",
     "selectTimeButton": "날짜와 시간 선택하러 가기",
     "anonymous": {
-      "dialog" : {
+      "dialog": {
         "title": "로그인 되어있지 않아요",
         "description": "로그인 없이 이름만 입력하고 참여할 수 있어요.",
         "kakaoLoginButton": "카카오로 계속하기",
@@ -267,7 +286,7 @@
       "aiSummaryTitle": "투표 결과 요약",
       "calendarTitle": "약속 달력",
       "totalParticipants": "총 {count}명이 참여했어요!",
-      "bestSlotsTitle": "가장 많이 겹치는 일정",
+      "bestSlotsTitle": "많이 겹치는 날짜",
       "showMoreOptions": "{count}개 더 보기",
       "showFewerOptions": "간단히 보기",
       "moreTimeOptions": "시간대 {count}개 더 있음",
@@ -277,7 +296,7 @@
       "noParticipants": "참여자가 없습니다",
       "buttons": {
         "calendar": "캘린더 추가",
-        "share": "공유",
+        "share": "약속 공유",
         "shareConfirmed": "확정 일정 공유하기",
         "shareKakao": "카카오톡",
         "modifyDates": "내 날짜 선택 수정",
@@ -285,7 +304,7 @@
         "selectDates": "가능한 날짜 선택하기",
         "selectTimes": "가능한 날짜·시간 선택하기",
         "enterAvailability": "내 일정 입력",
-        "editAvailability": "내 일정 수정"
+        "editAvailability": "내 투표 수정"
       },
       "confirmedPlan": {
         "eyebrow": "일정 확정 완료",
@@ -295,24 +314,38 @@
         "location": "장소",
         "attendees": "참여 가능",
         "attendanceSummary": "{count}명 · 전체의 {percentage}",
+        "confirmTime": "시간 확정",
+        "confirmTimeTitle": "약속 시간 확정",
+        "confirmTimeDescription": "확정된 날짜에 실제로 만날 시간을 정해주세요.",
+        "timeConfirmSuccess": "약속 시간이 확정되었어요.",
+        "timeConfirmError": "약속 시간을 확정하지 못했어요. 다시 시도해주세요.",
+        "timePending": "미정",
         "editTime": "수정",
         "editTimeTitle": "약속 시간 수정",
         "editTimeDescription": "확정된 날짜는 그대로 두고 실제로 만날 시간을 정할 수 있어요.",
-        "saveTime": "시간 저장",
+        "saveTime": "저장",
         "savingTime": "저장 중...",
         "timeUpdateSuccess": "약속 시간이 수정되었어요.",
-        "timeUpdateError": "약속 시간을 수정하지 못했어요. 다시 시도해주세요."
+        "timeUpdateError": "약속 시간을 수정하지 못했어요. 다시 시도해주세요.",
+        "addTime": "시간 추가 (선택)",
+        "addTimeTitle": "시간 추가",
+        "optionalTimeDescription": "필요할 때만 시간을 추가하세요.",
+        "attendanceCount": "{total}명 중 {count}명 참여 가능",
+        "cancelTitle": "확정을 취소할까요?",
+        "cancelDescription": "확정된 일정이 해제돼요. 참여자의 응답은 유지돼요.",
+        "keepConfirmation": "유지하기"
       },
       "actions": {
         "confirmed": "확정된 약속",
         "confirmedDescription": "일정을 공유하거나 내 캘린더에 추가하세요.",
         "inProgress": "약속 조율 중",
-        "inProgressDescription": "참여 현황을 확인하고 다음 단계를 진행하세요."
+        "manage": "약속 관리"
       },
       "share": {
         "confirmedTitle": "{title} 일정이 확정됐어요",
         "confirmedHeading": "약속이 확정됐어요!",
-        "detailsCopied": "확정 일정과 링크를 함께 복사했어요."
+        "detailsCopied": "확정 일정과 링크를 함께 복사했어요.",
+        "manualCopyDescription": "자동 공유 또는 복사를 할 수 없어요. 아래 내용을 선택해서 직접 복사해주세요."
       },
       "kakaoShare": {
         "description": "투표하고 가장 좋은 시간을 찾아보세요!",
@@ -322,10 +355,68 @@
         "confirmedButtonTitle": "확정 일정 보기",
         "locationPending": "장소 확정 대기"
       },
-      "viralCta": {
-        "title": "나도 이런 약속 만들어볼까요?",
-        "button": "새 약속 만들기"
+      "attendance": {
+        "available": "참여 가능",
+        "unavailable": "참여 불가",
+        "everyoneAvailable": "모두 참여 가능해요",
+        "noneAvailable": "참여 가능한 사람이 없어요"
+      },
+      "bestTimesTitle": "많이 겹치는 시간",
+      "availabilityBasis": "응답한 {count}명을 기준으로 표시해요.",
+      "allAvailable": "{count}명 모두 가능",
+      "someAvailable": "{total}명 중 {count}명 가능",
+      "viewSlotPeople": "일정을 누르면 참여자를 볼 수 있어요.",
+      "decision": {
+        "allHeadline": "{count}명 {availability}",
+        "allHeadlineHighlight": "모두 가능해요",
+        "allDates": "{count}명 모두 가능한 날짜",
+        "allTimes": "{count}명 모두 가능한 시간",
+        "partial": "최대 {count}명이 만날 수 있어요",
+        "basis": "현재 입력된 가능 일정 기준",
+        "notAll": "모두 가능한 일정은 아직 없어요.",
+        "emptyDates": "선택된 날짜가 없어요",
+        "emptyTimes": "선택된 시간이 없어요",
+        "pending": "새 후보에 대한 응답을 기다리고 있어요",
+        "allUnavailable": "응답한 {count}명 모두 제안된 일정이 어렵다고 답했어요.",
+        "notSelected": "이 일정을 선택하지 않은 사람",
+        "people": "가능한 사람 보기",
+        "chooseDate": "이 날짜로 약속 정하기",
+        "chooseTime": "이 시간으로 약속 정하기",
+        "confirmedDate": "약속 날짜가 정해졌어요",
+        "setMeeting": "약속 확정하기"
+      },
+      "calendarFilter": {
+        "selectAll": "전체 선택",
+        "selectedCount": "{total}명 중 {selected}명 선택",
+        "selectPrompt": "참여자를 선택하면 가능한 일정을 확인할 수 있어요.",
+        "noAvailability": "선택한 참여자들의 가능한 일정이 없어요."
       }
+    },
+    "identity": {
+      "label": "이 모임에서 사용할 이름",
+      "hint": "이름 변경은 이 모임에만 적용돼요.",
+      "change": "이름 변경"
+    },
+    "unavailable": {
+      "dates": "가능한 날짜가 없어요",
+      "times": "가능한 시간이 없어요",
+      "hint": "이번 후보 중 가능한 일정이 없다면 선택해 주세요.",
+      "selectedHint": "이번 후보에 가능한 일정이 없다고 전달해요. 나중에 수정할 수 있어요.",
+      "changed": "후보 날짜가 바뀌었어요. 화면을 새로고침하고 다시 응답해 주세요.",
+      "respondents": "응답한 사람",
+      "datesStatus": "가능한 날짜 없음",
+      "timesStatus": "가능한 시간 없음",
+      "pending": "새 후보에 응답 필요",
+      "selected": "일정 선택",
+      "noneStatus": "가능한 일정 없음",
+      "picked": "가능한 참여자",
+      "emptyTitle": "아직 추천할 일정이 없어요",
+      "emptyHint": "다른 참여자의 응답을 기다려보세요.",
+      "viewPeople": "참여자 보기",
+      "morePeople": "{count}명 더 보기",
+      "lessPeople": "접기",
+      "basis": "확정된 일정에 대한 투표 응답 기준이에요.",
+      "otherSelection": "다른 일정 선택"
     }
   },
   "my": {
@@ -364,7 +455,8 @@
       "adminUsers": "관리자 {count}명",
       "totalMeetings": "전체 약속",
       "activeMeetings": "활성 약속",
-      "confirmedMeetings": "확정된 약속"
+      "confirmedMeetings": "확정된 약속",
+      "confirmationRate": "전체 약속 중 확정률 {rate}"
     },
     "users": {
       "title": "사용자 현황",
@@ -376,6 +468,8 @@
       "provider": "로그인 방식",
       "role": "권한",
       "joinedAt": "가입일",
+      "participatedMeetings": "참여한 약속",
+      "noParticipatedMeetings": "참여한 약속이 없습니다.",
       "noEmail": "이메일 없음"
     },
     "meetings": {
@@ -391,7 +485,9 @@
       "active": "활성",
       "inactive": "비활성",
       "confirmed": "확정",
-      "unknownHost": "알 수 없는 사용자"
+      "confirmedOnly": "확정된 약속만 보기",
+      "unknownHost": "알 수 없는 사용자",
+      "openNewTab": "새 탭에서 약속 열기"
     },
     "providers": {
       "ANONYMOUS": "익명",
@@ -405,6 +501,21 @@
     "selectionTypes": {
       "TIME": "날짜 + 시간",
       "ALL_DAY": "날짜만"
+    },
+    "login": {
+      "checking": "로그인 설정을 확인하고 있습니다.",
+      "expired": "관리자 인증이 만료됐거나 접근 권한이 없습니다. 다시 로그인해 주세요.",
+      "notConfigured": "관리자 로그인이 아직 설정되지 않았습니다. 운영자에게 문의해 주세요.",
+      "verifying": "관리자 권한을 확인하고 있습니다.",
+      "notAllowed": "허용된 관리자 계정으로 로그인해 주세요.",
+      "google": "Google 계정으로 로그인",
+      "unavailable": "로그인 서비스를 불러오지 못했습니다.",
+      "networkError": "네트워크 연결을 확인하고 다시 시도해 주세요.",
+      "logout": "로그아웃",
+      "title": "관리자 로그인",
+      "description": "허용된 관리자 Google 계정으로만 접근할 수 있습니다.",
+      "retry": "다시 시도",
+      "sessionHelp": "일반 모임 참여 세션과 별도로 인증합니다."
     }
   },
   "404": {
@@ -465,6 +576,222 @@
     "confirmedLocation": "확정된 장소",
     "confirmed": "확정",
     "loadError": "장소 선택을 불러오지 못했어요.",
-    "retry": "다시 시도"
+    "retry": "다시 시도",
+    "voters": "이 장소에 투표한 사람",
+    "noVotes": "아직 투표한 사람이 없어요"
+  },
+  "timezone": {
+    "title": "시간대",
+    "meeting": "모임 기준 시간대: {zone}",
+    "display": "표시 시간대",
+    "hint": "날짜와 시간은 모임 기준 시간대로 입력합니다. 모든 참여자는 같은 시각에 투표합니다.",
+    "gridHint": "열의 날짜와 시간축은 모임 기준입니다. 각 칸에서 선택한 시간대의 날짜와 시각도 확인할 수 있습니다.",
+    "local": "{zone} 기준: {time}",
+    "invalid": "올바른 시간대를 선택해 주세요.",
+    "gap": "서머타임 시작으로 존재하지 않는 시각입니다. 다른 시각을 선택해 주세요.",
+    "overlap": "서머타임 종료로 두 번 존재하는 시각입니다. 중복되지 않는 시각을 선택해 주세요.",
+    "allDay": "날짜만 투표하는 모임은 모든 시간대에서 같은 달력 날짜를 사용합니다.",
+    "useDevice": "기기 시간대 사용",
+    "search": "시간대 검색",
+    "noResults": "검색 결과가 없어요. 다른 도시나 지역을 입력해 주세요."
+  },
+  "errors": {
+    "error.internal": "\\uC11C\\uBC84 \\uB0B4\\uBD80 \\uC624\\uB958\\uAC00 \\uBC1C\\uC0DD\\uD588\\uC2B5\\uB2C8\\uB2E4",
+    "error.validation.failed": "\\uC785\\uB825\\uAC12 \\uAC80\\uC99D\\uC5D0 \\uC2E4\\uD328\\uD588\\uC2B5\\uB2C8\\uB2E4",
+    "error.request.invalid": "\\uC694\\uCCAD\\uC774 \\uC62C\\uBC14\\uB974\\uC9C0 \\uC54A\\uC2B5\\uB2C8\\uB2E4. {0}",
+    "error.state.invalid": "\\uD604\\uC7AC \\uC0C1\\uD0DC\\uC5D0\\uC11C \\uC218\\uD589\\uD560 \\uC218 \\uC5C6\\uB294 \\uC694\\uCCAD\\uC785\\uB2C8\\uB2E4",
+    "error.resource.not.found": "\\uC694\\uCCAD\\uD55C \\uB9AC\\uC18C\\uC2A4\\uB97C \\uCC3E\\uC744 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.null.pointer": "\\uD544\\uC218 \\uB370\\uC774\\uD130\\uAC00 \\uB204\\uB77D\\uB418\\uC5C8\\uC2B5\\uB2C8\\uB2E4. \\uC694\\uCCAD \\uB0B4\\uC6A9\\uC744 \\uD655\\uC778\\uD574 \\uC8FC\\uC138\\uC694.",
+    "error.number.format": "\\uC22B\\uC790 \\uD615\\uC2DD\\uC774 \\uC62C\\uBC14\\uB974\\uC9C0 \\uC54A\\uC2B5\\uB2C8\\uB2E4. \\uC785\\uB825\\uAC12\\uC744 \\uD655\\uC778\\uD574 \\uC8FC\\uC138\\uC694.",
+    "error.auth.required": "\\uC778\\uC99D\\uC774 \\uD544\\uC694\\uD569\\uB2C8\\uB2E4",
+    "error.auth.required.login": "\\uC778\\uC99D\\uC774 \\uD544\\uC694\\uD569\\uB2C8\\uB2E4. \\uB85C\\uADF8\\uC778 \\uD6C4 \\uB2E4\\uC2DC \\uC2DC\\uB3C4\\uD574\\uC8FC\\uC138\\uC694.",
+    "error.auth.access.denied": "\\uC811\\uADFC \\uAD8C\\uD55C\\uC774 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.auth.not.authenticated": "\\uC0AC\\uC6A9\\uC790\\uAC00 \\uC778\\uC99D\\uB418\\uC9C0 \\uC54A\\uC558\\uC2B5\\uB2C8\\uB2E4",
+    "error.user.not.found": "\\uC0AC\\uC6A9\\uC790\\uB97C \\uCC3E\\uC744 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.user.not.found.email": "\\uD574\\uB2F9 \\uC774\\uBA54\\uC77C\\uB85C \\uB4F1\\uB85D\\uB41C \\uC0AC\\uC6A9\\uC790\\uB97C \\uCC3E\\uC744 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4: {0}",
+    "error.user.id.required": "\\uC0AC\\uC6A9\\uC790 ID\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "error.oauth.invalid.code": "\\uC778\\uAC00 \\uCF54\\uB4DC\\uAC00 \\uC720\\uD6A8\\uD558\\uC9C0 \\uC54A\\uAC70\\uB098 \\uB9CC\\uB8CC\\uB418\\uC5C8\\uC2B5\\uB2C8\\uB2E4. \\uB2E4\\uC2DC \\uC778\\uC99D\\uD574 \\uC8FC\\uC138\\uC694. \\uC624\\uB958: {0}",
+    "error.oauth.api.failed": "OAuth API \\uD1B5\\uC2E0\\uC5D0 \\uC2E4\\uD328\\uD588\\uC2B5\\uB2C8\\uB2E4: {0}",
+    "error.oauth.no.id.token": "OAuth \\uC778\\uC99D\\uC5D0\\uC11C ID \\uD1A0\\uD070\\uC744 \\uBC1B\\uC9C0 \\uBABB\\uD588\\uC2B5\\uB2C8\\uB2E4",
+    "error.oauth.no.user.info": "OAuth \\uC778\\uC99D\\uC5D0\\uC11C \\uC0AC\\uC6A9\\uC790 \\uC815\\uBCF4\\uB97C \\uBC1B\\uC9C0 \\uBABB\\uD588\\uC2B5\\uB2C8\\uB2E4",
+    "error.meeting.not.found": "\\uBAA8\\uC784\\uC744 \\uCC3E\\uC744 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.meeting.not.found.code": "\\uBAA8\\uC784\\uC744 \\uCC3E\\uC744 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4: {0}",
+    "error.meeting.id.required": "\\uBBF8\\uD305 ID\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "error.meeting.already.confirmed": "\\uC774\\uBBF8 \\uD655\\uC815\\uB41C \\uBBF8\\uD305\\uC785\\uB2C8\\uB2E4. \\uBA3C\\uC800 \\uD655\\uC815\\uC744 \\uCDE8\\uC18C\\uD574\\uC8FC\\uC138\\uC694.",
+    "error.meeting.not.confirmed": "\\uD655\\uC815\\uB418\\uC9C0 \\uC54A\\uC740 \\uBBF8\\uD305\\uC785\\uB2C8\\uB2E4",
+    "error.meeting.invalid.date": "\\uC720\\uD6A8\\uD558\\uC9C0 \\uC54A\\uC740 \\uB0A0\\uC9DC\\uC785\\uB2C8\\uB2E4: {0}",
+    "error.meeting.date.not.available": "\\uD574\\uB2F9 \\uB0A0\\uC9DC\\uB294 \\uBAA8\\uC784\\uC758 \\uAC00\\uB2A5\\uD55C \\uB0A0\\uC9DC\\uC5D0 \\uD3EC\\uD568\\uB418\\uC5B4 \\uC788\\uC9C0 \\uC54A\\uC2B5\\uB2C8\\uB2E4: {0}",
+    "error.meeting.no.interval.info": "\\uBAA8\\uC784\\uC758 \\uC2DC\\uAC04 \\uAC04\\uACA9 \\uC815\\uBCF4\\uAC00 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.meeting.host.only": "\\uD638\\uC2A4\\uD2B8\\uB9CC \\uC774 \\uC791\\uC5C5\\uC744 \\uC218\\uD589\\uD560 \\uC218 \\uC788\\uC2B5\\uB2C8\\uB2E4",
+    "error.meeting.no.participants": "\\uC544\\uC9C1 \\uD22C\\uD45C\\uD55C \\uCC38\\uC5EC\\uC790\\uAC00 \\uC5C6\\uC5B4 \\uCE98\\uB9B0\\uB354\\uB97C \\uC0DD\\uC131\\uD560 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.meeting.date.format.invalid": "\\uB0A0\\uC9DC \\uD615\\uC2DD\\uC774 \\uC62C\\uBC14\\uB974\\uC9C0 \\uC54A\\uC2B5\\uB2C8\\uB2E4. yyyy-MM-dd \\uD615\\uC2DD\\uC73C\\uB85C \\uC785\\uB825\\uD574\\uC8FC\\uC138\\uC694.",
+    "error.meeting.validation.date.required": "\\uCD5C\\uC18C \\uD558\\uB098\\uC758 \\uB0A0\\uC9DC\\uB97C \\uC120\\uD0DD\\uD574\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.meeting.validation.date.slot.required": "\\uAC01 \\uB0A0\\uC9DC\\uB9C8\\uB2E4 \\uCD5C\\uC18C \\uD558\\uB098\\uC758 \\uC2DC\\uAC04\\uB300\\uB97C \\uC120\\uD0DD\\uD574\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.meeting.validation.time.required": "\\uCD5C\\uC18C \\uD558\\uB098\\uC758 \\uB0A0\\uC9DC\\uC640 \\uC2DC\\uAC04\\uB300\\uB97C \\uC120\\uD0DD\\uD574\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.meeting.validation.all.day.empty.slots": "\\uC77C \\uB2E8\\uC704 \\uC120\\uD0DD(ALL_DAY)\\uC778 \\uACBD\\uC6B0 \\uC2DC\\uAC04\\uB300\\uB294 \\uBE48 \\uBC30\\uC5F4\\uC774\\uC5B4\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.meeting.validation.slot.index.required": "TIME \\uD0C0\\uC785 \\uBBF8\\uD305\\uC740 slotIndex\\uAC00 \\uD544\\uC694\\uD569\\uB2C8\\uB2E4",
+    "error.meeting.validation.slot.index.invalid": "\\uC720\\uD6A8\\uD558\\uC9C0 \\uC54A\\uC740 \\uC2AC\\uB86F \\uC778\\uB371\\uC2A4\\uC785\\uB2C8\\uB2E4: {0}",
+    "error.meeting.validation.date.slot.together": "date\\uC640 slotIndex\\uB294 \\uD568\\uAED8 \\uC9C0\\uC815\\uD574\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.location.not.found": "\\uC7A5\\uC18C\\uB97C \\uCC3E\\uC744 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.location.not.belong.to.meeting": "\\uD574\\uB2F9 \\uBBF8\\uD305\\uC758 \\uC7A5\\uC18C\\uAC00 \\uC544\\uB2D9\\uB2C8\\uB2E4",
+    "error.location.vote.not.enabled": "\\uC7A5\\uC18C \\uD22C\\uD45C\\uAC00 \\uD65C\\uC131\\uD654\\uB418\\uC9C0 \\uC54A\\uC740 \\uBBF8\\uD305\\uC785\\uB2C8\\uB2E4",
+    "error.location.already.confirmed": "\\uC774\\uBBF8 \\uC7A5\\uC18C\\uAC00 \\uD655\\uC815\\uB41C \\uBBF8\\uD305\\uC785\\uB2C8\\uB2E4. \\uBA3C\\uC800 \\uC7A5\\uC18C \\uD655\\uC815\\uC744 \\uCDE8\\uC18C\\uD574\\uC8FC\\uC138\\uC694.",
+    "error.location.not.confirmed": "\\uC7A5\\uC18C\\uAC00 \\uD655\\uC815\\uB418\\uC9C0 \\uC54A\\uC740 \\uBBF8\\uD305\\uC785\\uB2C8\\uB2E4",
+    "error.location.id.required": "\\uC7A5\\uC18C ID\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "error.location.name.required": "\\uC7A5\\uC18C \\uC774\\uB984\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "error.location.name.too.long": "\\uC7A5\\uC18C \\uC774\\uB984\\uC740 200\\uC790\\uB97C \\uCD08\\uACFC\\uD560 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.location.max.exceeded": "\\uC7A5\\uC18C\\uB294 \\uCD5C\\uB300 {0}\\uAC1C\\uAE4C\\uC9C0 \\uCD94\\uAC00\\uD560 \\uC218 \\uC788\\uC2B5\\uB2C8\\uB2E4",
+    "error.location.min.required": "\\uC7A5\\uC18C\\uB294 \\uCD5C\\uC18C {0}\\uAC1C \\uC774\\uC0C1\\uC774\\uC5B4\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.location.min.for.vote": "\\uC7A5\\uC18C \\uD22C\\uD45C\\uB97C \\uD65C\\uC131\\uD654\\uD558\\uB824\\uBA74 \\uCD5C\\uC18C {0}\\uAC1C\\uC758 \\uC7A5\\uC18C\\uAC00 \\uD544\\uC694\\uD569\\uB2C8\\uB2E4",
+    "error.location.cannot.disable": "\\uC7A5\\uC18C\\uAC00 \\uD655\\uC815\\uB41C \\uBBF8\\uD305\\uC740 \\uC7A5\\uC18C \\uD22C\\uD45C\\uB97C \\uBE44\\uD65C\\uC131\\uD654\\uD560 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.location.not.exist": "\\uC874\\uC7AC\\uD558\\uC9C0 \\uC54A\\uB294 \\uC7A5\\uC18C\\uC785\\uB2C8\\uB2E4: {0}",
+    "error.selection.empty": "\\uC120\\uD0DD \\uB370\\uC774\\uD130\\uAC00 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.selection.date.required": "\\uB0A0\\uC9DC\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "error.selection.type.required": "\\uD0C0\\uC785\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "error.selection.type.unknown": "\\uC54C \\uC218 \\uC5C6\\uB294 \\uD0C0\\uC785: {0} (TIME \\uB610\\uB294 ALL_DAY\\uB9CC \\uAC00\\uB2A5)",
+    "error.selection.time.required": "\\uB0A0\\uC9DC '{0}'\\uB294 TIME \\uD0C0\\uC785\\uC778\\uB370 \\uC2DC\\uAC04\\uC774 \\uC9C0\\uC815\\uB418\\uC9C0 \\uC54A\\uC558\\uC2B5\\uB2C8\\uB2E4",
+    "error.selection.time.empty": "\\uC2DC\\uAC04 \\uAC12\\uC774 \\uBE44\\uC5B4\\uC788\\uC2B5\\uB2C8\\uB2E4",
+    "error.selection.time.format.invalid": "\\uB0A0\\uC9DC '{0}'\\uC758 \\uC2DC\\uAC04 \\uD615\\uC2DD\\uC774 \\uC62C\\uBC14\\uB974\\uC9C0 \\uC54A\\uC2B5\\uB2C8\\uB2E4. {1}",
+    "error.selection.date.not.available": "\\uB0A0\\uC9DC {0}\\uC740(\\uB294) \\uC774 \\uBBF8\\uD305\\uC5D0\\uC11C \\uC0AC\\uC6A9\\uD560 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.selection.slot.null": "\\uC2AC\\uB86F \\uBC30\\uC5F4\\uC740 null\\uC77C \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4. \\uB0A0\\uC9DC\\uB97C \\uC81C\\uC678\\uD558\\uB824\\uBA74 \\uBE48 \\uB9F5\\uC744 \\uC0AC\\uC6A9\\uD558\\uC138\\uC694.",
+    "error.selection.slot.not.available": "\\uC2AC\\uB86F {0}\\uC740(\\uB294) \\uB0A0\\uC9DC {1}\\uC5D0 \\uC0AC\\uC6A9\\uD560 \\uC218 \\uC5C6\\uC2B5\\uB2C8\\uB2E4",
+    "error.selection.slot.empty.for.time": "TIME \\uD0C0\\uC785 \\uBBF8\\uD305\\uC5D0\\uC11C\\uB294 \\uBE48 \\uBC30\\uC5F4\\uC774 \\uD5C8\\uC6A9\\uB418\\uC9C0 \\uC54A\\uC2B5\\uB2C8\\uB2E4. \\uB0A0\\uC9DC\\uB97C \\uC81C\\uC678\\uD558\\uB824\\uBA74 \\uBE48 \\uB9F5\\uC744 \\uC0AC\\uC6A9\\uD558\\uC138\\uC694.",
+    "error.timeslot.invalid.format": "\\uC2DC\\uAC04 \\uD615\\uC2DD\\uC774 \\uC62C\\uBC14\\uB974\\uC9C0 \\uC54A\\uC2B5\\uB2C8\\uB2E4. HH:mm \\uD615\\uC2DD\\uC774\\uC5B4\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.timeslot.invalid.hour": "\\uC2DC\\uAC04\\uC740 0\\uC5D0\\uC11C 23 \\uC0AC\\uC774\\uC5EC\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.timeslot.invalid.minute": "\\uBD84\\uC740 0\\uC5D0\\uC11C 59 \\uC0AC\\uC774\\uC5EC\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.timeslot.not.aligned": "\\uC2DC\\uAC04\\uC740 {0}\\uBD84 \\uAC04\\uACA9\\uC5D0 \\uB9DE\\uCDB0\\uC838\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.timeslot.index.out.of.range": "\\uC2AC\\uB86F \\uC778\\uB371\\uC2A4\\uB294 {0}\\uBD84 \\uAC04\\uACA9\\uC77C \\uB54C {1}\\uC5D0\\uC11C {2} \\uC0AC\\uC774\\uC5EC\\uC57C \\uD569\\uB2C8\\uB2E4. \\uC785\\uB825\\uAC12: {3}",
+    "error.timeslot.interval.positive": "\\uAC04\\uACA9(\\uBD84)\\uC740 \\uC591\\uC218\\uC5EC\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.timeslot.interval.divisor": "\\uAC04\\uACA9(\\uBD84)\\uC740 {0}\\uC758 \\uC57D\\uC218\\uC5EC\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "error.calendar.export.failed": "\\uCE98\\uB9B0\\uB354 \\uD30C\\uC77C \\uC0DD\\uC131 \\uC911 \\uC624\\uB958\\uAC00 \\uBC1C\\uC0DD\\uD588\\uC2B5\\uB2C8\\uB2E4",
+    "error.ai.api.failed": "AI API \\uD638\\uCD9C\\uC5D0 \\uC2E4\\uD328\\uD588\\uC2B5\\uB2C8\\uB2E4",
+    "error.ai.provider.unknown": "\\uC54C \\uC218 \\uC5C6\\uB294 AI \\uC81C\\uACF5\\uC790: {0}",
+    "mcp.meeting.created": "\\uBAA8\\uC784\\uC774 \\uC131\\uACF5\\uC801\\uC73C\\uB85C \\uC0DD\\uC131\\uB418\\uC5C8\\uC2B5\\uB2C8\\uB2E4",
+    "mcp.vote.time.saved": "\\uD22C\\uD45C\\uAC00 \\uC131\\uACF5\\uC801\\uC73C\\uB85C \\uC800\\uC7A5\\uB418\\uC5C8\\uC2B5\\uB2C8\\uB2E4",
+    "mcp.vote.location.saved": "\\uC7A5\\uC18C \\uD22C\\uD45C\\uAC00 \\uC131\\uACF5\\uC801\\uC73C\\uB85C \\uC800\\uC7A5\\uB418\\uC5C8\\uC2B5\\uB2C8\\uB2E4",
+    "mcp.meeting.confirmed": "\\uBAA8\\uC784 \\uC77C\\uC815\\uC774 \\uD655\\uC815\\uB418\\uC5C8\\uC2B5\\uB2C8\\uB2E4",
+    "mcp.location.confirmed": "\\uBAA8\\uC784 \\uC7A5\\uC18C\\uAC00 \\uD655\\uC815\\uB418\\uC5C8\\uC2B5\\uB2C8\\uB2E4",
+    "mcp.ics.created": "ICS \\uD30C\\uC77C\\uC774 \\uC0DD\\uC131\\uB418\\uC5C8\\uC2B5\\uB2C8\\uB2E4",
+    "validation.meeting.title.required": "\\uC81C\\uBAA9\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.meeting.dates.required": "\\uAC00\\uB2A5\\uD55C \\uB0A0\\uC9DC/\\uC2DC\\uAC04\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.meeting.location.max": "\\uC7A5\\uC18C\\uB294 \\uCD5C\\uB300 5\\uAC1C\\uAE4C\\uC9C0 \\uCD94\\uAC00\\uD560 \\uC218 \\uC788\\uC2B5\\uB2C8\\uB2E4",
+    "validation.selection.required": "\\uC120\\uD0DD\\uD55C \\uC2DC\\uAC04\\uB300\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.date.required": "\\uB0A0\\uC9DC\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.date.format": "\\uB0A0\\uC9DC \\uD615\\uC2DD\\uC740 yyyy-MM-dd \\uC785\\uB2C8\\uB2E4",
+    "validation.time.required": "\\uC2DC\\uAC04\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.time.format": "\\uC2DC\\uAC04 \\uD615\\uC2DD\\uC740 HH:mm \\uC785\\uB2C8\\uB2E4",
+    "validation.location.id.required": "\\uC7A5\\uC18C ID\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.location.ids.required": "\\uC7A5\\uC18C ID \\uBAA9\\uB85D\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.location.name.required": "\\uC7A5\\uC18C \\uC774\\uB984\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.location.max": "\\uC7A5\\uC18C\\uB294 \\uCD5C\\uB300 5\\uAC1C\\uAE4C\\uC9C0 \\uCD94\\uAC00\\uD560 \\uC218 \\uC788\\uC2B5\\uB2C8\\uB2E4",
+    "validation.auth.code.required": "\\uC778\\uAC00 \\uCF54\\uB4DC\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.username.required": "\\uC0AC\\uC6A9\\uC790 \\uC774\\uB984\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.password.required": "\\uBE44\\uBC00\\uBC88\\uD638\\uB294 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.selection.date.min.max": "\\uB0A0\\uC9DC\\uB294 1\\uAC1C \\uC774\\uC0C1 31\\uAC1C \\uC774\\uD558\\uB85C \\uC120\\uD0DD\\uD574\\uC57C \\uD569\\uB2C8\\uB2E4",
+    "validation.type.required": "\\uD0C0\\uC785\\uC740 \\uD544\\uC218\\uC785\\uB2C8\\uB2E4",
+    "validation.slot.index.required": "\\uD655\\uC815\\uD560 \\uC2AC\\uB86F \\uC778\\uB371\\uC2A4 (TIME \\uD0C0\\uC785\\uC778 \\uACBD\\uC6B0 \\uD544\\uC218, ALL_DAY \\uD0C0\\uC785\\uC774\\uBA74 null \\uD5C8\\uC6A9)",
+    "error.meeting.timezone.invalid": "올바른 IANA 시간대를 선택해 주세요.",
+    "error.meeting.time.nonexistent": "서머타임 시작으로 존재하지 않는 시각입니다. 다른 시각을 선택해 주세요.",
+    "error.meeting.time.ambiguous": "서머타임 종료로 두 번 존재하는 시각입니다. 중복되지 않는 시각을 선택해 주세요.",
+    "error.comment.rate.limit": "잠시 기다린 후 다시 등록해 주세요.",
+    "error.selection.candidates.changed": "후보 날짜가 바뀌었어요. 화면을 새로고침하고 다시 응답해 주세요."
+  },
+  "comments": {
+    "title": "코멘트",
+    "placeholder": "약속에 대해 이야기해 보세요",
+    "reply": "답글 달기",
+    "replyTo": "{name}님에게 답글",
+    "replies": "답글 {count}개",
+    "collapse": "답글 접기",
+    "post": "등록",
+    "save": "저장",
+    "edit": "수정",
+    "delete": "삭제",
+    "hide": "숨김",
+    "hidden": "주최자가 숨긴 코멘트입니다.",
+    "deleted": "삭제된 코멘트입니다.",
+    "edited": "수정됨",
+    "host": "주최자",
+    "mention": "@를 입력해 사람을 지칭하세요",
+    "noPeople": "일치하는 참여자가 없어요",
+    "session": "코멘트에 표시할 이름을 입력해 주세요.",
+    "failed": "요청을 완료하지 못했어요. 입력 내용은 유지되니 다시 시도해 주세요.",
+    "rateLimit": "잠시 기다린 후 다시 등록해 주세요.",
+    "new": "새 코멘트 {count}개 보기",
+    "mentioned": "나를 지칭한 새 코멘트",
+    "moreReplies": "답글 더 보기",
+    "more": "이전 코멘트 더 보기",
+    "copy": "코멘트 링크 복사",
+    "copied": "링크를 복사했어요.",
+    "actions": "코멘트 메뉴",
+    "newReply": "새 글",
+    "removeConfirm": "본문을 지울까요? 기존 답글은 유지돼요.",
+    "retry": "다시 시도",
+    "reactions": {
+      "add": "반응 추가",
+      "view": "반응한 사람 보기",
+      "title": "댓글 반응",
+      "react": "반응하기",
+      "remove": "반응 취소",
+      "empty": "아직 반응이 없습니다.",
+      "you": "나",
+      "session": "반응에 표시할 이름을 입력해 주세요.",
+      "failed": "반응을 변경하지 못했습니다. 다시 시도해 주세요.",
+      "like": "동의해요",
+      "love": "공감해요",
+      "laugh": "재밌어요",
+      "celebrate": "축하해요",
+      "thanks": "고마워요",
+      "think": "고민돼요",
+      "eyes": "보고 있어요",
+      "hundred": "완벽해요"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "이렇게 쉬운 약속 잡기",
+    "title": "각자의 시간이 하나의 약속으로.",
+    "description": "링크를 보내고, 가능한 시간을 고르면 우리 모두 만날 시간이 보여요.",
+    "steps": {
+      "share": {
+        "title": "링크 하나 공유",
+        "description": "초대받은 사람은 로그인 없이 참여"
+      },
+      "select": {
+        "title": "되는 시간만 선택",
+        "description": "각자의 일정을 한곳에 모으고"
+      },
+      "decide": {
+        "title": "겹치는 시간 발견",
+        "description": "가장 잘 맞는 일정으로 확정"
+      }
+    },
+    "sample": "사용 예시",
+    "meetingTitle": "우리 이번 주에 만나",
+    "responses": "{count}명 참여",
+    "hint": "내 시간을 바꾸면 결과도 달라져요.",
+    "filtersLabel": "참여자별 가능한 시간",
+    "allResults": "전체 결과",
+    "personAvailability": "{name}의 가능한 시간",
+    "tableLabel": "시간별 참여 가능 인원",
+    "timeLabel": "시간",
+    "legendTitle": "참여 가능 인원",
+    "legendMax": "많음",
+    "resultTitle": "{count}명 모두 가능한 시간 발견!",
+    "resultHint": "전체 결과를 누르면 겹치는 시간이 보여요.",
+    "available": "참여 가능",
+    "unavailable": "참여 불가",
+    "people": {
+      "jiwoo": "지우",
+      "minseo": "민서",
+      "doyun": "도윤",
+      "subin": "수빈"
+    },
+    "yourAvailability": "내가 가능한 시간",
+    "hourly": "1시간 간격",
+    "me": "나",
+    "legend": "가능 인원 / 전체 인원",
+    "create": "내 약속 만들기",
+    "compactTime": "토요일 저녁 7시,",
+    "compactResult": "모두 가능해요"
   }
 }

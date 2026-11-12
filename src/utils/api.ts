@@ -43,8 +43,10 @@ api.interceptors.response.use(
       $me.set(null)
     } else if (!error.config?.suppressErrorToast) {
       const t = getTranslations(getLocaleFromContext())
+      const key = error.response?.data?.messageKey
+      const localized = key ? t(`errors.${key}`) : undefined
       showCautionToast({
-        message: error.response?.data?.message || error.response?.data?.error || t('common.error'),
+        message: localized && localized !== `errors.${key}` && !/\{[^}]+\}/.test(localized) ? localized : error.response?.data?.message || error.response?.data?.error || t('common.error'),
       })
     }
     return Promise.reject(error)

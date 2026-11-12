@@ -1,0 +1,134 @@
+/* Hallmark · component: confirmed time editor · genre: modern-minimal · theme: Time2Gather project · v2.0.0 */
+/* Critique: keep the date dominant and place its optional action beside it. */
+@use '../../styles/variables.scss' as *;
+@use '../../styles/surfaces.scss' as surfaces;
+
+:global(:root) {
+  --confirmed-ink: #{$c-black};
+  --confirmed-muted: #{$c-gray-darkest};
+  --confirmed-focus: #{$primary-color};
+  --confirmed-hover: #{$c-gray-lightest};
+  --confirmed-action-hover: #{$c-blue-soft};
+  --confirmed-action-ink: #{$primary-color-hover};
+  --confirmed-error: #b42318;
+  --confirmed-divider: #{surfaces.$section-line};
+  --confirmed-field-edge: color-mix(in srgb, var(--confirmed-muted) 65%, var(--confirmed-divider));
+}
+
+.Plan { min-width: 0; padding-block: $spacing-base 0; }
+.Heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: $spacing-xs $spacing-lg;
+  margin-block-end: $spacing-lg;
+  > div { min-width: 0; }
+  h2 { margin: 0; min-width: 0; overflow-wrap: break-word; text-wrap: balance; color: var(--confirmed-ink); font-size: $font-size-3xl; font-weight: $font-weight-bold; line-height: $line-height-tight; }
+  h2:focus-visible { outline: 2px solid var(--confirmed-focus); outline-offset: 2px; }
+  p { margin: $spacing-xs 0 0; color: var(--confirmed-muted); font-size: $font-size-base; line-height: $line-height-normal; overflow-wrap: anywhere; }
+  @media (max-width: 699px) {
+    justify-content: space-between;
+    column-gap: $spacing-sm;
+  }
+}
+.Details {
+  display: grid; gap: $spacing-base; margin: 0 0 $spacing-base;
+  > div { display: grid; grid-template-columns: minmax(56px, auto) minmax(0, 1fr); gap: $spacing-base; align-items: baseline; }
+  dt { color: var(--confirmed-muted); font-size: $font-size-base; }
+  dd { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: $spacing-xs $spacing-base; margin: 0; min-width: 0; color: var(--confirmed-ink); font-size: $font-size-md; font-weight: $font-weight-semibold; overflow-wrap: anywhere; }
+}
+.TimeAction, .CloseEditor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 100%;
+  padding: $spacing-sm;
+  border: 0;
+  border-radius: surfaces.$control-radius;
+  background: transparent;
+  color: var(--confirmed-focus);
+  font: inherit;
+  cursor: pointer;
+
+  svg { flex-shrink: 0; font-size: $font-size-lg; }
+  &:focus-visible { outline: 2px solid var(--confirmed-focus); outline-offset: -2px; }
+  @media (hover: hover) {
+    &:hover:enabled { background: var(--confirmed-action-hover); color: var(--confirmed-action-ink); }
+  }
+  &:active:enabled { background: var(--confirmed-action-hover); color: var(--confirmed-action-ink); }
+}
+.TimeAction {
+  gap: $spacing-xs;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+.Editor {
+  min-width: 0;
+  max-width: 26rem;
+  margin-block-end: $spacing-lg;
+  padding-block-start: $spacing-xs;
+  border-block-start: 1px solid var(--confirmed-divider);
+}
+.EditorHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  margin-block-end: $spacing-xs;
+  h3 { min-width: 0; margin: 0; font-size: $font-size-md; line-height: $line-height-tight; overflow-wrap: anywhere; }
+}
+.CloseEditor {
+  flex-shrink: 0;
+  color: var(--confirmed-muted);
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+}
+.EditorControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  input {
+    flex: 1 1 9rem;
+    appearance: none;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 48px;
+    border-color: var(--confirmed-field-edge);
+    font-size: $font-size-lg;
+    font-variant-numeric: tabular-nums;
+    text-align: start;
+
+    @media (hover: hover) {
+      &:enabled:hover:not(:focus-visible) { outline: 1px solid var(--confirmed-muted); outline-offset: -1px; }
+    }
+    &:focus-visible { outline: 2px solid var(--confirmed-focus); outline-offset: -2px; }
+    &[aria-invalid='true'] { border-color: var(--confirmed-error); }
+    &::-webkit-date-and-time-value { min-height: 1.5em; text-align: start; }
+  }
+  button { width: auto; min-width: 5rem; max-width: 100%; min-height: 48px; }
+}
+.Zone {
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-xs;
+  margin: $spacing-sm 0 0;
+  color: var(--confirmed-muted);
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  overflow-wrap: anywhere;
+  svg { align-self: flex-start; flex-shrink: 0; margin-block-start: 0.25em; }
+}
+.Error { margin: $spacing-sm 0 0; color: var(--confirmed-error); font-size: $font-size-base; line-height: $line-height-normal; overflow-wrap: anywhere; }
+.Attendance {
+  margin-block-start: $spacing-base;
+  > summary { display: flex; align-items: center; justify-content: space-between; gap: $spacing-base; min-height: 48px; padding-block: $spacing-sm; color: var(--confirmed-ink); font-size: $font-size-base; line-height: $line-height-normal; list-style: none; cursor: pointer; }
+  > summary::-webkit-details-marker { display: none; }
+  > summary svg { flex-shrink: 0; font-size: $font-size-xl; }
+  > summary:focus-visible { outline: 2px solid var(--confirmed-focus); outline-offset: 2px; }
+  > summary:hover, > summary:active { background: var(--confirmed-hover); }
+  &[open] > summary svg { transform: rotate(180deg); }
+}

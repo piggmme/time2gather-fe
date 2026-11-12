@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "A baya",
+    "cancel": "Soke",
+    "next": "Na gaba",
+    "home": "Gida",
+    "createMeeting": "Ƙirƙiri taro",
+    "searchMeeting": "Nemo taro",
+    "searchMeetingPlaceholder": "Lambar taro",
+    "searchMeetingButton": "Nemo Taro",
+    "myMeetings": "Taro Na",
+    "adminDashboard": "Dashboard Admin",
+    "contactUs": "Tuntube mu",
+    "menu": "Menu",
+    "openMenu": "Buɗe Menu",
+    "submit": "Aika",
+    "share": "Raba",
+    "close": "Rufe",
+    "loading": "Ana lodawa...",
+    "error": "An sami kuskure Da fatan za a sake gwadawa.",
+    "switchToEnglish": "Canja zuwa Turanci",
+    "switchToKorean": "Canza zuwa Koriya",
+    "language": "Harshe",
+    "searchLanguages": "Zaɓi harshen ku"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "Barka da zuwa! 👋",
+    "description": "Yana ɗaukar daƙiƙa 5 kawai don yin shiri yanzu. Raba ramukan lokacinku, sami ƙuri'a, kuma nan take ganin mafi kyawun lokaci ga kowa da kowa!",
+    "createMeetingButton": "Ƙirƙiri Taro",
+    "heroTitleSuffix": " - Jadawalin da sauƙi",
+    "heroSubtitle": "Yi bankwana da tsararru mai rikitarwa. Nemo cikakken lokaci tare da abokanka.",
+    "viewMyMeetings": "Duba Taro Nawa"
+  },
+  "landing": {
+    "eyebrow": "Daidaita jadawalin kowa da kowa a wuri guda",
+    "title": "Sanya jadawalin taro ya zama mai sauƙi",
+    "description": "Time2Gather sabis ne na tsarawa kyauta don kada kuri'a akan ranaku, lokuta, da wurare don nemo lokacin taron da ke aiki ga kowa.",
+    "primaryCta": "Ƙirƙiri taro",
+    "secondaryCta": "Nemo tare da lamba",
+    "featuresHeading": "Duk abin da kuke buƙata don daidaita taro",
+    "features": {
+      "dates": {
+        "title": "Kwatanta kwanakin da yawa",
+        "description": "Zaɓi kwanakin ɗan takara kuma raba su tare da mahalartanku nan da nan."
+      },
+      "times": {
+        "title": "Zaɓe akan lokutan samuwa",
+        "description": "Tattara cikakken samuwa don nemo lokacin da ke aiki ga yawancin mutane."
+      },
+      "locations": {
+        "title": "Yanke shawarar wuri kuma",
+        "description": "Ƙara zaɓuɓɓukan wuri lokacin da ƙungiyar ku ke buƙatar zaɓar inda za ku hadu."
+      },
+      "sharing": {
+        "title": "Shiga daga mahaɗin guda ɗaya",
+        "description": "Raba hanyar haɗin yanar gizo don mahalarta su yi zabe nan da nan tare da sunan barkwanci kawai."
+      }
+    },
+    "stepsHeading": "Shirya tsare-tsare a matakai uku",
+    "steps": {
+      "create": {
+        "title": "1. Ƙirƙirar zaɓuɓɓuka",
+        "description": "Saita taken taron da ranaku ko lokuta don kwatanta."
+      },
+      "share": {
+        "title": "2. Raba hanyar haɗin gwiwa",
+        "description": "Aika hanyar haɗi zuwa abokai, abokan aiki, ko ƙungiyar ku."
+      },
+      "decide": {
+        "title": "3. Tabbatar da sakamakon",
+        "description": "Bitar kuri'un kuma zaɓi mafi kyawun lokaci ga kowa."
+      }
+    },
+    "faqHeading": "Tambayoyin da ake yawan yi",
+    "faq": {
+      "what": {
+        "question": "Ta yaya za mu sami lokacin haɗuwar abokai ko taron ƙungiya?",
+        "answer": "Ƙirƙiri zaɓin ranaku da lokuta a Time2Gather sannan a raba hanyar haɗi. Kowa ya zaɓi lokacin da yake da dama, sai a kwatanta sakamakon a tabbatar da lokaci. Kyauta ne ga abokai, ƙungiyoyin karatu da ƙungiyoyin aiki."
+      },
+      "login": {
+        "question": "Zan iya ƙirƙira da shiga zaɓe ba tare da rajista ko girka manhaja ba?",
+        "answer": "I. Mai shiryawa da mahalarta su rubuta suna kawai; ba a buƙatar rajista ko shiga da asusun sada zumunta. Ana iya ƙirƙirar taro da yin zaɓe a burauzar waya ko kwamfuta."
+      },
+      "location": {
+        "question": "Za mu iya zaɓar wurin haɗuwa ma?",
+        "answer": "I. Kunna zaɓen wuri yayin ƙirƙirar taro sannan a ƙara wuraren zaɓi. Mahalarta za su iya zaɓar wuraren da suke so kuma su tattauna a sharhi."
+      }
+    }
+  },
+  "login": {
+    "title": "Shirya don tsarawa?",
+    "description": "Shiga don ƙirƙira da sarrafa tarurrukanku.",
+    "kakaoLogin": "Ci gaba da Kakao",
+    "googleLogin": "Ci gaba da Google",
+    "oauth": {
+      "loadingTitle": "Shiga ciki",
+      "loadingDescription": "Za ku dawo kan allonku na baya nan da ɗan lokaci.",
+      "errorTitle": "Ba mu iya shigar da ku ba",
+      "errorDescription": "Koma zuwa shafin shiga kuma a sake gwadawa.",
+      "retry": "Gwada sake shiga"
+    }
+  },
+  "search": {
+    "title": "Nemo taro",
+    "description": "Shigar da lambar taron da kuka karɓa."
+  },
+  "createMeeting": {
+    "title": "Ƙirƙiri taro",
+    "meetingTypeStep": {
+      "heading": "Menene mahalarta zasu zaɓa?",
+      "allDay": "Kwanan wata kawai",
+      "time": "Kwanaki da lokuta"
+    },
+    "titleStep": {
+      "heading": "Ka ba taronku suna",
+      "placeholder": "misali, Jibin Juma'a"
+    },
+    "descriptionStep": {
+      "heading": "Wannan wane irin taro ne?",
+      "placeholder": "Mu hadu a Gangnam, kowa da kowa!"
+    },
+    "datesStep": {
+      "heading": "Zaɓi ranakun da suka dace"
+    },
+    "timeRangeStep": {
+      "heading": "Saita kewayon lokacin samuwa",
+      "startTime": "Lokacin farawa",
+      "endTime": "Lokacin ƙarewa",
+      "selectedDatesCount": "Kwanakin da aka zaɓa: {count}",
+      "createButton": "Ƙirƙiri taro"
+    },
+    "locationStep": {
+      "heading": "Kammala ƙirƙirar taron ku",
+      "requiredLabel": "Da ake bukata",
+      "creatorHeading": "Wanene ke ƙirƙirar wannan taro?",
+      "creatorDescription": "Za a nuna sunan laƙabin ku a matsayin mai masaukin taron.",
+      "usernameLabel": "Lakabin ku",
+      "usernamePlaceholder": "misali, Jamie",
+      "usernameChangeHelp": "Canza sunan ku yana kiyaye tarurrukan da kuke da su da ƙuri'u da sabunta sunan nuni kawai.",
+      "optionalLabel": "Na zaɓi",
+      "locationHeading": "Kuna son kuri'ar wurin?",
+      "locationDescription": "Kunna wannan idan kuna son mahalarta su zaɓi wurin tare.",
+      "enableLocationVote": "Bari mahalarta suyi zabe akan wuri",
+      "locationPlaceholder": "Shigar da wuri",
+      "addLocation": "Ƙara Wuri",
+      "removeLocation": "Cire Wuri",
+      "minLocationsWarning": "Ana buƙatar aƙalla wurare 2 don zaɓen wurin",
+      "maxLocationsWarning": "Kuna iya ƙara har zuwa wurare 5 kawai",
+      "createButton": "Ƙirƙiri taro",
+      "creatingButton": "Ƙirƙirar taro...",
+      "skipButton": "Tsallake"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "Ba'a Samu Taron ba",
+      "description": "Taron da kuka nema babu shi ko kuma an share shi."
+    },
+    "participantsEmpty": "Babu mahalarta tukuna.",
+    "participantsCount": "Mahalarta: {count}",
+    "participantsCountCompact": "{count} yana shiga",
+    "selectedDates": "Zaɓi kwanakin da suke yi muku aiki daga zaɓuɓɓukan {count}.",
+    "selectedDatesAndTimes": "Zaɓi ranaku da lokutan da suke aiki a gare ku daga zaɓuɓɓukan kwanan wata {count}.",
+    "timeGrid": {
+      "timeLabel": "Lokaci",
+      "touchHint": "Latsa, riƙe, sannan ja don zaɓar sau da yawa",
+      "pointerHint": "Ja don zaɓar sau da yawa lokaci guda",
+      "draggingHint": "Jawo · Saki don amfani da zaɓinku",
+      "selectDate": "Zaɓi kowane lokaci akan {date}",
+      "previousDates": "Kwanakin baya",
+      "nextDates": "Kwanakin gaba"
+    },
+    "dateCalendar": {
+      "mySelection": "Zaɓina",
+      "fewerVotes": "Ƙananan ƙuri’u",
+      "moreVotes": "Ƙuri’u masu yawa",
+      "available": "Akwai",
+      "unavailable": "Babu",
+      "today": "Yau",
+      "availableMonths": "Watanni tare da kwanan wata",
+      "monthAvailability": "{count} akwai kwanakin a cikin {month}",
+      "previousMonth": "Watan da ya gabata",
+      "nextMonth": "Wata mai zuwa"
+    },
+    "dateParticipants": {
+      "title": "Akwai akan {date}",
+      "count": {
+        "one": "{count} mutum",
+        "other": "Mutane suna {count}"
+      }
+    },
+    "resultSaved": "An ajiye sakamakon.",
+    "modifyButton": "Gyara samuwa",
+    "participate": "Shiga Taro",
+    "shareResult": "Raba Sakamakon",
+    "shareMeeting": "Raba Taro",
+    "shareSuccess": "An kwafi hanyar haɗin yanar gizon.",
+    "exportToCalendar": "Ƙara zuwa Kalanda Nawa",
+    "confirmButton": "Tabbatar da Taro",
+    "confirmButtonShort": "Tabbatar da Taro",
+    "cancelConfirmButton": "Soke Tabbatarwa",
+    "cancelConfirmSuccess": "An soke tabbatar da taro!",
+    "cancelConfirmError": "An kasa soke tabbatarwa. Da fatan za a sake gwadawa.",
+    "alreadyConfirmedError": "An riga an tabbatar da wannan taron. Ba za ku iya canza ƙuri'ar ku ba.",
+    "editDates": {
+      "openButton": "Gyara zaɓuɓɓukan ƙuri’a",
+      "hostOnly": "Mai watsa shiri kawai",
+      "title": "Gyara zaɓuɓɓukan ƙuri’a",
+      "description": "Canja zaɓuɓɓukan da kowa zai iya jefa ƙuri’a a kansu.",
+      "selectedCount": "{count} kwanakin da aka zaɓa",
+      "selectionHint": "Matsa ko ja don zaɓar kwanakin.",
+      "removedWarning": "Za a share kuri'u akan kwanakin da aka cire {count} lokacin da kuka adana.",
+      "maxDates": "Kuna iya zaɓar har zuwa kwanakin {count}.",
+      "save": "Ajiye zaɓuɓɓuka",
+      "success": "An sabunta zaɓuɓɓukan ƙuri’a.",
+      "error": "Ba a iya sabunta zaɓuɓɓukan ƙuri’a ba. Sake gwadawa.",
+      "timeOpenButton": "Gyara zaɓuɓɓukan ƙuri’a",
+      "timeTitle": "Gyara zaɓuɓɓukan ƙuri’a",
+      "timeDescription": "Canja zaɓuɓɓukan da kowa zai iya jefa ƙuri’a a kansu.",
+      "timeSave": "Ajiye zaɓuɓɓuka",
+      "timeSuccess": "An sabunta zaɓuɓɓukan ƙuri’a.",
+      "timeError": "Ba a iya sabunta zaɓuɓɓukan ƙuri’a ba. Sake gwadawa.",
+      "timeRangeHint": "Idan ka canza zangon lokaci, zai shafi duk ranakun da ka zaɓa.",
+      "timeRemovedWarning": "Idan an ajiye, za a goge ƙuri’un zaɓuɓɓukan lokaci {count} da aka cire. Sauran ƙuri’un za su kasance.",
+      "locationRemovedWarning": "Ajiyewa zai goge ƙuri’un zaɓuɓɓukan wurare {count} da aka canja ko cire. Sauran ƙuri’u za su ci gaba da kasancewa."
+    },
+    "exportDialog": {
+      "title": "Ƙara zuwa Kalanda",
+      "description": "Zaɓi kwanan wata da lokaci don ƙara zuwa kalandarku.",
+      "noSlots": "Har yanzu ba a zabi ranakun zabe ba.",
+      "allDay": "Duk Ranar",
+      "cancel": "Soke",
+      "confirm": "Ƙara zuwa Kalanda",
+      "close": "Kusa"
+    },
+    "confirmDialog": {
+      "title": "Tabbatar da Taro",
+      "description": "Zaɓi jadawalin ƙarshe daga {count} daura manyan zaɓuɓɓuka.",
+      "noSlots": "Har yanzu ba a zabi ranakun zabe ba.",
+      "allDay": "Duk Ranar",
+      "scheduleTitle": "Kwanan wata da lokaci",
+      "scheduleDescription": "Waɗannan zaɓuɓɓukan suna aiki ga mafi yawan mahalarta.",
+      "locationTitle": "Wuri",
+      "locationDescription": "Zaɓi inda zaku hadu ta amfani da sakamakon jefa ƙuri'a.",
+      "locationStepDescription": "Zaɓi inda zaku haɗu don gama tabbatar da shirin.",
+      "progressLabel": "Matakan tabbatar da taro",
+      "locationVoteCount": {
+        "one": "{count} jefa kuri'a",
+        "other": "{count} kuri'u"
+      },
+      "noLocations": "Babu wurare da ake da su don tabbatarwa.",
+      "cancel": "Soke",
+      "confirm": "Tabbatar",
+      "confirming": "Tabbatarwa...",
+      "close": "Kusa",
+      "success": "An tabbatar da taro!",
+      "error": "An kasa tabbatar da haduwa. Da fatan za a sake gwadawa.",
+      "allCandidatesDescription": "Zaɓi lokacin ƙarshe daga duk zaɓuɓɓuka {count}.",
+      "groupedDescription": "Zaɓi ɗaya daga cikin ranaku {count}, sannan zaɓi lokacin farawa.",
+      "recommendationsDescription": "Zaɓuɓɓukan da mahalarta da yawa suka samu dama, ɗaya ga kowace rana.",
+      "allDates": "Zaɓi daga duk ranaku {count}",
+      "backToRecommendations": "Duba shawarwari"
+    },
+    "anonymousSelectButton": "Shiga tare da suna",
+    "selectButton": "Zaɓi Kwanuka",
+    "selectTimeButton": "Zaɓi Kwanan wata da Lokaci",
+    "result": {
+      "tabs": {
+        "aiSummary": "Takaitawa",
+        "summary": "Takaitawa",
+        "confirmed": "Tabbatar da shirin",
+        "calendar": "Kalanda",
+        "participants": "Mahalarta",
+        "location": "Wuri"
+      },
+      "summaryTitle": "Takaitacciyar Taro",
+      "aiSummaryTitle": "Takaitacciyar Sakamakon Zaɓe",
+      "calendarTitle": "Kalanda taro",
+      "totalParticipants": "Mahalarta: {count}",
+      "bestSlotsTitle": "Ranakin da suka dace da mafi yawa",
+      "showMoreOptions": "Nuna ƙarin {count}",
+      "showFewerOptions": "Nuna ƙasa",
+      "moreTimeOptions": "{count} ƙarin zaɓuɓɓukan lokaci",
+      "participantsCount": "Mahalarta: {count}",
+      "people": "mutane",
+      "voteCount": {
+        "one": "{count} mutum ({percentage})",
+        "other": "Mutane {count} ({percentage})"
+      },
+      "noParticipants": "Babu mahalarta",
+      "buttons": {
+        "calendar": "Ƙara zuwa kalanda",
+        "share": "Raba ƙuri’a",
+        "shareConfirmed": "Raba tsarin da aka tabbatar",
+        "shareKakao": "KakaoTalk",
+        "modifyDates": "Gyara zaɓi na kwanan wata",
+        "modifyTimes": "Shirya zaɓi na kwanan wata da lokaci",
+        "selectDates": "Zaɓi kwanakin da nake da su",
+        "selectTimes": "Zaɓi ranakun da lokuta na da ke akwai",
+        "enterAvailability": "Ƙara samuwa",
+        "editAvailability": "Gyara ƙuri’ata"
+      },
+      "confirmedPlan": {
+        "eyebrow": "TABBATAR DA SHIRIN",
+        "title": "An tsara shirin ku duka",
+        "date": "Kwanan wata",
+        "time": "Lokaci",
+        "location": "Wuri",
+        "attendees": "Akwai masu halarta",
+        "attendanceSummary": {
+          "one": "{count} mutum · {percentage} na kungiyar",
+          "other": "{count} mutane · {percentage} na kungiyar"
+        },
+        "confirmTime": "Tabbatar da lokaci",
+        "confirmTimeTitle": "Tabbatar da lokacin haɗuwa",
+        "confirmTimeDescription": "Zaɓi lokacin haɗuwa a ranar da aka tabbatar.",
+        "timeConfirmSuccess": "An tabbatar da lokacin haɗuwa.",
+        "timeConfirmError": "Ba a iya tabbatar da lokacin haɗuwa ba. Da fatan za a sake gwadawa.",
+        "timePending": "Ba a saita ba",
+        "editTime": "Gyara",
+        "editTimeTitle": "Gyara lokacin taro",
+        "editTimeDescription": "Ci gaba da tabbatar da kwanan wata kuma saita ainihin lokacin da kuke shirin saduwa.",
+        "saveTime": "Ajiye",
+        "savingTime": "Ana ajiyewa...",
+        "timeUpdateSuccess": "An sabunta lokacin taron.",
+        "timeUpdateError": "Ba a iya sabunta lokacin taron ba. Da fatan za a sake gwadawa.",
+        "addTime": "Ƙara lokaci (na zaɓi)",
+        "addTimeTitle": "Ƙara lokaci",
+        "optionalTimeDescription": "Ƙara lokaci kawai idan ana buƙata.",
+        "attendanceCount": "{count} daga cikin {total} suna da lokaci",
+        "cancelTitle": "A soke tabbatarwa?",
+        "cancelDescription": "Za a cire jadawalin da aka tabbatar. Za a adana amsoshin mahalarta.",
+        "keepConfirmation": "Bar tabbatarwar"
+      },
+      "actions": {
+        "confirmed": "Tabbatar da shirin",
+        "confirmedDescription": "Raba bayanan ko ƙara su zuwa kalandarku.",
+        "inProgress": "Ana ci gaba da tsare-tsare",
+        "manage": "Sarrafa ƙuri’a"
+      },
+      "share": {
+        "confirmedTitle": "An tabbatar da {title}",
+        "confirmedHeading": "An tabbatar da shirin!",
+        "detailsCopied": "An kwafi bayanan da aka tabbatar da haɗin kai.",
+        "manualCopyDescription": "Ba a iya rabawa ko kwafewa ta atomatik ba. Zaɓi rubutun da ke ƙasa ka kwafa."
+      },
+      "kakaoShare": {
+        "description": "Zaɓi lokutan da ke aiki a gare ku.",
+        "buttonTitle": "Shiga zaben",
+        "confirmedTitle": "{date} · An Tabbatar",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "Duba tsarin da aka tabbatar",
+        "locationPending": "Wuri yana jiran"
+      },
+      "attendance": {
+        "available": "Za su iya halarta",
+        "unavailable": "Ba za su iya halarta ba",
+        "everyoneAvailable": "Kowa zai iya halarta",
+        "noneAvailable": "Babu wanda zai iya halarta"
+      },
+      "bestTimesTitle": "Lokutan da suka dace da mafi yawa",
+      "availabilityBasis": "Bisa amsoshi {count}.",
+      "allAvailable": "Duka suna iya zuwa ({count})",
+      "someAvailable": "{count} cikin {total} suna iya zuwa",
+      "viewSlotPeople": "Danna wani zaɓi don ganin waɗanda za su iya zuwa.",
+      "decision": {
+        "allHeadline": "Duka mutane {count} {availability}",
+        "allHeadlineHighlight": "suna iya zuwa",
+        "allDates": "Ranakun da suka dace da kowa ({count})",
+        "allTimes": "Lokutan da suka dace da kowa ({count})",
+        "partial": "Mutane har {count} za su iya haɗuwa",
+        "basis": "Bisa lokutan da aka shigar zuwa yanzu",
+        "notAll": "Har yanzu babu zaɓin da ya dace da kowa.",
+        "emptyDates": "Ba a zaɓi rana ba",
+        "emptyTimes": "Ba a zaɓi lokaci ba",
+        "pending": "Ana jiran amsoshi kan sabbin zaɓuɓɓuka",
+        "allUnavailable": "Dukkan mutane {count} da suka amsa sun ce zaɓuɓɓukan da aka bayar ba su dace da su ba.",
+        "notSelected": "Mutanen da ba su zaɓi wannan ba",
+        "people": "Duba waɗanda suke da lokaci",
+        "chooseDate": "Tsayar da taro a wannan rana",
+        "chooseTime": "Tsayar da taro a wannan lokaci",
+        "confirmedDate": "An tsayar da ranar taron",
+        "setMeeting": "Tabbatar da Taro"
+      },
+      "calendarFilter": {
+        "selectAll": "Zaɓi kowa",
+        "selectedCount": "An zaɓi {selected} cikin {total}",
+        "selectPrompt": "Zaɓi mahalarta don ganin lokutan da suke da dama.",
+        "noAvailability": "Waɗanda aka zaɓa ba su da wani lokacin da suke da dama."
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "Ba ku shiga ba",
+        "description": "Shiga ba tare da shiga ta shigar da suna ba.",
+        "kakaoLoginButton": "Ci gaba da Kakao",
+        "loginButton": "Shiga",
+        "anonymousLogin": "Shigar da suna don shiga"
+      },
+      "description": "Shigar da sunan da za ku yi amfani da shi don wannan taron.",
+      "votingAs": "Haɗuwa azaman {username}.",
+      "votingAsCompact": "Haɗuwa azaman {username}",
+      "usernamePlaceholder": "Suna",
+      "anonymousLogin": "Shiga da wannan sunan"
+    },
+    "identity": {
+      "label": "Sunan wannan taro",
+      "hint": "Canjin suna ya shafi wannan taro kaɗai.",
+      "change": "Canja suna"
+    },
+    "unavailable": {
+      "dates": "Babu ranar da ta dace da ni",
+      "times": "Babu lokacin da ya dace da ni",
+      "hint": "Zaɓi wannan idan babu wani zaɓi da ya dace da kai.",
+      "selectedHint": "Amsarka za ta nuna cewa babu zaɓin da ya dace. Za ka iya canza ta daga baya.",
+      "changed": "Kwanakin da aka gabatar sun canza. Sake loda shafin ka kuma sake amsawa.",
+      "respondents": "Waɗanda suka amsa",
+      "datesStatus": "Babu ranar da ta dace",
+      "timesStatus": "Babu lokacin da ya dace",
+      "pending": "Sabbin zaɓuɓɓuka na bukatar amsa",
+      "selected": "Sun zaɓi lokaci",
+      "noneStatus": "Babu lokacin da ya dace",
+      "picked": "Mahalarta da za su iya zuwa",
+      "emptyTitle": "Har yanzu babu lokacin da aka ba da shawara",
+      "emptyHint": "Jira amsoshin ƙarin mahalarta.",
+      "viewPeople": "Duba mahalarta",
+      "morePeople": "Nuna ƙarin mutane {count}",
+      "lessPeople": "Nuna kaɗan",
+      "basis": "Bisa ƙuri’un samuwa na lokacin da aka tabbatar.",
+      "otherSelection": "Sun zaɓi wani lokaci"
+    }
+  },
+  "my": {
+    "title": "Taro Na",
+    "tabs": {
+      "myMeetings": "Taro Na",
+      "participatedMeetings": "Taron da na shiga"
+    },
+    "noMeetings": "Ba ku ƙirƙiri wani taro ba tukuna.",
+    "noParticipatedMeetings": "Ba ku shiga kowane taro ba tukuna.",
+    "myMeetingsDetails": "Kun ƙirƙiri tarurrukan {count}.",
+    "participatedMeetingsDetails": "Kun shiga cikin tarurrukan {count}."
+  },
+  "admin": {
+    "metaTitle": "Dashboard Admin - Time2Gather",
+    "metaDescription": "Dashboard mai zaman kansa don bitar masu amfani da Time2Gather da tarurruka.",
+    "eyebrow": "ADMIN CONSOLE",
+    "title": "Bayanin sabis",
+    "description": "Yi bita mai amfani mai mahimmanci da ma'aunin saduwa, sannan nemo bayanan da kuke buƙata da sauri.",
+    "summaryTitle": "A kallo",
+    "summaryDescription": "Ƙididdiga ta dogara ne akan masu amfani da tarukan da aka adana a halin yanzu.",
+    "loading": "Ana shirya dashboard admin.",
+    "loadingDescription": "Duba damar ku da loda sabbin bayanai.",
+    "accessDeniedTitle": "Ba ku da damar shiga",
+    "accessDeniedDescription": "Asusu masu aikin gudanarwa ne kawai zasu iya duba wannan shafin.",
+    "refresh": "Sake dubawa",
+    "retry": "A sake gwadawa",
+    "loadError": "Ba za mu iya loda bayanin ba.",
+    "search": "Bincika",
+    "notAvailable": "Babu samuwa",
+    "pageOf": "Shafi {current} na {total}",
+    "stats": {
+      "totalUsers": "Jimlar masu amfani",
+      "registeredUsers": "Masu amfani da rajista",
+      "anonymousUsers": "Masu amfani da ba a san su ba",
+      "adminUsers": "{count} admins",
+      "totalMeetings": "Jimillar tarurruka",
+      "activeMeetings": "Tarurukan aiki",
+      "confirmedMeetings": "Tabbatattun tarurruka",
+      "confirmationRate": "Yawan tabbatarwa: {rate}"
+    },
+    "users": {
+      "title": "Masu amfani",
+      "description": "An samo masu amfani da {count}.",
+      "searchPlaceholder": "Bincika suna ko imel",
+      "loadError": "Ba za mu iya loda masu amfani ba.",
+      "empty": "Babu mai amfani da ya dace da bincikenku.",
+      "user": "Mai amfani",
+      "provider": "Hanyar shiga",
+      "role": "Matsayi",
+      "joinedAt": "An shiga",
+      "participatedMeetings": "Tarukan da ya halarta",
+      "noParticipatedMeetings": "Bai halarci wani taro ba tukuna.",
+      "noEmail": "Babu imel"
+    },
+    "meetings": {
+      "title": "Taruruka",
+      "description": "An sami tarurrukan {count}.",
+      "searchPlaceholder": "Bincika take ko lambar taro",
+      "loadError": "Ba mu iya loda tarurruka ba.",
+      "empty": "Babu tarurruka da suka dace da bincikenku.",
+      "meeting": "Ganawa",
+      "host": "Mai watsa shiri",
+      "status": "Matsayi",
+      "createdAt": "Ƙirƙiri",
+      "active": "Mai aiki",
+      "inactive": "Mara aiki",
+      "confirmed": "An tabbatar",
+      "confirmedOnly": "Nuna tarukan da aka tabbatar kawai",
+      "unknownHost": "Mai amfani da ba a sani ba",
+      "openNewTab": "Buɗe taro a sabon shafi"
+    },
+    "providers": {
+      "ANONYMOUS": "Ba a sani ba",
+      "KAKAO": "Kakao",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "Mai amfani",
+      "ADMIN": "Admin"
+    },
+    "selectionTypes": {
+      "TIME": "Kwanan wata da lokaci",
+      "ALL_DAY": "Kwanan wata kawai"
+    },
+    "login": {
+      "checking": "Ana duba saitunan shiga...",
+      "expired": "Shiga Admin ya ƙare ko babu. Da fatan za a sake shiga",
+      "notConfigured": "Ba a saita shigar mai gudanarwa ba. Tuntuɓi mai aiki.",
+      "verifying": "Ana duba shiga admin...",
+      "notAllowed": "Yi amfani da asusun gudanarwa mai izini.",
+      "google": "Shiga tare da Google",
+      "unavailable": "An kasa loda sabis ɗin shiga.",
+      "networkError": "Duba haɗin ku kuma sake gwadawa.",
+      "logout": "Fita",
+      "title": "Shiga Admin",
+      "description": "Asusun Google masu izini ne kawai za su iya shiga wannan yanki.",
+      "retry": "A sake gwadawa",
+      "sessionHelp": "Samun damar mai gudanarwa yana amfani da wani zama dabam daga halartar taro."
+    }
+  },
+  "404": {
+    "title": "Ba a Samu Shafi ba",
+    "description": "Shafin da kuka nema babu shi ko kuma an goge shi.",
+    "homeButton": "Jeka Gida"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - Jadawalin da Mutane",
+    "siteDescription": "Sabis wanda ke sauƙaƙa tsara jadawalin tarurruka tare da mutane. Ƙirƙiri tarurruka, zaɓi ranaku da ramummuka masu yawa, kuma raba su. Lokacin da mahalarta suka zaɓi lokutan da suke da su, za mu ba da shawarar mafi kyawun kwanan wata da lokacin saduwa.",
+    "siteKeywords": "taron jadawalin, daidaita jadawalin, taron rukuni, jadawalin rukuni, daidaita lokaci, gudanar da taro, raba jadawalin, Time2Gather",
+    "ogImageAlt": "Time2Gather - Jadawalin tare da Mutane da yawa",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - Jadawalin tarurruka a cikin dakika 5",
+        "description": "Ana gwagwarmaya don daidaita jadawalin tare da mutane da yawa? Yi amfani da Time2Gather don karɓar ƙuri'a cikin sauƙi da nemo mafi kyawun lokaci ga kowa da kowa."
+      },
+      "create": {
+        "title": "Ƙirƙiri taro - Time2 Gather",
+        "description": "Ƙirƙiri sabon taro kuma raba shi tare da abokai. Sauƙaƙe yanke hukunci akan ranaku, lokuta, da wurare ta hanyar jefa ƙuri'a."
+      },
+      "login": {
+        "title": "Shiga - Lokaci2 Taro",
+        "description": "Shiga tare da Kakao ko Google don fara tsarawa."
+      },
+      "my": {
+        "title": "Taro Na - Lokaci2Taro",
+        "description": "Duba duk tarukan da kuka ƙirƙira da shiga a kallo. Gudanar da taro ya yi sauƙi."
+      },
+      "meeting": {
+        "title": "{title} - Time2Gather",
+        "description": "Shiga taron {title}. Zaɓi lokutan da ke akwai kuma ku yi zabe."
+      },
+      "result": {
+        "title": "Sakamako {title} - Time2Gather",
+        "description": "Haɗa {title} kuma zaɓi lokutan da ke aiki a gare ku.",
+        "confirmedTitle": "An Tabbatar da {title} - Time2Gather",
+        "confirmedDescription": "Tabbatar da shirin: {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "Mataimakin Jadawalin",
+    "open": "Bude Taɗi",
+    "close": "Rufe Taɗi",
+    "welcomeMessage": "Sannu! Tambaye ni game da jadawalin ku.",
+    "welcomeHint": "misali \"Nuna tarurruka na\", \"Me ke faruwa mako mai zuwa?\"",
+    "inputPlaceholder": "Buga sako...",
+    "errorMessage": "Yi haƙuri, an sami kuskure. Da fatan za a sake gwadawa daga baya."
+  },
+  "locationVote": {
+    "title": "Zaɓen Wuri",
+    "description": "Zaɓi wurin da kuka fi so",
+    "scheduleStepLabel": "1/2 · Samuwar",
+    "locationStepLabel": "2/2 · Wuri",
+    "selectionTitle": "A ina zamu hadu?",
+    "selectionDescription": "Zaɓi duk wuraren da ke aiki a gare ku.",
+    "confirmedLocation": "Tabbatar da Wuri",
+    "confirmed": "An tabbatar",
+    "loadError": "An kasa loda zabin wurin ku.",
+    "retry": "A sake gwadawa",
+    "voters": "Masu zaɓar wannan wuri",
+    "noVotes": "Babu ƙuri’u tukuna"
+  },
+  "timezone": {
+    "title": "Yankin lokaci",
+    "meeting": "Yankin lokacin taro: {zone}",
+    "display": "Yankin lokacin nuninku",
+    "hint": "Ana shigar da ranaku da lokuta a yankin lokacin taron. Kowa yayi zabe a lokaci guda.",
+    "gridHint": "Kwanakin ginshiƙi da kullin lokaci suna amfani da yankin lokacin taron. Kowace tantanin halitta kuma yana nuna kwanan wata da lokaci a yankin lokacin da kuka zaɓa.",
+    "local": "A cikin {zone}: {time}",
+    "invalid": "Zaɓi yankin lokaci mai inganci.",
+    "gap": "Wannan lokacin ba ya wanzu saboda agogo suna tafiya gaba. Zaɓi wani lokaci.",
+    "overlap": "Wannan lokacin yana faruwa sau biyu lokacin da agogo ya koma baya. Zaɓi lokaci maras tabbas.",
+    "allDay": "Ƙuri'un kwanan wata kawai suna kiyaye kwanan wata kalanda iri ɗaya a kowane yanki na lokaci.",
+    "useDevice": "Yi amfani da yankin lokacin na'urar",
+    "search": "Bincika yankunan lokaci",
+    "noResults": "Ba a sami yankin lokaci ba. Gwada wani birni ko yanki."
+  },
+  "errors": {
+    "error.internal": "An sami kuskuren uwar garken ciki",
+    "error.validation.failed": "Tabbatar da shigarwa ya gaza",
+    "error.request.invalid": "Neman bashi da inganci. Saukewa: {0}",
+    "error.state.invalid": "Ba za a iya yin wannan buƙatar a halin yanzu ba",
+    "error.resource.not.found": "Ba a iya samun albarkatun da aka nema ba",
+    "error.null.pointer": "Bayanan da ake buƙata ya ɓace. Da fatan za a duba buƙatarku.",
+    "error.number.format": "Tsarin lamba ba daidai ba ne. Da fatan za a duba shigarwar ku.",
+    "error.auth.required": "Ana buƙatar tabbaci",
+    "error.auth.required.login": "Ana buƙatar tabbaci. Da fatan za a shiga kuma a sake gwadawa.",
+    "error.auth.access.denied": "An hana shiga",
+    "error.auth.not.authenticated": "Ba a inganta mai amfani ba",
+    "error.user.not.found": "Ba a samo mai amfani ba",
+    "error.user.not.found.email": "Ba a sami mai amfani tare da imel: {0}",
+    "error.user.id.required": "Ana buƙatar ID mai amfani",
+    "error.oauth.invalid.code": "Lambar izini ba ta aiki ko ƙarewa. Da fatan za a sake tabbatarwa. Kuskure: {0}",
+    "error.oauth.api.failed": "An kasa yin sadarwa tare da OAuth API: {0}",
+    "error.oauth.no.id.token": "An kasa samun alamar ID daga mai bada OAuth",
+    "error.oauth.no.user.info": "An kasa samun bayanin mai amfani daga mai bada OAuth",
+    "error.meeting.not.found": "Ba a sami taro ba",
+    "error.meeting.not.found.code": "Ba a sami taron ba: {0}",
+    "error.meeting.id.required": "Ana buƙatar ID taro",
+    "error.meeting.already.confirmed": "An riga an tabbatar da taro. Da fatan za a soke tabbatarwa tukuna.",
+    "error.meeting.not.confirmed": "Ba a tabbatar da ganawar ba",
+    "error.meeting.invalid.date": "Kwanan wata mara inganci: {0}",
+    "error.meeting.date.not.available": "Babu wannan kwanan wata a cikin taron: {0}",
+    "error.meeting.no.interval.info": "Ba a rasa bayanin tazarar taro",
+    "error.meeting.host.only": "Mai watsa shiri ne kawai zai iya yin wannan aikin",
+    "error.meeting.no.participants": "Ba za a iya ƙirƙirar kalanda ba saboda babu mahalarta da suka yi zabe tukuna",
+    "error.meeting.date.format.invalid": "Tsarin kwanan wata ba shi da inganci. Da fatan za a yi amfani da tsarin yyyy-MM-dd.",
+    "error.meeting.validation.date.required": "Aƙalla kwana ɗaya dole ne a zaɓi",
+    "error.meeting.validation.date.slot.required": "Aƙalla ramin lokaci ɗaya dole ne a zaɓi kowane kwanan wata",
+    "error.meeting.validation.time.required": "Aƙalla kwana ɗaya da ramin lokaci dole ne a zaɓi",
+    "error.meeting.validation.all.day.empty.slots": "Don nau'in ALL_DAY, guraben lokaci dole ne su zama tsararru mara komai",
+    "error.meeting.validation.slot.index.required": "Ana buƙatar slotIndex don nau'in tarurrukan TIME",
+    "error.meeting.validation.slot.index.invalid": "Fihirisar ramuwa mara inganci: {0}",
+    "error.meeting.validation.date.slot.together": "dole ne a ƙayyade kwanan wata da slotIndex tare",
+    "error.location.not.found": "Ba a samo wurin ba",
+    "error.location.not.belong.to.meeting": "Wuri baya cikin wannan taron",
+    "error.location.vote.not.enabled": "Ba a kunna zaben wurin don wannan taron ba",
+    "error.location.already.confirmed": "An riga an tabbatar da wurin. Da fatan za a soke tabbatar da wuri tukuna.",
+    "error.location.not.confirmed": "Ba a tabbatar da wurin ba",
+    "error.location.id.required": "Ana buƙatar ID na wurin",
+    "error.location.name.required": "Ana buƙatar sunan wurin",
+    "error.location.name.too.long": "Sunan wuri ba zai iya wuce haruffa 200 ba",
+    "error.location.max.exceeded": "Ana iya ƙara mafi girman wuraren {0}",
+    "error.location.min.required": "Akalla {0} wuri(s) ake buƙata",
+    "error.location.min.for.vote": "Aƙalla ana buƙatar wuraren {0} don kunna zaɓen wuri",
+    "error.location.cannot.disable": "Ba za a iya kashe zaɓen wuri ba lokacin da aka tabbatar da wurin",
+    "error.location.not.exist": "Babu wurin: {0}",
+    "error.selection.empty": "Bayanan zaɓi ba komai",
+    "error.selection.date.required": "Ana buƙatar kwanan wata",
+    "error.selection.type.required": "Ana buƙatar nau'in",
+    "error.selection.type.unknown": "Nau'in da ba a sani ba: {0} (Lokaci ko ALL_DAY kawai aka yarda)",
+    "error.selection.time.required": "Kwanan wata '{0}' nau'in TIME ce amma ba a ƙayyade lokaci ba",
+    "error.selection.time.empty": "Ƙimar lokaci fanko ne",
+    "error.selection.time.format.invalid": "Tsarin lokaci ba shi da inganci don kwanan wata '{0}'. Saukewa: {1}",
+    "error.selection.date.not.available": "Babu kwanan wata {0} a cikin wannan taron",
+    "error.selection.slot.null": "Ramin tsararru ba zai iya zama banza ba. Yi amfani da taswira mara komai don keɓance kwanakin.",
+    "error.selection.slot.not.available": "Ramin {0} baya samuwa akan {1}",
+    "error.selection.slot.empty.for.time": "Ba a ba da izinin tsararru marar amfani don nau'in tarurrukan TIME. Yi amfani da taswira mara komai don keɓance kwanakin.",
+    "error.timeslot.invalid.format": "Tsarin lokaci mara inganci. HH:mm",
+    "error.timeslot.invalid.hour": "Sa'a dole ne ya kasance tsakanin 0 da 23",
+    "error.timeslot.invalid.minute": "Dole ne minti ya kasance tsakanin 0 zuwa 59",
+    "error.timeslot.not.aligned": "Dole ne a daidaita lokaci zuwa tazarar mintuna {0}",
+    "error.timeslot.index.out.of.range": "Dole ne maƙasudin ramuka su kasance tsakanin {1} da {2} don tazarar mintuna {0}, amma ya samu: {3}",
+    "error.timeslot.interval.positive": "Mintunan tazara dole ne su kasance tabbatacce",
+    "error.timeslot.interval.divisor": "Mintunan tazara dole ne su zama mai rarraba {0}",
+    "error.calendar.export.failed": "An kasa ƙirƙirar fayil ɗin kalanda",
+    "error.ai.api.failed": "AI API kira ya kasa",
+    "error.ai.provider.unknown": "Ba a sani ba mai bada AI: {0}",
+    "mcp.meeting.created": "An kirkiro taron cikin nasara",
+    "mcp.vote.time.saved": "An adana kuri'ar samuwa cikin nasara",
+    "mcp.vote.location.saved": "An ajiye kuri'ar wurin cikin nasara",
+    "mcp.meeting.confirmed": "An tabbatar da jadawalin taron cikin nasara",
+    "mcp.location.confirmed": "An tabbatar da wurin taron cikin nasara",
+    "mcp.ics.created": "An ƙirƙiri fayil ɗin ICS cikin nasara",
+    "validation.meeting.title.required": "Ana buƙatar taken",
+    "validation.meeting.dates.required": "Ana buƙatar kwanakin/ lokutan da ake samuwa",
+    "validation.meeting.location.max": "Ana iya ƙara mafi girman wurare 5",
+    "validation.selection.required": "Ana buƙatar wuraren da aka zaɓa",
+    "validation.date.required": "Ana buƙatar kwanan wata",
+    "validation.date.format": "Tsarin kwanan wata dole ne ya zama yyyy-MM-dd",
+    "validation.time.required": "Ana buƙatar lokaci",
+    "validation.time.format": "Tsarin lokaci dole ne ya zama HH:mm",
+    "validation.location.id.required": "Ana buƙatar ID na wurin",
+    "validation.location.ids.required": "Ana buƙatar lissafin ID na wuri",
+    "validation.location.name.required": "Ana buƙatar sunan wurin",
+    "validation.location.max": "Ana iya ƙara mafi girman wurare 5",
+    "validation.auth.code.required": "Ana buƙatar lambar izini",
+    "validation.username.required": "Ana buƙatar sunan mai amfani",
+    "validation.password.required": "Ana buƙatar kalmar sirri",
+    "validation.selection.date.min.max": "Da fatan za a zaɓa tsakanin kwanakin 1 zuwa 31",
+    "validation.type.required": "Ana buƙatar nau'in",
+    "validation.slot.index.required": "Fihirisar ramuka don tabbatarwa (ana buƙatar nau'in TIME, babu izini don nau'in ALL_DAY)",
+    "error.meeting.timezone.invalid": "Zaɓi yankin lokaci mai inganci na IANA.",
+    "error.meeting.time.nonexistent": "Wannan lokacin ba ya wanzu saboda agogo suna tafiya gaba. Zaɓi wani lokaci.",
+    "error.meeting.time.ambiguous": "Wannan lokacin yana faruwa sau biyu lokacin da agogo ya koma baya. Zaɓi lokaci maras tabbas.",
+    "error.comment.rate.limit": "Jira wasu daƙiƙu kafin sake aikawa.",
+    "error.selection.candidates.changed": "Kwanakin da aka gabatar sun canza. Sake loda shafin ka kuma sake amsawa."
+  },
+  "comments": {
+    "title": "Sharhi",
+    "placeholder": "Yi magana game da wannan haɗuwa",
+    "reply": "Amsa",
+    "replyTo": "Amsa ga {name}",
+    "replies": "Amsoshi ({count})",
+    "collapse": "Ɓoye amsoshi",
+    "post": "Aika",
+    "save": "Ajiye",
+    "edit": "Gyara",
+    "delete": "Goge",
+    "hide": "Ɓoye",
+    "hidden": "Mai shirya ya ɓoye wannan sharhi.",
+    "deleted": "An goge wannan sharhi.",
+    "edited": "An gyara",
+    "host": "Mai shirya",
+    "mention": "Rubuta @ don ambaton mutum",
+    "noPeople": "Babu mahalarta da suka dace",
+    "session": "Shigar da sunan da za a nuna a sharhinka.",
+    "failed": "Ba a kammala buƙatar ba. An adana rubutunka; sake gwadawa.",
+    "rateLimit": "Jira wasu daƙiƙu kafin sake aikawa.",
+    "new": "Duba sabbin sharhi ({count})",
+    "mentioned": "Sabon sharhi da aka nufa gare ka",
+    "moreReplies": "Ƙarin amsoshi",
+    "more": "Tsoffin sharhi",
+    "copy": "Kwafi hanyar haɗin sharhi",
+    "copied": "An kwafi hanyar haɗin.",
+    "actions": "Zaɓuɓɓukan sharhi",
+    "newReply": "Sabo",
+    "removeConfirm": "A cire wannan rubutu? Amsoshin da suke akwai za su kasance.",
+    "retry": "A sake gwadawa",
+    "reactions": {
+      "add": "Ƙara martani",
+      "view": "Duba waɗanda suka yi martani",
+      "title": "Martani",
+      "react": "Yi martani",
+      "remove": "Cire martani",
+      "empty": "Babu martani tukuna.",
+      "you": "Kai",
+      "session": "Shigar da sunan da za a nuna tare da martaninka.",
+      "failed": "An kasa sabunta martani. Sake gwadawa.",
+      "like": "Na yarda",
+      "love": "Ina so",
+      "laugh": "Abin dariya",
+      "celebrate": "Biki",
+      "thanks": "Na gode",
+      "think": "Ina tunani",
+      "eyes": "Ina kallo",
+      "hundred": "Madalla"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "Shirya haɗuwa yana da sauƙi haka",
+    "title": "Lokuta daban-daban. Shiri ɗaya na kowa.",
+    "description": "Raba hanyar haɗi, zaɓi lokacin da kake da dama, sannan nemo lokacin haɗuwa ga kowa.",
+    "steps": {
+      "share": {
+        "title": "Raba hanyar haɗi ɗaya",
+        "description": "Wanda aka gayyata zai iya shiga ba tare da shiga asusu ba"
+      },
+      "select": {
+        "title": "Zaɓi lokutan da kake da dama",
+        "description": "Tattara lokutan kowa a wuri ɗaya"
+      },
+      "decide": {
+        "title": "Nemo lokacin da ya dace da kowa",
+        "description": "Tabbatar da lokacin da ya fi dacewa"
+      }
+    },
+    "sample": "Misalin amfani",
+    "meetingTitle": "Mu haɗu a wannan makon",
+    "responses": "Mahalarta {count}",
+    "hint": "Canja lokutanka ka ga sakamakon ya sabunta.",
+    "filtersLabel": "Lokutan kowane mahalarta",
+    "allResults": "Duk sakamakon",
+    "personAvailability": "Lokutan da {name} yake da dama",
+    "tableLabel": "Mahalarta masu dama a kowane lokaci",
+    "timeLabel": "Lokaci",
+    "legendTitle": "Mahalarta masu dama",
+    "legendMax": "Da yawa",
+    "resultTitle": "An sami lokaci ga duka mutane {count}!",
+    "resultHint": "Zaɓi Duk sakamakon don ganin lokutan da suka dace da kowa.",
+    "available": "Yana da dama",
+    "unavailable": "Ba shi da dama",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "Lokutan da kake da dama",
+    "hourly": "Tazarar awa 1",
+    "me": "Kai",
+    "legend": "Masu samun dama / duka",
+    "create": "Ƙirƙiri taronka",
+    "compactTime": "Asabar, ƙarfe 7 na yamma",
+    "compactResult": "Kowa zai iya zuwa"
+  }
+}

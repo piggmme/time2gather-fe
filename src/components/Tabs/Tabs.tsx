@@ -1,10 +1,52 @@
 import { Tabs as TabsRa } from 'radix-ui'
 import type { TabsProps, TabsListProps, TabsTriggerProps, TabsContentProps } from '@radix-ui/react-tabs'
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback, useState } from 'react'
+import type { ReactNode } from 'react'
+import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import { useTranslation } from '../../hooks/useTranslation'
 import styles from './Tabs.module.scss'
 
 const TabsRoot = (props: TabsProps) => <TabsRa.Root {...props} className={styles.Root} />
-const TabsList = (props: TabsListProps) => <TabsRa.List {...props} className={styles.List} />
+const TabsList = ({ trailing, ...props }: TabsListProps & { trailing?: ReactNode }) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const [overflow, setOverflow] = useState(false)
+  const { t, locale } = useTranslation()
+  const rtl = ['ar', 'ar-EG', 'ur'].includes(locale)
+  useEffect(() => {
+    const list = ref.current
+    if (!list) return
+    const update = () => setOverflow(list.scrollWidth > list.clientWidth + 1)
+    const observer = new ResizeObserver(update)
+    observer.observe(list)
+    for (const child of list.children) observer.observe(child)
+    update()
+    return () => observer.disconnect()
+  }, [locale, props.children])
+  return (
+    <div className={styles.ListFrame}>
+      <TabsRa.List {...props} ref={ref} className={styles.List} />
+      {overflow && (
+        <button
+          type='button'
+          className={styles.ScrollNext}
+          aria-label={t('common.next')}
+          onClick={() => {
+            const list = ref.current
+            if (!list) return
+            const direction = getComputedStyle(list).direction === 'rtl' ? -1 : 1
+            const end = Math.abs(list.scrollLeft) >= list.scrollWidth - list.clientWidth - 2
+            const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+            if (end) list.scrollTo({ left: 0, behavior })
+            else list.scrollBy({ left: direction * list.clientWidth * 0.75, behavior })
+          }}
+        >
+          {rtl ? <ChevronLeftIcon aria-hidden='true' /> : <ChevronRightIcon aria-hidden='true' />}
+        </button>
+      )}
+      {trailing && <div className={styles.Trailing}>{trailing}</div>}
+    </div>
+  )
+}
 
 const TabsTrigger = (props: TabsTriggerProps) => {
   const triggerRef = useRef<HTMLButtonElement>(null)
@@ -37,16 +79,9 @@ const TabsTrigger = (props: TabsTriggerProps) => {
 
     if (isOutOfView) {
       // 탭을 보이도록 스크롤
-      const triggerLeft = triggerElement.offsetLeft
-      const triggerWidth = triggerElement.offsetWidth
-      const listWidth = listElement.offsetWidth
-
-      // 탭을 중앙으로 스크롤 (약간의 여백 포함)
-      const targetScroll = triggerLeft - (listWidth / 2) + (triggerWidth / 2)
-
-      listElement.scrollTo({
-        left: Math.max(0, targetScroll),
-        behavior: 'smooth',
+      listElement.scrollBy({
+        left: triggerRect.left < listRect.left ? triggerRect.left - listRect.left : triggerRect.right - listRect.right,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
       })
     }
   }, [])

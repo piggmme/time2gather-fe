@@ -1,174 +1,76 @@
-import { useState, useEffect } from 'react'
-import dayjs from 'dayjs'
-import 'dayjs/locale/ko'
-import 'dayjs/locale/en'
-import styles from './CreateMeeting.module.scss'
-import Button from '../Button/Button'
-import { navigate } from 'astro:transitions/client'
-import useSelectedDates from './useSelectedDates'
-import { Select } from '../Select/Select'
-import { type post_meetings_body } from '../../services/meetings'
-import { useSearchParam } from 'react-use'
-import { useTranslation } from '../../hooks/useTranslation'
+import { usePageState } from '../../hooks/usePageState'
 import { useStore } from '@nanostores/react'
-import { $locale } from '../../stores/locale'
+import styles from './TimeRangeStep.module.scss'
+import flowStyles from './CreateMeeting.module.scss'
+import Button from '../Button/Button'
+import { navigate, navigateBack } from '../../utils/navigation'
+import { useSearchParam } from 'react-use'
+import useSelectedDates from './useSelectedDates'
+import { useTranslation } from '../../hooks/useTranslation'
 import SelectedDates from './SelectedDates'
-import {
-  timeSlots12, amPmOptions, isTime12After,
-} from '../../utils/time'
-import type { AmPm } from '../../utils/time'
+import TimeZoneSelect from '../Timezone/TimeZoneSelect'
+import { $creationTimeZone, setCreationTimeZone } from '../../stores/timezone'
+import { convertTo12Hour, convertTo24Hour, type AmPm } from '../../utils/time'
 
 export default function TimeRangeStep () {
   const [selectedDates] = useSelectedDates()
-  const [startTime12, setStartTime12] = useState<string>(timeSlots12[8])
-  const [endTime12, setEndTime12] = useState<string>(timeSlots12[9])
-  const [startAmPm, setStartAmPm] = useState<AmPm>('AM')
-  const [endAmPm, setEndAmPm] = useState<AmPm>('PM')
-
-  const [endTimeSlots12, setEndTimeSlots12] = useState<string[]>(timeSlots12)
-  const [endAmPmOptions, setEndAmPmOptions] = useState<readonly AmPm[]>(amPmOptions)
-
-  const title = useSearchParam('title')
-  const { t } = useTranslation()
-  const locale = useStore($locale)
-
-  // Update dayjs locale when locale changes
-  useEffect(() => {
-    dayjs.locale(locale === 'ko' ? 'ko' : 'en')
-  }, [locale])
-
-  useEffect(() => {
-    if (
-      // 시작시간이 종료시간보다 이후인 경우
-      isTime12After(
-        { time12: startTime12, amPm: startAmPm },
-        { time12: endTime12, amPm: endAmPm },
-      )
-    ) {
-      // 종료시간을 시작시간으로 설정
-      setEndTime12(startTime12)
-      setEndAmPm(startAmPm)
-      // 종료시간 옵션을 시작시간이후 시간으로 설정
-      setEndTimeSlots12(timeSlots12.slice(timeSlots12.indexOf(startTime12)))
-      setEndAmPmOptions(amPmOptions.slice(amPmOptions.indexOf(startAmPm)))
-    } else if (startAmPm !== endAmPm) {
-      // 시작은 오전이고 종료는 오후일 때
-      // 종료시간 옵션을 전체 시간으로 설정
-      setEndTimeSlots12(timeSlots12)
-      setEndAmPmOptions(amPmOptions)
-    } else if (startAmPm == endAmPm) {
-      // 시작과 종료 시간이 같은 오전/오후일 때
-      // 종료시간 옵션을 시작시간이후 시간으로 설정
-      setEndTimeSlots12(timeSlots12.slice(timeSlots12.indexOf(startTime12)))
-      setEndAmPmOptions(amPmOptions.slice(amPmOptions.indexOf(startAmPm)))
-    }
-  }, [startTime12, startAmPm, endAmPm])
-
-  const meetingTypeParam = useSearchParam('meetingType') as post_meetings_body['selectionType']
-  const datesParam = useSearchParam('dates')
-  useEffect(function redirectToDatesStep () {
-    if (meetingTypeParam === 'ALL_DAY') {
-      const newUrl = `/meetings/create?step=dates&meetingType=${meetingTypeParam}&title=${title}&dates=${datesParam}`
-      navigate(newUrl)
-    }
-  }, [meetingTypeParam])
-
+  const title = useSearchParam('title') ?? ''
+  const initialStart = useSearchParam('startTime12')
+  const initialEnd = useSearchParam('endTime12')
+  const initialStartPeriod = useSearchParam('startAmPm') as AmPm | null
+  const initialEndPeriod = useSearchParam('endAmPm') as AmPm | null
+  const [start, setStart] = usePageState('startTime', initialStart ? convertTo24Hour(initialStart, initialStartPeriod ?? 'AM') : '09:00')
+  const [end, setEnd] = usePageState('endTime', initialEnd ? convertTo24Hour(initialEnd, initialEndPeriod ?? 'PM') : '22:00')
+  const timezone = useStore($creationTimeZone)
+  const { t, locale } = useTranslation()
+  const params = () => new URLSearchParams({ meetingType: 'TIME', dates: selectedDates.map(date => date.format('YYYY-MM-DD')).join(','), title })
   return (
-    <>
+    <div className={styles.page}>
       <h1 className={styles.title}>{t('createMeeting.timeRangeStep.heading')}</h1>
       <div className={styles.timeRangeContainer}>
-        <div className={styles.timeRangeItem}>
-          <TimeRangeSelector
-            text={t('createMeeting.timeRangeStep.startTime')}
-            timeValue={startTime12}
-            amPmValue={startAmPm}
-            onTimeChange={setStartTime12}
-            onAmPmChange={setStartAmPm}
-            timeOptions={timeSlots12}
-            amPmOptions={amPmOptions}
-          />
-        </div>
-        <div className={styles.timeRangeItem}>
-          <TimeRangeSelector
-            text={t('createMeeting.timeRangeStep.endTime')}
-            timeValue={endTime12}
-            amPmValue={endAmPm}
-            onTimeChange={setEndTime12}
-            onAmPmChange={setEndAmPm}
-            timeOptions={endTimeSlots12}
-            amPmOptions={endAmPmOptions}
-          />
-        </div>
+        <label className={styles.timeRangeItem}>
+          <span>{t('createMeeting.timeRangeStep.startTime')}</span>
+          <input className={styles.nativeTime} type='time' step={3600} value={start} onInput={event => setStart(event.currentTarget.value)} required />
+        </label>
+        <label className={styles.timeRangeItem}>
+          <span>{t('createMeeting.timeRangeStep.endTime')}</span>
+          <input className={styles.nativeTime} type='time' step={3600} min={start} value={end} onInput={event => setEnd(event.currentTarget.value)} required />
+        </label>
       </div>
-
+      <div className={styles.timezone}>
+        <TimeZoneSelect value={timezone} onChange={setCreationTimeZone} description={t('timezone.hint')} />
+      </div>
       <div className={styles.dateBadgesContainer}>
         <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDatesCount', { count: selectedDates.length })}</p>
-        <SelectedDates dates={selectedDates} locale={locale} />
+        <SelectedDates dates={selectedDates} locale={locale} visibleCount={6} badgeType='default' />
       </div>
-
-      <div className={styles.buttonContainer}>
+      <div className={flowStyles.buttonContainer}>
         <Button
           buttonType='secondary'
           onClick={() => {
-            const newUrl = `/meetings/create?step=dates&meetingType=${meetingTypeParam}&dates=${selectedDates.map(d => d.format('YYYY-MM-DD')).join(',')}&title=${title}`
-            navigate(newUrl)
+            const query = params()
+            query.set('step', 'dates')
+            return navigateBack(`/meetings/create?${query}`)
           }}
-        >
-          {t('common.previous')}
+        >{t('common.previous')}
         </Button>
         <Button
-          disabled={isTime12After({ time12: startTime12, amPm: startAmPm }, { time12: endTime12, amPm: endAmPm })}
           buttonType='primary'
+          disabled={!start || !end || start >= end || !start.endsWith(':00') || !end.endsWith(':00')}
           onClick={() => {
-            const dateStrings = selectedDates.map(d => d.format('YYYY-MM-DD')).join(',')
-            const timeParams = `&startTime12=${encodeURIComponent(startTime12)}&endTime12=${encodeURIComponent(endTime12)}&startAmPm=${startAmPm}&endAmPm=${endAmPm}`
-            navigate(`/meetings/create?step=location&meetingType=TIME&dates=${dateStrings}&title=${encodeURIComponent(title as string)}${timeParams}`)
+            const query = params()
+            const from = convertTo12Hour(start)
+            const to = convertTo12Hour(end)
+            query.set('step', 'location')
+            query.set('startTime12', from.time)
+            query.set('endTime12', to.time)
+            query.set('startAmPm', from.amPm)
+            query.set('endAmPm', to.amPm)
+            return navigate(`/meetings/create?${query}`)
           }}
-        >
-          {t('common.next')}
+        >{t('common.next')}
         </Button>
       </div>
-    </>
-  )
-}
-
-type TimeRangeSelectorProps = {
-  text: string
-  timeValue: string
-  amPmValue: AmPm
-  timeOptions: string[]
-  amPmOptions: readonly AmPm[]
-  onTimeChange: (value: string) => void
-  onAmPmChange: (value: AmPm) => void
-}
-function TimeRangeSelector ({
-  text,
-  timeValue,
-  amPmValue,
-  timeOptions,
-  amPmOptions,
-  onTimeChange,
-  onAmPmChange,
-}: TimeRangeSelectorProps) {
-  return (
-    <>
-      <div className={styles.timeRangeItemLabel}>
-        {text}
-      </div>
-      <div className={styles.timeRangeSelects}>
-        <Select
-          text={text}
-          options={[...amPmOptions]}
-          value={amPmValue}
-          setValue={value => onAmPmChange(value as AmPm)}
-        />
-        <Select
-          text={text}
-          options={timeOptions}
-          value={timeValue}
-          setValue={onTimeChange}
-        />
-      </div>
-    </>
+    </div>
   )
 }

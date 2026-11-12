@@ -1,27 +1,30 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
-import { meetings } from '../../../services/meetings';
-import type { get_meetings_$meetingCode_response } from '../../../services/meetings';
-import Avatar from '../../../components/Avatar/Avatar';
-import MeetingLiveView from '../../../components/ResultPage/MeetingLiveView';
-import { formatDate, formatTime } from '../../../utils/time';
+import Layout from '../../../layouts/Layout.astro'
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale, normalizeLocale } from '../../../i18n'
+import { meetings } from '../../../services/meetings'
+import type { get_meetings_$meetingCode_response } from '../../../services/meetings'
+import Avatar from '../../../components/Avatar/Avatar'
+import HostBadge from '../../../components/HostBadge/HostBadge'
+import MeetingLiveView from '../../../components/ResultPage/MeetingLiveView'
+import { meetingShareImagePath } from '../../../utils/meetingShareImage'
+import { getCreatorShareLabels, getMeetingShareContent } from '../../../utils/share'
+import { formatDate, formatTime } from '../../../utils/time'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
-const t = getTranslations(locale);
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale
+const t = getTranslations(locale)
 
-const meetingCode = Astro.params.meetingCode as string;
-let data: get_meetings_$meetingCode_response['data'] | null = null;
+const meetingCode = Astro.params.meetingCode as string
+let data: get_meetings_$meetingCode_response['data'] | null = null
 try {
-  const response = await meetings.$meetingCode.get(meetingCode);
-  data = response.data;
+  const response = await meetings.$meetingCode.get(meetingCode)
+  data = response.data
 } catch (error) {
-  return Astro.redirect('/404',);
+  return Astro.redirect(`/404?lang=${locale}`)
 }
 
 // SEO 메타데이터 설정
-const siteUrl = Astro.site?.href || 'https://time2gather.org/';
-const isConfirmed = !!data.meeting.confirmedDate;
+const siteUrl = Astro.site?.href || 'https://time2gather.org/'
+const isConfirmed = !!data.meeting.confirmedDate
 const confirmedDetails = isConfirmed
   ? [
       formatDate(data.meeting.confirmedDate!, locale),
@@ -29,49 +32,62 @@ const confirmedDetails = isConfirmed
         data.meeting.confirmedTime ?? 'ALL_DAY',
         locale,
         t('meeting.confirmDialog.allDay'),
-      ),
+      ) + (data.meeting.confirmedTime ? ` (${data.meeting.timezone})` : ''),
       data.locationVote?.enabled
         ? data.locationVote.confirmedLocation?.name ?? t('meeting.result.kakaoShare.locationPending')
         : null,
     ].filter((detail): detail is string => !!detail)
-  : [];
+  : []
 const meetingTitle = t(
   isConfirmed ? 'meta.pages.result.confirmedTitle' : 'meta.pages.result.title',
   { title: data.meeting.title },
-);
+)
 const meetingDescription = isConfirmed
   ? t('meta.pages.result.confirmedDescription', { details: confirmedDetails.join(' · ') })
-  : t('meeting.result.kakaoShare.description');
-const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
+  : t('meeting.result.kakaoShare.description')
+const creatorLocale = normalizeLocale(data.meeting.creatorLocale)
+const shareLabels = creatorLocale ? getCreatorShareLabels(creatorLocale, getTranslations(creatorLocale), data.meeting.title) : null
+const preview = getMeetingShareContent(data, shareLabels, siteUrl)
+const ogImage = new URL(meetingShareImagePath(meetingCode, data.meeting), siteUrl).href;
 
 ---
 <Layout
+  meetingInvitation
+  preview={{ title: preview.title, description: preview.description, locale: creatorLocale }}
   title={meetingTitle}
   description={meetingDescription}
   ogImage={ogImage}
-  ogType="website"
+  ogType='website'
 >
   <main>
-    <div class="meeting-intro">
-      <h1>{data.meeting.title}</h1>
+    <div class='meeting-intro'>
+      <div class='meeting-title-row'>
+        <h1>{data.meeting.title}</h1>
+      </div>
       <p>{data.meeting.description}</p>
-      <div class="host">
-        <Avatar
-          client:only="react"
-          src={data.meeting.host.profileImageUrl}
-          name={data.meeting.host.username}
-        />
-        <span>{data.meeting.host.username}</span>
+      <div class='meeting-meta-row'>
+        <div class='host'>
+          <Avatar
+            client:only='react'
+            src={data.meeting.host.profileImageUrl}
+            name={data.meeting.host.username}
+          />
+          <bdi data-meeting-host-name>{data.meeting.host.username}</bdi>
+          <HostBadge label={t('comments.host')} />
+        </div>
+        <div id='meeting-confirm-action'></div>
       </div>
     </div>
-    <MeetingLiveView client:only="react" initialData={data} />
+    <MeetingLiveView client:only='react' initialData={data} shareLabels={shareLabels} />
   </main>
 </Layout>
 
-<style lang="scss">
+<style lang='scss'>
+  /* Hallmark · component: meeting header · genre: modern-minimal · theme: Time2Gather brand · built: the project · v2.0.0 */
+  /* Critique: preserve a full-width title and group the secondary confirmation with host information. */
   @use "../../../styles/variables.scss" as *;
   p {
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
     color: $c-black;
   }
   h1 {
@@ -96,14 +112,30 @@ const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href;
     padding-bottom: $spacing-xl;
   }
 
-  .meeting-intro {
+  .meeting-intro > p {
     max-width: 680px;
   }
 
   .host {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+    min-width: 0;
+    flex: 1 1 128px;
+
+    > bdi { min-width: 0; overflow-wrap: anywhere; font-weight: $font-weight-semibold; }
   }
 
+  .meeting-intro { display: grid; gap: $spacing-sm; }
+  .meeting-title-row, .meeting-title-row h1 { min-width: 0; }
+  .meeting-title-row h1 { margin: 0; overflow-wrap: break-word; text-wrap: balance; }
+  .meeting-intro > p { margin: 0; }
+  .meeting-meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: $spacing-md; min-width: 0; margin-block-start: $spacing-sm; }
+  #meeting-confirm-action {
+    flex: 0 1 auto;
+    max-width: 100%;
+    margin-inline-start: auto;
+    &:empty { display: none; }
+  }
 </style>

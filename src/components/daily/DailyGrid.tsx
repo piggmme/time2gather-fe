@@ -9,9 +9,11 @@ type CellPosition = {
 }
 
 type DailyGridProps = {
+  timezone: string
   date: dayjs.Dayjs
   dateKey: string
   availableTimes: string[]
+  allowedTimes?: string[]
   schedule?: get_meetings_$meetingCode_response['data']['schedule'][string]
   participantsCount: number
   selectedTimeSlots: string[]
@@ -24,8 +26,10 @@ type DailyGridProps = {
 
 export default function DailyGrid ({
   date,
+  timezone,
   dateKey,
   availableTimes,
+  allowedTimes,
   schedule,
   participantsCount,
   selectedTimeSlots,
@@ -37,18 +41,25 @@ export default function DailyGrid ({
 }: DailyGridProps) {
   const isEditMode = mode === 'edit'
 
-  // 마우스 클릭 (데스크톱)
+  // Pointer selection is handled by Daily; native button activation handles keyboards.
   const handleCellClick = (time: string) => {
-    if ('ontouchstart' in window) return
     if (onCellClick) {
       onCellClick(date.format('YYYY-MM-DD'), time)
     }
   }
 
-  // 해당 셀이 드래그 범위에 포함되는지 확인
-  const isCellDragged = (timeIndex: number): boolean => {
-    return draggedCells.some(cell => cell.dateKey === dateKey && cell.timeIndex === timeIndex)
-  }
+  const selectedTimes = new Set(selectedTimeSlots)
+  const allowed = allowedTimes ? new Set(allowedTimes) : undefined
+  const dragged = new Set(isDragMode ? draggedCells.filter(cell => cell.dateKey === dateKey).map(cell => cell.timeIndex) : [])
+  const previewSelected = availableTimes.map((time, index) => (!allowed || allowed.has(time))
+    && (dragged.has(index) ? dragAction === 'select' : selectedTimes.has(time)))
+  const minutes = availableTimes.map(time => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5)))
+  // Local offsets may shift the clock labels. Never bridge an unavailable or missing time slot.
+  const interval = Math.min(60, ...minutes.slice(1).map((minute, index) => minute - minutes[index]).filter(gap => gap > 0))
+  const joinsPrevious = (index: number) => index > 0 && previewSelected[index - 1]
+    && minutes[index] - minutes[index - 1] === interval
+  const joinsNext = (index: number) => index + 1 < minutes.length && previewSelected[index + 1]
+    && minutes[index + 1] - minutes[index] === interval
 
   return (
     <div
@@ -57,20 +68,24 @@ export default function DailyGrid ({
       <div className={styles.grid}>
         {availableTimes.map((time, index) => {
           const count = schedule?.[time]?.count || 0
-          const isDragHighlighted = isDragMode && isCellDragged(index)
+          const isDragHighlighted = dragged.has(index) && (!allowed || allowed.has(time))
           return (
             <DailyCell
               key={time}
               time={time}
+              timezone={timezone}
+              participants={!isEditMode ? schedule?.[time]?.participants : undefined}
               dateKey={dateKey}
               timeIndex={index}
-              isSelected={selectedTimeSlots.includes(time)}
+              isSelected={selectedTimes.has(time)}
+              isSelectionStart={previewSelected[index] && !joinsPrevious(index)}
+              isSelectionEnd={previewSelected[index] && !joinsNext(index)}
               isDragHighlighted={isDragHighlighted}
               dragMode={isDragHighlighted ? dragAction : undefined}
               count={count}
               maxCount={participantsCount}
               mode={mode}
-              interactive={isEditMode || Boolean(onCellClick)}
+              interactive={(!allowedTimes || allowedTimes.includes(time)) && (isEditMode || Boolean(onCellClick))}
               onClick={() => handleCellClick(time)}
             />
           )

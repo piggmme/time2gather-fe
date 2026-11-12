@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="background" x1="80" y1="40" x2="1120" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fbfcff" />
+      <stop offset="1" stop-color="#eef2ff" />
+    </linearGradient>
+    <linearGradient id="clock" x1="154" y1="122" x2="506" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366f1" />
+      <stop offset="1" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="center" x1="316" y1="294" x2="342" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f472b6" />
+      <stop offset="1" stop-color="#ec4899" />
+    </linearGradient>
+    <filter id="clockShadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#4f46e5" flood-opacity=".22" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#background)" />
+  <circle cx="1127" cy="45" r="220" fill="#ddd6fe" opacity=".38" />
+  <circle cx="46" cy="606" r="180" fill="#dbeafe" opacity=".56" />
+
+  <g transform="translate(36 62.2) scale(.8)">
+  <g filter="url(#clockShadow)">
+    <circle cx="330" cy="316" r="184" fill="url(#clock)" />
+    <circle cx="330" cy="316" r="125" fill="#fff" fill-opacity=".96" />
+  </g>
+  <g fill="none" stroke="#e2e8f0" stroke-width="2">
+    <path d="M330 204v17M330 411v17M218 316h17M425 316h17" />
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M330 316v-69" stroke="#4f46e5" stroke-width="9" />
+    <path d="m330 316 63-42" stroke="#6366f1" stroke-width="7" />
+  </g>
+  <circle cx="330" cy="316" r="14" fill="url(#center)" />
+
+  <g fill="#fff">
+    <g transform="translate(154 145)">
+      <circle r="30" fill="#f472b6" />
+      <circle cy="-7" r="12" />
+      <ellipse cy="12" rx="15" ry="10" />
+    </g>
+    <g transform="translate(506 145)">
+      <circle r="30" fill="#34d399" />
+      <circle cy="-7" r="12" />
+      <ellipse cy="12" rx="15" ry="10" />
+    </g>
+    <g transform="translate(154 487)">
+      <circle r="30" fill="#fbbf24" />
+      <circle cy="-7" r="12" />
+      <ellipse cy="12" rx="15" ry="10" />
+    </g>
+    <g transform="translate(506 487)">
+      <circle r="30" fill="#60a5fa" />
+      <circle cy="-7" r="12" />
+      <ellipse cy="12" rx="15" ry="10" />
+    </g>
+  </g>
+
+  </g>
+</svg>

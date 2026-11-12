@@ -1,4 +1,4 @@
 ---
 const meetingCode = Astro.params.meetingCode as string;
-return Astro.redirect(`/meetings/${meetingCode}`, 308);
+return Astro.redirect(`/meetings/${meetingCode}${Astro.url.searchParams.has('lang') ? `?lang=${encodeURIComponent(Astro.url.searchParams.get('lang')!)}` : ''}`, 308);
 ---

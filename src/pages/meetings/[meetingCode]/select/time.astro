@@ -5,7 +5,7 @@ import { meetings } from '../../../../services/meetings';
 import type { get_meetings_$meetingCode_response } from '../../../../services/meetings';
 import AnonymousTimeSelectPage from '../../../../components/SelectPage/AnonymousTimeSelectPage';
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale;
 const t = getTranslations(locale);
 
 const meetingCode = Astro.params.meetingCode as string;
@@ -14,7 +14,7 @@ try {
   const response = await meetings.$meetingCode.get(meetingCode);
   data = response.data;
 } catch (error) {
-  return Astro.redirect('/404',);
+  return Astro.redirect(`/404?lang=${locale}`);
 }
 ---
 <Layout>
@@ -27,12 +27,16 @@ try {
 <style lang="scss">
   @use "../../../../styles/variables.scss" as *;
   p {
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
     color: $c-black;
   }
   main {
     width: 100%;
     max-width: 600px;
+
+    @media (min-width: 700px) {
+      max-width: 1000px;
+    }
     margin: 0 auto;
     padding-bottom: 80px;
 
@@ -46,7 +50,7 @@ try {
     color: $c-black;
     font-size: $font-size-2xl;
     line-height: $line-height-tight;
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
 
     @media (max-width: 699px) {
       font-size: $font-size-xl;

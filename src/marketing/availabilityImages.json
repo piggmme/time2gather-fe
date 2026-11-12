@@ -1,0 +1,376 @@
+{
+  "ko": {
+    "small": {
+      "src": "/examples/availability-v3/ko-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/ko-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/ko-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "en": {
+    "small": {
+      "src": "/examples/availability-v3/en-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/en-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/en-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "zh-CN": {
+    "small": {
+      "src": "/examples/availability-v3/zh-CN-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/zh-CN-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/zh-CN-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "hi": {
+    "small": {
+      "src": "/examples/availability-v3/hi-small.webp",
+      "width": 288,
+      "height": 260
+    },
+    "medium": {
+      "src": "/examples/availability-v3/hi-medium.webp",
+      "width": 352,
+      "height": 269
+    },
+    "large": {
+      "src": "/examples/availability-v3/hi-large.webp",
+      "width": 352,
+      "height": 269
+    }
+  },
+  "es": {
+    "small": {
+      "src": "/examples/availability-v3/es-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/es-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/es-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "ar": {
+    "small": {
+      "src": "/examples/availability-v3/ar-small.webp",
+      "width": 288,
+      "height": 260
+    },
+    "medium": {
+      "src": "/examples/availability-v3/ar-medium.webp",
+      "width": 352,
+      "height": 269
+    },
+    "large": {
+      "src": "/examples/availability-v3/ar-large.webp",
+      "width": 352,
+      "height": 269
+    }
+  },
+  "fr": {
+    "small": {
+      "src": "/examples/availability-v3/fr-small.webp",
+      "width": 288,
+      "height": 299
+    },
+    "medium": {
+      "src": "/examples/availability-v3/fr-medium.webp",
+      "width": 352,
+      "height": 312
+    },
+    "large": {
+      "src": "/examples/availability-v3/fr-large.webp",
+      "width": 352,
+      "height": 312
+    }
+  },
+  "bn": {
+    "small": {
+      "src": "/examples/availability-v3/bn-small.webp",
+      "width": 288,
+      "height": 260
+    },
+    "medium": {
+      "src": "/examples/availability-v3/bn-medium.webp",
+      "width": 352,
+      "height": 269
+    },
+    "large": {
+      "src": "/examples/availability-v3/bn-large.webp",
+      "width": 352,
+      "height": 269
+    }
+  },
+  "pt": {
+    "small": {
+      "src": "/examples/availability-v3/pt-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/pt-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/pt-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "ru": {
+    "small": {
+      "src": "/examples/availability-v3/ru-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/ru-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/ru-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "id": {
+    "small": {
+      "src": "/examples/availability-v3/id-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/id-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/id-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "ur": {
+    "small": {
+      "src": "/examples/availability-v3/ur-small.webp",
+      "width": 288,
+      "height": 260
+    },
+    "medium": {
+      "src": "/examples/availability-v3/ur-medium.webp",
+      "width": 352,
+      "height": 269
+    },
+    "large": {
+      "src": "/examples/availability-v3/ur-large.webp",
+      "width": 352,
+      "height": 269
+    }
+  },
+  "de": {
+    "small": {
+      "src": "/examples/availability-v3/de-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/de-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/de-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "ja": {
+    "small": {
+      "src": "/examples/availability-v3/ja-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/ja-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/ja-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "pcm": {
+    "small": {
+      "src": "/examples/availability-v3/pcm-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/pcm-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/pcm-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "ar-EG": {
+    "small": {
+      "src": "/examples/availability-v3/ar-EG-small.webp",
+      "width": 288,
+      "height": 260
+    },
+    "medium": {
+      "src": "/examples/availability-v3/ar-EG-medium.webp",
+      "width": 352,
+      "height": 269
+    },
+    "large": {
+      "src": "/examples/availability-v3/ar-EG-large.webp",
+      "width": 352,
+      "height": 269
+    }
+  },
+  "mr": {
+    "small": {
+      "src": "/examples/availability-v3/mr-small.webp",
+      "width": 288,
+      "height": 295
+    },
+    "medium": {
+      "src": "/examples/availability-v3/mr-medium.webp",
+      "width": 352,
+      "height": 269
+    },
+    "large": {
+      "src": "/examples/availability-v3/mr-large.webp",
+      "width": 352,
+      "height": 269
+    }
+  },
+  "vi": {
+    "small": {
+      "src": "/examples/availability-v3/vi-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/vi-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/vi-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "te": {
+    "small": {
+      "src": "/examples/availability-v3/te-small.webp",
+      "width": 288,
+      "height": 295
+    },
+    "medium": {
+      "src": "/examples/availability-v3/te-medium.webp",
+      "width": 352,
+      "height": 308
+    },
+    "large": {
+      "src": "/examples/availability-v3/te-large.webp",
+      "width": 352,
+      "height": 308
+    }
+  },
+  "ha": {
+    "small": {
+      "src": "/examples/availability-v3/ha-small.webp",
+      "width": 288,
+      "height": 299
+    },
+    "medium": {
+      "src": "/examples/availability-v3/ha-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/ha-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "tr": {
+    "small": {
+      "src": "/examples/availability-v3/tr-small.webp",
+      "width": 288,
+      "height": 262
+    },
+    "medium": {
+      "src": "/examples/availability-v3/tr-medium.webp",
+      "width": 352,
+      "height": 271
+    },
+    "large": {
+      "src": "/examples/availability-v3/tr-large.webp",
+      "width": 352,
+      "height": 271
+    }
+  },
+  "th": {
+    "small": {
+      "src": "/examples/availability-v3/th-small.webp",
+      "width": 288,
+      "height": 260
+    },
+    "medium": {
+      "src": "/examples/availability-v3/th-medium.webp",
+      "width": 352,
+      "height": 269
+    },
+    "large": {
+      "src": "/examples/availability-v3/th-large.webp",
+      "width": 352,
+      "height": 269
+    }
+  }
+}

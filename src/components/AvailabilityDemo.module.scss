@@ -1,0 +1,56 @@
+@use '../styles/variables.scss' as *;
+@use '../styles/surfaces.scss' as surfaces;
+
+.demo { @include surfaces.section-start($spacing-xl); min-width: 0; width: 100%; margin-inline: auto; padding-block-end: $spacing-xl; text-align: start; }
+.label { margin: 0 0 20px; color: $c-gray-darkest; font-size: 13px; font-weight: $font-weight-medium; line-height: var(--font-body-line-height, 1.6); }
+.picture { display: block; width: 100%; max-width: 352px; margin-inline: auto; aspect-ratio: var(--image-ratio-large); }
+.picture img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.timetable, .result { display: none; }
+@media (max-width: 800px) {
+  .demo { margin-inline: auto; }
+  .picture { aspect-ratio: var(--image-ratio-medium); }
+}
+@media (max-width: 359px) { .picture { aspect-ratio: var(--image-ratio-small); } }
+
+@media (min-width: 801px) {
+  .demo {
+    @include surfaces.section-start($spacing-xl);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 326px));
+    gap: 48px;
+    align-items: start;
+    justify-content: center;
+    max-width: none;
+    padding-block-end: $spacing-xl;
+    box-sizing: border-box;
+  }
+  .label { margin: 0 0 10px; font-size: $font-size-base; font-weight: $font-weight-semibold; }
+  .result {
+    display: block;
+    margin: 0;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    line-height: 1.35;
+    letter-spacing: var(--font-heading-letter-spacing, -.025em);
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+  .result strong { display: block; color: $primary-color; font-weight: inherit; }
+  .picture { display: none; }
+  .timetable {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 5px;
+    text-align: center;
+  }
+  .timetable th { padding: 0; font-size: 14px; font-weight: $font-weight-medium; color: $c-gray-darkest; }
+  .timetable thead td { width: 45px; }
+  .timetable tbody th { text-align: end; padding-inline-end: 6px; white-space: nowrap; }
+  .timetable tbody td { height: 36px; padding: 0; border-radius: 5px; background: #eef5ff; }
+  .timetable [data-count='2'] { background: #e1edff; }
+  .timetable [data-count='3'] { background: #cee2fc; }
+  .timetable [data-count='4'] { background: $primary-color; color: $c-white; font-size: $font-size-xl; }
+  .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}

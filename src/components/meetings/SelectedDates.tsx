@@ -4,7 +4,7 @@ import styles from './CreateMeeting.module.scss'
 import Badge from '../Badge/Badge'
 import { formatDate } from '../../utils/time'
 
-export default function SelectedDates ({ dates, locale, visibleCount }: { dates: (string | dayjs.Dayjs)[], locale: 'ko' | 'en', visibleCount?: number }) {
+export default function SelectedDates ({ dates, locale, visibleCount, badgeType = 'primary' }: { dates: (string | dayjs.Dayjs)[], locale: import('../../i18n').Locale, visibleCount?: number, badgeType?: 'default' | 'primary' | 'ghost' }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const formattedDates = dates
@@ -17,12 +17,13 @@ export default function SelectedDates ({ dates, locale, visibleCount }: { dates:
   return (
     <div className={styles.dateBadges}>
       {visibleDates.map(d => (
-        <Badge key={d.format('YYYY-MM-DD')} text={formatDate(d, locale)} type='primary' />
+        <Badge key={d.format('YYYY-MM-DD')} text={formatDate(d, locale)} type={badgeType} />
       ))}
       {!isExpanded && remainingCount > 0 && (
         <button
           type='button'
           className={styles.moreButton}
+          aria-expanded={isExpanded}
           onClick={() => setIsExpanded(true)}
         >
           +{remainingCount}

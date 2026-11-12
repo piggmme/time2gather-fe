@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "Go back",
+    "cancel": "Cancel",
+    "next": "Continue",
+    "home": "Home",
+    "createMeeting": "Create meeting",
+    "searchMeeting": "Find meeting",
+    "searchMeetingPlaceholder": "Meeting code",
+    "searchMeetingButton": "Find meeting",
+    "myMeetings": "My meetings",
+    "adminDashboard": "Admin Dashboard",
+    "contactUs": "Contact us",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "submit": "Send",
+    "share": "Share",
+    "close": "Close",
+    "loading": "Dey load...",
+    "error": "Something no work. Abeg try again.",
+    "switchToEnglish": "Use English",
+    "switchToKorean": "Use Korean",
+    "language": "Language",
+    "searchLanguages": "Pick your language"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "Welcome! 👋",
+    "description": "Create plans quick. Share the times wey you free, collect votes, and see the time wey fit everybody.",
+    "createMeetingButton": "Create meeting",
+    "heroTitleSuffix": " — Plan your meeting easy",
+    "heroSubtitle": "No more wahala to find time. Pick time wey fit you and your friends.",
+    "viewMyMeetings": "See my meetings"
+  },
+  "landing": {
+    "eyebrow": "Coordinate everyone’s schedule in one place",
+    "title": "Make meeting scheduling simpler",
+    "description": "Time2Gather is a free scheduling service for voting on dates, times, and locations to find a meeting time that works for everyone.",
+    "primaryCta": "Create a meeting",
+    "secondaryCta": "Find with a code",
+    "featuresHeading": "Everything you need to coordinate a meeting",
+    "features": {
+      "dates": {
+        "title": "Compare multiple dates",
+        "description": "Pick candidate dates and share them with your participants right away."
+      },
+      "times": {
+        "title": "Vote on available times",
+        "description": "Collect detailed availability to find the time that works for the most people."
+      },
+      "locations": {
+        "title": "Decide on a location too",
+        "description": "Add location options when your group needs to pick where to meet."
+      },
+      "sharing": {
+        "title": "Join from one link",
+        "description": "Share a link so participants can vote right away with only a nickname."
+      }
+    },
+    "stepsHeading": "Settle plans in three steps",
+    "steps": {
+      "create": {
+        "title": "1. Create options",
+        "description": "Set a meeting title and the dates or times to compare."
+      },
+      "share": {
+        "title": "2. Share the link",
+        "description": "Send the link to friends, teammates, or your group."
+      },
+      "decide": {
+        "title": "3. Confirm the result",
+        "description": "Review the votes and pick the best time for everyone."
+      }
+    },
+    "faqHeading": "Frequently asked questions",
+    "faq": {
+      "what": {
+        "question": "How group fit find time for friends hangout or team meeting?",
+        "answer": "Create date and time options for Time2Gather, then share the link. Everybody go pick when dem free. Compare the results and confirm the plan. E free for friends, study groups and teams."
+      },
+      "login": {
+        "question": "I fit create poll and join without registration or app installation?",
+        "answer": "Yes. Host and participants only need enter name; no registration or social login dey required. You fit create meeting and vote with your phone or computer browser."
+      },
+      "location": {
+        "question": "We fit vote for meeting place too?",
+        "answer": "Yes. Turn on location voting when you dey create the meeting and add options. Participants fit vote for places wey dem prefer and discuss plans for comments."
+      }
+    }
+  },
+  "login": {
+    "title": "Ready to schedule?",
+    "description": "Sign in to create and manage your meetings.",
+    "kakaoLogin": "Continue with Kakao",
+    "googleLogin": "Continue with Google",
+    "oauth": {
+      "loadingTitle": "Signing you in",
+      "loadingDescription": "You'll return to your previous screen in a moment.",
+      "errorTitle": "We no fit sign you in",
+      "errorDescription": "Return to the sign-in page and try again.",
+      "retry": "Try signing in again"
+    }
+  },
+  "search": {
+    "title": "Find meeting",
+    "description": "Enter the meeting code wey dem send you."
+  },
+  "createMeeting": {
+    "title": "Create meeting",
+    "meetingTypeStep": {
+      "heading": "Wetin people go choose?",
+      "allDay": "Dates only",
+      "time": "Dates and times"
+    },
+    "titleStep": {
+      "heading": "Give your meeting name",
+      "placeholder": "Example: Friday dinner"
+    },
+    "descriptionStep": {
+      "heading": "Wetin this meeting dey about?",
+      "placeholder": "Make we meet for town!"
+    },
+    "datesStep": {
+      "heading": "Pick dates wey people fit vote for"
+    },
+    "timeRangeStep": {
+      "heading": "Pick the time range",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "selectedDatesCount": "Dates wey you pick: {count}",
+      "createButton": "Create meeting"
+    },
+    "locationStep": {
+      "heading": "Finish to create your meeting",
+      "requiredLabel": "You must fill this",
+      "creatorHeading": "Who dey create this meeting?",
+      "creatorDescription": "Na your nickname people go see as meeting host.",
+      "usernameLabel": "Your nickname",
+      "usernamePlaceholder": "Example: Tobi",
+      "usernameChangeHelp": "If you change your name, your meetings and votes go remain. Na only the name people see go change.",
+      "optionalLabel": "If you want",
+      "locationHeading": "Make people vote for place too?",
+      "locationDescription": "Turn am on if you want make everybody choose the place together.",
+      "enableLocationVote": "Make people vote for where to meet",
+      "locationPlaceholder": "Enter place",
+      "addLocation": "Add place",
+      "removeLocation": "Remove place",
+      "minLocationsWarning": "Add at least 2 places before people fit vote",
+      "maxLocationsWarning": "You no fit add pass 5 places",
+      "createButton": "Create meeting",
+      "creatingButton": "Dey create meeting...",
+      "skipButton": "Skip"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "We no see this meeting",
+      "description": "This meeting no dey or dem don delete am."
+    },
+    "participantsEmpty": "Nobody don join yet.",
+    "participantsCount": "People wey join: {count}",
+    "participantsCountCompact": "{count} people don join",
+    "selectedDates": "Pick dates wey fit you from these {count} options.",
+    "selectedDatesAndTimes": "Pick dates and times wey fit you from these {count} date options.",
+    "timeGrid": {
+      "timeLabel": "Time",
+      "touchHint": "Press, hold, then drag to pick many times",
+      "pointerHint": "Drag to pick many times at once",
+      "draggingHint": "Dey drag · Release to keep wetin you pick",
+      "selectDate": "Pick all times for {date}",
+      "previousDates": "Dates wey come before",
+      "nextDates": "Dates wey come next"
+    },
+    "dateCalendar": {
+      "mySelection": "Wetin I choose",
+      "fewerVotes": "Small votes",
+      "moreVotes": "Plenty votes",
+      "available": "Free",
+      "unavailable": "No free",
+      "today": "Today",
+      "availableMonths": "Months wey get dates to pick",
+      "monthAvailability": "{count} dates dey available for {month}",
+      "previousMonth": "Last month",
+      "nextMonth": "Next month"
+    },
+    "dateParticipants": {
+      "title": "People wey free for {date}",
+      "count": {
+        "one": "{count} person",
+        "other": "{count} people"
+      }
+    },
+    "resultSaved": "We don save the result.",
+    "modifyButton": "Change when you free",
+    "participate": "Join meeting",
+    "shareResult": "Share result",
+    "shareMeeting": "Share meeting",
+    "shareSuccess": "We don copy the link.",
+    "exportToCalendar": "Add to my calendar",
+    "confirmButton": "Confirm meeting",
+    "confirmButtonShort": "Confirm meeting",
+    "cancelConfirmButton": "Cancel confirmation",
+    "cancelConfirmSuccess": "We don cancel the confirmation.",
+    "cancelConfirmError": "We no fit cancel am. Abeg try again.",
+    "alreadyConfirmedError": "Dem don confirm this meeting. You no fit change your vote.",
+    "editDates": {
+      "openButton": "Edit poll options",
+      "hostOnly": "Na only host fit do this",
+      "title": "Edit poll options",
+      "description": "Change di options wey everybody fit vote for.",
+      "selectedCount": "You don pick {count} dates",
+      "selectionHint": "Tap or drag to pick dates.",
+      "removedWarning": "If you save, votes for these {count} dates wey you remove go delete.",
+      "maxDates": "You no fit pick pass {count} dates.",
+      "save": "Save options",
+      "success": "Poll options don update.",
+      "error": "We no fit update di poll options. Try again.",
+      "timeOpenButton": "Edit poll options",
+      "timeTitle": "Edit poll options",
+      "timeDescription": "Change di options wey everybody fit vote for.",
+      "timeSave": "Save options",
+      "timeSuccess": "Poll options don update.",
+      "timeError": "We no fit update di poll options. Try again.",
+      "timeRangeHint": "If you change di time range, e go apply to all di dates wey you choose.",
+      "timeRemovedWarning": "When you save, votes for di {count} time options wey you remove go delete. Di other votes go remain.",
+      "locationRemovedWarning": "If you save, votes for {count} place options wey you change or remove go delete. Other votes go remain."
+    },
+    "exportDialog": {
+      "title": "Add to calendar",
+      "description": "Pick the date and time to add to your calendar.",
+      "noSlots": "Nobody don vote for any date yet.",
+      "allDay": "Whole day",
+      "cancel": "Cancel",
+      "confirm": "Add to calendar",
+      "close": "Close"
+    },
+    "confirmDialog": {
+      "title": "Confirm meeting",
+      "description": "Pick the final date and time from these {count} top options wey tie.",
+      "noSlots": "Nobody don vote for any date yet.",
+      "allDay": "Whole day",
+      "scheduleTitle": "Date and time",
+      "scheduleDescription": "Na these options fit the most people.",
+      "locationTitle": "Place",
+      "locationDescription": "Use the votes to choose where to meet.",
+      "locationStepDescription": "Choose where to meet to finish the plan.",
+      "progressLabel": "Steps to confirm meeting",
+      "locationVoteCount": {
+        "one": "{count} vote",
+        "other": "{count} votes"
+      },
+      "noLocations": "No place dey to confirm.",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "confirming": "Dey confirm...",
+      "close": "Close",
+      "success": "We don confirm the meeting!",
+      "error": "We no fit confirm the meeting. Abeg try again.",
+      "allCandidatesDescription": "Choose the final date and time from all {count} options.",
+      "groupedDescription": "Choose one of the {count} dates, then choose the start time.",
+      "recommendationsDescription": "Options wey plenty people dey free for, one for each date.",
+      "allDates": "Choose from all {count} dates",
+      "backToRecommendations": "See suggestions"
+    },
+    "anonymousSelectButton": "Use name to join",
+    "selectButton": "Pick dates",
+    "selectTimeButton": "Pick date and time",
+    "result": {
+      "tabs": {
+        "aiSummary": "Summary",
+        "summary": "Summary",
+        "confirmed": "Confirmed plan",
+        "calendar": "Calendar",
+        "participants": "People wey join",
+        "location": "Place"
+      },
+      "summaryTitle": "Meeting summary",
+      "aiSummaryTitle": "Summary of the votes",
+      "calendarTitle": "Meeting calendar",
+      "totalParticipants": "People wey join: {count}",
+      "bestSlotsTitle": "Dates wey fit people pass",
+      "showMoreOptions": "Show {count} more",
+      "showFewerOptions": "Show less",
+      "moreTimeOptions": "{count} more time options",
+      "participantsCount": "People wey join: {count}",
+      "people": "people",
+      "voteCount": {
+        "one": "{count} person ({percentage})",
+        "other": "{count} people ({percentage})"
+      },
+      "noParticipants": "Nobody don join",
+      "buttons": {
+        "calendar": "Add to calendar",
+        "share": "Share poll",
+        "shareConfirmed": "Share confirmed plan",
+        "shareKakao": "KakaoTalk",
+        "modifyDates": "Change the dates wey I pick",
+        "modifyTimes": "Change the dates and times wey I pick",
+        "selectDates": "Pick dates wey I free",
+        "selectTimes": "Pick dates and times wey I free",
+        "enterAvailability": "Add when you free",
+        "editAvailability": "Change my vote"
+      },
+      "confirmedPlan": {
+        "eyebrow": "PLAN DON CONFIRM",
+        "title": "Your plan don ready",
+        "date": "Date",
+        "time": "Time",
+        "location": "Place",
+        "attendees": "People wey free",
+        "attendanceSummary": {
+          "one": "{count} person · {percentage} of the group",
+          "other": "{count} people · {percentage} of the group"
+        },
+        "confirmTime": "Confirm time",
+        "confirmTimeTitle": "Confirm meeting time",
+        "confirmTimeDescription": "Choose the time wey una go meet for the date wey una don confirm.",
+        "timeConfirmSuccess": "The meeting time don confirm.",
+        "timeConfirmError": "We no fit confirm the meeting time. Abeg try again.",
+        "timePending": "Never set",
+        "editTime": "Change",
+        "editTimeTitle": "Change meeting time",
+        "editTimeDescription": "Keep the confirmed date and enter the exact time wey you wan meet.",
+        "saveTime": "Save am",
+        "savingTime": "Dey save...",
+        "timeUpdateSuccess": "We don update the meeting time.",
+        "timeUpdateError": "We no fit update the time. Abeg try again.",
+        "addTime": "Add time (optional)",
+        "addTimeTitle": "Add time",
+        "optionalTimeDescription": "Add time only if you need am.",
+        "attendanceCount": "{count} out of {total} dey available",
+        "cancelTitle": "Cancel confirmation?",
+        "cancelDescription": "We go clear the confirmed schedule. Participants’ answers go still dey.",
+        "keepConfirmation": "Keep confirmation"
+      },
+      "actions": {
+        "confirmed": "Confirmed plan",
+        "confirmedDescription": "Share the details or add am to your calendar.",
+        "inProgress": "We still dey plan",
+        "manage": "Manage poll"
+      },
+      "share": {
+        "confirmedTitle": "{title} don confirm",
+        "confirmedHeading": "The plan don confirm!",
+        "detailsCopied": "We don copy the confirmed details and link.",
+        "manualCopyDescription": "We no fit share or copy am automatically. Select and copy the text below."
+      },
+      "kakaoShare": {
+        "description": "Pick times wey fit you.",
+        "buttonTitle": "Join the vote",
+        "confirmedTitle": "{date} · Don confirm",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "See confirmed plan",
+        "locationPending": "We never choose place"
+      },
+      "attendance": {
+        "available": "Fit join",
+        "unavailable": "No fit join",
+        "everyoneAvailable": "Everybody fit join",
+        "noneAvailable": "Nobody fit join"
+      },
+      "bestTimesTitle": "Times wey fit people pass",
+      "availabilityBasis": "Na {count} replies we use.",
+      "allAvailable": "Everybody fit come ({count})",
+      "someAvailable": "{count} out of {total} fit come",
+      "viewSlotPeople": "Tap one option to see who fit come.",
+      "decision": {
+        "allHeadline": "All {count} people {availability}",
+        "allHeadlineHighlight": "fit come",
+        "allDates": "Dates wey work for everybody ({count})",
+        "allTimes": "Times wey work for everybody ({count})",
+        "partial": "Up to {count} people fit meet",
+        "basis": "Na the free times wey people don enter we use",
+        "notAll": "No option fit everybody yet.",
+        "emptyDates": "Nobody don choose any date",
+        "emptyTimes": "Nobody don choose any time",
+        "pending": "We dey wait for answers for the new options",
+        "allUnavailable": "All {count} people wey answer talk say none of the options fit them.",
+        "notSelected": "People wey no choose this option",
+        "people": "See who fit come",
+        "chooseDate": "Set the meeting for this date",
+        "chooseTime": "Set the meeting for this time",
+        "confirmedDate": "The meeting date don set",
+        "setMeeting": "Confirm meeting"
+      },
+      "calendarFilter": {
+        "selectAll": "Select everybody",
+        "selectedCount": "{selected} out of {total} selected",
+        "selectPrompt": "Select people to see when dem dey free.",
+        "noAvailability": "The people wey you select no get any free time."
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "You never sign in",
+        "description": "Enter your name to join without sign-in.",
+        "kakaoLoginButton": "Continue with Kakao",
+        "loginButton": "Sign in",
+        "anonymousLogin": "Enter name to join"
+      },
+      "description": "Enter the name wey you wan use for this meeting.",
+      "votingAs": "You dey join as {username}.",
+      "votingAsCompact": "You dey join as {username}",
+      "usernamePlaceholder": "Name",
+      "anonymousLogin": "Join with this name"
+    },
+    "identity": {
+      "label": "Name for this meeting",
+      "hint": "Name change go affect only this meeting.",
+      "change": "Change name"
+    },
+    "unavailable": {
+      "dates": "None of these dates work for me",
+      "times": "None of these times work for me",
+      "hint": "Choose this one if none of the options work for you.",
+      "selectedHint": "Your answer go show say none of these options work. You fit change am later.",
+      "changed": "The dates wey dem suggest don change. Refresh this page and answer again.",
+      "respondents": "People wey don answer",
+      "datesStatus": "No date work",
+      "timesStatus": "No time work",
+      "pending": "New options need answer",
+      "selected": "Don choose time",
+      "noneStatus": "No time dey available",
+      "picked": "People wey fit come",
+      "emptyTitle": "No time recommendation yet",
+      "emptyHint": "Wait make more people answer.",
+      "viewPeople": "See participants",
+      "morePeople": "Show {count} more people",
+      "lessPeople": "Show less",
+      "basis": "Na availability votes for the confirmed time we use.",
+      "otherSelection": "Choose another time"
+    }
+  },
+  "my": {
+    "title": "My meetings",
+    "tabs": {
+      "myMeetings": "My meetings",
+      "participatedMeetings": "Meetings wey I join"
+    },
+    "noMeetings": "You never create any meeting.",
+    "noParticipatedMeetings": "You never join any meeting.",
+    "myMeetingsDetails": "You don create {count} meetings.",
+    "participatedMeetingsDetails": "You don join {count} meetings."
+  },
+  "admin": {
+    "metaTitle": "Admin Dashboard - Time2Gather",
+    "metaDescription": "A private dashboard for reviewing Time2Gather users and meetings.",
+    "eyebrow": "ADMIN CONSOLE",
+    "title": "Service overview",
+    "description": "Review key user and meeting metrics, then quickly find the records you need.",
+    "summaryTitle": "At a glance",
+    "summaryDescription": "Counts are based on the users and meetings currently stored.",
+    "loading": "Dey prepare the admin dashboard.",
+    "loadingDescription": "Dey check your access and loading the latest data.",
+    "accessDeniedTitle": "You no have access",
+    "accessDeniedDescription": "Only accounts with the admin role can view this page.",
+    "refresh": "Refresh overview",
+    "retry": "Try again",
+    "loadError": "We no fit load the overview.",
+    "search": "Search",
+    "notAvailable": "Not available",
+    "pageOf": "Page {current} of {total}",
+    "stats": {
+      "totalUsers": "Total users",
+      "registeredUsers": "Signed-up users",
+      "anonymousUsers": "Anonymous users",
+      "adminUsers": "{count} admins",
+      "totalMeetings": "Total meetings",
+      "activeMeetings": "Active meetings",
+      "confirmedMeetings": "Confirmed meetings",
+      "confirmationRate": "Confirmation rate: {rate}"
+    },
+    "users": {
+      "title": "Users",
+      "description": "{count} users found.",
+      "searchPlaceholder": "Search name or email",
+      "loadError": "We no fit load the users.",
+      "empty": "No users match your search.",
+      "user": "User",
+      "provider": "Sign-in method",
+      "role": "Role",
+      "joinedAt": "Joined",
+      "participatedMeetings": "Meetings wey e join",
+      "noParticipatedMeetings": "E never join any meeting.",
+      "noEmail": "No email"
+    },
+    "meetings": {
+      "title": "Meetings",
+      "description": "{count} meetings found.",
+      "searchPlaceholder": "Search title or meeting code",
+      "loadError": "We no fit load the meetings.",
+      "empty": "No meetings match your search.",
+      "meeting": "Meeting",
+      "host": "Host",
+      "status": "Status",
+      "createdAt": "Created",
+      "active": "Active",
+      "inactive": "Inactive",
+      "confirmed": "Confirmed",
+      "confirmedOnly": "Show only meetings wey dem don confirm",
+      "unknownHost": "Unknown user",
+      "openNewTab": "Open meeting for new tab"
+    },
+    "providers": {
+      "ANONYMOUS": "Anonymous",
+      "KAKAO": "Kakao",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "User",
+      "ADMIN": "Admin"
+    },
+    "selectionTypes": {
+      "TIME": "Date and time",
+      "ALL_DAY": "Dates only"
+    },
+    "login": {
+      "checking": "Dey check sign-in settings...",
+      "expired": "Admin access don expire or no dey. Abeg sign in again.",
+      "notConfigured": "Admin sign-in never ready. Contact the operator.",
+      "verifying": "Dey check admin access...",
+      "notAllowed": "Use admin account wey get permission.",
+      "google": "Sign in with Google",
+      "unavailable": "We no fit load sign-in service.",
+      "networkError": "Check your connection, come try again.",
+      "logout": "Sign out",
+      "title": "Admin sign-in",
+      "description": "Na only Google accounts wey get permission fit enter here.",
+      "retry": "Try again",
+      "sessionHelp": "Admin access dey use different session from meeting participation."
+    }
+  },
+  "404": {
+    "title": "We no see this page",
+    "description": "The page no dey or dem don delete am.",
+    "homeButton": "Go home"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - Schedule with People",
+    "siteDescription": "A service that makes it easy to schedule meetings with people. Create meetings, pick multiple dates and time slots, and share them. When participants pick their available times, we'll recommend the best date and time to meet.",
+    "siteKeywords": "schedule meeting, schedule coordination, group meeting, group schedule, time coordination, meeting management, schedule sharing, Time2Gather",
+    "ogImageAlt": "Time2Gather - Schedule with Multiple People",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - Schedule Meetings in 5 Seconds",
+        "description": "Struggling to coordinate schedules with multiple people? Use Time2Gather to easily collect votes and find the best time for everyone."
+      },
+      "create": {
+        "title": "Create Meeting - Time2Gather",
+        "description": "Create a new meeting and share it with friends. Easily decide on dates, times, and locations through voting."
+      },
+      "login": {
+        "title": "Login - Time2Gather",
+        "description": "Sign in with Kakao or Google to start scheduling."
+      },
+      "my": {
+        "title": "My Meetings - Time2Gather",
+        "description": "View all your created and participated meetings at a glance. Meeting management made easy."
+      },
+      "meeting": {
+        "title": "{title} - Time2Gather",
+        "description": "Join the {title} meeting. Pick your available times and vote."
+      },
+      "result": {
+        "title": "{title} Results - Time2Gather",
+        "description": "Join {title} and pick the times that work for you.",
+        "confirmedTitle": "{title} Confirmed - Time2Gather",
+        "confirmedDescription": "Confirmed plan: {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "Schedule Assistant",
+    "open": "Open Chat",
+    "close": "Close Chat",
+    "welcomeMessage": "Hello! Ask me about your schedule.",
+    "welcomeHint": "e.g. \"Show my meetings\", \"What's on next week?\"",
+    "inputPlaceholder": "Type a message...",
+    "errorMessage": "Sorry, an error occurred. Abeg try again later."
+  },
+  "locationVote": {
+    "title": "Vote for place",
+    "description": "Pick places wey you prefer",
+    "scheduleStepLabel": "1 / 2 · When you free",
+    "locationStepLabel": "2 / 2 · Place",
+    "selectionTitle": "Where we go meet?",
+    "selectionDescription": "Pick all the places wey fit you.",
+    "confirmedLocation": "Confirmed place",
+    "confirmed": "Don confirm",
+    "loadError": "We no fit load the places wey you pick.",
+    "retry": "Try again",
+    "voters": "People wey vote for here",
+    "noVotes": "Nobody don vote for here yet"
+  },
+  "timezone": {
+    "title": "Time zone",
+    "meeting": "Time zone for this meeting: {zone}",
+    "display": "Time zone wey your screen dey use",
+    "hint": "Enter dates and times for the meeting time zone. Everybody dey vote for the same moment.",
+    "gridHint": "The column dates and time axis follow the meeting time zone. Each box still dey show the date and time for your own time zone.",
+    "local": "For {zone}: {time}",
+    "invalid": "Pick time zone wey correct.",
+    "gap": "This time no dey because clock move forward. Pick another time.",
+    "overlap": "This time happen twice when clock move back. Pick time wey no repeat.",
+    "allDay": "If na dates only, the calendar date go stay the same for every time zone.",
+    "useDevice": "Use my device time zone",
+    "search": "Find time zone",
+    "noResults": "No time zone match. Try another city or area."
+  },
+  "errors": {
+    "error.internal": "An internal server error has occurred",
+    "error.validation.failed": "Input validation failed",
+    "error.request.invalid": "Request no correct. {0}",
+    "error.state.invalid": "This request no fit be performed in the current state",
+    "error.resource.not.found": "The requested resource no dey",
+    "error.null.pointer": "Required data no dey. Abeg check wetin you send.",
+    "error.number.format": "Number format no correct. Abeg check wetin you enter.",
+    "error.auth.required": "Authentication dey needed",
+    "error.auth.required.login": "Authentication dey needed. Abeg sign in, come try again.",
+    "error.auth.access.denied": "Access denied",
+    "error.auth.not.authenticated": "User no dey authenticated",
+    "error.user.not.found": "User no dey",
+    "error.user.not.found.email": "User no dey with email: {0}",
+    "error.user.id.required": "User ID dey needed",
+    "error.oauth.invalid.code": "Authorization code no correct or expired. Abeg re-authenticate. Error: {0}",
+    "error.oauth.api.failed": "No fit communicate with OAuth API: {0}",
+    "error.oauth.no.id.token": "No fit get ID token from OAuth provider",
+    "error.oauth.no.user.info": "No fit get user info from OAuth provider",
+    "error.meeting.not.found": "Meeting no dey",
+    "error.meeting.not.found.code": "Meeting no dey: {0}",
+    "error.meeting.id.required": "Meeting ID dey needed",
+    "error.meeting.already.confirmed": "Meeting don already confirmed. Abeg cancel confirmation first.",
+    "error.meeting.not.confirmed": "Meeting no dey confirmed",
+    "error.meeting.invalid.date": "Invalid date: {0}",
+    "error.meeting.date.not.available": "This date no dey available in the meeting: {0}",
+    "error.meeting.no.interval.info": "Meeting interval information no dey",
+    "error.meeting.host.only": "Only the host can perform this action",
+    "error.meeting.no.participants": "You no fit create calendar as no participants have voted yet",
+    "error.meeting.date.format.invalid": "Date format no correct. Abeg use yyyy-MM-dd format.",
+    "error.meeting.validation.date.required": "At least one date must dey picked",
+    "error.meeting.validation.date.slot.required": "At least one time slot must dey picked for each date",
+    "error.meeting.validation.time.required": "At least one date and time slot must dey picked",
+    "error.meeting.validation.all.day.empty.slots": "For ALL_DAY type, time slots must dey an empty array",
+    "error.meeting.validation.slot.index.required": "slotIndex dey needed for TIME type meetings",
+    "error.meeting.validation.slot.index.invalid": "Invalid slot index: {0}",
+    "error.meeting.validation.date.slot.together": "date and slotIndex must dey specified together",
+    "error.location.not.found": "Location no dey",
+    "error.location.not.belong.to.meeting": "Location no belong to this meeting",
+    "error.location.vote.not.enabled": "Location voting no dey enabled for this meeting",
+    "error.location.already.confirmed": "Location don already confirmed. Abeg cancel location confirmation first.",
+    "error.location.not.confirmed": "Location no dey confirmed",
+    "error.location.id.required": "Location ID dey needed",
+    "error.location.name.required": "Location name dey needed",
+    "error.location.name.too.long": "Location name no fit exceed 200 characters",
+    "error.location.max.exceeded": "No pass {0} locations can be added",
+    "error.location.min.required": "At least {0} location(s) dey needed",
+    "error.location.min.for.vote": "At least {0} locations dey needed to enable location voting",
+    "error.location.cannot.disable": "You no fit disable location voting when location is confirmed",
+    "error.location.not.exist": "Location no dey: {0}",
+    "error.selection.empty": "Pickion data dey empty",
+    "error.selection.date.required": "Date dey needed",
+    "error.selection.type.required": "Type dey needed",
+    "error.selection.type.unknown": "Unknown type: {0} (only TIME or ALL_DAY allowed)",
+    "error.selection.time.required": "Date '{0}' is TIME type but no time was specified",
+    "error.selection.time.empty": "Time value dey empty",
+    "error.selection.time.format.invalid": "Time format no correct for date '{0}'. {1}",
+    "error.selection.date.not.available": "Date {0} no dey available in this meeting",
+    "error.selection.slot.null": "Slot array no fit be null. Use empty map to exclude dates.",
+    "error.selection.slot.not.available": "Slot {0} no dey available on {1}",
+    "error.selection.slot.empty.for.time": "Empty array no dey allowed for TIME type meetings. Use empty map to exclude dates.",
+    "error.timeslot.invalid.format": "Invalid time format. Expected HH:mm",
+    "error.timeslot.invalid.hour": "Hour must dey between 0 and 23",
+    "error.timeslot.invalid.minute": "Minute must dey between 0 and 59",
+    "error.timeslot.not.aligned": "Time must dey aligned to {0} minute intervals",
+    "error.timeslot.index.out.of.range": "Slot index must dey between {1} and {2} for {0}-minute intervals, but got: {3}",
+    "error.timeslot.interval.positive": "Interval minutes must dey positive",
+    "error.timeslot.interval.divisor": "Interval minutes must dey a divisor of {0}",
+    "error.calendar.export.failed": "No fit create calendar file",
+    "error.ai.api.failed": "AI API call failed",
+    "error.ai.provider.unknown": "Unknown AI provider: {0}",
+    "mcp.meeting.created": "Meeting created successfully",
+    "mcp.vote.time.saved": "Availability vote saved successfully",
+    "mcp.vote.location.saved": "Location vote saved successfully",
+    "mcp.meeting.confirmed": "Meeting schedule confirmed successfully",
+    "mcp.location.confirmed": "Meeting location confirmed successfully",
+    "mcp.ics.created": "ICS file created successfully",
+    "validation.meeting.title.required": "Title dey needed",
+    "validation.meeting.dates.required": "Available dates/times dey needed",
+    "validation.meeting.location.max": "No pass 5 locations can be added",
+    "validation.selection.required": "Picked time slots dey needed",
+    "validation.date.required": "Date dey needed",
+    "validation.date.format": "Date format must dey yyyy-MM-dd",
+    "validation.time.required": "Time dey needed",
+    "validation.time.format": "Time format must dey HH:mm",
+    "validation.location.id.required": "Location ID dey needed",
+    "validation.location.ids.required": "Location ID list dey needed",
+    "validation.location.name.required": "Location name dey needed",
+    "validation.location.max": "No pass 5 locations can be added",
+    "validation.auth.code.required": "Authorization code dey needed",
+    "validation.username.required": "Username dey needed",
+    "validation.password.required": "Password dey needed",
+    "validation.selection.date.min.max": "Abeg pick between 1 and 31 dates",
+    "validation.type.required": "Type dey needed",
+    "validation.slot.index.required": "Slot index to confirm (required for TIME type, null allowed for ALL_DAY type)",
+    "error.meeting.timezone.invalid": "Pick a valid IANA time zone.",
+    "error.meeting.time.nonexistent": "This time no dey because the clocks move forward. Pick another time.",
+    "error.meeting.time.ambiguous": "This time occurs twice when the clocks move back. Pick an unambiguous time.",
+    "error.comment.rate.limit": "Wait small before you post again.",
+    "error.selection.candidates.changed": "The dates wey dem suggest don change. Refresh this page and answer again."
+  },
+  "comments": {
+    "title": "Comments",
+    "placeholder": "Talk about this meeting",
+    "reply": "Reply",
+    "replyTo": "Reply to {name}",
+    "replies": "Replies ({count})",
+    "collapse": "Hide replies",
+    "post": "Post",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "hide": "Hide",
+    "hidden": "The host don hide this comment.",
+    "deleted": "Dem don delete this comment.",
+    "edited": "Edited",
+    "host": "Host",
+    "mention": "Type @ to mention person",
+    "noPeople": "No participant match",
+    "session": "Enter the name wey go show for your comments.",
+    "failed": "The request no complete. Your text still dey; try again.",
+    "rateLimit": "Wait small before you post again.",
+    "new": "See new comments ({count})",
+    "mentioned": "New comment wey dem direct to you",
+    "moreReplies": "More replies",
+    "more": "Older comments",
+    "copy": "Copy comment link",
+    "copied": "Link don copy.",
+    "actions": "Comment options",
+    "newReply": "New",
+    "removeConfirm": "Remove this text? The replies wey dey go remain.",
+    "retry": "Try again",
+    "reactions": {
+      "add": "Add reaction",
+      "view": "See who react",
+      "title": "Reactions",
+      "react": "React",
+      "remove": "Comot reaction",
+      "empty": "Nobody don react yet.",
+      "you": "You",
+      "session": "Enter di name wey go show with your reactions.",
+      "failed": "We no fit change di reaction. Abeg try again.",
+      "like": "I agree",
+      "love": "I like am well",
+      "laugh": "E funny",
+      "celebrate": "Celebrate",
+      "thanks": "Thank you",
+      "think": "I dey think",
+      "eyes": "I dey watch",
+      "hundred": "Na hundred percent"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "To plan meet-up easy like this",
+    "title": "Different free times. One plan for everybody.",
+    "description": "Share link, choose when you free, and find time wey everybody fit meet.",
+    "steps": {
+      "share": {
+        "title": "Share one link",
+        "description": "People wey you invite fit join without sign-in"
+      },
+      "select": {
+        "title": "Choose when you free",
+        "description": "Put everybody free time for one place"
+      },
+      "decide": {
+        "title": "Find time wey match",
+        "description": "Confirm the time wey work best"
+      }
+    },
+    "sample": "Example of how e work",
+    "meetingTitle": "Make we meet this week",
+    "responses": "{count} people don join",
+    "hint": "Change your time and see how the result go change.",
+    "filtersLabel": "Each person free time",
+    "allResults": "All results",
+    "personAvailability": "Time wey {name} free",
+    "tableLabel": "People wey free for each time",
+    "timeLabel": "Time",
+    "legendTitle": "People wey free",
+    "legendMax": "More",
+    "resultTitle": "We don find time for all {count} people!",
+    "resultHint": "Tap All results to see time wey match.",
+    "available": "Free",
+    "unavailable": "No free",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "Time wey you dey free",
+    "hourly": "1-hour space",
+    "me": "You",
+    "legend": "People wey fit come / total",
+    "create": "Create your own meeting",
+    "compactTime": "Saturday, 7 for evening",
+    "compactResult": "Everybody fit come"
+  }
+}

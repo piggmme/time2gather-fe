@@ -4,8 +4,8 @@
     "cancel": "Cancel",
     "next": "Next",
     "home": "Home",
-    "createMeeting": "Create Meeting",
-    "searchMeeting": "Search Meeting",
+    "createMeeting": "Create a meeting",
+    "searchMeeting": "Find a meeting",
     "searchMeetingPlaceholder": "Meeting code",
     "searchMeetingButton": "Find Meeting",
     "myMeetings": "My Meetings",
@@ -19,7 +19,9 @@
     "loading": "Loading...",
     "error": "An error occurred. Please try again.",
     "switchToEnglish": "Switch to English",
-    "switchToKorean": "Switch to Korean"
+    "switchToKorean": "Switch to Korean",
+    "language": "Language",
+    "searchLanguages": "Choose your language"
   },
   "home": {
     "title": "Time2Gather",
@@ -73,16 +75,16 @@
     "faqHeading": "Frequently asked questions",
     "faq": {
       "what": {
-        "question": "What is Time2Gather?",
-        "answer": "It is a scheduling service that collects date and time availability from a group through voting."
+        "question": "How can a group find a time for a meetup or team meeting?",
+        "answer": "Create date and time options in Time2Gather and share the link. Everyone selects when they are available, then you compare the results and confirm a plan. It is free for friend groups, study groups, and team meetings."
       },
       "login": {
-        "question": "Do participants need to sign in?",
-        "answer": "No. Anyone can vote with only a nickname, and the anonymous session is stored in the current browser."
+        "question": "Can I create and join a poll without signing up or installing an app?",
+        "answer": "Yes. Hosts and participants only need to enter a name, with no registration or social sign-in. Create meetings and vote in a web browser on your phone or computer."
       },
       "location": {
-        "question": "Can we vote on locations?",
-        "answer": "Yes. Turn on location voting while creating a meeting to let participants choose from location options."
+        "question": "Can we vote on where to meet too?",
+        "answer": "Yes. Enable location voting when creating the meeting and add options. Participants can vote for preferred locations and discuss plans in the comments."
       }
     }
   },
@@ -119,14 +121,14 @@
       "placeholder": "Let's meet in Gangnam, everyone!"
     },
     "datesStep": {
-      "heading": "Choose candidate dates"
+      "heading": "Choose possible dates"
     },
     "timeRangeStep": {
       "heading": "Set the available time range",
       "startTime": "Start time",
       "endTime": "End time",
       "selectedDatesCount": "Selected dates: {count}",
-      "createButton": "Create Meeting"
+      "createButton": "Create a meeting"
     },
     "locationStep": {
       "heading": "Finish creating your meeting",
@@ -145,7 +147,7 @@
       "removeLocation": "Remove Location",
       "minLocationsWarning": "At least 2 locations are required for location voting",
       "maxLocationsWarning": "You can only add up to 5 locations",
-      "createButton": "Create Meeting",
+      "createButton": "Create a meeting",
       "creatingButton": "Creating meeting...",
       "skipButton": "Skip"
     }
@@ -158,68 +160,83 @@
     "participantsEmpty": "No participants yet.",
     "participantsCount": "Participants: {count}",
     "participantsCountCompact": "{count} participating",
-    "selectedDates": "Choose the dates that work for you from {count} options.",
-    "selectedDatesAndTimes": "Choose the dates and times that work for you from {count} date options.",
+    "selectedDates": "Choose dates that work for you. Options: {count}.",
+    "selectedDatesAndTimes": "Choose the dates and times that work for you. Date options: {count}.",
     "timeGrid": {
       "timeLabel": "Time",
       "touchHint": "Press, hold, then drag to select multiple times",
       "pointerHint": "Drag to select multiple times at once",
       "draggingHint": "Dragging · Release to apply your selection",
-      "selectDate": "Select all times on {date}"
+      "selectDate": "Select all times on {date}",
+      "previousDates": "Earlier dates",
+      "nextDates": "Later dates"
     },
     "dateCalendar": {
+      "mySelection": "My selection",
+      "fewerVotes": "Fewer votes",
+      "moreVotes": "More votes",
       "available": "Available",
       "unavailable": "Unavailable",
       "today": "Today",
       "availableMonths": "Months with available dates",
-      "monthAvailability": "{count} available dates in {month}",
+      "monthAvailability": "{month} · Available dates: {count}",
       "previousMonth": "Previous month",
       "nextMonth": "Next month"
     },
     "dateParticipants": {
       "title": "Available on {date}",
-      "count": "{count} people"
+      "count": {
+        "one": "{count} person",
+        "other": "{count} people"
+      }
     },
     "resultSaved": "The result has been saved.",
-    "modifyButton": "Modify Time",
+    "modifyButton": "Edit availability",
     "participate": "Participate in Meeting",
     "shareResult": "Share Result",
     "shareMeeting": "Share Meeting",
     "shareSuccess": "The link has been copied.",
     "exportToCalendar": "Add to My Calendar",
     "confirmButton": "Confirm Meeting",
+    "confirmButtonShort": "Finalize",
     "cancelConfirmButton": "Cancel Confirmation",
     "cancelConfirmSuccess": "Meeting confirmation has been cancelled!",
     "cancelConfirmError": "Failed to cancel confirmation. Please try again.",
     "alreadyConfirmedError": "This meeting is already confirmed. You cannot modify your vote.",
     "editDates": {
-      "openButton": "Manage available dates",
+      "openButton": "Edit poll options",
       "hostOnly": "Host only",
-      "title": "Manage available voting dates",
-      "description": "Choose the dates participants can vote on. The existing time range stays the same.",
-      "selectedCount": "{count} dates selected",
+      "title": "Edit poll options",
+      "description": "Change the options everyone can vote on.",
+      "selectedCount": "Selected dates: {count}",
       "selectionHint": "Tap or drag to select dates.",
       "removedWarning": "Votes on {count} removed dates will be deleted when you save.",
       "maxDates": "You can select up to {count} dates.",
-      "save": "Save dates",
-      "success": "Voting dates updated.",
-      "error": "Couldn’t update voting dates. Please try again."
+      "save": "Save options",
+      "success": "Poll options updated.",
+      "error": "Could not update poll options. Please try again.",
+      "timeOpenButton": "Edit poll options",
+      "timeTitle": "Edit poll options",
+      "timeDescription": "Change the options everyone can vote on.",
+      "timeSave": "Save options",
+      "timeSuccess": "Poll options updated.",
+      "timeError": "Could not update poll options. Please try again.",
+      "timeRangeHint": "Changing the time range applies it to every selected date.",
+      "timeRemovedWarning": "Votes for {count} removed time options will be deleted when you save. Other votes will be kept.",
+      "locationRemovedWarning": "Saving will remove votes for {count} changed or removed place options. Other votes will be kept."
     },
     "exportDialog": {
       "title": "Add to Calendar",
       "description": "Select the date and time to add to your calendar.",
       "noSlots": "No dates have been voted on yet.",
       "allDay": "All Day",
-      "iosGuideTitle": "One more tap is required on iPhone",
-      "iosGuideDescription": "On the next screen, tap ‘Add to Calendar’ at the bottom. The checkmark at the top only closes the preview.",
-      "openIosCalendar": "Open iPhone Calendar",
       "cancel": "Cancel",
       "confirm": "Add to Calendar",
       "close": "Close"
     },
     "confirmDialog": {
       "title": "Confirm Meeting",
-      "description": "Choose the final schedule from {count} tied top options.",
+      "description": "Choose the final schedule. Top options: {count}.",
       "noSlots": "No dates have been voted on yet.",
       "allDay": "All Day",
       "scheduleTitle": "Date and time",
@@ -228,14 +245,22 @@
       "locationDescription": "Choose where to meet using the vote results.",
       "locationStepDescription": "Choose where to meet to finish confirming the plan.",
       "progressLabel": "Meeting confirmation steps",
-      "locationVoteCount": "{count} votes",
+      "locationVoteCount": {
+        "one": "{count} vote",
+        "other": "{count} votes"
+      },
       "noLocations": "There are no locations available to confirm.",
       "cancel": "Cancel",
       "confirm": "Confirm",
       "confirming": "Confirming...",
       "close": "Close",
       "success": "Meeting has been confirmed!",
-      "error": "Failed to confirm meeting. Please try again."
+      "error": "Failed to confirm meeting. Please try again.",
+      "allCandidatesDescription": "Choose the final schedule from all {count} options.",
+      "groupedDescription": "Choose one of {count} dates, then select a start time.",
+      "recommendationsDescription": "Suggested options with high availability, one per date.",
+      "allDates": "Choose from all {count} dates",
+      "backToRecommendations": "View recommendations"
     },
     "anonymousSelectButton": "Join with a name",
     "selectButton": "Select Dates",
@@ -253,17 +278,20 @@
       "aiSummaryTitle": "Vote Result Summary",
       "calendarTitle": "Meeting Calendar",
       "totalParticipants": "Participants: {count}",
-      "bestSlotsTitle": "Best matches",
+      "bestSlotsTitle": "Dates with the most availability",
       "showMoreOptions": "Show {count} more",
       "showFewerOptions": "Show less",
       "moreTimeOptions": "{count} more time options",
       "participantsCount": "Participants: {count}",
       "people": "people",
-      "voteCount": "{count} people ({percentage})",
+      "voteCount": {
+        "one": "{count} person ({percentage})",
+        "other": "{count} people ({percentage})"
+      },
       "noParticipants": "No participants",
       "buttons": {
         "calendar": "Add to calendar",
-        "share": "Share",
+        "share": "Share poll",
         "shareConfirmed": "Share confirmed plan",
         "shareKakao": "KakaoTalk",
         "modifyDates": "Edit my date selection",
@@ -271,7 +299,7 @@
         "selectDates": "Select my available dates",
         "selectTimes": "Select my available dates and times",
         "enterAvailability": "Add availability",
-        "editAvailability": "Edit availability"
+        "editAvailability": "Edit my vote"
       },
       "confirmedPlan": {
         "eyebrow": "PLAN CONFIRMED",
@@ -280,25 +308,42 @@
         "time": "Time",
         "location": "Location",
         "attendees": "Available attendees",
-        "attendanceSummary": "{count} people · {percentage} of the group",
+        "attendanceSummary": {
+          "one": "{count} person · {percentage} of the group",
+          "other": "{count} people · {percentage} of the group"
+        },
+        "confirmTime": "Confirm time",
+        "confirmTimeTitle": "Confirm meeting time",
+        "confirmTimeDescription": "Choose the time you will meet on the confirmed date.",
+        "timeConfirmSuccess": "The meeting time was confirmed.",
+        "timeConfirmError": "The meeting time could not be confirmed. Please try again.",
+        "timePending": "Not set",
         "editTime": "Edit",
         "editTimeTitle": "Edit meeting time",
         "editTimeDescription": "Keep the confirmed date and set the exact time you plan to meet.",
-        "saveTime": "Save time",
+        "saveTime": "Save",
         "savingTime": "Saving...",
         "timeUpdateSuccess": "The meeting time was updated.",
-        "timeUpdateError": "The meeting time could not be updated. Please try again."
+        "timeUpdateError": "The meeting time could not be updated. Please try again.",
+        "addTime": "Add time (optional)",
+        "addTimeTitle": "Add time",
+        "optionalTimeDescription": "Add a time only if needed.",
+        "attendanceCount": "{count} of {total} available",
+        "cancelTitle": "Cancel confirmation?",
+        "cancelDescription": "The confirmed schedule will be cleared. Participants’ responses will be kept.",
+        "keepConfirmation": "Keep confirmation"
       },
       "actions": {
         "confirmed": "Confirmed plan",
         "confirmedDescription": "Share the details or add them to your calendar.",
-        "inProgress": "Planning in progress",
-        "inProgressDescription": "Review responses and choose the next step."
+        "inProgress": "Scheduling in progress",
+        "manage": "Manage poll"
       },
       "share": {
         "confirmedTitle": "{title} is confirmed",
         "confirmedHeading": "The plan is confirmed!",
-        "detailsCopied": "The confirmed details and link were copied."
+        "detailsCopied": "The confirmed details and link were copied.",
+        "manualCopyDescription": "Automatic sharing or copying is unavailable. Select and copy the text below."
       },
       "kakaoShare": {
         "description": "Pick the times that work for you.",
@@ -308,13 +353,45 @@
         "confirmedButtonTitle": "View confirmed plan",
         "locationPending": "Location pending"
       },
-      "viralCta": {
-        "title": "Want to create your own meeting?",
-        "button": "Create New Meeting"
+      "attendance": {
+        "available": "Available",
+        "unavailable": "Unavailable",
+        "everyoneAvailable": "Everyone is available",
+        "noneAvailable": "No one is available"
+      },
+      "bestTimesTitle": "Times with the most availability",
+      "availabilityBasis": "Based on {count} responses.",
+      "allAvailable": "Everyone available ({count})",
+      "someAvailable": "{count} of {total} available",
+      "viewSlotPeople": "Select an option to see who is available.",
+      "decision": {
+        "allHeadline": "All {count} {availability}",
+        "allHeadlineHighlight": "can attend",
+        "allDates": "Dates that work for everyone ({count})",
+        "allTimes": "Times that work for everyone ({count})",
+        "partial": "Up to {count} can meet",
+        "basis": "Based on the availability entered so far",
+        "notAll": "No option works for everyone yet.",
+        "emptyDates": "No date has been selected",
+        "emptyTimes": "No time has been selected",
+        "pending": "Waiting for responses to the new options",
+        "allUnavailable": "All {count} respondents said none of the proposed options work.",
+        "notSelected": "People who did not select this option",
+        "people": "See who is available",
+        "chooseDate": "Set the meeting for this date",
+        "chooseTime": "Set the meeting for this time",
+        "confirmedDate": "The meeting date is set",
+        "setMeeting": "Confirm Meeting"
+      },
+      "calendarFilter": {
+        "selectAll": "Select all",
+        "selectedCount": "{selected} of {total} selected",
+        "selectPrompt": "Select participants to see their availability.",
+        "noAvailability": "The selected participants have no available slots."
       }
     },
     "anonymous": {
-      "dialog" : {
+      "dialog": {
         "title": "You’re not signed in",
         "description": "Join without signing in by entering a name.",
         "kakaoLoginButton": "Continue with Kakao",
@@ -326,18 +403,44 @@
       "votingAsCompact": "Joining as {username}",
       "usernamePlaceholder": "Name",
       "anonymousLogin": "Join with this name"
+    },
+    "identity": {
+      "label": "Name for this meeting",
+      "hint": "Name changes apply only to this meeting.",
+      "change": "Change name"
+    },
+    "unavailable": {
+      "dates": "None of these dates work",
+      "times": "None of these times work",
+      "hint": "Select this if none of the options work for you.",
+      "selectedHint": "Your response will say none of these options work. You can change it later.",
+      "changed": "The candidate dates changed. Refresh this page and respond again.",
+      "respondents": "Respondents",
+      "datesStatus": "No dates work",
+      "timesStatus": "No times work",
+      "pending": "New options need a response",
+      "selected": "Selected a time",
+      "noneStatus": "No available dates or times",
+      "picked": "Available participants",
+      "emptyTitle": "No suggested time yet",
+      "emptyHint": "Wait for more participants to respond.",
+      "viewPeople": "View participants",
+      "morePeople": "Show {count} more people",
+      "lessPeople": "Show less",
+      "basis": "Based on availability votes for the confirmed time.",
+      "otherSelection": "Selected another time"
     }
   },
   "my": {
     "title": "My Meetings",
     "tabs": {
       "myMeetings": "My Meetings",
-      "participatedMeetings": "Participated Meetings"
+      "participatedMeetings": "Meetings I’ve joined"
     },
     "noMeetings": "You haven't created any meetings yet.",
     "noParticipatedMeetings": "You haven't participated in any meetings yet.",
-    "myMeetingsDetails": "You have created {count} meetings.",
-    "participatedMeetingsDetails": "You have participated in {count} meetings."
+    "myMeetingsDetails": "Meetings created: {count}",
+    "participatedMeetingsDetails": "Meetings joined: {count}"
   },
   "admin": {
     "metaTitle": "Admin Dashboard - Time2Gather",
@@ -364,7 +467,8 @@
       "adminUsers": "{count} admins",
       "totalMeetings": "Total meetings",
       "activeMeetings": "Active meetings",
-      "confirmedMeetings": "Confirmed meetings"
+      "confirmedMeetings": "Confirmed meetings",
+      "confirmationRate": "Confirmation rate: {rate}"
     },
     "users": {
       "title": "Users",
@@ -376,6 +480,8 @@
       "provider": "Sign-in method",
       "role": "Role",
       "joinedAt": "Joined",
+      "participatedMeetings": "Participated meetings",
+      "noParticipatedMeetings": "No participated meetings.",
       "noEmail": "No email"
     },
     "meetings": {
@@ -391,7 +497,9 @@
       "active": "Active",
       "inactive": "Inactive",
       "confirmed": "Confirmed",
-      "unknownHost": "Unknown user"
+      "confirmedOnly": "Show confirmed meetings only",
+      "unknownHost": "Unknown user",
+      "openNewTab": "Open meeting in a new tab"
     },
     "providers": {
       "ANONYMOUS": "Anonymous",
@@ -405,6 +513,21 @@
     "selectionTypes": {
       "TIME": "Date and time",
       "ALL_DAY": "Dates only"
+    },
+    "login": {
+      "checking": "Checking sign-in settings...",
+      "expired": "Admin access expired or is unavailable. Please sign in again.",
+      "notConfigured": "Admin sign-in is not configured. Contact the operator.",
+      "verifying": "Checking admin access...",
+      "notAllowed": "Use an authorized admin account.",
+      "google": "Sign in with Google",
+      "unavailable": "Could not load the sign-in service.",
+      "networkError": "Check your connection and try again.",
+      "logout": "Sign out",
+      "title": "Admin sign-in",
+      "description": "Only authorized Google accounts can access this area.",
+      "retry": "Try again",
+      "sessionHelp": "Admin access uses a separate session from meeting participation."
     }
   },
   "404": {
@@ -465,6 +588,222 @@
     "confirmedLocation": "Confirmed Location",
     "confirmed": "Confirmed",
     "loadError": "Could not load your location choices.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "voters": "Voted for this location",
+    "noVotes": "No votes yet"
+  },
+  "timezone": {
+    "title": "Time zone",
+    "meeting": "Meeting time zone: {zone}",
+    "display": "Your display time zone",
+    "hint": "Dates and times are entered in the meeting time zone. Everyone votes on the same moments.",
+    "gridHint": "Column dates and the time axis use the meeting time zone. Each cell also shows the date and time in your selected time zone.",
+    "local": "In {zone}: {time}",
+    "invalid": "Choose a valid time zone.",
+    "gap": "This time does not exist because the clocks move forward. Choose another time.",
+    "overlap": "This time occurs twice when the clocks move back. Choose an unambiguous time.",
+    "allDay": "Date-only votes keep the same calendar date in every time zone.",
+    "useDevice": "Use device time zone",
+    "search": "Search time zones",
+    "noResults": "No time zones found. Try another city or region."
+  },
+  "errors": {
+    "error.internal": "An internal server error has occurred",
+    "error.validation.failed": "Input validation failed",
+    "error.request.invalid": "Request is invalid. {0}",
+    "error.state.invalid": "This request cannot be performed in the current state",
+    "error.resource.not.found": "The requested resource could not be found",
+    "error.null.pointer": "Required data is missing. Please check your request.",
+    "error.number.format": "Number format is invalid. Please check your input.",
+    "error.auth.required": "Authentication is required",
+    "error.auth.required.login": "Authentication is required. Please log in and try again.",
+    "error.auth.access.denied": "Access denied",
+    "error.auth.not.authenticated": "User is not authenticated",
+    "error.user.not.found": "User not found",
+    "error.user.not.found.email": "User not found with email: {0}",
+    "error.user.id.required": "User ID is required",
+    "error.oauth.invalid.code": "Authorization code is invalid or expired. Please re-authenticate. Error: {0}",
+    "error.oauth.api.failed": "Failed to communicate with OAuth API: {0}",
+    "error.oauth.no.id.token": "Failed to get ID token from OAuth provider",
+    "error.oauth.no.user.info": "Failed to get user info from OAuth provider",
+    "error.meeting.not.found": "Meeting not found",
+    "error.meeting.not.found.code": "Meeting not found: {0}",
+    "error.meeting.id.required": "Meeting ID is required",
+    "error.meeting.already.confirmed": "Meeting is already confirmed. Please cancel confirmation first.",
+    "error.meeting.not.confirmed": "Meeting is not confirmed",
+    "error.meeting.invalid.date": "Invalid date: {0}",
+    "error.meeting.date.not.available": "This date is not available in the meeting: {0}",
+    "error.meeting.no.interval.info": "Meeting interval information is missing",
+    "error.meeting.host.only": "Only the host can perform this action",
+    "error.meeting.no.participants": "Cannot create calendar as no participants have voted yet",
+    "error.meeting.date.format.invalid": "Date format is invalid. Please use yyyy-MM-dd format.",
+    "error.meeting.validation.date.required": "At least one date must be selected",
+    "error.meeting.validation.date.slot.required": "At least one time slot must be selected for each date",
+    "error.meeting.validation.time.required": "At least one date and time slot must be selected",
+    "error.meeting.validation.all.day.empty.slots": "For ALL_DAY type, time slots must be an empty array",
+    "error.meeting.validation.slot.index.required": "slotIndex is required for TIME type meetings",
+    "error.meeting.validation.slot.index.invalid": "Invalid slot index: {0}",
+    "error.meeting.validation.date.slot.together": "date and slotIndex must be specified together",
+    "error.location.not.found": "Location not found",
+    "error.location.not.belong.to.meeting": "Location does not belong to this meeting",
+    "error.location.vote.not.enabled": "Location voting is not enabled for this meeting",
+    "error.location.already.confirmed": "Location is already confirmed. Please cancel location confirmation first.",
+    "error.location.not.confirmed": "Location is not confirmed",
+    "error.location.id.required": "Location ID is required",
+    "error.location.name.required": "Location name is required",
+    "error.location.name.too.long": "Location name cannot exceed 200 characters",
+    "error.location.max.exceeded": "Maximum of {0} locations can be added",
+    "error.location.min.required": "At least {0} location(s) are required",
+    "error.location.min.for.vote": "At least {0} locations are required to enable location voting",
+    "error.location.cannot.disable": "Cannot disable location voting when location is confirmed",
+    "error.location.not.exist": "Location does not exist: {0}",
+    "error.selection.empty": "Selection data is empty",
+    "error.selection.date.required": "Date is required",
+    "error.selection.type.required": "Type is required",
+    "error.selection.type.unknown": "Unknown type: {0} (only TIME or ALL_DAY allowed)",
+    "error.selection.time.required": "Date '{0}' is TIME type but no time was specified",
+    "error.selection.time.empty": "Time value is empty",
+    "error.selection.time.format.invalid": "Time format is invalid for date '{0}'. {1}",
+    "error.selection.date.not.available": "Date {0} is not available in this meeting",
+    "error.selection.slot.null": "Slot array cannot be null. Use empty map to exclude dates.",
+    "error.selection.slot.not.available": "Slot {0} is not available on {1}",
+    "error.selection.slot.empty.for.time": "Empty array is not allowed for TIME type meetings. Use empty map to exclude dates.",
+    "error.timeslot.invalid.format": "Invalid time format. Expected HH:mm",
+    "error.timeslot.invalid.hour": "Hour must be between 0 and 23",
+    "error.timeslot.invalid.minute": "Minute must be between 0 and 59",
+    "error.timeslot.not.aligned": "Time must be aligned to {0} minute intervals",
+    "error.timeslot.index.out.of.range": "Slot index must be between {1} and {2} for {0}-minute intervals, but got: {3}",
+    "error.timeslot.interval.positive": "Interval minutes must be positive",
+    "error.timeslot.interval.divisor": "Interval minutes must be a divisor of {0}",
+    "error.calendar.export.failed": "Failed to create calendar file",
+    "error.ai.api.failed": "AI API call failed",
+    "error.ai.provider.unknown": "Unknown AI provider: {0}",
+    "mcp.meeting.created": "Meeting created successfully",
+    "mcp.vote.time.saved": "Availability vote saved successfully",
+    "mcp.vote.location.saved": "Location vote saved successfully",
+    "mcp.meeting.confirmed": "Meeting schedule confirmed successfully",
+    "mcp.location.confirmed": "Meeting location confirmed successfully",
+    "mcp.ics.created": "ICS file created successfully",
+    "validation.meeting.title.required": "Title is required",
+    "validation.meeting.dates.required": "Available dates/times are required",
+    "validation.meeting.location.max": "Maximum of 5 locations can be added",
+    "validation.selection.required": "Selected time slots are required",
+    "validation.date.required": "Date is required",
+    "validation.date.format": "Date format must be yyyy-MM-dd",
+    "validation.time.required": "Time is required",
+    "validation.time.format": "Time format must be HH:mm",
+    "validation.location.id.required": "Location ID is required",
+    "validation.location.ids.required": "Location ID list is required",
+    "validation.location.name.required": "Location name is required",
+    "validation.location.max": "Maximum of 5 locations can be added",
+    "validation.auth.code.required": "Authorization code is required",
+    "validation.username.required": "Username is required",
+    "validation.password.required": "Password is required",
+    "validation.selection.date.min.max": "Please select between 1 and 31 dates",
+    "validation.type.required": "Type is required",
+    "validation.slot.index.required": "Slot index to confirm (required for TIME type, null allowed for ALL_DAY type)",
+    "error.meeting.timezone.invalid": "Choose a valid IANA time zone.",
+    "error.meeting.time.nonexistent": "This time does not exist because the clocks move forward. Choose another time.",
+    "error.meeting.time.ambiguous": "This time occurs twice when the clocks move back. Choose an unambiguous time.",
+    "error.comment.rate.limit": "Please wait a few seconds before posting again.",
+    "error.selection.candidates.changed": "The candidate dates changed. Refresh this page and respond again."
+  },
+  "comments": {
+    "title": "Comments",
+    "placeholder": "Talk about this meeting",
+    "reply": "Reply",
+    "replyTo": "Replying to {name}",
+    "replies": "Replies ({count})",
+    "collapse": "Hide replies",
+    "post": "Post",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "hide": "Hide",
+    "hidden": "Hidden by the host.",
+    "deleted": "This comment was deleted.",
+    "edited": "Edited",
+    "host": "Host",
+    "mention": "Type @ to mention someone",
+    "noPeople": "No matching participants",
+    "session": "Enter the name to show on your comments.",
+    "failed": "Could not complete the request. Your text is preserved; please retry.",
+    "rateLimit": "Please wait a few seconds before posting again.",
+    "new": "View new comments ({count})",
+    "mentioned": "New comment addressed to you",
+    "moreReplies": "More replies",
+    "more": "Older comments",
+    "copy": "Copy comment link",
+    "copied": "Link copied.",
+    "actions": "Comment actions",
+    "newReply": "New",
+    "removeConfirm": "Remove this text? Existing replies will remain.",
+    "retry": "Try again",
+    "reactions": {
+      "add": "Add reaction",
+      "view": "See who reacted",
+      "title": "Reactions",
+      "react": "React",
+      "remove": "Remove reaction",
+      "empty": "No reactions yet.",
+      "you": "You",
+      "session": "Enter the name to show with your reactions.",
+      "failed": "Could not update the reaction. Please try again.",
+      "like": "Agree",
+      "love": "Love",
+      "laugh": "Funny",
+      "celebrate": "Celebrate",
+      "thanks": "Thanks",
+      "think": "Thinking",
+      "eyes": "Watching",
+      "hundred": "Perfect"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "Making plans is this easy",
+    "title": "Individual schedules. One shared plan.",
+    "description": "Share a link, choose when you are free, and find a time to meet together.",
+    "steps": {
+      "share": {
+        "title": "Share one link",
+        "description": "Invitees can join without signing in"
+      },
+      "select": {
+        "title": "Choose available times",
+        "description": "Bring everyone’s availability together"
+      },
+      "decide": {
+        "title": "Find overlapping times",
+        "description": "Confirm the time that works best"
+      }
+    },
+    "sample": "Example",
+    "meetingTitle": "Let’s meet this week",
+    "responses": "{count} participants",
+    "hint": "Change your times and see the result update.",
+    "filtersLabel": "Availability by participant",
+    "allResults": "All results",
+    "personAvailability": "{name}’s availability",
+    "tableLabel": "Available participants by time",
+    "timeLabel": "Time",
+    "legendTitle": "Available participants",
+    "legendMax": "More",
+    "resultTitle": "Found times for all {count}!",
+    "resultHint": "Select All results to see overlapping times.",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "Your available times",
+    "hourly": "1-hour intervals",
+    "me": "You",
+    "legend": "Available / total",
+    "create": "Create your own meeting",
+    "compactTime": "Saturday, 7 pm",
+    "compactResult": "Everyone can make it"
   }
 }

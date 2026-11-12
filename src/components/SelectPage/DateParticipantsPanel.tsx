@@ -12,12 +12,10 @@ type Participant = get_meetings_$meetingCode_response['data']['participants'][nu
 export default function DateParticipantsPanel ({
   date,
   participants,
-  isSelected,
   me,
 }: {
   date: dayjs.Dayjs | null
   participants: Participant[]
-  isSelected: boolean
   me: User | null | undefined
 }) {
   const { t, locale } = useTranslation()
@@ -37,11 +35,7 @@ export default function DateParticipantsPanel ({
   if (!date) return null
 
   const visibleParticipants = me
-    ? isSelected
-      ? participants.some(participant => participant.userId === me.userId)
-        ? participants
-        : [...participants, me]
-      : participants.filter(participant => participant.userId !== me.userId)
+    ? participants.filter(participant => participant.userId !== me.userId)
     : participants
 
   return (

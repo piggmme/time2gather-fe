@@ -1,18 +1,35 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 .myInfo {
   display: flex;
   align-items: center;
   gap: $spacing-md;
-  margin-bottom: $spacing-xl;
-  padding: $spacing-lg;
-  background-color: $c-white;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-sm;
-  
-  // 프로필 이미지나 이름 강조 가능
+  margin-bottom: $spacing-lg;
+  min-width: 0;
   font-weight: $font-weight-semibold;
   color: $c-black;
+
+  > :first-child {
+    flex-shrink: 0;
+  }
+}
+
+.username {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.meetingsTabs {
+  @include surfaces.section-start($spacing-base);
+  [role='tab'] {
+    flex: 1;
+    min-width: 0;
+    min-height: $button-height-base;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
 }
 
 .detail {
@@ -39,11 +56,8 @@
     justify-content: space-between;
     gap: $spacing-md;
     
-    background-color: $c-white;
-    padding: $spacing-lg;
-    border-radius: $radius-lg;
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: $shadow-sm;
+    @include surfaces.action;
+    padding: $spacing-base;
     
     cursor: pointer;
     width: 100%;
@@ -51,9 +65,7 @@
     transition: all $transition-base;
     
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: $shadow-md;
-      border-color: $primary-color-border;
+      background: surfaces.$control-hover-bg;
       
       .title {
         color: $primary-color;
@@ -79,8 +91,60 @@
     transition: transform $transition-base, color $transition-base;
   }
 
+  a:focus-visible { outline: 2px solid $primary-color; outline-offset: 2px; }
+
   a:hover svg {
     transform: translateX(4px);
     color: $primary-color;
   }
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-xl $spacing-lg;
+  @include surfaces.content;
+  text-align: center;
+
+  h2 {
+    margin: $spacing-base 0 $spacing-lg;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+.emptyIcon {
+  display: grid;
+  place-items: center;
+  width: $avatar-size-md;
+  height: $avatar-size-md;
+  border-radius: $radius-full;
+  background: $c-blue-soft;
+  color: $primary-color;
+}
+
+.emptyActions {
+  display: flex;
+  gap: $spacing-md;
+  width: 100%;
+  max-width: 360px;
+
+  > a {
+    flex: 1;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 699px) {
+    flex-direction: column;
+  }
+}
+
+.loading {
+  padding: $spacing-3xl $spacing-lg;
+  color: $c-gray-darkest;
+  text-align: center;
 }

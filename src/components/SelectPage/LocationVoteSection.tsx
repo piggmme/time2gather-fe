@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from '../../hooks/useTranslation'
 import { meetings } from '../../services/meetings'
 import styles from './LocationVoteSection.module.scss'
+import LocationVoters from '../LocationVoters/LocationVoters'
 
 type LocationInfo = {
   id: string | number
@@ -129,6 +130,7 @@ export default function LocationVoteSection ({
             >
               <input
                 type='checkbox'
+                aria-label={location.name}
                 checked={isSelected}
                 onChange={() => handleToggleLocation(locationId)}
                 className={styles.checkbox}
@@ -144,6 +146,7 @@ export default function LocationVoteSection ({
                     percentage: location.percentage,
                   })}
                 </span>
+                <LocationVoters voters={location.voters} />
               </div>
             </label>
           )

@@ -1,44 +1,72 @@
+/* Hallmark · checked: 2026-11-05 · genre: modern-minimal (inferred)
+ * scope: app · theme: Time2Gather project · copy: verbatim
+ * built: the project · redesign: polish · v2.0.0 */
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
+
+:global(:root) {
+  --meeting-actions-danger: #b42318;
+  --meeting-actions-text: #{$c-gray-darkest};
+  --meeting-actions-ink: #{$c-black};
+  --meeting-actions-hover: #{surfaces.$control-hover-bg};
+  --meeting-actions-focus: #{$primary-color};
+  --meeting-actions-control: #{surfaces.$control-bg};
+  --meeting-actions-muted: #4e5968;
+  --meeting-actions-kakao: #fee500;
+  --meeting-actions-kakao-ink: #3c1e1e;
+  --meeting-actions-light: #{$c-gray-light};
+  --meeting-actions-border: #{$c-gray};
+  --meeting-actions-paper: #{$c-white};
+  --meeting-actions-divider: #{surfaces.$section-line};
+}
 
 .ResultButtons {
   display: flex;
   flex-direction: column;
   gap: $spacing-base;
   width: 100%;
-  padding-bottom: $spacing-xl;
+  padding-bottom: 0;
+}
 
-  @media (max-width: 699px) {
-    padding-bottom: $spacing-base;
-  }
+.ActionPanelIntro {
+  display: grid;
+  gap: $spacing-sm;
+  min-width: 0;
 }
 
 .ActionPanel {
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
-  padding: 22px;
-  background: $c-white;
-  border: 1px solid #f0f2f5;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+  padding: 0;
+  @include surfaces.content;
+}
 
-  @media (max-width: 699px) {
-    padding: $spacing-base;
-  }
+.ActionPanelHeading {
+  margin: 0;
+  color: var(--meeting-actions-ink);
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-normal;
+  overflow-wrap: anywhere;
 }
 
 .ActionPanelEyebrow {
-  color: #3182f6;
+  margin-top: -$spacing-xs;
+  color: var(--meeting-actions-text);
   font-size: 12px;
   font-weight: $font-weight-semibold;
 }
 
+:global([data-calendar-view='true']) .ActionPanelEyebrow[data-pending='true'] {
+  display: none;
+}
+
 .ActionPanelTitle {
-  margin: -$spacing-xs 0 $spacing-xs;
-  color: $c-black;
-  color: #4e5968;
+  margin: 0;
+  color: var(--meeting-actions-text);
   font-size: 14px;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-normal;
   line-height: 1.55;
 }
 
@@ -46,17 +74,31 @@
   width: 100%;
 }
 
-.HostActions {
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  gap: $spacing-sm;
-
-  @media (max-width: 419px) {
-    grid-template-columns: 1fr;
+// The host-row action stays secondary to confirmation below the results.
+.CompactConfirmButton.CompactConfirmButton {
+  position: relative;
+  width: auto;
+  max-width: 100%;
+  min-height: 44px;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-base;
+  line-height: 20px;
+  &:not(:disabled) {
+    background-color: var(--meeting-actions-paper);
+    border: 1px solid var(--meeting-actions-divider);
   }
+  &:hover:not(:disabled) { background-color: var(--meeting-actions-control); border-color: var(--meeting-actions-divider); }
 }
 
-.VoteActionButton {
+.HostActions {
+  display: grid;
+  // The desktop sidebar is only 304px wide; viewport width cannot determine button space.
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-sm;
+
+}
+
+.ActionPanel .VoteActionButton {
   width: 100%;
 
   @media (max-width: 899px) {
@@ -66,12 +108,6 @@
 
 .ConfirmedShareButton {
   width: 100%;
-  min-height: 52px;
-  background-color: #3182f6 !important;
-  border-radius: 12px !important;
-  font-weight: $font-weight-bold !important;
-
-  &:hover { background-color: #1b64da !important; }
 }
 
 .ActionButtonIcon {
@@ -99,20 +135,25 @@
   gap: 8px;
   padding: 14px $spacing-sm;
   min-height: 52px;
-  background-color: #f7f8fa;
+  background-color: var(--meeting-actions-control);
   border: 0;
   border-radius: 12px;
   cursor: pointer;
-  transition: all $transition-base;
+  transition: background-color $transition-fast, color $transition-fast, transform $transition-fast;
   text-decoration: none;
-  color: #4e5968;
+  color: var(--meeting-actions-muted);
 
   &:hover {
-    background-color: #f2f4f6;
+    background-color: var(--meeting-actions-hover);
   }
 
   &:active {
     transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--meeting-actions-focus);
+    outline-offset: 2px;
   }
 
   @media (min-width: 480px) {
@@ -124,19 +165,26 @@
 }
 
 .CancelConfirmationButton {
-  align-self: center;
-  padding: $spacing-xs;
-  color: #8b95a1;
-  font-size: $font-size-xs;
+  align-self: flex-end;
+  max-width: 100%;
+  margin-block-start: -$spacing-sm;
+  padding: $spacing-sm;
+  min-height: 44px;
+  color: var(--meeting-actions-text);
+  font-size: $font-size-sm;
+  border-radius: $radius-sm;
+  text-align: end;
   text-decoration: none;
 
-  &:hover { color: $c-black; }
-  &:disabled { opacity: 0.5; cursor: wait; }
+  &:hover:not(:disabled) { background-color: var(--meeting-actions-hover); }
+  &:active:not(:disabled) { color: var(--meeting-actions-ink); }
+  &:focus-visible { outline: 2px solid var(--meeting-actions-focus); outline-offset: 2px; }
+  &:disabled { opacity: 0.5; color: var(--meeting-actions-text); background-color: var(--meeting-actions-control); cursor: not-allowed; }
 }
 
 .Icon {
   font-size: 19px;
-  color: #4e5968;
+  color: var(--meeting-actions-muted);
 
   @media (min-width: 480px) {
     font-size: 22px;
@@ -146,7 +194,7 @@
 .IconLabel {
   font-size: 13px;
   font-weight: $font-weight-semibold;
-  color: #4e5968;
+  color: var(--meeting-actions-muted);
   line-height: $line-height-tight;
   white-space: normal;
   text-align: center;
@@ -157,7 +205,7 @@
   flex-direction: column;
   gap: $spacing-sm;
   align-items: stretch;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
   margin-top: $spacing-lg;
 
   @media (min-width: 400px) {
@@ -175,9 +223,9 @@
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
   cursor: pointer;
-  transition: all $transition-base;
-  background-color: #fee500;
-  color: #3c1e1e;
+  transition: background-color $transition-fast, color $transition-fast;
+  background-color: var(--meeting-actions-kakao);
+  color: var(--meeting-actions-kakao-ink);
   border: none;
 
   &:hover {
@@ -194,58 +242,121 @@
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   cursor: pointer;
-  transition: all $transition-base;
-  background-color: $c-gray-light;
-  color: $c-black;
+  transition: background-color $transition-fast, color $transition-fast;
+  background-color: var(--meeting-actions-light);
+  color: var(--meeting-actions-ink);
   border: none;
 
   &:hover {
-    background-color: $c-gray;
+    background-color: var(--meeting-actions-border);
   }
 }
 
-// 바이럴 CTA 섹션
-.ViralCtaSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.ManualShareText {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 180px;
+  max-height: 40dvh;
+  padding: $spacing-sm;
+  border: 1px solid var(--meeting-actions-border);
+  border-radius: $radius-sm;
+  background: var(--meeting-actions-light);
+  color: var(--meeting-actions-ink);
+  font: inherit;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  resize: vertical;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+
+  &:focus-visible {
+    outline: 2px solid var(--meeting-actions-focus);
+    outline-offset: 2px;
+  }
+}
+
+@media (min-width: 900px) {
+  :global([data-calendar-view='true']) .ResultButtons {
+    padding-bottom: 0;
+    .ActionPanel {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: $spacing-sm $spacing-md;
+      padding: 0;
+      box-shadow: none;
+      border: 0;
+      border-radius: 0;
+    }
+    .ActionPanelIntro { display: contents; }
+    .ActionPanelEyebrow { margin-inline-end: auto; }
+    .ActionPanelHeading, .ActionPanelTitle { display: none; }
+    .HostActions { display: flex; flex-wrap: wrap; }
+    .PrimaryButton, .VoteActionButton, .ConfirmedShareButton { width: auto; min-height: 44px; }
+    .IconButtonGroup { width: auto; flex-wrap: wrap; gap: $spacing-sm; }
+    .PrimaryButton, .VoteActionButton, .ConfirmedShareButton, .IconButton {
+      min-height: 44px;
+      padding: 10px $spacing-md;
+      border-radius: $radius-sm !important;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      line-height: 1.35;
+    }
+    .IconButton { flex: 0 1 auto; }
+    .IconLabel { font-size: inherit; line-height: inherit; }
+    .Icon, .ActionButtonIcon { flex-shrink: 0; }
+    .IconButton:focus-visible { outline: 2px solid var(--meeting-actions-focus); outline-offset: 2px; }
+    .Icon { font-size: 19px; }
+    .CancelConfirmationButton { align-self: center; margin-block-start: 0; margin-inline-start: auto; }
+  }
+}
+
+.ActionPanel { container: meeting-actions / inline-size; gap: $spacing-base; }
+.ActionPanelHeader { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: $spacing-sm $spacing-base; }
+.ActionPanelEyebrow { margin: 0; font-size: $font-size-sm; font-weight: $font-weight-normal; }
+.HostActions .PrimaryButton { justify-content: flex-start; min-height: 58px; padding: 14px 16px; gap: 12px; background: var(--meeting-actions-paper); border: 1px solid var(--meeting-actions-divider); text-align: start; > svg { flex-shrink: 0; color: var(--meeting-actions-text); } > svg:last-child { width: 16px; height: 16px; } }
+.EditDatesLabel { flex: 1; min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.IconButtonGroup {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: $spacing-sm;
-  padding: 20px $spacing-base;
-  margin-top: $spacing-md;
-  background: #f7f8fa;
-  border-radius: 16px;
-  border: 0;
-}
 
-.ViralCtaTitle {
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $c-gray-darkest;
-  text-align: center;
-}
+  &[data-confirmed='true'] { grid-template-columns: minmax(0, 1fr); grid-auto-rows: 1fr; }
 
-.ViralCtaButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: $spacing-xs;
-  padding: 6px 8px;
-  background-color: transparent;
-  color: #3182f6;
-  border: none;
-  border-radius: 8px;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
-  cursor: pointer;
-  transition: all $transition-base;
-  text-decoration: none;
-
-  &:hover {
-    background-color: #edf6ff;
-    transform: none;
-  }
-
-  &:active {
-    transform: translateY(0);
+  .ConfirmedShareButton, .IconButton {
+    max-width: none;
+    min-height: 48px;
+    border-radius: surfaces.$control-radius;
+    padding: $spacing-md $spacing-base;
+    gap: $spacing-sm;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-tight;
+    border: 1px solid transparent;
   }
 }
+.IconLabel { min-width: 0; font: inherit; color: inherit; overflow-wrap: break-word; }
+.Icon { flex-shrink: 0; font-size: 19px; color: inherit; }
+@container meeting-actions (max-width: 340px) { .IconButtonGroup { grid-template-columns: minmax(0, 1fr); } .IconButton { justify-content: flex-start; padding: 12px 16px; min-height: 48px; } }
+@media (min-width: 900px) {
+  :global([data-calendar-view='true']) {
+    .ActionPanelHeader { display: contents; }
+    .IconButtonGroup { display: flex; width: auto; }
+    .IconButtonGroup .ConfirmedShareButton, .IconButtonGroup .IconButton {
+      width: auto;
+      min-height: 44px;
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) { .IconButton { transition: none; } }
+
+.CancelDialogActions {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: $spacing-sm; margin-block-start: $spacing-lg;
+  > button { min-height: 48px; white-space: normal; }
+}
+.CancelDialogConfirm { background: var(--meeting-actions-danger); color: var(--meeting-actions-paper); &:hover { background: var(--meeting-actions-danger); } }
+.CancelError { color: var(--meeting-actions-danger); font-size: $font-size-base; line-height: $line-height-normal; }

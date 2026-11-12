@@ -1,28 +1,31 @@
+import { trackAnalyticsEvent } from '../../utils/analytics'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Dialog } from '../Dialog/Dialog'
 import { meetings, type LocationVoteInfo } from '../../services/meetings'
 import { useTranslation } from '../../hooks/useTranslation'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
-import { formatDate } from '../../utils/time'
+import { formatDate, formatTime } from '../../utils/time'
 import styles from './CalendarExportDialog.module.scss'
 import { showDefaultToast } from '../../stores/toast'
 
-type BestSlot = {
-  date: string
-  time: string
-  startSlotIndex: number
-  endSlotIndex: number
-  count: number
-  percentage: string
-}
+import { buildConfirmationSlots, groupConfirmationSlots, recommendConfirmationSlots } from '../../utils/confirmationSlots'
+import type { get_meetings_$meetingCode_response } from '../../services/meetings'
+import { localeMeta } from '../../i18n/config'
+import { useDisplayTimeZone } from '../../hooks/useDisplayTimeZone'
+import ConfirmationSchedule from './ConfirmationSchedule'
+import scheduleStyles from './ConfirmationSchedule.module.scss'
 
 type ConfirmMeetingDialogProps = {
   isOpen: boolean
   onClose: () => void
   onConfirmed: () => void
   meetingCode: string
-  bestSlots: BestSlot[]
+  timezone: string
+  availableDates: get_meetings_$meetingCode_response['data']['meeting']['availableDates']
+  schedule: get_meetings_$meetingCode_response['data']['schedule']
+  totalParticipants: number
+  intervalMinutes?: number
   selectionType: 'ALL_DAY' | 'TIME'
   locationVote: LocationVoteInfo | null
 }
@@ -32,17 +35,30 @@ export default function ConfirmMeetingDialog ({
   onClose,
   onConfirmed,
   meetingCode,
-  bestSlots,
+  timezone,
+  availableDates,
+  schedule,
+  totalParticipants,
+  intervalMinutes = 60,
   selectionType,
   locationVote,
 }: ConfirmMeetingDialogProps) {
   const { t } = useTranslation()
   const locale = useStore($locale)
-  const [selectedIndex, setSelectedIndex] = useState<number>(0)
+  const [displayZone] = useDisplayTimeZone(timezone)
+  const [selectedKey, setSelectedKey] = useState<string | null>(null)
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null)
   const [step, setStep] = useState<'schedule' | 'location'>('schedule')
+  const [showAllDates, setShowAllDates] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const dialogBodyRef = useRef<HTMLDivElement>(null)
+
+  const choices = useMemo(() => buildConfirmationSlots(availableDates, schedule, totalParticipants, selectionType, intervalMinutes),
+    [availableDates, schedule, totalParticipants, selectionType, intervalMinutes])
+
+  const grouped = useMemo(() => groupConfirmationSlots(choices, timezone, displayZone), [choices, timezone, displayZone])
+  const recommendations = useMemo(() => recommendConfirmationSlots(grouped.groups), [grouped.groups])
+  const showingRecommendations = !showAllDates && recommendations.length > 0
 
   const sortedLocations = useMemo(() => {
     if (!locationVote?.enabled) return []
@@ -55,26 +71,34 @@ export default function ConfirmMeetingDialog ({
   useEffect(() => {
     if (!isOpen) return
 
-    setSelectedIndex(0)
+    setSelectedKey(null)
     setStep('schedule')
+    setShowAllDates(false)
     setSelectedLocationId(
       locationVote?.confirmedLocation ? String(locationVote.confirmedLocation.id) : null,
     )
-  }, [isOpen, locationVote?.confirmedLocation?.id, sortedLocations])
+  }, [isOpen, meetingCode, locationVote?.confirmedLocation?.id])
+
+  useEffect(() => {
+    if (isOpen && selectedKey === null && choices[0]) {
+      setSelectedKey(`${choices[0].date}/${choices[0].time}`)
+    }
+  }, [isOpen, selectedKey, choices])
 
   useEffect(() => {
     dialogBodyRef.current?.scrollTo({ top: 0 })
-  }, [step])
+  }, [step, showingRecommendations])
 
   const requiresLocation = locationVote?.enabled === true
-  const canConfirm = bestSlots.length > 0 && (!requiresLocation || selectedLocationId !== null)
+  const selectedSlot = selectedKey === null ? choices[0] : choices.find(slot => `${slot.date}/${slot.time}` === selectedKey)
+  const displayedSlot = grouped.groups.flatMap(group => group.slots).find(slot => slot.date === selectedSlot?.date && slot.time === selectedSlot?.time)
+  const canConfirm = !!selectedSlot && (!requiresLocation || sortedLocations.some(location => String(location.id) === selectedLocationId))
 
   const handleConfirm = async () => {
-    if (!canConfirm) return
+    if (!canConfirm || !selectedSlot) return
 
     setIsLoading(true)
     try {
-      const selectedSlot = bestSlots[selectedIndex]
       const slotIndex = selectionType === 'ALL_DAY'
         ? null
         : selectedSlot.startSlotIndex
@@ -85,6 +109,11 @@ export default function ConfirmMeetingDialog ({
         ...(selectedLocationId !== null && { locationId: selectedLocationId }),
       })
 
+      trackAnalyticsEvent('meeting_confirmed', {
+        selection_type: selectionType,
+        actor_role: 'host',
+        location_vote_enabled: requiresLocation,
+      })
       showDefaultToast({
         message: t('meeting.confirmDialog.success'),
         duration: 3000,
@@ -102,10 +131,10 @@ export default function ConfirmMeetingDialog ({
     }
   }
 
-  if (bestSlots.length === 0) {
+  if (choices.length === 0) {
     return (
       <Dialog.Root open={isOpen} onOpenChange={onClose}>
-        <Dialog.Content>
+        <Dialog.Content dir={localeMeta[locale].dir}>
           <Dialog.Title>{t('meeting.confirmDialog.title')}</Dialog.Title>
           <Dialog.Description>
             {t('meeting.confirmDialog.noSlots')}
@@ -122,12 +151,16 @@ export default function ConfirmMeetingDialog ({
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
-      <Dialog.Content className={styles.dialogContent}>
+      <Dialog.Content className={styles.dialogContent} dir={localeMeta[locale].dir}>
         <div className={styles.dialogHeader}>
           <Dialog.Title>{t('meeting.confirmDialog.title')}</Dialog.Title>
           <Dialog.Description>
             {step === 'schedule'
-              ? t('meeting.confirmDialog.description', { count: bestSlots.length })
+              ? showingRecommendations
+                ? t('meeting.confirmDialog.recommendationsDescription')
+                : selectionType === 'TIME'
+                  ? t('meeting.confirmDialog.groupedDescription', { count: grouped.groups.length })
+                  : t('meeting.confirmDialog.allCandidatesDescription', { count: choices.length })
               : t('meeting.confirmDialog.locationStepDescription')}
           </Dialog.Description>
           {requiresLocation && (
@@ -153,42 +186,16 @@ export default function ConfirmMeetingDialog ({
         <div ref={dialogBodyRef} className={styles.dialogBody}>
           {step === 'schedule'
             ? (
-                <fieldset className={styles.selectionSection}>
-                  <legend className={styles.sectionTitle}>
-                    {t('meeting.confirmDialog.scheduleTitle')}
-                  </legend>
-                  <p className={styles.sectionDescription}>
-                    {t('meeting.confirmDialog.scheduleDescription')}
-                  </p>
-                  <div className={styles.slotList}>
-                    {bestSlots.map((slot, index) => {
-                      const formattedDate = formatDate(slot.date, locale)
-                      const timeDisplay = selectionType === 'ALL_DAY'
-                        ? t('meeting.confirmDialog.allDay')
-                        : slot.time
-
-                      return (
-                        <label key={`${slot.date}-${slot.time}`} className={styles.slotItem}>
-                          <input
-                            type='radio'
-                            name='selectedSlot'
-                            value={index}
-                            checked={selectedIndex === index}
-                            onChange={() => setSelectedIndex(index)}
-                            className={styles.radioInput}
-                          />
-                          <span className={styles.slotInfo}>
-                            <span className={styles.slotDate}>{formattedDate}</span>
-                            <span className={styles.slotTime}>{timeDisplay}</span>
-                          </span>
-                          <span className={styles.slotStats}>
-                            {t('meeting.result.voteCount', { count: slot.count, percentage: slot.percentage })}
-                          </span>
-                        </label>
-                      )
-                    })}
-                  </div>
-                </fieldset>
+                <ConfirmationSchedule
+                  groups={grouped.groups}
+                  selectedSlot={displayedSlot}
+                  onSelect={slot => setSelectedKey(`${slot.date}/${slot.time}`)}
+                  timezone={grouped.timezone}
+                  selectionType={selectionType}
+                  recommendations={recommendations}
+                  showingRecommendations={showingRecommendations}
+                  onShowAllDates={setShowAllDates}
+                />
               )
             : (
                 <fieldset className={styles.selectionSection}>
@@ -230,6 +237,18 @@ export default function ConfirmMeetingDialog ({
               )}
         </div>
 
+        {displayedSlot && (
+          <p className={scheduleStyles.selectionSummary}>
+            <bdi>{formatDate(displayedSlot.displayDate, locale)}</bdi>
+            {selectionType === 'TIME' && (
+              <>
+                <bdi>{formatTime(displayedSlot.displayTime, locale, '')}</bdi>
+                <bdi className={scheduleStyles.zone}>{grouped.timezone}</bdi>
+              </>
+            )}
+          </p>
+        )}
+
         <div className={styles.dialogButtons}>
           <Dialog.Cancel
             onClick={(event) => {
@@ -255,7 +274,7 @@ export default function ConfirmMeetingDialog ({
               }
               void handleConfirm()
             }}
-            disabled={isLoading || (step === 'location' && !canConfirm)}
+            disabled={isLoading || !selectedSlot || (step === 'location' && !canConfirm)}
           >
             {isLoading
               ? t('meeting.confirmDialog.confirming')

@@ -1,6 +1,13 @@
 ---
+import Analytics from '../components/Analytics.astro'
+import '../styles/typography.scss'
+import LocaleBootstrap from '../components/LocaleBootstrap.astro'
+import LocaleFonts from '../components/LocaleFonts.astro'
+import PerformanceMonitoring from '../components/PerformanceMonitoring.astro'
+import { openGraphLocales } from '../i18n/config'
+import { getTranslations } from '../i18n'
 import {
-  appLocaleFor, localeMeta, localizedPath, marketingLocales, type MarketingLocale, type MarketingPage,
+  localeMeta, localizedAppPath, localizedPath, marketingLocales, type MarketingLocale, type MarketingPage,
 } from '../marketing/config'
 import { marketingCopy } from '../marketing/copy'
 
@@ -11,17 +18,18 @@ interface Props {
   description?: string
 }
 
-const { locale, page, title: customTitle, description: customDescription } = Astro.props
+const {
+  locale, page, title: customTitle, description: customDescription,
+} = Astro.props
 const copy = marketingCopy[locale]
+const t = getTranslations(locale)
 const siteUrl = Astro.site?.href || 'https://time2gather.org/'
 const canonicalPath = localizedPath(locale, page)
 const canonical = new URL(canonicalPath, siteUrl).href
 const title = customTitle || (page === 'home' ? copy.metaTitle : `${copy[page].title} | Time2Gather`)
 const description = customDescription || (page === 'home' ? copy.metaDescription : copy[page].intro)
 const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href
-const appLocale = appLocaleFor(locale)
-const marketingLocale = locale
-const localizedHomePaths = Object.fromEntries(marketingLocales.map(language => [language, localizedPath(language)]))
+const localePaths = Object.fromEntries(marketingLocales.map(language => [language, localizedPath(language, page)]))
 const pageType = page === 'about' ? 'AboutPage' : page === 'contact' ? 'ContactPage' : 'WebPage'
 
 const organization = {
@@ -87,6 +95,9 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
 <html lang={locale} dir={localeMeta[locale].dir}>
   <head>
     <meta charset='UTF-8' />
+    <LocaleFonts locale={locale} />
+    <PerformanceMonitoring />
+    <LocaleBootstrap locale={locale} localePaths={localePaths} />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <link rel='icon' type='image/png' sizes='192x192' href='/favicon.png' />
     <title>{title}</title>
@@ -97,7 +108,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     {marketingLocales.map(language => (
       <link rel='alternate' hreflang={language} href={new URL(localizedPath(language, page), siteUrl).href} />
     ))}
-    <link rel='alternate' hreflang='x-default' href={new URL(localizedPath('en', page), siteUrl).href} />
+    <link rel='alternate' hreflang='x-default' href={new URL(page === 'home' ? '/' : `/${page}/`, siteUrl).href} />
 
     <meta property='og:type' content='website' />
     <meta property='og:url' content={canonical} />
@@ -107,7 +118,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     <meta property='og:image:width' content='1200' />
     <meta property='og:image:height' content='630' />
     <meta property='og:image:alt' content={title} />
-    <meta property='og:locale' content={locale.replace('-', '_')} />
+    <meta property='og:locale' content={openGraphLocales[locale]} />
     <meta property='og:site_name' content='Time2Gather' />
     <meta name='twitter:card' content='summary_large_image' />
     <meta name='twitter:title' content={title} />
@@ -115,35 +126,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     <meta name='twitter:image' content={ogImage} />
     <script type='application/ld+json' set:html={JSON.stringify(structuredData)} />
 
-    <script is:inline define:vars={{ appLocale, marketingLocale, localizedHomePaths, page }}>
-      (() => {
-        try {
-          const savedMarketingLocale = window.localStorage.getItem('marketingLocale')
-          const savedHomePath = savedMarketingLocale && localizedHomePaths[savedMarketingLocale]
-
-          if (page === 'home' && marketingLocale === 'ko' && window.location.pathname === '/' && savedHomePath && savedHomePath !== '/') {
-            window.location.replace(savedHomePath)
-            return
-          }
-
-          window.localStorage.setItem('marketingLocale', marketingLocale)
-          window.localStorage.setItem('locale', appLocale)
-          const secure = window.location.protocol === 'https:' ? '; Secure' : ''
-          document.cookie = `locale=${appLocale}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`
-        } catch {
-          // Storage may be unavailable in privacy modes; the page remains usable.
-        }
-      })()
-    </script>
-    <script is:inline async src='https://www.googletagmanager.com/gtag/js?id=G-RXQ2QH23CQ'></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || []
-      function gtag (...args) {
-        dataLayer.push(args)
-      }
-      gtag('js', new Date())
-      gtag('config', 'G-RXQ2QH23CQ')
-    </script>
+    <Analytics />
   </head>
   <body>
     <header class='site-header'>
@@ -151,12 +134,19 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
         <img src='/favicon.svg' alt='' width='34' height='34' />
         <span>Time2Gather</span>
       </a>
-      <nav class='main-nav' aria-label='Primary'>
+      <nav class='main-nav' aria-label={copy.nav.home}>
         <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
         <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
       </nav>
+      <a class='my-meetings' href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
       <details class='language-menu'>
-        <summary aria-label={copy.nav.language}>{localeMeta[locale].label}</summary>
+        <summary aria-label={copy.nav.language} title={localeMeta[locale].label}>
+          <svg class='language-icon' xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>
+            <circle cx='12' cy='12' r='9' />
+            <path d='M3 12h18M12 3a17 17 0 0 1 0 18 17 17 0 0 1 0-18Z' />
+          </svg>
+          <span class='language-current'>{localeMeta[locale].label}</span>
+        </summary>
         <div class='language-list'>
           {marketingLocales.map(language => (
             <a
@@ -180,7 +170,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
           if (!selectedLocale) return
 
           try {
-            const selectedAppLocale = selectedLocale === 'ko' ? 'ko' : 'en'
+            const selectedAppLocale = selectedLocale
             window.localStorage.setItem('marketingLocale', selectedLocale)
             window.localStorage.setItem('locale', selectedAppLocale)
             const secure = window.location.protocol === 'https:' ? '; Secure' : ''
@@ -199,7 +189,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
         <a class='footer-brand' href={localizedPath(locale, 'home')}>Time2Gather</a>
         <p>{copy.footer}</p>
       </div>
-      <nav aria-label='Legal'>
+      <nav aria-label={copy.nav.terms}>
         <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
         <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
         <a href={localizedPath(locale, 'privacy')}>{copy.nav.privacy}</a>
@@ -211,32 +201,47 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
 </html>
 
 <style>
-  :root { color-scheme: light; font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  :root { color-scheme: light; font-family: var(--font-ui, system-ui, sans-serif); }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-  body { margin: 0; color: #191f28; background: #fff; line-height: 1.6; }
+  body { margin: 0; color: #191f28; background: #fff; line-height: var(--font-body-line-height, 1.6); }
   a { color: inherit; text-decoration: none; }
   img { display: block; max-width: 100%; }
-  .site-header { position: relative; z-index: 10; display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 24px; width: min(1120px, calc(100% - 40px)); min-height: 72px; margin: 0 auto; }
+  .site-header { position: relative; z-index: 10; display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 24px; width: min(1120px, calc(100% - 40px)); min-height: 72px; margin: 0 auto; }
   .brand, .footer-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -0.03em; }
   .brand { font-size: 20px; }
   .main-nav { display: flex; gap: 22px; color: #4e5968; font-size: 14px; font-weight: 600; }
   .main-nav a:hover, .site-footer a:hover { color: #3182f6; }
-  .language-menu { position: relative; }
-  .language-menu summary { min-width: 112px; padding: 9px 12px; border-radius: 10px; background: #f2f4f6; color: #333d4b; font-size: 14px; font-weight: 650; cursor: pointer; list-style: none; text-align: center; }
+  .my-meetings { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 0; color: #333d4b; font-size: 14px; font-weight: 600; line-height: 1.4; text-align: center; overflow-wrap: anywhere; }
+  .my-meetings:hover { color: #1b64da; }
+  .my-meetings:focus-visible { outline: 2px solid #3182f6; outline-offset: 3px; }
+  .language-menu { position: relative; min-width: 0; }
+  .language-icon { flex-shrink: 0; }
+  .language-menu summary { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 9px 0; color: #6b7684; font-size: 14px; font-weight: 500; cursor: pointer; list-style: none; text-align: center; }
+  .language-menu summary:hover { color: #1b64da; }
+  .language-menu summary:focus-visible { outline: 2px solid #3182f6; outline-offset: 3px; border-radius: 4px; }
   .language-menu summary::-webkit-details-marker { display: none; }
   .language-list { position: absolute; inset-inline-end: 0; top: calc(100% + 8px); display: grid; grid-template-columns: repeat(2, minmax(130px, 1fr)); gap: 3px; width: 294px; max-height: 360px; overflow: auto; padding: 8px; border: 1px solid #e5e8eb; border-radius: 16px; background: #fff; box-shadow: 0 16px 40px rgba(0, 27, 55, 0.12); }
   .language-list a { padding: 9px 10px; border-radius: 9px; color: #4e5968; font-size: 14px; }
   .language-list a:hover, .language-list a[aria-current="page"] { color: #1b64da; background: #edf6ff; }
-  .site-footer { display: grid; grid-template-columns: 1.4fr 2fr auto; gap: 32px; align-items: start; width: min(1120px, calc(100% - 40px)); margin: 80px auto 0; padding: 40px 0 48px; border-top: 1px solid #e5e8eb; color: #6b7684; font-size: 14px; }
+  .site-footer { display: grid; grid-template-columns: 1.4fr 2fr auto; gap: 32px; align-items: start; width: min(1120px, calc(100% - 40px)); margin: 48px auto 0; padding: 32px 0 48px; border-top: 1px solid #e5e8eb; color: #6b7684; font-size: 14px; }
   .site-footer p { margin: 6px 0 0; }
   .site-footer nav { display: flex; flex-wrap: wrap; gap: 18px; }
   .copyright { white-space: nowrap; }
   @media (max-width: 720px) {
-    .site-header { grid-template-columns: 1fr auto; width: min(100% - 28px, 1120px); }
+    .site-header { grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; width: min(100% - 28px, 1120px); }
     .main-nav { display: none; }
-    .language-menu summary { min-width: 0; }
+    .my-meetings { max-width: 160px; }
+    .language-menu summary { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; max-width: 112px; padding: 9px 0; overflow-wrap: anywhere; }
     .language-list { position: fixed; inset-inline: 14px; top: 68px; width: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .site-footer { grid-template-columns: 1fr; width: min(100% - 40px, 1120px); margin-top: 56px; }
+    .site-footer { grid-template-columns: 1fr; width: calc(100% - 32px); margin-top: 32px; }
+  }
+  @media (max-width: 480px) {
+    .site-header { grid-template-columns: auto minmax(0, 1fr) 44px; gap: 12px; width: calc(100% - 32px); }
+    .brand { min-height: 44px; gap: 7px; font-size: 16px; white-space: nowrap; }
+    .brand img { width: 28px; height: 28px; }
+    .my-meetings { justify-self: end; font-size: 13px; }
+    .language-menu summary { width: 44px; padding: 10px; }
+    .language-current { display: none; }
   }
 </style>

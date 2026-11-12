@@ -1,0 +1,149 @@
+{
+  "metaTitle": "Time2Gather - Nemo lokacin da ke aiki ga kowa da kowa",
+  "metaDescription": "Ƙungiya mai tsara jadawalin zabe na rana, lokuta, da wurare. Mahalarta za su iya yin zabe ba tare da ƙirƙirar asusu ba.",
+  "nav": {
+    "home": "Gida",
+    "about": "Game da",
+    "contact": "Tuntuɓar",
+    "privacy": "Keɓantawa",
+    "terms": "Sharuɗɗan",
+    "language": "Harshe"
+  },
+  "hero": {
+    "eyebrow": "Don haɗuwa tare, Time2Gather",
+    "title": "Lokacin da ya dace da mu duka",
+    "description": "Ku tattara lokutan da kowa yake da dama, ku nemo lokacin haɗuwa.",
+    "primary": "Ƙirƙiri taro",
+    "secondary": "Shigar da lambar taro"
+  },
+  "stepsTitle": "Shirya tsare-tsare a matakai uku",
+  "steps": [
+    {
+      "title": "1. Ƙirƙirar zaɓuɓɓuka",
+      "body": "Shigar da sunan taron da ranaku ko lokuta don kwatanta."
+    },
+    {
+      "title": "2. Raba hanyar haɗin gwiwa",
+      "body": "Aika shi zuwa abokai, abokan aiki, ko ƙungiyar ku."
+    },
+    {
+      "title": "3. Tabbatar da shirin",
+      "body": "Bitar kuri'un kuma tabbatar da mafi kyawun jadawalin ga kowa da kowa."
+    }
+  ],
+  "faqTitle": "Tambayoyin da ake yawan yi",
+  "faqs": [
+    {
+      "title": "Ta yaya za mu sami lokacin haɗuwar abokai ko taron ƙungiya?",
+      "body": "Ƙirƙiri zaɓin ranaku da lokuta a Time2Gather sannan a raba hanyar haɗi. Kowa ya zaɓi lokacin da yake da dama, sai a kwatanta sakamakon a tabbatar da lokaci. Kyauta ne ga abokai, ƙungiyoyin karatu da ƙungiyoyin aiki."
+    },
+    {
+      "title": "Zan iya ƙirƙira da shiga zaɓe ba tare da rajista ko girka manhaja ba?",
+      "body": "I. Mai shiryawa da mahalarta su rubuta suna kawai; ba a buƙatar rajista ko shiga da asusun sada zumunta. Ana iya ƙirƙirar taro da yin zaɓe a burauzar waya ko kwamfuta."
+    },
+    {
+      "title": "Za mu iya zaɓar rana kawai ko takamaiman lokuta ma?",
+      "body": "I. Yi zaɓen ranaku don zaɓar rana, ko zaɓen lokaci don tattara lokutan da ake da dama. Zaɓi nau'in da ya dace yayin ƙirƙirar taro."
+    },
+    {
+      "title": "Ta yaya zan raba zaɓen lokaci a tattaunawar ƙungiya?",
+      "body": "Kwafi hanyar haɗin taron zuwa tattaunawar ƙungiya, saƙo ko imel. Mahalarta su buɗe ta, su rubuta suna kuma su zaɓi lokutan da suka dace. Ana kuma iya samun taron da lambar gayyata."
+    },
+    {
+      "title": "Za mu iya zaɓar wurin haɗuwa ma?",
+      "body": "I. Kunna zaɓen wuri yayin ƙirƙirar taro sannan a ƙara wuraren zaɓi. Mahalarta za su iya zaɓar wuraren da suke so kuma su tattauna a sharhi."
+    },
+    {
+      "title": "Zan iya canza amsata ko ci gaba a wata na'ura?",
+      "body": "Kafin a tabbatar da lokaci, sake buɗe hanyar haɗin a burauzar da ka fara amfani da ita don gyara amsa. Canza na'ura ko burauza, ko goge bayananta, na iya hana gane ka a matsayin mahalarcin da. Rubuta suna ɗaya ba ya dawo da tsoffin amsoshi ko ikon mai shiryawa."
+    },
+    {
+      "title": "Mutanen da ke yankunan lokaci daban-daban za su iya tsara taro?",
+      "body": "Zaɓen lokaci yana amfani da yankin lokacin taron da mai shiryawa ya zaɓa. Za a iya duba sakamako a wani yankin lokaci don kwatanta lokaci da mutanen ƙasashen waje. Ranakun zaɓen rana kawai ba sa canzawa."
+    },
+    {
+      "title": "Zan iya ƙara taron zuwa kalanda?",
+      "body": "I. Sauke lokacin da aka zaɓa ko taron da aka tabbatar daga sakamako a matsayin fayil ɗin ICS, sannan a shigo da shi cikin manhajar kalanda mai goyon bayan ICS. Ba sai an haɗa kalanda ba don yin zaɓe."
+    }
+  ],
+  "about": {
+    "title": "Game da Time2Gather",
+    "intro": "Time2Gather zabe ne na tsara jadawalin kyauta wanda aka gina don rage gaba da gaba na daidaita kungiya.",
+    "sections": [
+      {
+        "title": "Manufar mu",
+        "body": "Muna sauƙaƙa wa kowa ya shiga daga mahaɗin guda ɗaya kuma ya raba bayyanannen samuwa don ranaku, lokuta, da wurare."
+      },
+      {
+        "title": "Yadda yake aiki",
+        "body": "Mai watsa shiri yana ƙirƙirar zaɓuɓɓuka kuma yana raba hanyar haɗi. Mahalarta suna zaɓar abin da ke aiki, sannan mai watsa shiri ya duba sakamakon kuma ya tabbatar da shirin ƙarshe."
+      },
+      {
+        "title": "Abin da muke daraja",
+        "body": "Sahihan hallara, bayyananniyar sakamako, ƙarancin tattara bayanai, da daidaiton gogewa a cikin wayar hannu da tebur."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Tuntube mu",
+    "intro": "Yi mana imel game da amfani da sabis ɗin, ba da rahoton matsala, buƙatun sirri, ko shawarwarin samfur.",
+    "emailTitle": "Imel",
+    "emailBody": "Haɗa mai binciken ku da allon inda matsalar ta faru lokacin da ake ba da rahoton matsala.",
+    "responseTitle": "Martani",
+    "responseBody": "Muna bitar saƙonni da sauri gwargwadon iko. Buƙatun sirri na iya buƙatar tabbatarwa na ainihi."
+  },
+  "privacy": {
+    "title": "takardar kebantawa",
+    "intro": "Time2Gather yana aiwatar da bayanan da ake buƙata kawai don samar da tsara tsarin ƙungiya kuma baya siyar da keɓaɓɓen bayaninka.",
+    "sections": [
+      {
+        "title": "Bayanan da muke aiwatarwa",
+        "body": "Wannan na iya haɗawa da ainihin bayanan asusun daga mai ba da shiga, taken taro da zaɓuɓɓuka, ƙuri'u, sunayen laƙabi, bayanan zaman, da ainihin bayanan haɗin kai."
+      },
+      {
+        "title": "Yadda muke amfani da bayanai",
+        "body": "Muna amfani da shi don ƙirƙira, haɗawa, da tabbatar da tarurruka, sarrafa asusu, kare sabis, warware kurakurai, da haɓaka samfurin."
+      },
+      {
+        "title": "Bincike da masu samarwa",
+        "body": "Za mu iya amfani da Google Analytics don fahimtar amfani. Masu ba da izini da tabbatarwa na iya aiwatar da bayanai kamar yadda ake buƙata don samar da ayyukansu."
+      },
+      {
+        "title": "Riƙewa da zaɓinku",
+        "body": "Muna riƙe bayanai kamar yadda ake buƙata don samar da sabis da kuma cika wajibai na doka. Tuntube mu don neman shiga, gyara, ko gogewa."
+      },
+      {
+        "title": "Gudanar da kasa da kasa",
+        "body": "Masu bayarwa na iya aiwatar da bayanai a wajen ƙasar ku. Muna amfani da matakan kariya masu ma'ana don waɗannan canja wurin."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Sharuɗɗan Sabis",
+    "intro": "Ta amfani da Time2Gather, kun yarda da waɗannan sharuɗɗan.",
+    "sections": [
+      {
+        "title": "Amfani da sabis",
+        "body": "Kuna iya amfani da sabis ɗin don tsarawa muddin kuna bin doka da ta dace kuma kuna mutunta haƙƙoƙin wasu."
+      },
+      {
+        "title": "Ayyukanku",
+        "body": "Kai ne ke da alhakin saduwa da abun ciki da kuke rabawa, samun hanyar haɗin yanar gizo, tsaron asusun, da bayanan da kuka ƙaddamar."
+      },
+      {
+        "title": "Canje-canje da samuwa",
+        "body": "Za mu iya canza ko dakatar da fasali na ɗan lokaci don kiyaye inganci da tsaro. Za mu ba da sanarwa mai ma'ana na canje-canjen abu."
+      },
+      {
+        "title": "Hakkoki da hani",
+        "body": "Lambar, ƙira, da alama sun kasance mallakin masu su. Ba a yarda da kwafi, tarwatsawa, ko cin zarafin sabis ɗin ba."
+      },
+      {
+        "title": "Iyakar abin alhaki",
+        "body": "Ana ba da sabis ɗin kamar yadda ake samu. Iyakar abin da doka ta yarda, abin alhaki yana iyakance ga asarar kai tsaye ko asara ta hanyar bayanin da mai amfani ya gabatar."
+      }
+    ]
+  },
+  "updated": "An sabunta ta ƙarshe: Oktoba 14, 2026",
+  "footer": "Nemo lokacin da ke aiki ga kowa da kowa."
+}

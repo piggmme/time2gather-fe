@@ -12,7 +12,10 @@
 // Mobile Header
 // =====================================================
 .mobileHeader {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
   position: fixed;
   top: 0;
   left: 0;
@@ -40,7 +43,7 @@
   cursor: pointer;
   width: 44px;
   height: 44px;
-  margin-top: 6px;
+  margin-top: 0;
   padding: 0;
   border-radius: $radius-sm;
   color: $c-gray-darkest; // 너무 검지 않은 색
@@ -118,25 +121,59 @@
   gap: $spacing-md;
 }
 
-.localeButton {
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-md;
-  color: $c-gray-darkest;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+// Match the other rail actions; show language names in the adjacent menu.
+.languageTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
   width: 48px;
   height: 48px;
   padding: 0;
-  text-align: center;
+  color: $c-gray-darkest;
+  background: transparent;
+  border: 0;
   border-radius: $radius-md;
-  transition: color $transition-base, background-color $transition-base;
+  cursor: pointer;
 
-  &:hover {
-    color: $primary-color;
-    background-color: $c-blue-soft;
-  }
+  &:hover, &[data-state='open'] { color: $primary-color; background: $c-blue-soft; }
+  &:focus-visible { outline: 2px solid $primary-color; outline-offset: 2px; }
+  &:disabled { opacity: 0.5; cursor: wait; }
 }
+
+.languageMenu {
+  z-index: 1100;
+  box-sizing: border-box;
+  width: 232px;
+  max-width: calc(100vw - 24px);
+  max-height: min(440px, var(--radix-select-content-available-height));
+  overflow: hidden;
+  background: $c-white;
+  color: $c-gray-darkest;
+  border: 1px solid #e5e8eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+}
+
+.languageViewport { padding: 6px; }
+.languageOption {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 12px;
+  padding-inline-end: 36px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+  user-select: none;
+  &[data-highlighted] { outline: none; background: $c-blue-soft; color: $primary-color; }
+  &[data-state='checked'] { font-weight: $font-weight-semibold; }
+}
+.languageCheck { position: absolute; inset-inline-end: 12px; display: flex; }
+.languageScroll { display: flex; align-items: center; justify-content: center; height: 24px; background: white; }
 
 .desktopNavLink {
   font-weight: $font-weight-medium;
@@ -183,7 +220,8 @@
     display: block;
     position: fixed;
     top: 0;
-    left: 0;
+    inset-inline-start: auto;
+    inset-inline-end: 0;
     width: 280px;
     box-sizing: border-box;
     height: 100svh;
@@ -192,17 +230,17 @@
     background-color: #ffffff;
     padding: $spacing-xl $spacing-lg;
     
-    transform: translateX(-100%);
+    transform: translateX(100%);
     transition: transform $transition-bounce; // Bouncy animation
     z-index: 1002;
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08); // Softer shadow
-    border-radius: 0 $radius-lg $radius-lg 0; // 오른쪽 모서리 둥글게
+    border-radius: $radius-lg 0 0 $radius-lg;
   }
 }
 
 .mobileNav.mobileMenuOpen {
   @media (max-width: 699px) {
     transform: translateX(0);
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
   }
 }
 
@@ -329,3 +367,16 @@
     transition: opacity $transition-base;
   }
 }
+
+.languageSelector {
+  display: flex; flex-direction: column; align-items: center; gap: 4px; width: 72px; min-width: 72px;
+  select { width: 72px; min-height: 40px; border: 1px solid #d1d6db; border-radius: 8px; background: white; color: #333d4b; font-size: 12px; }
+}
+.mobileNav .languageSelector { width: 100%; flex-direction: row; justify-content: flex-start; select { width: 100%; } }
+:global(html[dir='rtl']) {
+  .desktopNav { left: auto; right: 0; border-right: 0; border-left: 1px solid #f2f4f6; }
+  .mobileNav { transform: translateX(-100%); border-radius: 0 $radius-lg $radius-lg 0; }
+  .mobileNav.mobileMenuOpen { transform: translateX(0); box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08); }
+}
+
+.mobileHeaderBrand { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: $c-black; font-size: 16px; font-weight: $font-weight-bold; white-space: nowrap; text-decoration: none; img { width: 28px; height: 28px; } &:focus-visible { outline: 2px solid $primary-color; outline-offset: 2px; } }

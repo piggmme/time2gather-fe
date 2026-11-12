@@ -2,14 +2,14 @@ type Participant = {
   userId: number
 }
 
-export function getProspectiveParticipantCount (
+export function getOtherParticipantCount (
   participants: Participant[],
   currentUserId?: number,
   reportedTotal = participants.length,
 ) {
   const savedParticipantCount = Math.max(participants.length, reportedTotal)
-  const isNewParticipant = currentUserId !== undefined
-    && !participants.some(participant => participant.userId === currentUserId)
+  const includesCurrentUser = currentUserId !== undefined
+    && participants.some(participant => participant.userId === currentUserId)
 
-  return savedParticipantCount + (isNewParticipant ? 1 : 0)
+  return Math.max(0, savedParticipantCount - (includesCurrentUser ? 1 : 0))
 }

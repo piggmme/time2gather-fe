@@ -1,8 +1,9 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 .container {
   width: 100%;
-  padding: 4px; // countBadge가 잘리지 않도록 여백 추가
+  padding: 4px 4px 0; // Keep room above/beside count badges; the following section owns the bottom gap.
   box-sizing: border-box;
 }
 
@@ -58,15 +59,13 @@
 .availabilityMeta {
   min-height: 42px;
   margin: 0 2px $spacing-md;
-  padding: 6px $spacing-sm;
+  padding: 6px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: $spacing-sm;
   box-sizing: border-box;
-  border: 1px solid rgba($c-gray-dark, 0.16);
-  border-radius: $radius-md;
-  background: rgba($c-gray-lightest, 0.9);
+  @include surfaces.content;
 
   &.legendOnly {
     justify-content: flex-end;
@@ -76,34 +75,33 @@
 .availableMonths {
   min-width: 0;
   display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  flex-wrap: wrap;
+  gap: 4px $spacing-sm;
+  margin-block-end: $spacing-md;
+  border-bottom: 1px solid rgba($c-gray-dark, 0.2);
 
   button {
-    min-width: max-content;
-    height: 30px;
-    padding: 3px 5px 3px 10px;
+    min-width: 44px;
+    max-width: 100%;
+    min-height: 44px;
+    padding: $spacing-sm $spacing-md;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    border: 1px solid rgba($c-gray-dark, 0.2);
-    border-radius: $radius-full;
-    background: $c-white;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: $radius-sm $radius-sm 0 0;
+    background: transparent;
     color: $c-gray-darkest;
-    font-size: $font-size-xs;
+    font-size: $font-size-sm;
+    overflow-wrap: anywhere;
     font-weight: $font-weight-semibold;
     cursor: pointer;
     transition: color $transition-fast, background-color $transition-fast, border-color $transition-fast;
 
     &.current {
       color: $primary-color-hover;
-      background: $c-blue-soft;
-      border-color: rgba($primary-color, 0.35);
+      border-bottom-color: $primary-color;
     }
 
     &:focus-visible {
@@ -111,21 +109,6 @@
       outline-offset: 2px;
     }
   }
-}
-
-.monthCount {
-  min-width: 20px;
-  height: 20px;
-  padding: 0 5px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  border-radius: $radius-full;
-  background: rgba($primary-color, 0.12);
-  color: $primary-color-hover;
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
 }
 
 .availabilityLegend {
@@ -161,4 +144,40 @@
 .unavailableSwatch {
   background: transparent;
   border: 1px solid rgba($c-gray-dark, 0.35);
+}
+
+.voteLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-block-start: $spacing-md;
+  color: $c-gray-darkest;
+  font-size: $font-size-xs;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $primary-color;
+    flex-shrink: 0;
+  }
+}
+
+.densityLegend i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #e1edff;
+
+  &:last-of-type {
+    background: #b9d5fa;
+  }
 }

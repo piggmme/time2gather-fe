@@ -1,9 +1,10 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 .container {
   width: 100%;
   margin: $spacing-md 0 0;
-  padding: $spacing-md 0 $spacing-base;
+  padding: $spacing-md 0 0;
 }
 
 .title {
@@ -12,7 +13,7 @@
   font-weight: $font-weight-bold;
   line-height: $line-height-tight;
   color: $c-black;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
 }
 
 .description {
@@ -20,7 +21,7 @@
   font-size: $font-size-base;
   line-height: $line-height-normal;
   color: $c-gray-darkest;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
 }
 
 .confirmedBanner {
@@ -44,9 +45,7 @@
   align-items: center;
   min-height: 64px;
   padding: $spacing-md $spacing-base;
-  background-color: $c-white;
-  border: 1px solid $c-gray-light;
-  border-radius: $radius-md;
+  @include surfaces.action;
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -57,7 +56,7 @@
   &.selected {
     border-color: $primary-color;
     background-color: $primary-color-soft;
-    box-shadow: 0 0 0 1px $primary-color-border;
+    box-shadow: none;
   }
 
   &.confirmed {
@@ -74,6 +73,7 @@
 }
 
 .locationInfo {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -87,8 +87,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
   min-width: 0;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
 }
 
 .confirmedBadge {

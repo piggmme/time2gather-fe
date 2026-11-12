@@ -3,21 +3,24 @@ import Layout from '../layouts/Layout.astro'
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n'
 import MyMeetings from '../components/MyMeetings/MyMeetings'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
-const t = getTranslations(locale);
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale
+const t = getTranslations(locale)
 
-const title = t('meta.pages.my.title');
+const title = t('meta.pages.my.title')
 const description = t('meta.pages.my.description');
 ---
 
-<Layout title={title} description={description} schemaType="WebPage">
+<Layout title={title} description={description} schemaType='WebPage'>
   <main>
-    <h1>{t('my.title')}</h1>
-    <MyMeetings client:only='react' />
+    <h1 data-i18n='my.title'>{t('my.title')}</h1>
+    <MyMeetings client:only='react'>
+      <p slot='fallback' class='loading' role='status' data-i18n='common.loading'>{t('common.loading')}</p>
+    </MyMeetings>
   </main>
 </Layout>
 
-<style>
+<style lang='scss'>
+  @use '../styles/variables.scss' as *;
   main {
     width: 100%;
     max-width: 600px;
@@ -25,10 +28,15 @@ const description = t('meta.pages.my.description');
     padding-bottom: 80px;
   }
   h1 {
-    margin-bottom: 30px;
+    margin-bottom: $spacing-lg;
+  }
+  .loading {
+    padding: 64px 24px;
+    color: #52525b;
+    text-align: center;
   }
   p {
     margin-bottom: 20px;
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
   }
 </style>

@@ -1,4 +1,17 @@
+/* Hallmark · component: result navigation · genre: modern-minimal · theme: Time2Gather project · scope: app · copy: verbatim · v2.0.0 */
+/* Keep the shortcut beside desktop tabs and on a separate row on mobile. */
 @use "../../styles/variables.scss" as *;
+@use "../../styles/surfaces.scss" as surfaces;
+
+:global(:root) {
+  --tabs-divider: #{surfaces.$section-line};
+  --tabs-muted: #{$c-gray-darkest};
+  --tabs-ink: #{$c-black};
+  --tabs-hover: #{$c-gray-lightest};
+  --tabs-accent: #{$primary-color};
+  --tabs-paper: #{$c-white};
+  --tabs-scrollbar: #{$c-gray};
+}
 
 .Root {
   width: 100%;
@@ -6,22 +19,22 @@
 
 .List {
   display: flex;
-  border-bottom: 1px solid $c-gray;
-  margin-bottom: 20px;
+
+
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch; // iOS 스무스 스크롤
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory; // 수평 스크롤 스냅
-  scrollbar-width: none; // Firefox에서 스크롤바 숨기기
+  scrollbar-width: thin; // Firefox에서 스크롤바 숨기기
   -ms-overflow-style: none; // IE/Edge에서 스크롤바 숨기기
 
   // 스크롤바 숨기기 (Chrome, Safari, Edge)
   &::-webkit-scrollbar {
-    display: none;
+    height: 4px;
   }
 
-  margin-bottom: 20px;
+
 }
 
 .Trigger {
@@ -33,10 +46,10 @@
   padding: 12px 20px;
   font-size: 14px;
   font-weight: 500;
-  color: $c-gray-dark;
+  color: var(--tabs-muted);
   cursor: pointer;
   border-bottom: 2px solid transparent;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
   white-space: nowrap; // 텍스트 줄바꿈 방지
   flex-shrink: 0; // 탭이 축소되지 않도록
   min-width: fit-content; // 내용에 맞는 최소 너비
@@ -44,19 +57,22 @@
   scroll-snap-align: start; // 스크롤 스냅 정렬
 
   &:hover {
-    color: $c-black;
-    background-color: $c-gray-lightest;
+    color: var(--tabs-ink);
+    background-color: var(--tabs-hover);
   }
 
   &[data-state="active"] {
-    color: $primary-color;
-    border-bottom-color: $primary-color;
+    color: var(--tabs-accent);
+    border-bottom-color: var(--tabs-accent);
   }
 
   &:focus-visible {
-    outline: 2px solid $primary-color;
+    outline: 2px solid var(--tabs-accent);
     outline-offset: -2px;
   }
+
+  &:active { background-color: var(--tabs-hover); }
+  &:disabled { color: var(--tabs-muted); cursor: default; }
 
   // 모바일에서 터치 영역 확보
   @media (max-width: 768px) {
@@ -72,3 +88,28 @@
     display: none;
   }
 }
+.ListFrame { display: flex; align-items: stretch; min-width: 0; border-block-end: 1px solid var(--tabs-divider); margin-block-end: $spacing-base; }
+.List { flex: 1; min-width: 0; scrollbar-color: var(--tabs-scrollbar) var(--tabs-paper); }
+.Trailing { display: flex; align-items: center; flex: 0 1 auto; max-width: 45%; min-width: 0; padding-inline-start: $spacing-sm; }
+.ScrollNext { flex: 0 0 44px; min-width: 44px; min-height: 48px; display: grid; place-items: center; border-inline-start: 1px solid var(--tabs-divider); color: var(--tabs-accent); background: var(--tabs-paper); &:hover, &:active { background: var(--tabs-hover); } &:focus-visible { outline: 2px solid var(--tabs-accent); outline-offset: -2px; } svg { width: 20px; height: 20px; } }
+@media (max-width: 699px) {
+  .ListFrame {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: $spacing-xs;
+    border-block-end: 0;
+  }
+
+  .List,
+  .ScrollNext {
+    border-block-end: 1px solid var(--tabs-divider);
+  }
+
+  .Trailing {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    max-width: 100%;
+    padding-inline-start: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) { .List { scroll-behavior: auto; } .Trigger { transition: none; } }

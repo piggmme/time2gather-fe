@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "Önceki",
+    "cancel": "İptal",
+    "next": "Sonraki",
+    "home": "Ana sayfa",
+    "createMeeting": "Toplantı oluştur",
+    "searchMeeting": "Toplantı bul",
+    "searchMeetingPlaceholder": "Toplantı kodu",
+    "searchMeetingButton": "Toplantı Bul",
+    "myMeetings": "Toplantılarım",
+    "adminDashboard": "Yönetici Kontrol Paneli",
+    "contactUs": "Bize ulaşın",
+    "menu": "Menü",
+    "openMenu": "Menüyü Aç",
+    "submit": "Gönder",
+    "share": "Paylaş",
+    "close": "Kapat",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu. Lütfen tekrar deneyin.",
+    "switchToEnglish": "İngilizceye geç",
+    "switchToKorean": "Koreceye geç",
+    "language": "Dil",
+    "searchLanguages": "Dilinizi seçin"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "Hoş geldiniz! 👋",
+    "description": "Artık plan yapmak sadece 5 saniyenizi alıyor. Zaman aralıklarınızı paylaşın, oy alın ve anında herkes için en iyi zamanı görün!",
+    "createMeetingButton": "Toplantı Oluştur",
+    "heroTitleSuffix": " — Kolayca planlayın",
+    "heroSubtitle": "Karmaşık planlamaya elveda deyin. Arkadaşlarınızla mükemmel zamanı bulun.",
+    "viewMyMeetings": "Toplantılarımı Görüntüle"
+  },
+  "landing": {
+    "eyebrow": "Herkesin programını tek bir yerde koordine edin",
+    "title": "Toplantı planlamasını kolaylaştırın",
+    "description": "Time2Gather, herkes için uygun bir toplantı zamanı bulmak amacıyla tarihler, saatler ve konumlar üzerinde oylama yapılmasını sağlayan ücretsiz bir planlama hizmetidir.",
+    "primaryCta": "Toplantı oluştur",
+    "secondaryCta": "Bir kodla bulun",
+    "featuresHeading": "Bir toplantıyı koordine etmek için ihtiyacınız olan her şey",
+    "features": {
+      "dates": {
+        "title": "Birden fazla tarihi karşılaştırın",
+        "description": "Aday tarihlerini seçin ve katılımcılarınızla hemen paylaşın."
+      },
+      "times": {
+        "title": "Uygun zamanlarda oy verin",
+        "description": "Çoğu kişi için en uygun zamanı bulmak için ayrıntılı müsaitlik durumunu toplayın."
+      },
+      "locations": {
+        "title": "Bir yere de karar verin",
+        "description": "Grubunuzun nerede buluşacağını seçmesi gerektiğinde konum seçenekleri ekleyin."
+      },
+      "sharing": {
+        "title": "Tek bağlantıdan katılın",
+        "description": "Katılımcıların yalnızca bir takma adla hemen oy kullanabilmesi için bir bağlantı paylaşın."
+      }
+    },
+    "stepsHeading": "Planları üç adımda yapın",
+    "steps": {
+      "create": {
+        "title": "1. Seçenekler oluşturun",
+        "description": "Karşılaştırılacak toplantı başlığını ve tarih veya saatleri ayarlayın."
+      },
+      "share": {
+        "title": "2. Bağlantıyı paylaşın",
+        "description": "Bağlantıyı arkadaşlarınıza, takım arkadaşlarınıza veya grubunuza gönderin."
+      },
+      "decide": {
+        "title": "3. Sonucu onaylayın",
+        "description": "Oyları inceleyin ve herkes için en iyi zamanı seçin."
+      }
+    },
+    "faqHeading": "Sık sorulan sorular",
+    "faq": {
+      "what": {
+        "question": "Arkadaş buluşması veya ekip toplantısı için ortak zaman nasıl bulunur?",
+        "answer": "Time2Gather’da tarih ve saat seçenekleri oluşturup bağlantıyı paylaşın. Herkes uygun zamanlarını seçer; sonuçları karşılaştırıp planı kesinleştirebilirsiniz. Arkadaşlar, çalışma grupları ve ekipler için ücretsizdir."
+      },
+      "login": {
+        "question": "Kayıt olmadan veya uygulama yüklemeden anket oluşturup katılabilir miyim?",
+        "answer": "Evet. Düzenleyenler ve katılımcılar yalnızca adlarını girer; kayıt veya sosyal hesapla giriş gerekmez. Telefon ya da bilgisayar tarayıcısından toplantı oluşturup oy verebilirsiniz."
+      },
+      "location": {
+        "question": "Buluşma yeri için de oy verebilir miyiz?",
+        "answer": "Evet. Toplantıyı oluştururken yer oylamasını açıp seçenek ekleyin. Katılımcılar tercih ettikleri yerlere oy verebilir ve yorumlarda planı konuşabilir."
+      }
+    }
+  },
+  "login": {
+    "title": "Planlamaya hazır mısınız?",
+    "description": "Toplantılarınızı oluşturmak ve yönetmek için oturum açın.",
+    "kakaoLogin": "Kakao'ya devam",
+    "googleLogin": "Google ile devam et",
+    "oauth": {
+      "loadingTitle": "Oturumunuz açılıyor",
+      "loadingDescription": "Birazdan önceki ekranınıza döneceksiniz.",
+      "errorTitle": "Oturumunuzu açamadık",
+      "errorDescription": "Oturum açma sayfasına dönün ve tekrar deneyin.",
+      "retry": "Tekrar oturum açmayı deneyin"
+    }
+  },
+  "search": {
+    "title": "Toplantı bul",
+    "description": "Aldığınız toplantı kodunu girin."
+  },
+  "createMeeting": {
+    "title": "Toplantı oluştur",
+    "meetingTypeStep": {
+      "heading": "Katılımcılar neyi seçmeli?",
+      "allDay": "Yalnızca tarihler",
+      "time": "Tarihler ve saatler"
+    },
+    "titleStep": {
+      "heading": "Toplantınıza bir ad verin",
+      "placeholder": "ör. Cuma Akşam Yemeği"
+    },
+    "descriptionStep": {
+      "heading": "Bu nasıl bir toplantı?",
+      "placeholder": "Millet, Gangnam'da buluşalım!"
+    },
+    "datesStep": {
+      "heading": "Uygun tarihleri seçin"
+    },
+    "timeRangeStep": {
+      "heading": "Kullanılabilir zaman aralığını ayarlayın",
+      "startTime": "Başlangıç zamanı",
+      "endTime": "Bitiş zamanı",
+      "selectedDatesCount": "Seçilen tarihler: {count}",
+      "createButton": "Toplantı oluştur"
+    },
+    "locationStep": {
+      "heading": "Toplantınızı oluşturmayı tamamlayın",
+      "requiredLabel": "Gerekli",
+      "creatorHeading": "Bu toplantıyı kim düzenliyor?",
+      "creatorDescription": "Takma adınız toplantı sahibi olarak gösterilecektir.",
+      "usernameLabel": "Takma adınız",
+      "usernamePlaceholder": "örneğin Jamie",
+      "usernameChangeHelp": "Adınızı değiştirdiğinizde mevcut toplantılarınız ve oylarınız korunur ve yalnızca görünen adınız güncellenir.",
+      "optionalLabel": "İsteğe bağlı",
+      "locationHeading": "Yer oyu ister misiniz?",
+      "locationDescription": "Katılımcıların yeri birlikte seçmesini istiyorsanız bunu açın.",
+      "enableLocationVote": "Katılımcıların bir konuma oy vermesine izin verin",
+      "locationPlaceholder": "Bir konum girin",
+      "addLocation": "Konum Ekle",
+      "removeLocation": "Konumu Kaldır",
+      "minLocationsWarning": "Yerle oylama için en az 2 yer gereklidir",
+      "maxLocationsWarning": "En fazla 5 konum ekleyebilirsiniz",
+      "createButton": "Toplantı oluştur",
+      "creatingButton": "Toplantı oluşturuluyor...",
+      "skipButton": "Atla"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "Toplantı Bulunamadı",
+      "description": "İstediğiniz toplantı mevcut değil veya silinmiş."
+    },
+    "participantsEmpty": "Henüz katılımcı yok.",
+    "participantsCount": "Katılımcılar: {count}",
+    "participantsCountCompact": "{count} katılıyor",
+    "selectedDates": "{count} seçeneklerinden size uygun tarihleri seçin.",
+    "selectedDatesAndTimes": "{count} tarih seçeneklerinden size uygun tarih ve saatleri seçin.",
+    "timeGrid": {
+      "timeLabel": "Zaman",
+      "touchHint": "Birden çok kez seçmek için basılı tutun ve ardından sürükleyin",
+      "pointerHint": "Aynı anda birden çok kez seçmek için sürükleyin",
+      "draggingHint": "Sürükleme · Seçiminizi uygulamak için bırakın",
+      "selectDate": "{date}'daki tüm zamanları seç",
+      "previousDates": "Önceki tarihler",
+      "nextDates": "Sonraki tarihler"
+    },
+    "dateCalendar": {
+      "mySelection": "Seçimim",
+      "fewerVotes": "Daha az oy",
+      "moreVotes": "Daha çok oy",
+      "available": "Mevcut",
+      "unavailable": "Kullanılamıyor",
+      "today": "Bugün",
+      "availableMonths": "Mevcut tarihlerin bulunduğu aylar",
+      "monthAvailability": "{count} {month} cinsinden mevcut tarihler",
+      "previousMonth": "Önceki ay",
+      "nextMonth": "Gelecek ay"
+    },
+    "dateParticipants": {
+      "title": "{date}'da mevcut",
+      "count": {
+        "one": "{count} kişi",
+        "other": "{count} insanlar"
+      }
+    },
+    "resultSaved": "Sonuç kaydedildi.",
+    "modifyButton": "Müsaitliği düzenle",
+    "participate": "Toplantıya Katılın",
+    "shareResult": "Sonucu Paylaş",
+    "shareMeeting": "Toplantıyı Paylaş",
+    "shareSuccess": "Bağlantı kopyalandı.",
+    "exportToCalendar": "Takvimime Ekle",
+    "confirmButton": "Toplantıyı Onaylayın",
+    "confirmButtonShort": "Toplantıyı Onaylayın",
+    "cancelConfirmButton": "Onayı İptal Et",
+    "cancelConfirmSuccess": "Toplantı onayı iptal edildi!",
+    "cancelConfirmError": "Onay iptal edilemedi. Lütfen tekrar deneyin.",
+    "alreadyConfirmedError": "Bu toplantı zaten onaylandı. Oyunuzu değiştiremezsiniz.",
+    "editDates": {
+      "openButton": "Anket seçeneklerini düzenle",
+      "hostOnly": "Yalnızca ana bilgisayar",
+      "title": "Anket seçeneklerini düzenle",
+      "description": "Herkesin oy verebileceği seçenekleri değiştirin.",
+      "selectedCount": "{count} tarihleri seçildi",
+      "selectionHint": "Tarihleri seçmek için dokunun veya sürükleyin.",
+      "removedWarning": "{count} kaldırılan tarihlere verilen oylar, kaydettiğinizde silinecektir.",
+      "maxDates": "En fazla {count} tarihini seçebilirsiniz.",
+      "save": "Seçenekleri kaydet",
+      "success": "Anket seçenekleri güncellendi.",
+      "error": "Anket seçenekleri güncellenemedi. Lütfen tekrar deneyin.",
+      "timeOpenButton": "Anket seçeneklerini düzenle",
+      "timeTitle": "Anket seçeneklerini düzenle",
+      "timeDescription": "Herkesin oy verebileceği seçenekleri değiştirin.",
+      "timeSave": "Seçenekleri kaydet",
+      "timeSuccess": "Anket seçenekleri güncellendi.",
+      "timeError": "Anket seçenekleri güncellenemedi. Lütfen tekrar deneyin.",
+      "timeRangeHint": "Saat aralığını değiştirdiğinizde seçili tüm tarihlere uygulanır.",
+      "timeRemovedWarning": "Kaydettiğinizde kaldırılan {count} saat seçeneğinin oyları silinir. Diğer oylar korunur.",
+      "locationRemovedWarning": "Kaydedildiğinde değiştirilen veya kaldırılan {count} yer seçeneğinin oyları silinir. Diğer oylar korunur."
+    },
+    "exportDialog": {
+      "title": "Takvime Ekle",
+      "description": "Takviminize eklenecek tarih ve saati seçin.",
+      "noSlots": "Henüz herhangi bir tarih oylanmadı.",
+      "allDay": "Tüm Gün",
+      "cancel": "İptal",
+      "confirm": "Takvime Ekle",
+      "close": "Kapat"
+    },
+    "confirmDialog": {
+      "title": "Toplantıyı Onaylayın",
+      "description": "{count} bağlı üst seçeneklerden son programı seçin.",
+      "noSlots": "Henüz herhangi bir tarih oylanmadı.",
+      "allDay": "Tüm Gün",
+      "scheduleTitle": "Tarih ve saat",
+      "scheduleDescription": "Bu seçenekler çoğu katılımcı için işe yarar.",
+      "locationTitle": "Konum",
+      "locationDescription": "Oylama sonuçlarını kullanarak nerede buluşacağınızı seçin.",
+      "locationStepDescription": "Planı onaylamayı tamamlamak için nerede buluşacağınızı seçin.",
+      "progressLabel": "Toplantı onay adımları",
+      "locationVoteCount": {
+        "one": "{count} oy",
+        "other": "{count} oyları"
+      },
+      "noLocations": "Onaylanacak konum yok.",
+      "cancel": "İptal",
+      "confirm": "Onayla",
+      "confirming": "Onaylanıyor...",
+      "close": "Kapat",
+      "success": "Toplantı onaylandı!",
+      "error": "Toplantı onaylanamadı. Lütfen tekrar deneyin.",
+      "allCandidatesDescription": "Tüm {count} seçenek arasından son tarihi ve saati seçin.",
+      "groupedDescription": "{count} tarih arasından birini, ardından başlangıç saatini seçin.",
+      "recommendationsDescription": "Her tarih için daha çok katılımcının uygun olduğu bir öneri.",
+      "allDates": "{count} tarihin tümünden seç",
+      "backToRecommendations": "Önerileri gör"
+    },
+    "anonymousSelectButton": "Bir isimle katılın",
+    "selectButton": "Tarihleri Seçin",
+    "selectTimeButton": "Tarih ve Saati Seçin",
+    "result": {
+      "tabs": {
+        "aiSummary": "Özet",
+        "summary": "Özet",
+        "confirmed": "Onaylanmış plan",
+        "calendar": "Takvim",
+        "participants": "Katılımcılar",
+        "location": "Konum"
+      },
+      "summaryTitle": "Toplantı Özeti",
+      "aiSummaryTitle": "Oylama Sonuç Özeti",
+      "calendarTitle": "Toplantı Takvimi",
+      "totalParticipants": "Katılımcılar: {count}",
+      "bestSlotsTitle": "En çok kişinin uygun olduğu tarihler",
+      "showMoreOptions": "{count}'yu daha fazlasını göster",
+      "showFewerOptions": "Daha az göster",
+      "moreTimeOptions": "{count} daha fazla zaman seçeneği",
+      "participantsCount": "Katılımcılar: {count}",
+      "people": "insanlar",
+      "voteCount": {
+        "one": "{count} kişisi ({percentage})",
+        "other": "{count} insanlar ({percentage})"
+      },
+      "noParticipants": "Katılımcı yok",
+      "buttons": {
+        "calendar": "Takvime ekle",
+        "share": "Anketi paylaş",
+        "shareConfirmed": "Onaylanmış planı paylaş",
+        "shareKakao": "KakaoTalk",
+        "modifyDates": "Tarih seçimimi düzenle",
+        "modifyTimes": "Tarih ve saat seçimimi düzenle",
+        "selectDates": "Uygun tarihlerimi seç",
+        "selectTimes": "Uygun tarih ve saatlerimi seç",
+        "enterAvailability": "Müsaitlik durumunu ekle",
+        "editAvailability": "Oyumu düzenle"
+      },
+      "confirmedPlan": {
+        "eyebrow": "PLAN ONAYLANDI",
+        "title": "Planınız hazır",
+        "date": "Tarih",
+        "time": "Zaman",
+        "location": "Konum",
+        "attendees": "Mevcut katılımcılar",
+        "attendanceSummary": {
+          "one": "{count} kişisi · grubun {percentage}'su",
+          "other": "{count} kişi · grubun {percentage}'su"
+        },
+        "confirmTime": "Saati onayla",
+        "confirmTimeTitle": "Buluşma saatini onayla",
+        "confirmTimeDescription": "Onaylanan tarihte buluşacağınız saati seçin.",
+        "timeConfirmSuccess": "Buluşma saati onaylandı.",
+        "timeConfirmError": "Buluşma saati onaylanamadı. Lütfen tekrar deneyin.",
+        "timePending": "Henüz belirlenmedi",
+        "editTime": "Düzenle",
+        "editTimeTitle": "Toplantı saatini düzenle",
+        "editTimeDescription": "Onaylanan tarihi saklayın ve buluşmayı planladığınız kesin saati ayarlayın.",
+        "saveTime": "Kaydet",
+        "savingTime": "Kaydediliyor...",
+        "timeUpdateSuccess": "Toplantı saati güncellendi.",
+        "timeUpdateError": "Toplantı saati güncellenemedi. Lütfen tekrar deneyin.",
+        "addTime": "Saat ekle (isteğe bağlı)",
+        "addTimeTitle": "Saat ekle",
+        "optionalTimeDescription": "Yalnızca gerekirse saat ekleyin.",
+        "attendanceCount": "{total} kişiden {count} kişi uygun",
+        "cancelTitle": "Onay iptal edilsin mi?",
+        "cancelDescription": "Onaylanan program kaldırılacak. Katılımcıların yanıtları korunacak.",
+        "keepConfirmation": "Onayı koru"
+      },
+      "actions": {
+        "confirmed": "Onaylanmış plan",
+        "confirmedDescription": "Ayrıntıları paylaşın veya takviminize ekleyin.",
+        "inProgress": "Planlama devam ediyor",
+        "manage": "Anketi yönet"
+      },
+      "share": {
+        "confirmedTitle": "{title} onaylandı",
+        "confirmedHeading": "Plan onaylandı!",
+        "detailsCopied": "Onaylanan ayrıntılar ve bağlantı kopyalandı.",
+        "manualCopyDescription": "Otomatik paylaşım veya kopyalama kullanılamıyor. Aşağıdaki metni seçip kopyalayın."
+      },
+      "kakaoShare": {
+        "description": "Sizin için uygun olan saatleri seçin.",
+        "buttonTitle": "Oylamaya katılın",
+        "confirmedTitle": "{date} · Onaylandı",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "Onaylanmış planı görüntüle",
+        "locationPending": "Konum bekleniyor"
+      },
+      "attendance": {
+        "available": "Katılabilir",
+        "unavailable": "Katılamaz",
+        "everyoneAvailable": "Herkes katılabilir",
+        "noneAvailable": "Kimse katılamaz"
+      },
+      "bestTimesTitle": "En çok kişinin uygun olduğu saatler",
+      "availabilityBasis": "{count} yanıta göre gösteriliyor.",
+      "allAvailable": "Herkes uygun ({count})",
+      "someAvailable": "{total} kişiden {count} kişi uygun",
+      "viewSlotPeople": "Uygun kişileri görmek için bir seçeneğe dokunun.",
+      "decision": {
+        "allHeadline": "{count} kişinin hepsi {availability}",
+        "allHeadlineHighlight": "uygun",
+        "allDates": "Herkese uygun tarihler ({count} kişi)",
+        "allTimes": "Herkese uygun saatler ({count} kişi)",
+        "partial": "En fazla {count} kişi buluşabilir",
+        "basis": "Şimdiye kadar girilen uygunluk bilgilerine göre",
+        "notAll": "Henüz herkese uyan bir seçenek yok.",
+        "emptyDates": "Hiçbir tarih seçilmedi",
+        "emptyTimes": "Hiçbir saat seçilmedi",
+        "pending": "Yeni seçeneklere yanıt bekleniyor",
+        "allUnavailable": "Yanıt veren {count} kişinin tamamı önerilen seçeneklerin uygun olmadığını belirtti.",
+        "notSelected": "Bu seçeneği seçmeyen kişiler",
+        "people": "Kimlerin uygun olduğunu gör",
+        "chooseDate": "Buluşmayı bu tarihe ayarla",
+        "chooseTime": "Buluşmayı bu saate ayarla",
+        "confirmedDate": "Buluşma tarihi belirlendi",
+        "setMeeting": "Toplantıyı Onaylayın"
+      },
+      "calendarFilter": {
+        "selectAll": "Tümünü seç",
+        "selectedCount": "{total} kişiden {selected} kişi seçildi",
+        "selectPrompt": "Uygunluklarını görmek için katılımcıları seçin.",
+        "noAvailability": "Seçilen katılımcıların uygun olduğu bir zaman yok."
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "Oturum açmadınız",
+        "description": "İsim girerek oturum açmadan katılın.",
+        "kakaoLoginButton": "Kakao'ya devam",
+        "loginButton": "Oturum aç",
+        "anonymousLogin": "Katılmak için bir ad girin"
+      },
+      "description": "Bu toplantı için kullanacağınız adı girin.",
+      "votingAs": "{username} olarak katılıyoruz.",
+      "votingAsCompact": "{username} olarak katılma",
+      "usernamePlaceholder": "İsim",
+      "anonymousLogin": "Bu isimle katıl"
+    },
+    "identity": {
+      "label": "Bu buluşmada kullanılacak ad",
+      "hint": "Ad değişikliği yalnızca bu buluşma için geçerlidir.",
+      "change": "Adı değiştir"
+    },
+    "unavailable": {
+      "dates": "Bu tarihlerin hiçbiri uygun değil",
+      "times": "Bu saatlerin hiçbiri uygun değil",
+      "hint": "Seçeneklerin hiçbiri size uymuyorsa bunu seçin.",
+      "selectedHint": "Yanıtınız hiçbir seçeneğin uymadığını belirtecek. Daha sonra değiştirebilirsiniz.",
+      "changed": "Önerilen tarihler değişti. Sayfayı yenileyip tekrar yanıtlayın.",
+      "respondents": "Yanıt verenler",
+      "datesStatus": "Uygun tarih yok",
+      "timesStatus": "Uygun saat yok",
+      "pending": "Yeni seçenekler için yanıt gerekli",
+      "selected": "Zaman seçildi",
+      "noneStatus": "Uygun zaman yok",
+      "picked": "Uygun katılımcılar",
+      "emptyTitle": "Henüz önerilen bir zaman yok",
+      "emptyHint": "Diğer katılımcıların yanıtlarını bekleyin.",
+      "viewPeople": "Katılımcıları gör",
+      "morePeople": "{count} kişi daha göster",
+      "lessPeople": "Daha az göster",
+      "basis": "Kesinleşen zaman için verilen uygunluk oylarına göre.",
+      "otherSelection": "Başka bir zaman seçenler"
+    }
+  },
+  "my": {
+    "title": "Toplantılarım",
+    "tabs": {
+      "myMeetings": "Toplantılarım",
+      "participatedMeetings": "Katıldığım toplantılar"
+    },
+    "noMeetings": "Henüz herhangi bir toplantı oluşturmadınız.",
+    "noParticipatedMeetings": "Henüz hiçbir toplantıya katılmadınız.",
+    "myMeetingsDetails": "{count} toplantıları oluşturdunuz.",
+    "participatedMeetingsDetails": "{count} toplantılarına katıldınız."
+  },
+  "admin": {
+    "metaTitle": "Yönetici Kontrol Paneli - Time2Gather",
+    "metaDescription": "Time2Gather kullanıcılarını ve toplantılarını incelemek için özel bir kontrol paneli.",
+    "eyebrow": "YÖNETİCİ KONSOLU",
+    "title": "Hizmete genel bakış",
+    "description": "Önemli kullanıcı ve toplantı metriklerini inceleyin, ardından ihtiyacınız olan kayıtları hızla bulun.",
+    "summaryTitle": "Bir bakışta",
+    "summaryDescription": "Sayımlar, halihazırda depolanan kullanıcılara ve toplantılara dayanmaktadır.",
+    "loading": "Yönetici panelinin hazırlanması.",
+    "loadingDescription": "Erişiminiz kontrol ediliyor ve en son veriler yükleniyor.",
+    "accessDeniedTitle": "Erişiminiz yok",
+    "accessDeniedDescription": "Bu sayfayı yalnızca yönetici rolüne sahip hesaplar görüntüleyebilir.",
+    "refresh": "Genel bakışı yenile",
+    "retry": "Tekrar dene",
+    "loadError": "Genel bakışı yükleyemedik.",
+    "search": "Ara",
+    "notAvailable": "Mevcut değil",
+    "pageOf": "{total}'nun {current} Sayfası",
+    "stats": {
+      "totalUsers": "Toplam kullanıcı",
+      "registeredUsers": "Kayıtlı kullanıcılar",
+      "anonymousUsers": "Anonim kullanıcılar",
+      "adminUsers": "{count} yöneticileri",
+      "totalMeetings": "Toplam toplantı",
+      "activeMeetings": "Aktif toplantılar",
+      "confirmedMeetings": "Onaylanmış toplantılar",
+      "confirmationRate": "Onay oranı: {rate}"
+    },
+    "users": {
+      "title": "Kullanıcılar",
+      "description": "{count} kullanıcıları bulundu.",
+      "searchPlaceholder": "Ad veya e-posta arayın",
+      "loadError": "Kullanıcıları yükleyemedik.",
+      "empty": "Aramanızla eşleşen kullanıcı yok.",
+      "user": "Kullanıcı",
+      "provider": "Oturum açma yöntemi",
+      "role": "Rol",
+      "joinedAt": "Katıldı",
+      "participatedMeetings": "Katıldığı buluşmalar",
+      "noParticipatedMeetings": "Henüz hiçbir buluşmaya katılmadı.",
+      "noEmail": "E-posta yok"
+    },
+    "meetings": {
+      "title": "Toplantılar",
+      "description": "{count} toplantıları bulundu.",
+      "searchPlaceholder": "Başlığı veya toplantı kodunu arayın",
+      "loadError": "Toplantıları yükleyemedik.",
+      "empty": "Aramanızla eşleşen toplantı yok.",
+      "meeting": "Toplantı",
+      "host": "Sunucu",
+      "status": "Durum",
+      "createdAt": "Oluşturuldu",
+      "active": "Aktif",
+      "inactive": "Etkin değil",
+      "confirmed": "Onaylandı",
+      "confirmedOnly": "Yalnızca onaylanmış buluşmaları göster",
+      "unknownHost": "Bilinmeyen kullanıcı",
+      "openNewTab": "Buluşmayı yeni sekmede aç"
+    },
+    "providers": {
+      "ANONYMOUS": "İsimsiz",
+      "KAKAO": "Kakao",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "Kullanıcı",
+      "ADMIN": "Yönetici"
+    },
+    "selectionTypes": {
+      "TIME": "Tarih ve saat",
+      "ALL_DAY": "Yalnızca tarihler"
+    },
+    "login": {
+      "checking": "Oturum açma ayarları kontrol ediliyor...",
+      "expired": "Yönetici erişiminin süresi doldu veya kullanılamıyor. Lütfen tekrar oturum açın.",
+      "notConfigured": "Yönetici oturum açma işlemi yapılandırılmadı. Operatörle iletişime geçin.",
+      "verifying": "Yönetici erişimi kontrol ediliyor...",
+      "notAllowed": "Yetkili bir yönetici hesabı kullanın.",
+      "google": "Google ile oturum açın",
+      "unavailable": "Oturum açma hizmeti yüklenemedi.",
+      "networkError": "Bağlantınızı kontrol edip tekrar deneyin.",
+      "logout": "Oturumu kapat",
+      "title": "Yönetici oturum açma",
+      "description": "Bu alana yalnızca yetkili Google hesapları erişebilir.",
+      "retry": "Tekrar dene",
+      "sessionHelp": "Yönetici erişimi, toplantı katılımından ayrı bir oturum kullanır."
+    }
+  },
+  "404": {
+    "title": "Sayfa Bulunamadı",
+    "description": "İstediğiniz sayfa mevcut değil veya silinmiş.",
+    "homeButton": "Ana Sayfaya Git"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - İnsanlarla Programlama",
+    "siteDescription": "İnsanlarla toplantı planlamayı kolaylaştıran bir hizmet. Toplantılar oluşturun, birden fazla tarih ve saat aralığı seçin ve bunları paylaşın. Katılımcılar müsait saatlerini seçtiklerinde, buluşmak için en iyi tarih ve saati önereceğiz.",
+    "siteKeywords": "toplantı planlama, program koordinasyonu, grup toplantısı, grup programı, zaman koordinasyonu, toplantı yönetimi, program paylaşımı, Time2Gather",
+    "ogImageAlt": "Time2Gather - Birden Fazla Kişiyle Programlama",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - Toplantıları 5 Saniyede Planlayın",
+        "description": "Birden fazla kişiyle programlarınızı koordine etmekte zorlanıyor musunuz? Kolayca oy toplamak ve herkes için en iyi zamanı bulmak için Time2Gather'ı kullanın."
+      },
+      "create": {
+        "title": "Toplantı Oluştur - Time2Gather",
+        "description": "Yeni bir toplantı oluşturun ve bunu arkadaşlarınızla paylaşın. Oylama yoluyla tarihlere, saatlere ve konumlara kolayca karar verin."
+      },
+      "login": {
+        "title": "Giriş - Time2Gather",
+        "description": "Planlamaya başlamak için Kakao veya Google ile oturum açın."
+      },
+      "my": {
+        "title": "Toplantılarım - Time2Gather",
+        "description": "Oluşturduğunuz ve katıldığınız tüm toplantıları bir bakışta görüntüleyin. Toplantı yönetimi artık daha kolay."
+      },
+      "meeting": {
+        "title": "{title} - Time2Gather",
+        "description": "{title} toplantısına katılın. Uygun zamanlarınızı seçin ve oy verin."
+      },
+      "result": {
+        "title": "{title} Sonuçlar - Time2Gather",
+        "description": "{title}'ya katılın ve sizin için uygun zamanları seçin.",
+        "confirmedTitle": "{title} Onaylandı - Time2Gather",
+        "confirmedDescription": "Onaylanan plan: {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "Zamanlama Yardımcısı",
+    "open": "Sohbeti Aç",
+    "close": "Sohbeti Kapat",
+    "welcomeMessage": "Merhaba! Bana programını sor.",
+    "welcomeHint": "örneğin \"Toplantılarımı göster\", \"Gelecek hafta ne var?\"",
+    "inputPlaceholder": "Bir mesaj yazın...",
+    "errorMessage": "Üzgünüz, bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+  },
+  "locationVote": {
+    "title": "Konum Oyu",
+    "description": "Tercih ettiğiniz konumları seçin",
+    "scheduleStepLabel": "1 / 2 · Ulaşılabilirlik",
+    "locationStepLabel": "2 / 2 · Konum",
+    "selectionTitle": "Nerede buluşmalıyız?",
+    "selectionDescription": "Sizin için uygun olan tüm konumları seçin.",
+    "confirmedLocation": "Onaylanmış Konum",
+    "confirmed": "Onaylandı",
+    "loadError": "Konum seçimleriniz yüklenemedi.",
+    "retry": "Tekrar dene",
+    "voters": "Bu yere oy verenler",
+    "noVotes": "Henüz oy yok"
+  },
+  "timezone": {
+    "title": "Saat dilimi",
+    "meeting": "Toplantı saat dilimi: {zone}",
+    "display": "Ekran saat diliminiz",
+    "hint": "Tarihler ve saatler toplantı saat dilimine göre girilir. Herkes aynı anda oy veriyor.",
+    "gridHint": "Sütun tarihleri ​​ve saat ekseni toplantı saat dilimini kullanır. Her hücre aynı zamanda seçtiğiniz saat dilimindeki tarih ve saati de gösterir.",
+    "local": "{zone}'da: {time}",
+    "invalid": "Geçerli bir saat dilimi seçin.",
+    "gap": "Saatler ileri gittiği için bu zaman yoktur. Başka bir zaman seçin.",
+    "overlap": "Saatler geri alındığında bu süre iki kez meydana gelir. Kesin bir zaman seçin.",
+    "allDay": "Yalnızca tarih içeren oylar, her saat diliminde aynı takvim tarihini korur.",
+    "useDevice": "Cihazın saat dilimini kullan",
+    "search": "Saat dilimlerini ara",
+    "noResults": "Saat dilimi bulunamadı. Başka bir şehir veya bölge deneyin."
+  },
+  "errors": {
+    "error.internal": "Dahili bir sunucu hatası oluştu",
+    "error.validation.failed": "Giriş doğrulaması başarısız oldu",
+    "error.request.invalid": "İstek geçersiz. {0}",
+    "error.state.invalid": "Bu istek mevcut durumda gerçekleştirilemez",
+    "error.resource.not.found": "İstenilen kaynak bulunamadı",
+    "error.null.pointer": "Gerekli veriler eksik. Lütfen isteğinizi kontrol edin.",
+    "error.number.format": "Sayı biçimi geçersiz. Lütfen girişinizi kontrol edin.",
+    "error.auth.required": "Kimlik doğrulama gerekli",
+    "error.auth.required.login": "Kimlik doğrulama gerekli. Lütfen giriş yapın ve tekrar deneyin.",
+    "error.auth.access.denied": "Erişim reddedildi",
+    "error.auth.not.authenticated": "Kullanıcının kimliği doğrulanmadı",
+    "error.user.not.found": "Kullanıcı bulunamadı",
+    "error.user.not.found.email": "Kullanıcı e-postayla bulunamadı: {0}",
+    "error.user.id.required": "Kullanıcı kimliği gerekli",
+    "error.oauth.invalid.code": "Yetkilendirme kodu geçersiz veya süresi dolmuş. Lütfen yeniden kimlik doğrulaması yapın. Hata: {0}",
+    "error.oauth.api.failed": "OAuth API'si ile iletişim kurulamadı: {0}",
+    "error.oauth.no.id.token": "OAuth sağlayıcısından kimlik belirteci alınamadı",
+    "error.oauth.no.user.info": "OAuth sağlayıcısından kullanıcı bilgileri alınamadı",
+    "error.meeting.not.found": "Toplantı bulunamadı",
+    "error.meeting.not.found.code": "Toplantı bulunamadı: {0}",
+    "error.meeting.id.required": "Toplantı kimliği gerekli",
+    "error.meeting.already.confirmed": "Toplantı zaten onaylandı. Lütfen önce onayı iptal edin.",
+    "error.meeting.not.confirmed": "Toplantı onaylanmadı",
+    "error.meeting.invalid.date": "Geçersiz tarih: {0}",
+    "error.meeting.date.not.available": "Bu tarih toplantıda mevcut değil: {0}",
+    "error.meeting.no.interval.info": "Toplantı aralığı bilgisi eksik",
+    "error.meeting.host.only": "Bu eylemi yalnızca toplantı sahibi gerçekleştirebilir",
+    "error.meeting.no.participants": "Henüz hiçbir katılımcı oy vermediğinden takvim oluşturulamıyor",
+    "error.meeting.date.format.invalid": "Tarih biçimi geçersiz. Lütfen yyyy-AA-gg biçimini kullanın.",
+    "error.meeting.validation.date.required": "En az bir tarih seçilmelidir",
+    "error.meeting.validation.date.slot.required": "Her tarih için en az bir zaman aralığı seçilmelidir",
+    "error.meeting.validation.time.required": "En az bir tarih ve saat aralığı seçilmelidir",
+    "error.meeting.validation.all.day.empty.slots": "ALL_DAY türü için zaman dilimleri boş bir dizi olmalıdır",
+    "error.meeting.validation.slot.index.required": "TIME türü toplantılar için slotIndex gereklidir",
+    "error.meeting.validation.slot.index.invalid": "Geçersiz yuva dizini: {0}",
+    "error.meeting.validation.date.slot.together": "tarih ve slotIndex birlikte belirtilmelidir",
+    "error.location.not.found": "Konum bulunamadı",
+    "error.location.not.belong.to.meeting": "Konum bu toplantıya ait değil",
+    "error.location.vote.not.enabled": "Bu toplantı için konum oylaması etkinleştirilmedi",
+    "error.location.already.confirmed": "Konum zaten doğrulandı. Lütfen önce konum onayını iptal edin.",
+    "error.location.not.confirmed": "Konum onaylanmadı",
+    "error.location.id.required": "Konum kimliği gerekli",
+    "error.location.name.required": "Konum adı gerekli",
+    "error.location.name.too.long": "Konum adı 200 karakteri aşamaz",
+    "error.location.max.exceeded": "Maksimum {0} konumu eklenebilir",
+    "error.location.min.required": "En azından {0} konumu/konumları gerekli",
+    "error.location.min.for.vote": "Konum oylamayı etkinleştirmek için en az {0} konumları gereklidir",
+    "error.location.cannot.disable": "Konum onaylandığında konum oylaması devre dışı bırakılamıyor",
+    "error.location.not.exist": "Konum mevcut değil: {0}",
+    "error.selection.empty": "Seçim verileri boş",
+    "error.selection.date.required": "Tarih gerekli",
+    "error.selection.type.required": "Tür gerekli",
+    "error.selection.type.unknown": "Bilinmeyen tür: {0} (yalnızca TIME veya ALL_DAY'e izin verilir)",
+    "error.selection.time.required": "Tarih '{0}', TIME türünde ancak herhangi bir zaman belirtilmemiş",
+    "error.selection.time.empty": "Zaman değeri boş",
+    "error.selection.time.format.invalid": "'{0}' tarihi için saat biçimi geçersiz. {1}",
+    "error.selection.date.not.available": "{0} tarihi bu toplantıda mevcut değil",
+    "error.selection.slot.null": "Yuva dizisi boş olamaz. Tarihleri ​​hariç tutmak için boş haritayı kullanın.",
+    "error.selection.slot.not.available": "{0} yuvası {1}'da mevcut değil",
+    "error.selection.slot.empty.for.time": "TIME türü toplantılar için boş diziye izin verilmez. Tarihleri ​​hariç tutmak için boş haritayı kullanın.",
+    "error.timeslot.invalid.format": "Geçersiz zaman biçimi. Beklenen SS:dd",
+    "error.timeslot.invalid.hour": "Saat 0 ile 23 arasında olmalıdır",
+    "error.timeslot.invalid.minute": "Dakika 0 ile 59 arasında olmalıdır",
+    "error.timeslot.not.aligned": "Zaman {0} dakika aralıklarına göre ayarlanmalıdır",
+    "error.timeslot.index.out.of.range": "{0} dakikalık aralıklar için yuva dizini {1} ile {2} arasında olmalıdır, ancak şunu elde edin: {3}",
+    "error.timeslot.interval.positive": "Aralık dakikaları pozitif olmalıdır",
+    "error.timeslot.interval.divisor": "Aralık dakikaları {0}'nun böleni olmalıdır",
+    "error.calendar.export.failed": "Takvim dosyası oluşturulamadı",
+    "error.ai.api.failed": "AI API çağrısı başarısız oldu",
+    "error.ai.provider.unknown": "Bilinmeyen AI sağlayıcısı: {0}",
+    "mcp.meeting.created": "Toplantı başarıyla oluşturuldu",
+    "mcp.vote.time.saved": "Kullanılabilirlik oyu başarıyla kaydedildi",
+    "mcp.vote.location.saved": "Konum oyu başarıyla kaydedildi",
+    "mcp.meeting.confirmed": "Toplantı programı başarıyla onaylandı",
+    "mcp.location.confirmed": "Toplantı konumu başarıyla onaylandı",
+    "mcp.ics.created": "ICS dosyası başarıyla oluşturuldu",
+    "validation.meeting.title.required": "Başlık gerekli",
+    "validation.meeting.dates.required": "Uygun tarihler/saatler gerekli",
+    "validation.meeting.location.max": "Maksimum 5 konum eklenebilir",
+    "validation.selection.required": "Seçilen zaman aralıkları gerekli",
+    "validation.date.required": "Tarih gerekli",
+    "validation.date.format": "Tarih biçimi yyyy-AA-gg olmalıdır",
+    "validation.time.required": "Zaman gerekli",
+    "validation.time.format": "Saat biçimi SS:dd olmalıdır",
+    "validation.location.id.required": "Konum kimliği gerekli",
+    "validation.location.ids.required": "Konum kimliği listesi gerekli",
+    "validation.location.name.required": "Konum adı gerekli",
+    "validation.location.max": "Maksimum 5 konum eklenebilir",
+    "validation.auth.code.required": "Yetki kodu gerekli",
+    "validation.username.required": "Kullanıcı adı gerekli",
+    "validation.password.required": "Şifre gerekli",
+    "validation.selection.date.min.max": "Lütfen 1 ila 31 tarih arasında seçim yapın",
+    "validation.type.required": "Tür gerekli",
+    "validation.slot.index.required": "Onaylanacak alan dizini (TIME türü için gerekli, ALL_DAY türü için boş değere izin verilir)",
+    "error.meeting.timezone.invalid": "Geçerli bir IANA saat dilimi seçin.",
+    "error.meeting.time.nonexistent": "Saatler ileri gittiği için bu zaman yoktur. Başka bir zaman seçin.",
+    "error.meeting.time.ambiguous": "Saatler geri alındığında bu süre iki kez meydana gelir. Kesin bir zaman seçin.",
+    "error.comment.rate.limit": "Tekrar göndermeden önce birkaç saniye bekleyin.",
+    "error.selection.candidates.changed": "Önerilen tarihler değişti. Sayfayı yenileyip tekrar yanıtlayın."
+  },
+  "comments": {
+    "title": "Yorumlar",
+    "placeholder": "Bu buluşma hakkında konuşun",
+    "reply": "Yanıtla",
+    "replyTo": "{name} adlı kişiye yanıt",
+    "replies": "Yanıtlar ({count})",
+    "collapse": "Yanıtları daralt",
+    "post": "Gönder",
+    "save": "Kaydet",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "hide": "Gizle",
+    "hidden": "Yorum düzenleyen tarafından gizlendi.",
+    "deleted": "Bu yorum silindi.",
+    "edited": "Düzenlendi",
+    "host": "Düzenleyen",
+    "mention": "Birinden bahsetmek için @ yazın",
+    "noPeople": "Eşleşen katılımcı yok",
+    "session": "Yorumlarınızda görünecek adı girin.",
+    "failed": "İstek tamamlanamadı. Metniniz korundu; tekrar deneyin.",
+    "rateLimit": "Tekrar göndermeden önce birkaç saniye bekleyin.",
+    "new": "Yeni yorumları göster ({count})",
+    "mentioned": "Size yönelik yeni yorum",
+    "moreReplies": "Daha fazla yanıt",
+    "more": "Önceki yorumlar",
+    "copy": "Yorum bağlantısını kopyala",
+    "copied": "Bağlantı kopyalandı.",
+    "actions": "Yorum işlemleri",
+    "newReply": "Yeni",
+    "removeConfirm": "Bu metin kaldırılsın mı? Mevcut yanıtlar korunacak.",
+    "retry": "Tekrar dene",
+    "reactions": {
+      "add": "Tepki ekle",
+      "view": "Kimlerin tepki verdiğini gör",
+      "title": "Tepkiler",
+      "react": "Tepki ver",
+      "remove": "Tepkiyi kaldır",
+      "empty": "Henüz tepki yok.",
+      "you": "Siz",
+      "session": "Tepkilerinizle birlikte görünecek adı girin.",
+      "failed": "Tepki güncellenemedi. Lütfen tekrar deneyin.",
+      "like": "Katılıyorum",
+      "love": "Sevdim",
+      "laugh": "Komik",
+      "celebrate": "Kutlama",
+      "thanks": "Teşekkürler",
+      "think": "Düşünüyorum",
+      "eyes": "Takip ediyorum",
+      "hundred": "Mükemmel"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "Buluşma planlamak bu kadar kolay",
+    "title": "Farklı takvimler. Ortak bir buluşma.",
+    "description": "Bağlantı paylaşın, uygun zamanlarınızı seçin ve herkesin buluşabileceği zamanı bulun.",
+    "steps": {
+      "share": {
+        "title": "Tek bir bağlantı paylaşın",
+        "description": "Davetliler giriş yapmadan katılabilir"
+      },
+      "select": {
+        "title": "Uygun zamanları seçin",
+        "description": "Herkesin uygunluğunu bir araya getirin"
+      },
+      "decide": {
+        "title": "Ortak zamanları bulun",
+        "description": "En uygun zamanı kesinleştirin"
+      }
+    },
+    "sample": "Kullanım örneği",
+    "meetingTitle": "Bu hafta buluşalım",
+    "responses": "{count} katılımcı",
+    "hint": "Saatlerini değiştir, sonucun nasıl değiştiğini gör.",
+    "filtersLabel": "Katılımcıya göre uygunluk",
+    "allResults": "Tüm sonuçlar",
+    "personAvailability": "{name} için uygun zamanlar",
+    "tableLabel": "Saate göre uygun katılımcılar",
+    "timeLabel": "Saat",
+    "legendTitle": "Uygun katılımcılar",
+    "legendMax": "Daha fazla",
+    "resultTitle": "{count} kişinin hepsine uygun zaman bulundu!",
+    "resultHint": "Ortak zamanları görmek için Tüm sonuçlar seçeneğini seçin.",
+    "available": "Uygun",
+    "unavailable": "Uygun değil",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "Uygun olduğun saatler",
+    "hourly": "1 saatlik aralıklar",
+    "me": "Sen",
+    "legend": "Uygun / toplam",
+    "create": "Kendi buluşmanı oluştur",
+    "compactTime": "Cumartesi, 19.00",
+    "compactResult": "Herkes için uygun"
+  }
+}

@@ -15,6 +15,7 @@ import type { success_response } from './type'
  * }
  */
 export type post_meetings_body = {
+  hostName?: string
   title: string
   description?: string
   timezone: string
@@ -140,6 +141,7 @@ export type get_meetings_$meetingCode_response = success_response<{
       username: string
       profileImageUrl: string
     }
+    creatorLocale?: string | null
     timezone: string
     availableDates: {
       [date: string]: string[]
@@ -147,8 +149,10 @@ export type get_meetings_$meetingCode_response = success_response<{
     selectionType: 'ALL_DAY' | 'TIME'
     confirmedDate?: string | null
     confirmedTime?: string | null
+    confirmedSlotIndex?: number | null
+    intervalMinutes?: number
   }
-  participants: User[]
+  participants: (User & { availabilityResponse?: 'NONE' | 'NEEDS_RESPONSE' | null })[]
   schedule: {
     [date: string]: {
       [time: string | 'ALL_DAY']: {
@@ -169,6 +173,7 @@ export type get_meetings_$meetingCode_response = success_response<{
       participants: User[]
     }[]
   }
+  candidateVersion?: string
   locationVote: LocationVoteInfo | null
 }>
 const get_meetings_$meetingCode = async (
@@ -274,12 +279,24 @@ const put_meetings_$meetingCode_confirmedTime = async (
 
 export type put_meetings_$meetingCode_availableDates_body = {
   dates: string[]
+  times?: string[]
 }
 const put_meetings_$meetingCode_availableDates = async (
   meetingCode: string,
   body: put_meetings_$meetingCode_availableDates_body,
 ) => {
   const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/available-dates`, body)
+  return response.data
+}
+
+export type put_meetings_candidates_body = {
+  dates: string[]
+  times?: string[]
+  locations?: { id?: string, name: string }[]
+  expectedVersion: string
+}
+const put_meetings_candidates = async (meetingCode: string, body: put_meetings_candidates_body) => {
+  const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/candidates`, body, { suppressErrorToast: true })
   return response.data
 }
 
@@ -350,6 +367,10 @@ export const meetings = {
   timeToSlotIndex,
   $meetingCode: {
     get: get_meetings_$meetingCode,
+    unavailable: async (meetingCode: string, candidateDates: string[]) => {
+      const response = await api.put<success_response<null>>(`/v1/meetings/${meetingCode}/unavailable`, { candidateDates })
+      return response.data
+    },
     selections: {
       get: get_meetings_$meetingCode_selections,
       put: put_meetings_$meetingCode_selections,
@@ -373,6 +394,7 @@ export const meetings = {
     confirmedTime: {
       put: put_meetings_$meetingCode_confirmedTime,
     },
+    candidates: { put: put_meetings_candidates },
     availableDates: {
       put: put_meetings_$meetingCode_availableDates,
     },

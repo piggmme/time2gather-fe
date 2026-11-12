@@ -1,0 +1,58 @@
+---
+import { supportedLocales, type Locale } from '../i18n/config'
+
+interface Props {
+  locale: Locale
+  localePaths?: Partial<Record<Locale, string>>
+  meetingInvitation?: boolean
+}
+const { locale, localePaths = null, meetingInvitation = false } = Astro.props
+---
+<script is:inline define:vars={{ resolvedLocale: locale, localePaths, meetingInvitation, supportedLocales }}>
+  (() => {
+    const url = new URL(location.href)
+    const autoMarketing = localePaths && url.searchParams.get('autoLocale') === '1'
+    const autoMeeting = meetingInvitation && !url.searchParams.has('lang')
+    if (autoMarketing || autoMeeting) {
+      let preferred
+      try { preferred = localStorage.getItem('locale') } catch { /* Optional storage. */ }
+      if (!supportedLocales.includes(preferred)) {
+        preferred = document.cookie?.match(/(?:^|; *)locale=([^;]+)/)?.[1]
+      }
+      if (!supportedLocales.includes(preferred)) {
+        // Hosting can shorten ar-EG to ar before forwarding Accept-Language.
+        for (const language of navigator.languages ?? [navigator.language]) {
+          const tag = language.toLowerCase()
+          const base = tag.split('-')[0]
+          preferred = supportedLocales.find(locale => locale.toLowerCase() === tag)
+            ?? supportedLocales.find(locale => locale === (base === 'zh' ? 'zh-CN' : base))
+          if (preferred) break
+        }
+      }
+      if (preferred && supportedLocales.includes(preferred) && preferred !== resolvedLocale) {
+        if (autoMarketing) {
+          url.pathname = localePaths[preferred]
+          url.searchParams.delete('autoLocale')
+          url.searchParams.delete('lang')
+        } else {
+          url.searchParams.set('lang', preferred)
+        }
+        location.replace(url.href)
+        return
+      }
+    }
+
+    let persisted = false
+    try {
+      localStorage.setItem('locale', resolvedLocale)
+      localStorage.setItem('marketingLocale', resolvedLocale)
+      persisted = true
+    } catch { /* Keep an explicit meeting language in the URL when storage is unavailable. */ }
+    if ((localePaths && url.searchParams.has('autoLocale')) || (meetingInvitation && persisted && url.searchParams.has('lang'))) {
+      if (localePaths) url.searchParams.delete('autoLocale')
+      if (meetingInvitation) url.searchParams.delete('lang')
+      history.replaceState(history.state, '', url.href)
+    }
+    document.cookie = `locale=${resolvedLocale}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`
+  })()
+</script>

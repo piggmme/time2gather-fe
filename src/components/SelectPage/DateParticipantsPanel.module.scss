@@ -1,11 +1,11 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 .container {
   margin-top: $spacing-md;
-  padding: $spacing-md;
-  border: 1px solid rgba($primary-color, 0.14);
-  border-radius: $radius-md;
-  background: linear-gradient(135deg, rgba($c-blue-soft, 0.82), rgba($c-white, 0.96));
+  padding: $spacing-md 0;
+  @include surfaces.content;
+  @include surfaces.section-start($spacing-base);
 }
 
 .header {
@@ -21,7 +21,7 @@
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
     line-height: 1.4;
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
   }
 
   > span {
@@ -45,13 +45,13 @@
 
   li {
     min-width: 0;
-    padding: 4px 10px 4px 4px;
+    @include surfaces.person;
+    max-width: 100%;
+    overflow-wrap: anywhere;
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    border: 1px solid rgba($c-gray-dark, 0.16);
-    border-radius: $radius-full;
-    background: rgba($c-white, 0.9);
+    > :first-child { flex-shrink: 0; }
     color: $c-gray-darkest;
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;

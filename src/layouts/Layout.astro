@@ -1,11 +1,16 @@
 ---
+import Analytics from '../components/Analytics.astro'
 import { ClientRouter } from 'astro:transitions'
 import '../styles/global.scss';
 import Header from '../components/Header/Header';
 import ChatBot from '../components/ChatBot/ChatBot';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale, type Locale } from '../i18n';
+import { getLocaleFromAstroRequest, getLocaleMessages, getTranslations, defaultLocale, localeMeta, type Locale } from '../i18n';
 import Toast from '../components/Toast/Toast';
 import StructuredData from '../components/SEO/StructuredData.astro';
+import LocaleBootstrap from '../components/LocaleBootstrap.astro'
+import LocaleFonts from '../components/LocaleFonts.astro';
+import PerformanceMonitoring from '../components/PerformanceMonitoring.astro'
+import { openGraphLocales } from '../i18n/config';
 
 interface Props {
   title?: string;
@@ -13,6 +18,8 @@ interface Props {
   ogImage?: string;
   ogType?: string;
   schemaType?: 'WebApplication' | 'Organization' | 'WebPage';
+  preview?: { title: string, description: string, locale?: Locale }
+  meetingInvitation?: boolean
   indexable?: boolean;
   locale?: Locale;
   alternates?: Partial<Record<Locale, string>>;
@@ -25,15 +32,20 @@ const {
   ogType = 'website',
   schemaType = 'WebApplication',
   indexable = false,
+  meetingInvitation = false,
+  preview,
   locale: localeOverride,
   alternates,
 } = Astro.props;
 
-const locale = localeOverride || getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const locale = localeOverride || getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale;
 const t = getTranslations(locale);
+Astro.response.headers.set('Vary', 'Accept-Language, Cookie');
+Astro.response.headers.set('Cache-Control', 'private, no-store');
 
 const siteUrl = Astro.site?.href || 'https://time2gather.org/';
-const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+const currentUrl = new URL(Astro.url.pathname, siteUrl)
+if (!meetingInvitation) currentUrl.searchParams.set('lang', locale)
 const currentPath = Astro.url.pathname;
 const title = customTitle || t('meta.siteTitle');
 const description = customDescription || t('meta.siteDescription');
@@ -44,21 +56,11 @@ const hreflangUrls = alternates && {
 };
 ---
 <!doctype html>
-<html lang={locale}>
+<html lang={locale} dir={localeMeta[locale].dir} data-meeting-invitation={meetingInvitation || undefined}>
   <head>
-    <script is:inline define:vars={{ resolvedLocale: locale }}>
-      (() => {
-        try {
-          window.localStorage.setItem('locale', resolvedLocale)
-        } catch {
-          // localStorage may be unavailable in privacy-restricted browser contexts.
-        }
-
-        const secureAttribute = window.location.protocol === 'https:' ? '; Secure' : ''
-        document.cookie = `locale=${resolvedLocale}; Path=/; Max-Age=31536000; SameSite=Lax${secureAttribute}`
-      })()
-    </script>
     <meta charset="UTF-8" />
+    <script id='i18n-messages' type='application/json' data-locale={locale} set:html={JSON.stringify(getLocaleMessages(locale)).replace(/</g, '\\u003c')} />
+    <LocaleBootstrap locale={locale} meetingInvitation={meetingInvitation} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
@@ -89,34 +91,27 @@ const hreflangUrls = alternates && {
     <!-- Open Graph / Facebook / 카카오톡 -->
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={currentUrl} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={preview?.title ?? title} />
+    <meta property="og:description" content={preview?.description ?? description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={title} />
-    <meta property="og:locale" content={locale === 'ko' ? 'ko_KR' : 'en_US'} />
+    <meta property="og:image:alt" content={preview?.title ?? title} />
+    <meta property="og:locale" content={preview ? (preview.locale && openGraphLocales[preview.locale]) : openGraphLocales[locale]} />
     <meta property="og:site_name" content="Time2Gather" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={preview?.title ?? title} />
+    <meta name="twitter:description" content={preview?.description ?? description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet" />
+    <LocaleFonts locale={locale} />
+    <PerformanceMonitoring />
 
-    <!-- Google Analytics -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-RXQ2QH23CQ"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RXQ2QH23CQ');
-    </script>
+    <Analytics />
     
+    <script>import '../i18n/navigation'</script>
     <ClientRouter />
     <slot name="head" />
 
@@ -159,15 +154,17 @@ const hreflangUrls = alternates && {
 	body {
 		width: 100%;
 		/* height: 100%; */
-		font-family: "Noto Sans KR", sans-serif;
+		font-family: var(--font-ui, system-ui, sans-serif);
 		font-optical-sizing: auto;
 		font-style: normal;
-		overflow-x: hidden; /* 모바일에서 좌우 스크롤 방지 */
+		overflow-x: clip; /* 가로 넘침만 자르고 세로 스크롤은 문서에 유지 */
 	}
 
 	body {
-		line-height: 1.5;
-		position: relative; /* overflow-x: hidden이 동작하도록 */
+        height: auto;
+        min-height: 100%;
+		line-height: var(--font-body-line-height, 1.6);
+		position: relative;
 	}
 
 	img,
@@ -193,7 +190,7 @@ const hreflangUrls = alternates && {
 	h4,
 	h5,
 	h6 {
-		word-break: keep-all;
+		word-break: var(--text-word-break, normal);
 		overflow-wrap: anywhere;
 	}
 
@@ -230,6 +227,10 @@ const hreflangUrls = alternates && {
 		border-collapse: collapse;
 		border-spacing: 0;
 	}
+
+	@media (min-width: 700px) {
+    :global(html[dir='rtl']) .responsive-layout { padding-left: 24px; padding-right: 104px; }
+  }
 
 	.responsive-layout {
 		width: 100%;

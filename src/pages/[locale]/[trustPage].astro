@@ -7,7 +7,6 @@ export const prerender = true
 export function getStaticPaths () {
   const trustPages = ['about', 'contact', 'privacy', 'terms'] as const
   return marketingLocales
-    .filter(locale => locale !== 'ko')
     .flatMap(locale => trustPages.map(trustPage => ({
       params: { locale, trustPage },
       props: { locale, trustPage },

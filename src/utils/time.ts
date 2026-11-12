@@ -1,3 +1,4 @@
+import { intlLocale, type Locale } from '../i18n/config'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import 'dayjs/locale/en'
@@ -12,7 +13,7 @@ export type AmPm = typeof amPmOptions[number]
 
 // 12시간 형식 시간 슬롯 (00:00 ~ 11:00, 1시간 단위)
 export const timeSlots12 = Array.from({ length: 12 }, (_, i) => {
-  const hours = i + 1
+  const hours = i === 0 ? 12 : i
   return `${String(hours).padStart(2, '0')}:00`
 })
 
@@ -35,7 +36,7 @@ export function isTime12After (time1: { time12: string, amPm: AmPm }, time2: { t
 
 export function convertTo24Hour (time12: string, amPm: AmPm): string {
   const [hours, minutes] = time12.split(':').map(Number)
-  return `${String(amPm == 'AM' ? hours : hours + 12).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
+  return `${String((hours % 12) + (amPm === 'PM' ? 12 : 0)).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
 }
 
 export function convertTo12Hour (time24: string): { time: string, amPm: AmPm } {
@@ -73,43 +74,38 @@ export function getTimeRangeSlots (startTime24: string, endTime24: string): stri
   return timeSlots24.slice(startIndex, endIndex + 1)
 }
 
-export function formatDate (date: dayjs.Dayjs | string, locale: 'ko' | 'en'): string {
-  const now = dayjs()
-  // 문자열인 경우 UTC로 파싱하여 타임존 변환으로 인한 날짜 밀림 방지
-  const parsedDate = typeof date === 'string' ? dayjs.utc(date, 'YYYY-MM-DD') : date
-  const isSameYear = parsedDate.year() === now.year()
-  // locale을 적용한 date 인스턴스 생성
-  const localizedDate = parsedDate.locale(locale === 'ko' ? 'ko' : 'en')
-  const weekday = localizedDate.format('ddd')
-
-  if (locale === 'ko') {
-    if (isSameYear) {
-      return `${localizedDate.format('M월 D일')} (${weekday})`
-    } else {
-      return `${localizedDate.format('YYYY년 M월 D일')} (${weekday})`
-    }
-  } else {
-    if (isSameYear) {
-      return `${localizedDate.format('MMM D')} (${weekday})`
-    } else {
-      return `${localizedDate.format('MMM D, YYYY')} (${weekday})`
-    }
-  }
+export function formatDate (date: dayjs.Dayjs | string, locale: Locale, fields: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', weekday: 'short' }): string {
+  const dateKey = typeof date === 'string' ? date.slice(0, 10) : date.format('YYYY-MM-DD')
+  const parsed = new Date(`${dateKey}T12:00:00Z`)
+  return new Intl.DateTimeFormat(intlLocale(locale), {
+    ...fields, timeZone: 'UTC',
+    ...(fields.day && parsed.getUTCFullYear() !== new Date().getFullYear() ? { year: 'numeric' as const } : {}),
+  }).format(parsed)
 }
 
-export function formatTime (time: string, locale: 'ko' | 'en', allDayLabel: string): string {
-  if (time === 'ALL_DAY') {
-    return allDayLabel
-  }
+export function formatMonth (date: dayjs.Dayjs, locale: Locale, includeYear = false): string {
+  return new Intl.DateTimeFormat(intlLocale(locale), { timeZone: 'UTC', month: includeYear ? 'long' : 'short', ...(includeYear ? { year: 'numeric' as const } : {}) }).format(new Date(`${date.format('YYYY-MM-DD')}T12:00:00Z`))
+}
 
+export function formatWeekday (day: number, locale: Locale): string {
+  return new Intl.DateTimeFormat(intlLocale(locale), { timeZone: 'UTC', weekday: 'short' }).format(new Date(Date.UTC(2026, 0, 4 + day)))
+}
+
+export function formatTime (time: string, locale: Locale, allDayLabel: string): string {
+  if (time === 'ALL_DAY') return allDayLabel
   const [hours, minutes] = time.split(':').map(Number)
-  if (!Number.isInteger(hours) || !Number.isInteger(minutes)) {
-    return time
-  }
+  if (!Number.isInteger(hours) || !Number.isInteger(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) return time
+  return new Intl.DateTimeFormat(intlLocale(locale), { hour: 'numeric', minute: '2-digit', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, 0, 1, hours, minutes)))
+}
 
-  return new Intl.DateTimeFormat(locale === 'ko' ? 'ko-KR' : 'en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    timeZone: 'UTC',
-  }).format(new Date(Date.UTC(2000, 0, 1, hours, minutes)))
+export function formatTimeRange (time: string, locale: Locale, allDayLabel: string): string {
+  return time.split(/\s*(?:~|–)\s*/).map(part => formatTime(part, locale, allDayLabel)).join(' – ')
+}
+
+export function getWeekStart (locale: Locale): number {
+  const regional = new Intl.Locale(intlLocale(locale)) as Intl.Locale & { weekInfo?: { firstDay: number }, getWeekInfo?: () => { firstDay: number } }
+  const firstDay = (regional.getWeekInfo?.() ?? regional.weekInfo)?.firstDay
+  if (firstDay) return firstDay % 7
+  if (locale === 'ar' || locale === 'ar-EG') return 6
+  return ['en', 'hi', 'bn', 'pt', 'id', 'ur', 'ja', 'mr', 'te', 'ko', 'th'].includes(locale) ? 0 : 1
 }

@@ -1,15 +1,13 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 .container {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding: $spacing-xl;
+  padding: $spacing-base 0 $spacing-xl;
   box-sizing: border-box;
-  border: 1px solid rgba($c-gray-dark, 0.12);
-  border-radius: $radius-lg;
-  background: $c-white;
-  box-shadow: $shadow-sm;
+  @include surfaces.content;
 
   @media (max-width: 699px) {
     padding: 0 0 $spacing-xl;
@@ -25,7 +23,7 @@
     color: $c-black;
     font-size: $font-size-2xl;
     line-height: $line-height-tight;
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
   }
 
   p {
@@ -33,7 +31,7 @@
     color: $c-gray-darkest;
     font-size: $font-size-sm;
     line-height: $line-height-normal;
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
   }
 }
 
@@ -49,23 +47,23 @@
 
 .summary {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: $spacing-sm;
   margin: $spacing-lg 0 $spacing-base;
-  padding: $spacing-sm $spacing-md;
-  border-radius: $radius-md;
-  background: $c-gray-lightest;
+  padding: $spacing-sm 0;
+  @include surfaces.content;
   color: $c-gray-darkest;
   font-size: $font-size-sm;
 
   strong {
-    flex-shrink: 0;
+    min-width: 0;
     color: $primary-color-hover;
   }
 
   span {
-    text-align: right;
+    text-align: end;
   }
 }
 
@@ -82,10 +80,11 @@
   color: $c-red;
   font-size: $font-size-sm;
   line-height: $line-height-normal;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
 }
 
 .buttons {
+  @include surfaces.section-start;
   display: flex;
   gap: $spacing-sm;
   margin-top: $spacing-xl;
@@ -97,4 +96,72 @@
   > *:last-child {
     flex: 1 1 60%;
   }
+}
+
+.timeSection {
+  @include surfaces.section-boundary;
+
+  h2 {
+    margin: 0 0 $spacing-sm;
+    font-size: $font-size-lg;
+    line-height: $line-height-normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+.timeHint {
+  margin: $spacing-sm 0 0;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  overflow-wrap: anywhere;
+}
+
+.timeFields {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.candidateSection {
+  @include surfaces.section-start;
+  margin-block-start: $spacing-lg;
+
+  > summary {
+    cursor: pointer;
+    min-height: 44px;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-normal;
+    overflow-wrap: anywhere;
+  }
+
+  > summary:focus-visible { outline: 2px solid $primary-color; outline-offset: 4px; }
+}
+
+.placeFields {
+  border: 0;
+  padding: $spacing-sm 0 0;
+  margin: 0;
+  min-width: 0;
+  display: grid;
+  gap: $spacing-base;
+}
+
+.placeRow {
+  display: flex;
+  align-items: end;
+  gap: $spacing-sm;
+
+  > button { width: auto; min-height: 44px; flex-shrink: 0; max-width: 38%; white-space: normal; }
+}
+
+.placeLabel {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: $spacing-xs;
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
 }

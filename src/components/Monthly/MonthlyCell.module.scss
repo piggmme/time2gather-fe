@@ -6,12 +6,12 @@
 $cell-border: 1px solid rgba(0, 0, 0, 0.06);
 $cell-bg: $c-white;
 $cell-bg-hover: rgba(0, 0, 0, 0.03); // 더 연하게
-$cell-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.08);
+$cell-shadow-hover: none;
 
 // 내 선택: 브랜드 블루
-$my-selection-bg: linear-gradient(135deg, $primary-color, $c-blue);
+$my-selection-bg: $primary-color;
 $my-selection-border: $primary-color;
-$my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
+$my-selection-shadow: none;
 
 .cell {
   appearance: none;
@@ -41,21 +41,21 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
   }
 
   &[data-heat-level='2'] {
-    --heat-bg: #d4e6ff;
-    --heat-border: #8dbaf5;
-    --heat-text: #244b78;
+    --heat-bg: #e1edff;
+    --heat-border: #bfd6f5;
+    --heat-text: #24466f;
   }
 
   &[data-heat-level='3'] {
-    --heat-bg: #9fc5f8;
-    --heat-border: #4b8fe8;
-    --heat-text: #153d70;
+    --heat-bg: #cee2fc;
+    --heat-border: #a6c8f2;
+    --heat-text: #204775;
   }
 
   &[data-heat-level='4'] {
-    --heat-bg: #3478d4;
-    --heat-border: #1e5fb9;
-    --heat-text: #ffffff;
+    --heat-bg: #b9d5fa;
+    --heat-border: #89b6ee;
+    --heat-text: #183f70;
   }
 
   &:focus-visible {
@@ -69,7 +69,7 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
     background: $cell-bg-hover;
     border-color: rgba(0, 0, 0, 0.1);
     box-shadow: $cell-shadow-hover;
-    transform: translateY(-1px);
+    transform: none;
   }
 
   // ===== 내가 선택한 상태 (편집 모드) =====
@@ -83,7 +83,7 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
 
       &:hover {
         filter: brightness(1.03);
-        transform: translateY(-1px);
+        transform: none;
       }
     }
   }
@@ -97,8 +97,8 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
     
     &:hover {
       border-color: var(--heat-border, $primary-color);
-      box-shadow: 0 2px 8px rgba($primary-color, 0.16);
-      transform: translateY(-1px);
+      box-shadow: none;
+      transform: none;
       // 배경색 유지 (inline style이 우선)
     }
   }
@@ -106,14 +106,14 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
   // ===== 내 선택 + 다른 사람 선택 (둘 다) =====
   &.hasCount.selected {
     background: var(--heat-bg, $c-blue-soft);
-    border: 2px solid $c-purple;
+    border: 2px solid $primary-color;
     box-shadow: inset 0 0 0 1px rgba($c-white, 0.58);
     color: var(--heat-text, $c-gray-darkest);
     font-weight: $font-weight-bold;
 
     &:hover {
-      box-shadow: 0 4px 16px rgba($c-purple, 0.3);
-      transform: translateY(-1px);
+      box-shadow: none;
+      transform: none;
     }
   }
 
@@ -152,7 +152,7 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
       color: $primary-color-hover;
       background: rgba($primary-color, 0.14);
       border-color: rgba($primary-color, 0.55);
-      box-shadow: 0 3px 10px rgba($primary-color, 0.14);
+      box-shadow: none;
     }
   }
 
@@ -164,41 +164,6 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
     width: min(32px, calc(100% - 12px));
     aspect-ratio: 1;
     border-radius: 50%;
-  }
-
-  // ===== 오늘 날짜 (기호 대신 명시적인 텍스트 라벨로 표시) =====
-  &.today {
-    font-weight: $font-weight-bold;
-
-    .dayNumber {
-      transform: translateY(-4px);
-    }
-
-    &:not(.selected):not(.hasCount):not(.available) {
-      color: $c-gray-darkest;
-      background: $cell-bg;
-    }
-
-    &:not(.selected):not(.hasCount):not(.available):hover {
-      background: $cell-bg-hover;
-      box-shadow: $cell-shadow-hover;
-    }
-  }
-
-  .todayLabel {
-    position: absolute;
-    left: 50%;
-    bottom: 4px;
-    color: $primary-color-hover;
-    font-size: 9px;
-    font-weight: $font-weight-bold;
-    line-height: 1;
-    white-space: nowrap;
-    transform: translateX(-50%);
-  }
-
-  &.selected .todayLabel {
-    color: $c-white;
   }
 
   // ===== 일요일 =====
@@ -214,6 +179,13 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
   // ===== 뷰어 모드 (읽기 전용) =====
   &.viewMode {
     cursor: default;
+
+    // 넓은 결과 화면에서는 정사각형 셀이 달력을 지나치게 길게 만든다.
+    // 읽기 전용 달력만 일반 데스크톱 캘린더처럼 낮은 행으로 압축한다.
+    @media (min-width: 900px) {
+      aspect-ratio: auto;
+      min-height: 72px;
+    }
 
     // 뷰어 모드에서 호버: 선택 상태 유지하면서 살짝 강조
     &:hover {
@@ -278,12 +250,83 @@ $my-selection-shadow: 0 2px 12px rgba($primary-color, 0.2);
     line-height: 1.2;
     z-index: 10;
     white-space: nowrap;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
 
-    // 내가 선택한 경우 배지 색상 변경
-    &.selected {
-      background: $c-purple;
-      color: $c-white;
-    }
   }
 }
+
+// Vote density and personal selection have separate visual roles.
+.cell.voting {
+  // Follow the column width on mobile without shrinking the touch target height.
+  // Cap wide calendars so the result view keeps its compact desktop rows.
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 44px;
+  max-height: 72px;
+}
+
+.cell.voting:not(.disabled) {
+  flex-direction: column;
+  gap: 1px;
+  padding: 3px 2px;
+
+  &.selected,
+  &.hasCount,
+  &.available {
+    background: var(--heat-bg, $c-white);
+    color: var(--heat-text, $c-gray-darkest);
+    border: $cell-border;
+    box-shadow: none;
+
+    &:hover {
+      background: var(--heat-bg, $c-white);
+      color: var(--heat-text, $c-gray-darkest);
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  &.selected {
+    border: 2px solid $primary-color;
+  }
+
+  &.dragged {
+    box-shadow: inset 0 0 0 2px $primary-color-border;
+  }
+
+  .dayNumber {
+    width: auto;
+    aspect-ratio: auto;
+    line-height: 1.25;
+  }
+
+  .selectionCheck {
+    position: absolute;
+    inset-block-start: -5px;
+    inset-inline-end: -5px;
+    width: 14px;
+    height: 14px;
+    color: $primary-color;
+    background: $c-white;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .countBadge {
+    position: static;
+    background: transparent;
+    color: var(--heat-text, $c-gray-darkest);
+    font-size: 11px;
+    font-weight: $font-weight-medium;
+    font-variant-numeric: tabular-nums;
+    padding: 0;
+    min-width: 0;
+    box-shadow: none;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+}
+
+.cell { min-height: 48px; aspect-ratio: auto; }
+.cell:not(.voting) .selectionCheck { position: absolute; inset-block-start: 2px; inset-inline-end: 2px; width: 12px; height: 12px; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .cell { transition: none; } }

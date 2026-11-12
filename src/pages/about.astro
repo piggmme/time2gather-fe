@@ -1,4 +1,4 @@
 ---
-import MarketingContent from '../components/MarketingContent.astro'
+import { redirectMarketingPage } from '../marketing/redirect'
+return redirectMarketingPage(Astro, 'about')
 ---
-<MarketingContent locale='ko' page='about' />

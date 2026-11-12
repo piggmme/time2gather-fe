@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "Précédent",
+    "cancel": "Annuler",
+    "next": "Suivant",
+    "home": "Accueil",
+    "createMeeting": "Créer une réunion",
+    "searchMeeting": "Trouver une réunion",
+    "searchMeetingPlaceholder": "Code de réunion",
+    "searchMeetingButton": "Trouver une réunion",
+    "myMeetings": "Mes réunions",
+    "adminDashboard": "Tableau de bord d'administration",
+    "contactUs": "Contactez-nous",
+    "menu": "Menus",
+    "openMenu": "Ouvrir le menu",
+    "submit": "Soumettre",
+    "share": "Partager",
+    "close": "Fermer",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite. Veuillez réessayer.",
+    "switchToEnglish": "Passer à l'anglais",
+    "switchToKorean": "Passer au coréen",
+    "language": "Langue",
+    "searchLanguages": "Choisissez votre langue"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "Bienvenue ! 👋",
+    "description": "Cela ne prend que 5 secondes pour faire des plans maintenant. Partagez vos plages horaires, obtenez des votes et voyez instantanément le meilleur moment pour tout le monde !",
+    "createMeetingButton": "Créer une réunion",
+    "heroTitleSuffix": " — Planifiez facilement",
+    "heroSubtitle": "Dites adieu aux plannings compliqués. Trouvez le moment idéal avec vos amis.",
+    "viewMyMeetings": "Afficher mes réunions"
+  },
+  "landing": {
+    "eyebrow": "Coordonnez l’emploi du temps de chacun en un seul endroit",
+    "title": "Simplifiez la planification des réunions",
+    "description": "Time2Gather est un service de planification gratuit permettant de voter sur des dates, des heures et des lieux afin de trouver une heure de réunion qui convient à tout le monde.",
+    "primaryCta": "Créer une réunion",
+    "secondaryCta": "Rechercher avec un code",
+    "featuresHeading": "Tout ce dont vous avez besoin pour coordonner une réunion",
+    "features": {
+      "dates": {
+        "title": "Comparez plusieurs dates",
+        "description": "Choisissez les dates des candidats et partagez-les immédiatement avec vos participants."
+      },
+      "times": {
+        "title": "Votez sur les horaires disponibles",
+        "description": "Collectez des disponibilités détaillées pour trouver l’heure qui convient au plus grand nombre."
+      },
+      "locations": {
+        "title": "Décidez également d'un emplacement",
+        "description": "Ajoutez des options de localisation lorsque votre groupe doit choisir où se réunir."
+      },
+      "sharing": {
+        "title": "Rejoignez-nous à partir d'un seul lien",
+        "description": "Partagez un lien pour que les participants puissent voter immédiatement avec seulement un pseudo."
+      }
+    },
+    "stepsHeading": "Régler les projets en trois étapes",
+    "steps": {
+      "create": {
+        "title": "1. Créer des options",
+        "description": "Définissez un titre de réunion et les dates ou heures à comparer."
+      },
+      "share": {
+        "title": "2. Partagez le lien",
+        "description": "Envoyez le lien à vos amis, coéquipiers ou à votre groupe."
+      },
+      "decide": {
+        "title": "3. Confirmez le résultat",
+        "description": "Passez en revue les votes et choisissez le meilleur moment pour tout le monde."
+      }
+    },
+    "faqHeading": "Questions fréquemment posées",
+    "faq": {
+      "what": {
+        "question": "Comment trouver un créneau pour une sortie ou une réunion d’équipe ?",
+        "answer": "Créez des propositions de dates et d’heures dans Time2Gather, puis partagez le lien. Chacun indique ses disponibilités. Comparez les résultats et confirmez un créneau. Le service est gratuit pour les amis, les groupes d’étude et les équipes."
+      },
+      "login": {
+        "question": "Peut-on créer un sondage et participer sans inscription ni application ?",
+        "answer": "Oui. Organisateurs et participants saisissent simplement un nom, sans inscription ni connexion sociale. Créez des rencontres et votez dans le navigateur de votre téléphone ou ordinateur."
+      },
+      "location": {
+        "question": "Peut-on aussi voter pour le lieu ?",
+        "answer": "Oui. Activez le vote sur les lieux à la création et ajoutez des propositions. Les participants peuvent voter pour leurs lieux préférés et échanger dans les commentaires."
+      }
+    }
+  },
+  "login": {
+    "title": "Prêt à planifier ?",
+    "description": "Connectez-vous pour créer et gérer vos réunions.",
+    "kakaoLogin": "Continuer avec Kakao",
+    "googleLogin": "Continuer avec Google",
+    "oauth": {
+      "loadingTitle": "Vous connecter",
+      "loadingDescription": "Vous reviendrez à votre écran précédent dans un instant.",
+      "errorTitle": "Nous n'avons pas pu vous connecter",
+      "errorDescription": "Revenez à la page de connexion et réessayez.",
+      "retry": "Essayez de vous connecter à nouveau"
+    }
+  },
+  "search": {
+    "title": "Trouver une réunion",
+    "description": "Entrez le code de réunion que vous avez reçu."
+  },
+  "createMeeting": {
+    "title": "Créer une réunion",
+    "meetingTypeStep": {
+      "heading": "Que doivent choisir les participants ?",
+      "allDay": "Dates seulement",
+      "time": "Dates et heures"
+    },
+    "titleStep": {
+      "heading": "Donnez un nom à votre réunion",
+      "placeholder": "par exemple, le dîner du vendredi"
+    },
+    "descriptionStep": {
+      "heading": "De quel genre de réunion s'agit-il ?",
+      "placeholder": "Rencontrons-nous tous à Gangnam !"
+    },
+    "datesStep": {
+      "heading": "Choisissez les dates possibles"
+    },
+    "timeRangeStep": {
+      "heading": "Définir la plage horaire disponible",
+      "startTime": "Heure de début",
+      "endTime": "Heure de fin",
+      "selectedDatesCount": "Dates sélectionnées : {count}",
+      "createButton": "Créer une réunion"
+    },
+    "locationStep": {
+      "heading": "Terminez la création de votre réunion",
+      "requiredLabel": "Obligatoire",
+      "creatorHeading": "Qui crée cette rencontre ?",
+      "creatorDescription": "Votre pseudo sera affiché en tant qu'hôte de la réunion.",
+      "usernameLabel": "Votre pseudo",
+      "usernamePlaceholder": "par exemple, Jamie",
+      "usernameChangeHelp": "Changer votre nom conserve vos réunions et votes existants et met à jour uniquement votre nom d'affichage.",
+      "optionalLabel": "Facultatif",
+      "locationHeading": "Souhaitez-vous un vote de localisation ?",
+      "locationDescription": "Activez cette option si vous souhaitez que les participants choisissent le lieu ensemble.",
+      "enableLocationVote": "Laissez les participants voter sur un lieu",
+      "locationPlaceholder": "Entrez un emplacement",
+      "addLocation": "Ajouter un emplacement",
+      "removeLocation": "Supprimer l'emplacement",
+      "minLocationsWarning": "Au moins 2 emplacements sont requis pour le vote par emplacement",
+      "maxLocationsWarning": "Vous ne pouvez ajouter que 5 emplacements maximum",
+      "createButton": "Créer une réunion",
+      "creatingButton": "Création d'une réunion...",
+      "skipButton": "Sauter"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "Réunion introuvable",
+      "description": "La réunion que vous avez demandée n'existe pas ou a été supprimée."
+    },
+    "participantsEmpty": "Aucun participant pour l'instant.",
+    "participantsCount": "Participants : {count}",
+    "participantsCountCompact": "{count} participant",
+    "selectedDates": "Choisissez les dates qui vous conviennent parmi les options {count}.",
+    "selectedDatesAndTimes": "Choisissez les dates et heures qui vous conviennent parmi les options de date {count}.",
+    "timeGrid": {
+      "timeLabel": "Temps",
+      "touchHint": "Appuyez, maintenez, puis faites glisser pour sélectionner plusieurs fois",
+      "pointerHint": "Faites glisser pour sélectionner plusieurs fois à la fois",
+      "draggingHint": "Faire glisser · Relâcher pour appliquer votre sélection",
+      "selectDate": "Sélectionnez toutes les heures sur {date}",
+      "previousDates": "Dates précédentes",
+      "nextDates": "Dates suivantes"
+    },
+    "dateCalendar": {
+      "mySelection": "Ma sélection",
+      "fewerVotes": "Moins de votes",
+      "moreVotes": "Plus de votes",
+      "available": "Disponible",
+      "unavailable": "Indisponible",
+      "today": "Aujourd'hui",
+      "availableMonths": "Mois avec dates disponibles",
+      "monthAvailability": "{count} dates disponibles dans {month}",
+      "previousMonth": "Mois précédent",
+      "nextMonth": "Le mois prochain"
+    },
+    "dateParticipants": {
+      "title": "Disponible sur {date}",
+      "count": {
+        "one": "Personne {count}",
+        "other": "Personnes {count}"
+      }
+    },
+    "resultSaved": "Le résultat a été enregistré.",
+    "modifyButton": "Modifier la disponibilité",
+    "participate": "Participer à la réunion",
+    "shareResult": "Partager le résultat",
+    "shareMeeting": "Partager la réunion",
+    "shareSuccess": "Le lien a été copié.",
+    "exportToCalendar": "Ajouter à mon calendrier",
+    "confirmButton": "Confirmer la réunion",
+    "confirmButtonShort": "Confirmer la réunion",
+    "cancelConfirmButton": "Annuler la confirmation",
+    "cancelConfirmSuccess": "La confirmation de la réunion a été annulée !",
+    "cancelConfirmError": "Échec de l'annulation de la confirmation. Veuillez réessayer.",
+    "alreadyConfirmedError": "Cette rencontre est déjà confirmée. Vous ne pouvez pas modifier votre vote.",
+    "editDates": {
+      "openButton": "Modifier les choix du sondage",
+      "hostOnly": "Hôte uniquement",
+      "title": "Modifier les choix du sondage",
+      "description": "Modifiez les choix proposés au vote de tous.",
+      "selectedCount": "Dates {count} sélectionnées",
+      "selectionHint": "Appuyez ou faites glisser pour sélectionner des dates.",
+      "removedWarning": "Les votes sur les dates supprimées {count} seront supprimés lorsque vous enregistrerez.",
+      "maxDates": "Vous pouvez sélectionner jusqu'à des dates {count}.",
+      "save": "Enregistrer les choix",
+      "success": "Les choix du sondage ont été mis à jour.",
+      "error": "Impossible de modifier les choix. Veuillez réessayer.",
+      "timeOpenButton": "Modifier les choix du sondage",
+      "timeTitle": "Modifier les choix du sondage",
+      "timeDescription": "Modifiez les choix proposés au vote de tous.",
+      "timeSave": "Enregistrer les choix",
+      "timeSuccess": "Les choix du sondage ont été mis à jour.",
+      "timeError": "Impossible de modifier les choix. Veuillez réessayer.",
+      "timeRangeHint": "Toute modification de la plage horaire s’applique à toutes les dates sélectionnées.",
+      "timeRemovedWarning": "À l’enregistrement, les votes pour les {count} créneaux retirés seront supprimés. Les autres votes seront conservés.",
+      "locationRemovedWarning": "Les votes pour {count} lieux modifiés ou supprimés seront effacés à l’enregistrement. Les autres votes seront conservés."
+    },
+    "exportDialog": {
+      "title": "Ajouter au calendrier",
+      "description": "Sélectionnez la date et l'heure à ajouter à votre calendrier.",
+      "noSlots": "Aucune date n'a encore été votée.",
+      "allDay": "Toute la journée",
+      "cancel": "Annuler",
+      "confirm": "Ajouter au calendrier",
+      "close": "Fermer"
+    },
+    "confirmDialog": {
+      "title": "Confirmer la réunion",
+      "description": "Choisissez le programme final parmi les options supérieures liées {count}.",
+      "noSlots": "Aucune date n'a encore été votée.",
+      "allDay": "Toute la journée",
+      "scheduleTitle": "Date et heure",
+      "scheduleDescription": "Ces options fonctionnent pour la plupart des participants.",
+      "locationTitle": "Emplacement",
+      "locationDescription": "Choisissez où vous réunir en utilisant les résultats du vote.",
+      "locationStepDescription": "Choisissez où vous rencontrer pour terminer la confirmation du plan.",
+      "progressLabel": "Étapes de confirmation de la réunion",
+      "locationVoteCount": {
+        "one": "Votez {count}",
+        "other": "Votes {count}"
+      },
+      "noLocations": "Il n’y a aucun emplacement disponible pour confirmer.",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "confirming": "Confirmation...",
+      "close": "Fermer",
+      "success": "La rencontre a été confirmée !",
+      "error": "Échec de la confirmation de la réunion. Veuillez réessayer.",
+      "allCandidatesDescription": "Choisissez le créneau définitif parmi les {count} options.",
+      "groupedDescription": "Choisissez une date parmi les {count} proposées, puis une heure de début.",
+      "recommendationsDescription": "Des options avec davantage de participants disponibles, une par date.",
+      "allDates": "Choisir parmi les {count} dates",
+      "backToRecommendations": "Voir les suggestions"
+    },
+    "anonymousSelectButton": "Rejoindre avec un nom",
+    "selectButton": "Sélectionnez les dates",
+    "selectTimeButton": "Sélectionnez la date et l'heure",
+    "result": {
+      "tabs": {
+        "aiSummary": "Résumé",
+        "summary": "Résumé",
+        "confirmed": "Plan confirmé",
+        "calendar": "Calendrier",
+        "participants": "Participants",
+        "location": "Emplacement"
+      },
+      "summaryTitle": "Résumé de la réunion",
+      "aiSummaryTitle": "Résumé des résultats du vote",
+      "calendarTitle": "Calendrier des réunions",
+      "totalParticipants": "Participants : {count}",
+      "bestSlotsTitle": "Dates avec le plus de disponibilités",
+      "showMoreOptions": "Afficher {count} plus",
+      "showFewerOptions": "Afficher moins",
+      "moreTimeOptions": "{count} plus d'options de temps",
+      "participantsCount": "Participants : {count}",
+      "people": "les gens",
+      "voteCount": {
+        "one": "Personne {count} ({percentage})",
+        "other": "Personnes {count} ({percentage})"
+      },
+      "noParticipants": "Aucun participant",
+      "buttons": {
+        "calendar": "Ajouter au calendrier",
+        "share": "Partager le sondage",
+        "shareConfirmed": "Partager le plan confirmé",
+        "shareKakao": "KakaoParler",
+        "modifyDates": "Modifier ma sélection de dates",
+        "modifyTimes": "Modifier ma sélection de date et d'heure",
+        "selectDates": "Sélectionnez mes dates disponibles",
+        "selectTimes": "Sélectionnez mes dates et heures disponibles",
+        "enterAvailability": "Ajouter une disponibilité",
+        "editAvailability": "Modifier mon vote"
+      },
+      "confirmedPlan": {
+        "eyebrow": "PLAN CONFIRMÉ",
+        "title": "Votre plan est prêt",
+        "date": "Date",
+        "time": "Temps",
+        "location": "Emplacement",
+        "attendees": "Participants disponibles",
+        "attendanceSummary": {
+          "one": "Personne {count} · {percentage} du groupe",
+          "other": "Personnes {count} · {percentage} du groupe"
+        },
+        "confirmTime": "Confirmer l’heure",
+        "confirmTimeTitle": "Confirmer l’heure de la rencontre",
+        "confirmTimeDescription": "Choisissez l’heure de la rencontre à la date confirmée.",
+        "timeConfirmSuccess": "L’heure de la rencontre a été confirmée.",
+        "timeConfirmError": "Impossible de confirmer l’heure de la rencontre. Veuillez réessayer.",
+        "timePending": "À définir",
+        "editTime": "Modifier",
+        "editTimeTitle": "Modifier l'heure de la réunion",
+        "editTimeDescription": "Conservez la date confirmée et fixez l’heure exacte à laquelle vous prévoyez de vous rencontrer.",
+        "saveTime": "Enregistrer",
+        "savingTime": "Sauvegarde...",
+        "timeUpdateSuccess": "L'heure de la réunion a été mise à jour.",
+        "timeUpdateError": "L'heure de la réunion n'a pas pu être mise à jour. Veuillez réessayer.",
+        "addTime": "Ajouter une heure (facultatif)",
+        "addTimeTitle": "Ajouter une heure",
+        "optionalTimeDescription": "Ajoutez une heure uniquement si nécessaire.",
+        "attendanceCount": "{count} sur {total} disponibles",
+        "cancelTitle": "Annuler la confirmation ?",
+        "cancelDescription": "Le créneau confirmé sera supprimé. Les réponses des participants seront conservées.",
+        "keepConfirmation": "Garder la confirmation"
+      },
+      "actions": {
+        "confirmed": "Plan confirmé",
+        "confirmedDescription": "Partagez les détails ou ajoutez-les à votre calendrier.",
+        "inProgress": "Planification en cours",
+        "manage": "Gérer le sondage"
+      },
+      "share": {
+        "confirmedTitle": "{title} est confirmé",
+        "confirmedHeading": "Le plan est confirmé !",
+        "detailsCopied": "Les détails confirmés et le lien ont été copiés.",
+        "manualCopyDescription": "Le partage ou la copie automatique est indisponible. Sélectionnez et copiez le texte ci-dessous."
+      },
+      "kakaoShare": {
+        "description": "Choisissez les horaires qui vous conviennent.",
+        "buttonTitle": "Rejoignez le vote",
+        "confirmedTitle": "{date} · Confirmé",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "Afficher le forfait confirmé",
+        "locationPending": "Localisation en attente"
+      },
+      "attendance": {
+        "available": "Disponible",
+        "unavailable": "Indisponible",
+        "everyoneAvailable": "Tout le monde est disponible",
+        "noneAvailable": "Personne n’est disponible"
+      },
+      "bestTimesTitle": "Horaires avec le plus de disponibilités",
+      "availabilityBasis": "D’après {count} réponses.",
+      "allAvailable": "Tout le monde est disponible ({count})",
+      "someAvailable": "{count} sur {total} disponibles",
+      "viewSlotPeople": "Sélectionnez une option pour voir qui est disponible.",
+      "decision": {
+        "allHeadline": "Les {count} participants {availability}",
+        "allHeadlineHighlight": "sont disponibles",
+        "allDates": "Dates qui conviennent à tout le monde ({count})",
+        "allTimes": "Horaires qui conviennent à tout le monde ({count})",
+        "partial": "Jusqu’à {count} personnes peuvent se retrouver",
+        "basis": "D’après les disponibilités indiquées jusqu’ici",
+        "notAll": "Aucune option ne convient encore à tout le monde.",
+        "emptyDates": "Aucune date n’a été sélectionnée",
+        "emptyTimes": "Aucun horaire n’a été sélectionné",
+        "pending": "En attente de réponses aux nouvelles propositions",
+        "allUnavailable": "Les {count} personnes ayant répondu ont indiqué qu’aucune proposition ne leur convient.",
+        "notSelected": "Personnes n’ayant pas sélectionné cette option",
+        "people": "Voir les personnes disponibles",
+        "chooseDate": "Fixer la rencontre à cette date",
+        "chooseTime": "Fixer la rencontre à cette heure",
+        "confirmedDate": "La date de la rencontre est fixée",
+        "setMeeting": "Confirmer la réunion"
+      },
+      "calendarFilter": {
+        "selectAll": "Tout sélectionner",
+        "selectedCount": "{selected} sur {total} sélectionnés",
+        "selectPrompt": "Sélectionnez des participants pour voir leurs disponibilités.",
+        "noAvailability": "Les personnes sélectionnées n’ont aucun créneau disponible."
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "Vous n'êtes pas connecté",
+        "description": "Inscrivez-vous sans vous connecter en entrant un nom.",
+        "kakaoLoginButton": "Continuer avec Kakao",
+        "loginButton": "Connectez-vous",
+        "anonymousLogin": "Entrez un nom pour rejoindre"
+      },
+      "description": "Saisissez le nom que vous utiliserez pour cette réunion.",
+      "votingAs": "Rejoindre en tant que {username}.",
+      "votingAsCompact": "Rejoindre en tant que {username}",
+      "usernamePlaceholder": "Nom",
+      "anonymousLogin": "Rejoignez-nous avec ce nom"
+    },
+    "identity": {
+      "label": "Nom pour cette réunion",
+      "hint": "Le changement de nom concerne uniquement cette réunion.",
+      "change": "Changer de nom"
+    },
+    "unavailable": {
+      "dates": "Aucune de ces dates ne me convient",
+      "times": "Aucun de ces horaires ne me convient",
+      "hint": "Sélectionnez ceci si aucune proposition ne vous convient.",
+      "selectedHint": "Votre réponse indiquera qu’aucune proposition ne vous convient. Vous pourrez la modifier plus tard.",
+      "changed": "Les dates proposées ont changé. Actualisez la page et répondez à nouveau.",
+      "respondents": "Personnes ayant répondu",
+      "datesStatus": "Aucune date ne convient",
+      "timesStatus": "Aucun horaire ne convient",
+      "pending": "Réponse attendue pour les nouvelles options",
+      "selected": "Créneau choisi",
+      "noneStatus": "Aucun créneau disponible",
+      "picked": "Participants disponibles",
+      "emptyTitle": "Aucun créneau recommandé pour le moment",
+      "emptyHint": "Attendez les réponses d’autres participants.",
+      "viewPeople": "Voir les participants",
+      "morePeople": "Afficher {count} personnes de plus",
+      "lessPeople": "Réduire",
+      "basis": "Selon les votes de disponibilité pour le créneau confirmé.",
+      "otherSelection": "Ont choisi un autre créneau"
+    }
+  },
+  "my": {
+    "title": "Mes réunions",
+    "tabs": {
+      "myMeetings": "Mes réunions",
+      "participatedMeetings": "Réunions auxquelles j'ai participé"
+    },
+    "noMeetings": "Vous n'avez pas encore créé de réunions.",
+    "noParticipatedMeetings": "Vous n'avez encore participé à aucune réunion.",
+    "myMeetingsDetails": "Vous avez créé des réunions {count}.",
+    "participatedMeetingsDetails": "Vous avez participé aux réunions {count}."
+  },
+  "admin": {
+    "metaTitle": "Tableau de bord d'administration - Time2Gather",
+    "metaDescription": "Un tableau de bord privé pour examiner les utilisateurs et les réunions Time2Gather.",
+    "eyebrow": "CONSOLE D'ADMINISTRATION",
+    "title": "Aperçu des services",
+    "description": "Passez en revue les indicateurs clés des utilisateurs et des réunions, puis trouvez rapidement les enregistrements dont vous avez besoin.",
+    "summaryTitle": "En un coup d'œil",
+    "summaryDescription": "Les décomptes sont basés sur les utilisateurs et les réunions actuellement stockés.",
+    "loading": "Préparation du tableau de bord d'administration.",
+    "loadingDescription": "Vérifier votre accès et charger les dernières données.",
+    "accessDeniedTitle": "Vous n'avez pas accès",
+    "accessDeniedDescription": "Seuls les comptes dotés du rôle d'administrateur peuvent afficher cette page.",
+    "refresh": "Actualiser l'aperçu",
+    "retry": "Réessayez",
+    "loadError": "Nous n'avons pas pu charger l'aperçu.",
+    "search": "Rechercher",
+    "notAvailable": "Non disponible",
+    "pageOf": "Page {current} de {total}",
+    "stats": {
+      "totalUsers": "Nombre total d'utilisateurs",
+      "registeredUsers": "Utilisateurs inscrits",
+      "anonymousUsers": "Utilisateurs anonymes",
+      "adminUsers": "Administrateurs de {count}",
+      "totalMeetings": "Total des réunions",
+      "activeMeetings": "Réunions actives",
+      "confirmedMeetings": "Rencontres confirmées",
+      "confirmationRate": "Taux de confirmation : {rate}"
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "description": "Utilisateurs {count} trouvés.",
+      "searchPlaceholder": "Rechercher un nom ou une adresse e-mail",
+      "loadError": "Nous n'avons pas pu charger les utilisateurs.",
+      "empty": "Aucun utilisateur ne correspond à votre recherche.",
+      "user": "Utilisateur",
+      "provider": "Méthode de connexion",
+      "role": "Rôle",
+      "joinedAt": "Rejoint",
+      "participatedMeetings": "Rencontres auxquelles cette personne a participé",
+      "noParticipatedMeetings": "Aucune participation à une rencontre.",
+      "noEmail": "Pas d'e-mail"
+    },
+    "meetings": {
+      "title": "Réunions",
+      "description": "Réunions {count} trouvées.",
+      "searchPlaceholder": "Rechercher un titre ou un code de réunion",
+      "loadError": "Nous ne pouvions pas charger les réunions.",
+      "empty": "Aucune réunion ne correspond à votre recherche.",
+      "meeting": "Réunion",
+      "host": "Hôte",
+      "status": "Statut",
+      "createdAt": "Créé",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "confirmed": "Confirmé",
+      "confirmedOnly": "Afficher uniquement les rencontres confirmées",
+      "unknownHost": "Utilisateur inconnu",
+      "openNewTab": "Ouvrir la réunion dans un nouvel onglet"
+    },
+    "providers": {
+      "ANONYMOUS": "Anonyme",
+      "KAKAO": "Kakao",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "Utilisateur",
+      "ADMIN": "Administrateur"
+    },
+    "selectionTypes": {
+      "TIME": "Date et heure",
+      "ALL_DAY": "Dates seulement"
+    },
+    "login": {
+      "checking": "Vérification des paramètres de connexion...",
+      "expired": "L'accès administrateur a expiré ou n'est pas disponible. Veuillez vous reconnecter.",
+      "notConfigured": "La connexion administrateur n’est pas configurée. Contactez l'opérateur.",
+      "verifying": "Vérification de l'accès administrateur...",
+      "notAllowed": "Utilisez un compte administrateur autorisé.",
+      "google": "Connectez-vous avec Google",
+      "unavailable": "Impossible de charger le service de connexion.",
+      "networkError": "Vérifiez votre connexion et réessayez.",
+      "logout": "Se déconnecter",
+      "title": "Connexion administrateur",
+      "description": "Seuls les comptes Google autorisés peuvent accéder à cette zone.",
+      "retry": "Réessayez",
+      "sessionHelp": "L'accès administrateur utilise une session distincte de la participation à la réunion."
+    }
+  },
+  "404": {
+    "title": "Page introuvable",
+    "description": "La page que vous avez demandée n'existe pas ou a été supprimée.",
+    "homeButton": "Aller à la maison"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - Programmer avec des personnes",
+    "siteDescription": "Un service qui facilite la planification de réunions avec des personnes. Créez des réunions, sélectionnez plusieurs dates et plages horaires et partagez-les. Lorsque les participants sélectionnent leurs horaires disponibles, nous leur recommanderons la meilleure date et heure pour se rencontrer.",
+    "siteKeywords": "planifier une réunion, coordination d'horaires, réunion de groupe, emploi du temps de groupe, coordination du temps, gestion de réunions, partage d'horaires, Time2Gather",
+    "ogImageAlt": "Time2Gather - Planifier avec plusieurs personnes",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - Planifiez des réunions en 5 secondes",
+        "description": "Vous avez du mal à coordonner les horaires de plusieurs personnes ? Utilisez Time2Gather pour collecter facilement des votes et trouver le meilleur moment pour tout le monde."
+      },
+      "create": {
+        "title": "Créer une réunion - Time2Gather",
+        "description": "Créez une nouvelle réunion et partagez-la avec vos amis. Décidez facilement des dates, des heures et des lieux en votant."
+      },
+      "login": {
+        "title": "Connexion - Time2Gather",
+        "description": "Connectez-vous avec Kakao ou Google pour commencer la planification."
+      },
+      "my": {
+        "title": "Mes réunions - Time2Gather",
+        "description": "Visualisez toutes vos réunions créées et auxquelles vous avez participé en un coup d’œil. La gestion des réunions simplifiée."
+      },
+      "meeting": {
+        "title": "{title} - Time2Gather",
+        "description": "Rejoignez la réunion {title}. Sélectionnez vos horaires disponibles et votez."
+      },
+      "result": {
+        "title": "Résultats {title} - Time2Gather",
+        "description": "Rejoignez {title} et choisissez les horaires qui vous conviennent.",
+        "confirmedTitle": "{title} confirmé - Time2Gather",
+        "confirmedDescription": "Forfait confirmé : {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "Assistant de planification",
+    "open": "Ouvrir le chat",
+    "close": "Fermer le chat",
+    "welcomeMessage": "Bonjour ! Demandez-moi votre emploi du temps.",
+    "welcomeHint": "par ex. \"Afficher mes réunions\", \"Qu'est-ce qu'il y a la semaine prochaine ?\"",
+    "inputPlaceholder": "Tapez un message...",
+    "errorMessage": "Désolé, une erreur s'est produite. Veuillez réessayer plus tard."
+  },
+  "locationVote": {
+    "title": "Vote par emplacement",
+    "description": "Sélectionnez votre ou vos emplacements préférés",
+    "scheduleStepLabel": "1 / 2 · Disponibilité",
+    "locationStepLabel": "2 / 2 · Localisation",
+    "selectionTitle": "Où devrions-nous nous rencontrer ?",
+    "selectionDescription": "Choisissez tous les emplacements qui vous conviennent.",
+    "confirmedLocation": "Emplacement confirmé",
+    "confirmed": "Confirmé",
+    "loadError": "Impossible de charger vos choix de localisation.",
+    "retry": "Réessayez",
+    "voters": "Personnes ayant voté pour ce lieu",
+    "noVotes": "Aucun vote pour le moment"
+  },
+  "timezone": {
+    "title": "Fuseau horaire",
+    "meeting": "Fuseau horaire de la réunion : {zone}",
+    "display": "Votre fuseau horaire d'affichage",
+    "hint": "Les dates et heures sont saisies dans le fuseau horaire de la réunion. Tout le monde vote aux mêmes moments.",
+    "gridHint": "Les dates des colonnes et l’axe temporel utilisent le fuseau horaire de la réunion. Chaque cellule affiche également la date et l'heure dans le fuseau horaire sélectionné.",
+    "local": "Dans {zone} : {time}",
+    "invalid": "Choisissez un fuseau horaire valide.",
+    "gap": "Ce temps n’existe pas car les horloges avancent. Choisissez une autre heure.",
+    "overlap": "Ce temps apparaît deux fois lorsque les horloges reculent. Choisissez une heure sans ambiguïté.",
+    "allDay": "Les votes par date uniquement conservent la même date calendaire dans chaque fuseau horaire.",
+    "useDevice": "Utiliser le fuseau horaire de l'appareil",
+    "search": "Rechercher des fuseaux horaires",
+    "noResults": "Aucun fuseau horaire trouvé. Essayez une autre ville ou région."
+  },
+  "errors": {
+    "error.internal": "Une erreur de serveur interne s'est produite",
+    "error.validation.failed": "La validation de l'entrée a échoué",
+    "error.request.invalid": "La demande n'est pas valide. {0}",
+    "error.state.invalid": "Cette demande ne peut pas être exécutée dans l'état actuel",
+    "error.resource.not.found": "La ressource demandée est introuvable",
+    "error.null.pointer": "Les données requises sont manquantes. Veuillez vérifier votre demande.",
+    "error.number.format": "Le format numérique n'est pas valide. Veuillez vérifier votre saisie.",
+    "error.auth.required": "L'authentification est requise",
+    "error.auth.required.login": "L'authentification est requise. Veuillez vous connecter et réessayer.",
+    "error.auth.access.denied": "Accès refusé",
+    "error.auth.not.authenticated": "L'utilisateur n'est pas authentifié",
+    "error.user.not.found": "Utilisateur introuvable",
+    "error.user.not.found.email": "Utilisateur introuvable avec l'e-mail : {0}",
+    "error.user.id.required": "L'ID utilisateur est requis",
+    "error.oauth.invalid.code": "Le code d'autorisation est invalide ou a expiré. Veuillez vous authentifier à nouveau. Erreur : {0}",
+    "error.oauth.api.failed": "Échec de la communication avec l'API OAuth : {0}",
+    "error.oauth.no.id.token": "Échec de l'obtention du jeton d'identification du fournisseur OAuth",
+    "error.oauth.no.user.info": "Échec de l'obtention des informations utilisateur auprès du fournisseur OAuth",
+    "error.meeting.not.found": "Réunion introuvable",
+    "error.meeting.not.found.code": "Réunion introuvable : {0}",
+    "error.meeting.id.required": "L'identifiant de la réunion est requis",
+    "error.meeting.already.confirmed": "La rencontre est déjà confirmée. Veuillez d'abord annuler la confirmation.",
+    "error.meeting.not.confirmed": "La réunion n'est pas confirmée",
+    "error.meeting.invalid.date": "Date invalide : {0}",
+    "error.meeting.date.not.available": "Cette date n'est pas disponible dans la réunion : {0}",
+    "error.meeting.no.interval.info": "Les informations sur l'intervalle de réunion sont manquantes",
+    "error.meeting.host.only": "Seul l'hôte peut effectuer cette action",
+    "error.meeting.no.participants": "Impossible de créer un calendrier car aucun participant n'a encore voté",
+    "error.meeting.date.format.invalid": "Le format de date n'est pas valide. Veuillez utiliser le format aaaa-MM-jj.",
+    "error.meeting.validation.date.required": "Au moins une date doit être sélectionnée",
+    "error.meeting.validation.date.slot.required": "Au moins un créneau horaire doit être sélectionné pour chaque date",
+    "error.meeting.validation.time.required": "Au moins une date et un créneau horaire doivent être sélectionnés",
+    "error.meeting.validation.all.day.empty.slots": "Pour le type ALL_DAY, les plages horaires doivent être un tableau vide",
+    "error.meeting.validation.slot.index.required": "slotIndex est requis pour les réunions de type TIME",
+    "error.meeting.validation.slot.index.invalid": "Index d'emplacement non valide : {0}",
+    "error.meeting.validation.date.slot.together": "date et slotIndex doivent être spécifiés ensemble",
+    "error.location.not.found": "Emplacement introuvable",
+    "error.location.not.belong.to.meeting": "Le lieu n'appartient pas à cette réunion",
+    "error.location.vote.not.enabled": "Le vote par emplacement n'est pas activé pour cette réunion",
+    "error.location.already.confirmed": "L'emplacement est déjà confirmé. Veuillez d'abord annuler la confirmation de localisation.",
+    "error.location.not.confirmed": "L'emplacement n'est pas confirmé",
+    "error.location.id.required": "L'identifiant de localisation est requis",
+    "error.location.name.required": "Le nom de l'emplacement est requis",
+    "error.location.name.too.long": "Le nom de l'emplacement ne peut pas dépasser 200 caractères",
+    "error.location.max.exceeded": "Un maximum d'emplacements {0} peuvent être ajoutés",
+    "error.location.min.required": "Au moins un ou plusieurs emplacements {0} sont requis",
+    "error.location.min.for.vote": "Au moins des emplacements {0} sont requis pour activer le vote par emplacement",
+    "error.location.cannot.disable": "Impossible de désactiver le vote de localisation lorsque la localisation est confirmée",
+    "error.location.not.exist": "L'emplacement n'existe pas : {0}",
+    "error.selection.empty": "Les données de sélection sont vides",
+    "error.selection.date.required": "La date est requise",
+    "error.selection.type.required": "Le type est requis",
+    "error.selection.type.unknown": "Type inconnu : {0} (uniquement TIME ou ALL_DAY autorisé)",
+    "error.selection.time.required": "La date '{0}' est de type TIME mais aucune heure n'a été spécifiée",
+    "error.selection.time.empty": "La valeur temporelle est vide",
+    "error.selection.time.format.invalid": "Le format de l'heure n'est pas valide pour la date « {0} ». {1}",
+    "error.selection.date.not.available": "Date {0} n'est pas disponible pour cette réunion",
+    "error.selection.slot.null": "Le tableau d'emplacements ne peut pas être nul. Utilisez une carte vide pour exclure les dates.",
+    "error.selection.slot.not.available": "L'emplacement {0} n'est pas disponible sur {1}",
+    "error.selection.slot.empty.for.time": "Les tableaux vides ne sont pas autorisés pour les réunions de type TIME. Utilisez une carte vide pour exclure les dates.",
+    "error.timeslot.invalid.format": "Format d'heure invalide. HH attendu : mm",
+    "error.timeslot.invalid.hour": "L'heure doit être comprise entre 0 et 23",
+    "error.timeslot.invalid.minute": "La minute doit être comprise entre 0 et 59",
+    "error.timeslot.not.aligned": "L'heure doit être alignée sur les intervalles de minutes {0}",
+    "error.timeslot.index.out.of.range": "L'index d'emplacement doit être compris entre {1} et {2} pour les intervalles de minutes {0}, mais a obtenu : {3}",
+    "error.timeslot.interval.positive": "Les minutes d'intervalle doivent être positives",
+    "error.timeslot.interval.divisor": "Les minutes d'intervalle doivent être un diviseur de {0}",
+    "error.calendar.export.failed": "Échec de la création du fichier de calendrier",
+    "error.ai.api.failed": "Échec de l'appel de l'API IA",
+    "error.ai.provider.unknown": "Fournisseur d'IA inconnu : {0}",
+    "mcp.meeting.created": "Réunion créée avec succès",
+    "mcp.vote.time.saved": "Vote de disponibilité enregistré avec succès",
+    "mcp.vote.location.saved": "Le vote de localisation a été enregistré avec succès",
+    "mcp.meeting.confirmed": "Calendrier des réunions confirmé avec succès",
+    "mcp.location.confirmed": "Lieu de réunion confirmé avec succès",
+    "mcp.ics.created": "Fichier ICS créé avec succès",
+    "validation.meeting.title.required": "Le titre est requis",
+    "validation.meeting.dates.required": "Les dates/heures disponibles sont obligatoires",
+    "validation.meeting.location.max": "Un maximum de 5 emplacements peuvent être ajoutés",
+    "validation.selection.required": "Les plages horaires sélectionnées sont obligatoires",
+    "validation.date.required": "La date est requise",
+    "validation.date.format": "Le format de date doit être aaaa-MM-jj",
+    "validation.time.required": "Il faut du temps",
+    "validation.time.format": "Le format de l'heure doit être HH : mm",
+    "validation.location.id.required": "L'identifiant de localisation est requis",
+    "validation.location.ids.required": "La liste d'identification de l'emplacement est requise",
+    "validation.location.name.required": "Le nom de l'emplacement est requis",
+    "validation.location.max": "Un maximum de 5 emplacements peuvent être ajoutés",
+    "validation.auth.code.required": "Un code d'autorisation est requis",
+    "validation.username.required": "Le nom d'utilisateur est requis",
+    "validation.password.required": "Le mot de passe est requis",
+    "validation.selection.date.min.max": "Veuillez sélectionner entre 1 et 31 dates",
+    "validation.type.required": "Le type est requis",
+    "validation.slot.index.required": "Index de slot à confirmer (obligatoire pour le type TIME, null autorisé pour le type ALL_DAY)",
+    "error.meeting.timezone.invalid": "Choisissez un fuseau horaire IANA valide.",
+    "error.meeting.time.nonexistent": "Ce temps n’existe pas car les horloges avancent. Choisissez une autre heure.",
+    "error.meeting.time.ambiguous": "Ce temps apparaît deux fois lorsque les horloges reculent. Choisissez une heure sans ambiguïté.",
+    "error.comment.rate.limit": "Attendez quelques secondes avant de publier à nouveau.",
+    "error.selection.candidates.changed": "Les dates proposées ont changé. Actualisez la page et répondez à nouveau."
+  },
+  "comments": {
+    "title": "Commentaires",
+    "placeholder": "Discutez de cette rencontre",
+    "reply": "Répondre",
+    "replyTo": "Réponse à {name}",
+    "replies": "Réponses ({count})",
+    "collapse": "Masquer les réponses",
+    "post": "Publier",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "hide": "Masquer",
+    "hidden": "Commentaire masqué par la personne organisatrice.",
+    "deleted": "Ce commentaire a été supprimé.",
+    "edited": "Modifié",
+    "host": "Organisateur",
+    "mention": "Tapez @ pour mentionner une personne",
+    "noPeople": "Aucun participant correspondant",
+    "session": "Saisissez le nom à afficher sur vos commentaires.",
+    "failed": "La demande a échoué. Votre texte est conservé ; réessayez.",
+    "rateLimit": "Attendez quelques secondes avant de publier à nouveau.",
+    "new": "Voir les nouveaux commentaires ({count})",
+    "mentioned": "Nouveau commentaire qui vous est adressé",
+    "moreReplies": "Plus de réponses",
+    "more": "Commentaires précédents",
+    "copy": "Copier le lien du commentaire",
+    "copied": "Lien copié.",
+    "actions": "Actions du commentaire",
+    "newReply": "Nouveau",
+    "removeConfirm": "Supprimer ce texte ? Les réponses existantes seront conservées.",
+    "retry": "Réessayez",
+    "reactions": {
+      "add": "Ajouter une réaction",
+      "view": "Voir qui a réagi",
+      "title": "Réactions",
+      "react": "Réagir",
+      "remove": "Retirer la réaction",
+      "empty": "Aucune réaction pour le moment.",
+      "you": "Vous",
+      "session": "Saisissez le nom à afficher avec vos réactions.",
+      "failed": "Impossible de modifier la réaction. Réessayez.",
+      "like": "D’accord",
+      "love": "J’adore",
+      "laugh": "Drôle",
+      "celebrate": "Célébration",
+      "thanks": "Merci",
+      "think": "Réflexion",
+      "eyes": "Je suis ça",
+      "hundred": "Parfait"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "Organiser une rencontre, c’est simple",
+    "title": "Des emplois du temps. Un rendez-vous commun.",
+    "description": "Partagez un lien, choisissez vos disponibilités et trouvez un moment pour vous retrouver.",
+    "steps": {
+      "share": {
+        "title": "Partagez un lien",
+        "description": "Les invités participent sans se connecter"
+      },
+      "select": {
+        "title": "Choisissez vos disponibilités",
+        "description": "Rassemblez les disponibilités de chacun"
+      },
+      "decide": {
+        "title": "Trouvez les créneaux communs",
+        "description": "Confirmez le créneau le plus adapté"
+      }
+    },
+    "sample": "Exemple d’utilisation",
+    "meetingTitle": "On se voit cette semaine",
+    "responses": "{count} participants",
+    "hint": "Modifiez vos disponibilités : le résultat se met à jour.",
+    "filtersLabel": "Disponibilités par participant",
+    "allResults": "Tous les résultats",
+    "personAvailability": "Disponibilités de {name}",
+    "tableLabel": "Participants disponibles par créneau",
+    "timeLabel": "Heure",
+    "legendTitle": "Personnes disponibles",
+    "legendMax": "Plus",
+    "resultTitle": "Des créneaux pour les {count} participants !",
+    "resultHint": "Sélectionnez Tous les résultats pour voir les créneaux communs.",
+    "available": "Disponible",
+    "unavailable": "Indisponible",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "Vos disponibilités",
+    "hourly": "Créneaux d’une heure",
+    "me": "Vous",
+    "legend": "Disponibles / total",
+    "create": "Créez votre rencontre",
+    "compactTime": "Samedi, 19 h",
+    "compactResult": "Tout le monde est disponible"
+  }
+}

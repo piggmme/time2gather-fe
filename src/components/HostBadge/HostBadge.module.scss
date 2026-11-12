@@ -1,0 +1,16 @@
+@use '../../styles/variables.scss' as *;
+
+.hostBadge {
+  gap: $spacing-xs;
+  max-width: 100%;
+  padding: 3px 8px;
+  background: $primary-color-soft;
+  color: $primary-color-hover;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  white-space: normal;
+  vertical-align: middle;
+
+  > svg { width: 12px; height: 12px; flex-shrink: 0; }
+  > span { min-width: 0; overflow-wrap: anywhere; }
+}

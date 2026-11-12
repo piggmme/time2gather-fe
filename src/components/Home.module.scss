@@ -38,7 +38,7 @@
   margin: 0;
   line-height: 1.25;
   letter-spacing: -0.035em;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
   overflow-wrap: normal;
   text-wrap: balance;
   
@@ -54,7 +54,7 @@
   color: $c-gray-darkest;
   line-height: 1.7;
   margin: 0;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
   overflow-wrap: normal;
   text-wrap: balance;
 }

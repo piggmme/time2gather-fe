@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "ก่อนหน้า",
+    "cancel": "ยกเลิก",
+    "next": "ถัดไป",
+    "home": "บ้าน",
+    "createMeeting": "สร้างการประชุม",
+    "searchMeeting": "ค้นหาการประชุม",
+    "searchMeetingPlaceholder": "รหัสการประชุม",
+    "searchMeetingButton": "ค้นหาการประชุม",
+    "myMeetings": "การประชุมของฉัน",
+    "adminDashboard": "แดชบอร์ดผู้ดูแลระบบ",
+    "contactUs": "ติดต่อเรา",
+    "menu": "เมนู",
+    "openMenu": "เปิดเมนู",
+    "submit": "ส่ง",
+    "share": "แบ่งปัน",
+    "close": "ปิด",
+    "loading": "กำลังโหลด...",
+    "error": "เกิดข้อผิดพลาด โปรดลองอีกครั้ง",
+    "switchToEnglish": "เปลี่ยนเป็นภาษาอังกฤษ",
+    "switchToKorean": "เปลี่ยนไปใช้ภาษาเกาหลี",
+    "language": "ภาษา",
+    "searchLanguages": "เลือกภาษาของคุณ"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "ยินดีต้อนรับ! 😢",
+    "description": "ใช้เวลาเพียง 5 วินาทีในการวางแผนตอนนี้ แบ่งปันช่วงเวลาของคุณ รับคะแนนโหวต และดูเวลาที่ดีที่สุดสำหรับทุกคนทันที!",
+    "createMeetingButton": "สร้างการประชุม",
+    "heroTitleSuffix": " - กำหนดเวลาได้อย่างง่ายดาย",
+    "heroSubtitle": "บอกลากำหนดการที่ซับซ้อน ค้นหาเวลาที่เหมาะที่สุดกับเพื่อนของคุณ",
+    "viewMyMeetings": "ดูการประชุมของฉัน"
+  },
+  "landing": {
+    "eyebrow": "ประสานกำหนดการของทุกคนไว้ในที่เดียว",
+    "title": "ทำให้การจัดกำหนดการประชุมง่ายขึ้น",
+    "description": "Time2Gather เป็นบริการจัดตารางเวลาฟรีสำหรับการลงคะแนนวันที่ เวลา และสถานที่เพื่อค้นหาเวลาประชุมที่เหมาะกับทุกคน",
+    "primaryCta": "สร้างการประชุม",
+    "secondaryCta": "ค้นหาด้วยรหัส",
+    "featuresHeading": "ทุกสิ่งที่คุณต้องการเพื่อประสานงานการประชุม",
+    "features": {
+      "dates": {
+        "title": "เปรียบเทียบหลายวัน",
+        "description": "เลือกวันที่ของผู้สมัครและแบ่งปันกับผู้เข้าร่วมของคุณทันที"
+      },
+      "times": {
+        "title": "โหวตตามเวลาที่มี",
+        "description": "รวบรวมรายละเอียดความพร้อมเพื่อค้นหาเวลาที่เหมาะกับคนส่วนใหญ่"
+      },
+      "locations": {
+        "title": "ตัดสินใจเลือกสถานที่ด้วย",
+        "description": "เพิ่มตัวเลือกสถานที่เมื่อกลุ่มของคุณต้องการเลือกสถานที่ประชุม"
+      },
+      "sharing": {
+        "title": "เข้าร่วมจากลิงก์เดียว",
+        "description": "แชร์ลิงก์เพื่อให้ผู้เข้าร่วมโหวตได้ทันทีโดยใช้เพียงชื่อเล่น"
+      }
+    },
+    "stepsHeading": "จัดทำแผนในสามขั้นตอน",
+    "steps": {
+      "create": {
+        "title": "1. สร้างตัวเลือก",
+        "description": "ตั้งชื่อการประชุมและวันที่หรือเวลาเพื่อเปรียบเทียบ"
+      },
+      "share": {
+        "title": "2. แชร์ลิงก์",
+        "description": "ส่งลิงก์ให้เพื่อน เพื่อนร่วมทีม หรือกลุ่มของคุณ"
+      },
+      "decide": {
+        "title": "3. ยืนยันผลลัพธ์",
+        "description": "ตรวจสอบการโหวตและเลือกเวลาที่ดีที่สุดสำหรับทุกคน"
+      }
+    },
+    "faqHeading": "คำถามที่พบบ่อย",
+    "faq": {
+      "what": {
+        "question": "จะหาเวลานัดเพื่อนหรือประชุมทีมที่ตรงกันได้อย่างไร?",
+        "answer": "สร้างตัวเลือกวันและเวลาใน Time2Gather แล้วแชร์ลิงก์ ทุกคนเลือกเวลาที่สะดวก จากนั้นเปรียบเทียบผลและยืนยันนัดหมายได้ ใช้ฟรีสำหรับกลุ่มเพื่อน กลุ่มเรียน และทีมงาน"
+      },
+      "login": {
+        "question": "สร้างและร่วมโหวตได้โดยไม่สมัครสมาชิกหรือติดตั้งแอปไหม?",
+        "answer": "ได้ ผู้จัดและผู้เข้าร่วมเพียงกรอกชื่อ ไม่ต้องสมัครสมาชิกหรือเข้าสู่ระบบด้วยบัญชีโซเชียล สร้างนัดหมายและโหวตผ่านเบราว์เซอร์บนมือถือหรือคอมพิวเตอร์ได้"
+      },
+      "location": {
+        "question": "โหวตสถานที่นัดพบด้วยได้ไหม?",
+        "answer": "ได้ เปิดโหวตสถานที่ตอนสร้างนัดหมายแล้วเพิ่มตัวเลือก ผู้เข้าร่วมโหวตสถานที่ที่ชอบและพูดคุยเรื่องนัดหมายในความคิดเห็นได้"
+      }
+    }
+  },
+  "login": {
+    "title": "พร้อมกำหนดเวลาหรือยัง?",
+    "description": "ลงชื่อเข้าใช้เพื่อสร้างและจัดการการประชุมของคุณ",
+    "kakaoLogin": "ต่อด้วยคาเคา",
+    "googleLogin": "ดำเนินการต่อด้วย Google",
+    "oauth": {
+      "loadingTitle": "กำลังลงชื่อเข้าใช้ให้คุณ",
+      "loadingDescription": "คุณจะกลับสู่หน้าจอก่อนหน้าในอีกสักครู่",
+      "errorTitle": "เราไม่สามารถลงชื่อเข้าใช้ให้คุณ",
+      "errorDescription": "กลับไปที่หน้าลงชื่อเข้าใช้แล้วลองอีกครั้ง",
+      "retry": "ลองลงชื่อเข้าใช้อีกครั้ง"
+    }
+  },
+  "search": {
+    "title": "ค้นหาการประชุม",
+    "description": "ป้อนรหัสการประชุมที่คุณได้รับ"
+  },
+  "createMeeting": {
+    "title": "สร้างการประชุม",
+    "meetingTypeStep": {
+      "heading": "ผู้เข้าร่วมควรเลือกอะไร?",
+      "allDay": "วันที่เท่านั้น",
+      "time": "วันที่และเวลา"
+    },
+    "titleStep": {
+      "heading": "ตั้งชื่อการประชุมของคุณ",
+      "placeholder": "เช่น อาหารเย็นวันศุกร์"
+    },
+    "descriptionStep": {
+      "heading": "นี่มันประชุมอะไรกันวะ?",
+      "placeholder": "เจอกันที่กังนัมนะทุกคน!"
+    },
+    "datesStep": {
+      "heading": "เลือกวันที่ที่สะดวก"
+    },
+    "timeRangeStep": {
+      "heading": "กำหนดช่วงเวลาที่มีอยู่",
+      "startTime": "เวลาเริ่มต้น",
+      "endTime": "เวลาสิ้นสุด",
+      "selectedDatesCount": "วันที่เลือก: {count}",
+      "createButton": "สร้างการประชุม"
+    },
+    "locationStep": {
+      "heading": "สร้างการประชุมของคุณให้เสร็จสิ้น",
+      "requiredLabel": "จำเป็น",
+      "creatorHeading": "ใครเป็นคนสร้างการประชุมนี้",
+      "creatorDescription": "ชื่อเล่นของคุณจะแสดงเป็นเจ้าภาพการประชุม",
+      "usernameLabel": "ชื่อเล่นของคุณ",
+      "usernamePlaceholder": "เช่น เจมี่",
+      "usernameChangeHelp": "การเปลี่ยนชื่อของคุณจะทำให้การประชุมและการลงคะแนนเสียงที่มีอยู่ของคุณอยู่ และอัปเดตเฉพาะชื่อที่แสดงของคุณเท่านั้น",
+      "optionalLabel": "ไม่จำเป็น",
+      "locationHeading": "คุณต้องการโหวตสถานที่หรือไม่?",
+      "locationDescription": "เปิดตัวเลือกนี้หากคุณต้องการให้ผู้เข้าร่วมเลือกสถานที่ด้วยกัน",
+      "enableLocationVote": "ให้ผู้เข้าร่วมลงคะแนนในสถานที่",
+      "locationPlaceholder": "ป้อนสถานที่",
+      "addLocation": "เพิ่มสถานที่",
+      "removeLocation": "ลบตำแหน่ง",
+      "minLocationsWarning": "ต้องมีสถานที่อย่างน้อย 2 แห่งสำหรับการลงคะแนนสถานที่",
+      "maxLocationsWarning": "คุณสามารถเพิ่มสถานที่ได้สูงสุด 5 แห่งเท่านั้น",
+      "createButton": "สร้างการประชุม",
+      "creatingButton": "กำลังสร้างการประชุม...",
+      "skipButton": "ข้าม"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "ไม่พบการประชุม",
+      "description": "การประชุมที่คุณร้องขอไม่มีอยู่หรือถูกลบไปแล้ว"
+    },
+    "participantsEmpty": "ยังไม่มีผู้เข้าร่วม",
+    "participantsCount": "ผู้เข้าร่วม: {count}",
+    "participantsCountCompact": "{count} เข้าร่วม",
+    "selectedDates": "เลือกวันที่ที่เหมาะกับคุณจากตัวเลือก {count}",
+    "selectedDatesAndTimes": "เลือกวันที่และเวลาที่เหมาะกับคุณจากตัวเลือกวันที่ {count}",
+    "timeGrid": {
+      "timeLabel": "เวลา",
+      "touchHint": "กดค้างไว้แล้วลากเพื่อเลือกหลายครั้ง",
+      "pointerHint": "ลากเพื่อเลือกหลายครั้ง",
+      "draggingHint": "การลาก · ปล่อยเพื่อใช้การเลือกของคุณ",
+      "selectDate": "เลือกเวลาทั้งหมดใน {date}",
+      "previousDates": "วันที่ก่อนหน้า",
+      "nextDates": "วันที่ถัดไป"
+    },
+    "dateCalendar": {
+      "mySelection": "ตัวเลือกของฉัน",
+      "fewerVotes": "โหวตน้อย",
+      "moreVotes": "โหวตมาก",
+      "available": "มีจำหน่าย",
+      "unavailable": "ไม่พร้อมใช้งาน",
+      "today": "วันนี้",
+      "availableMonths": "เดือนที่มีวันที่ว่าง",
+      "monthAvailability": "วันที่วางจำหน่าย {count} ใน {month}",
+      "previousMonth": "เดือนที่แล้ว",
+      "nextMonth": "เดือนหน้า"
+    },
+    "dateParticipants": {
+      "title": "มีอยู่ใน {date}",
+      "count": {
+        "one": "คน {count}",
+        "other": "{count} คน"
+      }
+    },
+    "resultSaved": "บันทึกผลลัพธ์แล้ว",
+    "modifyButton": "แก้ไขความพร้อม",
+    "participate": "เข้าร่วมการประชุม",
+    "shareResult": "แบ่งปันผลลัพธ์",
+    "shareMeeting": "แบ่งปันการประชุม",
+    "shareSuccess": "คัดลอกลิงก์แล้ว",
+    "exportToCalendar": "เพิ่มลงในปฏิทินของฉัน",
+    "confirmButton": "ยืนยันการประชุม",
+    "confirmButtonShort": "ยืนยันการประชุม",
+    "cancelConfirmButton": "ยกเลิกการยืนยัน",
+    "cancelConfirmSuccess": "การยืนยันการประชุมถูกยกเลิก!",
+    "cancelConfirmError": "ไม่สามารถยกเลิกการยืนยันได้ โปรดลองอีกครั้ง",
+    "alreadyConfirmedError": "การประชุมครั้งนี้ได้รับการยืนยันแล้ว คุณไม่สามารถแก้ไขการลงคะแนนของคุณได้",
+    "editDates": {
+      "openButton": "แก้ไขตัวเลือกโหวต",
+      "hostOnly": "โฮสต์เท่านั้น",
+      "title": "แก้ไขตัวเลือกโหวต",
+      "description": "เปลี่ยนตัวเลือกที่ผู้เข้าร่วมทุกคนสามารถโหวตได้",
+      "selectedCount": "เลือกวันที่ {count} แล้ว",
+      "selectionHint": "แตะหรือลากเพื่อเลือกวันที่",
+      "removedWarning": "การโหวตในวันที่ลบ {count} จะถูกลบเมื่อคุณบันทึก",
+      "maxDates": "คุณสามารถเลือกวันที่ได้สูงสุด {count}",
+      "save": "บันทึกตัวเลือก",
+      "success": "อัปเดตตัวเลือกโหวตแล้ว",
+      "error": "อัปเดตตัวเลือกโหวตไม่ได้ โปรดลองอีกครั้ง",
+      "timeOpenButton": "แก้ไขตัวเลือกโหวต",
+      "timeTitle": "แก้ไขตัวเลือกโหวต",
+      "timeDescription": "เปลี่ยนตัวเลือกที่ผู้เข้าร่วมทุกคนสามารถโหวตได้",
+      "timeSave": "บันทึกตัวเลือก",
+      "timeSuccess": "อัปเดตตัวเลือกโหวตแล้ว",
+      "timeError": "อัปเดตตัวเลือกโหวตไม่ได้ โปรดลองอีกครั้ง",
+      "timeRangeHint": "เมื่อเปลี่ยนช่วงเวลา จะนำไปใช้กับวันที่ที่เลือกทั้งหมด",
+      "timeRemovedWarning": "เมื่อบันทึก จะลบคะแนนโหวตของตัวเลือกเวลาที่นำออก {count} รายการ โดยเก็บคะแนนโหวตอื่นไว้",
+      "locationRemovedWarning": "เมื่อบันทึก ระบบจะลบคะแนนของตัวเลือกสถานที่ที่เปลี่ยนหรือลบ {count} รายการ โดยคงคะแนนอื่นไว้"
+    },
+    "exportDialog": {
+      "title": "เพิ่มลงในปฏิทิน",
+      "description": "เลือกวันที่และเวลาเพื่อเพิ่มลงในปฏิทินของคุณ",
+      "noSlots": "ยังไม่มีการลงคะแนนวันที่",
+      "allDay": "ทั้งวัน",
+      "cancel": "ยกเลิก",
+      "confirm": "เพิ่มลงในปฏิทิน",
+      "close": "ปิด"
+    },
+    "confirmDialog": {
+      "title": "ยืนยันการประชุม",
+      "description": "เลือกตารางสุดท้ายจากตัวเลือกอันดับต้นๆ ของ {count}",
+      "noSlots": "ยังไม่มีการลงคะแนนวันที่",
+      "allDay": "ทั้งวัน",
+      "scheduleTitle": "วันที่และเวลา",
+      "scheduleDescription": "ตัวเลือกเหล่านี้ใช้ได้กับผู้เข้าร่วมส่วนใหญ่",
+      "locationTitle": "ที่ตั้ง",
+      "locationDescription": "เลือกสถานที่ที่จะประชุมโดยใช้ผลการลงคะแนน",
+      "locationStepDescription": "เลือกสถานที่นัดพบเพื่อยืนยันแผนให้เสร็จสิ้น",
+      "progressLabel": "ขั้นตอนการยืนยันการประชุม",
+      "locationVoteCount": {
+        "one": "{count} โหวตครับ",
+        "other": "โหวต {count}"
+      },
+      "noLocations": "ไม่มีสถานที่ที่สามารถยืนยันได้",
+      "cancel": "ยกเลิก",
+      "confirm": "ยืนยัน",
+      "confirming": "กำลังยืนยัน...",
+      "close": "ปิด",
+      "success": "การประชุมได้รับการยืนยันแล้ว!",
+      "error": "ไม่สามารถยืนยันการประชุมได้ โปรดลองอีกครั้ง",
+      "allCandidatesDescription": "เลือกวันเวลาสุดท้ายจากตัวเลือกทั้งหมด {count} รายการ",
+      "groupedDescription": "เลือกหนึ่งวันจาก {count} วันที่เสนอ แล้วเลือกเวลาเริ่ม",
+      "recommendationsDescription": "ตัวเลือกที่มีผู้เข้าร่วมว่างมาก วันละหนึ่งตัวเลือก",
+      "allDates": "เลือกจากวันที่ทั้งหมด {count} วัน",
+      "backToRecommendations": "ดูตัวเลือกที่แนะนำ"
+    },
+    "anonymousSelectButton": "เข้าร่วมด้วยชื่อ",
+    "selectButton": "เลือกวันที่",
+    "selectTimeButton": "เลือกวันที่และเวลา",
+    "result": {
+      "tabs": {
+        "aiSummary": "สรุป",
+        "summary": "สรุป",
+        "confirmed": "แผนได้รับการยืนยัน",
+        "calendar": "ปฏิทิน",
+        "participants": "ผู้เข้าร่วม",
+        "location": "ที่ตั้ง"
+      },
+      "summaryTitle": "สรุปการประชุม",
+      "aiSummaryTitle": "สรุปผลการลงคะแนนเสียง",
+      "calendarTitle": "ปฏิทินการประชุม",
+      "totalParticipants": "ผู้เข้าร่วม: {count}",
+      "bestSlotsTitle": "วันที่ที่คนว่างตรงกันมากที่สุด",
+      "showMoreOptions": "แสดง {count} เพิ่มเติม",
+      "showFewerOptions": "แสดงน้อยลง",
+      "moreTimeOptions": "{count} ตัวเลือกเวลามากขึ้น",
+      "participantsCount": "ผู้เข้าร่วม: {count}",
+      "people": "คน",
+      "voteCount": {
+        "one": "คน {count} ({percentage})",
+        "other": "คน {count} ({percentage})"
+      },
+      "noParticipants": "ไม่มีผู้เข้าร่วม",
+      "buttons": {
+        "calendar": "เพิ่มลงในปฏิทิน",
+        "share": "แชร์โพล",
+        "shareConfirmed": "แบ่งปันแผนยืนยัน",
+        "shareKakao": "คาเคาทอล์ค",
+        "modifyDates": "แก้ไขการเลือกวันที่ของฉัน",
+        "modifyTimes": "แก้ไขการเลือกวันที่และเวลาของฉัน",
+        "selectDates": "เลือกวันที่ว่างของฉัน",
+        "selectTimes": "เลือกวันที่และเวลาว่างของฉัน",
+        "enterAvailability": "เพิ่มความพร้อม",
+        "editAvailability": "แก้ไขโหวตของฉัน"
+      },
+      "confirmedPlan": {
+        "eyebrow": "ยืนยันแผนแล้ว",
+        "title": "แผนของคุณพร้อมแล้ว",
+        "date": "วันที่",
+        "time": "เวลา",
+        "location": "ที่ตั้ง",
+        "attendees": "มีผู้เข้าร่วม",
+        "attendanceSummary": {
+          "one": "คน {count} · {percentage} ของกลุ่ม",
+          "other": "คน {count} · {percentage} ของกลุ่ม"
+        },
+        "confirmTime": "ยืนยันเวลา",
+        "confirmTimeTitle": "ยืนยันเวลานัดหมาย",
+        "confirmTimeDescription": "เลือกเวลานัดหมายในวันที่ยืนยันแล้ว",
+        "timeConfirmSuccess": "ยืนยันเวลานัดหมายแล้ว",
+        "timeConfirmError": "ไม่สามารถยืนยันเวลานัดหมายได้ โปรดลองอีกครั้ง",
+        "timePending": "ยังไม่กำหนด",
+        "editTime": "แก้ไข",
+        "editTimeTitle": "แก้ไขเวลาประชุม",
+        "editTimeDescription": "เก็บวันที่ที่ยืนยันไว้และกำหนดเวลาที่แน่นอนที่คุณวางแผนจะพบกัน",
+        "saveTime": "บันทึก",
+        "savingTime": "กำลังบันทึก...",
+        "timeUpdateSuccess": "อัปเดตเวลาการประชุมแล้ว",
+        "timeUpdateError": "ไม่สามารถอัปเดตเวลาการประชุมได้ โปรดลองอีกครั้ง",
+        "addTime": "เพิ่มเวลา (ไม่บังคับ)",
+        "addTimeTitle": "เพิ่มเวลา",
+        "optionalTimeDescription": "เพิ่มเวลาเฉพาะเมื่อจำเป็น",
+        "attendanceCount": "ว่าง {count} จาก {total} คน",
+        "cancelTitle": "ยกเลิกการยืนยันหรือไม่?",
+        "cancelDescription": "กำหนดการที่ยืนยันจะถูกยกเลิก โดยยังเก็บคำตอบของผู้เข้าร่วมไว้",
+        "keepConfirmation": "คงการยืนยัน"
+      },
+      "actions": {
+        "confirmed": "แผนได้รับการยืนยัน",
+        "confirmedDescription": "แบ่งปันรายละเอียดหรือเพิ่มลงในปฏิทินของคุณ",
+        "inProgress": "อยู่ระหว่างการวางแผน",
+        "manage": "จัดการโพล"
+      },
+      "share": {
+        "confirmedTitle": "{title} ได้รับการยืนยันแล้ว",
+        "confirmedHeading": "ยืนยันแผนแล้ว!",
+        "detailsCopied": "คัดลอกรายละเอียดและลิงก์ที่ยืนยันแล้ว",
+        "manualCopyDescription": "ไม่สามารถแชร์หรือคัดลอกอัตโนมัติได้ โปรดเลือกและคัดลอกข้อความด้านล่าง"
+      },
+      "kakaoShare": {
+        "description": "เลือกเวลาที่เหมาะกับคุณ",
+        "buttonTitle": "ร่วมโหวตด้วย",
+        "confirmedTitle": "{date} · ยืนยันแล้ว",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "ดูแผนที่ยืนยันแล้ว",
+        "locationPending": "ที่อยู่ที่รอดำเนินการ"
+      },
+      "attendance": {
+        "available": "เข้าร่วมได้",
+        "unavailable": "เข้าร่วมไม่ได้",
+        "everyoneAvailable": "ทุกคนเข้าร่วมได้",
+        "noneAvailable": "ไม่มีใครเข้าร่วมได้"
+      },
+      "bestTimesTitle": "เวลาที่คนว่างตรงกันมากที่สุด",
+      "availabilityBasis": "อ้างอิงจากคำตอบของ {count} คน",
+      "allAvailable": "ว่างครบทั้ง {count} คน",
+      "someAvailable": "ว่าง {count} จาก {total} คน",
+      "viewSlotPeople": "แตะตัวเลือกเพื่อดูว่าใครว่างบ้าง",
+      "decision": {
+        "allHeadline": "ทั้ง {count} คน{availability}",
+        "allHeadlineHighlight": "ว่างพร้อมกัน",
+        "allDates": "วันที่ทั้ง {count} คนสะดวก",
+        "allTimes": "เวลาที่ทั้ง {count} คนสะดวก",
+        "partial": "พบกันได้มากที่สุด {count} คน",
+        "basis": "อิงจากเวลาว่างที่กรอกไว้จนถึงตอนนี้",
+        "notAll": "ยังไม่มีตัวเลือกที่ทุกคนสะดวก",
+        "emptyDates": "ยังไม่มีวันที่ถูกเลือก",
+        "emptyTimes": "ยังไม่มีเวลาที่ถูกเลือก",
+        "pending": "กำลังรอคำตอบสำหรับตัวเลือกใหม่",
+        "allUnavailable": "ผู้ตอบทั้ง {count} คนแจ้งว่าไม่สะดวกตามตัวเลือกที่เสนอ",
+        "notSelected": "ผู้ที่ไม่ได้เลือกตัวเลือกนี้",
+        "people": "ดูว่าใครสะดวก",
+        "chooseDate": "นัดหมายในวันที่นี้",
+        "chooseTime": "นัดหมายในเวลานี้",
+        "confirmedDate": "กำหนดวันนัดหมายแล้ว",
+        "setMeeting": "ยืนยันการประชุม"
+      },
+      "calendarFilter": {
+        "selectAll": "เลือกทั้งหมด",
+        "selectedCount": "เลือก {selected} จาก {total} คน",
+        "selectPrompt": "เลือกผู้เข้าร่วมเพื่อดูเวลาว่างของแต่ละคน",
+        "noAvailability": "ผู้เข้าร่วมที่เลือกไม่มีช่วงเวลาว่าง"
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "คุณไม่ได้ลงชื่อเข้าใช้",
+        "description": "เข้าร่วมโดยไม่ต้องลงชื่อเข้าใช้โดยการป้อนชื่อ",
+        "kakaoLoginButton": "ต่อด้วยคาเคา",
+        "loginButton": "เข้าสู่ระบบ",
+        "anonymousLogin": "ป้อนชื่อเพื่อเข้าร่วม"
+      },
+      "description": "ป้อนชื่อที่คุณจะใช้สำหรับการประชุมนี้",
+      "votingAs": "เข้าร่วมเป็น {username}",
+      "votingAsCompact": "เข้าร่วมเป็น {username}",
+      "usernamePlaceholder": "ชื่อ",
+      "anonymousLogin": "ร่วมด้วยชื่อนี้."
+    },
+    "identity": {
+      "label": "ชื่อสำหรับนัดหมายนี้",
+      "hint": "การเปลี่ยนชื่อมีผลเฉพาะนัดหมายนี้เท่านั้น",
+      "change": "เปลี่ยนชื่อ"
+    },
+    "unavailable": {
+      "dates": "ไม่มีวันที่สะดวกในตัวเลือกเหล่านี้",
+      "times": "ไม่มีเวลาที่สะดวกในตัวเลือกเหล่านี้",
+      "hint": "เลือกข้อนี้หากไม่มีตัวเลือกใดที่คุณสะดวก",
+      "selectedHint": "คำตอบจะแจ้งว่าไม่มีตัวเลือกใดที่สะดวก คุณแก้ไขภายหลังได้",
+      "changed": "วันที่เสนอมีการเปลี่ยนแปลง โปรดรีเฟรชหน้าแล้วตอบอีกครั้ง",
+      "respondents": "ผู้ที่ตอบแล้ว",
+      "datesStatus": "ไม่มีวันที่สะดวก",
+      "timesStatus": "ไม่มีเวลาที่สะดวก",
+      "pending": "ต้องตอบตัวเลือกใหม่",
+      "selected": "เลือกเวลาแล้ว",
+      "noneStatus": "ไม่มีเวลาที่สะดวก",
+      "picked": "ผู้เข้าร่วมที่ว่าง",
+      "emptyTitle": "ยังไม่มีเวลาที่แนะนำ",
+      "emptyHint": "รอคำตอบจากผู้เข้าร่วมคนอื่น ๆ",
+      "viewPeople": "ดูผู้เข้าร่วม",
+      "morePeople": "แสดงอีก {count} คน",
+      "lessPeople": "แสดงน้อยลง",
+      "basis": "อ้างอิงจากการโหวตเวลาที่สะดวกสำหรับนัดหมายที่ยืนยันแล้ว",
+      "otherSelection": "เลือกเวลาอื่น"
+    }
+  },
+  "my": {
+    "title": "การประชุมของฉัน",
+    "tabs": {
+      "myMeetings": "การประชุมของฉัน",
+      "participatedMeetings": "การประชุมที่ฉันเข้าร่วม"
+    },
+    "noMeetings": "คุณยังไม่ได้สร้างการประชุมใดๆ",
+    "noParticipatedMeetings": "คุณยังไม่ได้เข้าร่วมการประชุมใดๆ",
+    "myMeetingsDetails": "คุณได้สร้างการประชุม {count} แล้ว",
+    "participatedMeetingsDetails": "คุณได้เข้าร่วมการประชุม {count}"
+  },
+  "admin": {
+    "metaTitle": "แดชบอร์ดผู้ดูแลระบบ - Time2Gather",
+    "metaDescription": "แดชบอร์ดส่วนตัวสำหรับตรวจสอบผู้ใช้และการประชุม Time2Gather",
+    "eyebrow": "คอนโซลผู้ดูแลระบบ",
+    "title": "ภาพรวมการบริการ",
+    "description": "ตรวจสอบตัวชี้วัดผู้ใช้หลักและการประชุม จากนั้นค้นหาบันทึกที่คุณต้องการอย่างรวดเร็ว",
+    "summaryTitle": "ได้อย่างรวดเร็ว",
+    "summaryDescription": "จำนวนจะขึ้นอยู่กับผู้ใช้และการประชุมที่จัดเก็บอยู่ในปัจจุบัน",
+    "loading": "การเตรียมแดชบอร์ดผู้ดูแลระบบ",
+    "loadingDescription": "ตรวจสอบการเข้าถึงของคุณและโหลดข้อมูลล่าสุด",
+    "accessDeniedTitle": "คุณไม่มีสิทธิ์เข้าถึง",
+    "accessDeniedDescription": "เฉพาะบัญชีที่มีบทบาทผู้ดูแลระบบเท่านั้นที่สามารถดูหน้านี้ได้",
+    "refresh": "รีเฟรชภาพรวม",
+    "retry": "ลองอีกครั้ง",
+    "loadError": "เราไม่สามารถโหลดภาพรวมได้",
+    "search": "ค้นหา",
+    "notAvailable": "ไม่สามารถใช้ได้",
+    "pageOf": "หน้า {current} ของ {total}",
+    "stats": {
+      "totalUsers": "ผู้ใช้ทั้งหมด",
+      "registeredUsers": "ผู้ใช้ที่ลงทะเบียนแล้ว",
+      "anonymousUsers": "ผู้ใช้ที่ไม่ระบุชื่อ",
+      "adminUsers": "ผู้ดูแลระบบ {count}",
+      "totalMeetings": "การประชุมทั้งหมด",
+      "activeMeetings": "การประชุมที่ใช้งานอยู่",
+      "confirmedMeetings": "การประชุมที่ได้รับการยืนยัน",
+      "confirmationRate": "อัตราการยืนยัน: {rate}"
+    },
+    "users": {
+      "title": "ผู้ใช้",
+      "description": "พบผู้ใช้ {count}",
+      "searchPlaceholder": "ค้นหาชื่อหรืออีเมล",
+      "loadError": "เราไม่สามารถโหลดผู้ใช้ได้",
+      "empty": "ไม่มีผู้ใช้ที่ตรงกับการค้นหาของคุณ",
+      "user": "ผู้ใช้",
+      "provider": "วิธีการลงชื่อเข้าใช้",
+      "role": "บทบาท",
+      "joinedAt": "เข้าร่วม",
+      "participatedMeetings": "นัดหมายที่เข้าร่วม",
+      "noParticipatedMeetings": "ยังไม่ได้เข้าร่วมนัดหมายใด",
+      "noEmail": "ไม่มีอีเมล"
+    },
+    "meetings": {
+      "title": "การประชุม",
+      "description": "พบการประชุม {count}",
+      "searchPlaceholder": "ค้นหาชื่อหรือรหัสการประชุม",
+      "loadError": "เราไม่สามารถโหลดการประชุมได้",
+      "empty": "ไม่มีการประชุมที่ตรงกับการค้นหาของคุณ",
+      "meeting": "ประชุม",
+      "host": "โฮสต์",
+      "status": "สถานะ",
+      "createdAt": "สร้างแล้ว",
+      "active": "ใช้งานอยู่",
+      "inactive": "ไม่ได้ใช้งาน",
+      "confirmed": "ยืนยันแล้ว",
+      "confirmedOnly": "แสดงเฉพาะนัดหมายที่ยืนยันแล้ว",
+      "unknownHost": "ผู้ใช้ที่ไม่รู้จัก",
+      "openNewTab": "เปิดนัดหมายในแท็บใหม่"
+    },
+    "providers": {
+      "ANONYMOUS": "ไม่ระบุชื่อ",
+      "KAKAO": "คาเคา",
+      "GOOGLE": "กูเกิล"
+    },
+    "roles": {
+      "USER": "ผู้ใช้",
+      "ADMIN": "ผู้ดูแลระบบ"
+    },
+    "selectionTypes": {
+      "TIME": "วันที่และเวลา",
+      "ALL_DAY": "วันที่เท่านั้น"
+    },
+    "login": {
+      "checking": "กำลังตรวจสอบการตั้งค่าการลงชื่อเข้าใช้...",
+      "expired": "การเข้าถึงของผู้ดูแลระบบหมดอายุหรือไม่พร้อมใช้งาน กรุณาเข้าสู่ระบบอีกครั้ง",
+      "notConfigured": "ไม่ได้กำหนดค่าการลงชื่อเข้าใช้ของผู้ดูแลระบบ ติดต่อเจ้าหน้าที่",
+      "verifying": "กำลังตรวจสอบการเข้าถึงของผู้ดูแลระบบ...",
+      "notAllowed": "ใช้บัญชีผู้ดูแลระบบที่ได้รับอนุญาต",
+      "google": "ลงชื่อเข้าใช้งานด้วย Google",
+      "unavailable": "ไม่สามารถโหลดบริการลงชื่อเข้าใช้ได้",
+      "networkError": "ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง",
+      "logout": "ออกจากระบบ",
+      "title": "เข้าสู่ระบบผู้ดูแลระบบ",
+      "description": "เฉพาะบัญชี Google ที่ได้รับอนุญาตเท่านั้นที่สามารถเข้าถึงพื้นที่นี้ได้",
+      "retry": "ลองอีกครั้ง",
+      "sessionHelp": "การเข้าถึงของผู้ดูแลระบบใช้เซสชันแยกต่างหากจากการเข้าร่วมการประชุม"
+    }
+  },
+  "404": {
+    "title": "ไม่พบเพจ",
+    "description": "เพจที่คุณร้องขอไม่มีอยู่หรือถูกลบไปแล้ว",
+    "homeButton": "ไปที่หน้าแรก"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - กำหนดเวลากับผู้คน",
+    "siteDescription": "บริการที่ทำให้การกำหนดเวลาการประชุมกับผู้คนเป็นเรื่องง่าย สร้างการประชุม เลือกวันที่และช่วงเวลาหลายช่วง แล้วแชร์ เมื่อผู้เข้าร่วมเลือกเวลาที่ว่าง เราจะแนะนำวันและเวลาที่ดีที่สุดในการพบปะ",
+    "siteKeywords": "กำหนดการประชุม, การประสานงานกำหนดการ, การประชุมกลุ่ม, กำหนดการกลุ่ม, การประสานงานเวลา, การจัดการการประชุม, การแชร์กำหนดการ, Time2Gather",
+    "ogImageAlt": "Time2Gather - กำหนดเวลากับคนหลายคน",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - กำหนดเวลาการประชุมใน 5 วินาที",
+        "description": "กำลังดิ้นรนเพื่อประสานตารางเวลากับคนหลายคนใช่ไหม? ใช้ Time2Gather เพื่อรวบรวมคะแนนโหวตและค้นหาเวลาที่ดีที่สุดสำหรับทุกคนได้อย่างง่ายดาย"
+      },
+      "create": {
+        "title": "สร้างการประชุม - Time2Gather",
+        "description": "สร้างการประชุมใหม่และแบ่งปันกับเพื่อน ๆ ตัดสินใจวัน เวลา และสถานที่ได้อย่างง่ายดายผ่านการลงคะแนน"
+      },
+      "login": {
+        "title": "เข้าสู่ระบบ - Time2Gather",
+        "description": "ลงชื่อเข้าใช้ด้วย Kakao หรือ Google เพื่อเริ่มกำหนดเวลา"
+      },
+      "my": {
+        "title": "การประชุมของฉัน - Time2Gather",
+        "description": "ดูการประชุมที่คุณสร้างและเข้าร่วมทั้งหมดได้อย่างรวดเร็ว การจัดการประชุมทำได้ง่าย"
+      },
+      "meeting": {
+        "title": "{title} - Time2Gather",
+        "description": "เข้าร่วมการประชุม {title} เลือกเวลาที่ว่างและลงคะแนน"
+      },
+      "result": {
+        "title": "ผลลัพธ์ {title} - Time2Gather",
+        "description": "เข้าร่วม {title} และเลือกเวลาที่เหมาะกับคุณ",
+        "confirmedTitle": "{title} ยืนยันแล้ว - Time2Gather",
+        "confirmedDescription": "แผนยืนยัน: {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "ผู้ช่วยกำหนดการ",
+    "open": "เปิดแชท",
+    "close": "ปิดแชท",
+    "welcomeMessage": "สวัสดี! ถามฉันเกี่ยวกับกำหนดการของคุณ",
+    "welcomeHint": "เช่น \"แสดงการประชุมของฉัน\" \"สัปดาห์หน้าจะมีอะไรบ้าง\"",
+    "inputPlaceholder": "พิมพ์ข้อความ...",
+    "errorMessage": "ขออภัย เกิดข้อผิดพลาด โปรดลองอีกครั้งในภายหลัง"
+  },
+  "locationVote": {
+    "title": "โหวตสถานที่",
+    "description": "เลือกสถานที่ที่คุณต้องการ",
+    "scheduleStepLabel": "1 / 2 · มีจำหน่าย",
+    "locationStepLabel": "2 / 2 · สถานที่ตั้ง",
+    "selectionTitle": "เราควรจะพบกันที่ไหน?",
+    "selectionDescription": "เลือกสถานที่ทั้งหมดที่เหมาะกับคุณ",
+    "confirmedLocation": "ยืนยันตำแหน่งแล้ว",
+    "confirmed": "ยืนยันแล้ว",
+    "loadError": "ไม่สามารถโหลดตัวเลือกตำแหน่งของคุณได้",
+    "retry": "ลองอีกครั้ง",
+    "voters": "ผู้ที่โหวตสถานที่นี้",
+    "noVotes": "ยังไม่มีผู้โหวต"
+  },
+  "timezone": {
+    "title": "เขตเวลา",
+    "meeting": "โซนเวลาการประชุม: {zone}",
+    "display": "เขตเวลาที่แสดงของคุณ",
+    "hint": "วันที่และเวลาจะถูกป้อนในเขตเวลาการประชุม ทุกคนลงคะแนนในช่วงเวลาเดียวกัน",
+    "gridHint": "วันที่ในคอลัมน์และแกนเวลาใช้เขตเวลาการประชุม แต่ละเซลล์ยังแสดงวันที่และเวลาในเขตเวลาที่คุณเลือกอีกด้วย",
+    "local": "ใน {zone}: {time}",
+    "invalid": "เลือกเขตเวลาที่ถูกต้อง",
+    "gap": "เวลานี้ไม่มีอยู่เพราะนาฬิกาเดินไปข้างหน้า เลือกเวลาอื่น",
+    "overlap": "เวลานี้เกิดขึ้นสองครั้งเมื่อนาฬิกาเดินถอยหลัง เลือกเวลาที่ชัดเจน",
+    "allDay": "การโหวตเฉพาะวันที่จะเก็บวันที่ตามปฏิทินเดียวกันในทุกโซนเวลา",
+    "useDevice": "ใช้เขตเวลาของอุปกรณ์",
+    "search": "ค้นหาเขตเวลา",
+    "noResults": "ไม่พบเขตเวลา ลองค้นหาเมืองหรือภูมิภาคอื่น"
+  },
+  "errors": {
+    "error.internal": "เกิดข้อผิดพลาดเซิร์ฟเวอร์ภายใน",
+    "error.validation.failed": "การตรวจสอบอินพุตล้มเหลว",
+    "error.request.invalid": "คำขอไม่ถูกต้อง {0}",
+    "error.state.invalid": "คำขอนี้ไม่สามารถทำได้ในสถานะปัจจุบัน",
+    "error.resource.not.found": "ไม่พบทรัพยากรที่ร้องขอ",
+    "error.null.pointer": "ข้อมูลที่จำเป็นขาดหายไป กรุณาตรวจสอบคำขอของคุณ",
+    "error.number.format": "รูปแบบตัวเลขไม่ถูกต้อง กรุณาตรวจสอบข้อมูลของคุณ",
+    "error.auth.required": "จำเป็นต้องมีการตรวจสอบสิทธิ์",
+    "error.auth.required.login": "จำเป็นต้องมีการตรวจสอบสิทธิ์ กรุณาเข้าสู่ระบบและลองอีกครั้ง",
+    "error.auth.access.denied": "การเข้าถึงถูกปฏิเสธ",
+    "error.auth.not.authenticated": "ผู้ใช้ไม่ได้รับการรับรองความถูกต้อง",
+    "error.user.not.found": "ไม่พบผู้ใช้",
+    "error.user.not.found.email": "ไม่พบผู้ใช้ด้วยอีเมล: {0}",
+    "error.user.id.required": "ต้องระบุรหัสผู้ใช้",
+    "error.oauth.invalid.code": "รหัสการอนุญาตไม่ถูกต้องหรือหมดอายุ กรุณาตรวจสอบความถูกต้องอีกครั้ง ข้อผิดพลาด: {0}",
+    "error.oauth.api.failed": "ไม่สามารถสื่อสารกับ OAuth API: {0}",
+    "error.oauth.no.id.token": "ไม่สามารถรับโทเค็น ID จากผู้ให้บริการ OAuth",
+    "error.oauth.no.user.info": "รับข้อมูลผู้ใช้จากผู้ให้บริการ OAuth ไม่สำเร็จ",
+    "error.meeting.not.found": "ไม่พบการประชุม",
+    "error.meeting.not.found.code": "ไม่พบการประชุม: {0}",
+    "error.meeting.id.required": "ต้องมีรหัสการประชุม",
+    "error.meeting.already.confirmed": "การประชุมได้รับการยืนยันแล้ว กรุณายกเลิกการยืนยันก่อน",
+    "error.meeting.not.confirmed": "การประชุมไม่ได้รับการยืนยัน",
+    "error.meeting.invalid.date": "วันที่ไม่ถูกต้อง: {0}",
+    "error.meeting.date.not.available": "วันที่นี้ไม่ว่างในการประชุม: {0}",
+    "error.meeting.no.interval.info": "ข้อมูลช่วงเวลาการประชุมหายไป",
+    "error.meeting.host.only": "มีเพียงโฮสต์เท่านั้นที่สามารถดำเนินการนี้ได้",
+    "error.meeting.no.participants": "ไม่สามารถสร้างปฏิทินได้เนื่องจากยังไม่มีผู้เข้าร่วมโหวต",
+    "error.meeting.date.format.invalid": "รูปแบบวันที่ไม่ถูกต้อง กรุณาใช้รูปแบบ ปปปป-ดด-วว",
+    "error.meeting.validation.date.required": "ต้องเลือกอย่างน้อยหนึ่งวัน",
+    "error.meeting.validation.date.slot.required": "ต้องเลือกช่วงเวลาอย่างน้อยหนึ่งช่วงเวลาในแต่ละวัน",
+    "error.meeting.validation.time.required": "ต้องเลือกวันที่และเวลาอย่างน้อยหนึ่งช่อง",
+    "error.meeting.validation.all.day.empty.slots": "สำหรับประเภท ALL_DAY ช่องเวลาต้องเป็นอาร์เรย์ว่าง",
+    "error.meeting.validation.slot.index.required": "slotIndex จำเป็นสำหรับการประชุมประเภท TIME",
+    "error.meeting.validation.slot.index.invalid": "ดัชนีสล็อตไม่ถูกต้อง: {0}",
+    "error.meeting.validation.date.slot.together": "ต้องระบุวันที่และ slotIndex ร่วมกัน",
+    "error.location.not.found": "ไม่พบตำแหน่ง",
+    "error.location.not.belong.to.meeting": "สถานที่ไม่ได้อยู่ในการประชุมครั้งนี้",
+    "error.location.vote.not.enabled": "ไม่ได้เปิดใช้งานการลงคะแนนสถานที่สำหรับการประชุมนี้",
+    "error.location.already.confirmed": "ยืนยันตำแหน่งแล้ว กรุณายกเลิกการยืนยันสถานที่ก่อน",
+    "error.location.not.confirmed": "สถานที่ไม่ได้รับการยืนยัน",
+    "error.location.id.required": "ต้องระบุรหัสสถานที่",
+    "error.location.name.required": "ต้องระบุชื่อสถานที่",
+    "error.location.name.too.long": "ชื่อสถานที่ต้องมีความยาวไม่เกิน 200 ตัวอักษร",
+    "error.location.max.exceeded": "สามารถเพิ่มตำแหน่ง {0} ได้สูงสุด",
+    "error.location.min.required": "ต้องมีตำแหน่ง {0} เป็นอย่างน้อย",
+    "error.location.min.for.vote": "ต้องมีสถานที่อย่างน้อย {0} เพื่อเปิดใช้งานการลงคะแนนสถานที่",
+    "error.location.cannot.disable": "ไม่สามารถปิดการโหวตสถานที่ได้เมื่อยืนยันสถานที่แล้ว",
+    "error.location.not.exist": "ไม่มีตำแหน่ง: {0}",
+    "error.selection.empty": "ข้อมูลการเลือกว่างเปล่า",
+    "error.selection.date.required": "ต้องระบุวันที่",
+    "error.selection.type.required": "ต้องระบุประเภท",
+    "error.selection.type.unknown": "ประเภทที่ไม่รู้จัก: {0} (อนุญาตเฉพาะ TIME หรือ ALL_DAY)",
+    "error.selection.time.required": "วันที่ '{0}' เป็นประเภท TIME แต่ไม่ได้ระบุเวลา",
+    "error.selection.time.empty": "ค่าเวลาว่างเปล่า",
+    "error.selection.time.format.invalid": "รูปแบบเวลาไม่ถูกต้องสำหรับวันที่ '{0}' {1}",
+    "error.selection.date.not.available": "วันที่ {0} ไม่ว่างในการประชุมครั้งนี้",
+    "error.selection.slot.null": "อาร์เรย์ของสล็อตต้องไม่เป็นค่าว่าง ใช้แผนที่เปล่าเพื่อไม่รวมวันที่",
+    "error.selection.slot.not.available": "สล็อต {0} ไม่มีใน {1}",
+    "error.selection.slot.empty.for.time": "ไม่อนุญาตให้ใช้อาร์เรย์ว่างสำหรับการประชุมประเภท TIME ใช้แผนที่เปล่าเพื่อไม่รวมวันที่",
+    "error.timeslot.invalid.format": "รูปแบบเวลาไม่ถูกต้อง ค่าที่คาดหวัง HH:มม",
+    "error.timeslot.invalid.hour": "ชั่วโมงต้องอยู่ระหว่าง 0 ถึง 23",
+    "error.timeslot.invalid.minute": "นาทีต้องอยู่ระหว่าง 0 ถึง 59",
+    "error.timeslot.not.aligned": "เวลาต้องสอดคล้องกับช่วงเวลานาทีของ {0}",
+    "error.timeslot.index.out.of.range": "ดัชนีสล็อตต้องอยู่ระหว่าง {1} และ {2} สำหรับช่วงเวลา {0} นาที แต่ได้รับ: {3}",
+    "error.timeslot.interval.positive": "นาทีของช่วงเวลาต้องเป็นค่าบวก",
+    "error.timeslot.interval.divisor": "ช่วงเวลานาทีจะต้องเป็นตัวหารของ {0}",
+    "error.calendar.export.failed": "ไม่สามารถสร้างไฟล์ปฏิทินได้",
+    "error.ai.api.failed": "การเรียก AI API ล้มเหลว",
+    "error.ai.provider.unknown": "ผู้ให้บริการ AI ที่ไม่รู้จัก: {0}",
+    "mcp.meeting.created": "สร้างการประชุมเรียบร้อยแล้ว",
+    "mcp.vote.time.saved": "บันทึกการลงคะแนนความพร้อมเรียบร้อยแล้ว",
+    "mcp.vote.location.saved": "บันทึกการโหวตสถานที่เรียบร้อยแล้ว",
+    "mcp.meeting.confirmed": "ยืนยันกำหนดการประชุมเรียบร้อยแล้ว",
+    "mcp.location.confirmed": "ยืนยันสถานที่ประชุมเรียบร้อยแล้ว",
+    "mcp.ics.created": "สร้างไฟล์ ICS สำเร็จแล้ว",
+    "validation.meeting.title.required": "ต้องระบุชื่อ",
+    "validation.meeting.dates.required": "ต้องระบุวันที่/เวลาที่ว่าง",
+    "validation.meeting.location.max": "สามารถเพิ่มสถานที่ได้สูงสุด 5 แห่ง",
+    "validation.selection.required": "ต้องระบุช่วงเวลาที่เลือก",
+    "validation.date.required": "ต้องระบุวันที่",
+    "validation.date.format": "รูปแบบวันที่ต้องเป็น yyyy-MM-dd",
+    "validation.time.required": "ต้องใช้เวลา",
+    "validation.time.format": "รูปแบบเวลาต้องเป็น HH:mm",
+    "validation.location.id.required": "ต้องระบุรหัสสถานที่",
+    "validation.location.ids.required": "ต้องมีรายการรหัสสถานที่",
+    "validation.location.name.required": "ต้องระบุชื่อสถานที่",
+    "validation.location.max": "สามารถเพิ่มสถานที่ได้สูงสุด 5 แห่ง",
+    "validation.auth.code.required": "ต้องมีรหัสอนุญาต",
+    "validation.username.required": "ชื่อผู้ใช้ เป็นสิ่งจำเป็น",
+    "validation.password.required": "ต้องใช้รหัสผ่าน",
+    "validation.selection.date.min.max": "โปรดเลือกระหว่างวันที่ 1 ถึง 31",
+    "validation.type.required": "ต้องระบุประเภท",
+    "validation.slot.index.required": "ดัชนีช่องที่จะยืนยัน (จำเป็นสำหรับประเภท TIME อนุญาตให้เป็น null สำหรับประเภท ALL_DAY)",
+    "error.meeting.timezone.invalid": "เลือกเขตเวลา IANA ที่ถูกต้อง",
+    "error.meeting.time.nonexistent": "เวลานี้ไม่มีอยู่เพราะนาฬิกาเดินไปข้างหน้า เลือกเวลาอื่น",
+    "error.meeting.time.ambiguous": "เวลานี้เกิดขึ้นสองครั้งเมื่อนาฬิกาเดินถอยหลัง เลือกเวลาที่ชัดเจน",
+    "error.comment.rate.limit": "กรุณารอสักครู่ก่อนโพสต์อีกครั้ง",
+    "error.selection.candidates.changed": "วันที่เสนอมีการเปลี่ยนแปลง โปรดรีเฟรชหน้าแล้วตอบอีกครั้ง"
+  },
+  "comments": {
+    "title": "ความคิดเห็น",
+    "placeholder": "พูดคุยเกี่ยวกับนัดหมายนี้",
+    "reply": "ตอบกลับ",
+    "replyTo": "ตอบกลับ {name}",
+    "replies": "คำตอบ ({count})",
+    "collapse": "ย่อคำตอบ",
+    "post": "โพสต์",
+    "save": "บันทึก",
+    "edit": "แก้ไข",
+    "delete": "ลบ",
+    "hide": "ซ่อน",
+    "hidden": "ผู้จัดซ่อนความคิดเห็นนี้แล้ว",
+    "deleted": "ความคิดเห็นนี้ถูกลบแล้ว",
+    "edited": "แก้ไขแล้ว",
+    "host": "ผู้จัด",
+    "mention": "พิมพ์ @ เพื่อกล่าวถึงบุคคล",
+    "noPeople": "ไม่พบผู้เข้าร่วมที่ตรงกัน",
+    "session": "กรอกชื่อที่จะแสดงในความคิดเห็นของคุณ",
+    "failed": "ดำเนินการไม่สำเร็จ ข้อความยังอยู่ โปรดลองอีกครั้ง",
+    "rateLimit": "กรุณารอสักครู่ก่อนโพสต์อีกครั้ง",
+    "new": "ดูความคิดเห็นใหม่ ({count})",
+    "mentioned": "ความคิดเห็นใหม่ที่กล่าวถึงคุณ",
+    "moreReplies": "ดูคำตอบเพิ่มเติม",
+    "more": "ความคิดเห็นก่อนหน้า",
+    "copy": "คัดลอกลิงก์ความคิดเห็น",
+    "copied": "คัดลอกลิงก์แล้ว",
+    "actions": "ตัวเลือกความคิดเห็น",
+    "newReply": "ใหม่",
+    "removeConfirm": "ลบข้อความนี้หรือไม่ คำตอบที่มีอยู่จะยังคงอยู่",
+    "retry": "ลองอีกครั้ง",
+    "reactions": {
+      "add": "เพิ่มรีแอ็กชัน",
+      "view": "ดูว่าใครแสดงรีแอ็กชัน",
+      "title": "รีแอ็กชัน",
+      "react": "แสดงรีแอ็กชัน",
+      "remove": "ยกเลิกรีแอ็กชัน",
+      "empty": "ยังไม่มีรีแอ็กชัน",
+      "you": "คุณ",
+      "session": "ป้อนชื่อที่จะแสดงพร้อมรีแอ็กชันของคุณ",
+      "failed": "อัปเดตรีแอ็กชันไม่ได้ โปรดลองอีกครั้ง",
+      "like": "เห็นด้วย",
+      "love": "ถูกใจมาก",
+      "laugh": "ตลก",
+      "celebrate": "ยินดีด้วย",
+      "thanks": "ขอบคุณ",
+      "think": "กำลังคิด",
+      "eyes": "กำลังดูอยู่",
+      "hundred": "เต็มร้อย"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "นัดเจอกันง่ายแค่นี้",
+    "title": "เวลาว่างของแต่ละคน สู่หนึ่งนัดหมายร่วมกัน",
+    "description": "แชร์ลิงก์ เลือกเวลาที่สะดวก แล้วหาเวลาที่ทุกคนมาเจอกันได้",
+    "steps": {
+      "share": {
+        "title": "แชร์ลิงก์เดียว",
+        "description": "ผู้ได้รับเชิญเข้าร่วมได้โดยไม่ต้องเข้าสู่ระบบ"
+      },
+      "select": {
+        "title": "เลือกเวลาที่สะดวก",
+        "description": "รวมเวลาว่างของทุกคนไว้ในที่เดียว"
+      },
+      "decide": {
+        "title": "หาเวลาที่ว่างตรงกัน",
+        "description": "ยืนยันเวลาที่เหมาะที่สุด"
+      }
+    },
+    "sample": "ตัวอย่างการใช้งาน",
+    "meetingTitle": "สัปดาห์นี้มาเจอกัน",
+    "responses": "ผู้เข้าร่วม {count} คน",
+    "hint": "เปลี่ยนเวลาที่คุณว่าง แล้วดูผลลัพธ์เปลี่ยนตาม",
+    "filtersLabel": "เวลาว่างแยกตามผู้เข้าร่วม",
+    "allResults": "ผลทั้งหมด",
+    "personAvailability": "เวลาที่ {name} สะดวก",
+    "tableLabel": "จำนวนคนที่สะดวกในแต่ละเวลา",
+    "timeLabel": "เวลา",
+    "legendTitle": "คนที่สะดวก",
+    "legendMax": "มาก",
+    "resultTitle": "เจอเวลาที่ทั้ง {count} คนว่างตรงกันแล้ว!",
+    "resultHint": "เลือกผลทั้งหมดเพื่อดูเวลาที่ว่างตรงกัน",
+    "available": "สะดวก",
+    "unavailable": "ไม่สะดวก",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "เวลาที่คุณว่าง",
+    "hourly": "ช่วงละ 1 ชั่วโมง",
+    "me": "คุณ",
+    "legend": "คนที่ว่าง / ทั้งหมด",
+    "create": "สร้างนัดหมายของคุณ",
+    "compactTime": "วันเสาร์ 19:00 น.",
+    "compactResult": "ทุกคนว่างตรงกัน"
+  }
+}

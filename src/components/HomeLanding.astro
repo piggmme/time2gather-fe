@@ -65,6 +65,7 @@ const faqs = ['what', 'login', 'location'] as const;
 </main>
 
 <style lang="scss">
+  @use "../styles/surfaces.scss" as surfaces;
   @use "../styles/variables.scss" as *;
 
   .landing {
@@ -187,6 +188,7 @@ const faqs = ['what', 'login', 'location'] as const;
   }
 
   .section {
+    @include surfaces.section-start($spacing-2xl);
     margin-top: clamp(64px, 10vw, 112px);
   }
 
@@ -212,14 +214,11 @@ const faqs = ['what', 'login', 'location'] as const;
   .feature-card,
   .steps li,
   .faq-list > div {
-    border: 1px solid rgba(24, 39, 75, 0.09);
-    background: $c-white;
-    box-shadow: 0 12px 28px -26px rgba(24, 39, 75, 0.62);
+    @include surfaces.content;
   }
 
   .feature-card {
-    padding: $spacing-xl;
-    border-radius: $radius-lg;
+    padding: $spacing-lg 0;
   }
 
   .feature-index {
@@ -253,8 +252,7 @@ const faqs = ['what', 'login', 'location'] as const;
 
   .steps li {
     position: relative;
-    padding: $spacing-xl;
-    border-radius: $radius-lg;
+    padding: $spacing-lg 0;
   }
 
   .faq-section {

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './CreateMeeting.module.scss'
 import Button from '../Button/Button'
-import { navigate } from 'astro:transitions/client'
+import { navigate } from '../../utils/navigation'
 import { useSearchParam } from 'react-use'
 import Input from '../Input/Input'
 import { useTranslation } from '../../hooks/useTranslation'

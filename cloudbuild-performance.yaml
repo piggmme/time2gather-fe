@@ -1,0 +1,17 @@
+steps:
+- name: gcr.io/cloud-builders/docker
+  args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:performance-20261102', '.']
+- name: gcr.io/cloud-builders/docker
+  entrypoint: bash
+  args:
+  - -ceu
+  - |
+    docker create --name hosting-files asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:performance-20261102
+    mkdir -p /workspace/hosting-static
+    docker cp hosting-files:/app/dist/client/. /workspace/hosting-static/
+    tar -czf /workspace/hosting-client.tgz -C /workspace/hosting-static .
+images: ['asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:performance-20261102']
+artifacts:
+  objects:
+    location: gs://time2gather-prod-2026_cloudbuild/performance-20261102/
+    paths: ['hosting-client.tgz']

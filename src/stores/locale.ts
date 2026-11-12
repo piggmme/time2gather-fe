@@ -7,3 +7,7 @@ export function setLocale (locale: Locale) {
   setLocaleStorage(locale)
   $locale.set(locale)
 }
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('astro:page-load', () => $locale.set(getLocaleFromContext()))
+}

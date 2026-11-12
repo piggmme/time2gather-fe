@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "मागील",
+    "cancel": "रद्द करा",
+    "next": "पुढे",
+    "home": "घर",
+    "createMeeting": "मीटिंग तयार करा",
+    "searchMeeting": "मीटिंग शोधा",
+    "searchMeetingPlaceholder": "मीटिंग कोड",
+    "searchMeetingButton": "मीटिंग शोधा",
+    "myMeetings": "माझ्या सभा",
+    "adminDashboard": "प्रशासन डॅशबोर्ड",
+    "contactUs": "आमच्याशी संपर्क साधा",
+    "menu": "मेनू",
+    "openMenu": "मेनू उघडा",
+    "submit": "सबमिट करा",
+    "share": "शेअर करा",
+    "close": "बंद करा",
+    "loading": "लोड करत आहे...",
+    "error": "एक त्रुटी आली. कृपया पुन्हा प्रयत्न करा.",
+    "switchToEnglish": "इंग्रजीवर स्विच करा",
+    "switchToKorean": "कोरियन वर स्विच करा",
+    "language": "भाषा",
+    "searchLanguages": "तुमची भाषा निवडा"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "स्वागत आहे! 👋",
+    "description": "आता योजना बनवण्यासाठी फक्त 5 सेकंद लागतात. तुमचे टाइम स्लॉट शेअर करा, मते मिळवा आणि प्रत्येकासाठी सर्वोत्तम वेळ झटपट पहा!",
+    "createMeetingButton": "मीटिंग तयार करा",
+    "heroTitleSuffix": " - सहजतेने वेळापत्रक",
+    "heroSubtitle": "क्लिष्ट शेड्यूलिंगला अलविदा म्हणा. आपल्या मित्रांसह परिपूर्ण वेळ शोधा.",
+    "viewMyMeetings": "माझ्या मीटिंग्ज पहा"
+  },
+  "landing": {
+    "eyebrow": "सर्वांचे वेळापत्रक एकाच ठिकाणी समन्वयित करा",
+    "title": "बैठकीचे वेळापत्रक सोपे करा",
+    "description": "Time2Gather ही प्रत्येकासाठी काम करणारी मीटिंगची वेळ शोधण्यासाठी तारखा, वेळा आणि स्थानांवर मतदान करण्यासाठी मोफत शेड्युलिंग सेवा आहे.",
+    "primaryCta": "मीटिंग तयार करा",
+    "secondaryCta": "कोडसह शोधा",
+    "featuresHeading": "मीटिंगचे समन्वय साधण्यासाठी आपल्याला आवश्यक असलेली प्रत्येक गोष्ट",
+    "features": {
+      "dates": {
+        "title": "अनेक तारखांची तुलना करा",
+        "description": "उमेदवाराच्या तारखा निवडा आणि त्या लगेच तुमच्या सहभागींसोबत शेअर करा."
+      },
+      "times": {
+        "title": "उपलब्ध वेळेवर मत द्या",
+        "description": "जास्तीत जास्त लोकांसाठी उपयुक्त वेळ शोधण्यासाठी तपशीलवार उपलब्धता गोळा करा."
+      },
+      "locations": {
+        "title": "ठिकाणही ठरवा",
+        "description": "तुमच्या गटाला कुठे भेटायचे ते निवडायचे असेल तेव्हा स्थान पर्याय जोडा."
+      },
+      "sharing": {
+        "title": "एका लिंकवरून सामील व्हा",
+        "description": "एक लिंक शेअर करा जेणेकरून सहभागी फक्त टोपणनावाने मत देऊ शकतील."
+      }
+    },
+    "stepsHeading": "योजना तीन चरणांमध्ये सेट करा",
+    "steps": {
+      "create": {
+        "title": "1. पर्याय तयार करा",
+        "description": "मीटिंगचे शीर्षक आणि तुलना करण्यासाठी तारखा किंवा वेळा सेट करा."
+      },
+      "share": {
+        "title": "2. लिंक शेअर करा",
+        "description": "मित्रांना, संघमित्रांना किंवा तुमच्या गटाला लिंक पाठवा."
+      },
+      "decide": {
+        "title": "3. निकालाची पुष्टी करा",
+        "description": "मतांचे पुनरावलोकन करा आणि प्रत्येकासाठी सर्वोत्तम वेळ निवडा."
+      }
+    },
+    "faqHeading": "वारंवार विचारले जाणारे प्रश्न",
+    "faq": {
+      "what": {
+        "question": "मित्रांच्या भेटीसाठी किंवा टीम मीटिंगसाठी सर्वांची वेळ कशी जुळवायची?",
+        "answer": "Time2Gather मध्ये तारीख आणि वेळेचे पर्याय तयार करून लिंक शेअर करा. प्रत्येक जण सोयीची वेळ निवडतो. निकालांची तुलना करून भेट निश्चित करा. मित्र, अभ्यास गट आणि टीमसाठी हे मोफत आहे."
+      },
+      "login": {
+        "question": "नोंदणी किंवा ॲप इंस्टॉल न करता मतदान तयार करता आणि भाग घेता येतो का?",
+        "answer": "होय. आयोजक आणि सहभागी यांनी फक्त नाव लिहावे; नोंदणी किंवा सोशल लॉगिनची गरज नाही. फोन किंवा संगणकाच्या ब्राउझरमध्ये भेट तयार करून मतदान करता येते."
+      },
+      "location": {
+        "question": "भेटीच्या ठिकाणावरही मतदान करता येते का?",
+        "answer": "होय. भेट तयार करताना ठिकाणाचे मतदान सुरू करून पर्याय जोडा. सहभागी पसंतीच्या ठिकाणांना मत देऊ शकतात आणि टिप्पण्यांमध्ये चर्चा करू शकतात."
+      }
+    }
+  },
+  "login": {
+    "title": "शेड्यूल करण्यास तयार आहात?",
+    "description": "तुमच्या मीटिंग तयार आणि व्यवस्थापित करण्यासाठी साइन इन करा.",
+    "kakaoLogin": "Kakao सह सुरू ठेवा",
+    "googleLogin": "Google सह सुरू ठेवा",
+    "oauth": {
+      "loadingTitle": "तुम्हाला साइन इन करत आहे",
+      "loadingDescription": "तुम्ही काही क्षणात तुमच्या मागील स्क्रीनवर परत याल.",
+      "errorTitle": "आम्ही तुम्हाला साइन इन करू शकलो नाही",
+      "errorDescription": "साइन-इन पृष्ठावर परत या आणि पुन्हा प्रयत्न करा.",
+      "retry": "पुन्हा साइन इन करण्याचा प्रयत्न करा"
+    }
+  },
+  "search": {
+    "title": "मीटिंग शोधा",
+    "description": "तुम्हाला मिळालेला मीटिंग कोड एंटर करा."
+  },
+  "createMeeting": {
+    "title": "मीटिंग तयार करा",
+    "meetingTypeStep": {
+      "heading": "सहभागींनी काय निवडावे?",
+      "allDay": "फक्त तारखा",
+      "time": "तारखा आणि वेळा"
+    },
+    "titleStep": {
+      "heading": "तुमच्या बैठकीला नाव द्या",
+      "placeholder": "उदा., शुक्रवारी रात्रीचे जेवण"
+    },
+    "descriptionStep": {
+      "heading": "ही कसली बैठक आहे?",
+      "placeholder": "चला गंगनममध्ये भेटूया, सर्वजण!"
+    },
+    "datesStep": {
+      "heading": "संभाव्य तारखा निवडा"
+    },
+    "timeRangeStep": {
+      "heading": "उपलब्ध वेळ श्रेणी सेट करा",
+      "startTime": "प्रारंभ वेळ",
+      "endTime": "समाप्ती वेळ",
+      "selectedDatesCount": "निवडलेल्या तारखा: {count}",
+      "createButton": "मीटिंग तयार करा"
+    },
+    "locationStep": {
+      "heading": "तुमची मीटिंग तयार करणे पूर्ण करा",
+      "requiredLabel": "आवश्यक आहे",
+      "creatorHeading": "ही बैठक कोण तयार करत आहे?",
+      "creatorDescription": "तुमचे टोपणनाव मीटिंग होस्ट म्हणून दाखवले जाईल.",
+      "usernameLabel": "आपले टोपणनाव",
+      "usernamePlaceholder": "उदा., जेमी",
+      "usernameChangeHelp": "तुमचे नाव बदलल्याने तुमच्या विद्यमान मीटिंग आणि मते राहतील आणि फक्त तुमचे डिस्प्ले नाव अपडेट होईल.",
+      "optionalLabel": "ऐच्छिक",
+      "locationHeading": "तुम्हाला स्थानाचे मत आवडेल का?",
+      "locationDescription": "तुम्हाला सहभागींनी एकत्र ठिकाण निवडायचे असल्यास हे चालू करा.",
+      "enableLocationVote": "सहभागींना एखाद्या स्थानावर मतदान करू द्या",
+      "locationPlaceholder": "एक स्थान प्रविष्ट करा",
+      "addLocation": "स्थान जोडा",
+      "removeLocation": "स्थान काढा",
+      "minLocationsWarning": "लोकेशन व्होटिंगसाठी किमान 2 ठिकाणे आवश्यक आहेत",
+      "maxLocationsWarning": "तुम्ही फक्त 5 स्थाने जोडू शकता",
+      "createButton": "मीटिंग तयार करा",
+      "creatingButton": "मीटिंग तयार करत आहे...",
+      "skipButton": "वगळा"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "मीटिंग सापडली नाही",
+      "description": "तुम्ही विनंती केलेली मीटिंग अस्तित्वात नाही किंवा हटवली गेली आहे."
+    },
+    "participantsEmpty": "अद्याप कोणतेही सहभागी नाहीत.",
+    "participantsCount": "सहभागी: {count}",
+    "participantsCountCompact": "{count} सहभागी",
+    "selectedDates": "{count} पर्यायांमधून तुमच्यासाठी काम करणाऱ्या तारखा निवडा.",
+    "selectedDatesAndTimes": "{count} तारीख पर्यायांमधून तुमच्यासाठी काम करणाऱ्या तारखा आणि वेळा निवडा.",
+    "timeGrid": {
+      "timeLabel": "वेळ",
+      "touchHint": "अनेक वेळा निवडण्यासाठी दाबा, धरून ठेवा, नंतर ड्रॅग करा",
+      "pointerHint": "एकाच वेळी अनेक वेळा निवडण्यासाठी ड्रॅग करा",
+      "draggingHint": "ड्रॅगिंग · तुमची निवड लागू करण्यासाठी सोडा",
+      "selectDate": "{date} वर सर्व वेळा निवडा",
+      "previousDates": "मागील तारखा",
+      "nextDates": "पुढील तारखा"
+    },
+    "dateCalendar": {
+      "mySelection": "माझी निवड",
+      "fewerVotes": "कमी मते",
+      "moreVotes": "जास्त मते",
+      "available": "उपलब्ध",
+      "unavailable": "अनुपलब्ध",
+      "today": "आज",
+      "availableMonths": "उपलब्ध तारखांसह महिने",
+      "monthAvailability": "{count} {month} मध्ये उपलब्ध तारखा",
+      "previousMonth": "मागील महिना",
+      "nextMonth": "पुढच्या महिन्यात"
+    },
+    "dateParticipants": {
+      "title": "{date} वर उपलब्ध",
+      "count": {
+        "one": "{count} व्यक्ती",
+        "other": "{count} लोक"
+      }
+    },
+    "resultSaved": "परिणाम जतन केला गेला आहे.",
+    "modifyButton": "उपलब्धता संपादित करा",
+    "participate": "मीटिंगमध्ये सहभागी व्हा",
+    "shareResult": "निकाल शेअर करा",
+    "shareMeeting": "बैठक शेअर करा",
+    "shareSuccess": "लिंक कॉपी केली आहे.",
+    "exportToCalendar": "माझ्या कॅलेंडरमध्ये जोडा",
+    "confirmButton": "मीटिंगची पुष्टी करा",
+    "confirmButtonShort": "मीटिंगची पुष्टी करा",
+    "cancelConfirmButton": "पुष्टीकरण रद्द करा",
+    "cancelConfirmSuccess": "मीटिंग पुष्टीकरण रद्द केले गेले आहे!",
+    "cancelConfirmError": "पुष्टीकरण रद्द करण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.",
+    "alreadyConfirmedError": "ही बैठक आधीच पुष्टी केली आहे. तुम्ही तुमचे मत बदलू शकत नाही.",
+    "editDates": {
+      "openButton": "मतदानाचे पर्याय बदला",
+      "hostOnly": "फक्त होस्ट",
+      "title": "मतदानाचे पर्याय बदला",
+      "description": "सर्व सहभागी मतदान करू शकतील असे पर्याय बदला.",
+      "selectedCount": "{count} तारखा निवडल्या",
+      "selectionHint": "तारखा निवडण्यासाठी टॅप करा किंवा ड्रॅग करा.",
+      "removedWarning": "तुम्ही सेव्ह केल्यावर {count} काढलेल्या तारखांवरील मते हटवली जातील.",
+      "maxDates": "तुम्ही {count} तारखा निवडू शकता.",
+      "save": "पर्याय जतन करा",
+      "success": "मतदानाचे पर्याय अपडेट झाले.",
+      "error": "मतदानाचे पर्याय अपडेट करता आले नाहीत. पुन्हा प्रयत्न करा.",
+      "timeOpenButton": "मतदानाचे पर्याय बदला",
+      "timeTitle": "मतदानाचे पर्याय बदला",
+      "timeDescription": "सर्व सहभागी मतदान करू शकतील असे पर्याय बदला.",
+      "timeSave": "पर्याय जतन करा",
+      "timeSuccess": "मतदानाचे पर्याय अपडेट झाले.",
+      "timeError": "मतदानाचे पर्याय अपडेट करता आले नाहीत. पुन्हा प्रयत्न करा.",
+      "timeRangeHint": "वेळेची मर्यादा बदलल्यास ती निवडलेल्या सर्व तारखांना लागू होईल.",
+      "timeRemovedWarning": "जतन केल्यावर काढलेल्या {count} वेळ पर्यायांची मते हटवली जातील. इतर मते कायम राहतील.",
+      "locationRemovedWarning": "जतन केल्यावर बदललेल्या किंवा काढलेल्या {count} ठिकाणांच्या पर्यायांची मते हटवली जातील. इतर मते कायम राहतील."
+    },
+    "exportDialog": {
+      "title": "कॅलेंडरमध्ये जोडा",
+      "description": "तुमच्या कॅलेंडरमध्ये जोडण्यासाठी तारीख आणि वेळ निवडा.",
+      "noSlots": "अद्याप कोणत्याही तारखांवर मतदान झालेले नाही.",
+      "allDay": "दिवसभर",
+      "cancel": "रद्द करा",
+      "confirm": "कॅलेंडरमध्ये जोडा",
+      "close": "बंद करा"
+    },
+    "confirmDialog": {
+      "title": "मीटिंगची पुष्टी करा",
+      "description": "{count} टाय टॉप पर्यायांमधून अंतिम शेड्यूल निवडा.",
+      "noSlots": "अद्याप कोणत्याही तारखांवर मतदान झालेले नाही.",
+      "allDay": "दिवसभर",
+      "scheduleTitle": "तारीख आणि वेळ",
+      "scheduleDescription": "हे पर्याय सर्वाधिक सहभागींसाठी कार्य करतात.",
+      "locationTitle": "स्थान",
+      "locationDescription": "मत परिणाम वापरून कुठे भेटायचे ते निवडा.",
+      "locationStepDescription": "योजनेची पुष्टी करण्यासाठी कुठे भेटायचे ते निवडा.",
+      "progressLabel": "मीटिंग पुष्टीकरण पायऱ्या",
+      "locationVoteCount": {
+        "one": "{count} मत",
+        "other": "{count} मते"
+      },
+      "noLocations": "पुष्टी करण्यासाठी कोणतीही स्थाने उपलब्ध नाहीत.",
+      "cancel": "रद्द करा",
+      "confirm": "पुष्टी करा",
+      "confirming": "पुष्टी करत आहे...",
+      "close": "बंद करा",
+      "success": "भेटीची पुष्टी झाली आहे!",
+      "error": "मीटिंगची पुष्टी करण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.",
+      "allCandidatesDescription": "सर्व {count} पर्यायांमधून अंतिम वेळ निवडा.",
+      "groupedDescription": "{count} तारखांपैकी एक निवडा, नंतर सुरू होण्याची वेळ निवडा.",
+      "recommendationsDescription": "प्रत्येक तारखेसाठी जास्त सहभागी उपलब्ध असलेला एक पर्याय.",
+      "allDates": "सर्व {count} तारखांमधून निवडा",
+      "backToRecommendations": "सुचवलेले पर्याय पाहा"
+    },
+    "anonymousSelectButton": "नावासह सामील व्हा",
+    "selectButton": "तारखा निवडा",
+    "selectTimeButton": "तारीख आणि वेळ निवडा",
+    "result": {
+      "tabs": {
+        "aiSummary": "सारांश",
+        "summary": "सारांश",
+        "confirmed": "योजना पुष्टी केली",
+        "calendar": "कॅलेंडर",
+        "participants": "सहभागी",
+        "location": "स्थान"
+      },
+      "summaryTitle": "बैठकीचा सारांश",
+      "aiSummaryTitle": "मत परिणाम सारांश",
+      "calendarTitle": "मीटिंग कॅलेंडर",
+      "totalParticipants": "सहभागी: {count}",
+      "bestSlotsTitle": "सर्वाधिक लोकांना सोयीच्या तारखा",
+      "showMoreOptions": "{count} अधिक दाखवा",
+      "showFewerOptions": "कमी दाखवा",
+      "moreTimeOptions": "{count} अधिक वेळ पर्याय",
+      "participantsCount": "सहभागी: {count}",
+      "people": "लोक",
+      "voteCount": {
+        "one": "{count} व्यक्ती ({percentage})",
+        "other": "{count} लोक ({percentage})"
+      },
+      "noParticipants": "कोणतेही सहभागी नाहीत",
+      "buttons": {
+        "calendar": "कॅलेंडरमध्ये जोडा",
+        "share": "मतदान शेअर करा",
+        "shareConfirmed": "पुष्टी केलेली योजना सामायिक करा",
+        "shareKakao": "KakaoTalk",
+        "modifyDates": "माझी तारीख निवड संपादित करा",
+        "modifyTimes": "माझी तारीख आणि वेळ निवड संपादित करा",
+        "selectDates": "माझ्या उपलब्ध तारखा निवडा",
+        "selectTimes": "माझ्या उपलब्ध तारखा आणि वेळा निवडा",
+        "enterAvailability": "उपलब्धता जोडा",
+        "editAvailability": "माझे मत बदला"
+      },
+      "confirmedPlan": {
+        "eyebrow": "योजना पुष्टी केली",
+        "title": "तुमची योजना तयार आहे",
+        "date": "तारीख",
+        "time": "वेळ",
+        "location": "स्थान",
+        "attendees": "उपलब्ध उपस्थित",
+        "attendanceSummary": {
+          "one": "{count} व्यक्ती · गटातील {percentage}",
+          "other": "{count} लोक · गटाचे {percentage}"
+        },
+        "confirmTime": "वेळ निश्चित करा",
+        "confirmTimeTitle": "भेटीची वेळ निश्चित करा",
+        "confirmTimeDescription": "निश्चित केलेल्या तारखेला भेटण्याची वेळ निवडा.",
+        "timeConfirmSuccess": "भेटीची वेळ निश्चित झाली.",
+        "timeConfirmError": "भेटीची वेळ निश्चित करता आली नाही. कृपया पुन्हा प्रयत्न करा.",
+        "timePending": "अद्याप ठरलेले नाही",
+        "editTime": "संपादित करा",
+        "editTimeTitle": "बैठकीची वेळ संपादित करा",
+        "editTimeDescription": "पुष्टी केलेली तारीख ठेवा आणि तुम्ही भेटण्याची योजना नेमकी वेळ सेट करा.",
+        "saveTime": "जतन करा",
+        "savingTime": "सेव्ह करत आहे...",
+        "timeUpdateSuccess": "मीटिंगची वेळ अपडेट केली.",
+        "timeUpdateError": "मीटिंगची वेळ अपडेट करता आली नाही. कृपया पुन्हा प्रयत्न करा.",
+        "addTime": "वेळ जोडा (पर्यायी)",
+        "addTimeTitle": "वेळ जोडा",
+        "optionalTimeDescription": "गरज असेल तेव्हाच वेळ जोडा.",
+        "attendanceCount": "{total} पैकी {count} उपलब्ध",
+        "cancelTitle": "निश्चिती रद्द करायची?",
+        "cancelDescription": "निश्चित केलेले वेळापत्रक काढले जाईल. सहभागींची उत्तरे जतन केली जातील.",
+        "keepConfirmation": "निश्चिती कायम ठेवा"
+      },
+      "actions": {
+        "confirmed": "योजना पुष्टी केली",
+        "confirmedDescription": "तपशील शेअर करा किंवा ते तुमच्या कॅलेंडरमध्ये जोडा.",
+        "inProgress": "नियोजन सुरू आहे",
+        "manage": "मतदान व्यवस्थापित करा"
+      },
+      "share": {
+        "confirmedTitle": "{title} पुष्टी केली आहे",
+        "confirmedHeading": "योजना निश्चित झाली आहे!",
+        "detailsCopied": "पुष्टी केलेले तपशील आणि लिंक कॉपी केली गेली.",
+        "manualCopyDescription": "आपोआप शेअर किंवा कॉपी करता आले नाही. खालील मजकूर निवडून कॉपी करा."
+      },
+      "kakaoShare": {
+        "description": "तुमच्यासाठी उपयुक्त असलेल्या वेळा निवडा.",
+        "buttonTitle": "मतदानात सामील व्हा",
+        "confirmedTitle": "{date} · पुष्टी केली",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "पुष्टी केलेली योजना पहा",
+        "locationPending": "स्थान प्रलंबित"
+      },
+      "attendance": {
+        "available": "उपलब्ध",
+        "unavailable": "अनुपलब्ध",
+        "everyoneAvailable": "सर्वजण उपलब्ध आहेत",
+        "noneAvailable": "कोणीही उपलब्ध नाही"
+      },
+      "bestTimesTitle": "सर्वाधिक लोकांना सोयीच्या वेळा",
+      "availabilityBasis": "{count} प्रतिसादांवर आधारित.",
+      "allAvailable": "सर्व {count} जण उपलब्ध",
+      "someAvailable": "{total} पैकी {count} जण उपलब्ध",
+      "viewSlotPeople": "उपलब्ध सहभागी पाहण्यासाठी पर्याय निवडा.",
+      "decision": {
+        "allHeadline": "सर्व {count} जण {availability}",
+        "allHeadlineHighlight": "उपलब्ध आहेत",
+        "allDates": "सर्वांसाठी सोयीच्या तारखा ({count} जण)",
+        "allTimes": "सर्वांसाठी सोयीच्या वेळा ({count} जण)",
+        "partial": "जास्तीत जास्त {count} जण भेटू शकतात",
+        "basis": "आतापर्यंत नोंदवलेल्या उपलब्धतेनुसार",
+        "notAll": "अजून कोणताही पर्याय सर्वांसाठी सोयीचा नाही.",
+        "emptyDates": "कोणतीही तारीख निवडलेली नाही",
+        "emptyTimes": "कोणतीही वेळ निवडलेली नाही",
+        "pending": "नवीन पर्यायांवरील उत्तरांची वाट पाहत आहोत",
+        "allUnavailable": "उत्तर देणाऱ्या सर्व {count} जणांनी प्रस्तावित पर्याय सोयीचे नसल्याचे सांगितले.",
+        "notSelected": "हा पर्याय न निवडलेले लोक",
+        "people": "कोण उपलब्ध आहे ते पाहा",
+        "chooseDate": "भेटीसाठी ही तारीख ठरवा",
+        "chooseTime": "भेटीसाठी ही वेळ ठरवा",
+        "confirmedDate": "भेटीची तारीख ठरली आहे",
+        "setMeeting": "मीटिंगची पुष्टी करा"
+      },
+      "calendarFilter": {
+        "selectAll": "सर्व निवडा",
+        "selectedCount": "{total} पैकी {selected} निवडले",
+        "selectPrompt": "उपलब्ध वेळा पाहण्यासाठी सहभागी निवडा.",
+        "noAvailability": "निवडलेल्या सहभागींची कोणतीही उपलब्ध वेळ नाही."
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "तुम्ही साइन इन केलेले नाही",
+        "description": "नाव प्रविष्ट करून साइन इन न करता सामील व्हा.",
+        "kakaoLoginButton": "Kakao सह सुरू ठेवा",
+        "loginButton": "साइन इन करा",
+        "anonymousLogin": "सामील होण्यासाठी नाव प्रविष्ट करा"
+      },
+      "description": "तुम्ही या मीटिंगसाठी वापराल ते नाव एंटर करा.",
+      "votingAs": "{username} म्हणून सामील होत आहे.",
+      "votingAsCompact": "{username} म्हणून सामील होत आहे",
+      "usernamePlaceholder": "नाव",
+      "anonymousLogin": "या नावासह सामील व्हा"
+    },
+    "identity": {
+      "label": "या बैठकीसाठी नाव",
+      "hint": "नावातील बदल फक्त या बैठकीला लागू होईल.",
+      "change": "नाव बदला"
+    },
+    "unavailable": {
+      "dates": "यापैकी कोणतीही तारीख चालणार नाही",
+      "times": "यापैकी कोणतीही वेळ चालणार नाही",
+      "hint": "कोणताही पर्याय सोयीचा नसल्यास हे निवडा.",
+      "selectedHint": "कोणताही पर्याय सोयीचा नसल्याचे कळवले जाईल. तुम्ही नंतर उत्तर बदलू शकता.",
+      "changed": "सुचवलेल्या तारखा बदलल्या आहेत. पेज रीफ्रेश करून पुन्हा उत्तर द्या.",
+      "respondents": "उत्तर दिलेले लोक",
+      "datesStatus": "सोयीची तारीख नाही",
+      "timesStatus": "सोयीची वेळ नाही",
+      "pending": "नवीन पर्यायांना उत्तर आवश्यक",
+      "selected": "वेळ निवडली",
+      "noneStatus": "कोणतीही सोयीची वेळ नाही",
+      "picked": "उपलब्ध सहभागी",
+      "emptyTitle": "अजून सुचवलेली वेळ नाही",
+      "emptyHint": "इतर सहभागींच्या उत्तरांची वाट पाहा.",
+      "viewPeople": "सहभागी पाहा",
+      "morePeople": "आणखी {count} जण दाखवा",
+      "lessPeople": "कमी दाखवा",
+      "basis": "निश्चित वेळेसाठी दिलेल्या उपलब्धतेच्या मतांवर आधारित.",
+      "otherSelection": "दुसरी वेळ निवडली"
+    }
+  },
+  "my": {
+    "title": "माझ्या सभा",
+    "tabs": {
+      "myMeetings": "माझ्या सभा",
+      "participatedMeetings": "मी सामील झालेल्या मीटिंग्ज"
+    },
+    "noMeetings": "तुम्ही अद्याप कोणत्याही मीटिंग तयार केलेल्या नाहीत.",
+    "noParticipatedMeetings": "तुम्ही अद्याप कोणत्याही मीटिंगमध्ये भाग घेतला नाही.",
+    "myMeetingsDetails": "तुम्ही {count} मीटिंग तयार केल्या आहेत.",
+    "participatedMeetingsDetails": "तुम्ही {count} मीटिंगमध्ये सहभागी झाला आहात."
+  },
+  "admin": {
+    "metaTitle": "प्रशासन डॅशबोर्ड - Time2 Gather",
+    "metaDescription": "Time2Gather वापरकर्ते आणि मीटिंगचे पुनरावलोकन करण्यासाठी खाजगी डॅशबोर्ड.",
+    "eyebrow": "प्रशासक कन्सोल",
+    "title": "सेवा विहंगावलोकन",
+    "description": "मुख्य वापरकर्ता आणि मीटिंग मेट्रिक्सचे पुनरावलोकन करा, त्यानंतर तुम्हाला आवश्यक असलेले रेकॉर्ड त्वरीत शोधा.",
+    "summaryTitle": "एका नजरेत",
+    "summaryDescription": "संख्या सध्या संचयित केलेल्या वापरकर्ते आणि मीटिंग्जवर आधारित आहे.",
+    "loading": "प्रशासक डॅशबोर्ड तयार करत आहे.",
+    "loadingDescription": "तुमचा प्रवेश तपासत आहे आणि नवीनतम डेटा लोड करत आहे.",
+    "accessDeniedTitle": "तुम्हाला प्रवेश नाही",
+    "accessDeniedDescription": "केवळ प्रशासकाची भूमिका असलेली खाती हे पृष्ठ पाहू शकतात.",
+    "refresh": "विहंगावलोकन रिफ्रेश करा",
+    "retry": "पुन्हा प्रयत्न करा",
+    "loadError": "आम्ही विहंगावलोकन लोड करू शकलो नाही.",
+    "search": "शोधा",
+    "notAvailable": "उपलब्ध नाही",
+    "pageOf": "{total} चे {current} पृष्ठ",
+    "stats": {
+      "totalUsers": "एकूण वापरकर्ते",
+      "registeredUsers": "साइन अप केलेले वापरकर्ते",
+      "anonymousUsers": "निनावी वापरकर्ते",
+      "adminUsers": "{count} प्रशासक",
+      "totalMeetings": "एकूण बैठका",
+      "activeMeetings": "सक्रिय बैठका",
+      "confirmedMeetings": "बैठकांची पुष्टी केली",
+      "confirmationRate": "निश्चितीचा दर: {rate}"
+    },
+    "users": {
+      "title": "वापरकर्ते",
+      "description": "{count} वापरकर्ते आढळले.",
+      "searchPlaceholder": "नाव किंवा ईमेल शोधा",
+      "loadError": "आम्ही वापरकर्ते लोड करू शकलो नाही.",
+      "empty": "कोणतेही वापरकर्ते तुमच्या शोधाशी जुळत नाहीत.",
+      "user": "वापरकर्ता",
+      "provider": "साइन इन पद्धत",
+      "role": "भूमिका",
+      "joinedAt": "सामील झाले",
+      "participatedMeetings": "सहभाग घेतलेल्या बैठका",
+      "noParticipatedMeetings": "अद्याप कोणत्याही बैठकीत सहभाग घेतलेला नाही.",
+      "noEmail": "ईमेल नाही"
+    },
+    "meetings": {
+      "title": "सभा",
+      "description": "{count} मीटिंग सापडल्या.",
+      "searchPlaceholder": "शीर्षक किंवा मीटिंग कोड शोधा",
+      "loadError": "आम्ही मीटिंग लोड करू शकलो नाही.",
+      "empty": "तुमच्या शोधाशी कोणत्याही मीटिंग जुळत नाहीत.",
+      "meeting": "बैठक",
+      "host": "यजमान",
+      "status": "स्थिती",
+      "createdAt": "तयार केले",
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "confirmed": "पुष्टी केली",
+      "confirmedOnly": "फक्त पुष्टी केलेल्या मीटिंग दाखवा",
+      "unknownHost": "अज्ञात वापरकर्ता",
+      "openNewTab": "नवीन टॅबमध्ये भेट उघडा"
+    },
+    "providers": {
+      "ANONYMOUS": "अनामिक",
+      "KAKAO": "काकाओ",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "वापरकर्ता",
+      "ADMIN": "ॲडमिन"
+    },
+    "selectionTypes": {
+      "TIME": "तारीख आणि वेळ",
+      "ALL_DAY": "फक्त तारखा"
+    },
+    "login": {
+      "checking": "साइन इन सेटिंग्ज तपासत आहे...",
+      "expired": "प्रशासक प्रवेश कालबाह्य झाला आहे किंवा अनुपलब्ध आहे. कृपया पुन्हा साइन इन करा.",
+      "notConfigured": "प्रशासक साइन-इन कॉन्फिगर केलेले नाही. ऑपरेटरशी संपर्क साधा.",
+      "verifying": "प्रशासक प्रवेश तपासत आहे...",
+      "notAllowed": "अधिकृत प्रशासक खाते वापरा.",
+      "google": "Google सह साइन इन करा",
+      "unavailable": "साइन-इन सेवा लोड करू शकलो नाही.",
+      "networkError": "तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
+      "logout": "साइन आउट करा",
+      "title": "प्रशासक साइन-इन",
+      "description": "केवळ अधिकृत Google खाती या क्षेत्रात प्रवेश करू शकतात.",
+      "retry": "पुन्हा प्रयत्न करा",
+      "sessionHelp": "प्रशासक प्रवेश मीटिंग सहभागापासून वेगळे सत्र वापरतो."
+    }
+  },
+  "404": {
+    "title": "पृष्ठ आढळले नाही",
+    "description": "तुम्ही विनंती केलेले पान अस्तित्वात नाही किंवा हटवले गेले आहे.",
+    "homeButton": "होम वर जा"
+  },
+  "meta": {
+    "siteTitle": "Time2 Gather - लोकांसह वेळापत्रक",
+    "siteDescription": "एक सेवा जी लोकांशी मीटिंग शेड्यूल करणे सोपे करते. मीटिंग तयार करा, एकाधिक तारखा आणि वेळ स्लॉट निवडा आणि ते सामायिक करा. जेव्हा सहभागी त्यांच्या उपलब्ध वेळा निवडतात, तेव्हा आम्ही भेटण्यासाठी सर्वोत्तम तारीख आणि वेळ सुचवू.",
+    "siteKeywords": "वेळापत्रक बैठक, वेळापत्रक समन्वय, गट बैठक, गट वेळापत्रक, वेळ समन्वय, बैठक व्यवस्थापन, वेळापत्रक सामायिकरण, Time2Gather",
+    "ogImageAlt": "Time2 Gather - अनेक लोकांसह वेळापत्रक",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - 5 सेकंदात मीटिंग शेड्यूल करा",
+        "description": "एकाधिक लोकांसह वेळापत्रक समन्वयित करण्यासाठी संघर्ष करत आहात? सहज मते गोळा करण्यासाठी आणि प्रत्येकासाठी सर्वोत्तम वेळ शोधण्यासाठी Time2Gather वापरा."
+      },
+      "create": {
+        "title": "मीटिंग तयार करा - Time2 Gather",
+        "description": "नवीन मीटिंग तयार करा आणि मित्रांसह सामायिक करा. मतदानाद्वारे तारखा, वेळा आणि ठिकाणे सहजतेने ठरवा."
+      },
+      "login": {
+        "title": "लॉगिन - Time2 Gather",
+        "description": "शेड्युलिंग सुरू करण्यासाठी Kakao किंवा Google सह साइन इन करा."
+      },
+      "my": {
+        "title": "माझ्या मीटिंग्ज - Time2 Gather",
+        "description": "तुमच्या सर्व तयार केलेल्या आणि सहभागी झालेल्या मीटिंग एका नजरेत पहा. मीटिंग व्यवस्थापन सोपे केले."
+      },
+      "meeting": {
+        "title": "{title} - टाइम2 गॅदर",
+        "description": "{title} मीटिंगमध्ये सामील व्हा. तुमची उपलब्ध वेळ निवडा आणि मतदान करा."
+      },
+      "result": {
+        "title": "{title} परिणाम - Time2 Gather",
+        "description": "{title} मध्ये सामील व्हा आणि तुमच्यासाठी उपयुक्त वेळ निवडा.",
+        "confirmedTitle": "{title} पुष्टी केली - Time2 Gather",
+        "confirmedDescription": "पुष्टी केलेली योजना: {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "अनुसूची सहाय्यक",
+    "open": "गप्पा उघडा",
+    "close": "चॅट बंद करा",
+    "welcomeMessage": "नमस्कार! मला तुमच्या वेळापत्रकाबद्दल विचारा.",
+    "welcomeHint": "उदा. \"माझ्या मीटिंग दाखवा\", \"पुढच्या आठवड्यात काय आहे?\"",
+    "inputPlaceholder": "संदेश टाइप करा...",
+    "errorMessage": "क्षमस्व, एक त्रुटी आली. कृपया नंतर पुन्हा प्रयत्न करा."
+  },
+  "locationVote": {
+    "title": "स्थान मत",
+    "description": "तुमचे पसंतीचे स्थान निवडा",
+    "scheduleStepLabel": "1 / 2 · उपलब्धता",
+    "locationStepLabel": "2 / 2 · स्थान",
+    "selectionTitle": "आपण कुठे भेटू?",
+    "selectionDescription": "तुमच्यासाठी काम करणारी सर्व ठिकाणे निवडा.",
+    "confirmedLocation": "पुष्टी केलेले स्थान",
+    "confirmed": "पुष्टी केली",
+    "loadError": "तुमच्या स्थान निवडी लोड करू शकलो नाही.",
+    "retry": "पुन्हा प्रयत्न करा",
+    "voters": "या ठिकाणाला मत देणारे",
+    "noVotes": "अद्याप कोणीही मत दिलेले नाही"
+  },
+  "timezone": {
+    "title": "टाइम झोन",
+    "meeting": "मीटिंग टाइम झोन: {zone}",
+    "display": "तुमचा डिस्प्ले टाइम झोन",
+    "hint": "मीटिंग टाइम झोनमध्ये तारखा आणि वेळा प्रविष्ट केल्या आहेत. प्रत्येकजण त्याच क्षणांवर मत देतो.",
+    "gridHint": "स्तंभ तारखा आणि वेळ अक्ष मीटिंग टाइम झोन वापरतात. प्रत्येक सेल तुमच्या निवडलेल्या टाइम झोनमध्ये तारीख आणि वेळ देखील दाखवतो.",
+    "local": "{zone} मध्ये: {time}",
+    "invalid": "एक वैध वेळ क्षेत्र निवडा.",
+    "gap": "ही वेळ अस्तित्वात नाही कारण घड्याळे पुढे सरकतात. दुसरी वेळ निवडा.",
+    "overlap": "जेव्हा घड्याळे मागे सरकतात तेव्हा ही वेळ दोनदा येते. एक अस्पष्ट वेळ निवडा.",
+    "allDay": "फक्त-तारीख मते प्रत्येक टाइम झोनमध्ये समान कॅलेंडर तारीख ठेवतात.",
+    "useDevice": "डिव्हाइस टाइम झोन वापरा",
+    "search": "टाइम झोन शोधा",
+    "noResults": "कोणताही वेळ क्षेत्र सापडला नाही. दुसरे शहर किंवा प्रदेश शोधा."
+  },
+  "errors": {
+    "error.internal": "अंतर्गत सर्व्हर त्रुटी आली आहे",
+    "error.validation.failed": "इनपुट प्रमाणीकरण अयशस्वी",
+    "error.request.invalid": "विनंती अवैध आहे. {0}",
+    "error.state.invalid": "ही विनंती सध्याच्या स्थितीत केली जाऊ शकत नाही",
+    "error.resource.not.found": "विनंती केलेले संसाधन सापडले नाही",
+    "error.null.pointer": "आवश्यक डेटा गहाळ आहे. कृपया तुमची विनंती तपासा.",
+    "error.number.format": "नंबर फॉरमॅट अवैध आहे. कृपया तुमचे इनपुट तपासा.",
+    "error.auth.required": "प्रमाणीकरण आवश्यक आहे",
+    "error.auth.required.login": "प्रमाणीकरण आवश्यक आहे. कृपया लॉग इन करा आणि पुन्हा प्रयत्न करा.",
+    "error.auth.access.denied": "प्रवेश नाकारला",
+    "error.auth.not.authenticated": "वापरकर्ता प्रमाणीकृत नाही",
+    "error.user.not.found": "वापरकर्ता सापडला नाही",
+    "error.user.not.found.email": "ईमेलसह वापरकर्ता सापडला नाही: {0}",
+    "error.user.id.required": "वापरकर्ता आयडी आवश्यक आहे",
+    "error.oauth.invalid.code": "अधिकृतता कोड अवैध आहे किंवा कालबाह्य झाला आहे. कृपया पुन्हा प्रमाणीकृत करा. त्रुटी: {0}",
+    "error.oauth.api.failed": "OAuth API सह संप्रेषण करण्यात अयशस्वी: {0}",
+    "error.oauth.no.id.token": "OAuth प्रदात्याकडून आयडी टोकन मिळवण्यात अयशस्वी",
+    "error.oauth.no.user.info": "OAuth प्रदात्याकडून वापरकर्ता माहिती मिळवण्यात अयशस्वी",
+    "error.meeting.not.found": "मीटिंग सापडली नाही",
+    "error.meeting.not.found.code": "मीटिंग आढळली नाही: {0}",
+    "error.meeting.id.required": "मीटिंग आयडी आवश्यक आहे",
+    "error.meeting.already.confirmed": "मीटिंग आधीच पुष्टी केली आहे. कृपया प्रथम पुष्टीकरण रद्द करा.",
+    "error.meeting.not.confirmed": "मीटिंगची पुष्टी झालेली नाही",
+    "error.meeting.invalid.date": "अवैध तारीख: {0}",
+    "error.meeting.date.not.available": "ही तारीख मीटिंगमध्ये उपलब्ध नाही: {0}",
+    "error.meeting.no.interval.info": "मीटिंग इंटरव्हल माहिती गहाळ आहे",
+    "error.meeting.host.only": "केवळ होस्ट ही क्रिया करू शकतो",
+    "error.meeting.no.participants": "कोणत्याही सहभागींनी अद्याप मतदान केले नसल्यामुळे कॅलेंडर तयार करू शकत नाही",
+    "error.meeting.date.format.invalid": "तारीख स्वरूप अवैध आहे. कृपया yyyy-MM-dd फॉरमॅट वापरा.",
+    "error.meeting.validation.date.required": "किमान एक तारीख निवडणे आवश्यक आहे",
+    "error.meeting.validation.date.slot.required": "प्रत्येक तारखेसाठी किमान एक वेळ स्लॉट निवडणे आवश्यक आहे",
+    "error.meeting.validation.time.required": "किमान एक तारीख आणि वेळ स्लॉट निवडणे आवश्यक आहे",
+    "error.meeting.validation.all.day.empty.slots": "ALL_DAY प्रकारासाठी, वेळ स्लॉट रिक्त ॲरे असणे आवश्यक आहे",
+    "error.meeting.validation.slot.index.required": "TIME प्रकारच्या मीटिंगसाठी slotIndex आवश्यक आहे",
+    "error.meeting.validation.slot.index.invalid": "अवैध स्लॉट इंडेक्स: {0}",
+    "error.meeting.validation.date.slot.together": "तारीख आणि slotIndex एकत्र नमूद करणे आवश्यक आहे",
+    "error.location.not.found": "स्थान सापडले नाही",
+    "error.location.not.belong.to.meeting": "स्थान या बैठकीचे नाही",
+    "error.location.vote.not.enabled": "या संमेलनासाठी स्थान मतदान सक्षम केलेले नाही",
+    "error.location.already.confirmed": "स्थान आधीच निश्चित केले आहे. कृपया प्रथम स्थान पुष्टीकरण रद्द करा.",
+    "error.location.not.confirmed": "स्थान निश्चित नाही",
+    "error.location.id.required": "स्थान आयडी आवश्यक आहे",
+    "error.location.name.required": "स्थानाचे नाव आवश्यक आहे",
+    "error.location.name.too.long": "स्थानाचे नाव 200 वर्णांपेक्षा जास्त असू शकत नाही",
+    "error.location.max.exceeded": "जास्तीत जास्त {0} स्थाने जोडली जाऊ शकतात",
+    "error.location.min.required": "किमान {0} स्थान(ले) आवश्यक आहेत",
+    "error.location.min.for.vote": "स्थान मतदान सक्षम करण्यासाठी किमान {0} स्थाने आवश्यक आहेत",
+    "error.location.cannot.disable": "स्थान निश्चित झाल्यावर स्थान मतदान अक्षम करू शकत नाही",
+    "error.location.not.exist": "स्थान अस्तित्वात नाही: {0}",
+    "error.selection.empty": "निवड डेटा रिक्त आहे",
+    "error.selection.date.required": "तारीख आवश्यक आहे",
+    "error.selection.type.required": "प्रकार आवश्यक आहे",
+    "error.selection.type.unknown": "अज्ञात प्रकार: {0} (केवळ TIME किंवा ALL_DAY अनुमत)",
+    "error.selection.time.required": "तारीख '{0}' हा TIME प्रकार आहे परंतु वेळ नमूद केलेली नाही",
+    "error.selection.time.empty": "वेळेचे मूल्य रिक्त आहे",
+    "error.selection.time.format.invalid": "'{0}' तारखेसाठी वेळेचे स्वरूप अवैध आहे. {1}",
+    "error.selection.date.not.available": "या बैठकीत {0} तारीख उपलब्ध नाही",
+    "error.selection.slot.null": "स्लॉट ॲरे शून्य असू शकत नाही. तारखा वगळण्यासाठी रिक्त नकाशा वापरा.",
+    "error.selection.slot.not.available": "{1} वर स्लॉट {0} उपलब्ध नाही",
+    "error.selection.slot.empty.for.time": "TIME प्रकारच्या मीटिंगसाठी रिक्त ॲरेला अनुमती नाही. तारखा वगळण्यासाठी रिक्त नकाशा वापरा.",
+    "error.timeslot.invalid.format": "अवैध वेळ स्वरूप. अपेक्षित HH:mm",
+    "error.timeslot.invalid.hour": "तास 0 आणि 23 च्या दरम्यान असणे आवश्यक आहे",
+    "error.timeslot.invalid.minute": "मिनिट 0 आणि 59 च्या दरम्यान असणे आवश्यक आहे",
+    "error.timeslot.not.aligned": "वेळ {0} मिनिटांच्या अंतराने संरेखित करणे आवश्यक आहे",
+    "error.timeslot.index.out.of.range": "{0}-मिनिटांच्या अंतरासाठी स्लॉट इंडेक्स {1} आणि {2} दरम्यान असणे आवश्यक आहे, परंतु मिळाले: {3}",
+    "error.timeslot.interval.positive": "मध्यांतर मिनिटे सकारात्मक असणे आवश्यक आहे",
+    "error.timeslot.interval.divisor": "अंतराल मिनिटे {0} चा विभाजक असणे आवश्यक आहे",
+    "error.calendar.export.failed": "कॅलेंडर फाइल तयार करण्यात अयशस्वी",
+    "error.ai.api.failed": "AI API कॉल अयशस्वी",
+    "error.ai.provider.unknown": "अज्ञात AI प्रदाता: {0}",
+    "mcp.meeting.created": "मीटिंग यशस्वीरित्या तयार केली",
+    "mcp.vote.time.saved": "उपलब्धता मत यशस्वीरित्या जतन केले",
+    "mcp.vote.location.saved": "स्थान मत यशस्वीरित्या जतन केले",
+    "mcp.meeting.confirmed": "मीटिंग शेड्यूल यशस्वीरित्या पुष्टी केली",
+    "mcp.location.confirmed": "मीटिंगच्या स्थानाची यशस्वीरित्या पुष्टी केली",
+    "mcp.ics.created": "ICS फाइल यशस्वीरित्या तयार केली",
+    "validation.meeting.title.required": "शीर्षक आवश्यक आहे",
+    "validation.meeting.dates.required": "उपलब्ध तारखा/वेळा आवश्यक आहेत",
+    "validation.meeting.location.max": "जास्तीत जास्त 5 ठिकाणे जोडता येतील",
+    "validation.selection.required": "निवडलेले वेळ स्लॉट आवश्यक आहेत",
+    "validation.date.required": "तारीख आवश्यक आहे",
+    "validation.date.format": "तारखेचे स्वरूप yyyy-MM-dd असणे आवश्यक आहे",
+    "validation.time.required": "वेळ आवश्यक आहे",
+    "validation.time.format": "वेळेचे स्वरूप HH:mm असणे आवश्यक आहे",
+    "validation.location.id.required": "स्थान आयडी आवश्यक आहे",
+    "validation.location.ids.required": "स्थान आयडी यादी आवश्यक आहे",
+    "validation.location.name.required": "स्थानाचे नाव आवश्यक आहे",
+    "validation.location.max": "जास्तीत जास्त 5 ठिकाणे जोडता येतील",
+    "validation.auth.code.required": "अधिकृतता कोड आवश्यक आहे",
+    "validation.username.required": "वापरकर्तानाव आवश्यक आहे",
+    "validation.password.required": "पासवर्ड आवश्यक आहे",
+    "validation.selection.date.min.max": "कृपया १ ते ३१ तारखा निवडा",
+    "validation.type.required": "प्रकार आवश्यक आहे",
+    "validation.slot.index.required": "पुष्टी करण्यासाठी स्लॉट अनुक्रमणिका (TIME प्रकारासाठी आवश्यक, ALL_DAY प्रकारासाठी शून्य अनुमत)",
+    "error.meeting.timezone.invalid": "वैध IANA टाइम झोन निवडा.",
+    "error.meeting.time.nonexistent": "ही वेळ अस्तित्वात नाही कारण घड्याळे पुढे सरकतात. दुसरी वेळ निवडा.",
+    "error.meeting.time.ambiguous": "जेव्हा घड्याळे मागे सरकतात तेव्हा ही वेळ दोनदा येते. एक अस्पष्ट वेळ निवडा.",
+    "error.comment.rate.limit": "पुन्हा पोस्ट करण्यापूर्वी काही सेकंद थांबा.",
+    "error.selection.candidates.changed": "सुचवलेल्या तारखा बदलल्या आहेत. पेज रीफ्रेश करून पुन्हा उत्तर द्या."
+  },
+  "comments": {
+    "title": "टिप्पण्या",
+    "placeholder": "या भेटीबद्दल बोला",
+    "reply": "उत्तर द्या",
+    "replyTo": "{name} यांना उत्तर",
+    "replies": "उत्तरे ({count})",
+    "collapse": "उत्तरे लपवा",
+    "post": "पोस्ट करा",
+    "save": "जतन करा",
+    "edit": "संपादित करा",
+    "delete": "हटवा",
+    "hide": "लपवा",
+    "hidden": "आयोजकाने ही टिप्पणी लपवली आहे.",
+    "deleted": "ही टिप्पणी हटवली आहे.",
+    "edited": "संपादित",
+    "host": "आयोजक",
+    "mention": "कोणाचा उल्लेख करण्यासाठी @ लिहा",
+    "noPeople": "जुळणारे सहभागी नाहीत",
+    "session": "तुमच्या टिप्पण्यांवर दिसणारे नाव लिहा.",
+    "failed": "विनंती पूर्ण झाली नाही. तुमचा मजकूर जतन आहे; पुन्हा प्रयत्न करा.",
+    "rateLimit": "पुन्हा पोस्ट करण्यापूर्वी काही सेकंद थांबा.",
+    "new": "नवीन टिप्पण्या पहा ({count})",
+    "mentioned": "तुम्हाला उद्देशून नवीन टिप्पणी",
+    "moreReplies": "आणखी उत्तरे",
+    "more": "जुन्या टिप्पण्या",
+    "copy": "टिप्पणीचा दुवा कॉपी करा",
+    "copied": "दुवा कॉपी केला.",
+    "actions": "टिप्पणीचे पर्याय",
+    "newReply": "नवीन",
+    "removeConfirm": "हा मजकूर काढायचा? आधीची उत्तरे राहतील.",
+    "retry": "पुन्हा प्रयत्न करा",
+    "reactions": {
+      "add": "प्रतिक्रिया जोडा",
+      "view": "कोणी प्रतिक्रिया दिली ते पाहा",
+      "title": "प्रतिक्रिया",
+      "react": "प्रतिक्रिया द्या",
+      "remove": "प्रतिक्रिया काढा",
+      "empty": "अद्याप कोणतीही प्रतिक्रिया नाही.",
+      "you": "तुम्ही",
+      "session": "तुमच्या प्रतिक्रियांसोबत दिसणारे नाव टाका.",
+      "failed": "प्रतिक्रिया बदलता आली नाही. पुन्हा प्रयत्न करा.",
+      "like": "सहमत",
+      "love": "आवडले",
+      "laugh": "मजेशीर",
+      "celebrate": "आनंदोत्सव",
+      "thanks": "धन्यवाद",
+      "think": "विचार करत आहे",
+      "eyes": "पाहत आहे",
+      "hundred": "उत्कृष्ट"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "भेटीची वेळ ठरवणे इतके सोपे",
+    "title": "वेगवेगळी वेळापत्रके. एक सामायिक भेट.",
+    "description": "लिंक शेअर करा, मोकळ्या वेळा निवडा आणि सर्वांना भेटता येईल अशी वेळ शोधा.",
+    "steps": {
+      "share": {
+        "title": "एक लिंक शेअर करा",
+        "description": "आमंत्रित व्यक्ती साइन इन न करता सहभागी होऊ शकतात"
+      },
+      "select": {
+        "title": "मोकळ्या वेळा निवडा",
+        "description": "सर्वांच्या मोकळ्या वेळा एकत्र आणा"
+      },
+      "decide": {
+        "title": "सर्वांना जमणारी वेळ शोधा",
+        "description": "सर्वात योग्य वेळ निश्चित करा"
+      }
+    },
+    "sample": "वापराचे उदाहरण",
+    "meetingTitle": "या आठवड्यात भेटूया",
+    "responses": "{count} सहभागी",
+    "hint": "तुमची वेळ बदला आणि निकाल बदलताना पाहा.",
+    "filtersLabel": "सहभागीनुसार मोकळ्या वेळा",
+    "allResults": "सर्व निकाल",
+    "personAvailability": "{name} यांच्या मोकळ्या वेळा",
+    "tableLabel": "प्रत्येक वेळी उपलब्ध सहभागी",
+    "timeLabel": "वेळ",
+    "legendTitle": "उपलब्ध सहभागी",
+    "legendMax": "जास्त",
+    "resultTitle": "सर्व {count} जणांसाठी वेळ सापडली!",
+    "resultHint": "सर्वांना जमणाऱ्या वेळा पाहण्यासाठी सर्व निकाल निवडा.",
+    "available": "उपलब्ध",
+    "unavailable": "अनुपलब्ध",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "तुमच्या उपलब्ध वेळा",
+    "hourly": "१ तासाचे अंतर",
+    "me": "तुम्ही",
+    "legend": "उपलब्ध / एकूण",
+    "create": "तुमची भेट तयार करा",
+    "compactTime": "शनिवार, संध्याकाळी ७ वाजता",
+    "compactResult": "सगळ्यांना येता येईल"
+  }
+}

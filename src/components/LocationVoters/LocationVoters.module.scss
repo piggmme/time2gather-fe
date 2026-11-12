@@ -1,0 +1,32 @@
+@use "../../styles/surfaces.scss" as surfaces;
+@use "../../styles/variables.scss" as *;
+.container {
+  min-width: 0;
+  margin-block-start: $spacing-sm;
+  border-top: 0;
+}
+
+.label { margin: 0; color: #697586; font-size: 12px; line-height: 1.6; }
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md $spacing-sm;
+  list-style: none;
+  margin: $spacing-sm 0 0;
+  padding: 0;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+    min-width: 0;
+    max-width: 100%;
+    @include surfaces.person;
+    padding-block: 0;
+    color: #334155;
+    font-size: 13px;
+    line-height: var(--font-body-line-height, 1.6);
+  }
+  li > :first-child { flex-shrink: 0; }
+  bdi { min-width: 0; overflow-wrap: anywhere; }
+}

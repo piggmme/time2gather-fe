@@ -1,3 +1,4 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 // =====================================================
@@ -12,6 +13,7 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 600px;
+  min-width: 0;
   min-height: 48px;
   height: auto;
   padding: $spacing-md $spacing-lg;
@@ -22,14 +24,16 @@
   font-weight: $font-weight-medium;
   line-height: 1.35;
   white-space: normal;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
   text-wrap: balance;
   
-  border-radius: $radius-sm; // shadcn uses smaller radius (6-8px)
+  border-radius: surfaces.$control-radius;
   border: none;
   cursor: pointer;
   
-  transition: all $transition-fast;
+  > svg { flex-shrink: 0; }
+
+  transition: background-color $transition-fast, color $transition-fast, border-color $transition-fast, transform $transition-fast;
 
   &[aria-busy='true']::before {
     content: '';
@@ -79,14 +83,12 @@
   }
 
   &.secondary {
-    background-color: $c-white;
+    @include surfaces.action;
     color: $c-gray-darkest;
-    border: 1px solid $c-gray;
-    box-shadow: $shadow-sm;
 
     &:hover:not([disabled]) {
       background-color: $c-gray-lightest;
-      border-color: $c-gray-dark;
+      border-color: transparent;
       color: $c-black;
     }
 
@@ -126,14 +128,12 @@
   }
 
   &.default {
-    background-color: $c-white;
+    @include surfaces.action;
     color: $c-black;
-    border: 1px solid $c-gray;
-    box-shadow: $shadow-sm;
 
     &:hover:not([disabled]) {
       background-color: $c-gray-lightest;
-      border-color: $c-gray-dark;
+      border-color: transparent;
     }
     
     &:active:not([disabled]) {
@@ -166,3 +166,5 @@
     transform: rotate(360deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) { .button { transition: none; } }

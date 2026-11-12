@@ -1,10 +1,17 @@
+import { trackMeetingResponseSaved } from '../../utils/meetingAnalytics'
+import UnavailableOption from './UnavailableOption'
+import { useUnavailableResponse } from '../../hooks/useUnavailableResponse'
+import { useMeetingName } from '../../hooks/useMeetingName'
+import MeetingNameField from '../MeetingIdentity/MeetingNameField'
+import { useStepScrollRestoration } from '../../hooks/useStepScrollRestoration'
+import TimezoneNotice from '../Timezone/TimezoneNotice'
 import dayjs from 'dayjs'
 import { useTranslation } from '../../hooks/useTranslation'
 import styles from './SelectPage.module.scss'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Button from '../Button/Button'
 import { meetings, type get_meetings_$meetingCode_response } from '../../services/meetings'
-import { navigate } from 'astro:transitions/client'
+import { navigateBack } from '../../utils/navigation'
 import { showCautionToast, showDefaultToast } from '../../stores/toast'
 import Monthly from '../Monthly/Monthly'
 import Input from '../Input/Input'
@@ -14,7 +21,7 @@ import { auth } from '../../services/auth'
 import LocationVoteSection, { type LocationSelectionStatus } from './LocationVoteSection'
 import DateParticipantsPanel from './DateParticipantsPanel'
 import { useAnonymousMeetingData } from '../../hooks/useAnonymousMeetingData'
-import { getProspectiveParticipantCount } from '../../utils/participantCount'
+import { getOtherParticipantCount } from '../../utils/participantCount'
 
 export default function AnonymousDatesSelectPage (
   { meetingCode, initialData }:
@@ -51,6 +58,10 @@ function AnonymousLoginForm () {
       <p>{t('meeting.anonymous.description')}</p>
       <Input
         type='text'
+        dir='auto'
+        autoComplete='nickname'
+        maxLength={100}
+        aria-label={t('meeting.anonymous.usernamePlaceholder')}
         placeholder={t('meeting.anonymous.usernamePlaceholder')}
         value={username}
         onChange={e => setUsername(e.target.value)}
@@ -80,6 +91,8 @@ function DatesSelectForm ({
   meetingCode: string
 }) {
   const { t } = useTranslation()
+  const identity = useMeetingName(meetingCode)
+  const responseSaved = useRef(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const dates = Object.keys(data.meeting.availableDates)
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([])
@@ -90,7 +103,9 @@ function DatesSelectForm ({
   const me = useStore($me)
   const locationVote = data.locationVote?.enabled ? data.locationVote : null
   const isLocationStep = step === 'location'
-  const participantCount = getProspectiveParticipantCount(
+  const responseStatus = me ? data.participants.find(person => person.userId === me.userId)?.availabilityResponse : undefined
+  const none = useUnavailableResponse(responseStatus ?? undefined, selectedDates, setSelectedDates, () => [])
+  const participantCount = getOtherParticipantCount(
     data.participants,
     me?.userId,
     data.summary.totalParticipants,
@@ -127,45 +142,43 @@ function DatesSelectForm ({
     ? data.schedule[focusedDateKey]?.ALL_DAY?.participants ?? []
     : []
 
-  const moveToStep = (nextStep: 'schedule' | 'location') => {
-    setStep(nextStep)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  const moveToStep = useStepScrollRestoration(step, setStep)
 
   const handleCancel = () => {
-    if (window.history.length === 1) {
-      navigate(`/meetings/${meetingCode}`)
-    } else {
-      window.history.back()
-    }
+    return navigateBack(`/meetings/${meetingCode}`)
   }
 
   const handleSubmit = async () => {
     try {
-      const dateSelectionsPromise = meetings.$meetingCode.selections.put(meetingCode, {
-        selections: selectedDates.map(date => ({
-          date: date.format('YYYY-MM-DD'),
-          type: 'ALL_DAY',
-          times: [],
-        })),
-      })
-      const locationSelectionsPromise = locationVote && locationStatus === 'ready'
+      await identity.save()
+      const dateSelectionsPromise = none.unavailable
+        ? meetings.$meetingCode.unavailable(meetingCode, Object.keys(data.meeting.availableDates))
+        : meetings.$meetingCode.selections.put(meetingCode, {
+            selections: selectedDates.map(date => ({
+              date: date.format('YYYY-MM-DD'),
+              type: 'ALL_DAY',
+              times: [],
+            })),
+          })
+      const locationSelectionsPromise = !none.unavailable && locationVote && locationStatus === 'ready'
         ? meetings.$meetingCode.locationSelections.put(meetingCode, { locationIds: selectedLocationIds })
         : Promise.resolve()
 
       await Promise.all([dateSelectionsPromise, locationSelectionsPromise])
+      trackMeetingResponseSaved(data, me?.userId, none.unavailable, responseSaved.current)
+      responseSaved.current = true
       setTimeout(() => {
         showDefaultToast({
           message: t('meeting.resultSaved'),
           duration: 3000,
         })
       }, 500)
-      navigate(`/meetings/${meetingCode}`)
+      await navigateBack(`/meetings/${meetingCode}`)
     } catch (error) {
       const errorResponse = error as { response?: { data?: { messageKey?: string } } }
       if (errorResponse.response?.data?.messageKey === 'error.meeting.already.confirmed') {
         showCautionToast({ message: t('meeting.alreadyConfirmedError'), duration: 4000 })
-        navigate(`/meetings/${meetingCode}`)
+        await navigateBack(`/meetings/${meetingCode}`)
       } else {
         showDefaultToast({ message: t('common.error'), duration: 3000 })
       }
@@ -181,8 +194,10 @@ function DatesSelectForm ({
       )}
 
       <div hidden={isLocationStep}>
+        <MeetingNameField identity={identity} />
+        <TimezoneNotice zone={data.meeting.timezone} dateOnly />
         <div className={styles.selectedDatesInfo}>
-          <span>{t('meeting.anonymous.votingAsCompact', { username: me?.username || '' })}</span>
+          <span>{t('meeting.anonymous.votingAsCompact', { username: identity.name })}</span>
           <span className={styles.metaDivider} aria-hidden='true'>·</span>
           <span>{t('meeting.participantsCountCompact', { count: participantCount })}</span>
         </div>
@@ -194,7 +209,7 @@ function DatesSelectForm ({
           <Monthly
             mode='edit'
             dates={selectedDates}
-            setDates={setSelectedDates}
+            setDates={none.select}
             availableDates={Object.keys(data.meeting.availableDates).map(date => dayjs(date))}
             dateSchedule={dateSchedule}
             participantsCount={participantCount}
@@ -204,10 +219,17 @@ function DatesSelectForm ({
         <DateParticipantsPanel
           date={focusedDate}
           participants={focusedParticipants}
-          isSelected={Boolean(focusedDate && selectedDates.some(date => date.isSame(focusedDate, 'day')))}
           me={me}
         />
       </div>
+
+      {!isLocationStep && (
+        <UnavailableOption
+          checked={none.unavailable}
+          onChange={none.toggle}
+          time={false}
+        />
+      )}
 
       {locationVote && (
         <div className={styles.locationStep} hidden={!isLocationStep}>
@@ -224,24 +246,23 @@ function DatesSelectForm ({
         <Button
           buttonType='ghost'
           onClick={() => {
-            if (isLocationStep) moveToStep('schedule')
-            else handleCancel()
+            if (isLocationStep) return moveToStep('schedule')
+            return handleCancel()
           }}
         >
           {t(isLocationStep ? 'common.previous' : 'common.cancel')}
         </Button>
         <Button
           buttonType='primary'
-          disabled={selectedDates.length === 0 || (isLocationStep && locationStatus === 'loading')}
+          disabled={!identity.ready || !identity.name.trim() || (selectedDates.length === 0 && !none.unavailable) || (isLocationStep && locationStatus === 'loading')}
           onClick={() => {
-            if (locationVote && !isLocationStep) {
-              moveToStep('location')
-              return
+            if (locationVote && !isLocationStep && !none.unavailable) {
+              return moveToStep('location')
             }
             return handleSubmit()
           }}
         >
-          {t(locationVote && !isLocationStep ? 'common.next' : 'common.submit')}
+          {t(locationVote && !isLocationStep && !none.unavailable ? 'common.next' : 'common.submit')}
         </Button>
       </div>
     </div>

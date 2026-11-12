@@ -1,28 +1,35 @@
 @use "../../styles/variables.scss" as *;
 
 // 시간 컬럼 너비
-$time-column-width: 60px;
-$time-column-width-mobile: 48px;
+$time-column-width: 88px;
+$time-column-width-mobile: 56px;
 
 // =====================================================
 // Soft Card Design (흰색 배경에 맞게 조정)
 // =====================================================
 $card-bg: $c-white;
 $card-border: 1px solid rgba($c-gray-darkest, 0.1);
-$card-shadow: 
-  0 18px 40px -24px rgba($c-black, 0.32),
-  0 4px 14px rgba($c-black, 0.05);
+$card-shadow: none;
 
 $header-bg: rgba($c-gray-lightest, 0.92);
 $subtle-border: 1px solid rgba($c-gray, 0.34);
 
 .container {
-  width: 100%;
+  --date-column-width: 100px;
+  --time-column-width: #{$time-column-width};
+  @media (max-width: 699px) {
+    --date-column-width: 72px;
+    --time-column-width: #{$time-column-width-mobile};
+  }
+  // Fit the fixed-width columns; overflow stays inside the existing date scroller.
+  width: calc(var(--time-column-width) + var(--date-count) * var(--date-column-width) + 2px);
+  align-self: flex-start;
+  margin-inline-end: auto;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   background: $card-bg;
-  border-radius: $radius-lg;
+  border-radius: $radius-md;
   box-shadow: $card-shadow;
   border: $card-border;
   max-width: 100%;
@@ -34,7 +41,7 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   flex: 1 1 auto;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .gestureHint {
@@ -46,12 +53,12 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   box-sizing: border-box;
   flex-shrink: 0;
   color: $c-gray-darkest;
-  background: linear-gradient(135deg, rgba($primary-color, 0.09), rgba($c-purple, 0.07));
+  background: $c-gray-lightest;
   border-bottom: $subtle-border;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   line-height: $line-height-tight;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
   transition: color $transition-base, background-color $transition-base;
 
   @media (max-width: 699px) {
@@ -65,14 +72,16 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   width: 28px;
   height: 28px;
   display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   color: $primary-color;
   background: rgba($c-white, 0.9);
   border-radius: $radius-sm;
-  box-shadow: inset 0 0 0 1px rgba($primary-color, 0.12);
-  transition: color $transition-fast, background-color $transition-fast, transform $transition-fast;
+  box-shadow: none;
+  transition: color $transition-fast, background-color $transition-fast;
 
   svg {
     width: 18px;
@@ -92,12 +101,11 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
 
 .gestureHintActive {
   color: $primary-color-hover;
-  background: rgba($primary-color, 0.13);
+  background: $c-blue-soft;
 
   .gestureHintIcon {
-    color: $c-white;
-    background: $primary-color;
-    transform: scale(1.05);
+    color: $primary-color-hover;
+    background: $c-white;
   }
 }
 
@@ -155,11 +163,11 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   height: 44px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   color: $c-gray-dark;
-  padding-right: $spacing-md;
+  padding-inline: 2px;
   box-sizing: border-box;
   flex-shrink: 0;
   border-top: $subtle-border;
@@ -170,61 +178,66 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   font-variant-numeric: tabular-nums;
 
   @media (max-width: 699px) {
-    font-size: 11px;
-    padding-right: $spacing-sm;
+    font-size: 12px;
+    padding-inline: 2px;
   }
 
   &.fullHour {
     border-top: 1px solid rgba($c-gray-dark, 0.22);
-    align-items: flex-start;
-    padding-top: 2px;
+    align-items: center;
     color: $c-gray-darkest;
     font-weight: $font-weight-semibold;
   }
 
   &.halfHour {
     border-top: 1px solid rgba($c-gray, 0.25);
-    color: transparent;
+    color: $c-gray-dark;
   }
 }
 
 .dateWrapper {
-  min-width: 100px;
-  border-right: $subtle-border;
+  flex: 0 0 var(--date-column-width);
+  width: var(--date-column-width);
+  min-width: var(--date-column-width);
+  border-inline-end: $subtle-border;
   background: $c-white;
   transition: background $transition-fast;
 
   &:first-of-type {
-    border-left: $subtle-border;
+    border-inline-start: $subtle-border;
   }
 
   &:last-of-type {
-    border-right: none;
+    border-inline-end: none;
   }
 }
 
 .dateTitle {
+  min-width: 0;
+  max-width: 100%;
+  text-align: center;
+  text-wrap: balance;
   display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
   align-items: center;
   justify-content: center;
   min-height: 30px;
-  padding: 0 9px;
+  padding: 4px 2px;
   box-sizing: border-box;
   border-radius: $radius-sm;
   font-size: 14px;
   font-weight: $font-weight-semibold;
   color: $c-gray-darkest;
-  line-height: 1.2;
-  white-space: nowrap;
+  line-height: 1.5;
+  white-space: normal;
   transition: color $transition-fast, background-color $transition-fast, box-shadow $transition-fast;
 }
 
 // ===== 날짜 헤더 영역 (sticky) =====
 
 .dateHeaderRow {
-  position: sticky;
-  top: 0;
-  z-index: 20;
+  position: relative;
   display: flex;
   flex-direction: row;
   background: $header-bg;
@@ -235,9 +248,12 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   width: $time-column-width;
   flex-shrink: 0;
   display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-block: 6px;
   align-items: center;
   justify-content: center;
-  border-right: $subtle-border;
+  border-inline-end: $subtle-border;
 
   @media (max-width: 699px) {
     width: $time-column-width-mobile;
@@ -252,6 +268,8 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   text-transform: uppercase;
 }
 
+
+
 .dateHeaderScroll {
   display: flex;
   flex-direction: row;
@@ -265,8 +283,11 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
 }
 
 .dateHeader {
-  min-width: 100px;
-  height: 56px;
+  flex: 0 0 var(--date-column-width);
+  width: var(--date-column-width);
+  min-width: var(--date-column-width);
+  min-height: 62px;
+  align-self: stretch;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -274,19 +295,13 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   font: inherit;
   color: inherit;
   border: 0;
-  border-right: $subtle-border;
+  border-inline-end: $subtle-border;
   background: transparent;
   transition: color $transition-base, background-color $transition-base, box-shadow $transition-base;
   padding: 0;
 
   &:last-of-type {
-    border-right: none;
-  }
-
-  &.today .dateTitle {
-    color: $primary-color-hover;
-    background: rgba($primary-color, 0.1);
-    box-shadow: inset 0 0 0 1px rgba($primary-color, 0.14);
+    border-inline-end: none;
   }
 
   // 클릭 가능한 상태 (편집 모드)
@@ -349,4 +364,81 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
     -webkit-tap-highlight-color: transparent;
     cursor: grabbing; // 커서 변경
   }
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 8px;
+  z-index: 30;
+  flex-shrink: 0;
+  background: $c-white;
+  border-radius: $radius-lg $radius-lg 0 0;
+  overflow: clip;
+  box-shadow: 0 1px 0 $c-gray;
+
+  @media (max-width: 699px) { top: 56px; }
+}
+.calendarToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  min-height: 44px;
+}
+.calendarTitle { margin: 0; font-size: $font-size-base; font-weight: $font-weight-semibold; min-width: 0; overflow-wrap: anywhere; }
+.weekday { line-height: 1.7; font-size: $font-size-xs; font-weight: $font-weight-normal; color: $c-gray-darkest; max-width: 100%; overflow-wrap: anywhere; }
+.dateNavigation {
+  display: flex;
+  flex-shrink: 0;
+  button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: $c-gray-darkest;
+    cursor: pointer;
+    svg { width: 20px; height: 20px; }
+    &:hover:not(:disabled) { background: $c-gray-lightest; }
+    &:disabled { opacity: 0.3; cursor: default; }
+    &:focus-visible { outline: 2px solid $primary-color; outline-offset: -2px; }
+  }
+}
+.scrollTrack {
+  position: relative;
+  height: 3px;
+  margin-inline-start: $time-column-width;
+  background: $c-gray-lightest;
+  overflow: hidden;
+  pointer-events: none;
+  &[data-overflow='false'] { display: none; }
+  @media (max-width: 699px) { margin-inline-start: $time-column-width-mobile; }
+}
+.scrollIndicator {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  height: 100%;
+  border-radius: 2px;
+  background: rgba($primary-color, 0.45);
+}
+.timeColumnLabel { font-size: $font-size-xs; letter-spacing: normal; text-transform: none; font-weight: $font-weight-medium; }
+.scrollWrapper { border-radius: 0 0 $radius-lg $radius-lg; }
+// Voting grids with an explicit height scroll internally; their header stays above the body.
+.bounded {
+  overflow: hidden;
+  .wrapper { overflow: hidden; }
+  .stickyHeader { position: relative; top: auto; }
+}
+
+// Result calendars share the quiet borders used by result controls.
+.resultCalendar {
+  border-color: $c-gray;
+  border-radius: $radius-base;
+  box-shadow: none;
+
+  .stickyHeader { border-radius: $radius-base $radius-base 0 0; }
+  .scrollWrapper { border-radius: 0 0 $radius-base $radius-base; }
 }

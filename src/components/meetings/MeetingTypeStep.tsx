@@ -1,16 +1,16 @@
+import { usePageState } from '../../hooks/usePageState'
 import Button from '../Button/Button'
 import styles from './CreateMeeting.module.scss'
 import { useTranslation } from '../../hooks/useTranslation'
-import { useState } from 'react'
-import { navigate } from 'astro:transitions/client'
+import { navigate } from '../../utils/navigation'
 import { useSearchParam } from 'react-use'
 import type { post_meetings_body } from '../../services/meetings'
-import { HiOutlineCalendar, HiOutlineClock } from 'react-icons/hi'
+import { HiOutlineCalendar, HiOutlineClock, HiCheck } from 'react-icons/hi'
 
 export default function MeetingTypeStep () {
   const { t } = useTranslation()
   const meetingTypeParam = useSearchParam('meetingType') as post_meetings_body['selectionType'] || 'ALL_DAY'
-  const [meetingType, setMeetingType] = useState<post_meetings_body['selectionType']>(meetingTypeParam)
+  const [meetingType, setMeetingType] = usePageState<post_meetings_body['selectionType']>('meetingType', meetingTypeParam)
 
   return (
     <>
@@ -24,7 +24,8 @@ export default function MeetingTypeStep () {
           onClick={() => setMeetingType('ALL_DAY')}
         >
           <HiOutlineCalendar size={24} />
-          {t('createMeeting.meetingTypeStep.allDay')}
+          <span>{t('createMeeting.meetingTypeStep.allDay')}</span>
+          <span className={styles.typeSelectionCheck} aria-hidden='true'>{meetingType === 'ALL_DAY' && <HiCheck size={16} />}</span>
         </Button>
         <Button
           buttonType='default'
@@ -34,14 +35,15 @@ export default function MeetingTypeStep () {
           onClick={() => setMeetingType('TIME')}
         >
           <HiOutlineClock size={24} />
-          {t('createMeeting.meetingTypeStep.time')}
+          <span>{t('createMeeting.meetingTypeStep.time')}</span>
+          <span className={styles.typeSelectionCheck} aria-hidden='true'>{meetingType === 'TIME' && <HiCheck size={16} />}</span>
         </Button>
       </div>
       <div className={styles.buttonContainer}>
         <Button
           buttonType='primary'
           onClick={() => {
-            navigate(`/meetings/create?step=title&meetingType=${meetingType}`)
+            return navigate(`/meetings/create?step=title&meetingType=${meetingType}`)
           }}
         >
           {t('common.next')}

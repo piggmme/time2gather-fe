@@ -11,3 +11,13 @@ export function hasUserScheduleSelection (schedule: MeetingSchedule, userId?: nu
     ))
   ))
 }
+
+export function getConfirmedAvailabilityTime (meeting: { selectionType: 'ALL_DAY' | 'TIME', confirmedSlotIndex?: number | null, intervalMinutes?: number, confirmedTime?: string | null }): string {
+  if (meeting.selectionType === 'ALL_DAY') return 'ALL_DAY'
+  const interval = meeting.intervalMinutes ?? 60
+  if (meeting.confirmedSlotIndex !== null && meeting.confirmedSlotIndex !== undefined) {
+    const minutes = meeting.confirmedSlotIndex * interval
+    return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`
+  }
+  return meeting.confirmedTime ?? 'ALL_DAY'
+}

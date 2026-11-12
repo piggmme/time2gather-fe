@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "上一页",
+    "cancel": "取消",
+    "next": "下一步",
+    "home": "首页",
+    "createMeeting": "创建会议",
+    "searchMeeting": "查找会议",
+    "searchMeetingPlaceholder": "会议代码",
+    "searchMeetingButton": "查找会议",
+    "myMeetings": "我的会议",
+    "adminDashboard": "管理仪表板",
+    "contactUs": "联系我们",
+    "menu": "菜单",
+    "openMenu": "打开菜单",
+    "submit": "提交",
+    "share": "分享",
+    "close": "关闭",
+    "loading": "正在加载...",
+    "error": "发生错误。请再试一次。",
+    "switchToEnglish": "切换到英语",
+    "switchToKorean": "切换到韩语",
+    "language": "语言",
+    "searchLanguages": "选择您的语言"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "欢迎！ 👋",
+    "description": "现在制定计划只需要5秒钟。分享您的时间段，获得投票，立即查看每个人的最佳时间！",
+    "createMeetingButton": "创建会议",
+    "heroTitleSuffix": " — 轻松安排",
+    "heroSubtitle": "告别复杂的日程安排。与您的朋友一起寻找完美的时光。",
+    "viewMyMeetings": "查看我的会议"
+  },
+  "landing": {
+    "eyebrow": "在一处协调每个人的日程安排",
+    "title": "让会议安排更简单",
+    "description": "Time2Gather 是一项免费的日程安排服务，可对日期、时间和地点进行投票，以找到适合所有人的会议时间。",
+    "primaryCta": "创建会议",
+    "secondaryCta": "用代码查找",
+    "featuresHeading": "协调会议所需的一切",
+    "features": {
+      "dates": {
+        "title": "比较多个日期",
+        "description": "选择候选人日期并立即与您的参与者分享。"
+      },
+      "times": {
+        "title": "对可用时间进行投票",
+        "description": "收集详细的空闲时间以找到最适合大多数人的时间。"
+      },
+      "locations": {
+        "title": "也决定地点",
+        "description": "当您的团队需要选择集合地点时，添加位置选项。"
+      },
+      "sharing": {
+        "title": "从一个链接加入",
+        "description": "分享链接，以便参与者只需昵称即可立即投票。"
+      }
+    },
+    "stepsHeading": "制定计划分三步走",
+    "steps": {
+      "create": {
+        "title": "1. 创建选项",
+        "description": "设置会议标题以及要比较的日期或时间。"
+      },
+      "share": {
+        "title": "2. 分享链接",
+        "description": "将链接发送给朋友、队友或您的小组。"
+      },
+      "decide": {
+        "title": "3. 确认结果",
+        "description": "查看投票并选择对每个人来说最好的时间。"
+      }
+    },
+    "faqHeading": "常见问题",
+    "faq": {
+      "what": {
+        "question": "朋友聚会或团队会议，怎样协调多人日程？",
+        "answer": "在Time2Gather创建日期和时间选项并分享链接。每个人选择有空的时段后，即可对比结果并确定安排。朋友聚会、学习小组和团队会议均可免费使用。"
+      },
+      "login": {
+        "question": "不注册、不安装应用也能创建和参与投票吗？",
+        "answer": "可以。组织者和参与者只需输入名字，无需注册或社交账号登录。使用手机或电脑浏览器即可创建活动和投票。"
+      },
+      "location": {
+        "question": "也能投票选择见面地点吗？",
+        "answer": "可以。创建活动时开启地点投票并添加候选地点。参与者可以选择喜欢的地点，并在评论中讨论安排。"
+      }
+    }
+  },
+  "login": {
+    "title": "准备好安排了吗？",
+    "description": "登录以创建和管理您的会议。",
+    "kakaoLogin": "继续卡考",
+    "googleLogin": "继续使用谷歌",
+    "oauth": {
+      "loadingTitle": "正在为您登录",
+      "loadingDescription": "稍后您将返回到之前的屏幕。",
+      "errorTitle": "我们无法让您登录",
+      "errorDescription": "返回登录页面并重试。",
+      "retry": "尝试重新登录"
+    }
+  },
+  "search": {
+    "title": "查找会议",
+    "description": "输入您收到的会议代码。"
+  },
+  "createMeeting": {
+    "title": "创建会议",
+    "meetingTypeStep": {
+      "heading": "参与者应该选择什么？",
+      "allDay": "仅日期",
+      "time": "日期和时间"
+    },
+    "titleStep": {
+      "heading": "为您的会议命名",
+      "placeholder": "例如，周五晚餐"
+    },
+    "descriptionStep": {
+      "heading": "这是一场什么样的会议？",
+      "placeholder": "大家江南见吧！"
+    },
+    "datesStep": {
+      "heading": "选择可选日期"
+    },
+    "timeRangeStep": {
+      "heading": "设置可用时间范围",
+      "startTime": "开始时间",
+      "endTime": "结束时间",
+      "selectedDatesCount": "所选日期：{count}",
+      "createButton": "创建会议"
+    },
+    "locationStep": {
+      "heading": "完成会议创建",
+      "requiredLabel": "必填",
+      "creatorHeading": "谁在创建这次会议？",
+      "creatorDescription": "您的昵称将显示为会议主持人。",
+      "usernameLabel": "你的昵称",
+      "usernamePlaceholder": "例如，杰米",
+      "usernameChangeHelp": "更改您的姓名会保留您现有的会议和投票，并且仅更新您的显示名称。",
+      "optionalLabel": "可选",
+      "locationHeading": "您想要投票吗？",
+      "locationDescription": "如果您希望参与者一起选择地点，请打开此选项。",
+      "enableLocationVote": "让参与者对地点进行投票",
+      "locationPlaceholder": "输入地点",
+      "addLocation": "添加位置",
+      "removeLocation": "删除位置",
+      "minLocationsWarning": "地点投票至少需要2个地点",
+      "maxLocationsWarning": "您最多只能添加 5 个位置",
+      "createButton": "创建会议",
+      "creatingButton": "正在创建会议...",
+      "skipButton": "跳过"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "未找到会议",
+      "description": "您请求的会议不存在或已被删除。"
+    },
+    "participantsEmpty": "还没有参与者。",
+    "participantsCount": "参加者：{count}",
+    "participantsCountCompact": "{count}参与",
+    "selectedDates": "从 {count} 选项中选择适合您的日期。",
+    "selectedDatesAndTimes": "从 {count} 日期选项中选择适合您的日期和时间。",
+    "timeGrid": {
+      "timeLabel": "时间",
+      "touchHint": "按住然后拖动以选择多次",
+      "pointerHint": "拖动可一次选择多次",
+      "draggingHint": "拖动·释放以应用您的选择",
+      "selectDate": "选择{date}上的所有时间",
+      "previousDates": "较早日期",
+      "nextDates": "较晚日期"
+    },
+    "dateCalendar": {
+      "mySelection": "我的选择",
+      "fewerVotes": "票数较少",
+      "moreVotes": "票数较多",
+      "available": "可用",
+      "unavailable": "不可用",
+      "today": "今天",
+      "availableMonths": "有可用日期的月份",
+      "monthAvailability": "{count} {month} 可用日期",
+      "previousMonth": "上个月",
+      "nextMonth": "下个月"
+    },
+    "dateParticipants": {
+      "title": "适用于 {date}",
+      "count": {
+        "one": "{count}人",
+        "other": "{count}人"
+      }
+    },
+    "resultSaved": "结果已保存。",
+    "modifyButton": "编辑可用性",
+    "participate": "参加会议",
+    "shareResult": "分享结果",
+    "shareMeeting": "分享会",
+    "shareSuccess": "链接已被复制。",
+    "exportToCalendar": "添加到我的日历",
+    "confirmButton": "确认会议",
+    "confirmButtonShort": "确认会议",
+    "cancelConfirmButton": "取消确认",
+    "cancelConfirmSuccess": "会议确认已取消！",
+    "cancelConfirmError": "取消确认失败。请再试一次。",
+    "alreadyConfirmedError": "这次会议已经确定。您无法修改您的投票。",
+    "editDates": {
+      "openButton": "修改投票选项",
+      "hostOnly": "仅主机",
+      "title": "修改投票选项",
+      "description": "更改所有参与者可以投票的选项。",
+      "selectedCount": "{count} 已选择日期",
+      "selectionHint": "点击或拖动以选择日期。",
+      "removedWarning": "保存时，对 {count} 删除日期的投票将被删除。",
+      "maxDates": "您最多可以选择 {count} 日期。",
+      "save": "保存选项",
+      "success": "投票选项已更新。",
+      "error": "无法更新投票选项，请重试。",
+      "timeOpenButton": "修改投票选项",
+      "timeTitle": "修改投票选项",
+      "timeDescription": "更改所有参与者可以投票的选项。",
+      "timeSave": "保存选项",
+      "timeSuccess": "投票选项已更新。",
+      "timeError": "无法更新投票选项，请重试。",
+      "timeRangeHint": "修改时间范围将应用于所有已选日期。",
+      "timeRemovedWarning": "保存后将删除已移除的 {count} 个时间选项的投票，其他投票将保留。",
+      "locationRemovedWarning": "保存后将删除 {count} 个已修改或移除的地点选项的投票，其他投票会保留。"
+    },
+    "exportDialog": {
+      "title": "添加到日历",
+      "description": "选择要添加到日历中的日期和时间。",
+      "noSlots": "尚未就任何日期进行投票。",
+      "allDay": "全天",
+      "cancel": "取消",
+      "confirm": "添加到日历",
+      "close": "关闭"
+    },
+    "confirmDialog": {
+      "title": "确认会议",
+      "description": "从 {count} 并列顶部选项中选择最终时间表。",
+      "noSlots": "尚未就任何日期进行投票。",
+      "allDay": "全天",
+      "scheduleTitle": "日期和时间",
+      "scheduleDescription": "这些选项适用于大多数参与者。",
+      "locationTitle": "地点",
+      "locationDescription": "使用投票结果选择见面地点。",
+      "locationStepDescription": "选择在哪里见面以完成确认计划。",
+      "progressLabel": "会议确认步骤",
+      "locationVoteCount": {
+        "one": "{count} 投票",
+        "other": "{count} 投票"
+      },
+      "noLocations": "没有可确认的地点。",
+      "cancel": "取消",
+      "confirm": "确认",
+      "confirming": "确认...",
+      "close": "关闭",
+      "success": "会议已确定！",
+      "error": "未能确认会议。请再试一次。",
+      "allCandidatesDescription": "从全部 {count} 个选项中选择最终安排。",
+      "groupedDescription": "从 {count} 个日期中选择一天，再选择开始时间。",
+      "recommendationsDescription": "推荐可参加人数较多的安排，每个日期一个。",
+      "allDates": "从全部 {count} 个日期中选择",
+      "backToRecommendations": "查看推荐安排"
+    },
+    "anonymousSelectButton": "用名字加入",
+    "selectButton": "选择日期",
+    "selectTimeButton": "选择日期和时间",
+    "result": {
+      "tabs": {
+        "aiSummary": "总结",
+        "summary": "总结",
+        "confirmed": "确认计划",
+        "calendar": "日历",
+        "participants": "参加者",
+        "location": "地点"
+      },
+      "summaryTitle": "会议纪要",
+      "aiSummaryTitle": "投票结果摘要",
+      "calendarTitle": "会议日历",
+      "totalParticipants": "参加者：{count}",
+      "bestSlotsTitle": "最多人有空的日期",
+      "showMoreOptions": "显示{count} 更多",
+      "showFewerOptions": "显示较少",
+      "moreTimeOptions": "{count} 更多时间选择",
+      "participantsCount": "参加者：{count}",
+      "people": "人",
+      "voteCount": {
+        "one": "{count}人（{percentage}）",
+        "other": "{count}人（{percentage}）"
+      },
+      "noParticipants": "没有参加者",
+      "buttons": {
+        "calendar": "添加到日历",
+        "share": "分享投票",
+        "shareConfirmed": "分享已确认的计划",
+        "shareKakao": "KakaoTalk",
+        "modifyDates": "编辑我的日期选择",
+        "modifyTimes": "编辑我的日期和时间选择",
+        "selectDates": "选择我的可用日期",
+        "selectTimes": "选择我可以参加的日期和时间",
+        "enterAvailability": "添加可用性",
+        "editAvailability": "修改我的投票"
+      },
+      "confirmedPlan": {
+        "eyebrow": "计划已确认",
+        "title": "你的计划已全部确定",
+        "date": "日期",
+        "time": "时间",
+        "location": "地点",
+        "attendees": "可用的与会者",
+        "attendanceSummary": {
+          "one": "{count} 集团人·{percentage}",
+          "other": "{count}人·{percentage}集团"
+        },
+        "confirmTime": "确认时间",
+        "confirmTimeTitle": "确认见面时间",
+        "confirmTimeDescription": "请选择在已确认日期见面的具体时间。",
+        "timeConfirmSuccess": "见面时间已确认。",
+        "timeConfirmError": "无法确认见面时间，请重试。",
+        "timePending": "待定",
+        "editTime": "编辑",
+        "editTimeTitle": "编辑会议时间",
+        "editTimeDescription": "保留已确认的日期并设定您计划见面的确切时间。",
+        "saveTime": "保存",
+        "savingTime": "正在保存...",
+        "timeUpdateSuccess": "会议时间已更新。",
+        "timeUpdateError": "会议时间无法更新。请再试一次。",
+        "addTime": "添加时间（可选）",
+        "addTimeTitle": "添加时间",
+        "optionalTimeDescription": "仅在需要时添加时间。",
+        "attendanceCount": "{total} 人中有 {count} 人可以参加",
+        "cancelTitle": "取消确认？",
+        "cancelDescription": "将取消已确认的日程，参与者的回复会保留。",
+        "keepConfirmation": "保留确认"
+      },
+      "actions": {
+        "confirmed": "确认计划",
+        "confirmedDescription": "分享详细信息或将其添加到您的日历中。",
+        "inProgress": "规划正在进行中",
+        "manage": "管理投票"
+      },
+      "share": {
+        "confirmedTitle": "{title}已确认",
+        "confirmedHeading": "计划确定了！",
+        "detailsCopied": "已确认的详细信息和链接已复制。",
+        "manualCopyDescription": "无法自动分享或复制。请选择并复制下方文字。"
+      },
+      "kakaoShare": {
+        "description": "选择适合您的时间。",
+        "buttonTitle": "加入投票",
+        "confirmedTitle": "{date}·已确认",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "查看已确认的计划",
+        "locationPending": "地点待定"
+      },
+      "attendance": {
+        "available": "可以参加",
+        "unavailable": "无法参加",
+        "everyoneAvailable": "所有人都可以参加",
+        "noneAvailable": "暂无人可以参加"
+      },
+      "bestTimesTitle": "最多人有空的时间",
+      "availabilityBasis": "根据 {count} 人的回复显示。",
+      "allAvailable": "{count} 人全部有空",
+      "someAvailable": "{total} 人中 {count} 人有空",
+      "viewSlotPeople": "点击选项查看有空的参与者。",
+      "decision": {
+        "allHeadline": "{count}人{availability}",
+        "allHeadlineHighlight": "全部有空",
+        "allDates": "全部{count}人都方便的日期",
+        "allTimes": "全部{count}人都方便的时间",
+        "partial": "最多有{count}人可以参加",
+        "basis": "根据目前填写的可用时间",
+        "notAll": "暂时没有适合所有人的选项。",
+        "emptyDates": "尚未选择日期",
+        "emptyTimes": "尚未选择时间",
+        "pending": "正在等待大家回复新选项",
+        "allUnavailable": "已回复的{count}人都表示提出的时间不合适。",
+        "notSelected": "未选择此选项的人",
+        "people": "查看有空的人",
+        "chooseDate": "将聚会定在这一天",
+        "chooseTime": "将聚会定在这个时间",
+        "confirmedDate": "聚会日期已确定",
+        "setMeeting": "确认会议"
+      },
+      "calendarFilter": {
+        "selectAll": "全选",
+        "selectedCount": "已选择 {selected}/{total} 人",
+        "selectPrompt": "选择参与者以查看他们的空闲安排。",
+        "noAvailability": "所选参与者没有可用的时间。"
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "您尚未登录",
+        "description": "无需输入姓名即可加入。",
+        "kakaoLoginButton": "继续卡考",
+        "loginButton": "登录",
+        "anonymousLogin": "输入姓名即可加入"
+      },
+      "description": "输入您将在本次会议中使用的名称。",
+      "votingAs": "以 {username} 身份加入。",
+      "votingAsCompact": "以 {username} 身份加入",
+      "usernamePlaceholder": "名称",
+      "anonymousLogin": "用这个名字加入"
+    },
+    "identity": {
+      "label": "在此会议中使用的名字",
+      "hint": "名字更改仅适用于此会议。",
+      "change": "更改名字"
+    },
+    "unavailable": {
+      "dates": "这些日期都不方便",
+      "times": "这些时间都不方便",
+      "hint": "如果所有候选安排都不方便，请选择此项。",
+      "selectedHint": "将告知大家这些候选安排都不方便。你可以稍后修改。",
+      "changed": "候选日期已更改。请刷新页面后重新回复。",
+      "respondents": "已回复的人",
+      "datesStatus": "没有方便的日期",
+      "timesStatus": "没有方便的时间",
+      "pending": "新选项待回复",
+      "selected": "已选择日程",
+      "noneStatus": "没有合适的日程",
+      "picked": "有空的参与者",
+      "emptyTitle": "暂时没有推荐日程",
+      "emptyHint": "请等待其他参与者回复。",
+      "viewPeople": "查看参与者",
+      "morePeople": "再显示 {count} 人",
+      "lessPeople": "收起",
+      "basis": "根据已确定日程的时间投票结果显示。",
+      "otherSelection": "选择了其他日程"
+    }
+  },
+  "my": {
+    "title": "我的会议",
+    "tabs": {
+      "myMeetings": "我的会议",
+      "participatedMeetings": "我参加过的会议"
+    },
+    "noMeetings": "您尚未创建任何会议。",
+    "noParticipatedMeetings": "您尚未参加任何会议。",
+    "myMeetingsDetails": "您已创建 {count} 会议。",
+    "participatedMeetingsDetails": "您已参加过 {count} 会议。"
+  },
+  "admin": {
+    "metaTitle": "管理仪表板 - Time2Gather",
+    "metaDescription": "用于查看 Time2Gather 用户和会议的私人仪表板。",
+    "eyebrow": "管理控制台",
+    "title": "服务概览",
+    "description": "查看关键用户和会议指标，然后快速找到您需要的记录。",
+    "summaryTitle": "一目了然",
+    "summaryDescription": "计数基于当前存储的用户和会议。",
+    "loading": "准备管理仪表板。",
+    "loadingDescription": "检查您的访问权限并加载最新数据。",
+    "accessDeniedTitle": "您无权访问",
+    "accessDeniedDescription": "只有具有管理员角色的帐户才能查看此页面。",
+    "refresh": "刷新概览",
+    "retry": "再试一次",
+    "loadError": "我们无法加载概述。",
+    "search": "搜索",
+    "notAvailable": "不可用",
+    "pageOf": "{total} 的页面 {current}",
+    "stats": {
+      "totalUsers": "用户总数",
+      "registeredUsers": "注册用户",
+      "anonymousUsers": "匿名用户",
+      "adminUsers": "{count} 管理员",
+      "totalMeetings": "会议总数",
+      "activeMeetings": "活跃的会议",
+      "confirmedMeetings": "已确认的会议",
+      "confirmationRate": "确认率：{rate}"
+    },
+    "users": {
+      "title": "用户",
+      "description": "{count}用户发现。",
+      "searchPlaceholder": "搜索姓名或电子邮件",
+      "loadError": "我们无法加载用户。",
+      "empty": "没有用户与您的搜索匹配。",
+      "user": "用户",
+      "provider": "登录方式",
+      "role": "角色",
+      "joinedAt": "已加入",
+      "participatedMeetings": "参与的聚会",
+      "noParticipatedMeetings": "尚未参与任何聚会。",
+      "noEmail": "没有电子邮件"
+    },
+    "meetings": {
+      "title": "会议",
+      "description": "{count} 会议发现。",
+      "searchPlaceholder": "搜索标题或会议代码",
+      "loadError": "我们无法加载会议。",
+      "empty": "没有符合您搜索条件的会议。",
+      "meeting": "会议",
+      "host": "主持人",
+      "status": "状态",
+      "createdAt": "已创建",
+      "active": "活跃",
+      "inactive": "不活跃",
+      "confirmed": "已确认",
+      "confirmedOnly": "仅显示已确认的会议",
+      "unknownHost": "未知用户",
+      "openNewTab": "在新标签页中打开聚会"
+    },
+    "providers": {
+      "ANONYMOUS": "匿名",
+      "KAKAO": "卡卡奥",
+      "GOOGLE": "谷歌"
+    },
+    "roles": {
+      "USER": "用户",
+      "ADMIN": "管理员"
+    },
+    "selectionTypes": {
+      "TIME": "日期和时间",
+      "ALL_DAY": "仅日期"
+    },
+    "login": {
+      "checking": "正在检查登录设置...",
+      "expired": "管理员访问权限已过期或不可用。请重新登录。",
+      "notConfigured": "未配置管理员登录。联系运营商。",
+      "verifying": "正在检查管理员访问权限...",
+      "notAllowed": "使用授权的管理员帐户。",
+      "google": "使用 Google 登录",
+      "unavailable": "无法加载登录服务。",
+      "networkError": "检查您的连接并重试。",
+      "logout": "退出",
+      "title": "管理员登录",
+      "description": "只有授权的 Google 帐户才能访问该区域。",
+      "retry": "再试一次",
+      "sessionHelp": "管理员访问权限使用与会议参与不同的会话。"
+    }
+  },
+  "404": {
+    "title": "找不到页面",
+    "description": "您请求的页面不存在或已被删除。",
+    "homeButton": "回到首页"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - 与人安排",
+    "siteDescription": "一项可以轻松安排与人会面的服务。创建会议、选择多个日期和时段并共享它们。当参与者选择可用时间时，我们将推荐最佳的见面日期和时间。",
+    "siteKeywords": "日程会议、日程协调、小组会议、小组日程、时间协调、会议管理、日程共享、Time2Gather",
+    "ogImageAlt": "Time2Gather - 多人安排",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - 5 秒内安排会议",
+        "description": "难以与多人协调日程安排？使用Time2Gather轻松收集选票并找到适合每个人的最佳时间。"
+      },
+      "create": {
+        "title": "创建会议 - Time2Gather",
+        "description": "创建新会议并与朋友分享。通过投票轻松决定日期、时间和地点。"
+      },
+      "login": {
+        "title": "登录 - Time2Gather",
+        "description": "使用 Kakao 或 Google 登录以开始安排。"
+      },
+      "my": {
+        "title": "我的会议 - Time2Gather",
+        "description": "一目了然地查看您创建和参加的所有会议。会议管理变得简单。"
+      },
+      "meeting": {
+        "title": "{title} - Time2Gather",
+        "description": "加入 {title} 会议。选择您的空闲时间并投票。"
+      },
+      "result": {
+        "title": "{title} 结果 - Time2Gather",
+        "description": "加入 {title} 并选择适合您的时间。",
+        "confirmedTitle": "{title} 已确认 - Time2Gather",
+        "confirmedDescription": "确认方案：{details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "日程助理",
+    "open": "打开聊天",
+    "close": "关闭聊天",
+    "welcomeMessage": "你好！询问我你的日程安排。",
+    "welcomeHint": "例如“显示我的会议”、“下周有什么活动？”",
+    "inputPlaceholder": "输入消息...",
+    "errorMessage": "抱歉，发生错误。请稍后重试。"
+  },
+  "locationVote": {
+    "title": "地点投票",
+    "description": "选择您喜欢的位置",
+    "scheduleStepLabel": "1 / 2 · 可用性",
+    "locationStepLabel": "2 / 2 · 地点",
+    "selectionTitle": "我们应该在哪里见面？",
+    "selectionDescription": "选择所有适合您的地点。",
+    "confirmedLocation": "确认地点",
+    "confirmed": "已确认",
+    "loadError": "无法加载您的位置选择。",
+    "retry": "再试一次",
+    "voters": "为此地点投票的人",
+    "noVotes": "暂无投票"
+  },
+  "timezone": {
+    "title": "时区",
+    "meeting": "会议时区：{zone}",
+    "display": "您的显示时区",
+    "hint": "日期和时间按照会议时区输入。每个人都在同一时刻投票。",
+    "gridHint": "列日期和时间轴使用会议时区。每个单元格还显示您所选时区的日期和时间。",
+    "local": "在{zone}中：{time}",
+    "invalid": "选择有效的时区。",
+    "gap": "这个时间不存在，因为时钟向前移动。选择其他时间。",
+    "overlap": "当时钟向后移动时，这个时间会出现两次。选择一个明确的时间。",
+    "allDay": "仅日期投票在每个时区保持相同的日历日期。",
+    "useDevice": "使用设备时区",
+    "search": "搜索时区",
+    "noResults": "未找到时区，请尝试其他城市或地区。"
+  },
+  "errors": {
+    "error.internal": "发生内部服务器错误",
+    "error.validation.failed": "输入验证失败",
+    "error.request.invalid": "请求无效。 {0}",
+    "error.state.invalid": "当前状态下无法执行此请求",
+    "error.resource.not.found": "找不到所请求的资源",
+    "error.null.pointer": "缺少所需的数据。请检查您的请求。",
+    "error.number.format": "数字格式无效。请检查您的输入。",
+    "error.auth.required": "需要身份验证",
+    "error.auth.required.login": "需要身份验证。请登录并重试。",
+    "error.auth.access.denied": "访问被拒绝",
+    "error.auth.not.authenticated": "用户未经过身份验证",
+    "error.user.not.found": "未找到用户",
+    "error.user.not.found.email": "未找到电子邮件的用户：{0}",
+    "error.user.id.required": "需要用户 ID",
+    "error.oauth.invalid.code": "授权码无效或已过期。请重新验证。错误：{0}",
+    "error.oauth.api.failed": "无法与 OAuth API 通信：{0}",
+    "error.oauth.no.id.token": "无法从 OAuth 提供商获取 ID 令牌",
+    "error.oauth.no.user.info": "无法从 OAuth 提供商获取用户信息",
+    "error.meeting.not.found": "未找到会议",
+    "error.meeting.not.found.code": "未找到会议：{0}",
+    "error.meeting.id.required": "需要会议 ID",
+    "error.meeting.already.confirmed": "会议已经确定。请先取消确认。",
+    "error.meeting.not.confirmed": "会议尚未确定",
+    "error.meeting.invalid.date": "无效日期：{0}",
+    "error.meeting.date.not.available": "该日期不适用于会议：{0}",
+    "error.meeting.no.interval.info": "缺少会议间隔信息",
+    "error.meeting.host.only": "只有主机可以执行此操作",
+    "error.meeting.no.participants": "无法创建日历，因为尚未有参与者投票",
+    "error.meeting.date.format.invalid": "日期格式无效。请使用 yyyy-MM-dd 格式。",
+    "error.meeting.validation.date.required": "必须至少选择一个日期",
+    "error.meeting.validation.date.slot.required": "每个日期必须至少选择一个时段",
+    "error.meeting.validation.time.required": "必须至少选择一个日期和时间段",
+    "error.meeting.validation.all.day.empty.slots": "对于 ALL_DAY 类型，时间段必须是空数组",
+    "error.meeting.validation.slot.index.required": "TIME 类型会议需要 slotIndex",
+    "error.meeting.validation.slot.index.invalid": "无效插槽索引：{0}",
+    "error.meeting.validation.date.slot.together": "date 和 slotIndex 必须一起指定",
+    "error.location.not.found": "未找到位置",
+    "error.location.not.belong.to.meeting": "地点不属于本次会议",
+    "error.location.vote.not.enabled": "本次会议未启用地点投票",
+    "error.location.already.confirmed": "地点已经确定。请先取消位置确认。",
+    "error.location.not.confirmed": "地点尚未确认",
+    "error.location.id.required": "需要位置 ID",
+    "error.location.name.required": "地点名称为必填项",
+    "error.location.name.too.long": "地点名称不能超过 200 个字符",
+    "error.location.max.exceeded": "最多可添加 {0} 个位置",
+    "error.location.min.required": "至少需要 {0} 位置",
+    "error.location.min.for.vote": "至少需要 {0} 位置才能启用位置投票",
+    "error.location.cannot.disable": "确认位置后无法禁用位置投票",
+    "error.location.not.exist": "位置不存在：{0}",
+    "error.selection.empty": "选择数据为空",
+    "error.selection.date.required": "日期为必填项",
+    "error.selection.type.required": "类型为必填项",
+    "error.selection.type.unknown": "未知类型：{0}（仅允许 TIME 或 ALL_DAY）",
+    "error.selection.time.required": "日期“{0}”是TIME类型，但未指定时间",
+    "error.selection.time.empty": "时间值为空",
+    "error.selection.time.format.invalid": "日期“{0}”的时间格式无效。 {1}",
+    "error.selection.date.not.available": "日期 {0} 无法参加本次会议",
+    "error.selection.slot.null": "插槽数组不能为空。使用空地图排除日期。",
+    "error.selection.slot.not.available": "插槽 {0} 在 {1} 上不可用",
+    "error.selection.slot.empty.for.time": "TIME 类型会议不允许使用空数组。使用空地图排除日期。",
+    "error.timeslot.invalid.format": "时间格式无效。预期高度:mm",
+    "error.timeslot.invalid.hour": "小时必须介于 0 到 23 之间",
+    "error.timeslot.invalid.minute": "分钟必须介于 0 到 59 之间",
+    "error.timeslot.not.aligned": "时间必须与 {0} 分钟间隔一致",
+    "error.timeslot.index.out.of.range": "对于 {0} 分钟间隔，时隙索引必须介于 {1} 和 {2} 之间，但得到：{3}",
+    "error.timeslot.interval.positive": "间隔分钟数必须为正数",
+    "error.timeslot.interval.divisor": "间隔分钟数必须是 {0} 的除数",
+    "error.calendar.export.failed": "创建日历文件失败",
+    "error.ai.api.failed": "AI API调用失败",
+    "error.ai.provider.unknown": "未知 AI 提供商：{0}",
+    "mcp.meeting.created": "会议创建成功",
+    "mcp.vote.time.saved": "可用性投票已成功保存",
+    "mcp.vote.location.saved": "位置投票已成功保存",
+    "mcp.meeting.confirmed": "会议日程确认成功",
+    "mcp.location.confirmed": "集合地点确认成功",
+    "mcp.ics.created": "ICS 文件创建成功",
+    "validation.meeting.title.required": "标题为必填项",
+    "validation.meeting.dates.required": "需要提供可用日期/时间",
+    "validation.meeting.location.max": "最多可添加 5 个位置",
+    "validation.selection.required": "需要选择时段",
+    "validation.date.required": "日期为必填项",
+    "validation.date.format": "日期格式必须为 yyyy-MM-dd",
+    "validation.time.required": "需要时间",
+    "validation.time.format": "时间格式必须为 HH:mm",
+    "validation.location.id.required": "需要位置 ID",
+    "validation.location.ids.required": "需要位置 ID 列表",
+    "validation.location.name.required": "地点名称为必填项",
+    "validation.location.max": "最多可添加 5 个位置",
+    "validation.auth.code.required": "需要授权码",
+    "validation.username.required": "用户名是必需的",
+    "validation.password.required": "需要密码",
+    "validation.selection.date.min.max": "请选择 1 到 31 个日期",
+    "validation.type.required": "类型为必填项",
+    "validation.slot.index.required": "要确认的槽位索引（TIME 类型必需，ALL_DAY 类型允许为 null）",
+    "error.meeting.timezone.invalid": "选择有效的 IANA 时区。",
+    "error.meeting.time.nonexistent": "这个时间不存在，因为时钟向前移动。选择其他时间。",
+    "error.meeting.time.ambiguous": "当时钟向后移动时，这个时间会出现两次。选择一个明确的时间。",
+    "error.comment.rate.limit": "请稍等几秒再发布。",
+    "error.selection.candidates.changed": "候选日期已更改。请刷新页面后重新回复。"
+  },
+  "comments": {
+    "title": "评论",
+    "placeholder": "聊聊这次聚会",
+    "reply": "回复",
+    "replyTo": "回复 {name}",
+    "replies": "回复（{count}）",
+    "collapse": "收起回复",
+    "post": "发布",
+    "save": "保存",
+    "edit": "编辑",
+    "delete": "删除",
+    "hide": "隐藏",
+    "hidden": "此评论已被组织者隐藏。",
+    "deleted": "此评论已删除。",
+    "edited": "已编辑",
+    "host": "组织者",
+    "mention": "输入 @ 提及他人",
+    "noPeople": "没有匹配的参与者",
+    "session": "请输入评论中显示的名字。",
+    "failed": "未能完成请求。输入内容已保留，请重试。",
+    "rateLimit": "请稍等几秒再发布。",
+    "new": "查看新评论（{count}）",
+    "mentioned": "提及你的新评论",
+    "moreReplies": "更多回复",
+    "more": "更早的评论",
+    "copy": "复制评论链接",
+    "copied": "链接已复制。",
+    "actions": "评论操作",
+    "newReply": "新内容",
+    "removeConfirm": "移除正文吗？已有回复将保留。",
+    "retry": "再试一次",
+    "reactions": {
+      "add": "添加回应",
+      "view": "查看回应者",
+      "title": "回应",
+      "react": "回应",
+      "remove": "取消回应",
+      "empty": "暂无回应。",
+      "you": "你",
+      "session": "请输入回应时显示的名字。",
+      "failed": "无法更新回应，请重试。",
+      "like": "赞同",
+      "love": "喜欢",
+      "laugh": "好笑",
+      "celebrate": "庆祝",
+      "thanks": "感谢",
+      "think": "思考中",
+      "eyes": "关注中",
+      "hundred": "满分"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "约时间，就是这么简单",
+    "title": "汇集每个人的时间，定下共同的约定。",
+    "description": "分享链接，选择空闲时间，就能找到大家都能见面的时刻。",
+    "steps": {
+      "share": {
+        "title": "分享一个链接",
+        "description": "受邀者无需登录即可参与"
+      },
+      "select": {
+        "title": "选择空闲时间",
+        "description": "汇总每个人的时间安排"
+      },
+      "decide": {
+        "title": "找到共同空闲时间",
+        "description": "确定最合适的见面时间"
+      }
+    },
+    "sample": "使用示例",
+    "meetingTitle": "这周一起见面吧",
+    "responses": "{count}人参与",
+    "hint": "更改你的可用时间，结果也会随之更新。",
+    "filtersLabel": "按参与者查看空闲时间",
+    "allResults": "全部结果",
+    "personAvailability": "{name}的空闲时间",
+    "tableLabel": "各时段可参与人数",
+    "timeLabel": "时间",
+    "legendTitle": "可参与人数",
+    "legendMax": "多",
+    "resultTitle": "找到{count}人都有空的时间了！",
+    "resultHint": "点击“全部结果”，查看共同空闲的时间。",
+    "available": "可以参与",
+    "unavailable": "无法参与",
+    "people": {
+      "jiwoo": "智友",
+      "minseo": "敏书",
+      "doyun": "道允",
+      "subin": "秀彬"
+    },
+    "yourAvailability": "你的可用时间",
+    "hourly": "每格1小时",
+    "me": "你",
+    "legend": "可参加人数 / 总人数",
+    "create": "创建自己的聚会",
+    "compactTime": "周六晚上7点，",
+    "compactResult": "大家都有空"
+  }
+}

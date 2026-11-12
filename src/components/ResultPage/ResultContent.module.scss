@@ -1,30 +1,17 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 // =====================================================
 // Result Page Styles (Warm & Friendly)
 // =====================================================
 
-// 공통 카드 스타일
+// 결과 영역은 테두리 대신 제목과 여백으로 구분한다.
 .Card {
-  background: $card-bg;
-  border-radius: $radius-xl; // 더 둥글게
-  border: 1px solid rgba(0,0,0,0.04);
-  box-shadow: $shadow-base;
+  @include surfaces.content;
   overflow: hidden;
-  transition: all $transition-base;
-  padding: $spacing-lg;
+  padding: $spacing-md 0 0;
   max-width: 100%; // 오버플로우 방지
   box-sizing: border-box;
-  
-  &:hover {
-    box-shadow: $shadow-md;
-  }
-
-  @media (max-width: 699px) {
-    padding: $spacing-base;
-    border-radius: $radius-base;
-    box-shadow: 0 8px 24px -22px rgba($c-black, 0.4);
-  }
 }
 
 .Summary {
@@ -57,219 +44,80 @@
 // Best Slots (요약 탭) - 카드 리스트 스타일
 // =====================================================
 
-.BestSlots {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-md;
-  max-width: 100%; // 오버플로우 방지
-  overflow: hidden;
+// Dates group readable content; each time row is a separate disclosure.
+.BestSlots { display: flex; flex-direction: column; gap: $spacing-base; min-width: 0; }
+.BestSlotsTitle { margin: 0 0 $spacing-xs; font-size: $font-size-lg; font-weight: $font-weight-semibold; color: $c-black; }
+.BestSlotsDescription { margin: 0; color: $c-gray-darkest; font-size: $font-size-sm; line-height: $line-height-normal; }
+.BestSlotsList, .BestSlotRows { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; min-width: 0; }
+.BestSlotsList { gap: $spacing-lg; }
+.BestSlotItem { @include surfaces.content; @include surfaces.section-start($spacing-base); min-width: 0; }
+.BestSlotDate { margin: 0 0 $spacing-md; font-size: $font-size-base; font-weight: $font-weight-semibold; color: $c-black; overflow-wrap: anywhere; }
+.BestSlotRows { gap: $spacing-sm; }
+.BestSlotRow {
+  @include surfaces.action;
+  min-width: 0;
+  background: $c-white;
+  border-color: transparent;
 }
-
-.BestSlotsTitle {
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  color: $c-gray-darkest;
-  margin: 0 0 $spacing-xs 0;
-}
-
-.BestSlotsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-md;
-}
-
-.BestSlotItem {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding: 0;
-  background-color: $c-white;
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: $radius-lg;
-  overflow: hidden;
-  box-shadow: $shadow-sm;
-  transition: all $transition-base;
-  max-width: 100%; // 오버플로우 방지
-  box-sizing: border-box;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: $shadow-md;
-    border-color: $primary-color-border;
-  }
-}
-
 .BestSlotHeader {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto) 20px;
+  align-items: center;
   gap: $spacing-sm;
+  width: 100%;
+  min-height: 56px;
   padding: $spacing-md;
   border: 0;
-  text-align: left;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-  background-color: transparent;
-  transition: background-color $transition-base;
-  max-width: 100%; // 오버플로우 방지
-  box-sizing: border-box;
-  overflow: hidden;
-
-  &:hover {
-    background-color: $c-blue-soft;
-  }
-
-  &:focus-visible {
-    outline: 2px solid $primary-color;
-    outline-offset: -2px;
-  }
-}
-
-.BestSlotMainLine {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: $spacing-xs $spacing-sm;
-
-  @media (min-width: 700px) {
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    gap: $spacing-md;
-  }
-}
-
-.BestSlotDate {
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-sm;
-  color: $c-black;
-  min-width: 0;
-  white-space: nowrap;
-
-  @media (min-width: 700px) {
-    font-size: $font-size-base;
-    min-width: 110px;
-  }
-}
-
-.BestSlotTime {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-xs;
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-sm;
-  color: $primary-color;
-  min-width: 0;
-  font-variant-numeric: tabular-nums;
-
-  @media (min-width: 700px) {
-    font-size: $font-size-base;
-  }
-}
-
-.BestSlotTimeRange {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 3px 8px;
+  border-radius: surfaces.$control-radius;
   background: $c-blue-soft;
-  border-radius: $radius-xs;
-  white-space: nowrap;
-}
-
-.BestSlotMoreTimeRanges {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 3px 8px;
-  color: $c-gray-darkest;
-  background: $c-gray-lightest;
-  border-radius: $radius-xs;
-  white-space: nowrap;
-}
-
-.BestSlotsToggle {
-  align-self: center;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  min-height: 40px;
-  padding: 8px 12px;
-  color: $c-gray-darkest;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
-  background: transparent;
-  border: 0;
-  border-radius: $radius-sm;
+  color: $c-black;
+  font: inherit;
+  text-align: start;
   cursor: pointer;
-
-  &:hover {
-    color: $c-black;
-    background: $c-gray-lightest;
-  }
-
-  &:focus-visible {
-    outline: 2px solid $primary-color;
-    outline-offset: 2px;
-  }
-
-  svg {
-    font-size: 16px;
-  }
+  &:hover { background: $primary-color-soft; }
+  &[aria-expanded='true'] .BestSlotExpandIcon { color: $primary-color-hover; }
+  &:focus-visible { outline: 2px solid $primary-color; outline-offset: -2px; }
 }
-
-.BestSlotCount {
-  color: $c-gray-darkest;
-  font-size: $font-size-xs;
-  background: $c-gray-lightest;
-  padding: 3px 6px;
-  border-radius: $radius-full;
-  font-weight: $font-weight-medium;
-  white-space: nowrap;
-  grid-column: 1 / -1;
-  justify-self: start;
-
-  @media (min-width: 700px) {
-    grid-column: auto;
-    justify-self: end;
-    font-size: $font-size-sm;
-    padding: 4px 8px;
-  }
-}
-
-.BestSlotExpandIcon {
-  color: $c-gray-dark;
-  font-size: $font-size-base;
-  grid-column: 2;
-  grid-row: 1;
-  margin-left: 0;
-  flex-shrink: 0;
-  transition: transform $transition-base;
-
-  @media (min-width: 700px) {
-    grid-column: 3;
-    margin-left: 0;
-  }
-}
-
+.BestSlotTime { min-width: 0; font-size: $font-size-base; font-weight: $font-weight-semibold; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.BestSlotCount { min-width: 0; max-width: 180px; color: $c-gray-darkest; font-size: $font-size-sm; font-weight: $font-weight-normal; text-align: end; overflow-wrap: anywhere; }
+.BestSlotExpandIcon { display: inline-flex; color: $c-gray-darkest; font-size: $font-size-lg; }
 .BestSlotParticipants {
-  padding: $spacing-md $spacing-lg;
-  background-color: $c-gray-lightest; // 펼쳤을 때 배경색 구분
-  border-top: 1px solid rgba(0,0,0,0.05);
+  padding: 0 $spacing-md $spacing-base;
+  min-width: 0;
+  .ResponseGroups { margin: 0; }
+  .ResponsePeople { display: flex; flex-wrap: wrap; gap: $spacing-sm $spacing-lg; }
+  .ParticipantItem { font-size: $font-size-base; }
+  .ResponseGroup + .ResponseGroup { margin-block-start: $spacing-base; padding-block-start: $spacing-base; }
+  .ResponseGroupHeading { margin-block-end: $spacing-sm; }
 }
-
+.BestSlotsToggle {
+  align-self: center; display: inline-flex; align-items: center; justify-content: center;
+  gap: $spacing-xs; min-height: 44px; padding: $spacing-sm $spacing-md;
+  color: $c-gray-darkest; font: inherit; font-size: $font-size-sm; font-weight: $font-weight-semibold;
+  background: transparent; border: 0; border-radius: $radius-sm; cursor: pointer;
+  &:hover { color: $c-black; background: $c-gray-lightest; }
+  &:focus-visible { outline: 2px solid $primary-color; outline-offset: -2px; }
+  svg { flex-shrink: 0; font-size: 16px; }
+}
+.ResultTimezone { margin-block: 0 12px; > p { margin: 4px 0; font-size: $font-size-xs; } }
 
 // =====================================================
 // 참여자 리스트 스타일 (Participants Content)
 // =====================================================
+.ParticipantsHeading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: $spacing-xs $spacing-md;
+
+  .Title { margin: 0; }
+  .DetailText { font-size: $font-size-sm; }
+}
+
 .ParticipantsList {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-sm;
+  gap: $spacing-base $spacing-lg;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -279,19 +127,15 @@
   display: inline-flex;
   align-items: center;
   gap: $spacing-sm;
-  padding: $spacing-xs $spacing-md;
-  background-color: $c-white;
-  border-radius: $radius-full; // pill 형태
-  border: 1px solid $c-gray-light;
-  transition: all $transition-base;
+  min-width: 0;
+  max-width: 100%;
 
-  &:hover {
-    background-color: $c-blue-soft;
-    border-color: $primary-color-border;
-  }
+  > :first-child { flex-shrink: 0; }
 }
 
 .ParticipantName {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $c-gray-darkest;
@@ -320,7 +164,7 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-    min-height: 38px;
+    min-height: 48px;
     padding: 8px 11px;
     color: $primary-color-hover;
     font-size: $font-size-xs;
@@ -360,190 +204,6 @@
   }
 }
 
-.ConfirmedPlan {
-  padding: 28px;
-  background: $c-white;
-  color: $c-black;
-  border: 1px solid #f0f2f5;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
-
-  @media (max-width: 699px) {
-    padding: 22px 20px;
-    border-radius: 18px;
-  }
-}
-
-.ConfirmedPlanHeading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-
-  > svg {
-    width: 36px;
-    height: 36px;
-    flex: 0 0 auto;
-    padding: 8px;
-    color: #3182f6;
-    background: #edf6ff;
-    border-radius: 12px;
-  }
-}
-
-.ConfirmedPlanEyebrow {
-  display: block;
-  margin-bottom: 3px;
-  color: #3182f6;
-  font-size: 12px;
-  font-weight: $font-weight-semibold;
-  letter-spacing: -0.01em;
-}
-
-.ConfirmedPlanTitle {
-  margin: 0;
-  color: $c-black;
-  font-size: 22px;
-  font-weight: $font-weight-bold;
-  letter-spacing: -0.035em;
-}
-
-.ConfirmedPlanDetails {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  margin: 0;
-  border-top: 1px solid #f2f4f6;
-  border-bottom: 1px solid #f2f4f6;
-
-  > div {
-    min-width: 0;
-    padding: 18px 20px;
-
-    & + div { border-left: 1px solid #f2f4f6; }
-  }
-
-  dt {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xs;
-    margin-bottom: 7px;
-    color: #8b95a1;
-    font-size: 12px;
-    font-weight: $font-weight-medium;
-
-    svg { flex: 0 0 auto; }
-  }
-
-  dd {
-    margin: 0;
-    color: $c-black;
-    font-size: 16px;
-    font-weight: $font-weight-bold;
-    letter-spacing: -0.025em;
-    word-break: keep-all;
-  }
-
-  @media (max-width: 559px) {
-    grid-template-columns: 1fr;
-
-    > div {
-      padding: 16px 4px;
-
-      & + div {
-        border-left: 0;
-        border-top: 1px solid #f2f4f6;
-      }
-    }
-  }
-}
-
-.ConfirmedAttendance {
-  margin-top: 20px;
-  padding: 18px 20px;
-  background: #f7f8fa;
-  color: $c-black;
-  border: 0;
-  border-radius: 14px;
-}
-
-.ConfirmedAttendanceHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: $spacing-md;
-  margin-bottom: $spacing-md;
-
-  > div {
-    display: flex;
-    align-items: baseline;
-    gap: $spacing-sm;
-    flex-wrap: wrap;
-  }
-
-  strong {
-    font-size: $font-size-sm;
-    color: #3182f6;
-  }
-}
-
-.ConfirmedTimeValue {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: $spacing-sm;
-
-  button {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    flex: 0 0 auto;
-    padding: 4px 2px;
-    color: #3182f6;
-    background: transparent;
-    border-radius: 6px;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-semibold;
-
-    &:hover { color: #1b64da; }
-    &:focus-visible { outline: 2px solid #3182f6; outline-offset: 2px; }
-  }
-}
-
-.TimeInputLabel {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xs;
-  color: $c-gray-darkest;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
-
-  input {
-    width: 100%;
-    min-height: 48px;
-    padding: 0 $spacing-md;
-    color: $c-black;
-    background: $c-white;
-    border: 1px solid $c-gray;
-    border-radius: $radius-sm;
-    font: inherit;
-    font-size: $font-size-base;
-
-    &:focus { outline: 2px solid #3182f6; outline-offset: 1px; }
-  }
-}
-
-.TimeDialogActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: $spacing-sm;
-  margin-top: $spacing-lg;
-
-  @media (max-width: 479px) {
-    > button { flex: 1; }
-  }
-}
-
 .ConfirmedAttendanceLabel {
   font-size: $font-size-base;
   font-weight: $font-weight-bold;
@@ -558,10 +218,11 @@
     display: inline-flex;
     align-items: center;
     gap: $spacing-xs;
-    padding: 4px 10px 4px 4px;
-    background: $c-gray-lightest;
-    border: 1px solid $c-gray-light;
-    border-radius: $radius-full;
+    @include surfaces.person;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    > :first-child { flex-shrink: 0; }
     color: $c-gray-darkest;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
@@ -579,8 +240,6 @@
   align-items: center;
   gap: $spacing-md;
   margin-bottom: $spacing-lg;
-  padding-bottom: $spacing-md;
-  border-bottom: 2px solid $ai-color-border;
 }
 
 .AISummaryCardIcon {
@@ -617,21 +276,15 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
-  padding: $spacing-lg;
-  background-color: $c-white;
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: $radius-lg;
-  box-shadow: $shadow-sm;
+  padding: $spacing-base 0;
+  @include surfaces.content;
   transition: all $transition-base;
   
-  &:hover {
-    box-shadow: $shadow-md;
-    border-color: $primary-color-border;
-  }
+
 }
 
 .LocationItemConfirmed {
-  background: $primary-color-soft;
+  background: transparent;
   border-color: $primary-color-border;
   
   &:hover {
@@ -645,6 +298,11 @@
   justify-content: space-between;
   gap: $spacing-md;
   flex-wrap: wrap;
+
+  @media (max-width: 479px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .LocationInfo {
@@ -685,6 +343,8 @@
 }
 
 .LocationName {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-weight: $font-weight-semibold;
   font-size: $font-size-base;
   color: $c-black;
@@ -715,22 +375,11 @@
   white-space: nowrap;
 
   @media (max-width: 479px) {
-    margin-left: 40px;
+    align-self: flex-start;
+    max-width: calc(100% - 40px);
+    margin-inline-start: 40px;
+    white-space: normal;
   }
-}
-
-.LocationVoters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-xs;
-  padding-top: $spacing-sm;
-  border-top: 1px solid rgba(0,0,0,0.05);
-  margin-top: $spacing-sm;
-}
-
-.LocationVoterWrapper {
-  display: flex;
-  align-items: center;
 }
 
 .ConfirmedLocationBanner {
@@ -756,13 +405,7 @@
 
 .AISummaryLocationCard {
   @extend .Card;
-  padding: $spacing-xl;
-  background: $c-white;
-  border: 1px solid rgba(0,0,0,0.04);
-
-  @media (max-width: 699px) {
-    padding: $spacing-base;
-  }
+  @include surfaces.section-start;
 }
 
 .CardIconLocation {
@@ -805,21 +448,12 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
-  padding: $spacing-md;
-  background-color: rgba(255,255,255,0.8);
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: $radius-md;
-  transition: all $transition-base;
-  
-  &:hover {
-    background-color: $c-white;
-    border-color: $primary-color-border;
-  }
+  padding: $spacing-md 0 0;
+  @include surfaces.content;
 }
 
 .AISummaryLocationItemConfirmed {
-  background-color: $primary-color-soft;
-  border-color: $primary-color-border;
+  background-color: transparent;
 }
 
 .AISummaryLocationRank {
@@ -872,7 +506,7 @@
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   border-radius: $radius-full;
-  margin-left: $spacing-xs;
+  margin-inline-start: $spacing-xs;
 }
 
 .AISummaryLocationMeta {
@@ -888,26 +522,6 @@
   padding: 2px 8px;
   border-radius: $radius-full;
   font-weight: $font-weight-medium;
-}
-
-.AISummaryVoters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-xs;
-  padding-top: $spacing-sm;
-  border-top: 1px solid rgba(0,0,0,0.05);
-}
-
-.AISummaryVoterChip {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xs;
-  padding: 2px 8px 2px 2px;
-  background-color: $c-white;
-  border: 1px solid $c-gray-light;
-  border-radius: $radius-full;
-  font-size: $font-size-xs;
-  color: $c-gray-darkest;
 }
 
 // =====================================================
@@ -928,17 +542,25 @@
 }
 
 .ModalContent {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: calc($z-modal + 1);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 32px);
   background-color: $c-white;
   border-radius: $radius-lg;
   box-shadow: $shadow-modal;
-  width: 100%;
   max-width: 400px;
-  max-height: 80vh;
+  max-height: 80dvh;
   overflow: hidden;
   animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ModalHeader {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -967,8 +589,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
   border-radius: $radius-full;
   background-color: transparent;
   border: none;
@@ -985,7 +608,8 @@
 .ModalBody {
   padding: $spacing-lg;
   overflow-y: auto;
-  max-height: calc(80vh - 80px);
+  min-height: 0;
+  overscroll-behavior: contain;
 }
 
 .ModalParticipantsCount {
@@ -1042,11 +666,11 @@
 @keyframes contentShow {
   from {
     opacity: 0;
-    transform: scale(0.96);
+    transform: translate(-50%, -50%) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -1067,10 +691,8 @@
   display: inline-flex;
   align-items: center;
   gap: $spacing-xs;
-  padding: 4px 8px 4px 4px;
-  background-color: $c-white;
-  border: 1px solid $c-gray-light;
-  border-radius: $radius-full;
+  @include surfaces.person;
+  > :first-child { flex-shrink: 0; }
   font-size: $font-size-xs;
 }
 
@@ -1088,4 +710,184 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
+}
+
+@media (max-width: 899px) {
+  .CalendarVoteAction {
+    display: flex;
+    width: 100%;
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
+    white-space: normal;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+}
+
+.CalendarHeading {
+  .Title,
+  .DetailText {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 900px) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: $spacing-base;
+  }
+}
+
+@media (max-width: 699px) {
+  .SummaryHeader { flex-direction: column; align-items: stretch; }
+  .SummaryVoteAction { max-width: 100%; white-space: normal; text-align: center; text-wrap: balance; }
+}
+
+// Keep the same mounted panels/actions when changing the desktop calendar layout.
+.ResultLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 304px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  column-gap: $spacing-xl;
+  align-items: start;
+
+  &[data-has-actions='false'] { grid-template-columns: minmax(0, 1fr); }
+}
+.ResultHeader { grid-column: 1; grid-row: 1; min-width: 0; }
+.ResultPanels { grid-column: 1; grid-row: 2; min-width: 0; }
+.ResultComments {
+  grid-column: 1;
+  grid-row: 3;
+  min-width: 0;
+
+  > * { max-width: none; }
+}
+.ResultActions {
+  @include surfaces.section-side;
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  position: sticky;
+  top: $spacing-lg;
+  min-width: 0;
+}
+@media (min-width: 900px) {
+  .ResultLayout[data-calendar-view='true'] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    .ResultActions {
+      grid-column: 1; grid-row: 2; position: static; margin-bottom: $spacing-base;
+      border-inline-start: 0; padding-inline-start: 0;
+      border-block-end: 1px solid surfaces.$section-line; padding-block-end: $spacing-base;
+    }
+    .ResultPanels { grid-row: 3; }
+    .ResultComments { grid-row: 4; }
+  }
+}
+@media (max-width: 899px) {
+  .ResultLayout { display: flex; flex-direction: column; align-items: stretch; }
+  .ResultPanels { order: 1; }
+  .ResultComments { order: 3; }
+  .ResultActions {
+    order: 2; position: static; margin-top: $spacing-lg;
+    border-inline-start: 0; padding-inline-start: 0;
+    @include surfaces.section-start;
+  }
+}
+
+// Candidate attendance stays scoped to its own time range.
+.SlotAttendance {
+  min-width: 0;
+  & + & {
+    margin-top: $spacing-lg;
+  }
+}
+
+.SlotAttendanceTime {
+  margin: 0 0 $spacing-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  overflow-wrap: anywhere;
+}
+
+.SlotAttendanceGroups {
+  display: grid;
+  gap: $spacing-md;
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.SlotAttendanceGroup {
+  min-width: 0;
+  &[data-status='unavailable'] .BestSlotParticipantItem {
+    background: transparent;
+  }
+}
+
+.SlotAttendanceLabel {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  margin: 0 0 $spacing-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  span {
+    color: $c-gray-dark;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.SlotAttendanceEmpty {
+  margin: 0;
+  color: $c-gray-dark;
+  font-size: $font-size-xs;
+}
+
+.SlotAttendance .BestSlotParticipantItem {
+  max-width: 100%;
+  padding-inline: 0;
+}
+
+.SlotAttendance .BestSlotParticipantName {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.LocationItem + .LocationItem,
+.AISummaryLocationItem + .AISummaryLocationItem {
+  @include surfaces.section-start($spacing-base);
+}
+
+.ParticipantResponse { display: flex; flex-direction: column; min-width: 0; gap: 4px; }
+.ResponseStatus { font-size: $font-size-sm; color: $c-gray-darkest; overflow-wrap: anywhere; margin: 0 0 $spacing-sm; }
+
+.OwnResponse { display: flex; flex-wrap: wrap; align-items: baseline; gap: $spacing-sm $spacing-base; margin-bottom: $spacing-base; }
+
+.EmptySummary { padding-block: $spacing-lg; }
+.EmptySummaryTitle { margin: 0 0 $spacing-sm; font-size: $font-size-lg; font-weight: $font-weight-semibold; }
+.ResponseGroups { margin-top: $spacing-lg; min-width: 0; }
+.ResponseGroup { min-width: 0; }
+.ResponseGroup + .ResponseGroup { margin-block-start: $spacing-lg; @include surfaces.section-start($spacing-lg); }
+.ResponseGroupHeading {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: $spacing-sm;
+  margin: 0 0 $spacing-base; font-size: $font-size-sm; font-weight: $font-weight-semibold;
+  span { color: $c-gray-darkest; font-size: $font-size-xs; font-weight: $font-weight-normal; }
+}
+.ResponsePeople {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: $spacing-base $spacing-lg; list-style: none; margin: 0; padding: 0;
+  @media (max-width: 480px) { grid-template-columns: 1fr; }
+}
+.ResponseLink {
+  appearance: none; background: transparent; border: 0; color: $primary-color;
+  padding: $spacing-sm 0; min-height: 44px; font: inherit; font-size: $font-size-sm;
+  text-align: start; cursor: pointer;
+}
+.ResponseBasis { margin: $spacing-sm 0; color: $c-gray-darkest; font-size: $font-size-sm; }
+
+// Decision summary: one conclusion, then its candidate and the next action.
+.DecisionContainer { min-width: 0; }
+@media (max-width: 899px) {
+  .DecisionContainer .SummaryVoteAction { display: flex; justify-content: center; margin-top: 16px; width: 100%; min-height: 48px; background: $c-gray-lightest; color: $c-gray-darkest; font-size: 14px; white-space: normal; line-height: 1.5; }
 }

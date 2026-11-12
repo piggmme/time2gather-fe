@@ -1,3 +1,4 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 .dialogContent {
@@ -10,32 +11,16 @@
 
 .dialogHeader {
   flex: 0 0 auto;
+  margin-block-end: $spacing-base;
+
+  > .stepIndicator { margin-block-end: 0; }
 }
 
 .dialogBody {
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding-right: 4px;
-}
-
-.iosGuide {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 0 0 16px;
-  padding: 12px 14px;
-  background: $primary-color-soft;
-  border: 1px solid $primary-color-border;
-  border-radius: $radius-sm;
-  color: $c-gray-darkest;
-  font-size: $font-size-sm;
-  line-height: $line-height-normal;
-
-  strong {
-    color: $primary-color;
-    font-weight: $font-weight-bold;
-  }
+  padding-inline-end: 4px;
 }
 
 .stepIndicator {
@@ -57,7 +42,7 @@
     color: $c-gray-dark;
     font-size: 13px;
     font-weight: 600;
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
   }
 
   span {
@@ -112,7 +97,7 @@
   font-size: 13px;
   line-height: 1.5;
   color: $c-gray-darkest;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
 }
 
 .slotList {
@@ -129,9 +114,7 @@
   min-height: 58px;
   padding: 11px 12px;
   box-sizing: border-box;
-  border: 1px solid $c-gray-light;
-  border-radius: 12px;
-  background-color: $c-white;
+  @include surfaces.action;
   cursor: pointer;
   transition: border-color 0.15s ease, background-color 0.15s ease;
 
@@ -192,15 +175,14 @@
   font-size: 13px;
   line-height: 1.35;
   color: $c-gray-dark;
-  text-align: right;
-  word-break: keep-all;
+  text-align: end;
+  word-break: var(--text-word-break, normal);
 }
 
 .emptyMessage {
   margin: 0;
-  padding: 16px;
-  border-radius: 12px;
-  background-color: $c-gray-light;
+  padding: 16px 0;
+  @include surfaces.content;
   color: $c-gray-darkest;
   font-size: 14px;
   text-align: center;
@@ -224,4 +206,12 @@
       flex: 1;
     }
   }
+}
+
+@media (max-width: 479px) {
+  .stepIndicator { grid-template-columns: 1fr; }
+  .slotItem { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px 10px; }
+  .radioInput { grid-column: 1; grid-row: 1; align-self: start; margin-block-start: 2px; }
+  .slotInfo { grid-column: 2; }
+  .slotStats { grid-column: 2; justify-self: start; max-width: 100%; text-align: start; }
 }

@@ -1,3 +1,4 @@
+@use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
 // =====================================================
@@ -16,19 +17,20 @@
   margin-bottom: 0;
   color: $c-black;
   font-size: $font-size-2xl;
-  text-align: center;
-  word-break: keep-all;
+  text-align: start;
+  word-break: var(--text-word-break, normal);
   text-wrap: balance;
 
   @media (max-width: 699px) {
     margin-top: 0;
-    text-align: left;
+    text-align: start;
   }
 }
 
 // Meeting Type Selection (Cards)
 .meetingTypeContainer {
   display: flex;
+  flex-direction: column;
   gap: $spacing-base;
   margin-top: $spacing-xl;
   
@@ -43,29 +45,28 @@ button.meetingTypeButton {
   flex: 1;
   width: 100%;
   max-width: none;
-  min-height: 148px;
+  min-height: 96px;
   height: auto;
   padding: $spacing-lg $spacing-base;
   font-size: $font-size-md;
   font-weight: $font-weight-semibold;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
   
   // Custom Card Style for Selection
   background-color: $c-white !important;
-  border: 1px solid rgba(0,0,0,0.06) !important;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-sm;
+  border: 1px solid surfaces.$section-line !important;
+  border-radius: surfaces.$control-radius;
+  box-shadow: none;
   transition: all $transition-base;
   
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: $spacing-md;
   
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: $shadow-md;
+    background-color: surfaces.$control-hover-bg !important;
     border-color: $primary-color-border !important;
   }
 
@@ -73,7 +74,7 @@ button.meetingTypeButton {
     background-color: $c-blue-soft !important;
     border-color: $primary-color !important;
     color: $primary-color;
-    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    box-shadow: none;
   }
 
   @media (max-width: 699px) {
@@ -82,13 +83,13 @@ button.meetingTypeButton {
     gap: $spacing-md;
     padding: $spacing-base;
     font-size: $font-size-base;
-    border-radius: $radius-base;
+    border-radius: surfaces.$control-radius;
   }
 }
 
 .monthlyContainer {
   max-width: 100%; // 너비 제한 해제 (Grid 컴포넌트 자체 너비 사용)
-  margin: $spacing-lg auto;
+  margin: $spacing-lg auto 0;
   background: transparent;
   padding: 0;
   border-radius: 0;
@@ -114,7 +115,7 @@ button.meetingTypeButton {
 
 // Navigation Buttons (Bottom)
 .buttonContainer {
-  margin-top: $spacing-3xl;
+  margin-top: $spacing-lg;
   width: 100%;
   max-width: 100%; // 오버플로우 방지
   display: flex;
@@ -145,7 +146,7 @@ button.meetingTypeButton {
     right: 0;
     width: 100%;
     max-width: 100%;
-    margin-top: $spacing-xl;
+    margin-top: $spacing-lg;
     margin-left: 0;
     margin-right: 0;
     padding: $spacing-xl 0 calc($spacing-md + env(safe-area-inset-bottom));
@@ -193,6 +194,7 @@ button.meetingTypeButton {
 }
 
 .timeRangeItem {
+  > span { flex: 0 0 7rem; min-width: 0; text-wrap: balance; }
   display: flex;
   align-items: center;
   gap: $spacing-md;
@@ -200,6 +202,7 @@ button.meetingTypeButton {
   @media (max-width: 699px) {
     flex-direction: column;
     align-items: flex-start;
+    > span { flex-basis: auto; }
   }
 }
 
@@ -230,7 +233,7 @@ button.meetingTypeButton {
   @media (max-width: 699px) {
     margin: $spacing-lg 0 0;
     padding-top: $spacing-lg;
-    border-top: 1px solid rgba($c-gray-dark, 0.18);
+    border-top: 0;
   }
 }
 
@@ -277,7 +280,7 @@ button.meetingTypeButton {
 .formSection {
   margin-top: $spacing-xl;
   padding-top: $spacing-xl;
-  border-top: 1px solid $c-gray-light;
+  border-top: 0;
 
   &:first-of-type {
     margin-top: $spacing-lg;
@@ -299,7 +302,7 @@ button.meetingTypeButton {
     color: $c-black;
     font-size: $font-size-lg;
     line-height: $line-height-tight;
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
   }
 
   p {
@@ -307,7 +310,7 @@ button.meetingTypeButton {
     color: $c-gray-darkest;
     font-size: $font-size-sm;
     line-height: $line-height-normal;
-    word-break: keep-all;
+    word-break: var(--text-word-break, normal);
   }
 }
 
@@ -356,9 +359,7 @@ button.meetingTypeButton {
 .locationToggleContainer {
   margin: 0;
   padding: $spacing-sm $spacing-base;
-  border: 1px solid $c-gray;
-  border-radius: $radius-sm;
-  background: $c-white;
+  @include surfaces.action;
   transition: border-color $transition-fast, background-color $transition-fast;
 
   &:has(input:checked) {
@@ -423,9 +424,7 @@ button.meetingTypeButton {
   justify-content: center;
   width: 44px; // 터치 영역 확대
   height: 44px;
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: $radius-base;
-  background-color: $c-white;
+  @include surfaces.action;
   color: $c-gray-dark;
   font-size: $font-size-lg;
   cursor: pointer;
@@ -435,7 +434,7 @@ button.meetingTypeButton {
     background-color: $c-red-soft;
     border-color: transparent;
     color: $c-red;
-    transform: rotate(90deg);
+
   }
 }
 
@@ -485,4 +484,34 @@ button.meetingTypeButton {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.nativeTime { width: 100%; min-width: 0; min-height: 44px; padding: 10px; border: 1px solid #c5ced8; border-radius: 10px; background: white; color: #191f28; }
+
+// Keep the short title form and its actions together.
+.titleInput {
+  margin-bottom: 0;
+}
+
+.buttonContainer.titleButtons {
+  margin-top: $spacing-lg;
+
+  @media (max-width: 699px) {
+    position: static;
+    background: transparent;
+  }
+}
+
+.buttonContainer {
+  @include surfaces.section-boundary;
+  @media (max-width: 699px) { background: $c-white; }
+}
+
+.typeSelectionCheck {
+  margin-inline-start: auto; display: grid; place-items: center;
+  width: 24px; height: 24px; flex: 0 0 24px;
+  border: 1px solid surfaces.$section-line; border-radius: 50%;
+}
+.meetingTypeButton[aria-pressed='true'] .typeSelectionCheck {
+  background: $primary-color; border-color: $primary-color; color: $c-white;
 }

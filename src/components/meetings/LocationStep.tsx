@@ -1,7 +1,12 @@
+import { trackAnalyticsEvent } from '../../utils/analytics'
+import { usePageState } from '../../hooks/usePageState'
+import { $creationTimeZone, clearCreationTimeZone } from '../../stores/timezone'
+import { inspectWallTime, isTimeZone } from '../../utils/timezone'
+import { showCautionToast } from '../../stores/toast'
 import { useEffect, useState } from 'react'
 import styles from './CreateMeeting.module.scss'
 import Button from '../Button/Button'
-import { navigate } from 'astro:transitions/client'
+import { navigate, navigateBack } from '../../utils/navigation'
 import { useSearchParam } from 'react-use'
 import Input from '../Input/Input'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -18,15 +23,16 @@ const MAX_LOCATIONS = 5
 const MIN_LOCATIONS = 2
 
 export default function LocationStep () {
-  const [locationVoteEnabled, setLocationVoteEnabled] = useState(false)
-  const [locations, setLocations] = useState<string[]>(['', ''])
+  const [locationVoteEnabled, setLocationVoteEnabled] = usePageState('locationVoteEnabled', false)
+  const [locations, setLocations] = usePageState<string[]>('locations', ['', ''])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const timezone = useStore($creationTimeZone)
   const me = useStore($me)
-  const [hostName, setHostName] = useState(me?.username ?? '')
+  const [hostName, setHostName] = usePageState('hostName', me?.username ?? '')
 
   useEffect(() => {
-    if (me) setHostName(me.username)
-  }, [me])
+    if (me && !hostName) setHostName(me.username)
+  }, [me?.userId])
 
   const [selectedDates] = useSelectedDates()
   const title = useSearchParam('title')
@@ -67,7 +73,7 @@ export default function LocationStep () {
       }, {} as { [date: string]: null })
     } else {
       const startTime24 = convertTo24Hour(startTime12Param || '9:00', startAmPmParam || 'AM')
-      const endTime24 = convertTo24Hour(endTime12Param || '6:00', endAmPmParam || 'PM')
+      const endTime24 = convertTo24Hour(endTime12Param || '10:00', endAmPmParam || 'PM')
       return selectedDates.reduce((acc, d) => {
         acc[d.format('YYYY-MM-DD')] = getTimeRangeSlots(startTime24, endTime24)
         return acc
@@ -77,6 +83,20 @@ export default function LocationStep () {
 
   const handleSubmit = async () => {
     if (isSubmitting) return
+    if (!isTimeZone(timezone)) {
+      showCautionToast({ message: t('timezone.invalid') })
+      return
+    }
+    const availableDates = buildAvailableDates()
+    for (const [date, times] of Object.entries(availableDates)) {
+      for (const time of times ?? []) {
+        const result = inspectWallTime(date, time, timezone)
+        if (result.status !== 'valid') {
+          showCautionToast({ message: `${date} ${time}: ${t(result.status === 'gap' ? 'timezone.gap' : result.status === 'overlap' ? 'timezone.overlap' : 'timezone.invalid')}` })
+          return
+        }
+      }
+    }
     setIsSubmitting(true)
 
     try {
@@ -88,16 +108,14 @@ export default function LocationStep () {
           provider: 'ANONYMOUS',
           role: 'USER',
         })
-      } else if (hostName.trim() !== me.username) {
-        const response = await auth.me.put(hostName.trim())
-        $me.set({ ...me, username: response.data.username })
       }
 
       const body: post_meetings_body = {
+        hostName: hostName.trim(),
         title: title as string,
-        timezone: 'Asia/Seoul',
+        timezone,
         selectionType: meetingTypeParam,
-        availableDates: buildAvailableDates(),
+        availableDates,
       }
 
       if (locationVoteEnabled && validLocations.length >= MIN_LOCATIONS) {
@@ -107,7 +125,13 @@ export default function LocationStep () {
 
       const response = await meetings.post(body)
       if (response.success) {
-        await navigate(`/meetings/${response.data.meetingCode}`)
+        trackAnalyticsEvent('meeting_created', {
+          selection_type: meetingTypeParam,
+          actor_role: 'host',
+          location_vote_enabled: !!body.locationVoteEnabled,
+        })
+        clearCreationTimeZone()
+        await navigate(`/meetings/${response.data.meetingCode}`, { history: 'replace' })
       } else {
         console.error(response.message)
       }
@@ -120,9 +144,9 @@ export default function LocationStep () {
     const dateStrings = selectedDates.map(date => date.format('YYYY-MM-DD')).join(',')
     if (meetingTypeParam === 'TIME') {
       const timeParams = `&startTime12=${startTime12Param}&endTime12=${endTime12Param}&startAmPm=${startAmPmParam}&endAmPm=${endAmPmParam}`
-      navigate(`/meetings/create?step=timeRange&meetingType=${meetingTypeParam}&dates=${dateStrings}&title=${title}${timeParams}`)
+      return navigateBack(`/meetings/create?step=timeRange&meetingType=${meetingTypeParam}&dates=${dateStrings}&title=${encodeURIComponent(title ?? '')}${timeParams}`)
     } else {
-      navigate(`/meetings/create?step=dates&meetingType=${meetingTypeParam}&dates=${dateStrings}&title=${title}`)
+      return navigateBack(`/meetings/create?step=dates&meetingType=${meetingTypeParam}&dates=${dateStrings}&title=${encodeURIComponent(title ?? '')}`)
     }
   }
 

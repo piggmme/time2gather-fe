@@ -1,6 +1,6 @@
 import Monthly from '../Monthly/Monthly'
 import styles from './CreateMeeting.module.scss'
-import { navigate } from 'astro:transitions/client'
+import { navigate, navigateBack } from '../../utils/navigation'
 import Button from '../Button/Button'
 import useSelectedDates from './useSelectedDates'
 import { useSearchParam } from 'react-use'
@@ -23,7 +23,7 @@ export default function DatesStep () {
         <Button
           buttonType='secondary'
           onClick={() => {
-            navigate(`/meetings/create?step=title&meetingType=${meetingTypeParam}&title=${title}`)
+            return navigateBack(`/meetings/create?step=title&meetingType=${meetingTypeParam}&title=${encodeURIComponent(title ?? '')}`)
           }}
         >
           {t('common.previous')}
@@ -36,8 +36,8 @@ export default function DatesStep () {
               if (selectedDates.length === 0) return
 
               const dateStrings = selectedDates.map(date => date.format('YYYY-MM-DD'))
-              const newUrl = `/meetings/create?step=timeRange&meetingType=${meetingTypeParam}&dates=${dateStrings.join(',')}&title=${title}`
-              navigate(newUrl)
+              const newUrl = `/meetings/create?step=timeRange&meetingType=${meetingTypeParam}&dates=${dateStrings.join(',')}&title=${encodeURIComponent(title ?? '')}`
+              return navigate(newUrl)
             }}
           >
             {t('common.next')}
@@ -52,7 +52,7 @@ export default function DatesStep () {
 
               const dateStrings = selectedDates.map(date => date.format('YYYY-MM-DD'))
               const newUrl = `/meetings/create?step=location&meetingType=${meetingTypeParam}&dates=${dateStrings.join(',')}&title=${encodeURIComponent(title as string)}`
-              navigate(newUrl)
+              return navigate(newUrl)
             }}
           >
             {t('common.next')}

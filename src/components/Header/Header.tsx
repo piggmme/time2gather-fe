@@ -1,12 +1,16 @@
+import { showCautionToast } from '../../stores/toast'
 import styles from './Header.module.scss'
 import { useState } from 'react'
 import {
-  DashboardIcon, EnvelopeClosedIcon, GlobeIcon, HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon,
+  CheckIcon, ChevronDownIcon, ChevronUpIcon, DashboardIcon, EnvelopeClosedIcon, GlobeIcon, HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon,
 } from '@radix-ui/react-icons'
-import { VisuallyHidden } from 'radix-ui'
+import { Select, VisuallyHidden } from 'radix-ui'
 import { useTranslation } from '../../hooks/useTranslation'
+import { localizedPath } from '../../marketing/config'
 import { setLocale } from '../../stores/locale'
-import { type Locale } from '../../i18n'
+import {
+  localeMeta, supportedLocales, loadLocaleDocument, getTranslations, type Locale,
+} from '../../i18n'
 import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
 import Avatar from '../Avatar/Avatar'
@@ -14,9 +18,8 @@ import Avatar from '../Avatar/Avatar'
 export default function Header () {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { t, locale } = useTranslation()
+  const [isChangingLanguage, setIsChangingLanguage] = useState(false)
   const me = useStore($me)
-  const nextLocale = locale === 'ko' ? 'en' : 'ko'
-  const languageButtonLabel = t(nextLocale === 'ko' ? 'common.switchToKorean' : 'common.switchToEnglish')
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -26,27 +29,53 @@ export default function Header () {
     setIsMobileMenuOpen(false)
   }
 
-  const handleLocaleChange = (newLocale: Locale) => {
-    setLocale(newLocale)
-
-    if (window.location.pathname === '/' && newLocale === 'en') {
-      window.location.assign('/en/')
-      return
+  const handleLocaleChange = async (newLocale: Locale) => {
+    if (isChangingLanguage || newLocale === locale) return
+    setIsChangingLanguage(true)
+    const url = new URL(window.location.href)
+    url.searchParams.set('lang', newLocale)
+    try {
+      const localized = await loadLocaleDocument(newLocale, url)
+      setLocale(newLocale)
+      if (document.documentElement.hasAttribute('data-meeting-invitation')) {
+        try {
+          if (localStorage.getItem('locale') === newLocale) url.searchParams.delete('lang')
+        } catch { /* Keep the language in the URL when storage is unavailable. */ }
+      }
+      window.history.replaceState(window.history.state, '', url.href)
+      document.title = localized.title
+      for (const selector of ['meta[name="description"]', 'meta[property="og:title"]', 'meta[property="og:description"]', 'meta[property="og:locale"]', 'meta[property="og:url"]', 'meta[name="twitter:title"]', 'meta[name="twitter:description"]']) {
+        const content = localized.querySelector(selector)?.getAttribute('content')
+        if (content) document.querySelector(selector)?.setAttribute('content', content)
+      }
+      const canonical = localized.querySelector('link[rel="canonical"]')?.getAttribute('href')
+      if (canonical) document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonical)
+      const translate = getTranslations(newLocale)
+      document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((element) => {
+        if (element.dataset.i18n) element.textContent = translate(element.dataset.i18n)
+      })
+    } catch {
+      showCautionToast({ message: t('common.error') })
+    } finally {
+      setIsChangingLanguage(false)
     }
-
-    if ((window.location.pathname === '/en' || window.location.pathname === '/en/') && newLocale === 'ko') {
-      window.location.assign('/')
-      return
-    }
-
-    window.location.reload()
   }
+
+  const languageSelector = (
+    <label className={styles.languageSelector}>
+      <GlobeIcon aria-hidden='true' />
+      <select aria-label={t('common.searchLanguages')} value={locale} disabled={isChangingLanguage} aria-busy={isChangingLanguage} onChange={event => handleLocaleChange(event.target.value as Locale)}>
+        {supportedLocales.map(language => <option key={language} value={language} lang={language}>{localeMeta[language].label}</option>)}
+      </select>
+    </label>
+  )
 
   return (
     <>
       <header className={styles.header}>
-        {/* 모바일: 햄버거 버튼만 표시 */}
+        {/* 모바일: 브랜드와 메뉴를 양쪽에 배치 */}
         <div className={styles.mobileHeader}>
+          <a href={localizedPath(locale)} className={styles.mobileHeaderBrand}><img src='/favicon.svg' alt='' /><span>Time2Gather</span></a>
           <button
             className={styles.menuButton}
             onClick={toggleMobileMenu}
@@ -60,7 +89,7 @@ export default function Header () {
         <nav className={styles.desktopNav}>
           <div className={styles.desktopNavContent}>
             <a
-              href='/'
+              href={localizedPath(locale)}
               className={styles.desktopNavLogo}
             >
               <img
@@ -120,13 +149,38 @@ export default function Header () {
               <EnvelopeClosedIcon width={27} height={27} />
               <VisuallyHidden.Root>{t('common.contactUs')}</VisuallyHidden.Root>
             </a>
-            <button
-              className={styles.localeButton}
-              onClick={() => handleLocaleChange(nextLocale)}
-              aria-label={languageButtonLabel}
-            >
-              {locale === 'ko' ? 'A' : '가'}
-            </button>
+            <Select.Root value={locale} onValueChange={value => handleLocaleChange(value as Locale)} disabled={isChangingLanguage} dir={localeMeta[locale].dir}>
+              <Select.Trigger
+                className={styles.languageTrigger}
+                aria-label={t('common.searchLanguages')}
+                aria-busy={isChangingLanguage}
+                title={`${t('common.searchLanguages')}: ${localeMeta[locale].label}`}
+              >
+                <GlobeIcon width={27} height={27} aria-hidden='true' />
+                <VisuallyHidden.Root><Select.Value /></VisuallyHidden.Root>
+              </Select.Trigger>
+              <Select.Portal>
+                <Select.Content
+                  className={styles.languageMenu}
+                  position='popper'
+                  side={localeMeta[locale].dir === 'rtl' ? 'left' : 'right'}
+                  align='start'
+                  sideOffset={12}
+                  collisionPadding={12}
+                >
+                  <Select.ScrollUpButton className={styles.languageScroll}><ChevronUpIcon /></Select.ScrollUpButton>
+                  <Select.Viewport className={styles.languageViewport}>
+                    {supportedLocales.map(language => (
+                      <Select.Item className={styles.languageOption} key={language} value={language} textValue={localeMeta[language].label}>
+                        <Select.ItemText><span lang={language} dir={localeMeta[language].dir}>{localeMeta[language].label}</span></Select.ItemText>
+                        <Select.ItemIndicator className={styles.languageCheck}><CheckIcon /></Select.ItemIndicator>
+                      </Select.Item>
+                    ))}
+                  </Select.Viewport>
+                  <Select.ScrollDownButton className={styles.languageScroll}><ChevronDownIcon /></Select.ScrollDownButton>
+                </Select.Content>
+              </Select.Portal>
+            </Select.Root>
           </div>
         </nav>
 
@@ -134,7 +188,7 @@ export default function Header () {
         <nav className={`${styles.mobileNav} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
           <div className={styles.mobileNavContent}>
             <a
-              href='/'
+              href={localizedPath(locale)}
               className={styles.mobileTitle}
               onClick={closeMobileMenu}
             >
@@ -186,14 +240,7 @@ export default function Header () {
               </a>
             )}
             <div className={styles.mobileNavBottomContents}>
-              <button
-                className={styles.mobileNavBottomItem}
-                onClick={() => handleLocaleChange(nextLocale)}
-                aria-label={languageButtonLabel}
-              >
-                <GlobeIcon width={27} height={27} />
-                <span>{locale === 'ko' ? 'English' : '한국어'}</span>
-              </button>
+              {languageSelector}
               <a
                 href='mailto:wlsdn3578@gmail.com?subject=Time2Gather%20Contact'
                 className={styles.mobileNavBottomItem}

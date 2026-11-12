@@ -1,0 +1,825 @@
+{
+  "common": {
+    "previous": "السابق",
+    "cancel": "إلغاء",
+    "next": "التالي",
+    "home": "الصفحة الرئيسية",
+    "createMeeting": "إنشاء اجتماع",
+    "searchMeeting": "ابحث عن لقاء",
+    "searchMeetingPlaceholder": "رمز الاجتماع",
+    "searchMeetingButton": "البحث عن الاجتماع",
+    "myMeetings": "اجتماعاتي",
+    "adminDashboard": "لوحة تحكم المشرف",
+    "contactUs": "اتصل بنا",
+    "menu": "القائمة",
+    "openMenu": "افتح القائمة",
+    "submit": "إرسال",
+    "share": "شارك",
+    "close": "إغلاق",
+    "loading": "جار التحميل...",
+    "error": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "switchToEnglish": "التبديل إلى اللغة الإنجليزية",
+    "switchToKorean": "التبديل إلى الكورية",
+    "language": "اللغة",
+    "searchLanguages": "اختر لغتك"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "مرحبًا! 👋",
+    "description": "يستغرق الأمر 5 ثوانٍ فقط لوضع الخطط الآن. شارك فتراتك الزمنية، واحصل على الأصوات، وشاهد على الفور أفضل وقت للجميع!",
+    "createMeetingButton": "إنشاء اجتماع",
+    "heroTitleSuffix": " - الجدول الزمني بكل سهولة",
+    "heroSubtitle": "قل وداعًا للجدولة المعقدة. ابحث عن الوقت المثالي مع أصدقائك.",
+    "viewMyMeetings": "عرض اجتماعاتي"
+  },
+  "landing": {
+    "eyebrow": "تنسيق جدول الجميع في مكان واحد",
+    "title": "اجعل جدولة الاجتماعات أسهل",
+    "description": "Time2Gather هي خدمة جدولة مجانية للتصويت على التواريخ والأوقات والمواقع للعثور على وقت اجتماع يناسب الجميع.",
+    "primaryCta": "إنشاء اجتماع",
+    "secondaryCta": "البحث مع رمز",
+    "featuresHeading": "كل ما تحتاجه لتنسيق الاجتماع",
+    "features": {
+      "dates": {
+        "title": "مقارنة تواريخ متعددة",
+        "description": "اختر تواريخ المرشح وشاركها مع المشاركين على الفور."
+      },
+      "times": {
+        "title": "التصويت على الأوقات المتاحة",
+        "description": "اجمع التوفر التفصيلي للعثور على الوقت الذي يناسب معظم الأشخاص."
+      },
+      "locations": {
+        "title": "اتخاذ قرار بشأن الموقع أيضا",
+        "description": "أضف خيارات الموقع عندما تحتاج مجموعتك إلى اختيار مكان الاجتماع."
+      },
+      "sharing": {
+        "title": "الانضمام من رابط واحد",
+        "description": "شارك رابطًا حتى يتمكن المشاركون من التصويت فورًا باستخدام اللقب فقط."
+      }
+    },
+    "stepsHeading": "تسوية الخطط في ثلاث خطوات",
+    "steps": {
+      "create": {
+        "title": "1. إنشاء الخيارات",
+        "description": "قم بتعيين عنوان الاجتماع والتواريخ أو الأوقات للمقارنة."
+      },
+      "share": {
+        "title": "2. شارك الرابط",
+        "description": "أرسل الرابط إلى الأصدقاء أو زملائك في الفريق أو مجموعتك."
+      },
+      "decide": {
+        "title": "3. تأكيد النتيجة",
+        "description": "قم بمراجعة الأصوات واختيار الوقت الأفضل للجميع."
+      }
+    },
+    "faqHeading": "الأسئلة المتداولة",
+    "faq": {
+      "what": {
+        "question": "كيف نجد موعدًا للقاء الأصدقاء أو لاجتماع الفريق؟",
+        "answer": "أنشئ خيارات للتاريخ والوقت في Time2Gather وشارك الرابط. يختار الجميع مواعيد تفرغهم، ثم تقارن النتائج وتؤكد الموعد. الخدمة مجانية للأصدقاء ومجموعات الدراسة والفرق."
+      },
+      "login": {
+        "question": "هل يمكن إنشاء التصويت والمشاركة دون تسجيل أو تثبيت تطبيق؟",
+        "answer": "نعم. يكفي أن يُدخل المنظم والمشاركون أسماءهم، دون إنشاء حساب أو تسجيل دخول اجتماعي. يمكنك إنشاء اللقاءات والتصويت من متصفح الهاتف أو الحاسوب."
+      },
+      "location": {
+        "question": "هل يمكن التصويت على مكان اللقاء أيضًا؟",
+        "answer": "نعم. فعّل التصويت على المكان عند إنشاء اللقاء وأضف الخيارات. يمكن للمشاركين اختيار الأماكن المفضلة ومناقشة الترتيبات في التعليقات."
+      }
+    }
+  },
+  "login": {
+    "title": "هل أنت مستعد للجدول الزمني؟",
+    "description": "قم بتسجيل الدخول لإنشاء اجتماعاتك وإدارتها.",
+    "kakaoLogin": "تواصل مع كاكاو",
+    "googleLogin": "تواصل مع جوجل",
+    "oauth": {
+      "loadingTitle": "تسجيل دخولك",
+      "loadingDescription": "ستعود إلى شاشتك السابقة خلال دقيقة واحدة.",
+      "errorTitle": "لم نتمكن من تسجيل دخولك",
+      "errorDescription": "ارجع إلى صفحة تسجيل الدخول وحاول مرة أخرى.",
+      "retry": "حاول تسجيل الدخول مرة أخرى"
+    }
+  },
+  "search": {
+    "title": "ابحث عن لقاء",
+    "description": "أدخل رمز الاجتماع الذي تلقيته."
+  },
+  "createMeeting": {
+    "title": "إنشاء اجتماع",
+    "meetingTypeStep": {
+      "heading": "ماذا يجب أن يختار المشاركون؟",
+      "allDay": "التواريخ فقط",
+      "time": "التواريخ والأوقات"
+    },
+    "titleStep": {
+      "heading": "قم بتسمية اجتماعك",
+      "placeholder": "على سبيل المثال، عشاء الجمعة"
+    },
+    "descriptionStep": {
+      "heading": "أي نوع من الاجتماع هو هذا؟",
+      "placeholder": "دعونا نجتمع في جانجنام، الجميع!"
+    },
+    "datesStep": {
+      "heading": "اختر التواريخ المناسبة"
+    },
+    "timeRangeStep": {
+      "heading": "ضبط النطاق الزمني المتاح",
+      "startTime": "وقت البدء",
+      "endTime": "وقت الانتهاء",
+      "selectedDatesCount": "التواريخ المختارة: {count}",
+      "createButton": "إنشاء اجتماع"
+    },
+    "locationStep": {
+      "heading": "قم بالانتهاء من إنشاء اجتماعك",
+      "requiredLabel": "مطلوب",
+      "creatorHeading": "من يصنع هذا اللقاء؟",
+      "creatorDescription": "سيتم عرض لقبك كمضيف الاجتماع.",
+      "usernameLabel": "لقبك",
+      "usernamePlaceholder": "على سبيل المثال، جيمي",
+      "usernameChangeHelp": "يؤدي تغيير اسمك إلى الاحتفاظ باجتماعاتك وأصواتك الحالية وتحديث اسم العرض الخاص بك فقط.",
+      "optionalLabel": "اختياري",
+      "locationHeading": "هل ترغب في التصويت على الموقع؟",
+      "locationDescription": "قم بتشغيل هذا إذا كنت تريد من المشاركين اختيار المكان معًا.",
+      "enableLocationVote": "اسمح للمشاركين بالتصويت على الموقع",
+      "locationPlaceholder": "أدخل الموقع",
+      "addLocation": "أضف الموقع",
+      "removeLocation": "إزالة الموقع",
+      "minLocationsWarning": "مطلوب موقعين على الأقل للتصويت على الموقع",
+      "maxLocationsWarning": "يمكنك إضافة ما يصل إلى 5 مواقع فقط",
+      "createButton": "إنشاء اجتماع",
+      "creatingButton": "جارٍ إنشاء الاجتماع...",
+      "skipButton": "تخطي"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "لم يتم العثور على الاجتماع",
+      "description": "الاجتماع الذي طلبته غير موجود أو تم حذفه."
+    },
+    "participantsEmpty": "لا يوجد مشاركين حتى الآن.",
+    "participantsCount": "المشاركون: {count}",
+    "participantsCountCompact": "المشاركة {count}",
+    "selectedDates": "اختر التواريخ التي تناسبك من خيارات {count}.",
+    "selectedDatesAndTimes": "اختر التواريخ والأوقات التي تناسبك من خيارات التاريخ {count}.",
+    "timeGrid": {
+      "timeLabel": "الوقت",
+      "touchHint": "اضغط مع الاستمرار، ثم اسحب لتحديد عدة مرات",
+      "pointerHint": "اسحب لتحديد عدة مرات في وقت واحد",
+      "draggingHint": "السحب · حرر لتطبيق اختيارك",
+      "selectDate": "حدد جميع الأوقات على {date}",
+      "previousDates": "تواريخ سابقة",
+      "nextDates": "تواريخ لاحقة"
+    },
+    "dateCalendar": {
+      "mySelection": "اختياري",
+      "fewerVotes": "أصوات أقل",
+      "moreVotes": "أصوات أكثر",
+      "available": "متاح",
+      "unavailable": "غير متاح",
+      "today": "اليوم",
+      "availableMonths": "أشهر مع التواريخ المتاحة",
+      "monthAvailability": "{count} التواريخ المتاحة في {month}",
+      "previousMonth": "الشهر السابق",
+      "nextMonth": "الشهر القادم"
+    },
+    "dateParticipants": {
+      "title": "متوفر على {date}",
+      "count": {
+        "zero": "{count} مشارك",
+        "one": "{count} مشارك",
+        "two": "{count} مشاركان",
+        "few": "{count} مشاركين",
+        "many": "{count} مشاركًا",
+        "other": "{count} مشارك"
+      }
+    },
+    "resultSaved": "تم حفظ النتيجة.",
+    "modifyButton": "تحرير التوفر",
+    "participate": "المشاركة في الاجتماع",
+    "shareResult": "مشاركة النتيجة",
+    "shareMeeting": "مشاركة الاجتماع",
+    "shareSuccess": "تم نسخ الرابط.",
+    "exportToCalendar": "أضف إلى التقويم الخاص بي",
+    "confirmButton": "تأكيد الاجتماع",
+    "confirmButtonShort": "تأكيد الاجتماع",
+    "cancelConfirmButton": "إلغاء التأكيد",
+    "cancelConfirmSuccess": "تم إلغاء تأكيد الاجتماع!",
+    "cancelConfirmError": "فشل إلغاء التأكيد. يرجى المحاولة مرة أخرى.",
+    "alreadyConfirmedError": "تم تأكيد هذا الاجتماع بالفعل. لا يمكنك تعديل تصويتك.",
+    "editDates": {
+      "openButton": "تعديل خيارات التصويت",
+      "hostOnly": "المضيف فقط",
+      "title": "تعديل خيارات التصويت",
+      "description": "غيّر الخيارات التي يمكن لجميع المشاركين التصويت عليها.",
+      "selectedCount": "تم تحديد تواريخ {count}",
+      "selectionHint": "انقر أو اسحب لتحديد التواريخ.",
+      "removedWarning": "سيتم حذف الأصوات في التواريخ التي تمت إزالتها {count} عند الحفظ.",
+      "maxDates": "يمكنك تحديد ما يصل إلى تواريخ {count}.",
+      "save": "حفظ الخيارات",
+      "success": "تم تحديث خيارات التصويت.",
+      "error": "تعذر تحديث خيارات التصويت. حاول مرة أخرى.",
+      "timeOpenButton": "تعديل خيارات التصويت",
+      "timeTitle": "تعديل خيارات التصويت",
+      "timeDescription": "غيّر الخيارات التي يمكن لجميع المشاركين التصويت عليها.",
+      "timeSave": "حفظ الخيارات",
+      "timeSuccess": "تم تحديث خيارات التصويت.",
+      "timeError": "تعذر تحديث خيارات التصويت. حاول مرة أخرى.",
+      "timeRangeHint": "عند تغيير النطاق الزمني، يُطبّق على جميع التواريخ المحددة.",
+      "timeRemovedWarning": "عند الحفظ، ستُحذف أصوات الخيارات الزمنية المحذوفة وعددها {count}. ستبقى الأصوات الأخرى.",
+      "locationRemovedWarning": "سيؤدي الحفظ إلى حذف أصوات خيارات الأماكن التي غُيّرت أو حُذفت وعددها {count}. ستُحفظ الأصوات الأخرى."
+    },
+    "exportDialog": {
+      "title": "أضف إلى التقويم",
+      "description": "حدد التاريخ والوقت لإضافتهما إلى التقويم الخاص بك.",
+      "noSlots": "لم يتم التصويت على أي تواريخ بعد.",
+      "allDay": "طوال اليوم",
+      "cancel": "إلغاء",
+      "confirm": "أضف إلى التقويم",
+      "close": "إغلاق"
+    },
+    "confirmDialog": {
+      "title": "تأكيد الاجتماع",
+      "description": "اختر الجدول النهائي من الخيارات العليا المرتبطة بـ {count}.",
+      "noSlots": "لم يتم التصويت على أي تواريخ بعد.",
+      "allDay": "طوال اليوم",
+      "scheduleTitle": "التاريخ والوقت",
+      "scheduleDescription": "هذه الخيارات تناسب معظم المشاركين.",
+      "locationTitle": "الموقع",
+      "locationDescription": "اختر مكان الاجتماع باستخدام نتائج التصويت.",
+      "locationStepDescription": "اختر مكان الاجتماع لإنهاء تأكيد الخطة.",
+      "progressLabel": "خطوات تأكيد الاجتماع",
+      "locationVoteCount": {
+        "zero": "{count} صوت",
+        "one": "{count} صوت",
+        "two": "{count} صوتان",
+        "few": "{count} أصوات",
+        "many": "{count} صوتًا",
+        "other": "{count} صوت"
+      },
+      "noLocations": "لا توجد مواقع متاحة للتأكيد.",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد",
+      "confirming": "جارٍ التأكيد...",
+      "close": "إغلاق",
+      "success": "تم تأكيد اللقاء!",
+      "error": "فشل تأكيد الاجتماع. يرجى المحاولة مرة أخرى.",
+      "allCandidatesDescription": "اختر الموعد النهائي من جميع الخيارات وعددها {count}.",
+      "groupedDescription": "اختر يوماً من بين {count} تواريخ، ثم اختر وقت البدء.",
+      "recommendationsDescription": "خيارات يتاح فيها عدد أكبر من المشاركين، خيار واحد لكل تاريخ.",
+      "allDates": "الاختيار من جميع التواريخ ({count})",
+      "backToRecommendations": "عرض الاقتراحات"
+    },
+    "anonymousSelectButton": "انضم بالاسم",
+    "selectButton": "حدد التواريخ",
+    "selectTimeButton": "حدد التاريخ والوقت",
+    "result": {
+      "tabs": {
+        "aiSummary": "ملخص",
+        "summary": "ملخص",
+        "confirmed": "الخطة المؤكدة",
+        "calendar": "التقويم",
+        "participants": "المشاركون",
+        "location": "الموقع"
+      },
+      "summaryTitle": "ملخص الاجتماع",
+      "aiSummaryTitle": "ملخص نتيجة التصويت",
+      "calendarTitle": "تقويم الاجتماع",
+      "totalParticipants": "المشاركون: {count}",
+      "bestSlotsTitle": "التواريخ الأكثر توافقًا",
+      "showMoreOptions": "أظهر {count} المزيد",
+      "showFewerOptions": "عرض أقل",
+      "moreTimeOptions": "{count} المزيد من خيارات الوقت",
+      "participantsCount": "المشاركون: {count}",
+      "people": "الناس",
+      "voteCount": {
+        "zero": "{count} مشارك ({percentage})",
+        "one": "{count} مشارك ({percentage})",
+        "two": "{count} مشاركان ({percentage})",
+        "few": "{count} مشاركين ({percentage})",
+        "many": "{count} مشاركًا ({percentage})",
+        "other": "{count} مشارك ({percentage})"
+      },
+      "noParticipants": "لا يوجد مشاركون",
+      "buttons": {
+        "calendar": "أضف إلى التقويم",
+        "share": "مشاركة الاستطلاع",
+        "shareConfirmed": "مشاركة الخطة المؤكدة",
+        "shareKakao": "KakaoTalk",
+        "modifyDates": "تحرير اختيار التاريخ الخاص بي",
+        "modifyTimes": "تحرير اختياري للتاريخ والوقت",
+        "selectDates": "حدد التواريخ المتاحة لي",
+        "selectTimes": "حدد التواريخ والأوقات المتاحة لي",
+        "enterAvailability": "أضف التوفر",
+        "editAvailability": "تعديل تصويتي"
+      },
+      "confirmedPlan": {
+        "eyebrow": "تم تأكيد الخطة",
+        "title": "خطتك جاهزة تمامًا",
+        "date": "التاريخ",
+        "time": "الوقت",
+        "location": "الموقع",
+        "attendees": "المشاركون المتاحون",
+        "attendanceSummary": {
+          "zero": "{count} مشارك · {percentage} من المجموعة",
+          "one": "{count} مشارك · {percentage} من المجموعة",
+          "two": "{count} مشاركان · {percentage} من المجموعة",
+          "few": "{count} مشاركين · {percentage} من المجموعة",
+          "many": "{count} مشاركًا · {percentage} من المجموعة",
+          "other": "{count} مشارك · {percentage} من المجموعة"
+        },
+        "confirmTime": "تأكيد الوقت",
+        "confirmTimeTitle": "تأكيد وقت اللقاء",
+        "confirmTimeDescription": "اختر وقت اللقاء في التاريخ المؤكد.",
+        "timeConfirmSuccess": "تم تأكيد وقت اللقاء.",
+        "timeConfirmError": "تعذر تأكيد وقت اللقاء. يرجى المحاولة مرة أخرى.",
+        "timePending": "لم يُحدد بعد",
+        "editTime": "تحرير",
+        "editTimeTitle": "تعديل وقت الاجتماع",
+        "editTimeDescription": "احتفظ بالتاريخ المؤكد وحدد الوقت المحدد الذي تخطط للقاء فيه.",
+        "saveTime": "حفظ",
+        "savingTime": "جارٍ الحفظ...",
+        "timeUpdateSuccess": "تم تحديث وقت الاجتماع.",
+        "timeUpdateError": "لا يمكن تحديث وقت الاجتماع. يرجى المحاولة مرة أخرى.",
+        "addTime": "إضافة وقت (اختياري)",
+        "addTimeTitle": "إضافة وقت",
+        "optionalTimeDescription": "أضف وقتًا عند الحاجة فقط.",
+        "attendanceCount": "المتاحون: {count} من {total}",
+        "cancelTitle": "إلغاء التأكيد؟",
+        "cancelDescription": "سيُلغى الموعد المؤكد، وستُحفظ ردود المشاركين.",
+        "keepConfirmation": "إبقاء التأكيد"
+      },
+      "actions": {
+        "confirmed": "الخطة المؤكدة",
+        "confirmedDescription": "شارك التفاصيل أو أضفها إلى التقويم الخاص بك.",
+        "inProgress": "التخطيط قيد التقدم",
+        "manage": "إدارة الاستطلاع"
+      },
+      "share": {
+        "confirmedTitle": "تم تأكيد {title}",
+        "confirmedHeading": "تم تأكيد الخطة!",
+        "detailsCopied": "تم نسخ التفاصيل المؤكدة والرابط.",
+        "manualCopyDescription": "تعذرت المشاركة أو النسخ تلقائيًا. حدد النص أدناه وانسخه."
+      },
+      "kakaoShare": {
+        "description": "اختر الأوقات التي تناسبك.",
+        "buttonTitle": "انضم إلى التصويت",
+        "confirmedTitle": "{date} · تم التأكيد",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "عرض الخطة المؤكدة",
+        "locationPending": "الموقع معلق"
+      },
+      "attendance": {
+        "available": "متاح",
+        "unavailable": "غير متاح",
+        "everyoneAvailable": "الجميع متاحون",
+        "noneAvailable": "لا أحد متاح"
+      },
+      "bestTimesTitle": "الأوقات الأكثر توافقًا",
+      "availabilityBasis": "بناءً على ردود {count} من المشاركين.",
+      "allAvailable": "الجميع متاح ({count})",
+      "someAvailable": "المتاحون: {count} من {total}",
+      "viewSlotPeople": "اضغط على أحد الخيارات لعرض المشاركين المتاحين.",
+      "decision": {
+        "allHeadline": "المشاركون الـ{count} {availability}",
+        "allHeadlineHighlight": "متاحون جميعًا",
+        "allDates": "التواريخ المناسبة للجميع ({count})",
+        "allTimes": "الأوقات المناسبة للجميع ({count})",
+        "partial": "يمكن أن يجتمع {count} أشخاص كحد أقصى",
+        "basis": "بناءً على الأوقات المتاحة المدخلة حتى الآن",
+        "notAll": "لا يوجد خيار يناسب الجميع حتى الآن.",
+        "emptyDates": "لم يتم اختيار أي تاريخ",
+        "emptyTimes": "لم يتم اختيار أي وقت",
+        "pending": "بانتظار الردود على الخيارات الجديدة",
+        "allUnavailable": "أفاد جميع من ردوا، وعددهم {count}، بأن الخيارات المقترحة لا تناسبهم.",
+        "notSelected": "الأشخاص الذين لم يختاروا هذا الخيار",
+        "people": "عرض الأشخاص المتاحين",
+        "chooseDate": "تحديد هذا التاريخ للقاء",
+        "chooseTime": "تحديد هذا الوقت للقاء",
+        "confirmedDate": "تم تحديد تاريخ اللقاء",
+        "setMeeting": "تأكيد الاجتماع"
+      },
+      "calendarFilter": {
+        "selectAll": "تحديد الكل",
+        "selectedCount": "تم تحديد {selected} من {total}",
+        "selectPrompt": "اختر المشاركين لعرض أوقات تفرغهم.",
+        "noAvailability": "لا توجد أوقات متاحة للمشاركين المحددين."
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "لم تقم بتسجيل الدخول",
+        "description": "انضم دون تسجيل الدخول عن طريق إدخال اسم.",
+        "kakaoLoginButton": "تواصل مع كاكاو",
+        "loginButton": "تسجيل الدخول",
+        "anonymousLogin": "أدخل اسمًا للانضمام"
+      },
+      "description": "أدخل الاسم الذي ستستخدمه لهذا الاجتماع.",
+      "votingAs": "الانضمام باسم {username}.",
+      "votingAsCompact": "الانضمام باسم {username}",
+      "usernamePlaceholder": "الاسم",
+      "anonymousLogin": "انضم بهذا الاسم"
+    },
+    "identity": {
+      "label": "الاسم في هذا الاجتماع",
+      "hint": "ينطبق تغيير الاسم على هذا الاجتماع فقط.",
+      "change": "تغيير الاسم"
+    },
+    "unavailable": {
+      "dates": "لا يناسبني أي من هذه التواريخ",
+      "times": "لا يناسبني أي من هذه الأوقات",
+      "hint": "اختر هذا إذا لم يناسبك أي من الخيارات.",
+      "selectedHint": "سيُسجّل أن أياً من هذه الخيارات لا يناسبك. يمكنك تعديل الرد لاحقاً.",
+      "changed": "تغيّرت التواريخ المقترحة. حدّث الصفحة وأجب مجدداً.",
+      "respondents": "المجيبون",
+      "datesStatus": "لا يوجد تاريخ مناسب",
+      "timesStatus": "لا يوجد وقت مناسب",
+      "pending": "يلزم الرد على الخيارات الجديدة",
+      "selected": "اختاروا موعداً",
+      "noneStatus": "لا يوجد موعد مناسب",
+      "picked": "المشاركون المتاحون",
+      "emptyTitle": "لا يوجد موعد مقترح بعد",
+      "emptyHint": "انتظر ردود المزيد من المشاركين.",
+      "viewPeople": "عرض المشاركين",
+      "morePeople": "عرض {count} أشخاص آخرين",
+      "lessPeople": "عرض أقل",
+      "basis": "بحسب ردود التصويت على الموعد المؤكد.",
+      "otherSelection": "اختاروا موعداً آخر"
+    }
+  },
+  "my": {
+    "title": "اجتماعاتي",
+    "tabs": {
+      "myMeetings": "اجتماعاتي",
+      "participatedMeetings": "الاجتماعات التي انضممت إليها"
+    },
+    "noMeetings": "لم تقم بإنشاء أي اجتماعات بعد.",
+    "noParticipatedMeetings": "لم تشارك في أي اجتماعات حتى الآن.",
+    "myMeetingsDetails": "لقد قمت بإنشاء اجتماعات {count}.",
+    "participatedMeetingsDetails": "لقد شاركت في اجتماعات {count}."
+  },
+  "admin": {
+    "metaTitle": "لوحة تحكم المشرف - Time2Gather",
+    "metaDescription": "لوحة تحكم خاصة لمراجعة مستخدمي Time2Gather واجتماعاتهم.",
+    "eyebrow": "وحدة تحكم المشرف",
+    "title": "نظرة عامة على الخدمة",
+    "description": "قم بمراجعة مقاييس المستخدم والاجتماعات الرئيسية، ثم ابحث بسرعة عن السجلات التي تحتاجها.",
+    "summaryTitle": "في لمحة",
+    "summaryDescription": "تعتمد الأعداد على المستخدمين والاجتماعات المخزنة حاليًا.",
+    "loading": "تحضير لوحة تحكم المشرف .",
+    "loadingDescription": "التحقق من وصولك وتحميل أحدث البيانات.",
+    "accessDeniedTitle": "ليس لديك حق الوصول",
+    "accessDeniedDescription": "يمكن فقط للحسابات التي تتمتع بدور المسؤول عرض هذه الصفحة.",
+    "refresh": "تحديث النظرة العامة",
+    "retry": "حاول مرة أخرى",
+    "loadError": "لم نتمكن من تحميل النظرة العامة.",
+    "search": "بحث",
+    "notAvailable": "غير متوفر",
+    "pageOf": "صفحة {current} من {total}",
+    "stats": {
+      "totalUsers": "إجمالي المستخدمين",
+      "registeredUsers": "المستخدمين المسجلين",
+      "anonymousUsers": "مستخدمين مجهولين",
+      "adminUsers": "مدراء {count}",
+      "totalMeetings": "إجمالي الاجتماعات",
+      "activeMeetings": "اجتماعات نشطة",
+      "confirmedMeetings": "الاجتماعات المؤكدة",
+      "confirmationRate": "نسبة التأكيد: {rate}"
+    },
+    "users": {
+      "title": "المستخدمين",
+      "description": "تم العثور على مستخدمي {count}.",
+      "searchPlaceholder": "البحث بالاسم أو البريد الإلكتروني",
+      "loadError": "لم نتمكن من تحميل المستخدمين.",
+      "empty": "لا يوجد مستخدمون يطابقون بحثك.",
+      "user": "المستخدم",
+      "provider": "طريقة تسجيل الدخول",
+      "role": "الدور",
+      "joinedAt": "انضم",
+      "participatedMeetings": "اللقاءات التي شارك فيها",
+      "noParticipatedMeetings": "لم يشارك في أي لقاء.",
+      "noEmail": "لا يوجد بريد إلكتروني"
+    },
+    "meetings": {
+      "title": "الاجتماعات",
+      "description": "تم العثور على اجتماعات {count}.",
+      "searchPlaceholder": "البحث عن عنوان أو رمز الاجتماع",
+      "loadError": "لم نتمكن من تحميل الاجتماعات.",
+      "empty": "لا توجد اجتماعات تطابق بحثك.",
+      "meeting": "اجتماع",
+      "host": "المضيف",
+      "status": "الحالة",
+      "createdAt": "تم إنشاؤها",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "confirmed": "تم التأكيد",
+      "confirmedOnly": "عرض اللقاءات المؤكدة فقط",
+      "unknownHost": "مستخدم غير معروف",
+      "openNewTab": "فتح اللقاء في علامة تبويب جديدة"
+    },
+    "providers": {
+      "ANONYMOUS": "مجهول",
+      "KAKAO": "كاكاو",
+      "GOOGLE": "جوجل"
+    },
+    "roles": {
+      "USER": "المستخدم",
+      "ADMIN": "المشرف"
+    },
+    "selectionTypes": {
+      "TIME": "التاريخ والوقت",
+      "ALL_DAY": "التواريخ فقط"
+    },
+    "login": {
+      "checking": "جارٍ التحقق من إعدادات تسجيل الدخول...",
+      "expired": "انتهت صلاحية حق الوصول الإداري أو أنه غير متوفر. الرجاء تسجيل الدخول مرة أخرى.",
+      "notConfigured": "لم يتم تكوين تسجيل دخول المسؤول. اتصل بالمشغل.",
+      "verifying": "جارٍ التحقق من وصول المشرف...",
+      "notAllowed": "استخدم حساب مسؤول معتمد.",
+      "google": "قم بتسجيل الدخول باستخدام جوجل",
+      "unavailable": "تعذر تحميل خدمة تسجيل الدخول.",
+      "networkError": "تحقق من اتصالك وحاول مرة أخرى.",
+      "logout": "تسجيل الخروج",
+      "title": "تسجيل دخول المشرف",
+      "description": "يمكن فقط لحسابات Google المعتمدة الوصول إلى هذه المنطقة.",
+      "retry": "حاول مرة أخرى",
+      "sessionHelp": "يستخدم وصول المسؤول جلسة منفصلة عن المشاركة في الاجتماع."
+    }
+  },
+  "404": {
+    "title": "لم يتم العثور على الصفحة",
+    "description": "الصفحة التي طلبتها غير موجودة أو تم حذفها.",
+    "homeButton": "اذهب إلى الصفحة الرئيسية"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - الجدول الزمني مع الناس",
+    "siteDescription": "خدمة تسهل جدولة الاجتماعات مع الأشخاص. أنشئ اجتماعات وحدد تواريخ وفواصل زمنية متعددة وشاركها. عندما يحدد المشاركون الأوقات المتاحة لهم، سنوصي بأفضل تاريخ ووقت للاجتماع.",
+    "siteKeywords": "جدول الاجتماع، تنسيق الجدول الزمني، اجتماع المجموعة، جدول المجموعة، تنسيق الوقت، إدارة الاجتماعات، مشاركة الجدول الزمني، Time2Gather",
+    "ogImageAlt": "Time2Gather - الجدول الزمني مع عدة أشخاص",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - جدولة الاجتماعات في 5 ثواني",
+        "description": "هل تواجه صعوبة في تنسيق الجداول الزمنية مع عدة أشخاص؟ استخدم Time2Gather لجمع الأصوات بسهولة والعثور على أفضل وقت للجميع."
+      },
+      "create": {
+        "title": "إنشاء اجتماع - Time2Gather",
+        "description": "إنشاء اجتماع جديد ومشاركته مع الأصدقاء. يمكنك تحديد التواريخ والأوقات والمواقع بسهولة من خلال التصويت."
+      },
+      "login": {
+        "title": "تسجيل الدخول - Time2Gather",
+        "description": "قم بتسجيل الدخول باستخدام Kakao أو Google لبدء الجدولة."
+      },
+      "my": {
+        "title": "اجتماعاتي - Time2Gather",
+        "description": "عرض جميع الاجتماعات التي تم إنشاؤها والمشاركة فيها في لمحة. أصبحت إدارة الاجتماعات سهلة."
+      },
+      "meeting": {
+        "title": "{title} - Time2جمع",
+        "description": "انضم إلى اجتماع {title}. اختر الأوقات المتاحة لديك وقم بالتصويت."
+      },
+      "result": {
+        "title": "نتائج {title} - Time2Gather",
+        "description": "انضم إلى {title} واختر الأوقات التي تناسبك.",
+        "confirmedTitle": "تم تأكيد {title} - Time2Gather",
+        "confirmedDescription": "الخطة المؤكدة: {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "مساعد الجدول الزمني",
+    "open": "افتح الدردشة",
+    "close": "إغلاق الدردشة",
+    "welcomeMessage": "مرحبا! اسألني عن الجدول الزمني الخاص بك.",
+    "welcomeHint": "على سبيل المثال \"إظهار اجتماعاتي\"، \"ماذا سيحدث في الأسبوع المقبل؟\"",
+    "inputPlaceholder": "اكتب رسالة...",
+    "errorMessage": "عذرا، حدث خطأ. يرجى المحاولة مرة أخرى في وقت لاحق."
+  },
+  "locationVote": {
+    "title": "التصويت على الموقع",
+    "description": "اختر موقعك (مواقعك) المفضلة",
+    "scheduleStepLabel": "1 / 2 · التوفر",
+    "locationStepLabel": "2 / 2 · الموقع",
+    "selectionTitle": "أين يجب أن نلتقي؟",
+    "selectionDescription": "اختر جميع المواقع التي تناسبك.",
+    "confirmedLocation": "الموقع المؤكد",
+    "confirmed": "تم التأكيد",
+    "loadError": "تعذر تحميل اختيارات موقعك.",
+    "retry": "حاول مرة أخرى",
+    "voters": "من صوّت لهذا المكان",
+    "noVotes": "لا توجد أصوات بعد"
+  },
+  "timezone": {
+    "title": "المنطقة الزمنية",
+    "meeting": "المنطقة الزمنية للاجتماع: {zone}",
+    "display": "المنطقة الزمنية للعرض",
+    "hint": "يتم إدخال التواريخ والأوقات في المنطقة الزمنية للاجتماع. الجميع يصوتون في نفس اللحظات.",
+    "gridHint": "تستخدم تواريخ الأعمدة ومحور الوقت المنطقة الزمنية للاجتماع. تعرض كل خلية أيضًا التاريخ والوقت بالمنطقة الزمنية التي حددتها.",
+    "local": "في {zone}: {time}",
+    "invalid": "اختر منطقة زمنية صالحة.",
+    "gap": "هذا الوقت غير موجود لأن الساعات تتحرك للأمام. اختر وقتًا آخر.",
+    "overlap": "تحدث هذه المرة مرتين عندما تعود الساعات إلى الوراء. اختر وقتًا لا لبس فيه.",
+    "allDay": "تحتفظ تصويتات التاريخ فقط بنفس تاريخ التقويم في كل منطقة زمنية.",
+    "useDevice": "استخدم المنطقة الزمنية للجهاز",
+    "search": "بحث المناطق الزمنية",
+    "noResults": "لم يتم العثور على مناطق زمنية. جرّب مدينة أو منطقة أخرى."
+  },
+  "errors": {
+    "error.internal": "لقد حدث خطأ داخلي في الخادم",
+    "error.validation.failed": "فشل التحقق من صحة الإدخال",
+    "error.request.invalid": "الطلب غير صالح. {0}",
+    "error.state.invalid": "لا يمكن تنفيذ هذا الطلب في الوضع الحالي",
+    "error.resource.not.found": "لا يمكن العثور على المورد المطلوب",
+    "error.null.pointer": "البيانات المطلوبة مفقودة. يرجى التحقق من طلبك.",
+    "error.number.format": "تنسيق الرقم غير صالح. يرجى التحقق من المدخلات الخاصة بك.",
+    "error.auth.required": "المصادقة مطلوبة",
+    "error.auth.required.login": "المصادقة مطلوبة. الرجاء تسجيل الدخول والمحاولة مرة أخرى.",
+    "error.auth.access.denied": "تم رفض الوصول",
+    "error.auth.not.authenticated": "لم تتم مصادقة المستخدم",
+    "error.user.not.found": "لم يتم العثور على المستخدم",
+    "error.user.not.found.email": "لم يتم العثور على المستخدم مع البريد الإلكتروني: {0}",
+    "error.user.id.required": "معرف المستخدم مطلوب",
+    "error.oauth.invalid.code": "رمز التفويض غير صالح أو منتهي الصلاحية. يرجى إعادة المصادقة. خطأ: {0}",
+    "error.oauth.api.failed": "فشل الاتصال بـ OAuth API: {0}",
+    "error.oauth.no.id.token": "فشل الحصول على رمز المعرف من موفر OAuth",
+    "error.oauth.no.user.info": "فشل الحصول على معلومات المستخدم من موفر OAuth",
+    "error.meeting.not.found": "لم يتم العثور على الاجتماع",
+    "error.meeting.not.found.code": "لم يتم العثور على الاجتماع: {0}",
+    "error.meeting.id.required": "معرف الاجتماع مطلوب",
+    "error.meeting.already.confirmed": "تم تأكيد الاجتماع بالفعل. يرجى إلغاء التأكيد أولاً.",
+    "error.meeting.not.confirmed": "لم يتم تأكيد الاجتماع",
+    "error.meeting.invalid.date": "تاريخ غير صالح: {0}",
+    "error.meeting.date.not.available": "هذا التاريخ غير متوفر في الاجتماع: {0}",
+    "error.meeting.no.interval.info": "معلومات الفاصل الزمني للاجتماع مفقودة",
+    "error.meeting.host.only": "يمكن للمضيف فقط تنفيذ هذا الإجراء",
+    "error.meeting.no.participants": "لا يمكن إنشاء تقويم لأنه لم يقم أي مشارك بالتصويت بعد",
+    "error.meeting.date.format.invalid": "تنسيق التاريخ غير صالح. الرجاء استخدام تنسيق yyyy-MM-dd.",
+    "error.meeting.validation.date.required": "يجب تحديد تاريخ واحد على الأقل",
+    "error.meeting.validation.date.slot.required": "يجب تحديد فترة زمنية واحدة على الأقل لكل تاريخ",
+    "error.meeting.validation.time.required": "يجب تحديد فترة زمنية وتاريخ واحد على الأقل",
+    "error.meeting.validation.all.day.empty.slots": "بالنسبة للنوع ALL_DAY، يجب أن تكون الفترات الزمنية عبارة عن مصفوفة فارغة",
+    "error.meeting.validation.slot.index.required": "SlotIndex مطلوب لاجتماعات نوع TIME",
+    "error.meeting.validation.slot.index.invalid": "فهرس الفتحة غير صالح: {0}",
+    "error.meeting.validation.date.slot.together": "يجب تحديد التاريخ وslotIndex معًا",
+    "error.location.not.found": "لم يتم العثور على الموقع",
+    "error.location.not.belong.to.meeting": "الموقع لا ينتمي إلى هذا الاجتماع",
+    "error.location.vote.not.enabled": "لم يتم تمكين التصويت على الموقع لهذا الاجتماع",
+    "error.location.already.confirmed": "تم تأكيد الموقع بالفعل. يرجى إلغاء تأكيد الموقع أولاً.",
+    "error.location.not.confirmed": "لم يتم تأكيد الموقع",
+    "error.location.id.required": "معرف الموقع مطلوب",
+    "error.location.name.required": "اسم الموقع مطلوب",
+    "error.location.name.too.long": "لا يمكن أن يتجاوز اسم الموقع 200 حرف",
+    "error.location.max.exceeded": "يمكن إضافة الحد الأقصى لمواقع {0}",
+    "error.location.min.required": "مطلوب موقع (مواقع) {0} على الأقل",
+    "error.location.min.for.vote": "مطلوب وجود مواقع {0} على الأقل لتمكين التصويت على الموقع",
+    "error.location.cannot.disable": "لا يمكن تعطيل التصويت على الموقع عند تأكيد الموقع",
+    "error.location.not.exist": "الموقع غير موجود: {0}",
+    "error.selection.empty": "بيانات التحديد فارغة",
+    "error.selection.date.required": "التاريخ مطلوب",
+    "error.selection.type.required": "النوع مطلوب",
+    "error.selection.type.unknown": "نوع غير معروف: {0} (يُسمح فقط بـ TIME أو ALL_DAY)",
+    "error.selection.time.required": "التاريخ \"{0}\" هو نوع الوقت ولكن لم يتم تحديد وقت",
+    "error.selection.time.empty": "قيمة الوقت فارغة",
+    "error.selection.time.format.invalid": "تنسيق الوقت غير صالح للتاريخ \"{0}\". {1}",
+    "error.selection.date.not.available": "التاريخ {0} غير متوفر في هذا الاجتماع",
+    "error.selection.slot.null": "لا يمكن أن تكون مجموعة الفتحات فارغة. استخدم الخريطة الفارغة لاستبعاد التواريخ.",
+    "error.selection.slot.not.available": "الفتحة {0} غير متوفرة في {1}",
+    "error.selection.slot.empty.for.time": "غير مسموح بالمصفوفة الفارغة للاجتماعات من نوع TIME. استخدم الخريطة الفارغة لاستبعاد التواريخ.",
+    "error.timeslot.invalid.format": "تنسيق الوقت غير صالح. سمو المتوقع: مم",
+    "error.timeslot.invalid.hour": "يجب أن تكون الساعة بين 0 و23",
+    "error.timeslot.invalid.minute": "يجب أن تكون الدقيقة بين 0 و59",
+    "error.timeslot.not.aligned": "يجب محاذاة الوقت مع فترات زمنية {0} دقيقة",
+    "error.timeslot.index.out.of.range": "يجب أن يكون مؤشر الفتحة بين {1} و{2} لفترات زمنية مدتها {0}، ولكن حصلت على: {3}",
+    "error.timeslot.interval.positive": "يجب أن تكون الدقائق الفاصلة إيجابية",
+    "error.timeslot.interval.divisor": "يجب أن تكون الدقائق الفاصلة مقسومة على {0}",
+    "error.calendar.export.failed": "فشل في إنشاء ملف التقويم",
+    "error.ai.api.failed": "فشل استدعاء AI API",
+    "error.ai.provider.unknown": "مزود AI غير معروف: {0}",
+    "mcp.meeting.created": "تم إنشاء الاجتماع بنجاح",
+    "mcp.vote.time.saved": "تم حفظ التصويت على التوفر بنجاح",
+    "mcp.vote.location.saved": "تم حفظ تصويت الموقع بنجاح",
+    "mcp.meeting.confirmed": "تم تأكيد جدول الاجتماع بنجاح",
+    "mcp.location.confirmed": "تم تأكيد موقع الاجتماع بنجاح",
+    "mcp.ics.created": "تم إنشاء ملف ICS بنجاح",
+    "validation.meeting.title.required": "العنوان مطلوب",
+    "validation.meeting.dates.required": "التواريخ/الأوقات المتاحة مطلوبة",
+    "validation.meeting.location.max": "يمكن إضافة 5 مواقع كحد أقصى",
+    "validation.selection.required": "الفترات الزمنية المحددة مطلوبة",
+    "validation.date.required": "التاريخ مطلوب",
+    "validation.date.format": "يجب أن يكون تنسيق التاريخ yyyy-MM-dd",
+    "validation.time.required": "الوقت مطلوب",
+    "validation.time.format": "يجب أن يكون تنسيق الوقت HH:mm",
+    "validation.location.id.required": "معرف الموقع مطلوب",
+    "validation.location.ids.required": "مطلوب قائمة معرف الموقع",
+    "validation.location.name.required": "اسم الموقع مطلوب",
+    "validation.location.max": "يمكن إضافة 5 مواقع كحد أقصى",
+    "validation.auth.code.required": "مطلوب رمز التفويض",
+    "validation.username.required": "اسم المستخدم مطلوب",
+    "validation.password.required": "كلمة المرور مطلوبة",
+    "validation.selection.date.min.max": "يرجى الاختيار بين 1 و31 تاريخًا",
+    "validation.type.required": "النوع مطلوب",
+    "validation.slot.index.required": "فهرس الفتحة المطلوب تأكيده (مطلوب لنوع TIME، ومسموح بالقيمة الخالية لنوع ALL_DAY)",
+    "error.meeting.timezone.invalid": "اختر منطقة زمنية صالحة لـ IANA.",
+    "error.meeting.time.nonexistent": "هذا الوقت غير موجود لأن الساعات تتحرك للأمام. اختر وقتًا آخر.",
+    "error.meeting.time.ambiguous": "تحدث هذه المرة مرتين عندما تعود الساعات إلى الوراء. اختر وقتًا لا لبس فيه.",
+    "error.comment.rate.limit": "انتظر بضع ثوانٍ قبل النشر مجددًا.",
+    "error.selection.candidates.changed": "تغيّرت التواريخ المقترحة. حدّث الصفحة وأجب مجدداً."
+  },
+  "comments": {
+    "title": "التعليقات",
+    "placeholder": "تحدث عن هذا اللقاء",
+    "reply": "رد",
+    "replyTo": "رد على {name}",
+    "replies": "الردود ({count})",
+    "collapse": "طي الردود",
+    "post": "نشر",
+    "save": "حفظ",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "hide": "إخفاء",
+    "hidden": "أخفى المنظم هذا التعليق.",
+    "deleted": "تم حذف هذا التعليق.",
+    "edited": "تم التعديل",
+    "host": "المنظم",
+    "mention": "اكتب @ للإشارة إلى شخص",
+    "noPeople": "لا يوجد مشاركون مطابقون",
+    "session": "أدخل الاسم الذي سيظهر مع تعليقاتك.",
+    "failed": "تعذر إكمال الطلب. تم الاحتفاظ بنصك؛ حاول مجددًا.",
+    "rateLimit": "انتظر بضع ثوانٍ قبل النشر مجددًا.",
+    "new": "عرض التعليقات الجديدة ({count})",
+    "mentioned": "تعليق جديد موجه إليك",
+    "moreReplies": "المزيد من الردود",
+    "more": "التعليقات السابقة",
+    "copy": "نسخ رابط التعليق",
+    "copied": "تم نسخ الرابط.",
+    "actions": "إجراءات التعليق",
+    "newReply": "جديد",
+    "removeConfirm": "هل تريد إزالة هذا النص؟ ستبقى الردود الحالية.",
+    "retry": "حاول مرة أخرى",
+    "reactions": {
+      "add": "إضافة تفاعل",
+      "view": "عرض من تفاعل",
+      "title": "التفاعلات",
+      "react": "تفاعل",
+      "remove": "إزالة التفاعل",
+      "empty": "لا توجد تفاعلات بعد.",
+      "you": "أنت",
+      "session": "أدخل الاسم الذي سيظهر مع تفاعلاتك.",
+      "failed": "تعذر تحديث التفاعل. يرجى المحاولة مرة أخرى.",
+      "like": "موافق",
+      "love": "أحببته",
+      "laugh": "مضحك",
+      "celebrate": "احتفال",
+      "thanks": "شكراً",
+      "think": "أفكر",
+      "eyes": "أتابع",
+      "hundred": "ممتاز"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "تحديد الموعد بهذه السهولة",
+    "title": "أوقات مختلفة، وموعد يجمعنا.",
+    "description": "شارك رابطًا، واختر أوقات فراغك، واعثر على وقت يناسب الجميع.",
+    "steps": {
+      "share": {
+        "title": "شارك رابطًا واحدًا",
+        "description": "يمكن للمدعوين المشاركة دون تسجيل الدخول"
+      },
+      "select": {
+        "title": "اختر أوقات فراغك",
+        "description": "اجمع أوقات الجميع في مكان واحد"
+      },
+      "decide": {
+        "title": "اكتشف الأوقات المشتركة",
+        "description": "أكد الموعد الأنسب"
+      }
+    },
+    "sample": "مثال على الاستخدام",
+    "meetingTitle": "لنلتقِ هذا الأسبوع",
+    "responses": "عدد المشاركين: {count}",
+    "hint": "غيّر أوقاتك وشاهد النتيجة تتحدث.",
+    "filtersLabel": "أوقات الفراغ حسب المشارك",
+    "allResults": "كل النتائج",
+    "personAvailability": "أوقات فراغ {name}",
+    "tableLabel": "المشاركون المتاحون في كل وقت",
+    "timeLabel": "الوقت",
+    "legendTitle": "المشاركون المتاحون",
+    "legendMax": "أكثر",
+    "resultTitle": "وجدنا أوقاتًا تناسب الجميع ({count})!",
+    "resultHint": "اختر كل النتائج لعرض الأوقات المشتركة.",
+    "available": "متاح",
+    "unavailable": "غير متاح",
+    "people": {
+      "jiwoo": "جيو",
+      "minseo": "مينسو",
+      "doyun": "دويون",
+      "subin": "سوبين"
+    },
+    "yourAvailability": "أوقات تفرغك",
+    "hourly": "فترات من ساعة واحدة",
+    "me": "أنت",
+    "legend": "المتاحون / الإجمالي",
+    "create": "أنشئ لقاءك",
+    "compactTime": "السبت، 7 مساءً",
+    "compactResult": "الوقت يناسب الجميع"
+  }
+}

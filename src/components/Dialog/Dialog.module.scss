@@ -91,20 +91,26 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  height: 36px;
+  min-height: 36px;
+  height: auto;
+  max-width: 100%;
+  min-width: 0;
+  text-align: center;
+  line-height: 1.4;
+  text-wrap: balance;
   border-radius: $radius-sm;
-  padding: 0 $spacing-base;
+  padding: 8px $spacing-base;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   user-select: none;
-  word-break: keep-all;
+  word-break: var(--text-word-break, normal);
   cursor: pointer;
   border: none;
   transition: all $transition-fast;
 
   @media (max-width: 479px) {
     min-height: 48px;
-    padding: 0 $spacing-lg;
+    padding: 10px $spacing-lg;
   }
 
   &:focus-visible {

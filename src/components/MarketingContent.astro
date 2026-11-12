@@ -3,6 +3,8 @@ import type { MarketingLocale, MarketingPage } from '../marketing/config'
 import { localizedAppPath, localizedPath } from '../marketing/config'
 import { marketingCopy } from '../marketing/copy'
 import MarketingLayout from '../layouts/MarketingLayout.astro'
+import AvailabilityDemo from './AvailabilityDemo'
+import { getAvailabilityDemo } from '../marketing/availabilityDemo'
 
 interface Props { locale: MarketingLocale, page: MarketingPage }
 const { locale, page } = Astro.props
@@ -14,24 +16,17 @@ const pageCopy = page === 'home' ? null : copy[page]
   {page === 'home'
     ? (
         <main>
-          <section class='hero'>
-            <div class='hero-mark'><img src='/favicon.svg' alt='' width='94' height='94' /></div>
-            <p class='eyebrow'>{copy.hero.eyebrow}</p>
-            <h1>{copy.hero.title}</h1>
-            <p class='hero-description'>{copy.hero.description}</p>
-            <div class='actions'>
-              <a class='primary' href={localizedAppPath(locale, '/meetings/create')}>{copy.hero.primary}</a>
-              <a class='secondary' href={localizedAppPath(locale, '/meetings/search')}>{copy.hero.secondary}</a>
+          <section class='hero-layout'>
+            <div class='hero'>
+              <img class='hero-icon' src='/favicon.svg' alt='' width='88' height='88' aria-hidden='true' />
+              <h1>{copy.hero.title}</h1>
+              <p class='hero-description'>{copy.hero.description}</p>
+              <div class='actions'>
+                <a class='primary' href={localizedAppPath(locale, '/meetings/create')}>{copy.hero.primary}</a>
+                <a class='secondary' href={localizedAppPath(locale, '/meetings/search')}>{copy.hero.secondary}</a>
+              </div>
             </div>
-          </section>
-
-          <section class='section' aria-labelledby='features-title'>
-            <h2 id='features-title'>{copy.featuresTitle}</h2>
-            <div class='card-grid'>
-              {copy.features.map((item, index) => (
-                <article class='card'><span>{String(index + 1).padStart(2, '0')}</span><h3>{item.title}</h3><p>{item.body}</p></article>
-              ))}
-            </div>
+            <AvailabilityDemo data={getAvailabilityDemo(locale)} />
           </section>
 
           <section class='section steps' aria-labelledby='steps-title'>
@@ -39,15 +34,18 @@ const pageCopy = page === 'home' ? null : copy[page]
             <div class='step-grid'>{copy.steps.map(item => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
           </section>
 
-          <section class='section faq' aria-labelledby='faq-title'>
+          <section id='faq' class='section faq' aria-labelledby='faq-title'>
             <h2 id='faq-title'>{copy.faqTitle}</h2>
-            <div>{copy.faqs.map(item => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+            <div class='faq-questions'>{copy.faqs.map(item => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+            <div class='actions'>
+              <a class='primary' href={localizedAppPath(locale, '/meetings/create')}>{copy.hero.primary}</a>
+            </div>
           </section>
         </main>
       )
     : (
         <main class='document'>
-          <nav class='breadcrumb' aria-label='Breadcrumb'><a href={localizedPath(locale, 'home')}>{copy.nav.home}</a><span>/</span><span>{pageCopy?.title}</span></nav>
+          <nav class='breadcrumb' aria-label={copy.nav.home}><a href={localizedPath(locale, 'home')}>{copy.nav.home}</a><span>/</span><span>{pageCopy?.title}</span></nav>
           <header><p class='eyebrow'>Time2Gather</p><h1>{pageCopy?.title}</h1><p class='document-intro'>{pageCopy?.intro}</p></header>
 
           {page === 'contact'
@@ -65,33 +63,33 @@ const pageCopy = page === 'home' ? null : copy[page]
       )}
 </MarketingLayout>
 
-<style>
+<style lang='scss'>
+  @use "../styles/surfaces.scss" as surfaces;
   main { width: min(960px, calc(100% - 40px)); margin: 0 auto; }
-  .hero { box-sizing: border-box; display: grid; justify-items: center; min-height: min(620px, calc(100svh - 72px)); padding: clamp(56px, 9vw, 96px) 20px; text-align: center; }
-  .hero-mark { display: grid; place-items: center; width: 112px; height: 112px; margin-bottom: 20px; border-radius: 34px; background: #edf6ff; }
+  .hero { box-sizing: border-box; display: grid; justify-items: center; align-content: start; padding: 48px 16px; text-align: center; }
+  .hero-mark { display: grid; place-items: center; width: 112px; height: 112px; margin-bottom: 28px; border-radius: 34px; background: #edf6ff; }
   .eyebrow { margin: 0 0 10px; color: #3182f6; font-size: 14px; font-weight: 700; }
-  h1, h2, h3, p { margin-top: 0; }
-  h1 { max-width: 760px; margin-bottom: 18px; font-size: clamp(38px, 6vw, 64px); line-height: 1.1; letter-spacing: -0.045em; text-wrap: balance; word-break: keep-all; }
-  .hero-description { max-width: 620px; margin-bottom: 0; color: #4e5968; font-size: clamp(17px, 2.3vw, 20px); line-height: 1.6; text-wrap: balance; word-break: keep-all; }
+  h1, h2, h3, p { margin-top: 0; min-width: 0; max-width: 100%; }
+  .hero > *, .step-grid > *, .contact-grid > * { min-width: 0; }
+  h1 { max-width: 760px; margin-bottom: 18px; font-size: clamp(38px, 6vw, 64px); line-height: 1.1; letter-spacing: -0.045em; text-wrap: balance; word-break: var(--text-word-break, normal); }
+  .hero h1 { margin-bottom: 16px; font-size: clamp(32px, 4vw, 48px); line-height: 1.25; letter-spacing: -0.035em; }
+  .hero-description { max-width: 620px; margin-bottom: 0; color: #4e5968; font-size: 18px; line-height: 1.6; text-wrap: balance; word-break: var(--text-word-break, normal); }
   .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px; }
-  .actions a { display: inline-flex; align-items: center; justify-content: center; min-width: 174px; min-height: 52px; padding: 0 22px; border-radius: 14px; font-weight: 700; }
+  .actions a { display: inline-flex; align-items: center; justify-content: center; min-width: min(174px, 100%); min-height: 52px; padding: 12px 22px; text-align: center; text-wrap: balance; border-radius: 14px; font-size: 16px; line-height: 1.5; font-weight: 700; }
   .primary { color: #fff; background: #3182f6; }
   .primary:hover { background: #1b64da; }
   .secondary { color: #333d4b; background: #f2f4f6; }
   .secondary:hover { background: #e5e8eb; }
-  .section { margin-top: clamp(80px, 12vw, 132px); }
-  .section > h2 { max-width: 680px; margin: 0 auto 32px; font-size: clamp(28px, 4vw, 40px); line-height: 1.25; text-align: center; letter-spacing: -0.035em; text-wrap: balance; word-break: keep-all; }
-  .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .card { min-height: 210px; padding: 30px; border: 1px solid #e5e8eb; border-radius: 22px; background: #fff; box-shadow: 0 12px 30px -28px rgba(0, 27, 55, .7); }
-  .card span { color: #1b64da; font-size: 13px; font-weight: 800; }
-  .card h3, .step-grid h3, .faq h3 { margin: 28px 0 8px; font-size: 20px; letter-spacing: -0.02em; }
-  .card p, .step-grid p, .faq p { margin-bottom: 0; color: #4e5968; }
-  .steps { padding: 48px; border-radius: 28px; background: #f7f8fa; }
+  .section { @include surfaces.section-boundary(32px, 32px); }
+  .section > h2 { max-width: 680px; margin: 0 auto 32px; font-size: clamp(28px, 4vw, 40px); line-height: 1.25; text-align: center; letter-spacing: -0.035em; text-wrap: balance; word-break: var(--text-word-break, normal); }
+  .step-grid h3, .faq h3 { margin: 28px 0 8px; font-size: 20px; letter-spacing: -0.02em; }
+  .step-grid p, .faq p { margin-bottom: 0; color: #4e5968; }
+  .steps { padding-inline: 0; padding-bottom: 0; }
   .step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .step-grid h3 { margin-top: 0; }
-  .faq { margin-bottom: 100px; }
-  .faq > div { border-top: 1px solid #e5e8eb; }
-  .faq article { padding: 26px 4px; border-bottom: 1px solid #e5e8eb; }
+  .faq { margin-bottom: 0; }
+  .faq-questions { display: grid; gap: 24px; }
+  .faq article { padding: 12px 0; }
   .faq h3 { margin-top: 0; }
   .document { min-height: 70svh; padding-top: clamp(56px, 9vw, 96px); }
   .breadcrumb { display: flex; gap: 8px; margin-bottom: 40px; color: #8b95a1; font-size: 14px; }
@@ -99,27 +97,59 @@ const pageCopy = page === 'home' ? null : copy[page]
   .document header { max-width: 760px; }
   .document h1 { font-size: clamp(36px, 6vw, 56px); }
   .document-intro { color: #4e5968; font-size: 19px; line-height: 1.75; }
-  .document-sections { display: grid; gap: 0; max-width: 780px; margin-top: 56px; border-top: 1px solid #e5e8eb; }
-  .document-sections section { padding: 30px 0; border-bottom: 1px solid #e5e8eb; }
+  .document-sections { display: grid; gap: 32px; max-width: 780px; margin-top: 48px; }
+  .document-sections section { @include surfaces.section-start; }
   .document-sections h2 { margin-bottom: 10px; font-size: 21px; letter-spacing: -0.02em; }
   .document-sections p { margin-bottom: 0; color: #4e5968; }
   .contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: none; border: 0; }
-  .contact-grid section { padding: 28px; border: 1px solid #e5e8eb; border-radius: 20px; }
+  .contact-grid section { padding: 16px 0; @include surfaces.content; @include surfaces.section-start; }
   .email { display: inline-block; margin-top: 18px; color: #1b64da; font-weight: 700; }
   .updated { margin-top: 24px; color: #8b95a1; font-size: 14px; }
   @media (max-width: 680px) {
     main { width: min(100% - 32px, 960px); }
-    .hero { align-content: center; min-height: calc(100svh - 72px); padding: 32px 4px; }
-    .hero-mark { width: 84px; height: 84px; margin-bottom: 18px; border-radius: 26px; }
+    .hero { padding: 48px 4px 32px; }
+    .hero-mark { width: 84px; height: 84px; margin-bottom: 24px; border-radius: 26px; }
     .hero-mark img { width: 68px; height: 68px; }
-    .hero .eyebrow { margin-bottom: 8px; font-size: 13px; }
-    .hero h1 { max-width: 330px; margin-bottom: 16px; font-size: clamp(34px, 10vw, 42px); line-height: 1.14; }
-    .hero-description { max-width: 340px; font-size: 17px; line-height: 1.55; }
+    .hero h1 { max-width: min(330px, 100%); margin-bottom: 16px; font-size: 32px; line-height: 1.3; }
+    :global(html:is(:lang(ar), :lang(ur), :lang(hi), :lang(mr), :lang(bn), :lang(te), :lang(th))) .hero h1 { font-size: 30px; line-height: 1.4; letter-spacing: normal; }
+    .hero-description { max-width: min(340px, 100%); font-size: 16px; line-height: 1.6; }
     .actions { margin-top: 26px; }
     .actions, .actions a { width: 100%; }
-    .card-grid, .step-grid, .contact-grid { grid-template-columns: 1fr; }
-    .card { min-height: 0; padding: 24px; }
-    .steps { padding: 32px 24px; }
+    .step-grid, .contact-grid { grid-template-columns: 1fr; }
+    .steps { padding-inline: 0; padding-bottom: 0; }
     .step-grid { gap: 24px; }
   }
+  .hero-layout, .hero, .actions, .actions a { box-sizing: border-box; min-width: 0; }
+  .hero-layout { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .hero-layout + .section { margin-top: 0; padding-block-start: 32px; }
+  @media (min-width: 801px) {
+    .hero-layout {
+      grid-template-rows: auto auto;
+    }
+    .hero { padding: 48px 16px; }
+    .hero-icon { width: 76px; height: 76px; margin-bottom: 18px; }
+    .hero h1 { max-width: 26ch; margin-bottom: 10px; font-size: clamp(42px, 4vw, 54px); overflow-wrap: break-word; }
+    .hero-description { max-width: 44ch; }
+    .actions { margin-top: 24px; }
+  }
+  .actions a { min-width: 150px; border-radius: 12px; text-decoration: none; }
+  .primary { background: #1d65d8; }
+  .primary:hover { background: #164fae; }
+  .breadcrumb, .updated { color: #566273; }
+  .actions a:focus-visible { outline: 3px solid #164fae; outline-offset: 3px; }
+  @media (max-width: 800px) {
+    .hero-layout { gap: 0; }
+    // Keep the introduction in the first visible screen; examples begin after scrolling.
+    .hero { min-height: calc(100dvh - 72px); padding: 32px 0; align-content: center; justify-items: center; text-align: center; }
+    .hero-icon { display: block; width: 88px; height: 88px; margin-bottom: 24px; }
+    .hero h1 { max-width: 100%; }
+    .actions { width: 100%; justify-content: center; }
+    .actions a { flex: 1; }
+  }
+  @media (max-width: 800px) and (max-height: 700px) {
+    .hero { padding-block: 24px; }
+    .hero-icon { width: 64px; height: 64px; margin-bottom: 16px; }
+    .hero .actions { margin-top: 20px; }
+  }
+  @media (max-width: 480px) { .actions { flex-direction: column; } }
 </style>

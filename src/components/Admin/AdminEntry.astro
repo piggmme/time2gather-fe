@@ -1,0 +1,15 @@
+---
+import AdminApp from './AdminApp'
+import styles from './AdminLogin.module.scss'
+import { getLocaleFromAstroRequest, getTranslations } from '../../i18n'
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang'))
+const t = getTranslations(locale)
+---
+<AdminApp client:only='react'>
+  <main slot='fallback' class={styles.login}>
+    <a href='/' class={styles.brand}>Time2Gather</a>
+    <span class={styles.eyebrow}>{t('admin.eyebrow')}</span>
+    <h1>{t('admin.metaTitle')}</h1>
+    <p role='status'>{t('admin.login.checking')}</p>
+  </main>
+</AdminApp>

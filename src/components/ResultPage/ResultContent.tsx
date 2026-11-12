@@ -1,34 +1,79 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
+import DecisionSummary from './DecisionSummary'
+import ConfirmedPlan from './ConfirmedPlan'
+import CalendarParticipantFilter from './CalendarParticipantFilter'
+import { getCalendarAvailability } from '../../utils/calendarAvailability'
+import { Dialog as ParticipantDialog } from 'radix-ui'
+import { useDialogReturnFocus } from '../../hooks/useDialogReturnFocus'
+import {
+  useMemo, useState, useEffect, type ReactNode,
+} from 'react'
 import { type get_meetings_$meetingCode_response } from '../../services/meetings'
 import Daily from '../daily/Daily'
 import Avatar from '../Avatar/Avatar'
+import LocationVoters from '../LocationVoters/LocationVoters'
 import dayjs from 'dayjs'
 import styles from './ResultContent.module.scss'
 import { formatDate, formatTime } from '../../utils/time'
+import { useDisplayTimeZone } from '../../hooks/useDisplayTimeZone'
+import { projectResultTimeZone } from '../../utils/resultTimeZone'
+import { inspectWallTime } from '../../utils/timezone'
+import TimeZoneSelect from '../Timezone/TimeZoneSelect'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import {
-  HiChevronDown, HiChevronRight, HiChevronUp, HiX, HiOutlineLocationMarker, HiOutlineCalendar, HiOutlineClock, HiOutlineCheckCircle, HiOutlinePencil,
+  HiX, HiOutlineLocationMarker, HiOutlinePencil,
 } from 'react-icons/hi'
+import { localeMeta } from '../../i18n/config'
 import { useTranslation } from '../../hooks/useTranslation'
 import { $me } from '../../stores/me'
 import { Tabs } from '../Tabs/Tabs'
+import { usePageState, usePageScrollRestoration } from '../../hooks/usePageState'
 import Monthly from '../Monthly/Monthly'
-import { Dialog } from '../Dialog/Dialog'
-import { meetings } from '../../services/meetings'
-import { showDefaultToast } from '../../stores/toast'
-import { hasUserScheduleSelection } from '../../utils/meetingSelection'
+import { hasUserScheduleSelection, getConfirmedAvailabilityTime } from '../../utils/meetingSelection'
 
 export default function ResultContent ({
   meetingData,
   onMeetingUpdated,
+  actions,
+  comments,
+  commentShortcut,
+  onTabChange,
 }: {
   meetingData: get_meetings_$meetingCode_response['data']
   onMeetingUpdated?: () => void
+  actions?: ReactNode
+  comments?: ReactNode
+  commentShortcut?: ReactNode
+  onTabChange?: (tab: string) => void
 }) {
-  const { t } = useTranslation()
-  const [expandedSlots, setExpandedSlots] = useState<Set<string>>(new Set())
-  const displayedMeetingData = meetingData
+  const { t, locale } = useTranslation()
+  const [activeTab, setActiveTab] = usePageState('resultTab', 'summary')
+  usePageScrollRestoration()
+  useEffect(() => {
+    onTabChange?.(activeTab)
+  }, [activeTab, onTabChange])
+  const me = useStore($me)
+  const myResponse = meetingData.participants.find(person => person.userId === me?.userId)?.availabilityResponse
+  const [displayZone, setDisplayZone] = useDisplayTimeZone(meetingData.meeting.timezone)
+  const projection = useMemo(() => meetingData.meeting.selectionType === 'TIME'
+    ? projectResultTimeZone(meetingData, displayZone)
+    : undefined, [meetingData, displayZone])
+  const resultZone = projection || meetingData.meeting.selectionType === 'ALL_DAY' ? displayZone : meetingData.meeting.timezone
+  const zoneOffsets = useMemo(() => {
+    const formatter = new Intl.DateTimeFormat('en', { timeZone: resultZone, timeZoneName: 'shortOffset' })
+    return [...new Set(Object.entries(meetingData.meeting.availableDates).flatMap(([date, times]) => times.flatMap((time) => {
+      const { instant } = inspectWallTime(date, time, meetingData.meeting.timezone)
+      return instant === undefined ? [] : [formatter.formatToParts(instant).find(part => part.type === 'timeZoneName')?.value.replace('GMT', 'UTC') ?? '']
+    })))].filter(Boolean).join(' / ')
+  }, [meetingData.meeting.availableDates, meetingData.meeting.timezone, resultZone])
+  const displayedMeetingData = useMemo(() => projection
+    ? {
+        ...meetingData,
+        meeting: { ...meetingData.meeting, timezone: resultZone, availableDates: projection.availableDates },
+        schedule: projection.schedule,
+        summary: { ...meetingData.summary, bestSlots: projection.bestSlots },
+      }
+    : meetingData, [meetingData, projection, resultZone])
   const isConfirmed = !!displayedMeetingData.meeting.confirmedDate
 
   // availableDates에서 모든 날짜를 dayjs 객체로 변환
@@ -47,164 +92,90 @@ export default function ResultContent ({
     return Array.from(timeSet).sort()
   }, [displayedMeetingData.meeting.availableDates])
 
-  // 같은 날짜의 시간 슬롯들을 그룹화하고 범위로 변환
-  const groupedBestSlots = useMemo(() => {
-    if (displayedMeetingData.summary.bestSlots.length === 0) return []
-
-    // 날짜별로 그룹화
-    const groupedByDate = displayedMeetingData.summary.bestSlots.reduce((acc, slot) => {
-      if (!acc[slot.date]) {
-        acc[slot.date] = []
-      }
-      acc[slot.date].push(slot)
-      return acc
-    }, {} as Record<string, typeof displayedMeetingData.summary.bestSlots>)
-
-    // 각 날짜별로 시간 범위 생성
-    return Object.entries(groupedByDate).map(([date, slots]) => {
-      return {
-        date,
-        timeRanges: [...slots]
-          .sort((a, b) => a.startSlotIndex - b.startSlotIndex)
-          .map((slot) => {
-            const [start, end = start] = slot.time.split(' ~ ')
-            return {
-              start,
-              end,
-              count: slot.count,
-              percentage: slot.percentage,
-              participants: slot.participants,
-            }
-          }),
-      }
-    })
-  }, [displayedMeetingData.summary.bestSlots])
-
-  // 그룹의 모든 시간 범위에 참여한 사람들 가져오기
-  const getParticipantsForGroup = useCallback((group: GroupedBestSlot) => {
-    const participantsMap = new Map<number, typeof displayedMeetingData.participants[0]>()
-
-    group.timeRanges.forEach((range) => {
-      range.participants.forEach((participant) => {
-        participantsMap.set(participant.userId, participant)
-      })
-    })
-
-    return Array.from(participantsMap.values())
-  }, [])
-
-  const toggleSlot = (groupIndex: number) => {
-    setExpandedSlots((prev) => {
-      const newSet = new Set(prev)
-      const key = `group-${groupIndex}`
-      if (newSet.has(key)) {
-        newSet.delete(key)
-      } else {
-        newSet.add(key)
-      }
-      return newSet
-    })
-  }
-
   return (
-    <Tabs.Root defaultValue='summary'>
-      <Tabs.List aria-label={t('meeting.result.tabs.summary')}>
-        <Tabs.Trigger value='summary'>
-          {t(isConfirmed ? 'meeting.result.tabs.confirmed' : 'meeting.result.tabs.summary')}
-        </Tabs.Trigger>
-        <Tabs.Trigger value='calendar'>
-          {t('meeting.result.tabs.calendar')}
-        </Tabs.Trigger>
-        {displayedMeetingData.locationVote?.enabled && (
-          <Tabs.Trigger value='location'>
-            {t('meeting.result.tabs.location')}
-          </Tabs.Trigger>
+    <Tabs.Root
+      value={activeTab}
+      onValueChange={(tab) => {
+        setActiveTab(tab)
+        onTabChange?.(tab)
+      }}
+      dir={localeMeta[locale].dir}
+    >
+      <div className={styles.ResultLayout} data-calendar-view={activeTab === 'calendar' && meetingData.meeting.selectionType === 'TIME'} data-has-actions={Boolean(actions)} data-confirmed={isConfirmed}>
+        <div className={styles.ResultHeader}>
+          {meetingData.meeting.selectionType === 'TIME' && (
+            <div className={styles.ResultTimezone}>
+              <TimeZoneSelect value={resultZone} onChange={setDisplayZone} label={t('timezone.display')} valueSuffix={zoneOffsets} />
+              {!projection && displayZone !== resultZone && <p role='status'>{t('timezone.overlap')}</p>}
+            </div>
+          )}
+          <Tabs.List aria-label={t('meeting.result.tabs.summary')} trailing={activeTab === 'summary' ? commentShortcut : undefined}>
+            <Tabs.Trigger value='summary'>
+              {t(isConfirmed ? 'meeting.result.tabs.confirmed' : 'meeting.result.tabs.summary')}
+            </Tabs.Trigger>
+            <Tabs.Trigger value='calendar'>
+              {t('meeting.result.tabs.calendar')}
+            </Tabs.Trigger>
+            {displayedMeetingData.locationVote?.enabled && (
+              <Tabs.Trigger value='location'>
+                {t('meeting.result.tabs.location')}
+              </Tabs.Trigger>
+            )}
+            <Tabs.Trigger value='participants'>
+              {t('meeting.result.tabs.participants')} {displayedMeetingData.participants.length > 0 ? `(${displayedMeetingData.participants.length})` : ''}
+            </Tabs.Trigger>
+          </Tabs.List>
+        </div>
+        {actions && (
+          <div className={styles.ResultActions}>
+            {myResponse && !isConfirmed && (
+              <p className={styles.ResponseStatus} role='status'>
+                {t(meetingData.meeting.selectionType === 'TIME' ? 'meeting.unavailable.times' : 'meeting.unavailable.dates')}
+              </p>
+            )}
+            {actions}
+          </div>
         )}
-        <Tabs.Trigger value='participants'>
-          {t('meeting.result.tabs.participants')} {displayedMeetingData.participants.length > 0 ? `(${displayedMeetingData.participants.length})` : ''}
-        </Tabs.Trigger>
-      </Tabs.List>
-
-      <SummaryContent
-        meetingData={displayedMeetingData}
-        groupedBestSlots={groupedBestSlots}
-        expandedSlots={expandedSlots}
-        toggleSlot={toggleSlot}
-        getParticipantsForGroup={getParticipantsForGroup}
-        onMeetingUpdated={onMeetingUpdated}
-      />
-      {
-        displayedMeetingData.meeting.selectionType === 'TIME'
-          ? (
-              <DailyCalendarContent
-                meetingData={displayedMeetingData}
-                dates={dates}
-                availableTimes={availableTimes}
-              />
-            )
-          : (
-              <MonthlyCalendarContent
-                meetingData={displayedMeetingData}
-                dates={dates}
-              />
-            )
-      }
-      {displayedMeetingData.locationVote?.enabled && (
-        <LocationContent locationVote={displayedMeetingData.locationVote} />
-      )}
-      <ParticipantsContent participants={displayedMeetingData.participants} />
+        <div className={styles.ResultPanels}>
+          <SummaryContent
+            meetingData={meetingData}
+            resultZone={resultZone}
+            onMeetingUpdated={onMeetingUpdated}
+          />
+          <CalendarContent
+            key={meetingData.meeting.code}
+            meetingData={displayedMeetingData}
+            dates={dates}
+            availableTimes={availableTimes}
+            voteAction={!isConfirmed && <AvailabilityAction meetingData={meetingData} className={styles.CalendarVoteAction} />}
+          />
+          {displayedMeetingData.locationVote?.enabled && (
+            <LocationContent locationVote={displayedMeetingData.locationVote} />
+          )}
+          <ParticipantsContent meetingData={meetingData} />
+        </div>
+        {comments && <div className={styles.ResultComments} hidden={activeTab !== 'summary'}>{comments}</div>}
+      </div>
     </Tabs.Root>
   )
 }
 
-type GroupedBestSlot = {
-  date: string
-  timeRanges: Array<{
-    start: string
-    end: string
-    count: number
-    percentage: string
-    participants: get_meetings_$meetingCode_response['data']['participants']
-  }>
-}
-
-const INITIAL_VISIBLE_BEST_SLOT_COUNT = 3
-const INITIAL_VISIBLE_TIME_RANGE_COUNT = 2
-
 // 요약 탭 컴포넌트
 function SummaryContent ({
   meetingData,
-  groupedBestSlots,
-  expandedSlots,
-  toggleSlot,
-  getParticipantsForGroup,
+  resultZone,
   onMeetingUpdated,
 }: {
   meetingData: get_meetings_$meetingCode_response['data']
-  groupedBestSlots: GroupedBestSlot[]
-  expandedSlots: Set<string>
-  toggleSlot: (groupIndex: number) => void
-  getParticipantsForGroup: (group: GroupedBestSlot) => typeof meetingData.participants
+  resultZone: string
   onMeetingUpdated?: () => void
 }) {
-  const locale = useStore($locale)
-  const me = useStore($me)
   const { t } = useTranslation()
-  const [isTimeDialogOpen, setIsTimeDialogOpen] = useState(false)
-  const [editedTime, setEditedTime] = useState('18:00')
-  const [isSavingTime, setIsSavingTime] = useState(false)
-  const [showAllBestSlots, setShowAllBestSlots] = useState(false)
 
   const locationVote = meetingData.locationVote
   const sortedLocations = locationVote?.locations
     ? [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
     : []
-  const visibleBestSlots = showAllBestSlots
-    ? groupedBestSlots
-    : groupedBestSlots.slice(0, INITIAL_VISIBLE_BEST_SLOT_COUNT)
-  const hiddenBestSlotCount = groupedBestSlots.length - INITIAL_VISIBLE_BEST_SLOT_COUNT
-  const hasSelection = hasUserScheduleSelection(meetingData.schedule, me?.userId)
-  const selectionPath = meetingData.meeting.selectionType.toLowerCase()
 
   const getRankBadgeClass = (index: number) => {
     if (index === 0) return styles.AISummaryRankBadgeFirst
@@ -214,30 +185,7 @@ function SummaryContent ({
   }
 
   const confirmedDate = meetingData.meeting.confirmedDate
-  const confirmedTime = meetingData.meeting.confirmedTime ?? 'ALL_DAY'
-  const confirmedAvailabilityTime = meetingData.meeting.selectionType === 'ALL_DAY'
-    ? 'ALL_DAY'
-    : confirmedTime
-  const isHost = meetingData.meeting.host.id === me?.userId
-
-  useEffect(() => {
-    if (confirmedTime !== 'ALL_DAY') setEditedTime(confirmedTime)
-  }, [confirmedTime])
-
-  const handleSaveConfirmedTime = async () => {
-    if (!editedTime || isSavingTime) return
-    setIsSavingTime(true)
-    try {
-      await meetings.$meetingCode.confirmedTime.put(meetingData.meeting.code, { time: editedTime })
-      showDefaultToast({ message: t('meeting.result.confirmedPlan.timeUpdateSuccess'), duration: 3000 })
-      setIsTimeDialogOpen(false)
-      onMeetingUpdated?.()
-    } catch {
-      showDefaultToast({ message: t('meeting.result.confirmedPlan.timeUpdateError'), duration: 3000 })
-    } finally {
-      setIsSavingTime(false)
-    }
-  }
+  const confirmedAvailabilityTime = getConfirmedAvailabilityTime(meetingData.meeting)
   const confirmedBestSlot = confirmedDate
     ? meetingData.summary.bestSlots.find((slot) => {
         const [slotStart] = slot.time.split(' ~ ')
@@ -248,213 +196,20 @@ function SummaryContent ({
     ? meetingData.schedule[confirmedDate]?.[confirmedAvailabilityTime]
     : undefined
   const confirmedParticipants = confirmedBestSlot?.participants ?? confirmedSchedule?.participants ?? []
-  const confirmedParticipantCount = confirmedBestSlot?.count ?? confirmedSchedule?.count ?? confirmedParticipants.length
-  const confirmedPercentage = confirmedBestSlot?.percentage ?? (
-    meetingData.summary.totalParticipants > 0
-      ? `${Math.round((confirmedParticipantCount / meetingData.summary.totalParticipants) * 100)}%`
-      : '0%'
-  )
 
   return (
     <Tabs.Content value='summary'>
       <div className={styles.AISummaryContainer}>
         {meetingData.meeting.confirmedDate && (
-          <section className={styles.ConfirmedPlan} aria-label={t('meeting.result.confirmedPlan.title')}>
-            <div className={styles.ConfirmedPlanHeading}>
-              <HiOutlineCheckCircle aria-hidden='true' />
-              <div>
-                <span className={styles.ConfirmedPlanEyebrow}>{t('meeting.result.confirmedPlan.eyebrow')}</span>
-                <h2 className={styles.ConfirmedPlanTitle}>{t('meeting.result.confirmedPlan.title')}</h2>
-              </div>
-            </div>
-            <dl className={styles.ConfirmedPlanDetails}>
-              <div>
-                <dt><HiOutlineCalendar aria-hidden='true' /> {t('meeting.result.confirmedPlan.date')}</dt>
-                <dd>{formatDate(meetingData.meeting.confirmedDate, locale)}</dd>
-              </div>
-              <div>
-                <dt><HiOutlineClock aria-hidden='true' /> {t('meeting.result.confirmedPlan.time')}</dt>
-                <dd className={styles.ConfirmedTimeValue}>
-                  <span>{formatTime(confirmedTime, locale, t('meeting.confirmDialog.allDay'))}</span>
-                  {isHost && (
-                    <button type='button' onClick={() => setIsTimeDialogOpen(true)}>
-                      <HiOutlinePencil aria-hidden='true' />
-                      {t('meeting.result.confirmedPlan.editTime')}
-                    </button>
-                  )}
-                </dd>
-              </div>
-              {locationVote?.enabled && (
-                <div>
-                  <dt><HiOutlineLocationMarker aria-hidden='true' /> {t('meeting.result.confirmedPlan.location')}</dt>
-                  <dd>{locationVote.confirmedLocation?.name ?? t('meeting.result.kakaoShare.locationPending')}</dd>
-                </div>
-              )}
-            </dl>
-            <div className={styles.ConfirmedAttendance}>
-              <div className={styles.ConfirmedAttendanceHeader}>
-                <div>
-                  <span className={styles.ConfirmedAttendanceLabel}>{t('meeting.result.confirmedPlan.attendees')}</span>
-                  <strong>
-                    {t('meeting.result.confirmedPlan.attendanceSummary', {
-                      count: confirmedParticipantCount,
-                      percentage: confirmedPercentage,
-                    })}
-                  </strong>
-                </div>
-              </div>
-              {confirmedParticipants.length > 0
-                ? (
-                    <ul className={styles.ConfirmedParticipantList}>
-                      {confirmedParticipants.map(participant => (
-                        <li key={participant.userId}>
-                          <Avatar
-                            src={participant.profileImageUrl}
-                            name={participant.username}
-                            size={28}
-                          />
-                          <span>{participant.username}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                : (
-                    <p className={styles.ConfirmedParticipantEmpty}>{t('meeting.result.noParticipants')}</p>
-                  )}
-            </div>
-          </section>
+          <ConfirmedPlan data={meetingData} resultZone={resultZone} availableCount={confirmedParticipants.length} onMeetingUpdated={onMeetingUpdated}>
+            <AttendanceGroups participants={meetingData.participants} selected={confirmedParticipants} />
+          </ConfirmedPlan>
         )}
 
-        <Dialog.Root open={isTimeDialogOpen} onOpenChange={setIsTimeDialogOpen}>
-          <Dialog.Content>
-            <Dialog.Title>{t('meeting.result.confirmedPlan.editTimeTitle')}</Dialog.Title>
-            <Dialog.Description>{t('meeting.result.confirmedPlan.editTimeDescription')}</Dialog.Description>
-            <label className={styles.TimeInputLabel}>
-              <span>{t('meeting.result.confirmedPlan.time')}</span>
-              <input
-                type='time'
-                value={editedTime}
-                onChange={event => setEditedTime(event.target.value)}
-                step='60'
-                required
-              />
-            </label>
-            <div className={styles.TimeDialogActions}>
-              <Dialog.Cancel>{t('meeting.exportDialog.cancel')}</Dialog.Cancel>
-              <Dialog.Action onClick={handleSaveConfirmedTime} disabled={!editedTime || isSavingTime}>
-                {t(isSavingTime ? 'meeting.result.confirmedPlan.savingTime' : 'meeting.result.confirmedPlan.saveTime')}
-              </Dialog.Action>
-            </div>
-          </Dialog.Content>
-        </Dialog.Root>
-
-        {/* 시간 요약 카드 */}
         {!meetingData.meeting.confirmedDate && (
-          <div className={`${styles.Summary} ${styles.Card}`}>
-            <div className={styles.SummaryHeader}>
-              <div>
-                <p className={styles.Title}>{t('meeting.result.summaryTitle')}</p>
-                <p className={styles.DetailText}>
-                  {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-                </p>
-              </div>
-              <a
-                href={`/meetings/${meetingData.meeting.code}/select/${selectionPath}`}
-                className={styles.SummaryVoteAction}
-              >
-                <HiOutlinePencil aria-hidden='true' />
-                {t(`meeting.result.buttons.${hasSelection ? 'editAvailability' : 'enterAvailability'}`)}
-              </a>
-            </div>
-
-            {groupedBestSlots.length > 0 && (
-              <div className={styles.BestSlots}>
-                <p className={styles.BestSlotsTitle}>{t('meeting.result.bestSlotsTitle')}</p>
-                <ul className={styles.BestSlotsList}>
-                  {visibleBestSlots.map((group, groupIndex) => {
-                    const isExpanded = expandedSlots.has(`group-${groupIndex}`)
-                    const participants = getParticipantsForGroup(group)
-                    const visibleTimeRanges = group.timeRanges.filter(range => range.start !== 'ALL_DAY')
-                    const displayedTimeRanges = isExpanded
-                      ? visibleTimeRanges
-                      : visibleTimeRanges.slice(0, INITIAL_VISIBLE_TIME_RANGE_COUNT)
-                    const hiddenTimeRangeCount = visibleTimeRanges.length - displayedTimeRanges.length
-
-                    return (
-                      <li key={groupIndex} className={styles.BestSlotItem}>
-                        <button
-                          type='button'
-                          className={styles.BestSlotHeader}
-                          onClick={() => toggleSlot(groupIndex)}
-                          aria-expanded={isExpanded}
-                        >
-                          <span className={styles.BestSlotMainLine}>
-                            <span className={styles.BestSlotDate}>{formatDate(group.date, locale)}</span>
-                            <span className={styles.BestSlotCount}>
-                              {t('meeting.result.voteCount', {
-                                count: group.timeRanges[0].count,
-                                percentage: group.timeRanges[0].percentage,
-                              })}
-                            </span>
-                            <span className={styles.BestSlotExpandIcon} aria-hidden='true'>
-                              {isExpanded ? <HiChevronDown /> : <HiChevronRight />}
-                            </span>
-                          </span>
-                          {visibleTimeRanges.length > 0 && (
-                            <span className={styles.BestSlotTime}>
-                              {displayedTimeRanges.map((range, rangeIndex) => (
-                                <span key={rangeIndex} className={styles.BestSlotTimeRange}>
-                                  {range.start === range.end
-                                    ? range.start
-                                    : `${range.start}–${range.end}`}
-                                </span>
-                              ))}
-                              {hiddenTimeRangeCount > 0 && (
-                                <span
-                                  className={styles.BestSlotMoreTimeRanges}
-                                  aria-label={t('meeting.result.moreTimeOptions', { count: hiddenTimeRangeCount })}
-                                >
-                                  +{hiddenTimeRangeCount}
-                                </span>
-                              )}
-                            </span>
-                          )}
-                        </button>
-                        {isExpanded && participants.length > 0 && (
-                          <div className={styles.BestSlotParticipants}>
-                            <ul className={styles.BestSlotParticipantsList}>
-                              {participants.map(participant => (
-                                <li key={participant.userId} className={styles.BestSlotParticipantItem}>
-                                  <Avatar
-                                    src={participant.profileImageUrl}
-                                    name={participant.username}
-                                    size={24}
-                                  />
-                                  <span className={styles.BestSlotParticipantName}>{participant.username}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ul>
-                {hiddenBestSlotCount > 0 && (
-                  <button
-                    type='button'
-                    className={styles.BestSlotsToggle}
-                    onClick={() => setShowAllBestSlots(current => !current)}
-                    aria-expanded={showAllBestSlots}
-                  >
-                    {showAllBestSlots
-                      ? t('meeting.result.showFewerOptions')
-                      : t('meeting.result.showMoreOptions', { count: hiddenBestSlotCount })}
-                    {showAllBestSlots ? <HiChevronUp aria-hidden='true' /> : <HiChevronDown aria-hidden='true' />}
-                  </button>
-                )}
-              </div>
-            )}
+          <div className={styles.DecisionContainer}>
+            <DecisionSummary data={meetingData} displayZone={resultZone} onMeetingUpdated={onMeetingUpdated} />
+            <AvailabilityAction meetingData={meetingData} />
           </div>
         )}
 
@@ -499,20 +254,7 @@ function SummaryContent ({
                           })}
                         </span>
                       </div>
-                      {location.voters.length > 0 && (
-                        <div className={styles.AISummaryVoters}>
-                          {location.voters.map(voter => (
-                            <div key={voter.userId} className={styles.AISummaryVoterChip}>
-                              <Avatar
-                                src={voter.profileImageUrl}
-                                name={voter.username}
-                                size={20}
-                              />
-                              <span>{voter.username}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      <LocationVoters voters={location.voters} />
                     </li>
                   )
                 })}
@@ -532,76 +274,98 @@ function ParticipantsModal ({
   date,
   time,
   participants,
+  allParticipants,
+  confirmed,
 }: {
   isOpen: boolean
   onClose: () => void
   date: string
   time?: string
   participants: get_meetings_$meetingCode_response['data']['participants']
+  allParticipants: Participants
+  confirmed: boolean
 }) {
   const locale = useStore($locale)
   const { t } = useTranslation()
 
-  useEffect(() => {
-    if (!isOpen) return
+  const returnFocus = useDialogReturnFocus()
 
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-      }
-    }
-
-    document.addEventListener('keydown', handleEscape)
-    document.body.style.overflow = 'hidden'
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen, onClose])
-
-  if (!isOpen) return null
-
-  const formattedDate = formatDate(date, locale)
+  const formattedDate = date ? formatDate(date, locale) : ''
 
   return (
-    <div className={styles.ModalOverlay} onClick={onClose}>
-      <div className={styles.ModalContent} onClick={e => e.stopPropagation()}>
-        <div className={styles.ModalHeader}>
-          <h3 className={styles.ModalTitle}>
-            <span>{formattedDate}</span>
-            {time && <span className={styles.ModalTime}>{time}</span>}
-          </h3>
-          <button className={styles.ModalCloseButton} onClick={onClose} aria-label={t('common.close')}>
-            <HiX />
-          </button>
-        </div>
-        <div className={styles.ModalBody}>
-          {participants.length > 0
-            ? (
-                <>
-                  <p className={styles.ModalParticipantsCount}>
-                    {t('meeting.result.participantsCount', { count: participants.length })}
-                  </p>
-                  <ul className={styles.ModalParticipantsList}>
-                    {participants.map(participant => (
-                      <li key={participant.userId} className={styles.ModalParticipantItem}>
-                        <Avatar
-                          src={participant.profileImageUrl}
-                          name={participant.username}
-                        />
-                        <span className={styles.ModalParticipantName}>{participant.username}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )
-            : (
-                <p className={styles.ModalEmptyText}>{t('meeting.result.noParticipants')}</p>
-              )}
-        </div>
+    <ParticipantDialog.Root open={isOpen} onOpenChange={(open) => { if (!open) onClose() }}>
+      <ParticipantDialog.Portal>
+        <ParticipantDialog.Overlay className={styles.ModalOverlay} />
+        <ParticipantDialog.Content className={styles.ModalContent} aria-describedby={undefined} {...returnFocus}>
+          <div className={styles.ModalHeader}>
+            <ParticipantDialog.Title className={styles.ModalTitle}>
+              <span>{formattedDate}</span>
+              {time && <span className={styles.ModalTime}>{time}</span>}
+            </ParticipantDialog.Title>
+            <button type='button' className={styles.ModalCloseButton} onClick={onClose} aria-label={t('common.close')}>
+              <HiX />
+            </button>
+          </div>
+          <div className={styles.ModalBody}>
+            <AttendanceGroups participants={allParticipants} selected={participants} confirmed={confirmed} />
+            {allParticipants.length === 0 && <p className={styles.ModalEmptyText}>{t('meeting.participantsEmpty')}</p>}
+          </div>
+        </ParticipantDialog.Content>
+      </ParticipantDialog.Portal>
+    </ParticipantDialog.Root>
+  )
+}
+
+function AvailabilityAction ({ meetingData, className = '' }: {
+  meetingData: get_meetings_$meetingCode_response['data']
+  className?: string
+}) {
+  const me = useStore($me)
+  const { t } = useTranslation()
+  const hasSelection = hasUserScheduleSelection(meetingData.schedule, me?.userId) || Boolean(me && meetingData.participants.find(person => person.userId === me.userId)?.availabilityResponse)
+
+  return (
+    <a href={`/meetings/${meetingData.meeting.code}/select/${meetingData.meeting.selectionType.toLowerCase()}`} className={`${styles.SummaryVoteAction} ${className}`}>
+      <HiOutlinePencil aria-hidden='true' />
+      {t(`meeting.result.buttons.${hasSelection ? 'editAvailability' : 'enterAvailability'}`)}
+    </a>
+  )
+}
+
+// The filter belongs to the calendar tab; summaries and saved votes use the full roster.
+function CalendarContent ({ meetingData, dates, availableTimes, voteAction }: {
+  meetingData: get_meetings_$meetingCode_response['data']
+  dates: dayjs.Dayjs[]
+  availableTimes: string[]
+  voteAction: ReactNode
+}) {
+  // Exclusions keep existing choices through live updates and select new participants by default.
+  const [excludedIds, setExcludedIds] = useState<Set<number>>(() => new Set())
+  const selectedParticipants = useMemo(() => meetingData.participants.filter(person => !excludedIds.has(person.userId)), [meetingData.participants, excludedIds])
+  const selectedIds = useMemo(() => new Set(selectedParticipants.map(person => person.userId)), [selectedParticipants])
+  const filteredSchedule = useMemo(() => getCalendarAvailability(meetingData.schedule, meetingData.meeting.availableDates, selectedIds, meetingData.meeting.selectionType), [meetingData.schedule, meetingData.meeting.availableDates, selectedIds, meetingData.meeting.selectionType])
+
+  return (
+    <Tabs.Content value='calendar' forceMount>
+      <div className={styles.Calendar}>
+        {voteAction}
+        {meetingData.meeting.selectionType === 'TIME'
+          ? <DailyCalendarContent meetingData={meetingData} dates={dates} availableTimes={availableTimes} filteredSchedule={filteredSchedule} selectedParticipants={selectedParticipants} />
+          : <MonthlyCalendarContent meetingData={meetingData} dates={dates} filteredSchedule={filteredSchedule} selectedParticipants={selectedParticipants} />}
+        <CalendarParticipantFilter
+          participants={meetingData.participants}
+          selectedIds={selectedIds}
+          hasAvailability={Object.keys(filteredSchedule).length > 0}
+          onToggle={userId => setExcludedIds((previous) => {
+            const next = new Set(previous)
+            if (next.has(userId)) next.delete(userId)
+            else next.add(userId)
+            return next
+          })}
+          onSelectAll={checked => setExcludedIds(new Set(checked ? [] : meetingData.participants.map(person => person.userId)))}
+        />
       </div>
-    </div>
+    </Tabs.Content>
   )
 }
 
@@ -609,11 +373,14 @@ function ParticipantsModal ({
 function MonthlyCalendarContent ({
   meetingData,
   dates,
+  filteredSchedule,
+  selectedParticipants,
 }: {
   meetingData: get_meetings_$meetingCode_response['data']
   dates: dayjs.Dayjs[]
+  filteredSchedule: get_meetings_$meetingCode_response['data']['schedule']
+  selectedParticipants: Participants
 }) {
-  const me = useStore($me)
   const { t } = useTranslation()
   const [modalState, setModalState] = useState<{
     isOpen: boolean
@@ -635,80 +402,59 @@ function MonthlyCalendarContent ({
     const scheduleForDate = meetingData.schedule[modalState.date]
     if (!scheduleForDate) return []
     const slotData = scheduleForDate['ALL_DAY']
-    return slotData?.participants || []
-  }, [modalState, meetingData.schedule])
+    return slotData?.participants.filter(person => selectedParticipants.some(selected => selected.userId === person.userId)) || []
+  }, [modalState, meetingData.schedule, selectedParticipants])
 
-  const mySelections: dayjs.Dayjs[] = useMemo(function initializeSelections () {
-    if (!me) return []
-    const mySelectedDates: dayjs.Dayjs[] = []
-    for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
-      const allDaySlot = timeSlots['ALL_DAY']
-      if (allDaySlot && allDaySlot.participants.some(p => p.userId === me.userId)) {
-        mySelectedDates.push(dayjs(date))
-      }
-    }
-    return mySelectedDates
-  }, [me, meetingData.schedule])
-
-  // ALL_DAY 타입의 schedule을 dateSchedule 형태로 변환
-  // 자신이 포함된 경우 count를 1 낮춤 (Daily와 동일한 로직)
-  const dateSchedule = useMemo(() => {
-    const schedule: { [date: string]: { count: number, participants: typeof meetingData.participants } } = {}
-    for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
-      const allDaySlot = timeSlots['ALL_DAY']
-      if (allDaySlot) {
-        const isMeIncluded = me ? allDaySlot.participants.some(p => p.userId === me.userId) : false
-        schedule[date] = {
-          count: isMeIncluded ? Math.max(0, allDaySlot.count - 1) : allDaySlot.count,
-          participants: allDaySlot.participants,
-        }
-      }
-    }
-    return schedule
-  }, [meetingData.schedule, me])
+  const dateSchedule = useMemo(() => Object.fromEntries(
+    Object.entries(filteredSchedule).flatMap(([date, slots]) => slots.ALL_DAY ? [[date, slots.ALL_DAY]] : []),
+  ), [filteredSchedule])
 
   return (
-    <Tabs.Content value='calendar'>
-      <div className={styles.Calendar}>
+    <>
+      <div className={styles.CalendarHeading}>
         <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
-        <p className={styles.DetailText}>
-          {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-        </p>
-        <Monthly
-          mode='view'
-          dates={mySelections}
-          availableDates={dates}
-          dateSchedule={dateSchedule}
-          participantsCount={meetingData.summary.totalParticipants}
-          onDateClick={(date) => {
-            setModalState({
-              isOpen: true,
-              date: date.format('YYYY-MM-DD'),
-            })
-          }}
-        />
-        <ParticipantsModal
-          isOpen={modalState.isOpen}
-          onClose={closeModal}
-          date={modalState.date}
-          participants={participants}
-        />
       </div>
-    </Tabs.Content>
+      <Monthly
+        mode='view'
+        dates={[]}
+        availableDates={dates}
+        dateSchedule={dateSchedule}
+        participantsCount={selectedParticipants.length}
+        onDateClick={selectedParticipants.length > 0
+          ? (date) => {
+              setModalState({
+                isOpen: true,
+                date: date.format('YYYY-MM-DD'),
+              })
+            }
+          : undefined}
+      />
+      <ParticipantsModal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        date={modalState.date}
+        participants={participants}
+        allParticipants={selectedParticipants}
+        confirmed={Boolean(meetingData.meeting.confirmedDate)}
+      />
+    </>
   )
 }
 
 function DailyCalendarContent ({
   meetingData,
   dates,
+  filteredSchedule,
+  selectedParticipants,
   availableTimes,
 }: {
   meetingData: get_meetings_$meetingCode_response['data']
   dates: dayjs.Dayjs[]
+  filteredSchedule: get_meetings_$meetingCode_response['data']['schedule']
+  selectedParticipants: Participants
   availableTimes: string[]
 }) {
-  const me = useStore($me)
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const [modalState, setModalState] = useState<{
     isOpen: boolean
     date: string
@@ -740,104 +486,109 @@ function DailyCalendarContent ({
     const scheduleForDate = meetingData.schedule[modalState.date]
     if (!scheduleForDate) return []
     const slotData = scheduleForDate[modalState.time]
-    return slotData?.participants || []
-  }, [modalState, meetingData.schedule])
-
-  const mySelections = useMemo(function initializeSelections () {
-    if (!me) return ({})
-
-    const initialSelections: { [date: string]: string[] } = {}
-
-    for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
-      const selectedTimes: string[] = []
-
-      for (const [time, slot] of Object.entries(timeSlots)) {
-        const isMeIncluded = slot.participants.some(p => p.userId === me.userId)
-        if (isMeIncluded) {
-          selectedTimes.push(time)
-        }
-      }
-
-      if (selectedTimes.length > 0) {
-        initialSelections[date] = selectedTimes
-      }
-    }
-
-    return initialSelections
-  }, [me, meetingData.schedule])
-
-  // schedule에서 자신이 포함된 경우 count를 1 낮춤
-  const schedule = useMemo(() => {
-    if (!me) return meetingData.schedule
-    const processedSchedule: typeof meetingData.schedule = {}
-    for (const [date, timeSlots] of Object.entries(meetingData.schedule)) {
-      processedSchedule[date] = {}
-      for (const [time, slot] of Object.entries(timeSlots)) {
-        const isMeIncluded = slot.participants.some(p => p.userId === me.userId)
-        processedSchedule[date][time] = {
-          ...slot,
-          count: isMeIncluded ? Math.max(0, slot.count - 1) : slot.count,
-        }
-      }
-    }
-    return processedSchedule
-  }, [meetingData.schedule, me])
+    return slotData?.participants.filter(person => selectedParticipants.some(selected => selected.userId === person.userId)) || []
+  }, [modalState, meetingData.schedule, selectedParticipants])
 
   return (
-    <Tabs.Content value='calendar'>
-      <div className={styles.Calendar}>
-        <p className={styles.Title}>{t('meeting.result.calendarTitle')}</p>
-        <p className={styles.DetailText}>
-          {t('meeting.result.totalParticipants', { count: meetingData.summary.totalParticipants })}
-        </p>
-        <Daily
-          dates={dates}
-          availableTimes={availableTimes}
-          selections={mySelections}
-          schedule={schedule}
-          participantsCount={meetingData.summary.totalParticipants}
-          mode='view'
-          onCellClick={handleCellClick}
-        />
-        <ParticipantsModal
-          isOpen={modalState.isOpen}
-          onClose={closeModal}
-          date={modalState.date}
-          time={modalState.time}
-          participants={participants}
-        />
-      </div>
-    </Tabs.Content>
+    <>
+      <Daily
+        heading={t('meeting.result.calendarTitle')}
+        timezone={meetingData.meeting.timezone}
+        dates={dates}
+        availableTimes={availableTimes}
+        selections={{}}
+        schedule={filteredSchedule}
+        participantsCount={selectedParticipants.length}
+        mode='view'
+        onCellClick={selectedParticipants.length > 0 ? handleCellClick : undefined}
+      />
+      <ParticipantsModal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        date={modalState.date}
+        time={modalState.time ? formatTime(modalState.time, locale, '') : ''}
+        participants={participants}
+        allParticipants={selectedParticipants}
+        confirmed={Boolean(meetingData.meeting.confirmedDate)}
+      />
+    </>
   )
 }
 
-// 참여자 탭 컴포넌트
-function ParticipantsContent ({
-  participants,
-}: {
-  participants: get_meetings_$meetingCode_response['data']['participants']
-}) {
-  const { t } = useTranslation()
+type Participants = get_meetings_$meetingCode_response['data']['participants']
 
+function ParticipantGroup ({ label, participants, status, compact = false }: { label: string, participants: Participants, status: string, compact?: boolean }) {
+  const { t } = useTranslation()
+  const [expanded, setExpanded] = useState(false)
+  if (participants.length === 0) return null
+  const visible = expanded ? participants : participants.slice(0, 6)
+  return (
+    <section className={styles.ResponseGroup} data-response-group={status} aria-label={compact ? label : undefined}>
+      {!compact && <h3 className={styles.ResponseGroupHeading}>{label}<span>{t('meeting.result.participantsCount', { count: participants.length })}</span></h3>}
+      <ul className={styles.ResponsePeople}>
+        {visible.map(person => (
+          <li key={person.userId} className={styles.ParticipantItem}>
+            <Avatar src={person.profileImageUrl} name={person.username} size={32} />
+            <bdi className={styles.ParticipantName}>{person.username}</bdi>
+          </li>
+        ))}
+      </ul>
+      {participants.length > 6 && (
+        <button type='button' className={styles.ResponseLink} aria-expanded={expanded} onClick={() => setExpanded(value => !value)}>
+          {t(expanded ? 'meeting.unavailable.lessPeople' : 'meeting.unavailable.morePeople', { count: participants.length - 6 })}
+        </button>
+      )}
+    </section>
+  )
+}
+
+function AttendanceGroups ({ participants, selected, confirmed = false, compact = false }: { participants: Participants, selected: Participants, confirmed?: boolean, compact?: boolean }) {
+  const { t } = useTranslation()
+  const selectedIds = new Set(selected.map(person => person.userId))
+  const others = participants.filter(person => !selectedIds.has(person.userId))
+  return (
+    <div className={styles.ResponseGroups}>
+      <ParticipantGroup status='available' label={t(confirmed ? 'meeting.result.attendance.available' : 'meeting.unavailable.picked')} participants={selected} compact={compact} />
+      {confirmed
+        ? <ParticipantGroup status='unavailable' label={t('meeting.result.attendance.unavailable')} participants={others} />
+        : (
+            <>
+              <ParticipantGroup status='other' label={t('meeting.unavailable.otherSelection')} participants={others.filter(person => !person.availabilityResponse)} />
+              <ParticipantGroup status='none' label={t('meeting.unavailable.noneStatus')} participants={others.filter(person => person.availabilityResponse === 'NONE')} />
+              <ParticipantGroup status='pending' label={t('meeting.unavailable.pending')} participants={others.filter(person => person.availabilityResponse === 'NEEDS_RESPONSE')} />
+            </>
+          )}
+    </div>
+  )
+}
+
+function ParticipantsContent ({ meetingData }: { meetingData: get_meetings_$meetingCode_response['data'] }) {
+  const { t } = useTranslation()
+  const { participants, meeting } = meetingData
+  const confirmed = Boolean(meeting.confirmedDate)
+  const confirmedTime = getConfirmedAvailabilityTime(meeting)
+  const confirmedParticipants = meeting.confirmedDate
+    ? meetingData.summary.bestSlots.find(slot => slot.date === meeting.confirmedDate && slot.time.split(' ~ ')[0] === confirmedTime)?.participants
+    ?? meetingData.schedule[meeting.confirmedDate]?.[confirmedTime]?.participants ?? []
+    : []
   return (
     <Tabs.Content value='participants'>
-      <div className={styles.Card}> {/* Card 클래스 적용 */}
+      <div className={styles.Card}>
         <div className={styles.Summary}>
-          <p className={styles.Title}>{t('meeting.result.tabs.participants')}</p>
-          <p className={styles.DetailText}>
-            {t('meeting.result.participantsCount', { count: participants.length })}
-          </p>
-          <ul className={styles.ParticipantsList}>
-            {participants.map(participant => (
-              <li key={participant.userId} className={styles.ParticipantItem}>
-                <Avatar
-                  src={participant.profileImageUrl}
-                  name={participant.username}
-                />
-                <span className={styles.ParticipantName}>{participant.username}</span>
-              </li>
-            ))}
-          </ul>
+          <div className={styles.ParticipantsHeading}>
+            <p className={styles.Title}>{t('meeting.unavailable.respondents')}</p>
+            <p className={styles.DetailText}>{t('meeting.result.participantsCount', { count: participants.length })}</p>
+          </div>
+          {confirmed && <p className={styles.ResponseBasis}>{t('meeting.unavailable.basis')}</p>}
+          {participants.length === 0 && <p className={styles.DetailText}>{t('meeting.participantsEmpty')}</p>}
+          {confirmed
+            ? <AttendanceGroups participants={participants} selected={confirmedParticipants} confirmed />
+            : (
+                <div className={styles.ResponseGroups}>
+                  <ParticipantGroup status='selected' label={t('meeting.unavailable.selected')} participants={participants.filter(person => !person.availabilityResponse)} />
+                  <ParticipantGroup status='none' label={t('meeting.unavailable.noneStatus')} participants={participants.filter(person => person.availabilityResponse)} />
+                </div>
+              )}
         </div>
       </div>
     </Tabs.Content>
@@ -902,19 +653,7 @@ function LocationContent ({
                     </span>
                   </div>
 
-                  {location.voters.length > 0 && (
-                    <div className={styles.LocationVoters}>
-                      {location.voters.map(voter => (
-                        <div key={voter.userId} className={styles.LocationVoterWrapper}>
-                          <Avatar
-                            src={voter.profileImageUrl}
-                            name={voter.username}
-                            size={24}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  <LocationVoters voters={location.voters} />
                 </li>
               )
             })}

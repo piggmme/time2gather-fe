@@ -1,0 +1,54 @@
+// Language-aware line breaking. Keep Korean eojeol together, while other
+// scripts use the browser's language-specific word/dictionary boundaries.
+html,
+body {
+  font-family: var(--font-ui, system-ui, sans-serif);
+}
+
+input, button, textarea, select, summary, [role='tab'] {
+  font-family: var(--font-controls, var(--font-ui, system-ui, sans-serif));
+}
+
+:root,
+[lang] {
+  --text-word-break: normal;
+  --text-line-break: auto;
+}
+
+:lang(ko) { --text-word-break: keep-all; --text-line-break: strict; }
+:lang(ja), :lang(zh) { --text-line-break: strict; }
+
+body {
+  line-height: var(--font-body-line-height, 1.6);
+  word-break: var(--text-word-break, normal);
+  line-break: var(--text-line-break, auto);
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4, h5, h6, p, button, label, summary, [role='tab'] {
+  word-break: var(--text-word-break, normal);
+  line-break: var(--text-line-break, auto);
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+// Automatic phrase boundaries are progressive enhancement. Browsers without
+// support retain normal Japanese/Chinese breaking and strict punctuation rules.
+@supports (word-break: auto-phrase) {
+  :lang(ja), :lang(zh) { --text-word-break: auto-phrase; }
+}
+
+// Tight Latin-style tracking and short line boxes can crowd joining scripts
+// and Indic vowel marks. Preserve the language's natural glyph spacing.
+html:root:is(:lang(ar), :lang(ur), :lang(hi), :lang(mr), :lang(bn), :lang(te), :lang(th)) :is(h1, h2, h3, h4, h5, h6) {
+  letter-spacing: normal;
+  line-height: var(--font-heading-line-height, 1.4);
+}
+
+// Leave room for Urdu joining marks in compact calendar and form controls.
+html:root:lang(ur) :is(input, button, textarea, select, summary, [role='tab']) {
+  line-height: 1.6;
+  letter-spacing: normal;
+}

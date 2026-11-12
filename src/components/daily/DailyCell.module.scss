@@ -1,29 +1,8 @@
 @use "../../styles/variables.scss" as *;
 
-// =====================================================
-// Grid Cell Design Tokens
-// =====================================================
-$cell-border: 1px solid rgba($c-gray, 0.25); // 30분 구분선
-$cell-border-hour: 1px solid rgba($c-gray-dark, 0.22); // 정각 구분선
+$cell-border: 1px solid rgba($c-gray, 0.25);
+$cell-border-hour: 1px solid rgba($c-gray-dark, 0.22);
 $cell-bg: rgba($c-gray-lightest, 0.72);
-$cell-bg-hover: rgba($primary-color, 0.08);
-
-// 선택된 상태: 선명하지만 과하지 않은 블루 타일
-$cell-selected-bg: linear-gradient(135deg, $primary-color, $c-blue);
-$cell-selected-shadow: inset 0 0 0 1px rgba($c-white, 0.2), 0 3px 8px rgba($primary-color, 0.18);
-
-// 애니메이션
-@keyframes popIn {
-  0% { transform: scale(0.9); opacity: 0.5; }
-  60% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-@keyframes pulseSoft {
-  0% { background-color: rgba($primary-color, 0.4); }
-  50% { background-color: rgba($primary-color, 0.2); }
-  100% { background-color: rgba($primary-color, 0.4); }
-}
 
 .cell {
   appearance: none;
@@ -31,31 +10,24 @@ $cell-selected-shadow: inset 0 0 0 1px rgba($c-white, 0.2), 0 3px 8px rgba($prim
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
-  
   padding: 0;
   margin: 0;
   border-radius: 0;
-  
-  // 버튼 기본 테두리를 제거하고 시간 행 구분선만 표시
   border: 0;
   border-top: $cell-border;
   background: transparent;
-  
-  transition: color $transition-fast;
-  
+  transition: color 140ms ease-out;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  
   height: 44px;
   min-height: 44px;
   width: 100%;
-  
   box-sizing: border-box;
   flex-shrink: 0;
   font-size: $font-size-sm;
-  color: $c-white;
+  color: $c-gray-darkest;
   touch-action: auto;
   position: relative;
   isolation: isolate;
@@ -65,23 +37,20 @@ $cell-selected-shadow: inset 0 0 0 1px rgba($c-white, 0.2), 0 3px 8px rgba($prim
     --heat-border: #c6dcfa;
     --heat-text: #334155;
   }
-
   &[data-heat-level='2'] {
-    --heat-bg: #d4e6ff;
-    --heat-border: #8dbaf5;
-    --heat-text: #244b78;
+    --heat-bg: #e1edff;
+    --heat-border: #bfd6f5;
+    --heat-text: #24466f;
   }
-
   &[data-heat-level='3'] {
-    --heat-bg: #9fc5f8;
-    --heat-border: #4b8fe8;
-    --heat-text: #153d70;
+    --heat-bg: #cee2fc;
+    --heat-border: #a6c8f2;
+    --heat-text: #204775;
   }
-
   &[data-heat-level='4'] {
-    --heat-bg: #3478d4;
-    --heat-border: #1e5fb9;
-    --heat-text: #ffffff;
+    --heat-bg: #b9d5fa;
+    --heat-border: #89b6ee;
+    --heat-text: #183f70;
   }
 
   &::before {
@@ -91,12 +60,15 @@ $cell-selected-shadow: inset 0 0 0 1px rgba($c-white, 0.2), 0 3px 8px rgba($prim
     z-index: 0;
     border-radius: $radius-sm;
     background: $cell-bg;
-    transition: background-color $transition-fast, box-shadow $transition-fast, transform $transition-fast, filter $transition-fast;
+    transition: background-color 140ms ease-out;
+    pointer-events: none;
   }
 
   .cellText {
     position: relative;
     z-index: 1;
+    max-width: 100%;
+    padding-inline: 6px;
     font-variant-numeric: tabular-nums;
   }
 
@@ -107,107 +79,85 @@ $cell-selected-shadow: inset 0 0 0 1px rgba($c-white, 0.2), 0 3px 8px rgba($prim
   }
 
   @media (hover: hover) and (pointer: fine) {
-    &:hover:not(.selected):not(.hasCount)::before {
-      background: $cell-bg-hover;
-      box-shadow: inset 0 0 0 1px rgba($primary-color, 0.1);
+    &:hover:not(.selected):not(.hasCount):not(:disabled)::before {
+      background: rgba($primary-color, 0.08);
     }
   }
 
-  // 탭 시 active 피드백
-  &:active:not(.viewMode)::before {
-    background: rgba($primary-color, 0.15);
-    transform: scale(0.96);
+  &.fullHour { border-top: $cell-border-hour; }
+
+  &.hasCount {
+    color: var(--heat-text, $c-gray-darkest);
+    font-weight: $font-weight-medium;
+    &::before { background: var(--heat-bg, $c-blue-soft); }
   }
 
-  // ===== 상태 스타일 =====
-
+  // One outline per continuous range; fill always describes participant availability.
   &.selected {
     z-index: 1;
-
     &::before {
-      background: $cell-selected-bg;
-      box-shadow: $cell-selected-shadow;
+      inset-block: -1px 0;
+      border-radius: 0;
+      border-inline: 1.5px solid $primary-color-hover;
+      background: var(--heat-bg, $cell-bg);
+    }
+    &.selectionStart::before {
+      inset-block-start: 3px;
+      border-block-start: 1.5px solid $primary-color-hover;
+      border-start-start-radius: $radius-sm;
+      border-start-end-radius: $radius-sm;
+    }
+    &.selectionEnd::before {
+      inset-block-end: 3px;
+      border-block-end: 1.5px solid $primary-color-hover;
+      border-end-start-radius: $radius-sm;
+      border-end-end-radius: $radius-sm;
     }
   }
 
-  // 방금 선택된 셀 애니메이션 (Pop effect)
-  &.justSelected::before {
-    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  .selectionCheck {
+    position: absolute;
+    inset-block-start: 5px;
+    inset-inline-end: 7px;
+    width: 11px;
+    height: 11px;
+    z-index: 1;
+    color: $primary-color-hover;
+    pointer-events: none;
   }
 
-  // 정각 구분선: 더 진한 테두리
-  &.fullHour {
-    border-top: $cell-border-hour;
+  // Preview my range without adding it to the saved participant count.
+  &.dragHighlighted::after {
+    content: '';
+    position: absolute;
+    inset: 0 6px;
+    background: rgba($primary-color, 0.05);
+    pointer-events: none;
   }
+  &.dragHighlighted.selectionStart::after { inset-block-start: 6px; }
+  &.dragHighlighted.selectionEnd::after { inset-block-end: 6px; }
+  &.dragDeselect::after { inset: 3px 4px; border-radius: $radius-sm; background: rgba($c-white, 0.36); }
 
-  // ===== 투표 결과 보기 모드 (Count) =====
-  
-  // 참여 비율 기반 단색 히트맵
-  &.hasCount:not(.selected) {
-    color: var(--heat-text, $c-gray-darkest);
-    font-weight: $font-weight-semibold;
-
-    &::before {
-      background: var(--heat-bg, $c-blue-soft);
-      box-shadow: inset 0 0 0 1px var(--heat-border, rgba($primary-color, 0.2));
-    }
-    
-    &:hover::before {
-      filter: brightness(1.03);
-    }
-  }
-
-  // 내 선택은 색을 섞지 않고 보라색 테두리로만 구분한다.
-  &.hasCount.selected {
-    color: var(--heat-text, $c-gray-darkest);
-    font-weight: $font-weight-semibold;
-
-    &::before {
-      background: var(--heat-bg, $c-blue-soft);
-      box-shadow:
-        inset 0 0 0 2px $c-purple,
-        inset 0 0 0 3px rgba($c-white, 0.58);
-    }
-  }
-
-  // 뷰어 모드
   &.viewMode {
     cursor: default;
-
-    &:hover::before {
-      filter: none;
+    &.hasCount {
+      font-weight: $font-weight-semibold;
+      &:not(.selected)::before { box-shadow: inset 0 0 0 1px var(--heat-border, rgba($primary-color, 0.2)); }
     }
-
     &.interactive {
       cursor: pointer;
-
-      &:hover::before {
-        filter: brightness(1.03);
-      }
-
-      &:hover {
-        outline: 2px solid rgba($primary-color, 0.45);
-        outline-offset: -2px;
-      }
+      &:hover { outline: 2px solid rgba($primary-color, 0.45); outline-offset: -2px; }
     }
   }
 
-  // ===== 드래그 인터랙션 =====
-
-  // 드래그 중 하이라이트 (선택 모드)
-  &.dragHighlighted.dragSelect {
-    &::before {
-      background: rgba($primary-color, 0.45);
-      box-shadow: inset 0 0 0 2px rgba($primary-color, 0.32);
-      animation: pulseSoft 1s infinite;
-    }
+  &:disabled:not(.viewMode) {
+    cursor: default;
+    &::before { background: transparent; box-shadow: none; border: 0; }
   }
+}
 
-  // 드래그 중 하이라이트 (해제 모드)
-  &.dragHighlighted.dragDeselect {
-    &::before {
-      background: rgba($c-gray-dark, 0.24);
-      box-shadow: inset 0 0 0 2px rgba($c-gray-darkest, 0.12);
-    }
-  }
+.localTime { display: block; max-width: 100%; padding-inline: 4px; font-size: 11px; line-height: 1.15; color: inherit; overflow-wrap: anywhere; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cell, .cell::before { transition: none; }
 }

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro'
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../i18n'
 import Button from '../components/Button/Button'
 
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale
 const t = getTranslations(locale)
 
 const title = t('404.title')
@@ -11,22 +11,24 @@ const description = t('404.description');
 ---
 <Layout title={title} description={description}>
   <main>
-    <h1>{title} 😭</h1>
-    <p>{description}</p>
-    <Button as='a' href='/' buttonType='ghost'>
+    <h1 data-i18n='404.title'>{title}</h1>
+    <p data-i18n='404.description'>{description}</p>
+    <Button as='a' href='/' buttonType='ghost' data-i18n='404.homeButton'>
       {t('404.homeButton')}
     </Button>
   </main>
 </Layout>
 
-<style>
+<style lang='scss'>
+  @use '../styles/variables.scss' as *;
   main {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
   }
+  h1 { margin: 0 0 $spacing-sm; }
   p {
-    margin-bottom: 50px;
-    word-break: keep-all;
+    margin: 0 0 $spacing-lg;
+    word-break: var(--text-word-break, normal);
   }
 </style>

@@ -5,7 +5,7 @@ import { meetings } from '../../../services/meetings';
 import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../../i18n';
 
 const meetingCode = Astro.params.meetingCode as string;
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers) || defaultLocale;
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale;
 const t = getTranslations(locale);
 
 let data;
@@ -13,16 +13,22 @@ try {
   const response = await meetings.$meetingCode.get(meetingCode);
   data = response.data;
 } catch (error) {
-  return Astro.redirect('/404');
+  return Astro.redirect(`/404?lang=${locale}`);
 }
 ---
 
-<Layout title={`${t('meeting.editDates.title')} - ${data.meeting.title}`}>
+<Layout title={`${t(data.meeting.selectionType === 'TIME' ? 'meeting.editDates.timeTitle' : 'meeting.editDates.title')} - ${data.meeting.title}`}>
   <main>
     <EditVotingDatesPage
       client:only="react"
       meetingCode={meetingCode}
       initialDates={Object.keys(data.meeting.availableDates)}
+      availableDates={data.meeting.availableDates}
+      selectionType={data.meeting.selectionType}
+      timezone={data.meeting.timezone}
+      intervalMinutes={data.meeting.intervalMinutes}
+      candidateVersion={data.candidateVersion}
+      locationVote={data.locationVote}
     />
   </main>
 </Layout>

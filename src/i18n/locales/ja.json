@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "前へ",
+    "cancel": "キャンセル",
+    "next": "次へ",
+    "home": "ホーム",
+    "createMeeting": "予定を作成",
+    "searchMeeting": "予定を探す",
+    "searchMeetingPlaceholder": "予定コード",
+    "searchMeetingButton": "予定を探す",
+    "myMeetings": "自分の予定",
+    "adminDashboard": "管理者ダッシュボード",
+    "contactUs": "お問い合わせ",
+    "menu": "メニュー",
+    "openMenu": "メニューを開く",
+    "submit": "送信する",
+    "share": "シェアする",
+    "close": "閉じる",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました。もう一度試してください。",
+    "switchToEnglish": "英語に切り替える",
+    "switchToKorean": "韓国語に切り替える",
+    "language": "言語",
+    "searchLanguages": "言語を選択してください"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "ようこそ！ 👋",
+    "description": "今では計画を立てるのにわずか 5 秒しかかかりません。タイムスロットを共有し、投票を集めれば、全員にとって最適な時間がすぐにわかります。",
+    "createMeetingButton": "予定を作成する",
+    "heroTitleSuffix": " — スケジュールを簡単に立てる",
+    "heroSubtitle": "複雑なスケジュール管理に別れを告げましょう。友達と最高の時間を見つけてください。",
+    "viewMyMeetings": "私のミーティングを見る"
+  },
+  "landing": {
+    "eyebrow": "全員のスケジュールを 1 か所で調整",
+    "title": "予定のスケジュール設定を簡単にする",
+    "description": "Time2Gather は、日付、時間、場所に投票して、全員にとって都合の良い予定時間を見つけるための無料のスケジュール サービスです。",
+    "primaryCta": "予定を作成する",
+    "secondaryCta": "コードで探す",
+    "featuresHeading": "予定を調整するために必要なものすべて",
+    "features": {
+      "dates": {
+        "title": "複数の日付を比較する",
+        "description": "候補日を選択し、参加者とすぐに共有します。"
+      },
+      "times": {
+        "title": "利用可能な時間帯に投票する",
+        "description": "詳細な空き状況を収集して、ほとんどの人にとって都合のよい時間を見つけます。"
+      },
+      "locations": {
+        "title": "場所も決めよう",
+        "description": "グループが集合場所を選択する必要がある場合は、場所のオプションを追加します。"
+      },
+      "sharing": {
+        "title": "1 つのリンクから参加する",
+        "description": "リンクを共有すると、参加者はニックネームだけですぐに投票できます。"
+      }
+    },
+    "stepsHeading": "3つのステップで計画を立てる",
+    "steps": {
+      "create": {
+        "title": "1. オプションを作成する",
+        "description": "予定のタイトルと比較する日付または時刻を設定します。"
+      },
+      "share": {
+        "title": "2. リンクを共有する",
+        "description": "リンクを友人、チームメイト、またはグループに送信します。"
+      },
+      "decide": {
+        "title": "3. 結果を確認する",
+        "description": "投票を確認して、全員にとって最適な時間を選択してください。"
+      }
+    },
+    "faqHeading": "よくある質問",
+    "faq": {
+      "what": {
+        "question": "友人との集まりやチーム会議の日程をどう調整できますか？",
+        "answer": "Time2Gatherで日時の候補を作り、リンクを共有します。各自が都合のよい日程を選んだら、結果を比較して予定を確定できます。友人の集まり、勉強会、チーム会議に無料で使えます。"
+      },
+      "login": {
+        "question": "会員登録やアプリのインストールなしで作成・参加できますか？",
+        "answer": "はい。主催者も参加者も名前を入力するだけで、会員登録やSNSログインは不要です。スマートフォンやパソコンのブラウザーで予定の作成と投票ができます。"
+      },
+      "location": {
+        "question": "集まる場所も投票できますか？",
+        "answer": "はい。予定を作る際に場所の投票を有効にして候補を追加します。参加者は希望の場所に投票し、コメントで相談できます。"
+      }
+    }
+  },
+  "login": {
+    "title": "スケジュールの準備はできていますか?",
+    "description": "サインインして予定を作成および管理します。",
+    "kakaoLogin": "カカオで続ける",
+    "googleLogin": "Google を続ける",
+    "oauth": {
+      "loadingTitle": "サインインする",
+      "loadingDescription": "すぐに前の画面に戻ります。",
+      "errorTitle": "サインインできませんでした",
+      "errorDescription": "サインイン ページに戻って、もう一度試してください。",
+      "retry": "もう一度サインインしてみてください"
+    }
+  },
+  "search": {
+    "title": "予定を探す",
+    "description": "受け取った予定コードを入力します。"
+  },
+  "createMeeting": {
+    "title": "予定を作成する",
+    "meetingTypeStep": {
+      "heading": "投票する内容を選んでください",
+      "allDay": "日付のみ",
+      "time": "日付と時刻"
+    },
+    "titleStep": {
+      "heading": "予定の名前を入力してください",
+      "placeholder": "例: 金曜日のディナー"
+    },
+    "descriptionStep": {
+      "heading": "これはどのような予定ですか?",
+      "placeholder": "皆さん、江南でお会いしましょう！"
+    },
+    "datesStep": {
+      "heading": "候補日を選んでください"
+    },
+    "timeRangeStep": {
+      "heading": "利用可能な時間範囲を設定する",
+      "startTime": "開始時間",
+      "endTime": "終了時刻",
+      "selectedDatesCount": "選択した日付: {count}",
+      "createButton": "予定を作成する"
+    },
+    "locationStep": {
+      "heading": "予定の作成を完了する",
+      "requiredLabel": "必須",
+      "creatorHeading": "この予定を作成しているのは誰ですか?",
+      "creatorDescription": "あなたのニックネームが予定の主催者として表示されます。",
+      "usernameLabel": "あなたのニックネーム",
+      "usernamePlaceholder": "例：ジェイミー",
+      "usernameChangeHelp": "名前を変更すると、既存の予定と投票が保持され、表示名のみが更新されます。",
+      "optionalLabel": "オプション",
+      "locationHeading": "ロケ地投票をしてみませんか？",
+      "locationDescription": "参加者に一緒に場所を選んでもらいたい場合はオンにします。",
+      "enableLocationVote": "参加者に場所について投票してもらう",
+      "locationPlaceholder": "場所を入力してください",
+      "addLocation": "場所を追加",
+      "removeLocation": "場所の削除",
+      "minLocationsWarning": "場所投票には少なくとも 2 つの場所が必要です",
+      "maxLocationsWarning": "追加できる場所は 5 つまでです",
+      "createButton": "予定を作成",
+      "creatingButton": "予定を作成しています...",
+      "skipButton": "スキップ"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "予定が見つかりません",
+      "description": "リクエストした予定は存在しないか、削除されています。"
+    },
+    "participantsEmpty": "まだ参加者はいません。",
+    "participantsCount": "参加者: {count}",
+    "participantsCountCompact": "{count} 参加中",
+    "selectedDates": "{count} のオプションからご都合のよい日付を選択してください。",
+    "selectedDatesAndTimes": "{count} の日付オプションからご都合のよい日付と時刻を選択してください。",
+    "timeGrid": {
+      "timeLabel": "時間",
+      "touchHint": "押したままドラッグして複数回選択します",
+      "pointerHint": "ドラッグして一度に複数回選択します",
+      "draggingHint": "ドラッグして放すと選択内容が適用されます",
+      "selectDate": "{date} のすべての時間を選択してください",
+      "previousDates": "前の日付",
+      "nextDates": "次の日付"
+    },
+    "dateCalendar": {
+      "mySelection": "自分の選択",
+      "fewerVotes": "投票が少ない",
+      "moreVotes": "投票が多い",
+      "available": "利用可能",
+      "unavailable": "利用不可",
+      "today": "今日",
+      "availableMonths": "空き日のある月",
+      "monthAvailability": "{count} {month} の利用可能な日付",
+      "previousMonth": "前月",
+      "nextMonth": "来月"
+    },
+    "dateParticipants": {
+      "title": "{date}で入手可能",
+      "count": {
+        "one": "{count}人",
+        "other": "{count}人"
+      }
+    },
+    "resultSaved": "結果は保存されました。",
+    "modifyButton": "空き状況を編集する",
+    "participate": "予定に参加する",
+    "shareResult": "結果を共有する",
+    "shareMeeting": "シェアミーティング",
+    "shareSuccess": "リンクがコピーされました。",
+    "exportToCalendar": "マイカレンダーに追加",
+    "confirmButton": "予定を確定",
+    "confirmButtonShort": "予定を確定",
+    "cancelConfirmButton": "確定を取り消す",
+    "cancelConfirmSuccess": "予定の確認はキャンセルされました!",
+    "cancelConfirmError": "確認のキャンセルに失敗しました。もう一度試してください。",
+    "alreadyConfirmedError": "この予定はすでに確認されています。投票を変更することはできません。",
+    "editDates": {
+      "openButton": "投票候補を編集",
+      "hostOnly": "ホストのみ",
+      "title": "投票候補を編集",
+      "description": "参加者全員が投票する候補を変更します。",
+      "selectedCount": "{count} の日付が選択されました",
+      "selectionHint": "タップまたはドラッグして日付を選択します。",
+      "removedWarning": "{count} の削除日の投票は保存時に削除されます。",
+      "maxDates": "最大 {count} の日付を選択できます。",
+      "save": "候補を保存",
+      "success": "投票候補を更新しました。",
+      "error": "投票候補を更新できませんでした。もう一度お試しください。",
+      "timeOpenButton": "投票候補を編集",
+      "timeTitle": "投票候補を編集",
+      "timeDescription": "参加者全員が投票する候補を変更します。",
+      "timeSave": "候補を保存",
+      "timeSuccess": "投票候補を更新しました。",
+      "timeError": "投票候補を更新できませんでした。もう一度お試しください。",
+      "timeRangeHint": "時間帯を変更すると、選択したすべての日付に適用されます。",
+      "timeRemovedWarning": "保存すると、除外した時間候補{count}件への投票が削除されます。ほかの投票は保持されます。",
+      "locationRemovedWarning": "変更または削除した場所候補{count}件の投票は保存時に削除されます。ほかの投票は保持されます。"
+    },
+    "exportDialog": {
+      "title": "カレンダーに追加",
+      "description": "カレンダーに追加する日付と時刻を選択します。",
+      "noSlots": "まだ日付は投票されていません。",
+      "allDay": "一日中",
+      "cancel": "キャンセル",
+      "confirm": "カレンダーに追加",
+      "close": "閉じる"
+    },
+    "confirmDialog": {
+      "title": "予定を確定",
+      "description": "最終的な日時を選んでください。候補数：{count}。",
+      "noSlots": "まだ日付は投票されていません。",
+      "allDay": "一日中",
+      "scheduleTitle": "日付と時刻",
+      "scheduleDescription": "これらのオプションは、ほとんどの参加者に有効です。",
+      "locationTitle": "場所",
+      "locationDescription": "投票結果を使用して集合場所を選択します。",
+      "locationStepDescription": "集合場所を選択してプランの確認を完了します。",
+      "progressLabel": "予定の確認手順",
+      "locationVoteCount": {
+        "one": "{count}票",
+        "other": "{count}票"
+      },
+      "noLocations": "確認できる場所はありません。",
+      "cancel": "キャンセル",
+      "confirm": "確定",
+      "confirming": "確認中...",
+      "close": "閉じる",
+      "success": "打ち合わせが決定しました！",
+      "error": "予定の確認に失敗しました。もう一度試してください。",
+      "allCandidatesDescription": "全{count}件の候補から最終日時を選んでください。",
+      "groupedDescription": "{count}日分の候補から日付を選び、開始時刻を選んでください。",
+      "recommendationsDescription": "参加できる人数が多い候補を、日付ごとに1つおすすめしています。",
+      "allDates": "全{count}日から選ぶ",
+      "backToRecommendations": "おすすめの候補を見る"
+    },
+    "anonymousSelectButton": "名前を付けて参加する",
+    "selectButton": "日付を選択してください",
+    "selectTimeButton": "日付と時刻を選択してください",
+    "result": {
+      "tabs": {
+        "aiSummary": "概要",
+        "summary": "概要",
+        "confirmed": "確定したプラン",
+        "calendar": "カレンダー",
+        "participants": "参加者",
+        "location": "場所"
+      },
+      "summaryTitle": "予定の概要",
+      "aiSummaryTitle": "投票結果の概要",
+      "calendarTitle": "予定カレンダー",
+      "totalParticipants": "参加者: {count}",
+      "bestSlotsTitle": "参加できる人が多い日付",
+      "showMoreOptions": "{count} もっと見る",
+      "showFewerOptions": "表示を少なくする",
+      "moreTimeOptions": "{count} その他の時間オプション",
+      "participantsCount": "参加者: {count}",
+      "people": "人々",
+      "voteCount": {
+        "one": "{count}人 ({percentage})",
+        "other": "{count}人 ({percentage})"
+      },
+      "noParticipants": "参加者なし",
+      "buttons": {
+        "calendar": "カレンダーに追加",
+        "share": "日程調整を共有",
+        "shareConfirmed": "確定したプランを共有する",
+        "shareKakao": "カカオトーク",
+        "modifyDates": "選択した日付を編集する",
+        "modifyTimes": "選択した日付と時刻を編集する",
+        "selectDates": "空いている日付を選択してください",
+        "selectTimes": "空いている日付と時間を選択してください",
+        "enterAvailability": "空き状況を追加",
+        "editAvailability": "自分の回答を変更"
+      },
+      "confirmedPlan": {
+        "eyebrow": "予定確定",
+        "title": "予定が確定しました",
+        "date": "日付",
+        "time": "時間",
+        "location": "場所",
+        "attendees": "参加できる人",
+        "attendanceSummary": {
+          "one": "グループの人 {count}・{percentage}",
+          "other": "グループの {count} 人 · {percentage}"
+        },
+        "confirmTime": "時間を確定",
+        "confirmTimeTitle": "集合時間を確定",
+        "confirmTimeDescription": "確定した日付に実際に集まる時間を選んでください。",
+        "timeConfirmSuccess": "集合時間を確定しました。",
+        "timeConfirmError": "集合時間を確定できませんでした。もう一度お試しください。",
+        "timePending": "未定",
+        "editTime": "編集",
+        "editTimeTitle": "集合時間を変更",
+        "editTimeDescription": "確定した日付はそのままで、実際に集まる時間を設定してください。",
+        "saveTime": "保存",
+        "savingTime": "保存中...",
+        "timeUpdateSuccess": "集合時間を更新しました。",
+        "timeUpdateError": "集合時間を更新できませんでした。もう一度お試しください。",
+        "addTime": "時間を追加（任意）",
+        "addTimeTitle": "時間を追加",
+        "optionalTimeDescription": "必要な場合だけ時間を追加してください。",
+        "attendanceCount": "{total}人中{count}人が参加可能",
+        "cancelTitle": "確定を取り消しますか？",
+        "cancelDescription": "確定した日程を解除します。参加者の回答は保持されます。",
+        "keepConfirmation": "確定を維持"
+      },
+      "actions": {
+        "confirmed": "確定した予定",
+        "confirmedDescription": "詳細を共有するか、カレンダーに追加してください。",
+        "inProgress": "計画中",
+        "manage": "日程調整を管理"
+      },
+      "share": {
+        "confirmedTitle": "{title}が確認されました",
+        "confirmedHeading": "計画が確定しました！",
+        "detailsCopied": "確認した内容とリンクをコピーしました。",
+        "manualCopyDescription": "自動で共有またはコピーできませんでした。以下のテキストを選択してコピーしてください。"
+      },
+      "kakaoShare": {
+        "description": "ご都合のよい時間をお選びください。",
+        "buttonTitle": "投票に参加してください",
+        "confirmedTitle": "{date} · 確認しました",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "確定したプランを見る",
+        "locationPending": "場所は保留中"
+      },
+      "attendance": {
+        "available": "参加可能",
+        "unavailable": "参加不可",
+        "everyoneAvailable": "全員参加できます",
+        "noneAvailable": "参加できる人はいません"
+      },
+      "bestTimesTitle": "参加できる人が多い時間",
+      "availabilityBasis": "{count}人の回答をもとに表示しています。",
+      "allAvailable": "{count}人全員が参加可能",
+      "someAvailable": "{total}人中{count}人が参加可能",
+      "viewSlotPeople": "候補を押すと参加できる人を確認できます。",
+      "decision": {
+        "allHeadline": "{count}人{availability}",
+        "allHeadlineHighlight": "全員が参加できます",
+        "allDates": "{count}人全員が参加できる日",
+        "allTimes": "{count}人全員が参加できる時間",
+        "partial": "最大{count}人が参加できます",
+        "basis": "現在入力されている参加可能日時に基づきます",
+        "notAll": "全員に合う候補はまだありません。",
+        "emptyDates": "選択された日付はありません",
+        "emptyTimes": "選択された時間はありません",
+        "pending": "新しい候補への回答を待っています",
+        "allUnavailable": "回答した{count}人全員が、提示された候補では都合がつかないと回答しました。",
+        "notSelected": "この候補を選択しなかった人",
+        "people": "参加可能な人を見る",
+        "chooseDate": "この日付で予定を決める",
+        "chooseTime": "この時間で予定を決める",
+        "confirmedDate": "予定の日付が決まりました",
+        "setMeeting": "予定を確定"
+      },
+      "calendarFilter": {
+        "selectAll": "すべて選択",
+        "selectedCount": "{total}人中{selected}人を選択",
+        "selectPrompt": "参加者を選ぶと、空き予定を確認できます。",
+        "noAvailability": "選択した参加者の空き予定はありません。"
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "サインインしていません",
+        "description": "サインインせずに名前を入力して参加します。",
+        "kakaoLoginButton": "カカオで続ける",
+        "loginButton": "サインイン",
+        "anonymousLogin": "参加する名前を入力してください"
+      },
+      "description": "この予定に使用する名前を入力します。",
+      "votingAs": "{username}として参加しています。",
+      "votingAsCompact": "{username}として参加",
+      "usernamePlaceholder": "名前",
+      "anonymousLogin": "この名前で参加してください"
+    },
+    "identity": {
+      "label": "この集まりで使う名前",
+      "hint": "名前の変更はこの集まりにのみ適用されます。",
+      "change": "名前を変更"
+    },
+    "unavailable": {
+      "dates": "都合のよい日がありません",
+      "times": "都合のよい時間がありません",
+      "hint": "どの候補も都合がつかない場合に選択してください。",
+      "selectedHint": "どの候補も都合がつかないことを伝えます。後から変更できます。",
+      "changed": "候補日が変更されました。ページを更新して、もう一度回答してください。",
+      "respondents": "回答した人",
+      "datesStatus": "都合のよい日なし",
+      "timesStatus": "都合のよい時間なし",
+      "pending": "新しい候補への回答が必要",
+      "selected": "日程を選択",
+      "noneStatus": "都合の合う日程なし",
+      "picked": "参加できる人",
+      "emptyTitle": "まだおすすめの日程はありません",
+      "emptyHint": "他の参加者の回答を待ちましょう。",
+      "viewPeople": "参加者を見る",
+      "morePeople": "あと{count}人を表示",
+      "lessPeople": "閉じる",
+      "basis": "確定した日程への投票回答に基づく表示です。",
+      "otherSelection": "別の日程を選択"
+    }
+  },
+  "my": {
+    "title": "私の予定",
+    "tabs": {
+      "myMeetings": "私の予定",
+      "participatedMeetings": "参加した予定"
+    },
+    "noMeetings": "まだ予定を作成していません。",
+    "noParticipatedMeetings": "まだ予定に参加していません。",
+    "myMeetingsDetails": "{count} 件のミーティングを作成しました。",
+    "participatedMeetingsDetails": "{count} の予定に参加しました。"
+  },
+  "admin": {
+    "metaTitle": "管理者ダッシュボード - Time2Gather",
+    "metaDescription": "Time2Gather ユーザーと予定をレビューするためのプライベート ダッシュボード。",
+    "eyebrow": "管理コンソール",
+    "title": "サービス概要",
+    "description": "主要なユーザーと予定の指標を確認し、必要なレコードをすばやく見つけます。",
+    "summaryTitle": "一目でわかる",
+    "summaryDescription": "数は、現在保存されているユーザーと予定に基づいています。",
+    "loading": "管理者ダッシュボードを準備しています。",
+    "loadingDescription": "アクセスを確認し、最新のデータを読み込みます。",
+    "accessDeniedTitle": "アクセス権がありません",
+    "accessDeniedDescription": "管理者ロールを持つアカウントのみがこのページを表示できます。",
+    "refresh": "概要を更新する",
+    "retry": "もう一度試してください",
+    "loadError": "概要を読み込めませんでした。",
+    "search": "検索",
+    "notAvailable": "利用できません",
+    "pageOf": "ページ {current}/{total}",
+    "stats": {
+      "totalUsers": "総ユーザー数",
+      "registeredUsers": "サインアップしたユーザー",
+      "anonymousUsers": "匿名ユーザー",
+      "adminUsers": "{count} 管理者",
+      "totalMeetings": "予定の合計",
+      "activeMeetings": "活発な予定",
+      "confirmedMeetings": "確認された予定",
+      "confirmationRate": "確定率：{rate}"
+    },
+    "users": {
+      "title": "ユーザー",
+      "description": "{count} 人のユーザーが見つかりました。",
+      "searchPlaceholder": "名前またはメールアドレスを検索",
+      "loadError": "ユーザーを読み込めませんでした。",
+      "empty": "検索に一致するユーザーはいません。",
+      "user": "ユーザー",
+      "provider": "サインイン方法",
+      "role": "役割",
+      "joinedAt": "参加しました",
+      "participatedMeetings": "参加した予定",
+      "noParticipatedMeetings": "参加した予定はありません。",
+      "noEmail": "電子メールなし"
+    },
+    "meetings": {
+      "title": "予定",
+      "description": "{count} 件の予定が見つかりました。",
+      "searchPlaceholder": "タイトルまたは予定コードを検索する",
+      "loadError": "予定を読み込むことができませんでした。",
+      "empty": "検索に一致する予定はありません。",
+      "meeting": "予定",
+      "host": "ホスト",
+      "status": "ステータス",
+      "createdAt": "作成されました",
+      "active": "アクティブ",
+      "inactive": "非アクティブ",
+      "confirmed": "確認済み",
+      "confirmedOnly": "確定した予定のみ表示",
+      "unknownHost": "不明なユーザー",
+      "openNewTab": "新しいタブで予定を開く"
+    },
+    "providers": {
+      "ANONYMOUS": "匿名",
+      "KAKAO": "カカオ",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "ユーザー",
+      "ADMIN": "管理者"
+    },
+    "selectionTypes": {
+      "TIME": "日付と時刻",
+      "ALL_DAY": "日付のみ"
+    },
+    "login": {
+      "checking": "サインイン設定を確認しています...",
+      "expired": "管理者アクセスの有効期限が切れているか、利用できません。再度サインインしてください。",
+      "notConfigured": "管理者サインインが構成されていません。オペレーターにお問い合わせください。",
+      "verifying": "管理者アクセスを確認しています...",
+      "notAllowed": "許可された管理者アカウントを使用してください。",
+      "google": "Googleでサインイン",
+      "unavailable": "サインイン サービスを読み込めませんでした。",
+      "networkError": "接続を確認して、もう一度試してください。",
+      "logout": "サインアウト",
+      "title": "管理者のサインイン",
+      "description": "承認された Google アカウントのみがこの領域にアクセスできます。",
+      "retry": "もう一度試してください",
+      "sessionHelp": "管理者アクセスでは、予定への参加とは別のセッションが使用されます。"
+    }
+  },
+  "404": {
+    "title": "ページが見つかりません",
+    "description": "リクエストしたページは存在しないか、削除されています。",
+    "homeButton": "ホームへ行く"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - 人々とのスケジュールを設定する",
+    "siteDescription": "人との予定のスケジュールを簡単に設定できるサービス。予定を作成し、複数の日付と時間帯を選択して共有します。参加者が空いている時間を選択すると、予定に最適な日時を推奨します。",
+    "siteKeywords": "予定のスケジュール、スケジュール調整、グループ予定、グループスケジュール、時間調整、予定管理、スケジュール共有、Time2Gather",
+    "ogImageAlt": "Time2Gather - 複数人でスケジュールを立てる",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - 5 秒で予定をスケジュールする",
+        "description": "複数の人とスケジュールを調整するのが難しいですか? Time2Gather を使用すると、簡単に投票を集め、全員にとって最適な時間を見つけることができます。"
+      },
+      "create": {
+        "title": "ミーティングの作成 - Time2Gather",
+        "description": "新しい予定を作成して友達と共有します。投票によって日付、時間、場所を簡単に決定できます。"
+      },
+      "login": {
+        "title": "ログイン - Time2Gather",
+        "description": "カカオまたは Google でサインインして、スケジュールを開始します。"
+      },
+      "my": {
+        "title": "私の予定 - Time2Gather",
+        "description": "作成および参加したすべての予定を一目で確認できます。予定管理が簡単になりました。"
+      },
+      "meeting": {
+        "title": "{title} - タイム 2 ギャザー",
+        "description": "{title} ミーティングに参加してください。利用可能な時間を選択して投票してください。"
+      },
+      "result": {
+        "title": "{title} 結果 - Time2Gather",
+        "description": "{title} に参加して、ご都合のよい時間をお選びください。",
+        "confirmedTitle": "{title} 確認済み - Time2Gather",
+        "confirmedDescription": "確認済みプラン：{details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "スケジュールアシスタント",
+    "open": "オープンチャット",
+    "close": "チャットを閉じる",
+    "welcomeMessage": "こんにちは！あなたのスケジュールについて聞いてください。",
+    "welcomeHint": "例えば「私の予定を見せてください」、「来週は何ですか？」",
+    "inputPlaceholder": "メッセージを入力してください...",
+    "errorMessage": "申し訳ありませんが、エラーが発生しました。後でもう一度試してください。"
+  },
+  "locationVote": {
+    "title": "場所の投票",
+    "description": "ご希望の場所を選択してください",
+    "scheduleStepLabel": "1 / 2 · 可用性",
+    "locationStepLabel": "2 / 2 ・場所",
+    "selectionTitle": "どこで会いましょう？",
+    "selectionDescription": "自分に合った場所をすべて選択してください。",
+    "confirmedLocation": "確認された場所",
+    "confirmed": "確認済み",
+    "loadError": "場所の選択を読み込めませんでした。",
+    "retry": "もう一度試してください",
+    "voters": "この場所に投票した人",
+    "noVotes": "まだ投票がありません"
+  },
+  "timezone": {
+    "title": "タイムゾーン",
+    "meeting": "予定のタイムゾーン: {zone}",
+    "display": "あなたの表示タイムゾーン",
+    "hint": "日付と時刻は予定のタイムゾーンで入力されます。誰もが同じ瞬間に投票します。",
+    "gridHint": "列の日付と時間軸は予定のタイムゾーンを使用します。各セルには、選択したタイムゾーンの日付と時刻も表示されます。",
+    "local": "{zone}: {time}",
+    "invalid": "有効なタイムゾーンを選択してください。",
+    "gap": "時計が進むため、この時間は存在しません。別の時間を選択してください。",
+    "overlap": "この時間は、時計が戻るときに 2 回発生します。明確な時間を選択してください。",
+    "allDay": "日付のみの投票では、どのタイムゾーンでも同じカレンダー日付が維持されます。",
+    "useDevice": "デバイスのタイムゾーンを使用する",
+    "search": "タイムゾーンを検索する",
+    "noResults": "時間帯が見つかりません。別の都市や地域を入力してください。"
+  },
+  "errors": {
+    "error.internal": "内部サーバーエラーが発生しました",
+    "error.validation.failed": "入力検証に失敗しました",
+    "error.request.invalid": "リクエストは無効です。 {0}",
+    "error.state.invalid": "このリクエストは現在の状態では実行できません",
+    "error.resource.not.found": "要求されたリソースが見つかりませんでした",
+    "error.null.pointer": "必要なデータがありません。リクエストをご確認ください。",
+    "error.number.format": "数値形式が無効です。入力内容を確認してください。",
+    "error.auth.required": "認証が必要です",
+    "error.auth.required.login": "認証が必要です。ログインしてもう一度お試しください。",
+    "error.auth.access.denied": "アクセスが拒否されました",
+    "error.auth.not.authenticated": "ユーザーが認証されていません",
+    "error.user.not.found": "ユーザーが見つかりません",
+    "error.user.not.found.email": "電子メールを含むユーザーが見つかりません: {0}",
+    "error.user.id.required": "ユーザーIDが必要です",
+    "error.oauth.invalid.code": "認証コードが無効か期限切れです。再認証してください。エラー: {0}",
+    "error.oauth.api.failed": "OAuth API との通信に失敗しました: {0}",
+    "error.oauth.no.id.token": "OAuthプロバイダーからIDトークンを取得できませんでした",
+    "error.oauth.no.user.info": "OAuthプロバイダーからユーザー情報を取得できませんでした",
+    "error.meeting.not.found": "予定が見つかりません",
+    "error.meeting.not.found.code": "予定が見つかりません: {0}",
+    "error.meeting.id.required": "ミーティングIDが必要です",
+    "error.meeting.already.confirmed": "すでに面会は確定しております。まず確認をキャンセルしてください。",
+    "error.meeting.not.confirmed": "面会は確認されていません",
+    "error.meeting.invalid.date": "無効な日付: {0}",
+    "error.meeting.date.not.available": "この日付は予定では使用できません: {0}",
+    "error.meeting.no.interval.info": "予定間隔の情報がありません",
+    "error.meeting.host.only": "ホストのみがこのアクションを実行できます",
+    "error.meeting.no.participants": "参加者がまだ投票していないため、カレンダーを作成できません",
+    "error.meeting.date.format.invalid": "日付形式が無効です。 yyyy-MM-dd 形式を使用してください。",
+    "error.meeting.validation.date.required": "少なくとも 1 つの日付を選択する必要があります",
+    "error.meeting.validation.date.slot.required": "各日付に対して少なくとも 1 つの時間枠を選択する必要があります",
+    "error.meeting.validation.time.required": "少なくとも 1 つの日付と時間枠を選択する必要があります",
+    "error.meeting.validation.all.day.empty.slots": "ALL_DAY タイプの場合、タイムスロットは空の配列である必要があります",
+    "error.meeting.validation.slot.index.required": "TIMEタイプの予定にはslotIndexが必要です",
+    "error.meeting.validation.slot.index.invalid": "無効なスロット インデックス: {0}",
+    "error.meeting.validation.date.slot.together": "date とslotIndex は一緒に指定する必要があります",
+    "error.location.not.found": "場所が見つかりません",
+    "error.location.not.belong.to.meeting": "場所はこの予定に属していません",
+    "error.location.vote.not.enabled": "この予定では場所の投票が有効になっていません",
+    "error.location.already.confirmed": "場所はすでに確認されています。まずは位置確認を解除してください。",
+    "error.location.not.confirmed": "場所は未確認",
+    "error.location.id.required": "ロケーションIDは必須です",
+    "error.location.name.required": "場所名は必須です",
+    "error.location.name.too.long": "場所名は 200 文字を超えることはできません",
+    "error.location.max.exceeded": "最大 {0} の場所を追加可能",
+    "error.location.min.required": "少なくとも {0} の場所が必要です",
+    "error.location.min.for.vote": "場所の投票を有効にするには、少なくとも {0} 個の場所が必要です",
+    "error.location.cannot.disable": "位置が確認されている場合、位置投票を無効にできません",
+    "error.location.not.exist": "場所が存在しません: {0}",
+    "error.selection.empty": "選択データが空です",
+    "error.selection.date.required": "日付は必須です",
+    "error.selection.type.required": "タイプは必須です",
+    "error.selection.type.unknown": "不明なタイプ: {0} (TIME または ALL_DAY のみが許可されます)",
+    "error.selection.time.required": "日付「{0}」はTIME型ですが、時間が指定されていません",
+    "error.selection.time.empty": "時間値が空です",
+    "error.selection.time.format.invalid": "日付「{0}」の時刻形式は無効です。 {1}",
+    "error.selection.date.not.available": "日付 {0} はこの予定では利用できません",
+    "error.selection.slot.null": "スロット配列を null にすることはできません。日付を除外するには空のマップを使用します。",
+    "error.selection.slot.not.available": "スロット {0} は {1} では使用できません",
+    "error.selection.slot.empty.for.time": "TIME タイプの予定では空の配列は許可されません。日付を除外するには空のマップを使用します。",
+    "error.timeslot.invalid.format": "無効な時刻形式です。予想される高さ:mm",
+    "error.timeslot.invalid.hour": "時間は 0 ～ 23 の間である必要があります",
+    "error.timeslot.invalid.minute": "分は 0 ～ 59 の間で指定する必要があります",
+    "error.timeslot.not.aligned": "時刻は {0} 分間隔に合わせる必要があります",
+    "error.timeslot.index.out.of.range": "スロット インデックスは {0} 分間隔で {1} ～ {2} である必要がありますが、次の結果が得られました: {3}",
+    "error.timeslot.interval.positive": "間隔の分は正の値でなければなりません",
+    "error.timeslot.interval.divisor": "間隔の分は {0} の約数である必要があります",
+    "error.calendar.export.failed": "カレンダーファイルの作成に失敗しました",
+    "error.ai.api.failed": "AI API呼び出しが失敗しました",
+    "error.ai.provider.unknown": "不明な AI プロバイダー: {0}",
+    "mcp.meeting.created": "予定が正常に作成されました",
+    "mcp.vote.time.saved": "在庫状況の投票が正常に保存されました",
+    "mcp.vote.location.saved": "場所の投票が正常に保存されました",
+    "mcp.meeting.confirmed": "予定スケジュールが正常に確認されました",
+    "mcp.location.confirmed": "集合場所が正常に確認されました",
+    "mcp.ics.created": "ICSファイルが正常に作成されました",
+    "validation.meeting.title.required": "タイトルは必須です",
+    "validation.meeting.dates.required": "利用可能な日付/時間は必須です",
+    "validation.meeting.location.max": "最大5か所まで追加可能",
+    "validation.selection.required": "選択した時間帯は必須です",
+    "validation.date.required": "日付は必須です",
+    "validation.date.format": "日付形式は yyyy-MM-dd である必要があります",
+    "validation.time.required": "時間が必要です",
+    "validation.time.format": "時間形式は HH:mm である必要があります",
+    "validation.location.id.required": "ロケーションIDは必須です",
+    "validation.location.ids.required": "ロケーションIDリストは必須です",
+    "validation.location.name.required": "場所名は必須です",
+    "validation.location.max": "最大5か所まで追加可能",
+    "validation.auth.code.required": "認証コードが必要です",
+    "validation.username.required": "ユーザー名は必須です",
+    "validation.password.required": "パスワードが必要です",
+    "validation.selection.date.min.max": "1 ～ 31 の日付を選択してください",
+    "validation.type.required": "タイプは必須です",
+    "validation.slot.index.required": "確認するスロットインデックス (TIME タイプの場合は必須、ALL_DAY タイプの場合は null が許可されます)",
+    "error.meeting.timezone.invalid": "有効な IANA タイムゾーンを選択してください。",
+    "error.meeting.time.nonexistent": "時計が進むため、この時間は存在しません。別の時間を選択してください。",
+    "error.meeting.time.ambiguous": "この時間は、時計が戻るときに 2 回発生します。明確な時間を選択してください。",
+    "error.comment.rate.limit": "少し待ってから再投稿してください。",
+    "error.selection.candidates.changed": "候補日が変更されました。ページを更新して、もう一度回答してください。"
+  },
+  "comments": {
+    "title": "コメント",
+    "placeholder": "予定について話しましょう",
+    "reply": "返信",
+    "replyTo": "{name}さんへの返信",
+    "replies": "返信（{count}）",
+    "collapse": "返信を閉じる",
+    "post": "投稿",
+    "save": "保存",
+    "edit": "編集",
+    "delete": "削除",
+    "hide": "非表示",
+    "hidden": "主催者が非表示にしたコメントです。",
+    "deleted": "削除されたコメントです。",
+    "edited": "編集済み",
+    "host": "主催者",
+    "mention": "@を入力して相手を指定",
+    "noPeople": "該当する参加者はいません",
+    "session": "コメントに表示する名前を入力してください。",
+    "failed": "処理できませんでした。入力内容は保持されています。再試行してください。",
+    "rateLimit": "少し待ってから再投稿してください。",
+    "new": "新しいコメントを表示（{count}）",
+    "mentioned": "あなた宛ての新しいコメント",
+    "moreReplies": "返信をもっと見る",
+    "more": "以前のコメント",
+    "copy": "コメントのリンクをコピー",
+    "copied": "リンクをコピーしました。",
+    "actions": "コメントの操作",
+    "newReply": "新着",
+    "removeConfirm": "本文を削除しますか？既存の返信は残ります。",
+    "retry": "もう一度試してください",
+    "reactions": {
+      "add": "リアクションを追加",
+      "view": "リアクションした人を見る",
+      "title": "リアクション",
+      "react": "リアクションする",
+      "remove": "リアクションを取り消す",
+      "empty": "まだリアクションはありません。",
+      "you": "あなた",
+      "session": "リアクションに表示する名前を入力してください。",
+      "failed": "リアクションを更新できませんでした。もう一度お試しください。",
+      "like": "賛成",
+      "love": "共感",
+      "laugh": "おもしろい",
+      "celebrate": "お祝い",
+      "thanks": "ありがとう",
+      "think": "考え中",
+      "eyes": "見ています",
+      "hundred": "満点"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "予定合わせはこんなに簡単",
+    "title": "みんなの時間を、ひとつの約束に。",
+    "description": "リンクを送り、空いている時間を選ぶと、みんなで会える時間が見つかります。",
+    "steps": {
+      "share": {
+        "title": "リンクをひとつ共有",
+        "description": "招待された人はログインなしで参加"
+      },
+      "select": {
+        "title": "空いている時間を選択",
+        "description": "みんなの予定を一か所に集める"
+      },
+      "decide": {
+        "title": "共通の空き時間を発見",
+        "description": "いちばん合う日時で確定"
+      }
+    },
+    "sample": "利用例",
+    "meetingTitle": "今週、会おうよ",
+    "responses": "{count}人が参加",
+    "hint": "自分の時間を変えると、結果も変わります。",
+    "filtersLabel": "参加者別の空き時間",
+    "allResults": "すべての結果",
+    "personAvailability": "{name}の空き時間",
+    "tableLabel": "時間帯ごとの参加可能人数",
+    "timeLabel": "時間",
+    "legendTitle": "参加可能人数",
+    "legendMax": "多い",
+    "resultTitle": "{count}人全員が会える時間を発見！",
+    "resultHint": "「すべての結果」で共通の空き時間を確認できます。",
+    "available": "参加可能",
+    "unavailable": "参加不可",
+    "people": {
+      "jiwoo": "ジウ",
+      "minseo": "ミンソ",
+      "doyun": "ドユン",
+      "subin": "スビン"
+    },
+    "yourAvailability": "自分が空いている時間",
+    "hourly": "1時間刻み",
+    "me": "自分",
+    "legend": "参加可能人数 / 全員",
+    "create": "自分の予定を作る",
+    "compactTime": "土曜日の夜7時、",
+    "compactResult": "みんな空いています"
+  }
+}

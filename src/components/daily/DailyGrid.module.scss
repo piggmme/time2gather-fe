@@ -1,6 +1,8 @@
 @use "../../styles/variables.scss" as *;
 
 .gridWrapper {
+  width: 100%;
+  min-width: 0;
   flex-shrink: 0;
   height: auto;
   align-self: flex-start;

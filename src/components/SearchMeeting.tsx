@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { usePageState } from '../hooks/usePageState'
 import Input from './Input/Input'
 import Button from './Button/Button'
-import { navigate } from 'astro:transitions/client'
+import { navigate } from '../utils/navigation'
 import { useTranslation } from '../hooks/useTranslation'
 
 export default function SearchMeeting () {
   const { t } = useTranslation()
-  const [value, setvalue] = useState('')
+  const [value, setvalue] = usePageState('meetingSearch', '')
 
   return (
     <>
@@ -19,7 +19,7 @@ export default function SearchMeeting () {
         buttonType='primary'
         disabled={!value}
         onClick={() => {
-          const meetingCode = value.match(/\/meetings\/([^\/\?#]+)/)?.[1] || value
+          const meetingCode = value.match(/\/meetings\/([^/?#]+)/)?.[1] || value
           navigate(`/meetings/${meetingCode}`)
         }}
       >

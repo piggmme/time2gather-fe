@@ -1,0 +1,809 @@
+{
+  "common": {
+    "previous": "Sebelumnya",
+    "cancel": "Batalkan",
+    "next": "Selanjutnya",
+    "home": "Rumah",
+    "createMeeting": "Buat rapat",
+    "searchMeeting": "Temukan pertemuan",
+    "searchMeetingPlaceholder": "Kode rapat",
+    "searchMeetingButton": "Temukan Pertemuan",
+    "myMeetings": "Pertemuanku",
+    "adminDashboard": "Dasbor Admin",
+    "contactUs": "Hubungi kami",
+    "menu": "Tidak bisa",
+    "openMenu": "Buka Menu",
+    "submit": "Kirim",
+    "share": "Bagikan",
+    "close": "Tutup",
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan. Silakan coba lagi.",
+    "switchToEnglish": "Beralih ke bahasa Inggris",
+    "switchToKorean": "Beralih ke bahasa Korea",
+    "language": "Bahasa",
+    "searchLanguages": "Pilih bahasa Anda"
+  },
+  "home": {
+    "title": "Time2Gather",
+    "greeting": "Selamat datang! 👋",
+    "description": "Hanya perlu 5 detik untuk membuat rencana sekarang. Bagikan slot waktu Anda, dapatkan suara, dan langsung lihat waktu terbaik untuk semua orang!",
+    "createMeetingButton": "Buat Rapat",
+    "heroTitleSuffix": " — Jadwalkan dengan mudah",
+    "heroSubtitle": "Ucapkan selamat tinggal pada penjadwalan yang rumit. Temukan waktu yang tepat bersama teman-teman Anda.",
+    "viewMyMeetings": "Lihat Rapat Saya"
+  },
+  "landing": {
+    "eyebrow": "Koordinasikan jadwal semua orang di satu tempat",
+    "title": "Jadikan penjadwalan rapat lebih sederhana",
+    "description": "Time2Gather adalah layanan penjadwalan gratis untuk memilih tanggal, waktu, dan lokasi guna menemukan waktu pertemuan yang sesuai untuk semua orang.",
+    "primaryCta": "Buat rapat",
+    "secondaryCta": "Temukan dengan kode",
+    "featuresHeading": "Semua yang Anda butuhkan untuk mengoordinasikan pertemuan",
+    "features": {
+      "dates": {
+        "title": "Bandingkan beberapa tanggal",
+        "description": "Pilih tanggal kandidat dan segera bagikan dengan peserta Anda."
+      },
+      "times": {
+        "title": "Pilih waktu yang tersedia",
+        "description": "Kumpulkan ketersediaan terperinci untuk menemukan waktu yang sesuai bagi kebanyakan orang."
+      },
+      "locations": {
+        "title": "Tentukan juga lokasinya",
+        "description": "Tambahkan opsi lokasi ketika grup Anda perlu memilih tempat untuk bertemu."
+      },
+      "sharing": {
+        "title": "Bergabunglah dari satu tautan",
+        "description": "Bagikan link agar peserta dapat langsung memberikan suara hanya dengan nama panggilan."
+      }
+    },
+    "stepsHeading": "Selesaikan rencana dalam tiga langkah",
+    "steps": {
+      "create": {
+        "title": "1. Buat opsi",
+        "description": "Tetapkan judul rapat dan tanggal atau waktu untuk membandingkan."
+      },
+      "share": {
+        "title": "2. Bagikan tautannya",
+        "description": "Kirim tautan ke teman, rekan satu tim, atau grup Anda."
+      },
+      "decide": {
+        "title": "3. Konfirmasikan hasilnya",
+        "description": "Tinjau suara dan pilih waktu terbaik untuk semua orang."
+      }
+    },
+    "faqHeading": "Pertanyaan yang sering diajukan",
+    "faq": {
+      "what": {
+        "question": "Bagaimana mencari waktu untuk berkumpul dengan teman atau rapat tim?",
+        "answer": "Buat pilihan tanggal dan waktu di Time2Gather, lalu bagikan tautannya. Setiap orang memilih waktu luang, kemudian Anda membandingkan hasil dan menetapkan jadwal. Gratis untuk teman, kelompok belajar, dan tim."
+      },
+      "login": {
+        "question": "Bisakah membuat dan mengikuti polling tanpa mendaftar atau memasang aplikasi?",
+        "answer": "Ya. Penyelenggara dan peserta cukup memasukkan nama, tanpa pendaftaran atau login media sosial. Buat pertemuan dan pilih jadwal melalui browser ponsel atau komputer."
+      },
+      "location": {
+        "question": "Bisakah kami memilih tempat pertemuan juga?",
+        "answer": "Ya. Aktifkan pemungutan suara lokasi saat membuat pertemuan dan tambahkan pilihan. Peserta dapat memilih lokasi favorit dan membahas rencana di komentar."
+      }
+    }
+  },
+  "login": {
+    "title": "Siap untuk menjadwalkan?",
+    "description": "Masuk untuk membuat dan mengelola rapat Anda.",
+    "kakaoLogin": "Lanjutkan dengan Kakao",
+    "googleLogin": "Lanjutkan dengan Google",
+    "oauth": {
+      "loadingTitle": "Memasukkan Anda",
+      "loadingDescription": "Anda akan kembali ke layar sebelumnya sebentar lagi.",
+      "errorTitle": "Kami tidak dapat memasukkan Anda",
+      "errorDescription": "Kembali ke halaman masuk dan coba lagi.",
+      "retry": "Coba masuk lagi"
+    }
+  },
+  "search": {
+    "title": "Temukan pertemuan",
+    "description": "Masukkan kode rapat yang Anda terima."
+  },
+  "createMeeting": {
+    "title": "Buat rapat",
+    "meetingTypeStep": {
+      "heading": "Apa yang harus dipilih peserta?",
+      "allDay": "Hanya tanggal",
+      "time": "Tanggal dan waktu"
+    },
+    "titleStep": {
+      "heading": "Beri nama pertemuan Anda",
+      "placeholder": "misalnya, Makan Malam Jumat"
+    },
+    "descriptionStep": {
+      "heading": "Pertemuan macam apa ini?",
+      "placeholder": "Mari kita bertemu di Gangnam, semuanya!"
+    },
+    "datesStep": {
+      "heading": "Pilih tanggal"
+    },
+    "timeRangeStep": {
+      "heading": "Atur rentang waktu yang tersedia",
+      "startTime": "Waktu mulai",
+      "endTime": "Waktu berakhir",
+      "selectedDatesCount": "Tanggal yang dipilih: {count}",
+      "createButton": "Buat rapat"
+    },
+    "locationStep": {
+      "heading": "Selesaikan pembuatan rapat Anda",
+      "requiredLabel": "Diperlukan",
+      "creatorHeading": "Siapa yang membuat pertemuan ini?",
+      "creatorDescription": "Nama panggilan Anda akan ditampilkan sebagai tuan rumah pertemuan.",
+      "usernameLabel": "Nama panggilan Anda",
+      "usernamePlaceholder": "misalnya, Jamie",
+      "usernameChangeHelp": "Mengubah nama Anda akan mempertahankan rapat dan pemungutan suara yang sudah ada, serta hanya memperbarui nama tampilan Anda.",
+      "optionalLabel": "Opsional",
+      "locationHeading": "Apakah Anda ingin pemungutan suara lokasi?",
+      "locationDescription": "Aktifkan ini jika Anda ingin peserta memilih tempat bersama-sama.",
+      "enableLocationVote": "Biarkan peserta memilih lokasi",
+      "locationPlaceholder": "Masukkan lokasi",
+      "addLocation": "Tambahkan Lokasi",
+      "removeLocation": "Hapus Lokasi",
+      "minLocationsWarning": "Setidaknya diperlukan 2 lokasi untuk pemungutan suara lokasi",
+      "maxLocationsWarning": "Anda hanya dapat menambahkan hingga 5 lokasi",
+      "createButton": "Buat rapat",
+      "creatingButton": "Membuat pertemuan...",
+      "skipButton": "Lewati"
+    }
+  },
+  "meeting": {
+    "notFound": {
+      "title": "Rapat Tidak Ditemukan",
+      "description": "Rapat yang Anda minta tidak ada atau telah dihapus."
+    },
+    "participantsEmpty": "Belum ada peserta.",
+    "participantsCount": "Peserta: {count}",
+    "participantsCountCompact": "{count} berpartisipasi",
+    "selectedDates": "Pilih tanggal yang sesuai untuk Anda dari opsi {count}.",
+    "selectedDatesAndTimes": "Pilih tanggal dan waktu yang sesuai untuk Anda dari opsi tanggal {count}.",
+    "timeGrid": {
+      "timeLabel": "Waktu",
+      "touchHint": "Tekan, tahan, lalu seret untuk memilih beberapa kali",
+      "pointerHint": "Seret untuk memilih beberapa kali sekaligus",
+      "draggingHint": "Menyeret · Lepaskan untuk menerapkan pilihan Anda",
+      "selectDate": "Pilih semua waktu di {date}",
+      "previousDates": "Tanggal sebelumnya",
+      "nextDates": "Tanggal berikutnya"
+    },
+    "dateCalendar": {
+      "mySelection": "Pilihan saya",
+      "fewerVotes": "Lebih sedikit suara",
+      "moreVotes": "Lebih banyak suara",
+      "available": "Tersedia",
+      "unavailable": "Tidak tersedia",
+      "today": "Hari ini",
+      "availableMonths": "Bulan dengan tanggal yang tersedia",
+      "monthAvailability": "{count} tanggal tersedia di {month}",
+      "previousMonth": "Bulan sebelumnya",
+      "nextMonth": "Bulan depan"
+    },
+    "dateParticipants": {
+      "title": "Tersedia di {date}",
+      "count": {
+        "one": "{count} orang",
+        "other": "{count} orang"
+      }
+    },
+    "resultSaved": "Hasilnya telah disimpan.",
+    "modifyButton": "Edit ketersediaan",
+    "participate": "Berpartisipasi dalam Rapat",
+    "shareResult": "Bagikan Hasil",
+    "shareMeeting": "Bagikan Rapat",
+    "shareSuccess": "Tautan telah disalin.",
+    "exportToCalendar": "Tambahkan ke Kalender Saya",
+    "confirmButton": "Konfirmasi Rapat",
+    "confirmButtonShort": "Konfirmasi Rapat",
+    "cancelConfirmButton": "Batalkan Konfirmasi",
+    "cancelConfirmSuccess": "Konfirmasi rapat telah dibatalkan!",
+    "cancelConfirmError": "Gagal membatalkan konfirmasi. Silakan coba lagi.",
+    "alreadyConfirmedError": "Pertemuan ini sudah dikonfirmasi. Anda tidak dapat mengubah suara Anda.",
+    "editDates": {
+      "openButton": "Ubah opsi jajak pendapat",
+      "hostOnly": "Hanya tuan rumah",
+      "title": "Ubah opsi jajak pendapat",
+      "description": "Ubah opsi yang dapat dipilih semua peserta.",
+      "selectedCount": "Tanggal {count} dipilih",
+      "selectionHint": "Ketuk atau seret untuk memilih tanggal.",
+      "removedWarning": "Suara pada tanggal {count} yang dihapus akan dihapus saat Anda menyimpannya.",
+      "maxDates": "Anda dapat memilih hingga tanggal {count}.",
+      "save": "Simpan opsi",
+      "success": "Opsi jajak pendapat diperbarui.",
+      "error": "Opsi jajak pendapat tidak dapat diperbarui. Coba lagi.",
+      "timeOpenButton": "Ubah opsi jajak pendapat",
+      "timeTitle": "Ubah opsi jajak pendapat",
+      "timeDescription": "Ubah opsi yang dapat dipilih semua peserta.",
+      "timeSave": "Simpan opsi",
+      "timeSuccess": "Opsi jajak pendapat diperbarui.",
+      "timeError": "Opsi jajak pendapat tidak dapat diperbarui. Coba lagi.",
+      "timeRangeHint": "Perubahan rentang waktu berlaku untuk semua tanggal yang dipilih.",
+      "timeRemovedWarning": "Saat disimpan, suara untuk {count} pilihan waktu yang dihapus akan dihapus. Suara lainnya tetap tersimpan.",
+      "locationRemovedWarning": "Menyimpan akan menghapus suara untuk {count} opsi tempat yang diubah atau dihapus. Suara lainnya tetap disimpan."
+    },
+    "exportDialog": {
+      "title": "Tambahkan ke Kalender",
+      "description": "Pilih tanggal dan waktu untuk ditambahkan ke kalender Anda.",
+      "noSlots": "Belum ada tanggal yang dipilih.",
+      "allDay": "Sepanjang hari",
+      "cancel": "Batalkan",
+      "confirm": "Tambahkan ke Kalender",
+      "close": "Tutup"
+    },
+    "confirmDialog": {
+      "title": "Konfirmasi Rapat",
+      "description": "Pilih jadwal akhir dari opsi teratas terikat {count}.",
+      "noSlots": "Belum ada tanggal yang dipilih.",
+      "allDay": "Sepanjang hari",
+      "scheduleTitle": "Tanggal dan waktu",
+      "scheduleDescription": "Opsi ini cocok untuk sebagian besar peserta.",
+      "locationTitle": "Lokasi",
+      "locationDescription": "Pilih tempat bertemu menggunakan hasil pemungutan suara.",
+      "locationStepDescription": "Pilih tempat bertemu untuk menyelesaikan konfirmasi rencana.",
+      "progressLabel": "Langkah-langkah konfirmasi pertemuan",
+      "locationVoteCount": {
+        "one": "Pemungutan suara {count}",
+        "other": "{count} suara"
+      },
+      "noLocations": "Tidak ada lokasi yang tersedia untuk dikonfirmasi.",
+      "cancel": "Batalkan",
+      "confirm": "Konfirmasikan",
+      "confirming": "Mengonfirmasi...",
+      "close": "Tutup",
+      "success": "Pertemuan telah dikonfirmasi!",
+      "error": "Gagal mengonfirmasi pertemuan. Silakan coba lagi.",
+      "allCandidatesDescription": "Pilih jadwal akhir dari semua {count} pilihan.",
+      "groupedDescription": "Pilih salah satu dari {count} tanggal, lalu pilih waktu mulai.",
+      "recommendationsDescription": "Pilihan dengan lebih banyak peserta tersedia, satu per tanggal.",
+      "allDates": "Pilih dari semua {count} tanggal",
+      "backToRecommendations": "Lihat rekomendasi"
+    },
+    "anonymousSelectButton": "Bergabunglah dengan sebuah nama",
+    "selectButton": "Pilih Tanggal",
+    "selectTimeButton": "Pilih Tanggal dan Waktu",
+    "result": {
+      "tabs": {
+        "aiSummary": "Ringkasan",
+        "summary": "Ringkasan",
+        "confirmed": "Rencana yang dikonfirmasi",
+        "calendar": "Kalender",
+        "participants": "Peserta",
+        "location": "Lokasi"
+      },
+      "summaryTitle": "Ringkasan Rapat",
+      "aiSummaryTitle": "Ringkasan Hasil Pemungutan Suara",
+      "calendarTitle": "Kalender Rapat",
+      "totalParticipants": "Peserta: {count}",
+      "bestSlotsTitle": "Tanggal yang paling banyak cocok",
+      "showMoreOptions": "Tampilkan {count} lebih lanjut",
+      "showFewerOptions": "Tampilkan lebih sedikit",
+      "moreTimeOptions": "{count} lebih banyak pilihan waktu",
+      "participantsCount": "Peserta: {count}",
+      "people": "orang",
+      "voteCount": {
+        "one": "{count} orang ({percentage})",
+        "other": "{count} orang ({percentage})"
+      },
+      "noParticipants": "Tidak ada peserta",
+      "buttons": {
+        "calendar": "Tambahkan ke kalender",
+        "share": "Bagikan jajak pendapat",
+        "shareConfirmed": "Bagikan rencana yang dikonfirmasi",
+        "shareKakao": "KakaoTalk",
+        "modifyDates": "Edit pilihan tanggal saya",
+        "modifyTimes": "Edit pilihan tanggal dan waktu saya",
+        "selectDates": "Pilih tanggal saya yang tersedia",
+        "selectTimes": "Pilih tanggal dan waktu saya yang tersedia",
+        "enterAvailability": "Tambahkan ketersediaan",
+        "editAvailability": "Ubah suara saya"
+      },
+      "confirmedPlan": {
+        "eyebrow": "RENCANA DIKONFIRMASI",
+        "title": "Rencana Anda sudah siap",
+        "date": "Tanggal",
+        "time": "Waktu",
+        "location": "Lokasi",
+        "attendees": "Peserta yang tersedia",
+        "attendanceSummary": {
+          "one": "{count} orang · {percentage} dari grup",
+          "other": "{count} orang · {percentage} dari grup"
+        },
+        "confirmTime": "Konfirmasi waktu",
+        "confirmTimeTitle": "Konfirmasi waktu pertemuan",
+        "confirmTimeDescription": "Pilih waktu untuk bertemu pada tanggal yang sudah dikonfirmasi.",
+        "timeConfirmSuccess": "Waktu pertemuan telah dikonfirmasi.",
+        "timeConfirmError": "Waktu pertemuan tidak dapat dikonfirmasi. Silakan coba lagi.",
+        "timePending": "Belum ditentukan",
+        "editTime": "Sunting",
+        "editTimeTitle": "Edit waktu rapat",
+        "editTimeDescription": "Catat tanggal yang sudah dikonfirmasi dan tetapkan waktu pasti Anda berencana bertemu.",
+        "saveTime": "Simpan",
+        "savingTime": "Menyimpan...",
+        "timeUpdateSuccess": "Waktu pertemuan telah diperbarui.",
+        "timeUpdateError": "Waktu pertemuan tidak dapat diperbarui. Silakan coba lagi.",
+        "addTime": "Tambahkan waktu (opsional)",
+        "addTimeTitle": "Tambahkan waktu",
+        "optionalTimeDescription": "Tambahkan waktu hanya jika diperlukan.",
+        "attendanceCount": "{count} dari {total} tersedia",
+        "cancelTitle": "Batalkan konfirmasi?",
+        "cancelDescription": "Jadwal yang dikonfirmasi akan dihapus. Jawaban peserta akan tetap tersimpan.",
+        "keepConfirmation": "Tetap konfirmasi"
+      },
+      "actions": {
+        "confirmed": "Rencana yang dikonfirmasi",
+        "confirmedDescription": "Bagikan detailnya atau tambahkan ke kalender Anda.",
+        "inProgress": "Perencanaan sedang berlangsung",
+        "manage": "Kelola jajak pendapat"
+      },
+      "share": {
+        "confirmedTitle": "{title} dikonfirmasi",
+        "confirmedHeading": "Rencananya telah dikonfirmasi!",
+        "detailsCopied": "Detail dan tautan yang dikonfirmasi telah disalin.",
+        "manualCopyDescription": "Tidak dapat membagikan atau menyalin secara otomatis. Pilih dan salin teks di bawah."
+      },
+      "kakaoShare": {
+        "description": "Pilih waktu yang sesuai untuk Anda.",
+        "buttonTitle": "Bergabunglah dalam pemungutan suara",
+        "confirmedTitle": "{date} · Dikonfirmasi",
+        "confirmedDescription": "{title} · {details}",
+        "confirmedButtonTitle": "Lihat paket yang dikonfirmasi",
+        "locationPending": "Lokasi tertunda"
+      },
+      "attendance": {
+        "available": "Bisa hadir",
+        "unavailable": "Tidak bisa hadir",
+        "everyoneAvailable": "Semua bisa hadir",
+        "noneAvailable": "Tidak ada yang bisa hadir"
+      },
+      "bestTimesTitle": "Waktu yang paling banyak cocok",
+      "availabilityBasis": "Berdasarkan {count} tanggapan.",
+      "allAvailable": "Semua bisa ({count})",
+      "someAvailable": "{count} dari {total} bisa",
+      "viewSlotPeople": "Pilih opsi untuk melihat siapa yang bisa hadir.",
+      "decision": {
+        "allHeadline": "Semua {count} peserta {availability}",
+        "allHeadlineHighlight": "bisa hadir",
+        "allDates": "Tanggal yang cocok untuk semua ({count} orang)",
+        "allTimes": "Waktu yang cocok untuk semua ({count} orang)",
+        "partial": "Maksimal {count} orang bisa bertemu",
+        "basis": "Berdasarkan ketersediaan yang sudah diisi",
+        "notAll": "Belum ada pilihan yang cocok untuk semua.",
+        "emptyDates": "Belum ada tanggal yang dipilih",
+        "emptyTimes": "Belum ada waktu yang dipilih",
+        "pending": "Menunggu tanggapan untuk pilihan baru",
+        "allUnavailable": "Semua {count} orang yang menjawab menyatakan bahwa tidak ada pilihan yang cocok.",
+        "notSelected": "Orang yang tidak memilih opsi ini",
+        "people": "Lihat siapa yang bisa hadir",
+        "chooseDate": "Tetapkan pertemuan pada tanggal ini",
+        "chooseTime": "Tetapkan pertemuan pada waktu ini",
+        "confirmedDate": "Tanggal pertemuan sudah ditetapkan",
+        "setMeeting": "Konfirmasi Rapat"
+      },
+      "calendarFilter": {
+        "selectAll": "Pilih semua",
+        "selectedCount": "{selected} dari {total} dipilih",
+        "selectPrompt": "Pilih peserta untuk melihat ketersediaan mereka.",
+        "noAvailability": "Peserta terpilih tidak memiliki waktu yang tersedia."
+      }
+    },
+    "anonymous": {
+      "dialog": {
+        "title": "Anda belum masuk",
+        "description": "Bergabunglah tanpa masuk dengan memasukkan nama.",
+        "kakaoLoginButton": "Lanjutkan dengan Kakao",
+        "loginButton": "Masuk",
+        "anonymousLogin": "Masukkan nama untuk bergabung"
+      },
+      "description": "Masukkan nama yang akan Anda gunakan untuk rapat ini.",
+      "votingAs": "Bergabung sebagai {username}.",
+      "votingAsCompact": "Bergabung sebagai {username}",
+      "usernamePlaceholder": "Nama",
+      "anonymousLogin": "Bergabunglah dengan nama ini"
+    },
+    "identity": {
+      "label": "Nama untuk pertemuan ini",
+      "hint": "Perubahan nama hanya berlaku untuk pertemuan ini.",
+      "change": "Ubah nama"
+    },
+    "unavailable": {
+      "dates": "Tidak ada tanggal yang cocok",
+      "times": "Tidak ada waktu yang cocok",
+      "hint": "Pilih ini jika tidak ada pilihan yang cocok untuk Anda.",
+      "selectedHint": "Jawaban Anda akan menyatakan bahwa tidak ada pilihan yang cocok. Anda bisa mengubahnya nanti.",
+      "changed": "Tanggal yang diusulkan berubah. Muat ulang halaman dan jawab lagi.",
+      "respondents": "Sudah menjawab",
+      "datesStatus": "Tidak ada tanggal yang cocok",
+      "timesStatus": "Tidak ada waktu yang cocok",
+      "pending": "Pilihan baru perlu dijawab",
+      "selected": "Memilih jadwal",
+      "noneStatus": "Tidak ada jadwal yang cocok",
+      "picked": "Peserta yang bisa hadir",
+      "emptyTitle": "Belum ada rekomendasi jadwal",
+      "emptyHint": "Tunggu jawaban dari peserta lainnya.",
+      "viewPeople": "Lihat peserta",
+      "morePeople": "Tampilkan {count} orang lagi",
+      "lessPeople": "Tampilkan lebih sedikit",
+      "basis": "Berdasarkan suara ketersediaan untuk jadwal yang dikonfirmasi.",
+      "otherSelection": "Memilih jadwal lain"
+    }
+  },
+  "my": {
+    "title": "Pertemuanku",
+    "tabs": {
+      "myMeetings": "Pertemuanku",
+      "participatedMeetings": "Rapat yang saya ikuti"
+    },
+    "noMeetings": "Anda belum membuat rapat apa pun.",
+    "noParticipatedMeetings": "Anda belum berpartisipasi dalam rapat apa pun.",
+    "myMeetingsDetails": "Anda telah membuat rapat {count}.",
+    "participatedMeetingsDetails": "Anda telah berpartisipasi dalam pertemuan {count}."
+  },
+  "admin": {
+    "metaTitle": "Dasbor Admin - Time2Gather",
+    "metaDescription": "Dasbor pribadi untuk meninjau pengguna dan rapat Time2Gather.",
+    "eyebrow": "KONSOL ADMIN",
+    "title": "Ikhtisar layanan",
+    "description": "Tinjau metrik pengguna dan rapat utama, lalu temukan catatan yang Anda perlukan dengan cepat.",
+    "summaryTitle": "Sekilas",
+    "summaryDescription": "Penghitungan didasarkan pada pengguna dan rapat yang disimpan saat ini.",
+    "loading": "Mempersiapkan dasbor admin.",
+    "loadingDescription": "Memeriksa akses Anda dan memuat data terbaru.",
+    "accessDeniedTitle": "Anda tidak memiliki akses",
+    "accessDeniedDescription": "Hanya akun dengan peran admin yang dapat melihat halaman ini.",
+    "refresh": "Segarkan ikhtisar",
+    "retry": "Coba lagi",
+    "loadError": "Kami tidak dapat memuat ikhtisarnya.",
+    "search": "Cari",
+    "notAvailable": "Tidak tersedia",
+    "pageOf": "Halaman {current} dari {total}",
+    "stats": {
+      "totalUsers": "Jumlah pengguna",
+      "registeredUsers": "Pengguna yang mendaftar",
+      "anonymousUsers": "Pengguna anonim",
+      "adminUsers": "Admin {count}",
+      "totalMeetings": "Jumlah pertemuan",
+      "activeMeetings": "Pertemuan aktif",
+      "confirmedMeetings": "Pertemuan yang dikonfirmasi",
+      "confirmationRate": "Tingkat konfirmasi: {rate}"
+    },
+    "users": {
+      "title": "Pengguna",
+      "description": "{count} ditemukan pengguna.",
+      "searchPlaceholder": "Cari nama atau email",
+      "loadError": "Kami tidak dapat memuat pengguna.",
+      "empty": "Tidak ada pengguna yang cocok dengan penelusuran Anda.",
+      "user": "Pengguna",
+      "provider": "Metode masuk",
+      "role": "Peran",
+      "joinedAt": "Bergabung",
+      "participatedMeetings": "Pertemuan yang diikuti",
+      "noParticipatedMeetings": "Belum mengikuti pertemuan apa pun.",
+      "noEmail": "Tidak ada email"
+    },
+    "meetings": {
+      "title": "Rapat",
+      "description": "Pertemuan {count} ditemukan.",
+      "searchPlaceholder": "Cari judul atau kode rapat",
+      "loadError": "Kami tidak dapat memuat rapat.",
+      "empty": "Tidak ada rapat yang cocok dengan penelusuran Anda.",
+      "meeting": "Rapat",
+      "host": "Tuan rumah",
+      "status": "Status",
+      "createdAt": "Dibuat",
+      "active": "Aktif",
+      "inactive": "Tidak aktif",
+      "confirmed": "Dikonfirmasi",
+      "confirmedOnly": "Tampilkan hanya pertemuan yang dikonfirmasi",
+      "unknownHost": "Pengguna tidak dikenal",
+      "openNewTab": "Buka pertemuan di tab baru"
+    },
+    "providers": {
+      "ANONYMOUS": "Anonim",
+      "KAKAO": "Kakao",
+      "GOOGLE": "Google"
+    },
+    "roles": {
+      "USER": "Pengguna",
+      "ADMIN": "Admin"
+    },
+    "selectionTypes": {
+      "TIME": "Tanggal dan waktu",
+      "ALL_DAY": "Hanya tanggal"
+    },
+    "login": {
+      "checking": "Memeriksa pengaturan masuk...",
+      "expired": "Akses admin telah kedaluwarsa atau tidak tersedia. Silakan masuk lagi.",
+      "notConfigured": "Proses masuk admin tidak dikonfigurasi. Hubungi operatornya.",
+      "verifying": "Memeriksa akses admin...",
+      "notAllowed": "Gunakan akun admin resmi.",
+      "google": "Masuk dengan Google",
+      "unavailable": "Tidak dapat memuat layanan masuk.",
+      "networkError": "Periksa koneksi Anda dan coba lagi.",
+      "logout": "Keluar",
+      "title": "Masuk admin",
+      "description": "Hanya akun Google resmi yang dapat mengakses area ini.",
+      "retry": "Coba lagi",
+      "sessionHelp": "Akses admin menggunakan sesi terpisah dari partisipasi rapat."
+    }
+  },
+  "404": {
+    "title": "Halaman Tidak Ditemukan",
+    "description": "Halaman yang Anda minta tidak ada atau telah dihapus.",
+    "homeButton": "Pergi ke Rumah"
+  },
+  "meta": {
+    "siteTitle": "Time2Gather - Jadwalkan dengan Orang",
+    "siteDescription": "Sebuah layanan yang memudahkan untuk menjadwalkan pertemuan dengan orang-orang. Buat rapat, pilih beberapa tanggal dan slot waktu, lalu bagikan. Saat peserta memilih waktu yang tersedia, kami akan merekomendasikan tanggal dan waktu terbaik untuk bertemu.",
+    "siteKeywords": "jadwal pertemuan, koordinasi jadwal, pertemuan kelompok, jadwal kelompok, koordinasi waktu, manajemen pertemuan, pembagian jadwal, Time2Gather",
+    "ogImageAlt": "Time2Gather - Jadwalkan dengan Banyak Orang",
+    "pages": {
+      "home": {
+        "title": "Time2Gather - Jadwalkan Rapat dalam 5 Detik",
+        "description": "Kesulitan mengoordinasikan jadwal dengan banyak orang? Gunakan Time2Gather untuk mengumpulkan suara dengan mudah dan menemukan waktu terbaik untuk semua orang."
+      },
+      "create": {
+        "title": "Buat Rapat - Time2Gather",
+        "description": "Buat rapat baru dan bagikan dengan teman. Tentukan tanggal, waktu, dan lokasi dengan mudah melalui pemungutan suara."
+      },
+      "login": {
+        "title": "Masuk - Time2Gather",
+        "description": "Masuk dengan Kakao atau Google untuk memulai penjadwalan."
+      },
+      "my": {
+        "title": "Rapat Saya - Time2Gather",
+        "description": "Lihat sekilas semua rapat yang Anda buat dan ikuti. Manajemen rapat menjadi mudah."
+      },
+      "meeting": {
+        "title": "{title} - Waktu2Kumpulkan",
+        "description": "Bergabunglah dengan pertemuan {title}. Pilih waktu yang tersedia dan pilih."
+      },
+      "result": {
+        "title": "Hasil {title} - Time2Gather",
+        "description": "Bergabunglah dengan {title} dan pilih waktu yang sesuai untuk Anda.",
+        "confirmedTitle": "{title} Dikonfirmasi - Time2Gather",
+        "confirmedDescription": "Paket yang dikonfirmasi: {details}"
+      }
+    }
+  },
+  "chatBot": {
+    "title": "Asisten Jadwal",
+    "open": "Buka Obrolan",
+    "close": "Tutup Obrolan",
+    "welcomeMessage": "Halo! Tanyakan padaku tentang jadwalmu.",
+    "welcomeHint": "misalnya \"Tunjukkan pertemuan saya\", \"Ada apa minggu depan?\"",
+    "inputPlaceholder": "Ketik pesan...",
+    "errorMessage": "Maaf, terjadi kesalahan. Silakan coba lagi nanti."
+  },
+  "locationVote": {
+    "title": "Pemungutan Suara Lokasi",
+    "description": "Pilih lokasi pilihan Anda",
+    "scheduleStepLabel": "1 / 2 · Ketersediaan",
+    "locationStepLabel": "2 / 2 · Lokasi",
+    "selectionTitle": "Dimana kita harus bertemu?",
+    "selectionDescription": "Pilih semua lokasi yang sesuai untuk Anda.",
+    "confirmedLocation": "Lokasi Terkonfirmasi",
+    "confirmed": "Dikonfirmasi",
+    "loadError": "Tidak dapat memuat pilihan lokasi Anda.",
+    "retry": "Coba lagi",
+    "voters": "Yang memilih lokasi ini",
+    "noVotes": "Belum ada suara"
+  },
+  "timezone": {
+    "title": "Zona waktu",
+    "meeting": "Zona waktu pertemuan: {zone}",
+    "display": "Zona waktu tampilan Anda",
+    "hint": "Tanggal dan waktu dimasukkan dalam zona waktu pertemuan. Semua orang memberikan suara pada momen yang sama.",
+    "gridHint": "Kolom tanggal dan sumbu waktu menggunakan zona waktu pertemuan. Setiap sel juga memperlihatkan tanggal dan waktu di zona waktu yang Anda pilih.",
+    "local": "Di {zone}: {time}",
+    "invalid": "Pilih zona waktu yang valid.",
+    "gap": "Waktu ini tidak ada karena jam bergerak maju. Pilih waktu lain.",
+    "overlap": "Kali ini terjadi dua kali ketika jam bergerak mundur. Pilih waktu yang tidak ambigu.",
+    "allDay": "Pemungutan suara hanya tanggal mempertahankan tanggal kalender yang sama di setiap zona waktu.",
+    "useDevice": "Gunakan zona waktu perangkat",
+    "search": "Cari zona waktu",
+    "noResults": "Zona waktu tidak ditemukan. Coba kota atau wilayah lain."
+  },
+  "errors": {
+    "error.internal": "Telah terjadi kesalahan server internal",
+    "error.validation.failed": "Validasi masukan gagal",
+    "error.request.invalid": "Permintaan tidak valid. {0}",
+    "error.state.invalid": "Permintaan ini tidak dapat dijalankan dalam kondisi saat ini",
+    "error.resource.not.found": "Sumber daya yang diminta tidak dapat ditemukan",
+    "error.null.pointer": "Data yang diperlukan tidak ada. Silakan periksa permintaan Anda.",
+    "error.number.format": "Format angka tidak valid. Silakan periksa masukan Anda.",
+    "error.auth.required": "Otentikasi diperlukan",
+    "error.auth.required.login": "Otentikasi diperlukan. Silakan masuk dan coba lagi.",
+    "error.auth.access.denied": "Akses ditolak",
+    "error.auth.not.authenticated": "Pengguna tidak diautentikasi",
+    "error.user.not.found": "Pengguna tidak ditemukan",
+    "error.user.not.found.email": "Pengguna tidak ditemukan dengan email: {0}",
+    "error.user.id.required": "ID Pengguna diperlukan",
+    "error.oauth.invalid.code": "Kode otorisasi tidak valid atau kedaluwarsa. Harap autentikasi ulang. Kesalahan: {0}",
+    "error.oauth.api.failed": "Gagal berkomunikasi dengan OAuth API: {0}",
+    "error.oauth.no.id.token": "Gagal mendapatkan token ID dari penyedia OAuth",
+    "error.oauth.no.user.info": "Gagal mendapatkan info pengguna dari penyedia OAuth",
+    "error.meeting.not.found": "Pertemuan tidak ditemukan",
+    "error.meeting.not.found.code": "Rapat tidak ditemukan: {0}",
+    "error.meeting.id.required": "ID Rapat diperlukan",
+    "error.meeting.already.confirmed": "Pertemuan sudah dikonfirmasi. Harap batalkan konfirmasi terlebih dahulu.",
+    "error.meeting.not.confirmed": "Pertemuan belum dikonfirmasi",
+    "error.meeting.invalid.date": "Tanggal tidak valid: {0}",
+    "error.meeting.date.not.available": "Tanggal ini tidak tersedia dalam rapat: {0}",
+    "error.meeting.no.interval.info": "Informasi interval pertemuan tidak ada",
+    "error.meeting.host.only": "Hanya tuan rumah yang dapat melakukan tindakan ini",
+    "error.meeting.no.participants": "Tidak dapat membuat kalender karena belum ada peserta yang memberikan suara",
+    "error.meeting.date.format.invalid": "Format tanggal tidak valid. Silakan gunakan format yyyy-MM-dd.",
+    "error.meeting.validation.date.required": "Setidaknya satu tanggal harus dipilih",
+    "error.meeting.validation.date.slot.required": "Setidaknya satu slot waktu harus dipilih untuk setiap tanggal",
+    "error.meeting.validation.time.required": "Setidaknya satu slot tanggal dan waktu harus dipilih",
+    "error.meeting.validation.all.day.empty.slots": "Untuk tipe ALL_DAY, slot waktu harus berupa array kosong",
+    "error.meeting.validation.slot.index.required": "slotIndex diperlukan untuk pertemuan jenis TIME",
+    "error.meeting.validation.slot.index.invalid": "Indeks slot tidak valid: {0}",
+    "error.meeting.validation.date.slot.together": "tanggal dan slotIndex harus ditentukan bersama",
+    "error.location.not.found": "Lokasi tidak ditemukan",
+    "error.location.not.belong.to.meeting": "Lokasi bukan milik pertemuan ini",
+    "error.location.vote.not.enabled": "Pemungutan suara lokasi tidak diaktifkan untuk rapat ini",
+    "error.location.already.confirmed": "Lokasi sudah dikonfirmasi. Harap batalkan konfirmasi lokasi terlebih dahulu.",
+    "error.location.not.confirmed": "Lokasi belum dikonfirmasi",
+    "error.location.id.required": "ID Lokasi diperlukan",
+    "error.location.name.required": "Nama lokasi wajib diisi",
+    "error.location.name.too.long": "Nama lokasi tidak boleh melebihi 200 karakter",
+    "error.location.max.exceeded": "Maksimal lokasi {0} yang dapat ditambahkan",
+    "error.location.min.required": "Setidaknya lokasi {0} diperlukan",
+    "error.location.min.for.vote": "Setidaknya lokasi {0} diperlukan untuk mengaktifkan pemungutan suara lokasi",
+    "error.location.cannot.disable": "Tidak dapat menonaktifkan pemungutan suara lokasi ketika lokasi dikonfirmasi",
+    "error.location.not.exist": "Lokasi tidak ada: {0}",
+    "error.selection.empty": "Data seleksi kosong",
+    "error.selection.date.required": "Tanggal wajib diisi",
+    "error.selection.type.required": "Jenis diperlukan",
+    "error.selection.type.unknown": "Jenis tidak diketahui: {0} (hanya TIME atau ALL_DAY yang diperbolehkan)",
+    "error.selection.time.required": "Tanggal '{0}' adalah tipe WAKTU tetapi tidak ada waktu yang ditentukan",
+    "error.selection.time.empty": "Nilai waktu kosong",
+    "error.selection.time.format.invalid": "Format waktu tidak valid untuk tanggal '{0}'. {1}",
+    "error.selection.date.not.available": "Tanggal {0} tidak tersedia dalam pertemuan ini",
+    "error.selection.slot.null": "Array slot tidak boleh nol. Gunakan peta kosong untuk mengecualikan tanggal.",
+    "error.selection.slot.not.available": "Slot {0} tidak tersedia di {1}",
+    "error.selection.slot.empty.for.time": "Array kosong tidak diperbolehkan untuk pertemuan tipe TIME. Gunakan peta kosong untuk mengecualikan tanggal.",
+    "error.timeslot.invalid.format": "Format waktu tidak valid. HH yang diharapkan:mm",
+    "error.timeslot.invalid.hour": "Jam harus antara 0 dan 23",
+    "error.timeslot.invalid.minute": "Menit harus antara 0 dan 59",
+    "error.timeslot.not.aligned": "Waktu harus selaras dengan interval menit {0}",
+    "error.timeslot.index.out.of.range": "Indeks slot harus berada di antara {1} dan {2} untuk interval {0}-menit, namun didapat: {3}",
+    "error.timeslot.interval.positive": "Menit interval harus positif",
+    "error.timeslot.interval.divisor": "Menit interval harus berupa pembagi {0}",
+    "error.calendar.export.failed": "Gagal membuat file kalender",
+    "error.ai.api.failed": "Panggilan AI API gagal",
+    "error.ai.provider.unknown": "Penyedia AI tidak dikenal: {0}",
+    "mcp.meeting.created": "Rapat berhasil dibuat",
+    "mcp.vote.time.saved": "Ketersediaan suara berhasil disimpan",
+    "mcp.vote.location.saved": "Pemungutan suara lokasi berhasil disimpan",
+    "mcp.meeting.confirmed": "Jadwal pertemuan berhasil dikonfirmasi",
+    "mcp.location.confirmed": "Lokasi pertemuan berhasil dikonfirmasi",
+    "mcp.ics.created": "File ICS berhasil dibuat",
+    "validation.meeting.title.required": "Judul diperlukan",
+    "validation.meeting.dates.required": "Tanggal/waktu yang tersedia wajib diisi",
+    "validation.meeting.location.max": "Maksimum 5 lokasi dapat ditambahkan",
+    "validation.selection.required": "Slot waktu yang dipilih diperlukan",
+    "validation.date.required": "Tanggal wajib diisi",
+    "validation.date.format": "Format tanggal harus yyyy-MM-dd",
+    "validation.time.required": "Waktu diperlukan",
+    "validation.time.format": "Format waktu harus HH:mm",
+    "validation.location.id.required": "ID Lokasi diperlukan",
+    "validation.location.ids.required": "Daftar ID lokasi diperlukan",
+    "validation.location.name.required": "Nama lokasi wajib diisi",
+    "validation.location.max": "Maksimum 5 lokasi dapat ditambahkan",
+    "validation.auth.code.required": "Kode otorisasi diperlukan",
+    "validation.username.required": "Nama pengguna diperlukan",
+    "validation.password.required": "Kata sandi diperlukan",
+    "validation.selection.date.min.max": "Silakan pilih antara 1 dan 31 tanggal",
+    "validation.type.required": "Jenis diperlukan",
+    "validation.slot.index.required": "Indeks slot untuk dikonfirmasi (wajib untuk tipe TIME, null diperbolehkan untuk tipe ALL_DAY)",
+    "error.meeting.timezone.invalid": "Pilih zona waktu IANA yang valid.",
+    "error.meeting.time.nonexistent": "Waktu ini tidak ada karena jam bergerak maju. Pilih waktu lain.",
+    "error.meeting.time.ambiguous": "Kali ini terjadi dua kali ketika jam bergerak mundur. Pilih waktu yang tidak ambigu.",
+    "error.comment.rate.limit": "Tunggu beberapa detik sebelum mengirim lagi.",
+    "error.selection.candidates.changed": "Tanggal yang diusulkan berubah. Muat ulang halaman dan jawab lagi."
+  },
+  "comments": {
+    "title": "Komentar",
+    "placeholder": "Bicarakan pertemuan ini",
+    "reply": "Balas",
+    "replyTo": "Balasan untuk {name}",
+    "replies": "Balasan ({count})",
+    "collapse": "Tutup balasan",
+    "post": "Kirim",
+    "save": "Simpan",
+    "edit": "Edit",
+    "delete": "Hapus",
+    "hide": "Sembunyikan",
+    "hidden": "Komentar disembunyikan oleh penyelenggara.",
+    "deleted": "Komentar ini telah dihapus.",
+    "edited": "Diedit",
+    "host": "Penyelenggara",
+    "mention": "Ketik @ untuk menyebut seseorang",
+    "noPeople": "Tidak ada peserta yang cocok",
+    "session": "Masukkan nama yang akan ditampilkan pada komentar Anda.",
+    "failed": "Permintaan gagal. Teks Anda tetap tersimpan; coba lagi.",
+    "rateLimit": "Tunggu beberapa detik sebelum mengirim lagi.",
+    "new": "Lihat komentar baru ({count})",
+    "mentioned": "Komentar baru yang ditujukan kepada Anda",
+    "moreReplies": "Balasan lainnya",
+    "more": "Komentar sebelumnya",
+    "copy": "Salin tautan komentar",
+    "copied": "Tautan disalin.",
+    "actions": "Tindakan komentar",
+    "newReply": "Baru",
+    "removeConfirm": "Hapus teks ini? Balasan yang ada akan tetap tersedia.",
+    "retry": "Coba lagi",
+    "reactions": {
+      "add": "Tambahkan reaksi",
+      "view": "Lihat siapa yang bereaksi",
+      "title": "Reaksi",
+      "react": "Beri reaksi",
+      "remove": "Hapus reaksi",
+      "empty": "Belum ada reaksi.",
+      "you": "Anda",
+      "session": "Masukkan nama yang akan ditampilkan bersama reaksi Anda.",
+      "failed": "Reaksi tidak dapat diperbarui. Coba lagi.",
+      "like": "Setuju",
+      "love": "Suka sekali",
+      "laugh": "Lucu",
+      "celebrate": "Rayakan",
+      "thanks": "Terima kasih",
+      "think": "Sedang berpikir",
+      "eyes": "Memantau",
+      "hundred": "Sempurna"
+    }
+  },
+  "availabilityDemo": {
+    "eyebrow": "Membuat janji semudah ini",
+    "title": "Jadwal berbeda. Satu rencana bersama.",
+    "description": "Bagikan tautan, pilih waktu luang, dan temukan waktu untuk bertemu bersama.",
+    "steps": {
+      "share": {
+        "title": "Bagikan satu tautan",
+        "description": "Undangan bisa ikut tanpa masuk akun"
+      },
+      "select": {
+        "title": "Pilih waktu luang",
+        "description": "Kumpulkan waktu luang semua orang"
+      },
+      "decide": {
+        "title": "Temukan waktu yang cocok",
+        "description": "Tetapkan waktu yang paling sesuai"
+      }
+    },
+    "sample": "Contoh penggunaan",
+    "meetingTitle": "Bertemu minggu ini, yuk",
+    "responses": "{count} peserta",
+    "hint": "Ubah waktu Anda dan lihat hasilnya berubah.",
+    "filtersLabel": "Waktu luang tiap peserta",
+    "allResults": "Semua hasil",
+    "personAvailability": "Waktu luang {name}",
+    "tableLabel": "Peserta yang tersedia per waktu",
+    "timeLabel": "Waktu",
+    "legendTitle": "Peserta tersedia",
+    "legendMax": "Lebih banyak",
+    "resultTitle": "Ada waktu untuk semua {count} peserta!",
+    "resultHint": "Pilih Semua hasil untuk melihat waktu yang cocok.",
+    "available": "Tersedia",
+    "unavailable": "Tidak tersedia",
+    "people": {
+      "jiwoo": "Jiwoo",
+      "minseo": "Minseo",
+      "doyun": "Doyun",
+      "subin": "Subin"
+    },
+    "yourAvailability": "Waktu luang Anda",
+    "hourly": "Interval 1 jam",
+    "me": "Anda",
+    "legend": "Bisa hadir / total",
+    "create": "Buat pertemuan Anda",
+    "compactTime": "Sabtu, pukul 19.00",
+    "compactResult": "Semua bisa hadir"
+  }
+}

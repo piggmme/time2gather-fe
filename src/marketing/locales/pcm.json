@@ -1,0 +1,149 @@
+{
+  "metaTitle": "Time2Gather - Find time wey fit everybody",
+  "metaDescription": "Free group poll for dates, times and places. People fit vote without account.",
+  "nav": {
+    "home": "Home",
+    "about": "About us",
+    "contact": "Contact us",
+    "privacy": "Privacy",
+    "terms": "Rules",
+    "language": "Language"
+  },
+  "hero": {
+    "eyebrow": "To meet together, use Time2Gather",
+    "title": "Time wey go work for all of us",
+    "description": "Gather when everybody free and find time wey una fit meet.",
+    "primary": "Create meeting",
+    "secondary": "Enter meeting code"
+  },
+  "stepsTitle": "Settle your plan for three steps",
+  "steps": [
+    {
+      "title": "1. Create options",
+      "body": "Enter meeting name and dates or times to compare."
+    },
+    {
+      "title": "2. Share link",
+      "body": "Send am to your friends, teammates or group."
+    },
+    {
+      "title": "3. Confirm plan",
+      "body": "Check the votes and confirm the time wey fit everybody."
+    }
+  ],
+  "faqTitle": "Questions wey people dey ask",
+  "faqs": [
+    {
+      "title": "How group fit find time for friends hangout or team meeting?",
+      "body": "Create date and time options for Time2Gather, then share the link. Everybody go pick when dem free. Compare the results and confirm the plan. E free for friends, study groups and teams."
+    },
+    {
+      "title": "I fit create poll and join without registration or app installation?",
+      "body": "Yes. Host and participants only need enter name; no registration or social login dey required. You fit create meeting and vote with your phone or computer browser."
+    },
+    {
+      "title": "We fit vote for only dates or for particular times too?",
+      "body": "Yes. Use date poll to choose day, or time poll to collect the time slots wey people free. Choose the one wey match your plan when you dey create meeting."
+    },
+    {
+      "title": "How I fit share scheduling poll for group chat?",
+      "body": "Copy the meeting link put for group chat, message or email. Participants go open am, enter name and choose when dem free. Dem fit also find the meeting with invitation code."
+    },
+    {
+      "title": "We fit vote for meeting place too?",
+      "body": "Yes. Turn on location voting when you dey create the meeting and add options. Participants fit vote for places wey dem prefer and discuss plans for comments."
+    },
+    {
+      "title": "I fit change my answer or continue with another device?",
+      "body": "Before dem confirm the plan, open the link again for the browser wey you first use to change your answer. If you change device or browser, or clear browser data, the service fit no recognise you as the same participant. The same name no go restore old answers or host permissions."
+    },
+    {
+      "title": "People for different time zones fit plan meeting together?",
+      "body": "Time polls use the meeting time zone wey host choose. You fit view results for another time zone to compare schedules with people abroad. For date-only polls, the dates wey people choose no go change because of time zone."
+    },
+    {
+      "title": "I fit add the plan to my calendar?",
+      "body": "Yes. Download selected time or confirmed meeting from results as ICS file, then import am into calendar app wey support ICS. You no need connect calendar before you fit use polls."
+    }
+  ],
+  "about": {
+    "title": "About Time2Gather",
+    "intro": "Time2Gather na free tool wey reduce back-and-forth when group dey plan meeting.",
+    "sections": [
+      {
+        "title": "Why we dey here",
+        "body": "Make anybody fit join with one link and share dates, times and places wey fit dem."
+      },
+      {
+        "title": "How e dey work",
+        "body": "Host create options and share link. People pick when dem free, then host confirm the final plan."
+      },
+      {
+        "title": "Wetin matter to us",
+        "body": "Easy joining, clear results, small personal data collection, and same experience for phone and computer."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact us",
+    "intro": "Email us about how to use the service, problems, privacy requests or ideas.",
+    "emailTitle": "Email",
+    "emailBody": "If you report problem, include your browser and the screen where e happen.",
+    "responseTitle": "Our reply",
+    "responseBody": "We dey check messages as quick as we fit. We fit ask you to confirm who you be for privacy requests."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "intro": "Time2Gather dey use only the information wey group planning need. We no dey sell personal information.",
+    "sections": [
+      {
+        "title": "Information wey we dey use",
+        "body": "E fit include basic account details, meeting titles and options, votes, nicknames, session data and basic connection information."
+      },
+      {
+        "title": "How we dey use am",
+        "body": "We dey use am to create, join and confirm meetings, manage accounts, protect the service, solve problems and improve the product."
+      },
+      {
+        "title": "Analytics and providers",
+        "body": "We fit use Google Analytics to understand usage. Hosting and sign-in providers fit process the information wey dem need to provide their service."
+      },
+      {
+        "title": "How long we keep am and your choices",
+        "body": "We dey keep information as long as service and legal obligations need am. Contact us to request access, correction or deletion."
+      },
+      {
+        "title": "Processing outside your country",
+        "body": "Providers fit process information outside your country. We dey use reasonable safeguards for those transfers."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Rules for this service",
+    "intro": "If you use Time2Gather, you agree to these rules.",
+    "sections": [
+      {
+        "title": "How to use the service",
+        "body": "Use am for planning wey follow law, and respect other people rights."
+      },
+      {
+        "title": "Wetin you dey responsible for",
+        "body": "Na you dey responsible for the content, links, account security and information wey you submit."
+      },
+      {
+        "title": "Changes and availability",
+        "body": "We fit change features or pause the service for quality or security. We go communicate major changes through reasonable channels."
+      },
+      {
+        "title": "Rights and restrictions",
+        "body": "Code, design and brand belong to their owners. No copy, disrupt or misuse the service without permission."
+      },
+      {
+        "title": "Liability limits",
+        "body": "We dey provide the service as e dey. Where law allow am, our liability for indirect loss or user content dey limited."
+      }
+    ]
+  },
+  "updated": "Last update: October 14, 2026",
+  "footer": "Find time wey fit everybody, without wahala."
+}

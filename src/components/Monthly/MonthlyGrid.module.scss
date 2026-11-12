@@ -6,7 +6,7 @@
 
 .weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: $spacing-sm;
   margin-bottom: $spacing-md;
   width: 100%;
@@ -19,7 +19,7 @@
   justify-content: center;
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
-  color: $c-gray-dark;
+  color: $c-gray-darkest;
   padding: $spacing-xs 0;
 
   &.sunday {
@@ -33,10 +33,13 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: $spacing-sm;
   width: 100%;
   overflow: visible;
-  padding: 2px; // 셀 그림자가 잘리지 않도록
+  padding: 2px 2px 0;
 }
 
+
+@media (max-width: 699px) { .grid, .weekdays { gap: 4px; } }
+@media (max-width: 359px) { .grid, .weekdays { width: calc(100% + 36px); margin-inline: -18px; gap: 0; } }

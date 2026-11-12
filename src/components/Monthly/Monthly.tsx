@@ -1,21 +1,22 @@
+import { formatMonth as localizedMonth, getWeekStart } from '../../utils/time'
 import MonthlyGrid from './MonthlyGrid'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import 'dayjs/locale/en'
 import styles from './Monthly.module.scss'
-import { useState, useEffect } from 'react'
-import { HiChevronLeft, HiChevronRight } from 'react-icons/hi'
+import { useState } from 'react'
+import { HiCheck, HiChevronLeft, HiChevronRight } from 'react-icons/hi'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
 import { useTranslation } from '../../hooks/useTranslation'
 
-function getMonthDays (year: number, month: number) {
+function getMonthDays (year: number, month: number, weekStart: number) {
   const start = dayjs().year(year).month(month).date(1)
   const end = start.endOf('month')
 
   const days: dayjs.Dayjs[] = []
 
   // 해당 월의 첫 날의 요일 (0 = 일요일, 6 = 토요일)
-  const firstDayOfWeek = start.day()
+  const firstDayOfWeek = (start.day() - weekStart + 7) % 7
 
   // 이전 달의 마지막 날들 추가 (첫 날이 일요일이 아니면)
   if (firstDayOfWeek > 0) {
@@ -33,7 +34,7 @@ function getMonthDays (year: number, month: number) {
   }
 
   // 해당 월의 마지막 날의 요일 (0 = 일요일, 6 = 토요일)
-  const lastDayOfWeek = end.day()
+  const lastDayOfWeek = (end.day() - weekStart + 7) % 7
 
   // 마지막 날이 토요일이 아니면 다음 달의 날짜를 추가해서 마지막 주를 채움
   if (lastDayOfWeek < 6) {
@@ -91,24 +92,19 @@ export default function Monthly ({
   const availableMonths = Array.from(
     (availableDates ?? []).reduce((months, date) => {
       const key = date.format('YYYY-MM')
-      const month = months.get(key)
       months.set(key, {
         key,
         date: date.startOf('month'),
-        count: (month?.count ?? 0) + 1,
       })
       return months
-    }, new Map<string, { key: string, date: dayjs.Dayjs, count: number }>()).values(),
+    }, new Map<string, { key: string, date: dayjs.Dayjs }>()).values(),
   ).sort((a, b) => a.date.diff(b.date))
   const [currentDate, setCurrentDate] = useState(() => availableMonths[0]?.date ?? dates?.[0]?.startOf('month') ?? dayjs())
-  const monthDays = getMonthDays(currentDate.year(), currentDate.month())
+  const monthDays = getMonthDays(currentDate.year(), currentDate.month(), getWeekStart(locale))
   const currentMonthKey = currentDate.format('YYYY-MM')
   const currentAvailableMonthIndex = availableMonths.findIndex(month => month.key === currentMonthKey)
-
-  // Update dayjs locale when locale changes
-  useEffect(() => {
-    dayjs.locale(locale === 'ko' ? 'ko' : 'en')
-  }, [locale])
+  const showMonthTabs = availableMonths.length > 1
+  const spansYears = new Set(availableMonths.map(month => month.date.year())).size > 1
 
   const today = dayjs()
   const isCurrentMonthBeforeToday = isEditMode
@@ -139,67 +135,55 @@ export default function Monthly ({
     setCurrentDate(currentDate.add(1, 'month'))
   }
 
-  // Format date based on locale
-  const formatMonthYear = (date: dayjs.Dayjs) => {
-    const localizedDate = date.locale(locale === 'ko' ? 'ko' : 'en')
-    if (locale === 'ko') {
-      return localizedDate.format('YYYY년 MM월')
-    } else {
-      return localizedDate.format('MMMM YYYY')
-    }
-  }
-
-  const formatMonth = (date: dayjs.Dayjs) => {
-    const localizedDate = date.locale(locale === 'ko' ? 'ko' : 'en')
-    return locale === 'ko' ? localizedDate.format('M월') : localizedDate.format('MMM')
-  }
+  const formatMonthYear = (date: dayjs.Dayjs) => localizedMonth(date, locale, true)
+  const formatMonth = (date: dayjs.Dayjs) => localizedMonth(date, locale)
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-calendar-month={currentMonthKey}>
+      {showMonthTabs && (
+        <div className={styles.availableMonths} role='group' aria-label={t('meeting.dateCalendar.availableMonths')}>
+          {availableMonths.map(month => (
+            <button
+              type='button'
+              key={month.key}
+              data-available-month={month.key}
+              className={month.key === currentMonthKey ? styles.current : ''}
+              onClick={() => setCurrentDate(month.date)}
+              aria-pressed={month.key === currentMonthKey}
+              aria-label={formatMonthYear(month.date)}
+            >
+              {spansYears ? formatMonthYear(month.date) : formatMonth(month.date)}
+            </button>
+          ))}
+        </div>
+      )}
       <div className={styles.header}>
-        <button
-          type='button'
-          onClick={handlePreviousMonth}
-          disabled={isPreviousDisabled}
-          className={isPreviousDisabled ? styles.disabled : ''}
-          aria-label={t('meeting.dateCalendar.previousMonth')}
-        >
-          <HiChevronLeft />
-        </button>
+        {!showMonthTabs && (
+          <button
+            type='button'
+            onClick={handlePreviousMonth}
+            disabled={isPreviousDisabled}
+            className={isPreviousDisabled ? styles.disabled : ''}
+            aria-label={t('meeting.dateCalendar.previousMonth')}
+          >
+            <HiChevronLeft />
+          </button>
+        )}
         <h2 className={styles.title} aria-live='polite'>{formatMonthYear(currentDate)}</h2>
-        <button
-          type='button'
-          onClick={handleNextMonth}
-          disabled={isNextDisabled}
-          className={isNextDisabled ? styles.disabled : ''}
-          aria-label={t('meeting.dateCalendar.nextMonth')}
-        >
-          <HiChevronRight />
-        </button>
+        {!showMonthTabs && (
+          <button
+            type='button'
+            onClick={handleNextMonth}
+            disabled={isNextDisabled}
+            className={isNextDisabled ? styles.disabled : ''}
+            aria-label={t('meeting.dateCalendar.nextMonth')}
+          >
+            <HiChevronRight />
+          </button>
+        )}
       </div>
       {isEditMode && availableDates && (
-        <div className={`${styles.availabilityMeta} ${availableMonths.length > 1 ? '' : styles.legendOnly}`}>
-          {availableMonths.length > 1 && (
-            <div className={styles.availableMonths} aria-label={t('meeting.dateCalendar.availableMonths')}>
-              {availableMonths.map(month => (
-                <button
-                  type='button'
-                  key={month.key}
-                  data-available-month={month.key}
-                  className={month.key === currentMonthKey ? styles.current : ''}
-                  onClick={() => setCurrentDate(month.date)}
-                  aria-pressed={month.key === currentMonthKey}
-                  aria-label={t('meeting.dateCalendar.monthAvailability', {
-                    month: formatMonth(month.date),
-                    count: month.count,
-                  })}
-                >
-                  <span>{formatMonth(month.date)}</span>
-                  <span className={styles.monthCount}>{month.count}</span>
-                </button>
-              ))}
-            </div>
-          )}
+        <div className={`${styles.availabilityMeta} ${styles.legendOnly}`}>
           <div className={styles.availabilityLegend}>
             <span><i className={styles.availableSwatch} />{t('meeting.dateCalendar.available')}</span>
             <span><i className={styles.unavailableSwatch} />{t('meeting.dateCalendar.unavailable')}</span>
@@ -219,6 +203,16 @@ export default function Monthly ({
         participantsCount={participantsCount}
         allowPastSelected={allowPastSelected}
       />
+      {isEditMode && availableDates && (
+        <div className={styles.voteLegend}>
+          <span><HiCheck aria-hidden='true' />{t('meeting.dateCalendar.mySelection')}</span>
+          <span className={styles.densityLegend}>
+            {t('meeting.dateCalendar.fewerVotes')}
+            <i aria-hidden='true' /><i aria-hidden='true' />
+            {t('meeting.dateCalendar.moreVotes')}
+          </span>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,0 +1,41 @@
+---
+import '../styles/global.scss'
+import LocaleFonts from '../components/LocaleFonts.astro'
+import { getLocaleFromAstroRequest, getLocaleMessages, getTranslations, localeMeta } from '../i18n'
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang'))
+const t = getTranslations(locale)
+Astro.response.headers.set('Cache-Control', 'no-store')
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow')
+Astro.response.headers.set('Referrer-Policy', 'no-referrer')
+---
+<!doctype html>
+<html lang={locale} dir={localeMeta[locale].dir}>
+  <head>
+    <script is:inline>
+      // Admin storage is origin-scoped. Always restore it on the same production origin.
+      if (['www.time2gather.org', 'time2gather-prod-2026.web.app', 'time2gather-prod-2026.firebaseapp.com'].includes(window.location.hostname)) {
+        const destination = new URL(window.location.href)
+        destination.protocol = 'https:'
+        destination.hostname = 'time2gather.org'
+        destination.port = ''
+        window.location.replace(destination.href)
+      }
+    </script>
+    <meta charset='UTF-8' />
+    <link rel='preconnect' href='https://accounts.google.com' />
+    <link rel='dns-prefetch' href='https://accounts.google.com' />
+    <LocaleFonts locale={locale} />
+    <script id='i18n-messages' type='application/json' data-locale={locale} set:html={JSON.stringify(getLocaleMessages(locale)).replace(/</g, '\\u003c')} />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='robots' content='noindex, nofollow' />
+    <title>{t('admin.metaTitle')}</title>
+    <link rel='icon' href='/favicon.png' />
+  </head>
+  <body><slot /></body>
+</html>
+<style>
+  :global(body) { margin: 0; background: #fff; font-family: var(--font-ui, system-ui, sans-serif); }
+  :global(*) { box-sizing: border-box; }
+  :global(button), :global(input) { font: inherit; }
+  :global(button) { cursor: pointer; }
+</style>

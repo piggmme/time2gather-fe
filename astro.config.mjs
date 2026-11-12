@@ -33,16 +33,13 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://time2gather.org',
   integrations: [
     react(),
-    partytown({
-      config: {
-        forward: ['dataLayer.push'],
-      },
-    }),
+    partytown(),
     sitemap({
       filter: (page) => {
         const pathname = new URL(page).pathname.replace(/\/$/, '') || '/'
         return !pathname.startsWith('/meetings/')
           && pathname !== '/meetings'
+          && !pathname.startsWith('/admin')
           && pathname !== '/my'
           && pathname !== '/404'
       },
