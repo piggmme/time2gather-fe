@@ -23,6 +23,7 @@ export type post_meetings_body = {
     [date: string]: string[] | null
   }
   selectionType: 'ALL_DAY' | 'TIME'
+  intervalMinutes?: 30 | 60
   locationVoteEnabled?: boolean
   locations?: string[]
 }

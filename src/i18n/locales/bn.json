@@ -128,7 +128,10 @@
       "startTime": "শুরুর সময়",
       "endTime": "শেষ সময়",
       "selectedDatesCount": "নির্বাচিত তারিখ: {count}",
-      "createButton": "একটি মিটিং তৈরি করুন"
+      "createButton": "একটি মিটিং তৈরি করুন",
+      "intervalLabel": "সময়ের ব্যবধান",
+      "hourOption": "১ ঘণ্টা",
+      "halfHourOption": "৩০ মিনিট"
     },
     "locationStep": {
       "heading": "আপনার মিটিং তৈরি করা শেষ করুন",

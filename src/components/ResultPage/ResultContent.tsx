@@ -494,6 +494,8 @@ function DailyCalendarContent ({
       <Daily
         heading={t('meeting.result.calendarTitle')}
         timezone={meetingData.meeting.timezone}
+        intervalMinutes={meetingData.meeting.intervalMinutes}
+        availableDates={meetingData.meeting.availableDates}
         dates={dates}
         availableTimes={availableTimes}
         selections={{}}

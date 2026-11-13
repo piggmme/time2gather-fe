@@ -128,7 +128,10 @@
       "startTime": "Başlangıç zamanı",
       "endTime": "Bitiş zamanı",
       "selectedDatesCount": "Seçilen tarihler: {count}",
-      "createButton": "Toplantı oluştur"
+      "createButton": "Toplantı oluştur",
+      "intervalLabel": "Zaman aralığı",
+      "hourOption": "1 saat",
+      "halfHourOption": "30 dakika"
     },
     "locationStep": {
       "heading": "Toplantınızı oluşturmayı tamamlayın",

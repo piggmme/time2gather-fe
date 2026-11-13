@@ -229,6 +229,7 @@ function TimeSelectForm ({
           <Daily
             className={styles.timeSelectionCalendar}
             timezone={data.meeting.timezone}
+            intervalMinutes={data.meeting.intervalMinutes}
             dates={dateList}
             availableTimes={availableTimes}
             availableDates={data.meeting.availableDates}

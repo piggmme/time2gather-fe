@@ -128,7 +128,10 @@
       "startTime": "เวลาเริ่มต้น",
       "endTime": "เวลาสิ้นสุด",
       "selectedDatesCount": "วันที่เลือก: {count}",
-      "createButton": "สร้างการประชุม"
+      "createButton": "สร้างการประชุม",
+      "intervalLabel": "ช่วงเวลา",
+      "hourOption": "1 ชั่วโมง",
+      "halfHourOption": "30 นาที"
     },
     "locationStep": {
       "heading": "สร้างการประชุมของคุณให้เสร็จสิ้น",

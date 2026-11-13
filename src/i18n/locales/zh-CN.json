@@ -128,7 +128,10 @@
       "startTime": "开始时间",
       "endTime": "结束时间",
       "selectedDatesCount": "所选日期：{count}",
-      "createButton": "创建会议"
+      "createButton": "创建会议",
+      "intervalLabel": "时间间隔",
+      "hourOption": "1小时",
+      "halfHourOption": "30分钟"
     },
     "locationStep": {
       "heading": "完成会议创建",

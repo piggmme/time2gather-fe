@@ -128,7 +128,10 @@
       "startTime": "Thời gian bắt đầu",
       "endTime": "Thời gian kết thúc",
       "selectedDatesCount": "Ngày đã chọn: {count}",
-      "createButton": "Tạo cuộc họp"
+      "createButton": "Tạo cuộc họp",
+      "intervalLabel": "Khoảng thời gian",
+      "hourOption": "1 giờ",
+      "halfHourOption": "30 phút"
     },
     "locationStep": {
       "heading": "Hoàn tất việc tạo cuộc họp của bạn",

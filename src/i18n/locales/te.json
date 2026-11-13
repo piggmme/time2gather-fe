@@ -128,7 +128,10 @@
       "startTime": "ప్రారంభ సమయం",
       "endTime": "ముగింపు సమయం",
       "selectedDatesCount": "ఎంచుకున్న తేదీలు: {count}",
-      "createButton": "సమావేశాన్ని సృష్టించండి"
+      "createButton": "సమావేశాన్ని సృష్టించండి",
+      "intervalLabel": "సమయ విరామం",
+      "hourOption": "1 గంట",
+      "halfHourOption": "30 నిమిషాలు"
     },
     "locationStep": {
       "heading": "మీ సమావేశాన్ని సృష్టించడం పూర్తి చేయండి",

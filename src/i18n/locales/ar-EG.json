@@ -128,7 +128,10 @@
       "startTime": "وقت البدء",
       "endTime": "وقت الانتهاء",
       "selectedDatesCount": "التواريخ المختارة: {count}",
-      "createButton": "إنشاء اجتماع"
+      "createButton": "إنشاء اجتماع",
+      "intervalLabel": "الفاصل الزمني",
+      "hourOption": "ساعة واحدة",
+      "halfHourOption": "30 دقيقة"
     },
     "locationStep": {
       "heading": "قم بالانتهاء من إنشاء اجتماعك",

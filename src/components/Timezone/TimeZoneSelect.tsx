@@ -10,12 +10,13 @@ import { getTimeZoneOptions, searchTimeZones } from '../../utils/timezoneSearch'
 import styles from './Timezone.module.scss'
 
 export default function TimeZoneSelect ({
-  value, onChange, label, description, valueSuffix,
+  value, onChange, label, description, valueSuffix, field = false,
 }: {
   value: string
   onChange: (zone: string) => void
   label?: string
   description?: string
+  field?: boolean
   valueSuffix?: string
 }) {
   const { t, locale } = useTranslation()
@@ -78,12 +79,12 @@ export default function TimeZoneSelect ({
     <button
       ref={trigger}
       type='button'
-      className={styles.trigger}
+      className={`${styles.trigger} ${field ? styles.fieldTrigger : ''}`}
       aria-label={`${title}: ${value.replaceAll('_', ' ')}${valueSuffix ? ` · ${valueSuffix}` : ''}`}
       title={`${value.replaceAll('_', ' ')} · ${selectedOption?.description ?? ''}`}
     >
-      <ClockIcon aria-hidden='true' />
-      <span className={styles.triggerLabel}>{title}</span>
+      {!field && <ClockIcon aria-hidden='true' />}
+      {!field && <span className={styles.triggerLabel}>{title}</span>}
       <bdi className={styles.triggerValue}>{city}</bdi>
       {valueSuffix && <bdi className={styles.triggerOffset}>{valueSuffix}</bdi>}
       <ChevronDownIcon className={styles.chevron} aria-hidden='true' />
@@ -155,7 +156,7 @@ export default function TimeZoneSelect ({
   )
 
   return (
-    <div className={styles.selector}>
+    <div className={`${styles.selector} ${field ? styles.fieldSelector : ''}`}>
       {mobile
         ? (
             <Dialog.Root open={open} onOpenChange={onOpenChange}>

@@ -10,6 +10,7 @@ type CellPosition = {
 
 type DailyGridProps = {
   timezone: string
+  intervalMinutes?: number
   date: dayjs.Dayjs
   dateKey: string
   availableTimes: string[]
@@ -27,6 +28,7 @@ type DailyGridProps = {
 export default function DailyGrid ({
   date,
   timezone,
+  intervalMinutes = 60,
   dateKey,
   availableTimes,
   allowedTimes,
@@ -55,7 +57,7 @@ export default function DailyGrid ({
     && (dragged.has(index) ? dragAction === 'select' : selectedTimes.has(time)))
   const minutes = availableTimes.map(time => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5)))
   // Local offsets may shift the clock labels. Never bridge an unavailable or missing time slot.
-  const interval = Math.min(60, ...minutes.slice(1).map((minute, index) => minute - minutes[index]).filter(gap => gap > 0))
+  const interval = intervalMinutes
   const joinsPrevious = (index: number) => index > 0 && previewSelected[index - 1]
     && minutes[index] - minutes[index - 1] === interval
   const joinsNext = (index: number) => index + 1 < minutes.length && previewSelected[index + 1]
@@ -74,6 +76,7 @@ export default function DailyGrid ({
               key={time}
               time={time}
               timezone={timezone}
+              intervalMinutes={intervalMinutes}
               participants={!isEditMode ? schedule?.[time]?.participants : undefined}
               dateKey={dateKey}
               timeIndex={index}

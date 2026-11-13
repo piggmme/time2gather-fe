@@ -128,7 +128,10 @@
       "startTime": "Start time",
       "endTime": "End time",
       "selectedDatesCount": "Selected dates: {count}",
-      "createButton": "Create a meeting"
+      "createButton": "Create a meeting",
+      "intervalLabel": "Time interval",
+      "hourOption": "1 hour",
+      "halfHourOption": "30 minutes"
     },
     "locationStep": {
       "heading": "Finish creating your meeting",

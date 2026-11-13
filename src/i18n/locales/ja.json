@@ -128,7 +128,10 @@
       "startTime": "開始時間",
       "endTime": "終了時刻",
       "selectedDatesCount": "選択した日付: {count}",
-      "createButton": "予定を作成する"
+      "createButton": "予定を作成する",
+      "intervalLabel": "選択する時間単位",
+      "hourOption": "1時間",
+      "halfHourOption": "30分"
     },
     "locationStep": {
       "heading": "予定の作成を完了する",

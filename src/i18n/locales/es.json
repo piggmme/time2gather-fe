@@ -128,7 +128,10 @@
       "startTime": "Hora de inicio",
       "endTime": "Hora de finalización",
       "selectedDatesCount": "Fechas seleccionadas: {count}",
-      "createButton": "Crear una reunión"
+      "createButton": "Crear una reunión",
+      "intervalLabel": "Intervalo de tiempo",
+      "hourOption": "1 hora",
+      "halfHourOption": "30 minutos"
     },
     "locationStep": {
       "heading": "Termina de crear tu reunión",

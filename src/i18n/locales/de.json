@@ -128,7 +128,10 @@
       "startTime": "Startzeit",
       "endTime": "Endzeit",
       "selectedDatesCount": "Ausgewählte Daten: {count}",
-      "createButton": "Erstellen Sie ein Meeting"
+      "createButton": "Erstellen Sie ein Meeting",
+      "intervalLabel": "Zeitintervall",
+      "hourOption": "1 Stunde",
+      "halfHourOption": "30 Minuten"
     },
     "locationStep": {
       "heading": "Schließen Sie die Erstellung Ihres Meetings ab",

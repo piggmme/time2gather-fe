@@ -12,7 +12,7 @@ import Input from '../Input/Input'
 import { useTranslation } from '../../hooks/useTranslation'
 import { meetings, type post_meetings_body } from '../../services/meetings'
 import useSelectedDates from './useSelectedDates'
-import { convertTo24Hour, getTimeRangeSlots } from '../../utils/time'
+import { convertTo24Hour, getCreationTimeSlots } from '../../utils/time'
 import type { AmPm } from '../../utils/time'
 import { useStore } from '@nanostores/react'
 import { $me } from '../../stores/me'
@@ -41,6 +41,8 @@ export default function LocationStep () {
   const endTime12Param = useSearchParam('endTime12')
   const startAmPmParam = useSearchParam('startAmPm') as AmPm
   const endAmPmParam = useSearchParam('endAmPm') as AmPm
+  const intervalParam = useSearchParam('intervalMinutes')
+  const intervalMinutes = intervalParam === '30' ? 30 : 60
   const { t } = useTranslation()
 
   const validLocations = locations.filter(loc => loc.trim() !== '')
@@ -75,7 +77,7 @@ export default function LocationStep () {
       const startTime24 = convertTo24Hour(startTime12Param || '9:00', startAmPmParam || 'AM')
       const endTime24 = convertTo24Hour(endTime12Param || '10:00', endAmPmParam || 'PM')
       return selectedDates.reduce((acc, d) => {
-        acc[d.format('YYYY-MM-DD')] = getTimeRangeSlots(startTime24, endTime24)
+        acc[d.format('YYYY-MM-DD')] = getCreationTimeSlots(startTime24, endTime24, intervalMinutes)
         return acc
       }, {} as { [date: string]: string[] })
     }
@@ -116,6 +118,7 @@ export default function LocationStep () {
         timezone,
         selectionType: meetingTypeParam,
         availableDates,
+        ...(meetingTypeParam === 'TIME' ? { intervalMinutes } : {}),
       }
 
       if (locationVoteEnabled && validLocations.length >= MIN_LOCATIONS) {
@@ -143,7 +146,7 @@ export default function LocationStep () {
   const handleBack = () => {
     const dateStrings = selectedDates.map(date => date.format('YYYY-MM-DD')).join(',')
     if (meetingTypeParam === 'TIME') {
-      const timeParams = `&startTime12=${startTime12Param}&endTime12=${endTime12Param}&startAmPm=${startAmPmParam}&endAmPm=${endAmPmParam}`
+      const timeParams = `&intervalMinutes=${intervalMinutes}&startTime12=${startTime12Param}&endTime12=${endTime12Param}&startAmPm=${startAmPmParam}&endAmPm=${endAmPmParam}`
       return navigateBack(`/meetings/create?step=timeRange&meetingType=${meetingTypeParam}&dates=${dateStrings}&title=${encodeURIComponent(title ?? '')}${timeParams}`)
     } else {
       return navigateBack(`/meetings/create?step=dates&meetingType=${meetingTypeParam}&dates=${dateStrings}&title=${encodeURIComponent(title ?? '')}`)

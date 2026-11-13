@@ -128,7 +128,10 @@
       "startTime": "Lokacin farawa",
       "endTime": "Lokacin ƙarewa",
       "selectedDatesCount": "Kwanakin da aka zaɓa: {count}",
-      "createButton": "Ƙirƙiri taro"
+      "createButton": "Ƙirƙiri taro",
+      "intervalLabel": "Tazarar lokaci",
+      "hourOption": "Awa 1",
+      "halfHourOption": "Minti 30"
     },
     "locationStep": {
       "heading": "Kammala ƙirƙirar taron ku",

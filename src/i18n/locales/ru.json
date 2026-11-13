@@ -128,7 +128,10 @@
       "startTime": "Время начала",
       "endTime": "Время окончания",
       "selectedDatesCount": "Выбранные даты: {count}",
-      "createButton": "Создать встречу"
+      "createButton": "Создать встречу",
+      "intervalLabel": "Интервал времени",
+      "hourOption": "1 час",
+      "halfHourOption": "30 минут"
     },
     "locationStep": {
       "heading": "Завершите создание встречи",

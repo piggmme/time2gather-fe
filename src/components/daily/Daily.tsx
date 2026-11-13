@@ -38,6 +38,7 @@ type DailyProps = {
   availableDates?: Record<string, string[]>
   allowedSlots?: Record<string, Record<string, unknown>>
   availableTimes: string[]
+  intervalMinutes?: number
   height?: string
   selections?: { [date: string]: string[] }
   setSelections?: Dispatch<SetStateAction<{ [date: string]: string[] }>>
@@ -78,6 +79,16 @@ export default function Daily (props: DailyProps) {
       return projection.toSource(typeof update === 'function' ? update(displayed) : update)
     })
   }
+  const shownTimes = projection?.availableTimes ?? props.availableTimes
+  const groupedHalfHours = props.intervalMinutes === 30 && shownTimes.every(time => /:(00|30)$/.test(time))
+  // Include a disabled half when a date-specific candidate has no other half.
+  // Every pointer index refers to this same array, including during timezone conversion.
+  const gridTimes = groupedHalfHours
+    ? [...new Set(shownTimes.map(time => time.slice(0, 2)))].sort().flatMap(hour => [`${hour}:00`, `${hour}:30`])
+    : shownTimes
+  const allowed = projection?.sourceByDisplay ?? props.allowedSlots ?? Object.fromEntries(
+    Object.entries(availableDates).map(([date, times]) => [date, Object.fromEntries(times.map(time => [time, true]))]),
+  )
   return (
     <Tooltip.Provider delayDuration={200} skipDelayDuration={100}>
       {isEditMode && <TimeZoneSelect value={shownZone} onChange={setDisplayZone} label={t('timezone.display')} />}
@@ -88,8 +99,8 @@ export default function Daily (props: DailyProps) {
         viewportRef={viewportRef}
         timezone={shownZone}
         dates={projection ? projection.dates.map(date => dayjs(date)) : props.dates}
-        availableTimes={projection?.availableTimes ?? props.availableTimes}
-        allowedSlots={projection?.sourceByDisplay}
+        availableTimes={gridTimes}
+        allowedSlots={allowed}
         selections={projection ? projection.toDisplay(props.selections ?? {}) : props.selections}
         setSelections={setSelections}
         schedule={displayedSchedule}
@@ -107,6 +118,7 @@ function DailyContent ({
   dates,
   heading,
   timezone = 'UTC',
+  intervalMinutes = 60,
   availableTimes,
   allowedSlots,
   height = 'auto',
@@ -119,6 +131,7 @@ function DailyContent ({
   viewportRef,
 }: DailyProps & { viewportRef: RefObject<{ left: number, top: number }> }) {
   const { t, locale } = useTranslation()
+  const groupedHalfHours = intervalMinutes === 30 && availableTimes.every(time => /:(00|30)$/.test(time))
   const direction = localeMeta[locale].dir
   const rtl = direction === 'rtl'
   const formatters = useMemo(() => ({
@@ -705,7 +718,7 @@ function DailyContent ({
           </div>
         )}
       </div>
-      <div className={`${styles.container} ${className} ${!isEditMode ? styles.resultCalendar : ''} ${height !== 'auto' ? styles.bounded : ''}`} dir={direction} style={{ '--date-count': dates.length, 'maxHeight': height, 'height': 'auto' } as CSSProperties}>
+      <div className={`${styles.container} ${className} ${!isEditMode ? styles.resultCalendar : ''} ${height !== 'auto' ? styles.bounded : ''} ${groupedHalfHours ? styles.groupedHalfHours : ''}`} data-interval-minutes={intervalMinutes} data-grouped-half-hours={groupedHalfHours} dir={direction} style={{ '--date-count': dates.length, '--time-row-height': intervalMinutes === 30 ? '32px' : '44px', 'maxHeight': height, 'height': 'auto' } as CSSProperties}>
         {isEditMode && (
           <div
             className={`${styles.gestureHint} ${isDragMode ? styles.gestureHintActive : ''}`}
@@ -777,11 +790,12 @@ function DailyContent ({
           {/* 시간 그리드 */}
           <div className={styles.scrollWrapper} ref={scrollWrapperRef} onScroll={(event) => { viewportRef.current.top = event.currentTarget.scrollTop }}>
             <div className={styles.timeColumn}>
-              {availableTimes.map((time) => {
+              {availableTimes.filter(time => !groupedHalfHours || time.endsWith(':00')).map((time) => {
                 const isFullHour = time.endsWith(':00')
                 return (
                   <div
                     key={time}
+                    data-time-label={time}
                     className={`${styles.timeCell} ${isFullHour ? styles.fullHour : styles.halfHour}`}
                   >
                     <bdi>{formatters.time.format(new Date(`2000-01-01T${time}:00Z`))}</bdi>
@@ -811,6 +825,7 @@ function DailyContent ({
                       <DailyGrid
                         date={date}
                         timezone={timezone}
+                        intervalMinutes={intervalMinutes}
                         dateKey={dateKey}
                         availableTimes={availableTimes}
                         allowedTimes={allowedSlots ? Object.keys(allowedSlots[dateKey] ?? {}) : undefined}

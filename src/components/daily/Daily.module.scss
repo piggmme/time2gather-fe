@@ -160,7 +160,7 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
 }
 
 .timeCell {
-  height: 44px;
+  height: var(--time-row-height, 44px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -442,3 +442,5 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   .stickyHeader { border-radius: $radius-base $radius-base 0 0; }
   .scrollWrapper { border-radius: 0 0 $radius-base $radius-base; }
 }
+
+.groupedHalfHours .timeCell { height: 64px; }

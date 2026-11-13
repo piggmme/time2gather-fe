@@ -77,7 +77,37 @@
   }
 }
 
-.timezone { margin-top: 4px; }
+
+.settings {
+  display: grid;
+  margin-top: 16px;
+  border-top: 1px solid $c-gray;
+  padding-top: 8px;
+  gap: 4px;
+}
+.settingRow { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-width: 0; min-height: 52px; }
+.settingLabel { flex: 1; min-width: 0; color: $c-black; font-size: 15px; font-weight: 500; line-height: 1.5; overflow-wrap: break-word; }
+.settingValue, .intervalSelect { flex: none; width: 136px; min-width: 0; }
+.intervalSelect {
+  box-sizing: border-box;
+  height: 44px;
+  padding-inline: 12px;
+  border: 1px solid $c-gray;
+  border-radius: 10px;
+  background: $c-white;
+  color: $c-black;
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover { border-color: $primary-color; }
+  &:focus-visible { outline: 2px solid $primary-color; outline-offset: 2px; }
+}
+@media (min-width: 700px) {
+  .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-top: 16px; }
+  .settingRow { flex-direction: column; align-items: stretch; justify-content: start; gap: 8px; }
+  .settingLabel { flex: none; color: $c-gray-dark; font-size: 13px; }
+  .settingValue, .intervalSelect { width: 100%; }
+}
 
 .dateBadgesContainer {
   // The timezone selector already contributes 8px below its control.

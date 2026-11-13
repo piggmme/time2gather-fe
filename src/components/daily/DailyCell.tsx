@@ -10,6 +10,7 @@ import DailyParticipantsTooltip from './DailyParticipantsTooltip'
 
 type DailyCellProps = {
   time: string
+  intervalMinutes?: number
   localLabel?: string
   timezone?: string
   participants?: get_meetings_$meetingCode_response['data']['participants']
@@ -29,6 +30,7 @@ type DailyCellProps = {
 
 export default function DailyCell ({
   time,
+  intervalMinutes = 60,
   localLabel,
   timezone = 'UTC',
   participants,
@@ -65,6 +67,10 @@ export default function DailyCell ({
     onClick()
   }
 
+  const end = new Date(`${dateKey}T${time}:00Z`)
+  end.setUTCMinutes(end.getUTCMinutes() + intervalMinutes)
+  const endDate = end.toISOString().slice(0, 10)
+  const endLabel = `${endDate !== dateKey ? `${endDate} ` : ''}${end.toISOString().slice(11, 16)}`
   const cell = (
     <button
       type='button'
@@ -72,7 +78,7 @@ export default function DailyCell ({
       data-time-index={timeIndex}
       onClick={handleClick}
       disabled={!interactive}
-      aria-label={`${dateKey} ${time}${localLabel ? ` · ${localLabel}` : ''}${text ? ` ${text}` : ''}`}
+      aria-label={`${dateKey} ${time} – ${endLabel}${localLabel ? ` · ${localLabel}` : ''}${text ? ` ${text}` : ''}`}
       aria-pressed={isEditMode ? isSelected : undefined}
       data-heat-level={totalCount > 0 && maxCount > 0 ? heatLevel : undefined}
       className={classNames(

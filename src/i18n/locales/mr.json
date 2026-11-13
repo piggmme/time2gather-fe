@@ -128,7 +128,10 @@
       "startTime": "प्रारंभ वेळ",
       "endTime": "समाप्ती वेळ",
       "selectedDatesCount": "निवडलेल्या तारखा: {count}",
-      "createButton": "मीटिंग तयार करा"
+      "createButton": "मीटिंग तयार करा",
+      "intervalLabel": "वेळेचे अंतर",
+      "hourOption": "१ तास",
+      "halfHourOption": "३० मिनिटे"
     },
     "locationStep": {
       "heading": "तुमची मीटिंग तयार करणे पूर्ण करा",

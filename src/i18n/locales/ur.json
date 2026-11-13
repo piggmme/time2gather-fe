@@ -128,7 +128,10 @@
       "startTime": "آغاز کا وقت",
       "endTime": "اختتامی وقت",
       "selectedDatesCount": "منتخب تاریخیں: {count}",
-      "createButton": "میٹنگ بنائیں"
+      "createButton": "میٹنگ بنائیں",
+      "intervalLabel": "وقت کا وقفہ",
+      "hourOption": "1 گھنٹہ",
+      "halfHourOption": "30 منٹ"
     },
     "locationStep": {
       "heading": "اپنی میٹنگ بنانا مکمل کریں۔",

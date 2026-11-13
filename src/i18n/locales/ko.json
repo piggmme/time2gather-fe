@@ -128,7 +128,10 @@
       "startTime": "시작 시간",
       "endTime": "종료 시간",
       "selectedDatesCount": "선택한 날짜 {count}일",
-      "createButton": "약속 만들기"
+      "createButton": "약속 만들기",
+      "intervalLabel": "선택 단위",
+      "hourOption": "1시간",
+      "halfHourOption": "30분"
     },
     "locationStep": {
       "heading": "약속 만들기를 마무리해요",

@@ -128,7 +128,10 @@
       "startTime": "Waktu mulai",
       "endTime": "Waktu berakhir",
       "selectedDatesCount": "Tanggal yang dipilih: {count}",
-      "createButton": "Buat rapat"
+      "createButton": "Buat rapat",
+      "intervalLabel": "Interval waktu",
+      "hourOption": "1 jam",
+      "halfHourOption": "30 menit"
     },
     "locationStep": {
       "heading": "Selesaikan pembuatan rapat Anda",

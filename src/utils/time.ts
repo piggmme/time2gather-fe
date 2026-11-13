@@ -74,6 +74,20 @@ export function getTimeRangeSlots (startTime24: string, endTime24: string): stri
   return timeSlots24.slice(startIndex, endIndex + 1)
 }
 
+// Creation's end time is the end of the last candidate, rather than another start.
+// Keep getTimeRangeSlots inclusive for existing candidate editors and callers.
+export function getCreationTimeSlots (start: string, end: string, intervalMinutes: 30 | 60): string[] {
+  const toMinutes = (time: string) => Number(time.slice(0, 2)) * 60 + Number(time.slice(3))
+  if (![start, end].every(time => /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time))) return []
+  const from = toMinutes(start)
+  const to = toMinutes(end)
+  if (from >= to || from % intervalMinutes || to % intervalMinutes) return []
+  return Array.from({ length: (to - from) / intervalMinutes }, (_, index) => {
+    const minutes = from + index * intervalMinutes
+    return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`
+  })
+}
+
 export function formatDate (date: dayjs.Dayjs | string, locale: Locale, fields: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', weekday: 'short' }): string {
   const dateKey = typeof date === 'string' ? date.slice(0, 10) : date.format('YYYY-MM-DD')
   const parsed = new Date(`${dateKey}T12:00:00Z`)
