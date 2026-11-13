@@ -17,7 +17,7 @@ export default function DailyParticipantsTooltip ({
 }) {
   const { t, locale } = useTranslation()
   return (
-    <Tooltip.Root>
+    <Tooltip.Root disableHoverableContent>
       <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
       <Tooltip.Portal>
         <Tooltip.Content className={styles.content} side='top' sideOffset={8} collisionPadding={12}>
