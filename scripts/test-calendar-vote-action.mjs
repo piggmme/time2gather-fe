@@ -74,7 +74,10 @@ try {
             const box = await action.boundingBox()
             expect(box.height).toBeGreaterThanOrEqual(44)
             const cells = panel.locator(mode === 'time' ? 'button[data-time-index]' : 'button[aria-label="2026-11-15"]')
-            expect(box.y + box.height).toBeLessThanOrEqual((await cells.first().boundingBox()).y)
+            const lastCell = await cells.last().boundingBox()
+            const filter = await panel.locator('fieldset').boundingBox()
+            expect(box.y).toBeGreaterThanOrEqual(lastCell.y + lastCell.height)
+            expect(box.y + box.height).toBeLessThanOrEqual(filter.y)
             if (['ko', 'de', 'ar'].includes(locale) && state === 'new') {
               await page.evaluate(() => document.fonts.ready)
               await page.screenshot({ path: `${output}/${locale}-${mode}-${width}.png` })

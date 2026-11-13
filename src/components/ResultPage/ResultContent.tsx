@@ -348,10 +348,10 @@ function CalendarContent ({ meetingData, dates, availableTimes, voteAction }: {
   return (
     <Tabs.Content value='calendar' forceMount>
       <div className={styles.Calendar}>
-        {voteAction}
         {meetingData.meeting.selectionType === 'TIME'
           ? <DailyCalendarContent meetingData={meetingData} dates={dates} availableTimes={availableTimes} filteredSchedule={filteredSchedule} selectedParticipants={selectedParticipants} />
           : <MonthlyCalendarContent meetingData={meetingData} dates={dates} filteredSchedule={filteredSchedule} selectedParticipants={selectedParticipants} />}
+        {voteAction}
         <CalendarParticipantFilter
           participants={meetingData.participants}
           selectedIds={selectedIds}
