@@ -288,6 +288,9 @@ $my-selection-shadow: none;
 
   &.selected {
     border: 2px solid $primary-color;
+    background: var(--heat-bg, $primary-color-soft);
+
+    &:hover { background: var(--heat-bg, $primary-color-soft); }
   }
 
   &.dragged {

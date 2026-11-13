@@ -92,14 +92,14 @@ $cell-bg: rgba($c-gray-lightest, 0.72);
     &::before { background: var(--heat-bg, $c-blue-soft); }
   }
 
-  // One outline per continuous range; fill always describes participant availability.
+  // Keep saved heatmap colors; tint empty selected ranges so a draft is visible.
   &.selected {
     z-index: 1;
     &::before {
       inset-block: -1px 0;
       border-radius: 0;
       border-inline: 1.5px solid $primary-color-hover;
-      background: var(--heat-bg, $cell-bg);
+      background: var(--heat-bg, $primary-color-soft);
     }
     &.selectionStart::before {
       inset-block-start: 3px;

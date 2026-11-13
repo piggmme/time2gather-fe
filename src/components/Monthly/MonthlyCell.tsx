@@ -23,7 +23,7 @@ export default function MonthlyCell ({
   const isEditMode = mode === 'edit'
   const isInteractive = !disabled && (isEditMode || Boolean(onClick))
 
-  // Saved votes describe other participants; my draft selection is only a check.
+  // Draft selection does not change the saved attendance count.
   const totalCount = count
   const voteRatio = maxCount > 0 ? Math.min(totalCount / maxCount, 1) : 0
   const heatLevel = voteRatio >= 0.8 ? 4 : voteRatio >= 0.55 ? 3 : voteRatio >= 0.3 ? 2 : 1
