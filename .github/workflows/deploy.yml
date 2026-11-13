@@ -25,7 +25,7 @@ jobs:
           pnpm test:globalization
           pnpm astro sync
           pnpm check:types
-          pnpm exec eslint src/components/Monthly/MonthlyCell.tsx src/components/Timezone/TimeZoneSelect.tsx src/components/ResultPage/ResultContent.tsx src/components/daily/Daily.tsx src/components/daily/DailyCell.tsx src/components/daily/DailyGrid.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx src/utils/time.ts src/services/meetings.ts scripts/test-selection-fill.mjs
+          pnpm exec eslint src/components/Monthly/MonthlyCell.tsx src/components/Timezone/TimeZoneSelect.tsx src/components/ResultPage/ResultContent.tsx src/components/daily/Daily.tsx src/components/daily/DailyCell.tsx src/components/daily/DailyGrid.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx src/utils/time.ts src/services/meetings.ts scripts/test-half-hour-slots.mjs
           python3 -m unittest discover -s scripts -p test_cloud_run_guard.py
           python3 -m unittest discover -s scripts -p 'test_release_*.py'
       - run: pnpm build
