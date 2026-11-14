@@ -8,6 +8,7 @@ import { useSearchParam } from 'react-use'
 import useSelectedDates from './useSelectedDates'
 import { useTranslation } from '../../hooks/useTranslation'
 import SelectedDates from './SelectedDates'
+import TimePicker from '../TimePicker/TimePicker'
 import TimeZoneSelect from '../Timezone/TimeZoneSelect'
 import { $creationTimeZone, setCreationTimeZone } from '../../stores/timezone'
 import { convertTo12Hour, convertTo24Hour, type AmPm } from '../../utils/time'
@@ -30,14 +31,8 @@ export default function TimeRangeStep () {
     <div className={styles.page}>
       <h1 className={styles.title}>{t('createMeeting.timeRangeStep.heading')}</h1>
       <div className={styles.timeRangeContainer}>
-        <label className={styles.timeRangeItem}>
-          <span>{t('createMeeting.timeRangeStep.startTime')}</span>
-          <input className={styles.nativeTime} type='time' step={intervalMinutes * 60} value={start} onInput={event => setStart(event.currentTarget.value)} required />
-        </label>
-        <label className={styles.timeRangeItem}>
-          <span>{t('createMeeting.timeRangeStep.endTime')}</span>
-          <input className={styles.nativeTime} type='time' step={intervalMinutes * 60} min={start} value={end} onInput={event => setEnd(event.currentTarget.value)} required />
-        </label>
+        <TimePicker label={t('createMeeting.timeRangeStep.startTime')} value={start} onChange={setStart} intervalMinutes={intervalMinutes} locale={locale} />
+        <TimePicker label={t('createMeeting.timeRangeStep.endTime')} value={end} onChange={setEnd} intervalMinutes={intervalMinutes} locale={locale} after={start} />
       </div>
       <div className={styles.settings}>
         <label className={styles.settingRow}>

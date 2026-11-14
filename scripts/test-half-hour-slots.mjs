@@ -27,7 +27,7 @@ try {
       page.on('pageerror', error => errors.push(error.message))
       const query = `step=timeRange&meetingType=TIME&dates=2026-11-15,2026-11-16&title=Weekend&startTime12=09:00&startAmPm=AM&endTime12=12:00&endAmPm=PM&lang=${locale}`
       await page.goto(`${base}/meetings/create?${query}`)
-      await expect(page.locator('input[type=time]').first()).toHaveValue('09:00')
+      await expect(page.getByRole('combobox', { name: t.createMeeting.timeRangeStep.startTime, exact: true })).toHaveValue('09:00')
       const select = page.locator('select[name=intervalMinutes]')
       await expect(select).toBeVisible()
       await expect(select).toHaveValue('60')

@@ -27,57 +27,6 @@
   @include surfaces.content;
 }
 
-.timeRangeItem {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 0;
-
-  > span {
-    color: #6b7684;
-    font-size: 13px;
-    font-weight: 500;
-  }
-}
-
-.nativeTime {
-  // Bound Safari's intrinsic time-control width instead of clipping its border.
-  box-sizing: border-box;
-  appearance: none;
-  -webkit-appearance: none;
-  display: block;
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  min-height: 56px;
-  margin: 0;
-  padding: 12px 8px;
-  border: 1px solid #dbe1e8;
-  border-radius: 10px;
-  background: #fff;
-  color: #191f28;
-  font: inherit;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.5;
-  text-align: center;
-
-  &::-webkit-date-and-time-value {
-    min-width: 0;
-    margin: 0;
-    text-align: center;
-  }
-
-  &::-webkit-datetime-edit { padding: 0; }
-
-  &:focus-visible {
-    border-color: #3b82f6;
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
-}
-
-
 .settings {
   display: grid;
   margin-top: 16px;
@@ -124,6 +73,5 @@
 @media (max-width: 359px) {
   .title { font-size: 24px; }
   .timeRangeContainer { grid-template-columns: minmax(0, 1fr); padding: 0; gap: 16px; }
-  .nativeTime { font-size: 16px; }
 }
 

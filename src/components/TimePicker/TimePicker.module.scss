@@ -1,0 +1,95 @@
+@use '../../styles/variables.scss' as *;
+.field { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.label { color: #6b7684; font-size: 13px; font-weight: 500; }
+.control {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 56px;
+  width: 100%;
+  border: 1px solid #dbe1e8;
+  border-radius: 12px;
+  background: $c-white;
+  &:hover { border-color: $c-gray-dark; }
+  &:focus-within, &[data-open] { border-color: $primary-color; box-shadow: 0 0 0 3px $primary-color-soft; }
+  &[data-invalid] { border-color: $c-red; }
+}
+.input {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  padding: 12px 8px 12px 16px;
+  margin: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #191f28;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: start;
+  &:focus { outline: none; }
+}
+.toggle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  min-height: 48px;
+  padding: 0;
+  margin: 2px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #6b7684;
+  cursor: pointer;
+  &:hover { background: $c-gray-light; }
+  &:focus-visible { outline: 2px solid $primary-color; outline-offset: -2px; }
+  > svg { width: 18px; height: 18px; }
+}
+.dropdown {
+  box-sizing: border-box;
+  position: absolute;
+  min-width: min(280px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  padding: 6px;
+  border: 1px solid #e2e6eb;
+  border-radius: 12px;
+  background: $c-white;
+  color: #191f28;
+  box-shadow: $shadow-md;
+  font: inherit;
+}
+.options {
+  position: relative;
+  max-height: min(264px, calc(var(--combobox-floating-max-height, 280px) - 14px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #b5bfcd $c-gray-light;
+  -webkit-overflow-scrolling: touch;
+}
+.option {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 48px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #191f28;
+  font-size: 16px;
+  line-height: 1.5;
+  cursor: pointer;
+  user-select: none;
+  &:hover, &[data-combobox-selected] { background: $c-gray-light; }
+  &[aria-selected='true'] { background: $c-blue-soft; color: $primary-color; font-weight: 600; }
+  &[data-combobox-selected] { outline: 2px solid $primary-color; outline-offset: -2px; }
+  &[data-combobox-disabled] { color: $c-gray-dark; cursor: default; }
+  > svg { flex-shrink: 0; }
+}
+@media (max-width: 359px) { .input { font-size: 16px; } }
