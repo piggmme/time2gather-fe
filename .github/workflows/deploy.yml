@@ -21,6 +21,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Required checks
         run: |
+          pnpm exec eslint src/components/SelectPage/AnonymousDatesSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/SelectPage/DatesSelectPage.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/UnavailableOption.tsx
           pnpm check:i18n
           pnpm test:globalization
           pnpm astro sync
@@ -44,10 +45,19 @@ jobs:
           PICKER_CHANNEL=chromium PICKER_BASE=http://127.0.0.1:14326 PICKER_OUTPUT=../ci-picker node scripts/test-time-picker.mjs
           QA_LOCALES=ko,de,ar CREATE_BASE=http://127.0.0.1:14326 CREATE_OUTPUT=../ci-layout node scripts/test-create-flow-layout.mjs
           HALF_HOUR_BASE=http://127.0.0.1:14325 HALF_HOUR_OUTPUT=../ci-half-hour node scripts/test-half-hour-slots.mjs
-      - name: Verify role-based controls in all languages
-        run: BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
-      - name: Verify mobile calendar sizing in all languages
-        run: CALENDAR_SIZE_OUTPUT=ci-calendar-size CALENDAR_SIZE_GESTURES=1 node scripts/test-mobile-calendar-size.mjs
+      - name: Verify controls and mobile calendars in all languages
+        run: |
+          BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs &
+          button_pid=$!
+          CALENDAR_SIZE_OUTPUT=ci-calendar-size CALENDAR_SIZE_ARTIFACT=1 CALENDAR_SIZE_GESTURES=1 node scripts/test-mobile-calendar-size.mjs &
+          calendar_pid=$!
+          trap 'kill "$button_pid" "$calendar_pid" 2>/dev/null || true' EXIT
+          button_status=0
+          calendar_status=0
+          wait "$button_pid" || button_status=$?
+          wait "$calendar_pid" || calendar_status=$?
+          test "$button_status" -eq 0
+          test "$calendar_status" -eq 0
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:

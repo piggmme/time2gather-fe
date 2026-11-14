@@ -187,12 +187,6 @@ function DatesSelectForm ({
 
   return (
     <div>
-      {locationVote && (
-        <p className={styles.stepIndicator} aria-live='polite'>
-          {t(isLocationStep ? 'locationVote.locationStepLabel' : 'locationVote.scheduleStepLabel')}
-        </p>
-      )}
-
       <div hidden={isLocationStep}>
         <MeetingNameField identity={identity} />
         <TimezoneNotice zone={data.meeting.timezone} dateOnly />
