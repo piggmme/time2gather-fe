@@ -32,6 +32,7 @@ jobs:
       - name: Verify time input and half-hour votes in all languages
         run: |
           pnpm exec playwright install --with-deps chromium
+          pnpm astro preferences disable devToolbar
           node scripts/test-time-picker-fixture.mjs > /tmp/picker-fixture.log 2>&1 &
           fixture_pid=$!
           HOST=127.0.0.1 PORT=14326 API_URL=http://127.0.0.1:18485/api node dist/server/entry.mjs > /tmp/picker-server.log 2>&1 &
