@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "اپنی میٹنگ بنانا مکمل کریں۔",
       "requiredLabel": "درکار ہے۔",
-      "creatorHeading": "یہ میٹنگ کون بنا رہا ہے؟",
+      "creatorHeading": "اس ملاقات میں آپ کا نام",
       "creatorDescription": "آپ کا عرفی نام میٹنگ کے میزبان کے طور پر دکھایا جائے گا۔",
       "usernameLabel": "آپ کا عرفی نام",
       "usernamePlaceholder": "مثال کے طور پر، جیمی",
-      "usernameChangeHelp": "آپ کا نام تبدیل کرنے سے آپ کی موجودہ میٹنگز اور ووٹ برقرار رہتے ہیں اور صرف آپ کے ڈسپلے نام کو اپ ڈیٹ کیا جاتا ہے۔",
       "optionalLabel": "اختیاری",
       "locationHeading": "کیا آپ مقام کا ووٹ چاہتے ہیں؟",
       "locationDescription": "اگر آپ چاہتے ہیں کہ شرکاء ایک ساتھ جگہ کا انتخاب کریں تو اسے آن کریں۔",

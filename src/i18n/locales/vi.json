@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "Hoàn tất việc tạo cuộc họp của bạn",
       "requiredLabel": "Bắt buộc",
-      "creatorHeading": "Ai đang tạo ra cuộc họp này?",
+      "creatorHeading": "Tên của bạn trong cuộc hẹn này",
       "creatorDescription": "Biệt hiệu của bạn sẽ được hiển thị với tư cách là người tổ chức cuộc họp.",
       "usernameLabel": "Biệt hiệu của bạn",
       "usernamePlaceholder": "ví dụ: Jamie",
-      "usernameChangeHelp": "Việc thay đổi tên sẽ giữ nguyên các cuộc họp và phiếu bầu hiện có của bạn, đồng thời chỉ cập nhật tên hiển thị của bạn.",
       "optionalLabel": "Tùy chọn",
       "locationHeading": "Bạn có muốn bỏ phiếu về địa điểm không?",
       "locationDescription": "Hãy bật tính năng này nếu bạn muốn người tham gia cùng nhau chọn địa điểm.",

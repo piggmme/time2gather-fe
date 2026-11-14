@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "Finish creating your meeting",
       "requiredLabel": "Required",
-      "creatorHeading": "Who is creating this meeting?",
+      "creatorHeading": "Your name for this meeting",
       "creatorDescription": "Your nickname will be shown as the meeting host.",
       "usernameLabel": "Your nickname",
       "usernamePlaceholder": "e.g., Jamie",
-      "usernameChangeHelp": "Changing your name keeps your existing meetings and votes and updates only your display name.",
       "optionalLabel": "Optional",
       "locationHeading": "Would you like a location vote?",
       "locationDescription": "Turn this on if you want participants to choose the place together.",

@@ -346,13 +346,6 @@ button.meetingTypeButton {
   }
 }
 
-.identityHelp {
-  margin: $spacing-xs 0 0;
-  color: $c-gray-darkest;
-  font-size: $font-size-xs;
-  line-height: $line-height-normal;
-}
-
 .locationToggleContainer {
   @include controls.choice;
   margin: 0;

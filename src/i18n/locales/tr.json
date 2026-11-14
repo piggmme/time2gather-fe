@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "Toplantınızı oluşturmayı tamamlayın",
       "requiredLabel": "Gerekli",
-      "creatorHeading": "Bu toplantıyı kim düzenliyor?",
+      "creatorHeading": "Bu buluşmada kullanacağınız ad",
       "creatorDescription": "Takma adınız toplantı sahibi olarak gösterilecektir.",
       "usernameLabel": "Takma adınız",
       "usernamePlaceholder": "örneğin Jamie",
-      "usernameChangeHelp": "Adınızı değiştirdiğinizde mevcut toplantılarınız ve oylarınız korunur ve yalnızca görünen adınız güncellenir.",
       "optionalLabel": "İsteğe bağlı",
       "locationHeading": "Yer oyu ister misiniz?",
       "locationDescription": "Katılımcıların yeri birlikte seçmesini istiyorsanız bunu açın.",

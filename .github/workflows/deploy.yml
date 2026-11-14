@@ -1,7 +1,7 @@
-name: Selected Dates Release Build
+name: Meeting Name Copy Release Build
 on:
   push:
-    branches: [fix/selected-dates-20261115]
+    branches: [fix/name-copy-20261115]
 permissions:
   contents: read
   id-token: write
@@ -21,32 +21,22 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Required checks
         run: |
-          pnpm exec eslint src/components/meetings/SelectedDates.tsx src/components/meetings/TimeRangeStep.tsx src/components/SelectPage/AnonymousDatesSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/SelectPage/DatesSelectPage.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/UnavailableOption.tsx
+          pnpm exec eslint src/components/meetings/LocationStep.tsx
           pnpm check:i18n
           pnpm test:globalization
           pnpm astro sync
           pnpm check:types
-          pnpm exec eslint scripts/test-button-roles.mjs src/components/Button/Button.tsx src/components/ResultPage/ResultButtons.tsx src/components/MyMeetings/MyMeetings.tsx src/components/Comments/Comments.tsx src/components/meetings/EditVotingDatesPage.tsx src/components/meetings/DatesStep.tsx src/components/meetings/TitleStep.tsx src/components/meetings/DescriptionStep.tsx src/components/MarketingContent.astro src/layouts/MarketingLayout.astro src/components/meetings/CreateFlowActions.tsx scripts/test-create-flow-layout.mjs src/components/TimePicker/TimePicker.tsx scripts/test-time-picker.mjs scripts/test-time-picker-fixture.mjs src/components/Monthly/MonthlyCell.tsx src/components/Timezone/TimeZoneSelect.tsx src/components/ResultPage/ResultContent.tsx src/components/daily/Daily.tsx src/components/daily/DailyCell.tsx src/components/daily/DailyGrid.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx src/utils/time.ts src/services/meetings.ts scripts/test-half-hour-slots.mjs
           python3 -m unittest discover -s scripts -p test_cloud_run_guard.py
           python3 -m unittest discover -s scripts -p 'test_release_*.py'
       - run: pnpm build
-      - name: Verify time input and half-hour votes in all languages
+      - name: Verify name input in all languages
         run: |
           pnpm exec playwright install --with-deps chromium
-          pnpm astro preferences disable devToolbar
-          node scripts/test-time-picker-fixture.mjs > /tmp/picker-fixture.log 2>&1 &
-          fixture_pid=$!
-          HOST=127.0.0.1 PORT=14326 API_URL=http://127.0.0.1:18485/api node dist/server/entry.mjs > /tmp/picker-server.log 2>&1 &
+          HOST=127.0.0.1 PORT=14337 node dist/server/entry.mjs > /tmp/name-copy-server.log 2>&1 &
           server_pid=$!
-          API_URL=http://127.0.0.1:18485/api PUBLIC_API_URL=/api pnpm astro dev --port 14325 --host 127.0.0.1 > /tmp/picker-dev-server.log 2>&1 &
-          devserver_pid=$!
-          trap 'kill "$server_pid" "$fixture_pid" "$devserver_pid"' EXIT
-          for attempt in $(seq 1 30); do curl --silent --fail http://127.0.0.1:14326/meetings/create > /dev/null && break; sleep 1; done
-          PICKER_CHANNEL=chromium PICKER_BASE=http://127.0.0.1:14326 PICKER_OUTPUT=../ci-picker node scripts/test-time-picker.mjs
-          QA_LOCALES=ko,de,ar CREATE_BASE=http://127.0.0.1:14326 CREATE_OUTPUT=../ci-layout node scripts/test-create-flow-layout.mjs
-          HALF_HOUR_BASE=http://127.0.0.1:14325 HALF_HOUR_OUTPUT=../ci-half-hour node scripts/test-half-hour-slots.mjs
-      - name: Verify role-based controls in all languages
-        run: BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
+          trap 'kill "$server_pid"' EXIT
+          for attempt in $(seq 1 30); do curl --silent --fail http://127.0.0.1:14337/meetings/create > /dev/null && break; sleep 1; done
+          NAME_COPY_OUTPUT=qa-evidence node scripts/verify-meeting-name-copy.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:
@@ -57,10 +47,10 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:selected-dates-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
+          python3 scripts/build-release-image.py --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:name-copy-${GITHUB_SHA}" --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache" --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
-          name: selected-dates-release
+          name: name-copy-release
           path: |
             dist
             release-manifest.json
@@ -68,24 +58,9 @@ jobs:
             image-metadata.json
           include-hidden-files: true
           retention-days: 7
-      - name: Collect regression evidence
+      - uses: actions/upload-artifact@v4
         if: always()
-        run: |
-          python3 - <<'PYCODE'
-          import shutil
-          from pathlib import Path
-          output = Path('qa-evidence')
-          output.mkdir(exist_ok=True)
-          for name in ['picker', 'layout', 'half-hour', 'buttons']:
-              source = Path('..') / ('ci-' + name) / 'verification.json'
-              if source.is_file():
-                  shutil.copy2(source, output / (name + '.json'))
-          PYCODE
-      - name: Upload regression evidence
-        if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: selected-dates-browser-checks
-          path: qa-evidence/*.json
-          if-no-files-found: warn
+          name: name-copy-browser-checks
+          path: qa-evidence
           retention-days: 7

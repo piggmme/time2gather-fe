@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "Conclua a criação da sua reunião",
       "requiredLabel": "Obrigatório",
-      "creatorHeading": "Quem está criando esta reunião?",
+      "creatorHeading": "Seu nome neste encontro",
       "creatorDescription": "Seu apelido será mostrado como organizador da reunião.",
       "usernameLabel": "Seu apelido",
       "usernamePlaceholder": "por exemplo, Jamie",
-      "usernameChangeHelp": "Alterar seu nome mantém suas reuniões e votos existentes e atualiza apenas seu nome de exibição.",
       "optionalLabel": "Opcional",
       "locationHeading": "Você gostaria de uma votação de localização?",
       "locationDescription": "Ative esta opção se quiser que os participantes escolham o local juntos.",

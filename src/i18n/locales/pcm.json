@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "Finish to create your meeting",
       "requiredLabel": "You must fill this",
-      "creatorHeading": "Who dey create this meeting?",
+      "creatorHeading": "Your name for this meeting",
       "creatorDescription": "Na your nickname people go see as meeting host.",
       "usernameLabel": "Your nickname",
       "usernamePlaceholder": "Example: Tobi",
-      "usernameChangeHelp": "If you change your name, your meetings and votes go remain. Na only the name people see go change.",
       "optionalLabel": "If you want",
       "locationHeading": "Make people vote for place too?",
       "locationDescription": "Turn am on if you want make everybody choose the place together.",
