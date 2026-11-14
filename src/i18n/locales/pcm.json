@@ -213,7 +213,7 @@
       "description": "Change di options wey everybody fit vote for.",
       "selectedCount": "You don pick {count} dates",
       "selectionHint": "Tap or drag to pick dates.",
-      "removedWarning": "If you save, votes for these {count} dates wey you remove go delete.",
+      "removedWarning": "Votes for dates wey you remove go delete when you save.",
       "maxDates": "You no fit pick pass {count} dates.",
       "save": "Save options",
       "success": "Poll options don update.",

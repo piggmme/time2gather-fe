@@ -213,7 +213,7 @@
       "description": "Ubah opsi yang dapat dipilih semua peserta.",
       "selectedCount": "Tanggal {count} dipilih",
       "selectionHint": "Ketuk atau seret untuk memilih tanggal.",
-      "removedWarning": "Suara pada tanggal {count} yang dihapus akan dihapus saat Anda menyimpannya.",
+      "removedWarning": "Suara pada tanggal yang dihapus akan dihapus saat disimpan.",
       "maxDates": "Anda dapat memilih hingga tanggal {count}.",
       "save": "Simpan opsi",
       "success": "Opsi jajak pendapat diperbarui.",

@@ -213,7 +213,7 @@
       "description": "Thay đổi các lựa chọn mà mọi người có thể bình chọn.",
       "selectedCount": "Đã chọn ngày {count}",
       "selectionHint": "Nhấn hoặc kéo để chọn ngày.",
-      "removedWarning": "Các phiếu bầu vào ngày đã xóa {count} sẽ bị xóa khi bạn lưu.",
+      "removedWarning": "Phiếu bầu cho các ngày đã loại bỏ sẽ bị xóa khi lưu.",
       "maxDates": "Bạn có thể chọn tối đa ngày {count}.",
       "save": "Lưu lựa chọn",
       "success": "Đã cập nhật lựa chọn bình chọn.",

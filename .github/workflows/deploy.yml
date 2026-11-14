@@ -1,18 +1,15 @@
-name: Mobile Calendar Release Build
+name: Date Warning Release Build
 on:
   push:
-    branches: [feat/mobile-calendar-size-20261114]
+    branches: [release/date-warning-20261114]
 permissions:
   contents: read
-  actions: read
   id-token: write
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
       - uses: pnpm/action-setup@v4
         with:
           version: 10.23.0
@@ -24,49 +21,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Required checks
         run: |
-          pnpm exec eslint src/components/SelectPage/AnonymousDatesSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/SelectPage/DatesSelectPage.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/UnavailableOption.tsx
           pnpm check:i18n
           pnpm test:globalization
           pnpm astro sync
           pnpm check:types
-          pnpm exec eslint scripts/test-mobile-calendar-size.mjs scripts/test-button-roles.mjs src/components/Button/Button.tsx src/components/ResultPage/ResultButtons.tsx src/components/MyMeetings/MyMeetings.tsx src/components/Comments/Comments.tsx src/components/meetings/EditVotingDatesPage.tsx src/components/meetings/DatesStep.tsx src/components/meetings/TitleStep.tsx src/components/meetings/DescriptionStep.tsx src/components/MarketingContent.astro src/layouts/MarketingLayout.astro src/components/meetings/CreateFlowActions.tsx scripts/test-create-flow-layout.mjs src/components/TimePicker/TimePicker.tsx scripts/test-time-picker.mjs scripts/test-time-picker-fixture.mjs src/components/Monthly/MonthlyCell.tsx src/components/Timezone/TimeZoneSelect.tsx src/components/ResultPage/ResultContent.tsx src/components/daily/Daily.tsx src/components/daily/DailyCell.tsx src/components/daily/DailyGrid.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx src/utils/time.ts src/services/meetings.ts scripts/test-half-hour-slots.mjs
+          pnpm exec eslint src/components/meetings/EditVotingDatesPage.tsx
           python3 -m unittest discover -s scripts -p test_cloud_run_guard.py
           python3 -m unittest discover -s scripts -p 'test_release_*.py'
       - run: pnpm build
-      - name: Reuse passed regressions for identical product inputs
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERIFIED_SOURCE_SHA: 80ad39f7cdd0534e45d588dcfb1d24ae455c157e
-          VERIFIED_RUN: '43579220015'
-        run: |
-          test "$(gh run view "$VERIFIED_RUN" --repo "$GITHUB_REPOSITORY" --json headSha --jq .headSha)" = "$VERIFIED_SOURCE_SHA"
-          git diff --name-only "$VERIFIED_SOURCE_SHA" "$GITHUB_SHA" > /tmp/regression-input-changes.txt
-          python3 - <<'PYCODE'
-          from pathlib import Path
-          changed = set(Path('/tmp/regression-input-changes.txt').read_text().splitlines())
-          allowed = {'.github/workflows/deploy.yml', 'scripts/test-mobile-calendar-size.mjs'}
-          assert changed <= allowed, f'Regression inputs changed: {changed - allowed}'
-          PYCODE
-          gh run download "$VERIFIED_RUN" --repo "$GITHUB_REPOSITORY" --name mobile-calendar-browser-checks --dir reused-regressions
-          python3 - <<'PYCODE'
-          import json, os, shutil
-          from pathlib import Path
-          for name, locales in [('picker', 22), ('half-hour', 22), ('layout', 3), ('buttons', 22)]:
-              source = Path('reused-regressions') / (name + '.json')
-              report = json.loads(source.read_text())
-              assert report['passed'] and report['locales'] == locales, name
-              assert not report.get('errors') and not report.get('blockedWrites') and not report.get('fixtureWrites'), name
-              output = Path('..') / ('ci-' + name)
-              output.mkdir(exist_ok=True)
-              shutil.copy2(source, output / 'verification.json')
-          output = Path('qa-evidence')
-          output.mkdir(exist_ok=True)
-          (output / 'regression-provenance.json').write_text(json.dumps({'run': os.environ['VERIFIED_RUN'], 'verifiedSource': os.environ['VERIFIED_SOURCE_SHA'], 'currentSource': os.environ['GITHUB_SHA'], 'productAndPriorTestInputsIdentical': True, 'rerun': 'Mobile calendar assertions in all 22 locales, including the previously failed keyboard activation'}))
-          PYCODE
-      - name: Verify mobile calendars and native input in all languages
-        run: |
-          pnpm exec playwright install --with-deps chromium
-          CALENDAR_SIZE_OUTPUT=ci-calendar-size CALENDAR_SIZE_ARTIFACT=1 CALENDAR_SIZE_GESTURES=1 node scripts/test-mobile-calendar-size.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:
@@ -77,38 +39,17 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:mobile-calendar-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
+          python3 scripts/build-release-image.py \
+            --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:date-warning-${GITHUB_SHA}" \
+            --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache" \
+            --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
-          name: mobile-calendar-release
+          name: date-warning-release
           path: |
             dist
             release-manifest.json
             build-metrics.json
             image-metadata.json
           include-hidden-files: true
-          retention-days: 7
-      - name: Collect regression evidence
-        if: always()
-        run: |
-          python3 - <<'PYCODE'
-          import shutil
-          from pathlib import Path
-          output = Path('qa-evidence')
-          output.mkdir(exist_ok=True)
-          for name in ['picker', 'layout', 'half-hour', 'buttons']:
-              source = Path('..') / ('ci-' + name) / 'verification.json'
-              if source.is_file():
-                  shutil.copy2(source, output / (name + '.json'))
-          calendar = Path('ci-calendar-size/chromium-report.json')
-          if calendar.is_file():
-              shutil.copy2(calendar, output / 'calendar-size.json')
-          PYCODE
-      - name: Upload regression evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: mobile-calendar-browser-checks
-          path: qa-evidence/*.json
-          if-no-files-found: warn
           retention-days: 7

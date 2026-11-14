@@ -213,7 +213,7 @@
       "description": "Herkesin oy verebileceği seçenekleri değiştirin.",
       "selectedCount": "{count} tarihleri seçildi",
       "selectionHint": "Tarihleri seçmek için dokunun veya sürükleyin.",
-      "removedWarning": "{count} kaldırılan tarihlere verilen oylar, kaydettiğinizde silinecektir.",
+      "removedWarning": "Çıkarılan tarihlerdeki oylar kaydedildiğinde silinir.",
       "maxDates": "En fazla {count} tarihini seçebilirsiniz.",
       "save": "Seçenekleri kaydet",
       "success": "Anket seçenekleri güncellendi.",

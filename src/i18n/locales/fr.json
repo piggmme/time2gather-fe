@@ -213,7 +213,7 @@
       "description": "Modifiez les choix proposés au vote de tous.",
       "selectedCount": "Dates {count} sélectionnées",
       "selectionHint": "Appuyez ou faites glisser pour sélectionner des dates.",
-      "removedWarning": "Les votes sur les dates supprimées {count} seront supprimés lorsque vous enregistrerez.",
+      "removedWarning": "Les votes des dates retirées seront supprimés à l’enregistrement.",
       "maxDates": "Vous pouvez sélectionner jusqu'à des dates {count}.",
       "save": "Enregistrer les choix",
       "success": "Les choix du sondage ont été mis à jour.",

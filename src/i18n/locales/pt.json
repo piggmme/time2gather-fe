@@ -213,7 +213,7 @@
       "description": "Altere as opções em que todos podem votar.",
       "selectedCount": "{count} datas selecionadas",
       "selectionHint": "Toque ou arraste para selecionar datas.",
-      "removedWarning": "Os votos nas datas removidas de {count} serão excluídos quando você salvar.",
+      "removedWarning": "Os votos nas datas removidas serão excluídos ao salvar.",
       "maxDates": "Você pode selecionar até datas {count}.",
       "save": "Salvar opções",
       "success": "Opções da votação atualizadas.",

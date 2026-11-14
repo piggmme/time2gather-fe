@@ -213,7 +213,7 @@
       "description": "Change the options everyone can vote on.",
       "selectedCount": "Selected dates: {count}",
       "selectionHint": "Tap or drag to select dates.",
-      "removedWarning": "Votes on {count} removed dates will be deleted when you save.",
+      "removedWarning": "Votes on removed dates will be deleted when you save.",
       "maxDates": "You can select up to {count} dates.",
       "save": "Save options",
       "success": "Poll options updated.",

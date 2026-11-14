@@ -213,7 +213,7 @@
       "description": "Ändere die Optionen, über die alle abstimmen können.",
       "selectedCount": "{count} Termine ausgewählt",
       "selectionHint": "Tippen oder ziehen Sie, um Daten auszuwählen.",
-      "removedWarning": "Stimmen zu {count} entfernten Daten werden beim Speichern gelöscht.",
+      "removedWarning": "Stimmen für entfernte Termine werden beim Speichern gelöscht.",
       "maxDates": "Sie können bis zu {count}-Daten auswählen.",
       "save": "Optionen speichern",
       "success": "Abstimmungsoptionen aktualisiert.",

@@ -213,7 +213,7 @@
       "description": "Cambia las opciones por las que pueden votar todos.",
       "selectedCount": "{count} fechas seleccionadas",
       "selectionHint": "Toque o arrastre para seleccionar fechas.",
-      "removedWarning": "Los votos en las fechas eliminadas de {count} se eliminarán cuando guardes.",
+      "removedWarning": "Los votos de las fechas eliminadas se borrarán al guardar.",
       "maxDates": "Puede seleccionar hasta fechas {count}.",
       "save": "Guardar opciones",
       "success": "Opciones de la encuesta actualizadas.",

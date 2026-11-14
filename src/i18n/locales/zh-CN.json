@@ -213,7 +213,7 @@
       "description": "更改所有参与者可以投票的选项。",
       "selectedCount": "{count} 已选择日期",
       "selectionHint": "点击或拖动以选择日期。",
-      "removedWarning": "保存时，对 {count} 删除日期的投票将被删除。",
+      "removedWarning": "保存时将删除已移除日期的投票。",
       "maxDates": "您最多可以选择 {count} 日期。",
       "save": "保存选项",
       "success": "投票选项已更新。",

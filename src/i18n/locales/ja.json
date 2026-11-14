@@ -213,7 +213,7 @@
       "description": "参加者全員が投票する候補を変更します。",
       "selectedCount": "{count} の日付が選択されました",
       "selectionHint": "タップまたはドラッグして日付を選択します。",
-      "removedWarning": "{count} の削除日の投票は保存時に削除されます。",
+      "removedWarning": "除外した日付の投票は保存時に削除されます。",
       "maxDates": "最大 {count} の日付を選択できます。",
       "save": "候補を保存",
       "success": "投票候補を更新しました。",

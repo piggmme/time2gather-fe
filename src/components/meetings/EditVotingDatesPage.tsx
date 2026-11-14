@@ -180,7 +180,7 @@ export default function EditVotingDatesPage ({
 
         {removedCount > 0 && (
           <p className={styles.warning} role='status'>
-            {t('meeting.editDates.removedWarning', { count: removedCount })}
+            {t('meeting.editDates.removedWarning')}
           </p>
         )}
 
