@@ -1,3 +1,4 @@
+import CreateFlowActions from './CreateFlowActions'
 import { usePageState } from '../../hooks/usePageState'
 import styles from './CreateMeeting.module.scss'
 import Button from '../Button/Button'
@@ -22,7 +23,7 @@ export default function TitleStep () {
           onChange={e => setTitle(e.target.value)}
         />
       </div>
-      <div className={`${styles.buttonContainer} ${styles.titleButtons}`}>
+      <CreateFlowActions>
         <Button
           buttonType='secondary'
           onClick={() => {
@@ -41,7 +42,7 @@ export default function TitleStep () {
         >
           {t('common.next')}
         </Button>
-      </div>
+      </CreateFlowActions>
     </>
   )
 }

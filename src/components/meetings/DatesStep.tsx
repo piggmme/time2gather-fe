@@ -1,3 +1,4 @@
+import CreateFlowActions from './CreateFlowActions'
 import Monthly from '../Monthly/Monthly'
 import styles from './CreateMeeting.module.scss'
 import { navigate, navigateBack } from '../../utils/navigation'
@@ -19,7 +20,7 @@ export default function DatesStep () {
       <div className={styles.monthlyContainer}>
         <Monthly dates={selectedDates} setDates={setSelectedDates} />
       </div>
-      <div className={styles.buttonContainer}>
+      <CreateFlowActions>
         <Button
           buttonType='secondary'
           onClick={() => {
@@ -58,7 +59,7 @@ export default function DatesStep () {
             {t('common.next')}
           </Button>
         )}
-      </div>
+      </CreateFlowActions>
     </>
   )
 }

@@ -1,0 +1,28 @@
+@use '../../styles/surfaces.scss' as surfaces;
+@use '../../styles/variables.scss' as *;
+
+.spacer { flex: none; width: 100%; }
+
+.bar {
+  position: fixed;
+  inset-inline: 0;
+  z-index: 100;
+  padding-block: $spacing-base max($spacing-base, env(safe-area-inset-bottom));
+  background: $c-white;
+  border-block-start: 1px solid surfaces.$section-line;
+
+  @media (min-width: 700px) { inset-inline-start: 80px; }
+}
+
+.buttons {
+  display: flex;
+  gap: $spacing-md;
+  width: calc(100% - 32px);
+  max-width: 600px;
+  margin-inline: auto;
+
+  > * { min-width: 0; }
+  > *:only-child { flex: 1 1 100%; }
+  > *:first-child:not(:only-child) { flex: 0 1 40%; }
+  > *:last-child:not(:only-child) { flex: 1 1 60%; }
+}
