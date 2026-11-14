@@ -1,3 +1,4 @@
+import CreateFlowActions from './CreateFlowActions'
 import { usePageState } from '../../hooks/usePageState'
 import Button from '../Button/Button'
 import styles from './CreateMeeting.module.scss'
@@ -39,7 +40,7 @@ export default function MeetingTypeStep () {
           <span className={styles.typeSelectionCheck} aria-hidden='true'>{meetingType === 'TIME' && <HiCheck size={16} />}</span>
         </Button>
       </div>
-      <div className={styles.buttonContainer}>
+      <CreateFlowActions>
         <Button
           buttonType='primary'
           onClick={() => {
@@ -48,7 +49,7 @@ export default function MeetingTypeStep () {
         >
           {t('common.next')}
         </Button>
-      </div>
+      </CreateFlowActions>
     </>
   )
 }

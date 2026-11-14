@@ -1,3 +1,4 @@
+import CreateFlowActions from './CreateFlowActions'
 import { trackAnalyticsEvent } from '../../utils/analytics'
 import { usePageState } from '../../hooks/usePageState'
 import { $creationTimeZone, clearCreationTimeZone } from '../../stores/timezone'
@@ -159,8 +160,10 @@ export default function LocationStep () {
 
       <section className={styles.formSection} aria-labelledby='creator-section-title'>
         <div className={styles.sectionHeader}>
-          <span className={styles.requiredBadge}>{t('createMeeting.locationStep.requiredLabel')}</span>
-          <h3 id='creator-section-title'>{t('createMeeting.locationStep.creatorHeading')}</h3>
+          <div className={styles.sectionHeading}>
+            <h3 id='creator-section-title'>{t('createMeeting.locationStep.creatorHeading')}</h3>
+            <span className={styles.requiredBadge}>{t('createMeeting.locationStep.requiredLabel')}</span>
+          </div>
           <p>{t('createMeeting.locationStep.creatorDescription')}</p>
         </div>
 
@@ -186,8 +189,10 @@ export default function LocationStep () {
 
       <section className={styles.formSection} aria-labelledby='location-section-title'>
         <div className={styles.sectionHeader}>
-          <span className={styles.optionalBadge}>{t('createMeeting.locationStep.optionalLabel')}</span>
-          <h3 id='location-section-title'>{t('createMeeting.locationStep.locationHeading')}</h3>
+          <div className={styles.sectionHeading}>
+            <h3 id='location-section-title'>{t('createMeeting.locationStep.locationHeading')}</h3>
+            <span className={styles.optionalBadge}>{t('createMeeting.locationStep.optionalLabel')}</span>
+          </div>
           <p>{t('createMeeting.locationStep.locationDescription')}</p>
         </div>
 
@@ -246,7 +251,7 @@ export default function LocationStep () {
         )}
       </section>
 
-      <div className={styles.buttonContainer}>
+      <CreateFlowActions>
         <Button buttonType='secondary' onClick={handleBack}>
           {t('common.previous')}
         </Button>
@@ -259,7 +264,7 @@ export default function LocationStep () {
             ? t('createMeeting.locationStep.creatingButton')
             : t('createMeeting.locationStep.createButton')}
         </Button>
-      </div>
+      </CreateFlowActions>
     </>
   )
 }

@@ -1,7 +1,7 @@
-name: Selection Fill Release Build
+name: Create Flow Layout Release Build
 on:
   push:
-    branches: [feat/selection-fill-20261113]
+    branches: [release/create-layout-20261114]
 permissions:
   contents: read
   id-token: write
@@ -25,10 +25,17 @@ jobs:
           pnpm test:globalization
           pnpm astro sync
           pnpm check:types
-          pnpm exec eslint src/components/Monthly/MonthlyCell.tsx src/components/Timezone/TimeZoneSelect.tsx src/components/ResultPage/ResultContent.tsx src/components/daily/Daily.tsx src/components/daily/DailyCell.tsx src/components/daily/DailyGrid.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx src/utils/time.ts src/services/meetings.ts scripts/test-half-hour-slots.mjs
+          pnpm exec eslint src/components/meetings/CreateFlowActions.tsx src/components/meetings/MeetingTypeStep.tsx src/components/meetings/TitleStep.tsx src/components/meetings/DatesStep.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx scripts/test-create-flow-layout.mjs
           python3 -m unittest discover -s scripts -p test_cloud_run_guard.py
           python3 -m unittest discover -s scripts -p 'test_release_*.py'
       - run: pnpm build
+      - name: Verify creation layout in all languages
+        run: |
+          pnpm exec playwright install --with-deps chromium
+          HOST=127.0.0.1 PORT=4384 node dist/server/entry.mjs > /tmp/create-flow-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          node scripts/test-create-flow-layout.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:
@@ -39,10 +46,10 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:selection-fill-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
+          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:create-layout-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
-          name: selection-fill-release
+          name: create-layout-release
           path: |
             dist
             release-manifest.json

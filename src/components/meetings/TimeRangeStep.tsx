@@ -1,7 +1,7 @@
+import CreateFlowActions from './CreateFlowActions'
 import { usePageState } from '../../hooks/usePageState'
 import { useStore } from '@nanostores/react'
 import styles from './TimeRangeStep.module.scss'
-import flowStyles from './CreateMeeting.module.scss'
 import Button from '../Button/Button'
 import { navigate, navigateBack } from '../../utils/navigation'
 import { useSearchParam } from 'react-use'
@@ -58,7 +58,7 @@ export default function TimeRangeStep () {
         <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDatesCount', { count: selectedDates.length })}</p>
         <SelectedDates dates={selectedDates} locale={locale} visibleCount={6} badgeType='default' />
       </div>
-      <div className={flowStyles.buttonContainer}>
+      <CreateFlowActions>
         <Button
           buttonType='secondary'
           onClick={() => {
@@ -84,7 +84,7 @@ export default function TimeRangeStep () {
           }}
         >{t('common.next')}
         </Button>
-      </div>
+      </CreateFlowActions>
     </div>
   )
 }
