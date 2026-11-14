@@ -65,14 +65,24 @@ jobs:
             image-metadata.json
           include-hidden-files: true
           retention-days: 7
+      - name: Collect regression evidence
+        if: always()
+        run: |
+          python3 - <<'PYCODE'
+          import shutil
+          from pathlib import Path
+          output = Path('qa-evidence')
+          output.mkdir(exist_ok=True)
+          for name in ['picker', 'layout', 'half-hour']:
+              source = Path('..') / ('ci-' + name) / 'verification.json'
+              if source.is_file():
+                  shutil.copy2(source, output / (name + '.json'))
+          PYCODE
       - name: Upload regression evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: typography-browser-checks
-          path: |
-            ../ci-picker/verification.json
-            ../ci-layout/verification.json
-            ../ci-half-hour/verification.json
+          path: qa-evidence/*.json
           if-no-files-found: warn
           retention-days: 7
