@@ -75,7 +75,7 @@ export default function Header () {
       <header className={styles.header}>
         {/* 모바일: 브랜드와 메뉴를 양쪽에 배치 */}
         <div className={styles.mobileHeader}>
-          <a href={localizedPath(locale)} className={styles.mobileHeaderBrand}><img src='/favicon.svg' alt='' /><span>Time2Gather</span></a>
+          <a href={localizedPath(locale)} className={styles.mobileHeaderBrand}><img src='/brand/logo.svg' alt='' /><span>Time2Gather</span></a>
           <button
             className={styles.menuButton}
             onClick={toggleMobileMenu}
@@ -93,7 +93,7 @@ export default function Header () {
               className={styles.desktopNavLogo}
             >
               <img
-                src='/favicon.svg'
+                src='/brand/logo.svg'
                 alt='Time2Gather'
                 className={styles.desktopLogo}
               />

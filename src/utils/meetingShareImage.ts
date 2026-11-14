@@ -42,7 +42,7 @@ function cardKey (card: Card) {
 }
 
 export function meetingShareImagePath (code: string, meeting: Meeting): string {
-  return `/share/meetings/${encodeURIComponent(code)}?v=3-${cardKey(meetingShareCard(meeting))}`
+  return `/share/meetings/${encodeURIComponent(code)}?v=4-${cardKey(meetingShareCard(meeting))}`
 }
 
 async function textLayer (text: string, sizes: number[], maxHeight: number, color: string, rtl = false) {

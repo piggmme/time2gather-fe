@@ -9,7 +9,7 @@ export default function Home () {
     <div className={styles.container}>
       {/* Hero Section */}
       <div className={styles.illustration}>
-        <img src='/favicon.svg' alt='' className={styles.icon} />
+        <img src='/brand/logo.svg' alt='' className={styles.icon} />
       </div>
 
       <div className={styles.heroContent}>

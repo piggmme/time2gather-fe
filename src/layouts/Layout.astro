@@ -49,7 +49,7 @@ if (!meetingInvitation) currentUrl.searchParams.set('lang', locale)
 const currentPath = Astro.url.pathname;
 const title = customTitle || t('meta.siteTitle');
 const description = customDescription || t('meta.siteDescription');
-const ogImage = customOgImage || new URL('/time2gather-share.png?v=2', siteUrl).href;
+const ogImage = customOgImage || new URL('/share/brand-v2.png', siteUrl).href;
 const hreflangUrls = alternates && {
   ko: alternates.ko && new URL(alternates.ko, siteUrl).href,
   en: alternates.en && new URL(alternates.en, siteUrl).href,
@@ -62,7 +62,8 @@ const hreflangUrls = alternates && {
     <script id='i18n-messages' type='application/json' data-locale={locale} set:html={JSON.stringify(getLocaleMessages(locale)).replace(/</g, '\\u003c')} />
     <LocaleBootstrap locale={locale} meetingInvitation={meetingInvitation} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-192.png" />
+    <link rel='apple-touch-icon' sizes='180x180' href='/brand/apple-touch-icon.png' />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Search Engine Verification (환경변수로 설정) -->

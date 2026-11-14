@@ -28,7 +28,7 @@ const canonicalPath = localizedPath(locale, page)
 const canonical = new URL(canonicalPath, siteUrl).href
 const title = customTitle || (page === 'home' ? copy.metaTitle : `${copy[page].title} | Time2Gather`)
 const description = customDescription || (page === 'home' ? copy.metaDescription : copy[page].intro)
-const ogImage = new URL('/time2gather-share.png?v=2', siteUrl).href
+const ogImage = new URL('/share/brand-v2.png', siteUrl).href
 const localePaths = Object.fromEntries(marketingLocales.map(language => [language, localizedPath(language, page)]))
 const pageType = page === 'about' ? 'AboutPage' : page === 'contact' ? 'ContactPage' : 'WebPage'
 
@@ -37,7 +37,7 @@ const organization = {
   '@id': new URL('/#organization', siteUrl).href,
   'name': 'Time2Gather',
   'url': siteUrl,
-  'logo': new URL('/favicon.svg', siteUrl).href,
+  'logo': new URL('/brand/logo.svg', siteUrl).href,
   'email': 'wlsdn3578@gmail.com',
 }
 
@@ -99,7 +99,8 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     <PerformanceMonitoring />
     <LocaleBootstrap locale={locale} localePaths={localePaths} />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <link rel='icon' type='image/png' sizes='192x192' href='/favicon.png' />
+    <link rel='icon' type='image/png' sizes='192x192' href='/brand/icon-192.png' />
+    <link rel='apple-touch-icon' sizes='180x180' href='/brand/apple-touch-icon.png' />
     <title>{title}</title>
     <meta name='description' content={description} />
     <meta name='author' content='Time2Gather' />
@@ -131,7 +132,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
   <body>
     <header class='site-header'>
       <a class='brand' href={localizedPath(locale, 'home')} aria-label='Time2Gather'>
-        <img src='/favicon.svg' alt='' width='34' height='34' />
+        <img src='/brand/logo.svg' alt='' width='34' height='34' />
         <span>Time2Gather</span>
       </a>
       <nav class='main-nav' aria-label={copy.nav.home}>

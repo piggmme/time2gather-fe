@@ -4,6 +4,7 @@ import { CheckIcon, ChevronDownIcon } from '@radix-ui/react-icons'
 import { localeMeta, type Locale } from '../../i18n/config'
 import { formatTime } from '../../utils/time'
 import styles from './TimePicker.module.scss'
+import { dismissTouchKeyboard } from '../../utils/keyboard'
 
 // Accept a pasted HH:mm value or a short keyboard entry without rounding minutes.
 function normalizeTime (input: string): string | undefined {
@@ -39,6 +40,7 @@ function TimePickerControl ({
 }: Parameters<typeof TimePicker>[0]) {
   const id = useId()
   const list = useRef<HTMLDivElement>(null)
+  const input = useRef<HTMLInputElement>(null)
   const toggleIntent = useRef<boolean | null>(null)
   const normalized = normalizeTime(value)
   const invalid = !normalized || (Number(normalized.slice(0, 2)) * 60 + Number(normalized.slice(3))) % intervalMinutes !== 0 || (!!after && normalized <= after)
@@ -77,6 +79,7 @@ function TimePickerControl ({
         onOptionSubmit={(time) => {
           onChange(time)
           combobox.closeDropdown()
+          if (input.current) dismissTouchKeyboard(input.current)
         }}
       >
         <Combobox.DropdownTarget>
@@ -90,11 +93,13 @@ function TimePickerControl ({
           >
             <Combobox.EventsTarget withExpandedAttribute>
               <input
+                ref={input}
                 id={id}
                 className={styles.input}
                 type='text'
                 required
                 inputMode='text'
+                enterKeyHint='done'
                 placeholder='HH:mm'
                 dir='ltr'
                 aria-label={label}
@@ -109,11 +114,13 @@ function TimePickerControl ({
                 }}
                 onBlur={commit}
                 onKeyDown={(event) => {
-                  if (event.nativeEvent.isComposing) return
+                  if (event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229) return
                   if (event.key === 'Enter' && combobox.getSelectedOptionIndex() === -1) {
                     event.preventDefault()
+                    if (invalid) return
                     commit()
                     combobox.closeDropdown()
+                    dismissTouchKeyboard(event.currentTarget)
                   }
                   if (event.key === 'Tab') combobox.closeDropdown()
                 }}
