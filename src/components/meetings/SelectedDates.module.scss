@@ -1,0 +1,54 @@
+@use '../../styles/variables.scss' as *;
+
+.summary { min-width: 0; }
+
+.dates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: $spacing-sm;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 40px;
+  padding: $spacing-sm 10px;
+  border-radius: $radius-md;
+  background: $c-blue-soft;
+  color: $primary-color-hover;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-label;
+  line-height: $line-height-normal;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.moreButton {
+  display: block;
+  min-width: 44px;
+  min-height: 44px;
+  margin-block-start: $spacing-xs;
+  padding: $spacing-sm;
+  border: 0;
+  border-radius: $radius-md;
+  background: transparent;
+  color: $primary-color-hover;
+  font: inherit;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-label;
+  cursor: pointer;
+
+  &:hover { background: $c-blue-soft; }
+  &:focus-visible { outline: 2px solid $primary-color; outline-offset: 2px; }
+}
+
+@media (max-width: 699px) {
+  .dates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

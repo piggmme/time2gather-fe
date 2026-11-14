@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import dayjs from 'dayjs'
-import styles from './CreateMeeting.module.scss'
-import Badge from '../Badge/Badge'
+import styles from './SelectedDates.module.scss'
 import { formatDate } from '../../utils/time'
 
-export default function SelectedDates ({ dates, locale, visibleCount, badgeType = 'primary' }: { dates: (string | dayjs.Dayjs)[], locale: import('../../i18n').Locale, visibleCount?: number, badgeType?: 'default' | 'primary' | 'ghost' }) {
+export default function SelectedDates ({ dates, locale, visibleCount }: { dates: (string | dayjs.Dayjs)[], locale: import('../../i18n').Locale, visibleCount?: number }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const formattedDates = dates
@@ -15,10 +14,14 @@ export default function SelectedDates ({ dates, locale, visibleCount, badgeType 
   const remainingCount = formattedDates.length - INITIAL_COUNT
 
   return (
-    <div className={styles.dateBadges}>
-      {visibleDates.map(d => (
-        <Badge key={d.format('YYYY-MM-DD')} text={formatDate(d, locale)} type={badgeType} />
-      ))}
+    <div className={styles.summary}>
+      <ul className={styles.dates}>
+        {visibleDates.map(d => (
+          <li key={d.format('YYYY-MM-DD')} className={styles.date}>
+            <time dateTime={d.format('YYYY-MM-DD')}>{formatDate(d, locale)}</time>
+          </li>
+        ))}
+      </ul>
       {!isExpanded && remainingCount > 0 && (
         <button
           type='button'

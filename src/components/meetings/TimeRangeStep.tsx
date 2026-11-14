@@ -51,7 +51,7 @@ export default function TimeRangeStep () {
       </div>
       <div className={styles.dateBadgesContainer}>
         <p className={styles.dateBadgesTitle}>{t('createMeeting.timeRangeStep.selectedDatesCount', { count: selectedDates.length })}</p>
-        <SelectedDates dates={selectedDates} locale={locale} visibleCount={6} badgeType='default' />
+        <SelectedDates dates={selectedDates} locale={locale} visibleCount={6} />
       </div>
       <CreateFlowActions>
         <Button
