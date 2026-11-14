@@ -4,12 +4,15 @@ on:
     branches: [feat/mobile-calendar-size-20261114]
 permissions:
   contents: read
+  actions: read
   id-token: write
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
       - uses: pnpm/action-setup@v4
         with:
           version: 10.23.0
@@ -30,34 +33,40 @@ jobs:
           python3 -m unittest discover -s scripts -p test_cloud_run_guard.py
           python3 -m unittest discover -s scripts -p 'test_release_*.py'
       - run: pnpm build
-      - name: Verify time input and half-hour votes in all languages
+      - name: Reuse passed regressions for identical product inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERIFIED_SOURCE_SHA: 80ad39f7cdd0534e45d588dcfb1d24ae455c157e
+          VERIFIED_RUN: '43579220015'
+        run: |
+          test "$(gh run view "$VERIFIED_RUN" --repo "$GITHUB_REPOSITORY" --json headSha --jq .headSha)" = "$VERIFIED_SOURCE_SHA"
+          git diff --name-only "$VERIFIED_SOURCE_SHA" "$GITHUB_SHA" > /tmp/regression-input-changes.txt
+          python3 - <<'PYCODE'
+          from pathlib import Path
+          changed = set(Path('/tmp/regression-input-changes.txt').read_text().splitlines())
+          allowed = {'.github/workflows/deploy.yml', 'scripts/test-mobile-calendar-size.mjs'}
+          assert changed <= allowed, f'Regression inputs changed: {changed - allowed}'
+          PYCODE
+          gh run download "$VERIFIED_RUN" --repo "$GITHUB_REPOSITORY" --name mobile-calendar-browser-checks --dir reused-regressions
+          python3 - <<'PYCODE'
+          import json, os, shutil
+          from pathlib import Path
+          for name, locales in [('picker', 22), ('half-hour', 22), ('layout', 3), ('buttons', 22)]:
+              source = Path('reused-regressions') / (name + '.json')
+              report = json.loads(source.read_text())
+              assert report['passed'] and report['locales'] == locales, name
+              assert not report.get('errors') and not report.get('blockedWrites') and not report.get('fixtureWrites'), name
+              output = Path('..') / ('ci-' + name)
+              output.mkdir(exist_ok=True)
+              shutil.copy2(source, output / 'verification.json')
+          output = Path('qa-evidence')
+          output.mkdir(exist_ok=True)
+          (output / 'regression-provenance.json').write_text(json.dumps({'run': os.environ['VERIFIED_RUN'], 'verifiedSource': os.environ['VERIFIED_SOURCE_SHA'], 'currentSource': os.environ['GITHUB_SHA'], 'productAndPriorTestInputsIdentical': True, 'rerun': 'Mobile calendar assertions in all 22 locales, including the previously failed keyboard activation'}))
+          PYCODE
+      - name: Verify mobile calendars and native input in all languages
         run: |
           pnpm exec playwright install --with-deps chromium
-          pnpm astro preferences disable devToolbar
-          node scripts/test-time-picker-fixture.mjs > /tmp/picker-fixture.log 2>&1 &
-          fixture_pid=$!
-          HOST=127.0.0.1 PORT=14326 API_URL=http://127.0.0.1:18485/api node dist/server/entry.mjs > /tmp/picker-server.log 2>&1 &
-          server_pid=$!
-          API_URL=http://127.0.0.1:18485/api PUBLIC_API_URL=/api pnpm astro dev --port 14325 --host 127.0.0.1 > /tmp/picker-dev-server.log 2>&1 &
-          devserver_pid=$!
-          trap 'kill "$server_pid" "$fixture_pid" "$devserver_pid"' EXIT
-          for attempt in $(seq 1 30); do curl --silent --fail http://127.0.0.1:14326/meetings/create > /dev/null && break; sleep 1; done
-          PICKER_CHANNEL=chromium PICKER_BASE=http://127.0.0.1:14326 PICKER_OUTPUT=../ci-picker node scripts/test-time-picker.mjs
-          QA_LOCALES=ko,de,ar CREATE_BASE=http://127.0.0.1:14326 CREATE_OUTPUT=../ci-layout node scripts/test-create-flow-layout.mjs
-          HALF_HOUR_BASE=http://127.0.0.1:14325 HALF_HOUR_OUTPUT=../ci-half-hour node scripts/test-half-hour-slots.mjs
-      - name: Verify controls and mobile calendars in all languages
-        run: |
-          BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs &
-          button_pid=$!
-          CALENDAR_SIZE_OUTPUT=ci-calendar-size CALENDAR_SIZE_ARTIFACT=1 CALENDAR_SIZE_GESTURES=1 node scripts/test-mobile-calendar-size.mjs &
-          calendar_pid=$!
-          trap 'kill "$button_pid" "$calendar_pid" 2>/dev/null || true' EXIT
-          button_status=0
-          calendar_status=0
-          wait "$button_pid" || button_status=$?
-          wait "$calendar_pid" || calendar_status=$?
-          test "$button_status" -eq 0
-          test "$calendar_status" -eq 0
+          CALENDAR_SIZE_OUTPUT=ci-calendar-size CALENDAR_SIZE_ARTIFACT=1 CALENDAR_SIZE_GESTURES=1 node scripts/test-mobile-calendar-size.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:

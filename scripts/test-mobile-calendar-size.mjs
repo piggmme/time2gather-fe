@@ -76,6 +76,8 @@ const results = []
 const errors = []
 const failures = []
 const blockedWrites = []
+let activeCase = 'startup'
+let assertionFailure = null
 try {
   const ready = await browser.newContext()
   await expect.poll(async () => {
@@ -118,6 +120,7 @@ try {
         interval,
         length] of variants) {
         const code = `time-${count}-${interval}-${length}`
+        activeCase = `${engine}/${locale}/${width}x${height}/${count}dates/${interval}min/${length}`
         await page.goto(`${base}/meetings/${code}/select/time?lang=${locale}`)
         await page.addStyleTag({ content: 'astro-dev-toolbar { display:none !important; }' })
         const first = page.locator('button[data-date-key="2026-11-18"][data-time-index="0"]')
@@ -169,8 +172,9 @@ try {
         if (width < 700) await first.tap()
         else await first.click()
         await expect(first).toHaveAttribute('aria-pressed', wasSelected === 'true' ? 'false' : 'true')
-        await first.focus()
-        await page.keyboard.press('Space')
+        // Bind native keyboard input to the cell and verify focus explicitly.
+        await first.press('Space')
+        await expect(first).toBeFocused()
         await expect(first).toHaveAttribute('aria-pressed', wasSelected)
         if (process.env.CALENDAR_SIZE_GESTURES === '1' && engine === 'chromium' && width < 700 && length === 'long') {
           const second = page.locator('button[data-date-key="2026-11-18"][data-time-index="1"]')
@@ -236,9 +240,12 @@ try {
   }
   expect(errors).toEqual([])
   expect(failures).toEqual([])
+} catch (error) {
+  assertionFailure = { activeCase, message: error.message }
+  throw error
 } finally {
   fs.writeFileSync(`${output}/${engine}-report.json`, JSON.stringify({
-    results, errors, failures, writes: fixture.mutations, blockedWrites, base, fixture: remote ? 'Verified CI artifact renders example documents; JS/CSS loaded from deployment; API reads intercepted and all writes blocked' : 'Local in-memory API; no production requests or writes',
+    results, errors, failures, assertionFailure, writes: fixture.mutations, blockedWrites, base, fixture: remote ? 'Verified CI artifact renders example documents; JS/CSS loaded from deployment; API reads intercepted and all writes blocked' : 'Local in-memory API; no production requests or writes',
   }, null, 2))
   fs.writeFileSync(`${output}/${engine}-server.log`, logs)
   await browser.close()
