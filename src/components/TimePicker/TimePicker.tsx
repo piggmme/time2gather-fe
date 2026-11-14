@@ -41,6 +41,7 @@ function TimePickerControl ({
   const id = useId()
   const list = useRef<HTMLDivElement>(null)
   const input = useRef<HTMLInputElement>(null)
+  const submittingOption = useRef(false)
   const toggleIntent = useRef<boolean | null>(null)
   const normalized = normalizeTime(value)
   const invalid = !normalized || (Number(normalized.slice(0, 2)) * 60 + Number(normalized.slice(3))) % intervalMinutes !== 0 || (!!after && normalized <= after)
@@ -77,9 +78,11 @@ function TimePickerControl ({
         returnFocus={false}
         middlewares={{ shift: { padding: 16 }, size: { padding: 16 } }}
         onOptionSubmit={(time) => {
+          submittingOption.current = true
           onChange(time)
           combobox.closeDropdown()
           if (input.current) dismissTouchKeyboard(input.current)
+          submittingOption.current = false
         }}
       >
         <Combobox.DropdownTarget>
@@ -112,7 +115,11 @@ function TimePickerControl ({
                   onChange(event.currentTarget.value)
                   combobox.resetSelectedOption()
                 }}
-                onBlur={commit}
+                onBlur={() => {
+                  // During option submission the controlled input still holds
+                  // the previous value. Do not normalize it over the new choice.
+                  if (!submittingOption.current) commit()
+                }}
                 onKeyDown={(event) => {
                   if (event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229) return
                   if (event.key === 'Enter' && combobox.getSelectedOptionIndex() === -1) {

@@ -49,7 +49,7 @@ jobs:
           QA_LOCALES=ko,de,ar CREATE_BASE=http://127.0.0.1:14326 CREATE_OUTPUT=../ci-layout node scripts/test-create-flow-layout.mjs
           HALF_HOUR_BASE=http://127.0.0.1:14325 HALF_HOUR_OUTPUT=../ci-half-hour node scripts/test-half-hour-slots.mjs
       - name: Verify role-based controls in all languages
-        run: BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
+        run: BUTTON_SCENARIOS=home,search,create,time,guest-vote,comments,reply,reactions,edit BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:
