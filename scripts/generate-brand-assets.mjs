@@ -1,5 +1,4 @@
 import fs from 'node:fs/promises'
-import { createRequire } from 'node:module'
 import sharp from 'sharp'
 
 // favicon.svg is the editable master. All brand and share surfaces derive from it.
@@ -19,18 +18,13 @@ const png = await sharp(Buffer.from(generic)).png().toBuffer()
 await fs.writeFile('public/time2gather-share.png', png)
 await fs.writeFile('public/share/brand-v2.png', png)
 
-// Keep old published locale image URLs working with the updated brand too.
-const require = createRequire(import.meta.url)
-const { createServer } = await import(createRequire(require.resolve('astro')).resolve('vite'))
-const server = await createServer({ configFile: false, server: { middlewareMode: true }, appType: 'custom' })
-try {
-  const { renderMeetingShareImage } = await server.ssrLoadModule('/src/utils/meetingShareImage.ts')
-  const { supportedLocales } = await server.ssrLoadModule('/src/i18n/config.ts')
-  for (const locale of supportedLocales) {
-    const card = await renderMeetingShareImage({
-      creatorLocale: locale, confirmedDate: null, confirmedTime: null, timezone: 'UTC', selectionType: 'TIME',
-    })
-    await fs.writeFile(`public/share/v1/${locale}.png`, card)
-  }
-} finally { await server.close() }
-console.log('Generated shared logo, favicon, Apple touch icon and share images in all 22 locales')
+// Preserve the existing copy, typography and layout of published legacy cards.
+// Only their clock region is replaced, using the same master as the live cards.
+const clockRegion = await sharp(Buffer.from(frame(mark))).extract({ left: 0, top: 0, width: 560, height: 630 }).png().toBuffer()
+for (const name of await fs.readdir('public/share/v1')) {
+  if (!name.endsWith('.png')) continue
+  const file = `public/share/v1/${name}`
+  const updated = await sharp(await fs.readFile(file)).composite([{ input: clockRegion, left: 0, top: 0 }]).png().toBuffer()
+  await fs.writeFile(file, updated)
+}
+console.log('Generated logo, favicon, Apple touch icon and share images in all 22 locales')
