@@ -39,6 +39,7 @@ function TimePickerControl ({
 }: Parameters<typeof TimePicker>[0]) {
   const id = useId()
   const list = useRef<HTMLDivElement>(null)
+  const toggleIntent = useRef<boolean | null>(null)
   const normalized = normalizeTime(value)
   const invalid = !normalized || (Number(normalized.slice(0, 2)) * 60 + Number(normalized.slice(3))) % intervalMinutes !== 0 || (!!after && normalized <= after)
   const combobox = useCombobox({
@@ -125,7 +126,16 @@ function TimePickerControl ({
               aria-haspopup='listbox'
               aria-expanded={combobox.dropdownOpened}
               aria-controls={combobox.dropdownOpened ? combobox.listId ?? undefined : undefined}
-              onClick={() => combobox.toggleDropdown('mouse')}
+              onPointerDown={() => { toggleIntent.current = !combobox.dropdownOpened }}
+              onPointerCancel={() => { toggleIntent.current = null }}
+              onClick={() => {
+                // Safari blurs inputs without focusing clicked buttons. Preserve the
+                // pointer's intent across that blur instead of reopening a closed list.
+                const open = toggleIntent.current ?? !combobox.dropdownOpened
+                toggleIntent.current = null
+                if (open) combobox.openDropdown('mouse')
+                else combobox.closeDropdown('mouse')
+              }}
               onKeyDown={(event) => {
                 if (event.key === 'Escape') combobox.closeDropdown('keyboard')
                 if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {

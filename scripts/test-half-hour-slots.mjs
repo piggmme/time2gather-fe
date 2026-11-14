@@ -20,8 +20,12 @@ try {
       await context.route('**/api/**', async (route) => {
         const req = route.request()
         if (req.method() !== 'GET') writes.push({ path: new URL(req.url()).pathname, body: req.postDataJSON() })
-        const response = await route.fetch({ url: req.url().replace(new URL(req.url()).origin, 'http://127.0.0.1:18485') })
-        await route.fulfill({ response })
+        try {
+          const response = await route.fetch({ url: req.url().replace(new URL(req.url()).origin, 'http://127.0.0.1:18485') })
+          await route.fulfill({ response })
+        } catch (error) {
+          if (!/disposed|closed/i.test(String(error))) throw error
+        }
       })
       const page = await context.newPage()
       page.on('pageerror', error => errors.push(error.message))
