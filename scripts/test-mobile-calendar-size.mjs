@@ -29,12 +29,34 @@ const fixture = createNavigationFixture({
 await new Promise(resolve => fixture.server.listen(0, '127.0.0.1', resolve))
 const api = `http://127.0.0.1:${fixture.server.address().port}/api`
 const port = Number(process.env.CALENDAR_SIZE_PORT ?? 4377)
-const base = `http://127.0.0.1:${port}`
+const localBase = `http://127.0.0.1:${port}`
+const remote = process.env.CALENDAR_SIZE_BASE
+const base = remote ?? localBase
+const artifact = Boolean(remote || process.env.CALENDAR_SIZE_ARTIFACT)
 // Keep development-only dependency access out of the product Astro config.
 const config = path.join(output, 'astro.qa.config.mjs')
 fs.writeFileSync(config, `import config from ${JSON.stringify(pathToFileURL(path.resolve('astro.config.mjs')).href)};\nexport default { ...config, vite: { ...config.vite, server: { fs: { allow: ${JSON.stringify([process.cwd(), path.dirname(fs.realpathSync('node_modules'))])} } } } };\n`)
-const app = spawn('node', ['node_modules/astro/astro.js', 'dev', '--config', path.relative(process.cwd(), config), '--host', '127.0.0.1', '--port', String(port)], {
-  env: { ...process.env, API_URL: api, PUBLIC_API_URL: api }, stdio: ['ignore', 'pipe', 'pipe'],
+const loader = path.join(output, 'ssr-fixture-loader.mjs')
+fs.writeFileSync(loader, `
+import http from 'node:http'
+import https from 'node:https'
+import { syncBuiltinESMExports } from 'node:module'
+const original = https.request
+const fixture = new URL(process.env.CALENDAR_SIZE_FIXTURE_API)
+https.request = function (options, ...rest) {
+  if (options?.hostname === 'time2gather.org' && options.path?.startsWith('/api/')) {
+    if (options.method && options.method !== 'GET') throw new Error('QA SSR writes are forbidden')
+    return http.request({ ...options, protocol: 'http:', hostname: fixture.hostname, port: fixture.port, agent: undefined }, ...rest)
+  }
+  return original.call(this, options, ...rest)
+}
+syncBuiltinESMExports()
+`)
+const appArgs = artifact ? ['--import', loader, 'dist/server/entry.mjs'] : ['node_modules/astro/astro.js', 'dev', '--config', path.relative(process.cwd(), config), '--host', '127.0.0.1', '--port', String(port)]
+const app = spawn(process.execPath, appArgs, {
+  env: {
+    ...process.env, API_URL: api, PUBLIC_API_URL: api, CALENDAR_SIZE_FIXTURE_API: api, HOST: '127.0.0.1', PORT: String(port),
+  }, stdio: ['ignore', 'pipe', 'pipe'],
 })
 let logs = ''
 app.stdout.on('data', (chunk) => {
@@ -53,11 +75,12 @@ const smoke = process.env.CALENDAR_SIZE_SMOKE === '1'
 const results = []
 const errors = []
 const failures = []
+const blockedWrites = []
 try {
   const ready = await browser.newContext()
   await expect.poll(async () => {
     try {
-      return (await ready.request.get(base)).status()
+      return (await ready.request.get(localBase)).status()
     } catch {
       return 0
     }
@@ -72,6 +95,22 @@ try {
         locale, timezoneId: 'Asia/Seoul', reducedMotion: 'reduce',
       })
       await context.route(/googletagmanager|google-analytics|firestore.googleapis|firebaseinstallations.googleapis/, route => route.abort())
+      if (artifact) {
+        if (remote) await context.route('**/meetings/time-**', async (route) => {
+          if (route.request().resourceType() !== 'document') return route.continue()
+          const url = new URL(route.request().url())
+          return route.fulfill({ response: await route.fetch({ url: localBase + url.pathname + url.search }) })
+        })
+        await context.route('**/api/**', async (route) => {
+          const req = route.request()
+          if (remote && req.method() !== 'GET') {
+            blockedWrites.push(new URL(req.url()).pathname)
+            return route.abort()
+          }
+          const url = new URL(req.url())
+          return route.fulfill({ response: await route.fetch({ url: new URL(api).origin + url.pathname + url.search }) })
+        })
+      }
       const page = await context.newPage()
       page.on('pageerror', error => errors.push(error.message))
       const variants = smoke ? [[1, 60, 'long']] : [[1, 60, 'long'], [2, 30, 'long'], [8, 60, 'long'], [1, 60, 'short']]
@@ -117,7 +156,10 @@ try {
         }
         if (length === 'short') check(geometry.card.height < 260, 'short schedules must retain their natural height')
         const saveScreen = ['ko', 'de', 'ar', 'ur'].includes(locale) && ((width === 390 && height === 640) || width === 1280)
-        if (saveScreen) await page.screenshot({ path: `${output}/${engine}-${locale}-${width}-${count}-${interval}-${length}.png`, fullPage: true })
+        if (saveScreen) {
+          await page.evaluate(() => window.scrollTo(0, 0))
+          await page.screenshot({ path: `${output}/${engine}-${locale}-${width}-${count}-${interval}-${length}.png`, fullPage: true })
+        }
         if (checks.length) {
           failures.push(...checks)
           if (smoke) throw new Error(checks.join('\n'))
@@ -171,7 +213,7 @@ try {
         await expect(dateHeader).toHaveAttribute('aria-pressed', 'false')
         await dateHeader.click()
         await expect(dateHeader).toHaveAttribute('aria-pressed', 'true')
-        if (locale === 'ko' && width === 390 && height === 640 && count <= 2) {
+        if (!remote && locale === 'ko' && width === 390 && height === 640 && count <= 2) {
           const before = fixture.mutations.length
           await page.getByRole('button', { name: messages.common.submit, exact: true }).click()
           await expect(page).toHaveURL(new RegExp(`/meetings/${code}(?:[?#].*)?$`))
@@ -196,7 +238,7 @@ try {
   expect(failures).toEqual([])
 } finally {
   fs.writeFileSync(`${output}/${engine}-report.json`, JSON.stringify({
-    results, errors, failures, writes: fixture.mutations, fixture: 'Local in-memory API; no production requests or writes',
+    results, errors, failures, writes: fixture.mutations, blockedWrites, base, fixture: remote ? 'Verified CI artifact renders example documents; JS/CSS loaded from deployment; API reads intercepted and all writes blocked' : 'Local in-memory API; no production requests or writes',
   }, null, 2))
   fs.writeFileSync(`${output}/${engine}-server.log`, logs)
   await browser.close()
