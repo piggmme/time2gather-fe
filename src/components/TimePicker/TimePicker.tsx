@@ -79,7 +79,14 @@ function TimePickerControl ({
         }}
       >
         <Combobox.DropdownTarget>
-          <div className={styles.control} data-open={combobox.dropdownOpened || undefined} data-invalid={invalid || undefined}>
+          <div
+            className={styles.control}
+            data-open={combobox.dropdownOpened || undefined}
+            data-invalid={invalid || undefined}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) combobox.closeDropdown()
+            }}
+          >
             <Combobox.EventsTarget withExpandedAttribute>
               <input
                 id={id}
@@ -99,10 +106,7 @@ function TimePickerControl ({
                   onChange(event.currentTarget.value)
                   combobox.resetSelectedOption()
                 }}
-                onBlur={() => {
-                  commit()
-                  combobox.closeDropdown()
-                }}
+                onBlur={commit}
                 onKeyDown={(event) => {
                   if (event.nativeEvent.isComposing) return
                   if (event.key === 'Enter' && combobox.getSelectedOptionIndex() === -1) {
