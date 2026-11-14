@@ -718,7 +718,7 @@ function DailyContent ({
           </div>
         )}
       </div>
-      <div className={`${styles.container} ${className} ${!isEditMode ? styles.resultCalendar : ''} ${height !== 'auto' ? styles.bounded : ''} ${groupedHalfHours ? styles.groupedHalfHours : ''}`} data-interval-minutes={intervalMinutes} data-grouped-half-hours={groupedHalfHours} dir={direction} style={{ '--date-count': dates.length, '--time-row-height': intervalMinutes === 30 ? '32px' : '44px', 'maxHeight': height, 'height': 'auto' } as CSSProperties}>
+      <div className={`${styles.container} ${className} ${!isEditMode ? styles.resultCalendar : ''} ${height !== 'auto' ? styles.bounded : ''} ${groupedHalfHours ? styles.groupedHalfHours : ''}`} data-interval-minutes={intervalMinutes} data-grouped-half-hours={groupedHalfHours} dir={direction} style={{ '--date-count': dates.length, '--time-row-height': intervalMinutes === 30 ? '32px' : '44px', 'maxHeight': height === 'auto' ? height : `max(var(--calendar-min-height, 0px), ${height})`, 'height': 'auto' } as CSSProperties}>
         {isEditMode && (
           <div
             className={`${styles.gestureHint} ${isDragMode ? styles.gestureHintActive : ''}`}

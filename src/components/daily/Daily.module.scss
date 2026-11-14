@@ -33,6 +33,13 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   box-shadow: $card-shadow;
   border: $card-border;
   max-width: 100%;
+
+  @media (max-width: 699px) {
+    // Fill small screens, stretching sparse dates and scrolling dense schedules.
+    width: 100%;
+    container-type: inline-size;
+    --date-column-width: max(72px, calc((100cqi - var(--time-column-width)) / var(--date-count)));
+  }
 }
 
 .wrapper {
@@ -431,6 +438,13 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   overflow: hidden;
   .wrapper { overflow: hidden; }
   .stickyHeader { position: relative; top: auto; }
+
+  @media (max-width: 699px) {
+    // Bound scrolling without squeezing the grid below six visible hours.
+    // This raises only the maximum: short schedules keep their natural height.
+    --calendar-min-height: 420px;
+    &.groupedHalfHours { --calendar-min-height: 540px; }
+  }
 }
 
 // Result calendars share the quiet borders used by result controls.
