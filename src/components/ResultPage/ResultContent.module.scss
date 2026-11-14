@@ -27,7 +27,7 @@
 // 제목 스타일 개선
 .Title {
   font-size: $font-size-xl;
-  font-weight: $font-weight-bold;
+  font-weight: $font-weight-heading;
   color: $c-black;
   margin: 0 0 $spacing-xs 0;
   letter-spacing: -0.5px;
@@ -206,7 +206,7 @@
 
 .ConfirmedAttendanceLabel {
   font-size: $font-size-base;
-  font-weight: $font-weight-bold;
+  font-weight: $font-weight-label;
 }
 
 .ConfirmedParticipantList {
@@ -255,7 +255,7 @@
 
 .AISummaryCardTitle {
   font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
+  font-weight: $font-weight-heading;
   color: $ai-color-accent;
 }
 

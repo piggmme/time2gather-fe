@@ -83,7 +83,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: $font-size-3xl;
-  font-weight: $font-weight-bold;
+  font-weight: $font-weight-display;
   margin-bottom: $spacing-lg;
   
   @media (max-width: 699px) {
@@ -93,20 +93,20 @@ h1 {
 
 h2 {
   font-size: $font-size-2xl;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-heading;
   margin-bottom: $spacing-base;
   color: $c-gray-darkest; // 살짝 톤 다운
 }
 
 h3 {
   font-size: $font-size-xl;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-heading;
   margin-bottom: $spacing-sm;
 }
 
 h4 {
   font-size: $font-size-lg;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-heading;
   margin-bottom: $spacing-xs;
 }
 

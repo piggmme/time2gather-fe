@@ -21,7 +21,7 @@
   text-align: center;
   text-decoration: none;
   font-size: $font-size-base;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-action;
   line-height: 1.35;
   white-space: normal;
   word-break: var(--text-word-break, normal);
@@ -55,6 +55,7 @@
   // ===== Variants =====
 
   &.primary {
+    font-weight: $font-weight-primary;
     background-color: $primary-color;
     color: #fff;
     

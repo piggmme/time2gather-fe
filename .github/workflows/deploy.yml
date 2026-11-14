@@ -1,7 +1,7 @@
-name: Time Picker Release Build
+name: Typography Release Build
 on:
   push:
-    branches: [feat/time-picker-20261114]
+    branches: [release/font-weights-20261114]
 permissions:
   contents: read
   id-token: write
@@ -25,7 +25,7 @@ jobs:
           pnpm test:globalization
           pnpm astro sync
           pnpm check:types
-          pnpm exec eslint src/components/meetings/CreateFlowActions.tsx scripts/test-create-flow-layout.mjs src/components/TimePicker/TimePicker.tsx scripts/test-time-picker.mjs scripts/test-time-picker-fixture.mjs src/components/Monthly/MonthlyCell.tsx src/components/Timezone/TimeZoneSelect.tsx src/components/ResultPage/ResultContent.tsx src/components/daily/Daily.tsx src/components/daily/DailyCell.tsx src/components/daily/DailyGrid.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx src/utils/time.ts src/services/meetings.ts scripts/test-half-hour-slots.mjs
+          pnpm exec eslint src/components/MarketingContent.astro src/layouts/MarketingLayout.astro src/components/meetings/CreateFlowActions.tsx scripts/test-create-flow-layout.mjs src/components/TimePicker/TimePicker.tsx scripts/test-time-picker.mjs scripts/test-time-picker-fixture.mjs src/components/Monthly/MonthlyCell.tsx src/components/Timezone/TimeZoneSelect.tsx src/components/ResultPage/ResultContent.tsx src/components/daily/Daily.tsx src/components/daily/DailyCell.tsx src/components/daily/DailyGrid.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx src/utils/time.ts src/services/meetings.ts scripts/test-half-hour-slots.mjs
           python3 -m unittest discover -s scripts -p test_cloud_run_guard.py
           python3 -m unittest discover -s scripts -p 'test_release_*.py'
       - run: pnpm build
@@ -54,14 +54,25 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:time-picker-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
+          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:font-weights-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
-          name: time-picker-release
+          name: typography-release
           path: |
             dist
             release-manifest.json
             build-metrics.json
             image-metadata.json
           include-hidden-files: true
+          retention-days: 7
+      - name: Upload regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: typography-browser-checks
+          path: |
+            ../ci-picker/verification.json
+            ../ci-layout/verification.json
+            ../ci-half-hour/verification.json
+          if-no-files-found: warn
           retention-days: 7

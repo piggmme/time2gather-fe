@@ -208,16 +208,16 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
   a { color: inherit; text-decoration: none; }
   img { display: block; max-width: 100%; }
   .site-header { position: relative; z-index: 10; display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 24px; width: min(1120px, calc(100% - 40px)); min-height: 72px; margin: 0 auto; }
-  .brand, .footer-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -0.03em; }
+  .brand, .footer-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: var(--font-weight-brand); letter-spacing: -0.03em; }
   .brand { font-size: 20px; }
-  .main-nav { display: flex; gap: 22px; color: #4e5968; font-size: 14px; font-weight: 600; }
+  .main-nav { display: flex; gap: 22px; color: #4e5968; font-size: 14px; font-weight: var(--font-weight-label); }
   .main-nav a:hover, .site-footer a:hover { color: #3182f6; }
-  .my-meetings { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 0; color: #333d4b; font-size: 14px; font-weight: 600; line-height: 1.4; text-align: center; overflow-wrap: anywhere; }
+  .my-meetings { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 0; color: #333d4b; font-size: 14px; font-weight: var(--font-weight-label); line-height: 1.4; text-align: center; overflow-wrap: anywhere; }
   .my-meetings:hover { color: #1b64da; }
   .my-meetings:focus-visible { outline: 2px solid #3182f6; outline-offset: 3px; }
   .language-menu { position: relative; min-width: 0; }
   .language-icon { flex-shrink: 0; }
-  .language-menu summary { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 9px 0; color: #6b7684; font-size: 14px; font-weight: 500; cursor: pointer; list-style: none; text-align: center; }
+  .language-menu summary { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 9px 0; color: #6b7684; font-size: 14px; font-weight: var(--font-weight-label); cursor: pointer; list-style: none; text-align: center; }
   .language-menu summary:hover { color: #1b64da; }
   .language-menu summary:focus-visible { outline: 2px solid #3182f6; outline-offset: 3px; border-radius: 4px; }
   .language-menu summary::-webkit-details-marker { display: none; }

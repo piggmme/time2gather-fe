@@ -1,8 +1,24 @@
+// Shared role weights. Keep the same hierarchy across scripts; locale-specific
+// font families and line heights remain owned by i18n/fonts.ts.
+:root {
+  --font-weight-body: 400;
+  --font-weight-label: 500;
+  --font-weight-action: 500;
+  --font-weight-primary: 600;
+  --font-weight-heading: 600;
+  --font-weight-display: 700;
+  --font-weight-brand: 800;
+}
+
+h1 { font-weight: var(--font-weight-display); }
+h2, h3, h4, h5, h6 { font-weight: var(--font-weight-heading); }
+
 // Language-aware line breaking. Keep Korean eojeol together, while other
 // scripts use the browser's language-specific word/dictionary boundaries.
 html,
 body {
   font-family: var(--font-ui, system-ui, sans-serif);
+  font-weight: var(--font-weight-body);
 }
 
 input, button, textarea, select, summary, [role='tab'] {

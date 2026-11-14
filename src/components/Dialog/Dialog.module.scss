@@ -75,7 +75,7 @@
   margin: 0 0 $spacing-sm 0;
   color: $c-black;
   font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-heading;
   line-height: $line-height-tight;
 }
 
@@ -101,7 +101,7 @@
   border-radius: $radius-sm;
   padding: 8px $spacing-base;
   font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-action;
   user-select: none;
   word-break: var(--text-word-break, normal);
   cursor: pointer;
@@ -140,6 +140,7 @@
 }
 
 .Action {
+  font-weight: $font-weight-primary;
   background-color: $primary-color;
   color: $c-white;
   

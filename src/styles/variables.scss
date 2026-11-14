@@ -94,6 +94,15 @@ $font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
 
+// Semantic roles shared with the marketing and admin layouts.
+$font-weight-body: var(--font-weight-body);
+$font-weight-label: var(--font-weight-label);
+$font-weight-action: var(--font-weight-action);
+$font-weight-primary: var(--font-weight-primary);
+$font-weight-heading: var(--font-weight-heading);
+$font-weight-display: var(--font-weight-display);
+$font-weight-brand: var(--font-weight-brand);
+
 $line-height-tight: 1.4;
 $line-height-normal: 1.6;
 $line-height-relaxed: 1.8;

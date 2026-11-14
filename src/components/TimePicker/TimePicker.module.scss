@@ -1,6 +1,6 @@
 @use '../../styles/variables.scss' as *;
 .field { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.label { color: #6b7684; font-size: 13px; font-weight: 500; }
+.label { color: #6b7684; font-size: 13px; font-weight: $font-weight-label; }
 .control {
   box-sizing: border-box;
   display: flex;
@@ -27,7 +27,7 @@
   color: #191f28;
   font: inherit;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: $font-weight-body;
   line-height: 1.5;
   text-align: start;
   &:focus { outline: none; }
@@ -87,7 +87,7 @@
   cursor: pointer;
   user-select: none;
   &:hover, &[data-combobox-selected] { background: $c-gray-light; }
-  &[aria-selected='true'] { background: $c-blue-soft; color: $primary-color; font-weight: 600; }
+  &[aria-selected='true'] { background: $c-blue-soft; color: $primary-color; font-weight: $font-weight-primary; }
   &[data-combobox-selected] { outline: 2px solid $primary-color; outline-offset: -2px; }
   &[data-combobox-disabled] { color: $c-gray-dark; cursor: default; }
   > svg { flex-shrink: 0; }
