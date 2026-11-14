@@ -112,7 +112,7 @@ export default function ResultButtons (
       {showConfirmAction && isHost && !isConfirmed && confirmActionTarget && createPortal(
         <Button
           type='button'
-          buttonType='secondary'
+          buttonType='utility'
           className={styles.CompactConfirmButton}
           onClick={() => setIsConfirmDialogOpen(true)}
           aria-haspopup='dialog'
@@ -176,7 +176,7 @@ export default function ResultButtons (
           )}
           {/* 캘린더 */}
           <Button
-            buttonType='secondary'
+            buttonType='utility'
             className={styles.IconButton}
             onClick={handleExportToCalendar}
             type='button'
@@ -187,7 +187,7 @@ export default function ResultButtons (
 
           {!isConfirmed && (
             <Button
-              buttonType='secondary'
+              buttonType='utility'
               className={styles.IconButton}
               onClick={handleShare}
               type='button'

@@ -1,3 +1,4 @@
+@use "../../styles/controls.scss" as controls;
 @use "../../styles/variables.scss" as *;
 
 // =====================================================
@@ -91,7 +92,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  min-height: 36px;
+  min-height: 44px;
   height: auto;
   max-width: 100%;
   min-width: 0;
@@ -131,12 +132,7 @@
 }
 
 .Cancel {
-  background-color: $c-gray-light;
-  color: $c-black;
-  
-  &:hover {
-    background-color: $c-gray;
-  }
+  @include controls.button(quiet);
 }
 
 .Action {

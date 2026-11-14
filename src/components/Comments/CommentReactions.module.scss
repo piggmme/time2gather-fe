@@ -1,11 +1,13 @@
+@use "../../styles/controls.scss" as controls;
 @use '../../styles/variables.scss' as *;
 @use '../../styles/surfaces.scss' as surfaces;
 
 .bar, .filters { display: flex; align-items: center; flex-wrap: wrap; gap: $spacing-xs; min-width: 0; }
 .bar { display: contents; }
 .tools { display: inline-flex; align-items: center; gap: $spacing-xs; }
+.chip { @include controls.choice; }
 .chip, .iconButton {
-  @include surfaces.action;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -23,7 +25,7 @@
   &[aria-pressed='true'] { color: $primary-color-hover; background: $c-blue-soft; border-color: $primary-color; }
 }
 .emoji { font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; font-size: 20px; line-height: 1; }
-.iconButton { background: transparent; border-color: transparent; position: relative; padding: 10px; > svg { width: 20px; height: 20px; } }
+.iconButton { @include controls.button(icon); background: transparent; border-color: transparent; position: relative; padding: 10px; > svg { width: 20px; height: 20px; } }
 .plus { font-size: 12px; position: absolute; inset-inline-end: 5px; inset-block-start: 2px; }
 .picker {
   display: grid;

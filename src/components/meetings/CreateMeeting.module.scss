@@ -1,3 +1,4 @@
+@use "../../styles/controls.scss" as controls;
 @use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
@@ -42,6 +43,7 @@
 }
 
 button.meetingTypeButton {
+  @include controls.choice;
   flex: 1;
   width: 100%;
   max-width: none;
@@ -53,10 +55,6 @@ button.meetingTypeButton {
   word-break: var(--text-word-break, normal);
   
   // Custom Card Style for Selection
-  background-color: $c-white !important;
-  border: 1px solid surfaces.$section-line !important;
-  border-radius: surfaces.$control-radius;
-  box-shadow: none;
   transition: all $transition-base;
   
   display: flex;
@@ -66,13 +64,13 @@ button.meetingTypeButton {
   gap: $spacing-md;
   
   &:hover {
-    background-color: surfaces.$control-hover-bg !important;
-    border-color: $primary-color-border !important;
+    background-color: controls.$hover;
+    border-color: $primary-color;
   }
 
   &[aria-pressed='true'] {
-    background-color: $c-blue-soft !important;
-    border-color: $primary-color !important;
+    background-color: $c-blue-soft;
+    border-color: $primary-color;
     color: $primary-color;
     box-shadow: none;
   }
@@ -253,14 +251,12 @@ button.meetingTypeButton {
 }
 
 .moreButton {
+  min-height: 44px;
+  @include controls.button(text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 6px 12px;
-  border: 1px solid $c-gray-light;
-  border-radius: $radius-full; // Pill shape
-  background-color: $c-gray-lightest;
-  color: $c-gray-darkest;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   cursor: pointer;
@@ -358,9 +354,10 @@ button.meetingTypeButton {
 }
 
 .locationToggleContainer {
+  @include controls.choice;
   margin: 0;
   padding: $spacing-sm $spacing-base;
-  @include surfaces.action;
+
   transition: border-color $transition-fast, background-color $transition-fast;
 
   &:has(input:checked) {
@@ -420,36 +417,27 @@ button.meetingTypeButton {
 }
 
 .locationRemoveButton {
+  @include controls.button(danger);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 44px; // 터치 영역 확대
   height: 44px;
-  @include surfaces.action;
-  color: $c-gray-dark;
+
   font-size: $font-size-lg;
   cursor: pointer;
   transition: all $transition-base;
 
-  &:hover {
-    background-color: $c-red-soft;
-    border-color: transparent;
-    color: $c-red;
-
-  }
 }
 
 .locationAddButton {
+  @include controls.button(add);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: $spacing-sm;
   min-height: 48px;
   padding: $spacing-sm $spacing-md;
-  border: 1px solid $primary-color-border;
-  border-radius: $radius-base;
-  background-color: $c-blue-soft;
-  color: $primary-color-hover;
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   cursor: pointer;
@@ -463,10 +451,6 @@ button.meetingTypeButton {
     stroke-width: 2;
   }
 
-  &:hover {
-    background-color: rgba($primary-color, 0.14);
-    border-color: $primary-color;
-  }
 
   &:focus-visible {
     outline: 2px solid $primary-color;

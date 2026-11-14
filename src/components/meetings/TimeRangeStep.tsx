@@ -55,7 +55,7 @@ export default function TimeRangeStep () {
       </div>
       <CreateFlowActions>
         <Button
-          buttonType='secondary'
+          buttonType='ghost'
           onClick={() => {
             const query = params()
             query.set('step', 'dates')

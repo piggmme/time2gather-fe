@@ -1,3 +1,4 @@
+@use "../../styles/controls.scss" as controls;
 @use "../../styles/variables.scss" as *;
 @use "../../styles/surfaces.scss" as surfaces;
 
@@ -177,14 +178,15 @@
   margin-block: $spacing-lg 0;
 }
 .unavailableLabel {
-  @include surfaces.action;
+  @include controls.choice;
+
   display: flex;
   align-items: center;
   gap: $spacing-md;
   min-height: 48px;
   padding: $spacing-md;
   cursor: pointer;
-  &:has(input:checked) { background: $primary-color-soft; border-color: $primary-color; }
+  &:has(input:checked) { background: $c-blue-soft; border-color: $primary-color; }
   input { inline-size: 18px; block-size: 18px; flex-shrink: 0; accent-color: $primary-color; }
   span { min-width: 0; overflow-wrap: anywhere; }
 }

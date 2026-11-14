@@ -204,7 +204,7 @@ export default function EditVotingDatesPage ({
                   />
                 </label>
                 <Button
-                  buttonType='ghost'
+                  buttonType='danger'
                   aria-label={`${t('createMeeting.locationStep.removeLocation')} ${index + 1}`}
                   disabled={places.length <= 2}
                   onClick={() => setPlaces(current => current.filter(item => item.key !== place.key))}
@@ -213,7 +213,7 @@ export default function EditVotingDatesPage ({
                 </Button>
               </div>
             ))}
-            <Button buttonType='ghost' disabled={places.length >= 5} onClick={() => setPlaces(current => [...current, { key: crypto.randomUUID(), id: '', name: '' }])}>
+            <Button buttonType='add' disabled={places.length >= 5} onClick={() => setPlaces(current => [...current, { key: crypto.randomUUID(), id: '', name: '' }])}>
               {t('createMeeting.locationStep.addLocation')}
             </Button>
           </fieldset>

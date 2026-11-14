@@ -252,7 +252,7 @@ export default function LocationStep () {
       </section>
 
       <CreateFlowActions>
-        <Button buttonType='secondary' onClick={handleBack}>
+        <Button buttonType='ghost' onClick={handleBack}>
           {t('common.previous')}
         </Button>
         <Button

@@ -1,0 +1,53 @@
+@use './variables.scss' as *;
+
+$border: #8794a5;
+$ink: #334155;
+$muted: #475569;
+$hover: #f8fafc;
+$danger: #b42318;
+
+// Shared appearance for buttons, without changing their layout or data state.
+@mixin button($role: neutral) {
+  background: $c-white;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  color: $ink;
+  box-shadow: none;
+
+  @if $role == utility or $role == add {
+    border-color: $primary-color;
+    color: $primary-color-hover;
+  }
+  @if $role == add { border-style: dashed; }
+  @if $role == quiet or $role == text or $role == icon {
+    background: transparent;
+    border-color: transparent;
+    color: $muted;
+  }
+  @if $role == text { color: $primary-color-hover; }
+  @if $role == danger { border-color: $danger; color: $danger; }
+  @if $role == danger-primary { background: $danger; border-color: $danger; color: $c-white; }
+
+  &:hover:where(:not(:disabled):not([aria-disabled='true'])) {
+    @if $role == danger-primary { background: #912018; }
+    @else { background: $hover; }
+  }
+  &:focus-visible { outline: 2px solid $primary-color; outline-offset: 2px; }
+  &:disabled, &[aria-disabled='true'] {
+    background: $c-gray-light;
+    border-color: $c-gray-light;
+    color: $c-gray-dark;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}
+
+@mixin choice {
+  @include button;
+  &:has(input:checked), &[aria-pressed='true'] {
+    background: $c-blue-soft;
+    border-color: $primary-color;
+    color: $primary-color-hover;
+  }
+  &:has(input:focus-visible) { outline: 2px solid $primary-color; outline-offset: 2px; }
+}

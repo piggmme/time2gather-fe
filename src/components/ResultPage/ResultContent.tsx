@@ -325,7 +325,7 @@ function AvailabilityAction ({ meetingData, className = '' }: {
   const hasSelection = hasUserScheduleSelection(meetingData.schedule, me?.userId) || Boolean(me && meetingData.participants.find(person => person.userId === me.userId)?.availabilityResponse)
 
   return (
-    <a href={`/meetings/${meetingData.meeting.code}/select/${meetingData.meeting.selectionType.toLowerCase()}`} className={`${styles.SummaryVoteAction} ${className}`}>
+    <a href={`/meetings/${meetingData.meeting.code}/select/${meetingData.meeting.selectionType.toLowerCase()}`} className={`${styles.SummaryVoteAction} ${className}`} data-appearance={hasSelection ? 'edit' : 'primary'}>
       <HiOutlinePencil aria-hidden='true' />
       {t(`meeting.result.buttons.${hasSelection ? 'editAvailability' : 'enterAvailability'}`)}
     </a>

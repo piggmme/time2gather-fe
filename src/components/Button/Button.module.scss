@@ -1,5 +1,6 @@
 @use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
+@use "../../styles/controls.scss" as controls;
 
 // =====================================================
 // Button Component - shadcn/ui inspired
@@ -69,35 +70,18 @@
   }
 
   &.ghost {
-    background-color: $c-gray-lightest;
-    color: $c-gray-darkest;
-    border: 1px solid transparent;
-    
-    &:hover:not([disabled]) {
-      background-color: $c-gray-light;
-      color: $c-black;
-    }
-    
-    &:active:not([disabled]) {
-      background-color: $c-gray;
-    }
+    @include controls.button(quiet);
   }
 
   &.secondary {
-    @include surfaces.action;
-    color: $c-gray-darkest;
-
-    &:hover:not([disabled]) {
-      background-color: $c-gray-lightest;
-      border-color: transparent;
-      color: $c-black;
-    }
-
-    &:active:not([disabled]) {
-      background-color: $c-gray-light;
-      transform: scale(0.98);
-    }
+    @include controls.button;
   }
+
+  &.utility { @include controls.button(utility); }
+  &.add { @include controls.button(add); }
+  &.text { @include controls.button(text); }
+  &.danger { @include controls.button(danger); }
+  &.dangerPrimary { @include controls.button(danger-primary); font-weight: $font-weight-primary; }
 
   &.kakao {
     background-color: #fee500;
@@ -129,22 +113,12 @@
   }
 
   &.default {
-    @include surfaces.action;
-    color: $c-black;
-
-    &:hover:not([disabled]) {
-      background-color: $c-gray-lightest;
-      border-color: transparent;
-    }
-    
-    &:active:not([disabled]) {
-      background-color: $c-gray-light;
-    }
+    @include controls.choice;
 
     &.active {
       border-color: $primary-color;
-      background-color: $primary-color-soft;
-      color: $primary-color;
+      background-color: $c-blue-soft;
+      color: $primary-color-hover;
       font-weight: $font-weight-semibold;
     }
   }

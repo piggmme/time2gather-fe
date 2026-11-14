@@ -1,5 +1,6 @@
 @use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
+@use "../../styles/controls.scss" as controls;
 
 // =====================================================
 // Result Page Styles (Warm & Friendly)
@@ -159,6 +160,7 @@
   display: none;
 
   @media (max-width: 899px) {
+    @include controls.button;
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
@@ -166,18 +168,11 @@
     gap: 5px;
     min-height: 48px;
     padding: 8px 11px;
-    color: $primary-color-hover;
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
     line-height: 1.2;
     text-decoration: none;
     white-space: nowrap;
-    background: $c-blue-soft;
-    border-radius: $radius-sm;
-
-    &:hover {
-      background: rgba($primary-color, 0.14);
-    }
 
     &:focus-visible {
       outline: 2px solid $primary-color;
@@ -889,5 +884,6 @@
 // Decision summary: one conclusion, then its candidate and the next action.
 .DecisionContainer { min-width: 0; }
 @media (max-width: 899px) {
-  .DecisionContainer .SummaryVoteAction { display: flex; justify-content: center; margin-top: 16px; width: 100%; min-height: 48px; background: $c-gray-lightest; color: $c-gray-darkest; font-size: 14px; white-space: normal; line-height: 1.5; }
+  .DecisionContainer .SummaryVoteAction { display: flex; justify-content: center; margin-top: 16px; width: 100%; min-height: 48px; font-size: 14px; white-space: normal; line-height: 1.5; }
+  .SummaryVoteAction[data-appearance='primary'] { background: $primary-color; border-color: $primary-color; color: $c-white; &:hover { background: $primary-color-hover; } }
 }

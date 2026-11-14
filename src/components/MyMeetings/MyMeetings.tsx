@@ -27,7 +27,7 @@ export default function MyMeetings () {
           {t(participated ? 'common.searchMeetingButton' : 'common.createMeeting')}
         </Button>
         {!participated && (
-          <Button as='a' buttonType='secondary' href='/meetings/search'>
+          <Button as='a' buttonType='utility' href='/meetings/search'>
             {t('common.searchMeetingButton')}
           </Button>
         )}

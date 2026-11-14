@@ -25,7 +25,7 @@ export default function TitleStep () {
       </div>
       <CreateFlowActions>
         <Button
-          buttonType='secondary'
+          buttonType='ghost'
           onClick={() => {
             const newUrl = `/meetings/create?step=meetingType&meetingType=${meetingTypeParam}`
             return navigateBack(newUrl)

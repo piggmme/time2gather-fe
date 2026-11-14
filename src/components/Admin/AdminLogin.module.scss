@@ -1,3 +1,4 @@
+@use "../../styles/controls.scss" as controls;
 @use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 .login {
@@ -13,7 +14,7 @@
   h1 { margin: 0; font-size: 28px; color: $c-black; }
   p { margin: 0; color: $c-gray-darkest; line-height: 1.7; }
   small { color: $c-gray-darkest; }
-  button { padding: 8px 12px; min-height: 44px; @include surfaces.action; }
+  button { padding: 8px 12px; min-height: 44px; @include controls.button; }
 }
 .brand { color: $primary-color; font-weight: $font-weight-bold; }
 .eyebrow { font-size: $font-size-xs; letter-spacing: .08em; color: $c-gray-darkest; }

@@ -1,3 +1,4 @@
+@use "../../styles/controls.scss" as controls;
 /* Hallmark · checked: 2026-11-05 · genre: modern-minimal (inferred)
  * scope: app · theme: Time2Gather project · copy: verbatim
  * built: the project · redesign: polish · v2.0.0 */
@@ -83,11 +84,7 @@
   padding: $spacing-sm $spacing-md;
   font-size: $font-size-base;
   line-height: 20px;
-  &:not(:disabled) {
-    background-color: var(--meeting-actions-paper);
-    border: 1px solid var(--meeting-actions-divider);
-  }
-  &:hover:not(:disabled) { background-color: var(--meeting-actions-control); border-color: var(--meeting-actions-divider); }
+
 }
 
 .HostActions {
@@ -126,6 +123,7 @@
 }
 
 .IconButton {
+  @include controls.button(utility);
   min-width: 0;
   flex: 1;
   display: flex;
@@ -135,13 +133,9 @@
   gap: 8px;
   padding: 14px $spacing-sm;
   min-height: 52px;
-  background-color: var(--meeting-actions-control);
-  border: 0;
-  border-radius: 12px;
   cursor: pointer;
   transition: background-color $transition-fast, color $transition-fast, transform $transition-fast;
   text-decoration: none;
-  color: var(--meeting-actions-muted);
 
   &:hover {
     background-color: var(--meeting-actions-hover);
@@ -160,26 +154,24 @@
     gap: 6px;
     padding: $spacing-base $spacing-sm;
     min-height: 56px;
-    border-radius: $radius-base;
+    border-radius: $radius-md;
   }
 }
 
 .CancelConfirmationButton {
+  @include controls.button(danger);
   align-self: flex-end;
   max-width: 100%;
   margin-block-start: -$spacing-sm;
   padding: $spacing-sm;
   min-height: 44px;
-  color: var(--meeting-actions-text);
   font-size: $font-size-sm;
-  border-radius: $radius-sm;
   text-align: end;
   text-decoration: none;
 
   &:hover:not(:disabled) { background-color: var(--meeting-actions-hover); }
-  &:active:not(:disabled) { color: var(--meeting-actions-ink); }
   &:focus-visible { outline: 2px solid var(--meeting-actions-focus); outline-offset: 2px; }
-  &:disabled { opacity: 0.5; color: var(--meeting-actions-text); background-color: var(--meeting-actions-control); cursor: not-allowed; }
+  &:disabled { opacity: 0.5; }
 }
 
 .Icon {
@@ -234,18 +226,15 @@
 }
 
 .anonymousLoginButton {
+  @include controls.button(neutral);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: $spacing-sm $spacing-base;
-  border-radius: $radius-md;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: background-color $transition-fast, color $transition-fast;
-  background-color: var(--meeting-actions-light);
-  color: var(--meeting-actions-ink);
-  border: none;
 
   &:hover {
     background-color: var(--meeting-actions-border);
@@ -315,7 +304,7 @@
 .ActionPanel { container: meeting-actions / inline-size; gap: $spacing-base; }
 .ActionPanelHeader { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: $spacing-sm $spacing-base; }
 .ActionPanelEyebrow { margin: 0; font-size: $font-size-sm; font-weight: $font-weight-normal; }
-.HostActions .PrimaryButton { justify-content: flex-start; min-height: 58px; padding: 14px 16px; gap: 12px; background: var(--meeting-actions-paper); border: 1px solid var(--meeting-actions-divider); text-align: start; > svg { flex-shrink: 0; color: var(--meeting-actions-text); } > svg:last-child { width: 16px; height: 16px; } }
+.HostActions .PrimaryButton { justify-content: flex-start; min-height: 58px; padding: 14px 16px; gap: 12px; background: var(--meeting-actions-paper); border: 1px solid controls.$border; text-align: start; > svg { flex-shrink: 0; color: var(--meeting-actions-text); } > svg:last-child { width: 16px; height: 16px; } }
 .EditDatesLabel { flex: 1; min-width: 0; overflow-wrap: break-word; hyphens: auto; }
 .IconButtonGroup {
   display: grid;
@@ -333,7 +322,6 @@
     font-size: $font-size-base;
     font-weight: $font-weight-medium;
     line-height: $line-height-tight;
-    border: 1px solid transparent;
   }
 }
 .IconButtonGroup .ConfirmedShareButton { font-weight: $font-weight-primary; }
@@ -358,5 +346,5 @@
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: $spacing-sm; margin-block-start: $spacing-lg;
   > button { min-height: 48px; white-space: normal; }
 }
-.CancelDialogConfirm { background: var(--meeting-actions-danger); color: var(--meeting-actions-paper); &:hover { background: var(--meeting-actions-danger); } }
+.CancelDialogConfirm { @include controls.button(danger-primary); }
 .CancelError { color: var(--meeting-actions-danger); font-size: $font-size-base; line-height: $line-height-normal; }

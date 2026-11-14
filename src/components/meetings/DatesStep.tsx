@@ -22,7 +22,7 @@ export default function DatesStep () {
       </div>
       <CreateFlowActions>
         <Button
-          buttonType='secondary'
+          buttonType='ghost'
           onClick={() => {
             return navigateBack(`/meetings/create?step=title&meetingType=${meetingTypeParam}&title=${encodeURIComponent(title ?? '')}`)
           }}

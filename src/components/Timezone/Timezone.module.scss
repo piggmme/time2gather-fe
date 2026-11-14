@@ -1,3 +1,4 @@
+@use "../../styles/controls.scss" as controls;
 @use "../../styles/surfaces.scss" as surfaces;
 @use '../../styles/variables.scss' as *;
 
@@ -15,6 +16,7 @@
 }
 .selector { min-width: 0; max-width: 100%; margin-block: $spacing-sm; }
 .trigger {
+  @include controls.button(neutral);
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
@@ -23,8 +25,7 @@
   min-height: 44px;
   padding: 10px $spacing-md;
   box-sizing: border-box;
-  @include surfaces.action;
-  color: $c-gray-darkest;
+
   font: inherit;
   font-size: $font-size-sm;
   line-height: 1.5;
@@ -89,14 +90,12 @@
 .pickerHeader { display: flex; align-items: center; justify-content: space-between; gap: $spacing-sm; }
 .pickerTitle { margin: 0; color: $c-black; font: inherit; font-size: $font-size-lg; font-weight: $font-weight-semibold; }
 .closeButton {
+  @include controls.button(icon);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 44px;
   min-height: 44px;
-  border-radius: $radius-sm;
-  color: $c-gray-darkest;
-  background: $c-gray-lightest;
   cursor: pointer;
   &:focus-visible { outline: 2px solid $primary-color; outline-offset: 1px; }
 }
@@ -172,7 +171,7 @@
 
 .fieldSelector { margin: 0; width: 100%; }
 .fieldTrigger {
-  border: 1px solid $c-gray;
+  border: 1px solid controls.$border;
   display: flex;
   flex-wrap: nowrap;
   width: 100%;

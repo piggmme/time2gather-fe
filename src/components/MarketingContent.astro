@@ -66,6 +66,7 @@ const pageCopy = page === 'home' ? null : copy[page]
 
 <style lang='scss'>
   @use "../styles/surfaces.scss" as surfaces;
+  @use "../styles/controls.scss" as controls;
   main { width: min(960px, calc(100% - 40px)); margin: 0 auto; }
   .hero { box-sizing: border-box; display: grid; justify-items: center; align-content: start; padding: 48px 16px; text-align: center; }
   .hero-mark { display: grid; place-items: center; width: 112px; height: 112px; margin-bottom: 28px; border-radius: 34px; background: #edf6ff; }
@@ -81,8 +82,8 @@ const pageCopy = page === 'home' ? null : copy[page]
   .actions .primary { font-weight: var(--font-weight-primary); }
   .primary { color: #fff; background: #3182f6; }
   .primary:hover { background: #1b64da; }
-  .secondary { color: #333d4b; background: #f2f4f6; }
-  .secondary:hover { background: #e5e8eb; }
+  .secondary { @include controls.button(utility); }
+
   .section { @include surfaces.section-boundary(32px, 32px); }
   .section > h2 { max-width: 680px; margin: 0 auto 32px; font-size: clamp(28px, 4vw, 40px); line-height: 1.25; text-align: center; letter-spacing: -0.035em; text-wrap: balance; word-break: var(--text-word-break, normal); }
   .step-grid h3, .faq h3 { margin: 28px 0 8px; font-size: 20px; letter-spacing: -0.02em; }

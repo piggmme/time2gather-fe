@@ -1,3 +1,4 @@
+@use "../../styles/controls.scss" as controls;
 @use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
 
@@ -60,7 +61,7 @@
   height: 44px;
   flex: 0 0 44px;
   color: $c-gray-darkest;
-  @include surfaces.action;
+  @include controls.button(icon);
   transition: color $transition-fast, border-color $transition-fast, background-color $transition-fast;
 
   &:hover {
@@ -209,7 +210,7 @@
   min-height: 44px;
   margin-block-end: $spacing-md;
   padding: $spacing-sm $spacing-md;
-  @include surfaces.action;
+  @include controls.choice;
   color: $c-gray-darkest;
   font-size: $font-size-sm;
   cursor: pointer;
@@ -360,7 +361,7 @@
     gap: $spacing-xs;
     min-height: 44px;
     padding: 0 $spacing-md;
-    @include surfaces.action;
+    @include controls.button;
     color: $c-gray-darkest;
     font-weight: $font-weight-medium;
 
@@ -393,8 +394,8 @@
     min-height: 44px;
     padding: 0 $spacing-md;
     border-radius: $radius-md;
-    background: $c-gray-light;
-    color: $c-black;
+    @include controls.button;
+
     font-weight: $font-weight-semibold;
   }
 }
@@ -560,8 +561,8 @@
   a {
     padding: 10px 16px;
     min-height: 44px;
-    @include surfaces.action;
-    color: $primary-color;
+    @include controls.button;
+
   }
 }
 

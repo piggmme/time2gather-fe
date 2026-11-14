@@ -2,7 +2,7 @@ import { useState } from 'react'
 import classNames from 'classnames'
 import styles from './Button.module.scss'
 
-type ButtonType = 'primary' | 'secondary' | 'kakao' | 'google' | 'default' | 'ghost'
+type ButtonType = 'primary' | 'secondary' | 'kakao' | 'google' | 'default' | 'ghost' | 'utility' | 'add' | 'text' | 'danger' | 'dangerPrimary'
 
 type ButtonProps<T extends 'button' | 'a' = 'button'> = {
   as?: T

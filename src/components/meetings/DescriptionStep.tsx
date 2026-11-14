@@ -24,7 +24,7 @@ export default function DescriptionStep () {
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          buttonType='secondary'
+          buttonType='ghost'
           onClick={() => {
             navigate(`/meetings/create?step=title&title=${titleParam}`)
           }}

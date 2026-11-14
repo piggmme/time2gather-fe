@@ -325,8 +325,8 @@ export default function Comments ({ code, onSummary }: {
             >{t('comments.copy')}
             </Button>
             {comment.canEdit && <Button buttonType='ghost' onClick={() => setEditor({ comment, edit: true })}>{t('comments.edit')}</Button>}
-            {comment.canDelete && <Button buttonType='ghost' onClick={() => setRemoving({ comment, hide: false })}>{t('comments.delete')}</Button>}
-            {comment.canHide && <Button buttonType='ghost' onClick={() => setRemoving({ comment, hide: true })}>{t('comments.hide')}</Button>}
+            {comment.canDelete && <Button buttonType='danger' onClick={() => setRemoving({ comment, hide: false })}>{t('comments.delete')}</Button>}
+            {comment.canHide && <Button buttonType='danger' onClick={() => setRemoving({ comment, hide: true })}>{t('comments.hide')}</Button>}
           </div>
         </details>
       </div>
@@ -341,7 +341,7 @@ export default function Comments ({ code, onSummary }: {
               {comment.status === 'ACTIVE' && editor?.comment.id !== comment.id && (
                 <Button
                   data-reply-trigger
-                  buttonType='ghost'
+                  buttonType='text'
                   onClick={() => {
                     setEditor({ comment, edit: false })
                   }}
@@ -443,7 +443,7 @@ export default function Comments ({ code, onSummary }: {
           <Dialog.Description>{t('comments.removeConfirm')}</Dialog.Description>
           <Dialog.Cancel disabled={busy}>{t('common.cancel')}</Dialog.Cancel>
           <Button
-            buttonType='primary'
+            buttonType='dangerPrimary'
             disabled={busy}
             onClick={() => run(async () => {
               if (!removing)
