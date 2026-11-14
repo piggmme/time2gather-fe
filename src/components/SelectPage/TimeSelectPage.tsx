@@ -155,12 +155,6 @@ export default function TimeSelectPage (
 
   return (
     <div>
-      {locationVote && (
-        <p className={styles.stepIndicator} aria-live='polite'>
-          {t(isLocationStep ? 'locationVote.locationStepLabel' : 'locationVote.scheduleStepLabel')}
-        </p>
-      )}
-
       <div hidden={isLocationStep}>
         <div className={styles.selectedDatesInfo}>
           <p>{t('meeting.participantsCount', { count: participantCount })}</p>

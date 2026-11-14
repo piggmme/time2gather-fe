@@ -1,7 +1,7 @@
-name: Button Roles Release Build
+name: Selection Cleanup Release Build
 on:
   push:
-    branches: [release/button-roles-20261114]
+    branches: [release/selection-cleanup-20261114]
 permissions:
   contents: read
   id-token: write
@@ -21,6 +21,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Required checks
         run: |
+          pnpm exec eslint src/components/SelectPage/AnonymousDatesSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/SelectPage/DatesSelectPage.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/UnavailableOption.tsx
           pnpm check:i18n
           pnpm test:globalization
           pnpm astro sync
@@ -56,10 +57,10 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:button-roles-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
+          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:selection-cleanup-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
-          name: button-roles-release
+          name: selection-cleanup-release
           path: |
             dist
             release-manifest.json
@@ -84,7 +85,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: button-roles-browser-checks
+          name: selection-cleanup-browser-checks
           path: qa-evidence/*.json
           if-no-files-found: warn
           retention-days: 7

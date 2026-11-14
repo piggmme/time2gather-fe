@@ -61,20 +61,6 @@
   }
 }
 
-.stepIndicator {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  margin: 20px 0 0;
-  padding: 6px 10px;
-  border-radius: $radius-full;
-  background: $primary-color-soft;
-  color: $primary-color-hover;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
-  line-height: 1.4;
-}
-
 .locationStep {
   width: 100%;
   max-width: 500px;
@@ -190,4 +176,3 @@
   input { inline-size: 18px; block-size: 18px; flex-shrink: 0; accent-color: $primary-color; }
   span { min-width: 0; overflow-wrap: anywhere; }
 }
-.unavailableHint { margin: $spacing-sm 0 0; font-size: $font-size-sm; color: $c-gray-darkest; }

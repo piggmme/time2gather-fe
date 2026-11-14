@@ -123,12 +123,6 @@ export default function DatesSelectPage (
 
   return (
     <div>
-      {locationVote && (
-        <p className={styles.stepIndicator} aria-live='polite'>
-          {t(isLocationStep ? 'locationVote.locationStepLabel' : 'locationVote.scheduleStepLabel')}
-        </p>
-      )}
-
       <div hidden={isLocationStep}>
         <TimezoneNotice zone={data.meeting.timezone} dateOnly />
         <div className={styles.selectedDatesInfo}>
