@@ -68,6 +68,10 @@ const reactConfig = [{
 const astroConfig = [
   ...pluginAstro.configs.recommended,
   {
+    files: ['src/**/*.astro'],
+    languageOptions: { parserOptions: { parser: tsEslint.parser } },
+  },
+  {
     files: [
       'astro.config.mjs',
       'src/**/*.astro',

@@ -1,7 +1,7 @@
-name: Create Flow Layout Release Build
+name: Landing Release Build
 on:
   push:
-    branches: [release/create-layout-20261114]
+    branches: [release/landing-first-screen-20261114]
 permissions:
   contents: read
   id-token: write
@@ -25,7 +25,7 @@ jobs:
           pnpm test:globalization
           pnpm astro sync
           pnpm check:types
-          pnpm exec eslint src/components/meetings/CreateFlowActions.tsx src/components/meetings/MeetingTypeStep.tsx src/components/meetings/TitleStep.tsx src/components/meetings/DatesStep.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx scripts/test-create-flow-layout.mjs
+          pnpm exec eslint src/components/MarketingContent.astro src/marketing/copy.ts src/components/meetings/CreateFlowActions.tsx src/components/meetings/MeetingTypeStep.tsx src/components/meetings/TitleStep.tsx src/components/meetings/DatesStep.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx scripts/test-create-flow-layout.mjs
           python3 -m unittest discover -s scripts -p test_cloud_run_guard.py
           python3 -m unittest discover -s scripts -p 'test_release_*.py'
       - run: pnpm build
@@ -46,10 +46,10 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:create-layout-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
+          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:landing-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
-          name: create-layout-release
+          name: landing-release
           path: |
             dist
             release-manifest.json
