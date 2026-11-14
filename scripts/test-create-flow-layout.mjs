@@ -16,7 +16,7 @@ try {
       ignoreHTTPSErrors: true, locale, timezoneId: 'Asia/Seoul', viewport: { width, height: 844 }, reducedMotion: 'reduce',
     })
     await context.route(/googletagmanager|google-analytics|firestore.googleapis|firebaseinstallations.googleapis/, route => route.abort())
-    await context.route(/\/v1\//, (route) => {
+    await context.route(/\/api\/v1\//, (route) => {
       if (route.request().method() !== 'GET') {
         writes.push(route.request().url())
         return route.abort()
