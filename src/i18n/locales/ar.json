@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "قم بالانتهاء من إنشاء اجتماعك",
       "requiredLabel": "مطلوب",
-      "creatorHeading": "من يصنع هذا اللقاء؟",
+      "creatorHeading": "اسمك في هذا اللقاء",
       "creatorDescription": "سيتم عرض لقبك كمضيف الاجتماع.",
       "usernameLabel": "لقبك",
       "usernamePlaceholder": "على سبيل المثال، جيمي",
-      "usernameChangeHelp": "يؤدي تغيير اسمك إلى الاحتفاظ باجتماعاتك وأصواتك الحالية وتحديث اسم العرض الخاص بك فقط.",
       "optionalLabel": "اختياري",
       "locationHeading": "هل ترغب في التصويت على الموقع؟",
       "locationDescription": "قم بتشغيل هذا إذا كنت تريد من المشاركين اختيار المكان معًا.",

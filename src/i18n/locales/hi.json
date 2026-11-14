@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "अपनी मीटिंग बनाना समाप्त करें",
       "requiredLabel": "आवश्यक",
-      "creatorHeading": "यह मीटिंग कौन बना रहा है?",
+      "creatorHeading": "इस मीटिंग में आपका नाम",
       "creatorDescription": "आपका उपनाम मीटिंग होस्ट के रूप में दिखाया जाएगा.",
       "usernameLabel": "आपका उपनाम",
       "usernamePlaceholder": "उदाहरण के लिए, जेमी",
-      "usernameChangeHelp": "अपना नाम बदलने से आपकी मौजूदा मीटिंग और वोट बरकरार रहते हैं और केवल आपका प्रदर्शन नाम अपडेट होता है।",
       "optionalLabel": "वैकल्पिक",
       "locationHeading": "क्या आप स्थान वोट चाहेंगे?",
       "locationDescription": "यदि आप चाहते हैं कि प्रतिभागी एक साथ स्थान चुनें तो इसे चालू करें।",

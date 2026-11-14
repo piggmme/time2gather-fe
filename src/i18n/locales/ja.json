@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "予定の作成を完了する",
       "requiredLabel": "必須",
-      "creatorHeading": "この予定を作成しているのは誰ですか?",
+      "creatorHeading": "この予定で使う名前",
       "creatorDescription": "あなたのニックネームが予定の主催者として表示されます。",
       "usernameLabel": "あなたのニックネーム",
       "usernamePlaceholder": "例：ジェイミー",
-      "usernameChangeHelp": "名前を変更すると、既存の予定と投票が保持され、表示名のみが更新されます。",
       "optionalLabel": "オプション",
       "locationHeading": "ロケ地投票をしてみませんか？",
       "locationDescription": "参加者に一緒に場所を選んでもらいたい場合はオンにします。",

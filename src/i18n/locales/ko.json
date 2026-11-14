@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "약속 만들기를 마무리해요",
       "requiredLabel": "필수",
-      "creatorHeading": "누가 약속을 만드나요?",
+      "creatorHeading": "이 약속에서 사용할 이름",
       "creatorDescription": "입력한 닉네임은 약속을 만든 사람으로 표시돼요.",
       "usernameLabel": "내 닉네임",
       "usernamePlaceholder": "예) 지우",
-      "usernameChangeHelp": "이름을 바꿔도 기존 약속과 투표는 유지되고, 표시 이름만 새 이름으로 바뀌어요.",
       "optionalLabel": "선택",
       "locationHeading": "장소 투표도 받을까요?",
       "locationDescription": "장소를 함께 정하고 싶다면 투표를 켜 주세요.",

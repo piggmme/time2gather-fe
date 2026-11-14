@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "तुमची मीटिंग तयार करणे पूर्ण करा",
       "requiredLabel": "आवश्यक आहे",
-      "creatorHeading": "ही बैठक कोण तयार करत आहे?",
+      "creatorHeading": "या मीटिंगमध्ये तुमचे नाव",
       "creatorDescription": "तुमचे टोपणनाव मीटिंग होस्ट म्हणून दाखवले जाईल.",
       "usernameLabel": "आपले टोपणनाव",
       "usernamePlaceholder": "उदा., जेमी",
-      "usernameChangeHelp": "तुमचे नाव बदलल्याने तुमच्या विद्यमान मीटिंग आणि मते राहतील आणि फक्त तुमचे डिस्प्ले नाव अपडेट होईल.",
       "optionalLabel": "ऐच्छिक",
       "locationHeading": "तुम्हाला स्थानाचे मत आवडेल का?",
       "locationDescription": "तुम्हाला सहभागींनी एकत्र ठिकाण निवडायचे असल्यास हे चालू करा.",

@@ -44,6 +44,7 @@ jobs:
           for attempt in $(seq 1 30); do curl --silent --fail http://127.0.0.1:14326/meetings/create > /dev/null && break; sleep 1; done
           DONE_ENGINES=chromium DONE_BASE=http://127.0.0.1:14326 DONE_OUTPUT=../ci-keyboard node scripts/test-keyboard-done.mjs
           BRAND_BASE=http://127.0.0.1:14326 BRAND_OUTPUT=../ci-brand node scripts/test-brand-assets.mjs
+          NAME_COPY_BASE=http://127.0.0.1:14326 NAME_COPY_OUTPUT=../ci-name-copy node scripts/verify-meeting-name-copy.mjs
           SHARE_IMAGE_OUTPUT=../ci-share-images node scripts/test-share-images.mjs
           PICKER_CHANNEL=chromium PICKER_BASE=http://127.0.0.1:14326 PICKER_OUTPUT=../ci-picker node scripts/test-time-picker.mjs
           QA_LOCALES=ko,de,ar CREATE_BASE=http://127.0.0.1:14326 CREATE_OUTPUT=../ci-layout node scripts/test-create-flow-layout.mjs
@@ -79,7 +80,7 @@ jobs:
           from pathlib import Path
           output = Path('qa-evidence')
           output.mkdir(exist_ok=True)
-          for name in ['picker', 'layout', 'half-hour', 'buttons', 'keyboard', 'brand']:
+          for name in ['picker', 'layout', 'half-hour', 'buttons', 'keyboard', 'brand', 'name-copy']:
               source = Path('..') / ('ci-' + name) / 'verification.json'
               if source.is_file():
                   shutil.copy2(source, output / (name + '.json'))

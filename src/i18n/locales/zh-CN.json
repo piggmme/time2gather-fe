@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "完成会议创建",
       "requiredLabel": "必填",
-      "creatorHeading": "谁在创建这次会议？",
+      "creatorHeading": "您在此聚会中使用的名字",
       "creatorDescription": "您的昵称将显示为会议主持人。",
       "usernameLabel": "你的昵称",
       "usernamePlaceholder": "例如，杰米",
-      "usernameChangeHelp": "更改您的姓名会保留您现有的会议和投票，并且仅更新您的显示名称。",
       "optionalLabel": "可选",
       "locationHeading": "您想要投票吗？",
       "locationDescription": "如果您希望参与者一起选择地点，请打开此选项。",

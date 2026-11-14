@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "আপনার মিটিং তৈরি করা শেষ করুন",
       "requiredLabel": "প্রয়োজন",
-      "creatorHeading": "কে এই মিটিং তৈরি করছে?",
+      "creatorHeading": "এই মিটিংয়ে আপনার নাম",
       "creatorDescription": "আপনার ডাকনাম মিটিং হোস্ট হিসাবে দেখানো হবে।",
       "usernameLabel": "আপনার ডাক নাম",
       "usernamePlaceholder": "যেমন, জেমি",
-      "usernameChangeHelp": "আপনার নাম পরিবর্তন করা আপনার বিদ্যমান মিটিং এবং ভোটগুলিকে রাখে এবং শুধুমাত্র আপনার প্রদর্শন নাম আপডেট করে৷",
       "optionalLabel": "ঐচ্ছিক",
       "locationHeading": "আপনি একটি অবস্থান ভোট চান?",
       "locationDescription": "আপনি যদি অংশগ্রহণকারীরা একসাথে জায়গা বেছে নিতে চান তবে এটি চালু করুন।",

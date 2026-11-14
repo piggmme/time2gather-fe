@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "Selesaikan pembuatan rapat Anda",
       "requiredLabel": "Diperlukan",
-      "creatorHeading": "Siapa yang membuat pertemuan ini?",
+      "creatorHeading": "Nama Anda untuk pertemuan ini",
       "creatorDescription": "Nama panggilan Anda akan ditampilkan sebagai tuan rumah pertemuan.",
       "usernameLabel": "Nama panggilan Anda",
       "usernamePlaceholder": "misalnya, Jamie",
-      "usernameChangeHelp": "Mengubah nama Anda akan mempertahankan rapat dan pemungutan suara yang sudah ada, serta hanya memperbarui nama tampilan Anda.",
       "optionalLabel": "Opsional",
       "locationHeading": "Apakah Anda ingin pemungutan suara lokasi?",
       "locationDescription": "Aktifkan ini jika Anda ingin peserta memilih tempat bersama-sama.",

@@ -176,14 +176,8 @@ export default function LocationStep () {
             maxLength={100}
             placeholder={t('createMeeting.locationStep.usernamePlaceholder')}
             value={hostName}
-            aria-describedby={me ? 'meeting-host-name-help' : undefined}
             onChange={e => setHostName(e.target.value)}
           />
-          {me && (
-            <p id='meeting-host-name-help' className={styles.identityHelp}>
-              {t('createMeeting.locationStep.usernameChangeHelp')}
-            </p>
-          )}
         </div>
       </section>
 

@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "Kammala ƙirƙirar taron ku",
       "requiredLabel": "Da ake bukata",
-      "creatorHeading": "Wanene ke ƙirƙirar wannan taro?",
+      "creatorHeading": "Sunanka a wannan taron",
       "creatorDescription": "Za a nuna sunan laƙabin ku a matsayin mai masaukin taron.",
       "usernameLabel": "Lakabin ku",
       "usernamePlaceholder": "misali, Jamie",
-      "usernameChangeHelp": "Canza sunan ku yana kiyaye tarurrukan da kuke da su da ƙuri'u da sabunta sunan nuni kawai.",
       "optionalLabel": "Na zaɓi",
       "locationHeading": "Kuna son kuri'ar wurin?",
       "locationDescription": "Kunna wannan idan kuna son mahalarta su zaɓi wurin tare.",

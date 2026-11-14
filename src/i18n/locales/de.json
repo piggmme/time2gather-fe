@@ -136,11 +136,10 @@
     "locationStep": {
       "heading": "Schließen Sie die Erstellung Ihres Meetings ab",
       "requiredLabel": "Erforderlich",
-      "creatorHeading": "Wer organisiert dieses Treffen?",
+      "creatorHeading": "Dein Name für dieses Treffen",
       "creatorDescription": "Ihr Spitzname wird als Gastgeber des Meetings angezeigt.",
       "usernameLabel": "Dein Spitzname",
       "usernamePlaceholder": "z.B. Jamie",
-      "usernameChangeHelp": "Wenn Sie Ihren Namen ändern, bleiben Ihre bestehenden Besprechungen und Abstimmungen erhalten und es wird nur Ihr Anzeigename aktualisiert.",
       "optionalLabel": "Optional",
       "locationHeading": "Wünschen Sie eine Standortabstimmung?",
       "locationDescription": "Aktivieren Sie diese Option, wenn Sie möchten, dass die Teilnehmer den Ort gemeinsam auswählen.",
