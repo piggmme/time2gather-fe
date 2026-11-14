@@ -79,6 +79,17 @@ for (const engine of engines) {
       await expect(start).toHaveValue(selectedTime)
       await expect(list).toBeHidden()
       await expect(start).not.toBeFocused()
+      // Android IMEs can send Enter with an empty KeyboardEvent.code.
+      await start.fill('09:30')
+      await start.press('ArrowDown')
+      await start.press('ArrowDown')
+      const nativeSelectedTime = await list.locator('[data-combobox-selected]').getAttribute('data-time')
+      await start.evaluate(input => input.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'Enter', code: '', keyCode: 13, bubbles: true, cancelable: true,
+      })))
+      await expect(start).toHaveValue(nativeSelectedTime)
+      await expect(list).toBeHidden()
+      await expect(start).not.toBeFocused()
       await start.fill('09:30')
       await start.press('ArrowDown')
       await list.locator('[data-time="11:00"]').tap()

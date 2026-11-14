@@ -122,6 +122,13 @@ function TimePickerControl ({
                 }}
                 onKeyDown={(event) => {
                   if (event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229) return
+                  // Some touch keyboards send Enter without a physical key code.
+                  // Mantine handles physical Enter keys; submit the IME event here.
+                  if (event.key === 'Enter' && !event.nativeEvent.code && combobox.getSelectedOptionIndex() !== -1) {
+                    event.preventDefault()
+                    combobox.clickSelectedOption()
+                    return
+                  }
                   if (event.key === 'Enter' && combobox.getSelectedOptionIndex() === -1) {
                     event.preventDefault()
                     if (invalid) return
