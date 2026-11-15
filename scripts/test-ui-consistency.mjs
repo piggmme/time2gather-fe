@@ -50,6 +50,14 @@ async function run (label, action) {
   }
 }
 
+async function closeContext (context) {
+  // A successful navigation can still have API routes finishing in the background.
+  // Complete those handlers before closing the context and disposing their responses.
+  for (const page of context.pages()) await page.unrouteAll({ behavior: 'wait' })
+  await context.unrouteAll({ behavior: 'wait' })
+  await context.close()
+}
+
 try {
   for (const [engine, launcher] of [['chromium', chromium], ['webkit', webkit]]) {
     const browser = await launcher.launch()
@@ -67,10 +75,11 @@ try {
               await expect(page.getByRole('combobox', { name: t.createMeeting.timeRangeStep.startTime, exact: true })).not.toBeFocused()
               await page.keyboard.press('Escape')
               await expect(list).toBeHidden()
-            } finally { await context.close() }
+            } finally { await closeContext(context) }
           })
           await run(`${engine}/${locale}/${width}: editor preserves inclusive half-hour ranges and save state`, async () => {
             const { context, page, writes, t } = await setup(browser, locale, width)
+            let finishSave
             try {
               await page.goto(`${base}/meetings/nav-time-half/edit-dates?lang=${locale}`)
               await expect(page.locator('main [role=combobox]')).toHaveCount(2)
@@ -101,7 +110,6 @@ try {
               await page.evaluate(() => document.fonts.ready)
               await page.addStyleTag({ content: 'astro-dev-toolbar { display:none!important }' })
               if (!red) await page.screenshot({ path: `${output}/${engine}-${locale}-${width}-edit.png`, fullPage: true })
-              let finishSave
               const waiting = new Promise((resolve) => {
                 finishSave = resolve
               })
@@ -117,7 +125,10 @@ try {
               finishSave()
               await expect(page).toHaveURL(/\/meetings\/nav-time-half(?:[?#].*)?$/)
               assert.deepEqual(writes.at(-1).body, { dates: ['2026-11-15', '2026-11-16'], times: ['09:30'], expectedVersion: 'ui-consistency-v1' })
-            } finally { await context.close() }
+            } finally {
+              finishSave?.()
+              await closeContext(context)
+            }
           })
         }
       }
