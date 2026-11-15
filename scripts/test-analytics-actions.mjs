@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
+import { stripVTControlCharacters } from 'node:util'
 import { spawn } from 'node:child_process'
 import { chromium, expect } from '@playwright/test'
 import { createNavigationFixture } from './navigation-fixture.mjs'
@@ -36,7 +37,7 @@ try {
       reject(new Error(logs))
     }, 30000)
     const poll = setInterval(() => {
-      if (/Local\s+https?:/.test(logs)) {
+      if (/Local\s+https?:/.test(stripVTControlCharacters(logs))) {
         clearInterval(poll)
         clearTimeout(timer)
         resolve()
@@ -47,7 +48,7 @@ try {
       }
     }, 100)
   })
-  browser = await chromium.launch({ channel: 'chrome', headless: true })
+  browser = await chromium.launch({ headless: true })
   const t = JSON.parse(fs.readFileSync('src/i18n/locales/ko.json', 'utf8'))
   for (const width of [390, 1280]) {
     const context = await browser.newContext({ ignoreHTTPSErrors: true, viewport: { width, height: 900 }, locale: 'ko-KR' })
