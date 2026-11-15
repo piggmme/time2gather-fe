@@ -56,16 +56,16 @@ jobs:
           HALF_HOUR_BASE=http://127.0.0.1:14325 HALF_HOUR_OUTPUT=../ci-half-hour node scripts/test-half-hour-slots.mjs
       - name: Verify role-based controls in all languages
         run: BUTTON_SCENARIOS=home,search,create,time,guest-vote,comments,reply,reactions,edit BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
+      - name: Verify creation and analytics success and failure paths
+        run: node scripts/test-analytics-actions.mjs
       - name: Verify shared time controls and WebKit dismissal
         run: |
           pnpm exec playwright install --with-deps webkit
-          API_URL=http://127.0.0.1:18481/api PUBLIC_API_URL=/api pnpm astro dev --host 127.0.0.1 --port 14401 > /tmp/consistency-server.log 2>&1 &
+          API_URL=http://127.0.0.1:18481/api PUBLIC_API_URL=/api node node_modules/astro/astro.js dev --host 127.0.0.1 --port 14401 > /tmp/consistency-server.log 2>&1 &
           consistency_server_pid=$!
           trap 'kill "$consistency_server_pid"' EXIT
           for attempt in $(seq 1 30); do curl --silent --fail http://127.0.0.1:14401/meetings/create > /dev/null && break; sleep 1; done
           UI_CONSISTENCY_BASE=http://127.0.0.1:14401 UI_CONSISTENCY_OUTPUT=../ci-consistency node scripts/test-ui-consistency.mjs
-      - name: Verify creation and analytics success and failure paths
-        run: node scripts/test-analytics-actions.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:

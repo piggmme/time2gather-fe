@@ -76,7 +76,9 @@ try {
         const response = await route.fetch({ url: api + url.pathname + url.search })
         return route.fulfill({ response })
       }
-      const response = await route.fetch({ url: local + url.pathname + url.search, ignoreHTTPSErrors: true })
+      // Vite can reset a module request during dependency optimization. Retry
+      // only that transport failure; API mutation requests above are unchanged.
+      const response = await route.fetch({ url: local + url.pathname + url.search, ignoreHTTPSErrors: true, maxRetries: 2 })
       return route.fulfill({ response })
     })
     await context.route('https://www.googletagmanager.com/**', route => route.fulfill({ contentType: 'text/javascript', body: '' }))
@@ -194,9 +196,11 @@ try {
     assert.ok(!/Private|nav-day|nav-time|nav-created/.test(payloads), 'analytics payloads exclude inputs and codes')
     assert.deepEqual(errors, [])
     console.log(`PASS ${width}px: real creation failure/success, cancelled sharing/copy, date/time unavailable response failure/success/edit, confirmation failure/success, and private payloads; all requests intercepted.`)
+    await context.unrouteAll({ behavior: 'wait' })
     await context.close()
   }
 } finally {
+  for (const context of browser?.contexts() ?? []) await context.unrouteAll({ behavior: 'wait' })
   await browser?.close()
   dev.kill('SIGTERM')
   await new Promise(resolve => fixture.server.close(resolve))
