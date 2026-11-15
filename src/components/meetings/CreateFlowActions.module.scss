@@ -11,7 +11,11 @@
   background: $c-white;
   border-block-start: 1px solid surfaces.$section-line;
 
-  @media (min-width: 700px) { inset-inline-start: 80px; }
+  @media (min-width: 700px) {
+    position: static;
+    margin-block-start: 32px;
+    padding: 24px 0 0;
+  }
 }
 
 .buttons {
@@ -25,4 +29,13 @@
   > *:only-child { flex: 1 1 100%; }
   > *:first-child:not(:only-child) { flex: 0 1 40%; }
   > *:last-child:not(:only-child) { flex: 1 1 60%; }
+
+  @media (min-width: 700px) {
+    width: 100%;
+    justify-content: flex-end;
+    > *:only-child, > *:last-child:not(:only-child) { flex: 0 1 180px; }
+    > *:first-child:not(:only-child) { flex: 0 1 120px; }
+  }
 }
+
+@media (min-width: 700px) { .spacer { display: none; } }

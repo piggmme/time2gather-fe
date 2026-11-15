@@ -21,7 +21,9 @@
     "switchToEnglish": "Beralih ke bahasa Inggris",
     "switchToKorean": "Beralih ke bahasa Korea",
     "language": "Bahasa",
-    "searchLanguages": "Pilih bahasa Anda"
+    "searchLanguages": "Pilih bahasa Anda",
+    "about": "Tentang",
+    "contact": "Kontak"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Buat rapat",
       "creatingButton": "Membuat pertemuan...",
       "skipButton": "Lewati"
+    },
+    "basicInfoStep": {
+      "heading": "Pertemuan apa yang ingin kamu rencanakan?",
+      "description": "Isi judul dan pilih cara menentukan jadwal.",
+      "titleLabel": "Judul pertemuan",
+      "typeLabel": "Apa yang ingin kamu tentukan?",
+      "dateDescription": "Cari hari untuk bertemu",
+      "timeDescription": "Kumpulkan juga waktu yang tersedia",
+      "timeLabel": "Tanggal dan waktu"
+    },
+    "flow": {
+      "basic": "Informasi dasar",
+      "schedule": "Pilihan jadwal",
+      "finish": "Selesaikan",
+      "label": "Langkah membuat pertemuan"
     }
   },
   "meeting": {

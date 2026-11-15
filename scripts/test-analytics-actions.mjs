@@ -10,25 +10,41 @@ import { createNavigationFixture } from './navigation-fixture.mjs'
 const origin = 'https://time2gather.org'
 const local = `${fs.existsSync('certs/time2gather-key.pem') ? 'https' : 'http'}://127.0.0.1:19482`
 const responses = new Set()
-const fixture = createNavigationFixture({ transformMeeting: (data, code) => {
-  if (responses.has(code)) data.participants.push({ userId: 2, username: 'Private participant', availabilityResponse: 'NONE' })
-  return data
-} })
+const fixture = createNavigationFixture({
+  transformMeeting: (data, code) => {
+    if (responses.has(code)) data.participants.push({ userId: 2, username: 'Private participant', availabilityResponse: 'NONE' })
+    return data
+  },
+})
 await new Promise(resolve => fixture.server.listen(0, '127.0.0.1', resolve))
 const api = `http://127.0.0.1:${fixture.server.address().port}`
 const dev = spawn(process.execPath, ['node_modules/astro/astro.js', 'dev', '--host', '127.0.0.1', '--port', '19482'], {
   env: { ...process.env, API_URL: `${api}/api`, PUBLIC_API_URL: '/api' }, stdio: ['ignore', 'pipe', 'pipe'],
 })
 let logs = ''
-dev.stdout.on('data', chunk => { logs += chunk })
-dev.stderr.on('data', chunk => { logs += chunk })
+dev.stdout.on('data', (chunk) => {
+  logs += chunk
+})
+dev.stderr.on('data', (chunk) => {
+  logs += chunk
+})
 let browser
 try {
   await new Promise((resolve, reject) => {
-    const timer = setTimeout(() => { clearInterval(poll); reject(new Error(logs)) }, 30000)
+    const timer = setTimeout(() => {
+      clearInterval(poll)
+      reject(new Error(logs))
+    }, 30000)
     const poll = setInterval(() => {
-      if (/Local\s+https?:/.test(logs)) { clearInterval(poll); clearTimeout(timer); resolve() }
-      else if (dev.exitCode !== null) { clearInterval(poll); clearTimeout(timer); reject(new Error(logs)) }
+      if (/Local\s+https?:/.test(logs)) {
+        clearInterval(poll)
+        clearTimeout(timer)
+        resolve()
+      } else if (dev.exitCode !== null) {
+        clearInterval(poll)
+        clearTimeout(timer)
+        reject(new Error(logs))
+      }
     }, 100)
   })
   browser = await chromium.launch({ channel: 'chrome', headless: true })
@@ -41,7 +57,7 @@ try {
     let share = 'cancelled'
     let viewer = 2
     const writes = []
-    await context.route(`${origin}/**`, async route => {
+    await context.route(`${origin}/**`, async (route) => {
       const request = route.request()
       const url = new URL(request.url())
       if (url.pathname.startsWith('/api/')) {
@@ -65,17 +81,19 @@ try {
     await context.route('https://www.googletagmanager.com/**', route => route.fulfill({ contentType: 'text/javascript', body: '' }))
     await context.addInitScript(() => {
       localStorage.setItem('time2gather:analytics-debug', '1')
-      Object.defineProperty(navigator, 'share', { configurable: true, value: async () => {
-        if (window.testShare === 'cancelled') throw new DOMException('Cancelled', 'AbortError')
-        if (window.testShare === 'copied') throw new Error('Not available')
-      } })
+      Object.defineProperty(navigator, 'share', {
+        configurable: true, value: async () => {
+          if (window.testShare === 'cancelled') throw new DOMException('Cancelled', 'AbortError')
+          if (window.testShare === 'copied') throw new Error('Not available')
+        },
+      })
       Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => {} } })
       window.testShare = 'cancelled'
     })
     const page = await context.newPage()
     const errors = []
     let expectedCreationErrors = 0
-    page.on('pageerror', error => {
+    page.on('pageerror', (error) => {
       // The existing creation form lets its injected API rejection propagate.
       if (error.name === 'AxiosError' && expectedCreationErrors > 0) {
         expectedCreationErrors--
@@ -93,11 +111,12 @@ try {
     try {
       await count('meeting_create_started').toBe(1)
     } catch (error) {
-      console.error(await page.evaluate(() => ({ href: location.href, scripts: [...document.scripts].map(script => script.src || script.textContent.slice(0, 150)), gtag: String(window.gtag), state: window.__time2gatherAnalytics, commands: Array.from(window.dataLayer ?? [], command => Array.from(command)) })), errors)
+      console.error(await page.evaluate(() => ({
+        href: location.href, scripts: [...document.scripts].map(script => script.src || script.textContent.slice(0, 150)), gtag: String(window.gtag), state: window.__time2gatherAnalytics, commands: Array.from(window.dataLayer ?? [], command => Array.from(command)),
+      })), errors)
       throw error
     }
     await button(t.createMeeting.meetingTypeStep.allDay).click()
-    await button(t.common.next).click()
     await page.locator('main input').fill('Private event title')
     await button(t.common.next).click()
     await button('2026-11-15').click()
@@ -120,7 +139,9 @@ try {
     await button(t.meeting.result.buttons.share).click()
     assert.equal((await events('meeting_share_action')).length, 0)
     share = 'copied'
-    await page.evaluate(value => { window.testShare = value }, share)
+    await page.evaluate((value) => {
+      window.testShare = value
+    }, share)
     await button(t.meeting.result.buttons.share).click()
     await count('meeting_share_action').toBe(1)
     assert.equal((await events('meeting_share_action'))[0][2].share_method, 'clipboard')

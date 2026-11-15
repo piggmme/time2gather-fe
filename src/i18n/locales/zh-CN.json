@@ -21,7 +21,9 @@
     "switchToEnglish": "切换到英语",
     "switchToKorean": "切换到韩语",
     "language": "语言",
-    "searchLanguages": "选择您的语言"
+    "searchLanguages": "选择您的语言",
+    "about": "关于",
+    "contact": "联系"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "创建会议",
       "creatingButton": "正在创建会议...",
       "skipButton": "跳过"
+    },
+    "basicInfoStep": {
+      "heading": "你想安排什么聚会？",
+      "description": "填写标题，并选择确定时间的方式。",
+      "titleLabel": "聚会标题",
+      "typeLabel": "你想确定什么？",
+      "dateDescription": "选择见面的日期",
+      "timeDescription": "同时收集可用时段",
+      "timeLabel": "日期和时间"
+    },
+    "flow": {
+      "basic": "基本信息",
+      "schedule": "候选时间",
+      "finish": "完成设置",
+      "label": "创建聚会的步骤"
     }
   },
   "meeting": {

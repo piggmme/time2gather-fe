@@ -1,33 +1,23 @@
-import { showCautionToast } from '../../stores/toast'
-import styles from './Header.module.scss'
 import { useState } from 'react'
+import { useStore } from '@nanostores/react'
 import {
-  CheckIcon, ChevronDownIcon, ChevronUpIcon, DashboardIcon, EnvelopeClosedIcon, GlobeIcon, HamburgerMenuIcon, MagnifyingGlassIcon, PersonIcon, PlusIcon,
+  CheckIcon, ChevronDownIcon, ChevronUpIcon, GlobeIcon, HamburgerMenuIcon,
 } from '@radix-ui/react-icons'
-import { Select, VisuallyHidden } from 'radix-ui'
-import { useTranslation } from '../../hooks/useTranslation'
-import { localizedPath } from '../../marketing/config'
+import { Select } from 'radix-ui'
+import { showCautionToast } from '../../stores/toast'
+import { $me } from '../../stores/me'
 import { setLocale } from '../../stores/locale'
+import { useTranslation } from '../../hooks/useTranslation'
+import { localizedAppPath, localizedPath } from '../../marketing/config'
 import {
   localeMeta, supportedLocales, loadLocaleDocument, getTranslations, type Locale,
 } from '../../i18n'
-import { useStore } from '@nanostores/react'
-import { $me } from '../../stores/me'
-import Avatar from '../Avatar/Avatar'
+import styles from './Header.module.scss'
 
 export default function Header () {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { t, locale } = useTranslation()
-  const [isChangingLanguage, setIsChangingLanguage] = useState(false)
   const me = useStore($me)
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false)
-  }
+  const [isChangingLanguage, setIsChangingLanguage] = useState(false)
 
   const handleLocaleChange = async (newLocale: Locale) => {
     if (isChangingLanguage || newLocale === locale) return
@@ -54,6 +44,9 @@ export default function Header () {
       document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((element) => {
         if (element.dataset.i18n) element.textContent = translate(element.dataset.i18n)
       })
+      document.querySelectorAll<HTMLElement>('[data-i18n-aria-label]').forEach((element) => {
+        if (element.dataset.i18nAriaLabel) element.setAttribute('aria-label', translate(element.dataset.i18nAriaLabel))
+      })
     } catch {
       showCautionToast({ message: t('common.error') })
     } finally {
@@ -61,206 +54,47 @@ export default function Header () {
     }
   }
 
-  const languageSelector = (
-    <label className={styles.languageSelector}>
-      <GlobeIcon aria-hidden='true' />
-      <select aria-label={t('common.searchLanguages')} value={locale} disabled={isChangingLanguage} aria-busy={isChangingLanguage} onChange={event => handleLocaleChange(event.target.value as Locale)}>
-        {supportedLocales.map(language => <option key={language} value={language} lang={language}>{localeMeta[language].label}</option>)}
-      </select>
-    </label>
-  )
-
   return (
-    <>
-      <header className={styles.header}>
-        {/* 모바일: 브랜드와 메뉴를 양쪽에 배치 */}
-        <div className={styles.mobileHeader}>
-          <a href={localizedPath(locale)} className={styles.mobileHeaderBrand}><img src='/brand/logo.svg' alt='' /><span>Time2Gather</span></a>
-          <button
-            className={styles.menuButton}
-            onClick={toggleMobileMenu}
-            aria-label={t('common.openMenu')}
-          >
-            <HamburgerMenuIcon width={20} height={20} />
-          </button>
-        </div>
-
-        {/* 데스크톱 네비게이션 */}
-        <nav className={styles.desktopNav}>
-          <div className={styles.desktopNavContent}>
-            <a
-              href={localizedPath(locale)}
-              className={styles.desktopNavLogo}
-            >
-              <img
-                src='/brand/logo.svg'
-                alt='Time2Gather'
-                className={styles.desktopLogo}
-              />
-              <VisuallyHidden.Root>{t('common.home')}</VisuallyHidden.Root>
-            </a>
-            <a
-              href='/meetings/create'
-              className={styles.desktopNavLink}
-            >
-              <PlusIcon width={27} height={27} />
-              <VisuallyHidden.Root>{t('common.createMeeting')}</VisuallyHidden.Root>
-            </a>
-            <a
-              href='/meetings/search'
-              className={styles.desktopNavLink}
-            >
-              <MagnifyingGlassIcon width={27} height={27} />
-              <VisuallyHidden.Root>{t('common.searchMeeting')}</VisuallyHidden.Root>
-            </a>
-            <a
-              href='/my'
-              className={styles.desktopNavLink}
-            >
-              {
-                me
-                  ? (
-                      <Avatar
-                        src={me.profileImageUrl}
-                        name={me.username}
-                      />
-                    )
-                  : (
-                      <PersonIcon width={27} height={27} />
-                    )
-              }
-              <VisuallyHidden.Root>{t('common.myMeetings')}</VisuallyHidden.Root>
-            </a>
-            {me?.role === 'ADMIN' && (
-              <a
-                href='/admin'
-                className={styles.desktopNavLink}
-              >
-                <DashboardIcon width={27} height={27} />
-                <VisuallyHidden.Root>{t('common.adminDashboard')}</VisuallyHidden.Root>
-              </a>
-            )}
-            <a
-              href='https://mail.google.com/mail/?view=cm&fs=1&to=wlsdn3578@gmail.com&su=Time2Gather%20Contact'
-              target='_blank'
-              rel='noreferrer'
-              className={styles.desktopNavContact}
-            >
-              <EnvelopeClosedIcon width={27} height={27} />
-              <VisuallyHidden.Root>{t('common.contactUs')}</VisuallyHidden.Root>
-            </a>
-            <Select.Root value={locale} onValueChange={value => handleLocaleChange(value as Locale)} disabled={isChangingLanguage} dir={localeMeta[locale].dir}>
-              <Select.Trigger
-                className={styles.languageTrigger}
-                aria-label={t('common.searchLanguages')}
-                aria-busy={isChangingLanguage}
-                title={`${t('common.searchLanguages')}: ${localeMeta[locale].label}`}
-              >
-                <GlobeIcon width={27} height={27} aria-hidden='true' />
-                <VisuallyHidden.Root><Select.Value /></VisuallyHidden.Root>
-              </Select.Trigger>
-              <Select.Portal>
-                <Select.Content
-                  className={styles.languageMenu}
-                  position='popper'
-                  side={localeMeta[locale].dir === 'rtl' ? 'left' : 'right'}
-                  align='start'
-                  sideOffset={12}
-                  collisionPadding={12}
-                >
-                  <Select.ScrollUpButton className={styles.languageScroll}><ChevronUpIcon /></Select.ScrollUpButton>
-                  <Select.Viewport className={styles.languageViewport}>
-                    {supportedLocales.map(language => (
-                      <Select.Item className={styles.languageOption} key={language} value={language} textValue={localeMeta[language].label}>
-                        <Select.ItemText><span lang={language} dir={localeMeta[language].dir}>{localeMeta[language].label}</span></Select.ItemText>
-                        <Select.ItemIndicator className={styles.languageCheck}><CheckIcon /></Select.ItemIndicator>
-                      </Select.Item>
-                    ))}
-                  </Select.Viewport>
-                  <Select.ScrollDownButton className={styles.languageScroll}><ChevronDownIcon /></Select.ScrollDownButton>
-                </Select.Content>
-              </Select.Portal>
-            </Select.Root>
-          </div>
+    <header className='t2g-site-header' data-site-header>
+      <a className='t2g-site-header__brand' href={localizedPath(locale)} aria-label='Time2Gather'>
+        <img src='/brand/logo.svg' alt='' width={34} height={34} /><span>Time2Gather</span>
+      </a>
+      <nav className='t2g-site-header__nav' aria-label={t('common.home')}>
+        <a href={localizedPath(locale, 'about')}>{t('common.about')}</a>
+        <a href={localizedPath(locale, 'contact')}>{t('common.contact')}</a>
+        <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
+        {me?.role === 'ADMIN' && <a href={localizedAppPath(locale, '/admin')}>{t('common.adminDashboard')}</a>}
+      </nav>
+      <Select.Root value={locale} onValueChange={value => handleLocaleChange(value as Locale)} disabled={isChangingLanguage} dir={localeMeta[locale].dir}>
+        <Select.Trigger className='t2g-site-header__locale' aria-label={t('common.searchLanguages')} aria-busy={isChangingLanguage} title={`${t('common.searchLanguages')}: ${localeMeta[locale].label}`}>
+          <GlobeIcon width={20} height={20} aria-hidden='true' /><span><Select.Value /></span><ChevronDownIcon aria-hidden='true' />
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Content className={styles.languageMenu} position='popper' side='bottom' align='end' sideOffset={8} collisionPadding={12}>
+            <Select.ScrollUpButton className={styles.languageScroll}><ChevronUpIcon /></Select.ScrollUpButton>
+            <Select.Viewport className={styles.languageViewport}>
+              {supportedLocales.map(language => (
+                <Select.Item className={styles.languageOption} key={language} value={language} textValue={localeMeta[language].label}>
+                  <Select.ItemText><span lang={language} dir={localeMeta[language].dir}>{localeMeta[language].label}</span></Select.ItemText>
+                  <Select.ItemIndicator className={styles.languageCheck}><CheckIcon /></Select.ItemIndicator>
+                </Select.Item>
+              ))}
+            </Select.Viewport>
+            <Select.ScrollDownButton className={styles.languageScroll}><ChevronDownIcon /></Select.ScrollDownButton>
+          </Select.Content>
+        </Select.Portal>
+      </Select.Root>
+      <details className='t2g-site-header__menu'>
+        <summary aria-label={t('common.openMenu')}><HamburgerMenuIcon width={22} height={22} aria-hidden='true' /></summary>
+        <nav className='t2g-site-header__menu-panel' aria-label={t('common.openMenu')}>
+          <a href={localizedPath(locale, 'about')}>{t('common.about')}</a>
+          <a href={localizedPath(locale, 'contact')}>{t('common.contact')}</a>
+          <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
+          <a href={localizedAppPath(locale, '/meetings/create')}>{t('common.createMeeting')}</a>
+          <a href={localizedAppPath(locale, '/meetings/search')}>{t('common.searchMeeting')}</a>
+          {me?.role === 'ADMIN' && <a href={localizedAppPath(locale, '/admin')}>{t('common.adminDashboard')}</a>}
         </nav>
-
-        {/* 모바일 네비게이션 */}
-        <nav className={`${styles.mobileNav} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
-          <div className={styles.mobileNavContent}>
-            <a
-              href={localizedPath(locale)}
-              className={styles.mobileTitle}
-              onClick={closeMobileMenu}
-            >
-              <span className={styles.mobileTitleText}>
-                Time2Gather
-              </span>
-            </a>
-            <a
-              href='/meetings/create'
-              className={styles.mobileNavLink}
-            >
-              <PlusIcon width={27} height={27} />
-              <span>{t('common.createMeeting')}</span>
-            </a>
-            <a
-              href='/meetings/search'
-              className={styles.mobileNavLink}
-            >
-              <MagnifyingGlassIcon width={27} height={27} />
-              <span>{t('common.searchMeeting')}</span>
-            </a>
-            <a
-              href='/my'
-              className={styles.mobileNavLink}
-            >
-              {
-                me
-                  ? (
-                      <Avatar
-                        src={me.profileImageUrl}
-                        name={me.username}
-                        size={27}
-                      />
-                    )
-                  : (
-                      <PersonIcon width={27} height={27} />
-                    )
-              }
-              <span>{t('common.myMeetings')}</span>
-            </a>
-            {me?.role === 'ADMIN' && (
-              <a
-                href='/admin'
-                className={styles.mobileNavLink}
-                onClick={closeMobileMenu}
-              >
-                <DashboardIcon width={27} height={27} />
-                <span>{t('common.adminDashboard')}</span>
-              </a>
-            )}
-            <div className={styles.mobileNavBottomContents}>
-              {languageSelector}
-              <a
-                href='mailto:wlsdn3578@gmail.com?subject=Time2Gather%20Contact'
-                className={styles.mobileNavBottomItem}
-                onClick={closeMobileMenu}
-              >
-                <EnvelopeClosedIcon width={27} height={27} />
-                <span>{t('common.contactUs')}</span>
-              </a>
-            </div>
-          </div>
-        </nav>
-
-        {/* 모바일 오버레이 */}
-        {isMobileMenuOpen && (
-          <div
-            className={styles.mobileOverlay}
-            onClick={closeMobileMenu}
-          />
-        )}
-      </header>
-    </>
+      </details>
+    </header>
   )
 }

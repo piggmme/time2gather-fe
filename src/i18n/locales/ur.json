@@ -21,7 +21,9 @@
     "switchToEnglish": "انگریزی پر سوئچ کریں۔",
     "switchToKorean": "کورین پر سوئچ کریں۔",
     "language": "زبان",
-    "searchLanguages": "اپنی زبان کا انتخاب کریں۔"
+    "searchLanguages": "اپنی زبان کا انتخاب کریں۔",
+    "about": "کے بارے میں",
+    "contact": "رابطہ کریں۔"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "میٹنگ بنائیں",
       "creatingButton": "میٹنگ بنائی جا رہی ہے...",
       "skipButton": "چھوڑیں۔"
+    },
+    "basicInfoStep": {
+      "heading": "آپ کس ملاقات کا منصوبہ بنا رہے ہیں؟",
+      "description": "عنوان لکھیں اور وقت طے کرنے کا طریقہ منتخب کریں۔",
+      "titleLabel": "ملاقات کا عنوان",
+      "typeLabel": "آپ کیا طے کرنا چاہتے ہیں؟",
+      "dateDescription": "ملنے کا دن منتخب کریں",
+      "timeDescription": "دستیاب اوقات بھی جمع کریں",
+      "timeLabel": "تاریخ اور وقت"
+    },
+    "flow": {
+      "basic": "بنیادی معلومات",
+      "schedule": "مجوزہ تاریخیں اور اوقات",
+      "finish": "مکمل کریں",
+      "label": "ملاقات بنانے کے مراحل"
     }
   },
   "meeting": {

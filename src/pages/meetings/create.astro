@@ -1,31 +1,29 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import DatesStep from '../../components/meetings/DatesStep';
-import TimeRangeStep from '../../components/meetings/TimeRangeStep';
-import TitleStep from '../../components/meetings/TitleStep';
-import DescriptionStep from '../../components/meetings/DescriptionStep';
-import LocationStep from '../../components/meetings/LocationStep';
-import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n';
-import MeetingTypeStep from '../../components/meetings/MeetingTypeStep';
+import Layout from '../../layouts/Layout.astro'
+import DatesStep from '../../components/meetings/DatesStep'
+import TimeRangeStep from '../../components/meetings/TimeRangeStep'
+import BasicInfoStep from '../../components/meetings/BasicInfoStep'
+import CreateFlowProgress from '../../components/meetings/CreateFlowProgress.astro'
+import LocationStep from '../../components/meetings/LocationStep'
+import { getLocaleFromAstroRequest, getTranslations, defaultLocale } from '../../i18n'
 
-type Step = 'meetingType' | 'title' | 'dates' | 'timeRange' | 'location';
-const step: Step = Astro.url.searchParams.get('step') as Step || 'meetingType';
-const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale;
-const t = getTranslations(locale);
+type Step = 'meetingType' | 'title' | 'dates' | 'timeRange' | 'location'
+const step: Step = Astro.url.searchParams.get('step') as Step || 'meetingType'
+const locale = getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale
+const t = getTranslations(locale)
 
-const title = t('meta.pages.create.title');
+const title = t('meta.pages.create.title')
 const description = t('meta.pages.create.description');
 ---
 
-<Layout title={title} description={description} schemaType="WebPage" locale={locale}>
+<Layout title={title} description={description} schemaType='WebPage' locale={locale}>
   <main>
-    <div class="content">
-      {step === 'meetingType' && <MeetingTypeStep client:only="react" />}
-      {step === 'title' && <TitleStep client:only="react" />}
-      <!-- {step === 'description' && <DescriptionStep client:only="react" />} -->
-      {step === 'dates' && <DatesStep client:only="react" />}
-      {step === 'timeRange' && <TimeRangeStep client:only="react" />}
-      {step === 'location' && <LocationStep client:only="react" />}
+    <div class='content'>
+      <CreateFlowProgress locale={locale} step={step} />
+      {(step === 'meetingType' || step === 'title') && <BasicInfoStep client:only='react' />}
+      {step === 'dates' && <DatesStep client:only='react' />}
+      {step === 'timeRange' && <TimeRangeStep client:only='react' />}
+      {step === 'location' && <LocationStep client:only='react' />}
     </div>
   </main>
 </Layout>

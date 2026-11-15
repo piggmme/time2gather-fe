@@ -1,28 +1,30 @@
 ---
 import Analytics from '../components/Analytics.astro'
 import { ClientRouter } from 'astro:transitions'
-import '../styles/global.scss';
-import Header from '../components/Header/Header';
-import ChatBot from '../components/ChatBot/ChatBot';
-import { getLocaleFromAstroRequest, getLocaleMessages, getTranslations, defaultLocale, localeMeta, type Locale } from '../i18n';
-import Toast from '../components/Toast/Toast';
-import StructuredData from '../components/SEO/StructuredData.astro';
+import '../styles/global.scss'
+import '../styles/site-header.scss'
+import Header from '../components/Header/Header'
+import {
+  getLocaleFromAstroRequest, getLocaleMessages, getTranslations, defaultLocale, localeMeta, type Locale,
+} from '../i18n'
+import Toast from '../components/Toast/Toast'
+import StructuredData from '../components/SEO/StructuredData.astro'
 import LocaleBootstrap from '../components/LocaleBootstrap.astro'
-import LocaleFonts from '../components/LocaleFonts.astro';
+import LocaleFonts from '../components/LocaleFonts.astro'
 import PerformanceMonitoring from '../components/PerformanceMonitoring.astro'
-import { openGraphLocales } from '../i18n/config';
+import { openGraphLocales } from '../i18n/config'
 
 interface Props {
-  title?: string;
-  description?: string;
-  ogImage?: string;
-  ogType?: string;
-  schemaType?: 'WebApplication' | 'Organization' | 'WebPage';
+  title?: string
+  description?: string
+  ogImage?: string
+  ogType?: string
+  schemaType?: 'WebApplication' | 'Organization' | 'WebPage'
   preview?: { title: string, description: string, locale?: Locale }
   meetingInvitation?: boolean
-  indexable?: boolean;
-  locale?: Locale;
-  alternates?: Partial<Record<Locale, string>>;
+  indexable?: boolean
+  locale?: Locale
+  alternates?: Partial<Record<Locale, string>>
 }
 
 const {
@@ -36,20 +38,19 @@ const {
   preview,
   locale: localeOverride,
   alternates,
-} = Astro.props;
+} = Astro.props
 
-const locale = localeOverride || getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale;
-const t = getTranslations(locale);
-Astro.response.headers.set('Vary', 'Accept-Language, Cookie');
-Astro.response.headers.set('Cache-Control', 'private, no-store');
+const locale = localeOverride || getLocaleFromAstroRequest(Astro.cookies, Astro.request.headers, Astro.url.searchParams.get('lang')) || defaultLocale
+const t = getTranslations(locale)
+Astro.response.headers.set('Vary', 'Accept-Language, Cookie')
+Astro.response.headers.set('Cache-Control', 'private, no-store')
 
-const siteUrl = Astro.site?.href || 'https://time2gather.org/';
+const siteUrl = Astro.site?.href || 'https://time2gather.org/'
 const currentUrl = new URL(Astro.url.pathname, siteUrl)
 if (!meetingInvitation) currentUrl.searchParams.set('lang', locale)
-const currentPath = Astro.url.pathname;
-const title = customTitle || t('meta.siteTitle');
-const description = customDescription || t('meta.siteDescription');
-const ogImage = customOgImage || new URL('/share/brand-v2.png', siteUrl).href;
+const title = customTitle || t('meta.siteTitle')
+const description = customDescription || t('meta.siteDescription')
+const ogImage = customOgImage || new URL('/share/brand-v2.png', siteUrl).href
 const hreflangUrls = alternates && {
   ko: alternates.ko && new URL(alternates.ko, siteUrl).href,
   en: alternates.en && new URL(alternates.en, siteUrl).href,
@@ -58,63 +59,66 @@ const hreflangUrls = alternates && {
 <!doctype html>
 <html lang={locale} dir={localeMeta[locale].dir} data-meeting-invitation={meetingInvitation || undefined}>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset='UTF-8' />
     <script id='i18n-messages' type='application/json' data-locale={locale} set:html={JSON.stringify(getLocaleMessages(locale)).replace(/</g, '\\u003c')} />
     <LocaleBootstrap locale={locale} meetingInvitation={meetingInvitation} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-192.png" />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='icon' type='image/png' sizes='192x192' href='/brand/icon-192.png' />
     <link rel='apple-touch-icon' sizes='180x180' href='/brand/apple-touch-icon.png' />
-    <meta name="generator" content={Astro.generator} />
+    <meta name='generator' content={Astro.generator} />
 
     <!-- Search Engine Verification (환경변수로 설정) -->
     {import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION && (
-      <meta name="google-site-verification" content={import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION} />
+      <meta name='google-site-verification' content={import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION} />
     )}
     {import.meta.env.PUBLIC_NAVER_SITE_VERIFICATION && (
-      <meta name="naver-site-verification" content={import.meta.env.PUBLIC_NAVER_SITE_VERIFICATION} />
+      <meta name='naver-site-verification' content={import.meta.env.PUBLIC_NAVER_SITE_VERIFICATION} />
     )}
     {import.meta.env.PUBLIC_BING_SITE_VERIFICATION && (
-      <meta name="msvalidate.01" content={import.meta.env.PUBLIC_BING_SITE_VERIFICATION} />
+      <meta name='msvalidate.01' content={import.meta.env.PUBLIC_BING_SITE_VERIFICATION} />
     )}
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>
-    <meta name="title" content={title} />
-    <meta name="description" content={description} />
-    <meta name="author" content="Time2Gather" />
-    <meta name="robots" content={indexable ? 'index, follow' : 'noindex, nofollow'} />
-    <link rel="canonical" href={currentUrl} />
+    <meta name='title' content={title} />
+    <meta name='description' content={description} />
+    <meta name='author' content='Time2Gather' />
+    <meta name='robots' content={indexable ? 'index, follow' : 'noindex, nofollow'} />
+    <link rel='canonical' href={currentUrl} />
 
-    {hreflangUrls?.ko && <link rel="alternate" hreflang="ko" href={hreflangUrls.ko} />}
-    {hreflangUrls?.en && <link rel="alternate" hreflang="en" href={hreflangUrls.en} />}
-    {hreflangUrls?.ko && <link rel="alternate" hreflang="x-default" href={hreflangUrls.ko} />}
+    {hreflangUrls?.ko && <link rel='alternate' hreflang='ko' href={hreflangUrls.ko} />}
+    {hreflangUrls?.en && <link rel='alternate' hreflang='en' href={hreflangUrls.en} />}
+    {hreflangUrls?.ko && <link rel='alternate' hreflang='x-default' href={hreflangUrls.ko} />}
 
     <!-- Open Graph / Facebook / 카카오톡 -->
-    <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={currentUrl} />
-    <meta property="og:title" content={preview?.title ?? title} />
-    <meta property="og:description" content={preview?.description ?? description} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={preview?.title ?? title} />
-    <meta property="og:locale" content={preview ? (preview.locale && openGraphLocales[preview.locale]) : openGraphLocales[locale]} />
-    <meta property="og:site_name" content="Time2Gather" />
+    <meta property='og:type' content={ogType} />
+    <meta property='og:url' content={currentUrl} />
+    <meta property='og:title' content={preview?.title ?? title} />
+    <meta property='og:description' content={preview?.description ?? description} />
+    <meta property='og:image' content={ogImage} />
+    <meta property='og:image:width' content='1200' />
+    <meta property='og:image:height' content='630' />
+    <meta property='og:image:alt' content={preview?.title ?? title} />
+    <meta property='og:locale' content={preview ? (preview.locale && openGraphLocales[preview.locale]) : openGraphLocales[locale]} />
+    <meta property='og:site_name' content='Time2Gather' />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={preview?.title ?? title} />
-    <meta name="twitter:description" content={preview?.description ?? description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name='twitter:card' content='summary_large_image' />
+    <meta name='twitter:title' content={preview?.title ?? title} />
+    <meta name='twitter:description' content={preview?.description ?? description} />
+    <meta name='twitter:image' content={ogImage} />
 
     <LocaleFonts locale={locale} />
     <PerformanceMonitoring />
 
     <Analytics />
-    
-    <script>import '../i18n/navigation'</script>
+
+    <script>
+      import '../i18n/navigation'
+      import '../utils/siteHeader'
+    </script>
     <ClientRouter />
-    <slot name="head" />
+    <slot name='head' />
 
     {indexable && (
       <StructuredData
@@ -125,127 +129,119 @@ const hreflangUrls = alternates && {
     )}
   </head>
   <body>
-	<Header client:only="react" />
-	<div class="responsive-layout">
-	  <slot />
-	</div>
-	<Toast client:only="react" />
-	<!-- <ChatBot client:only="react" /> -->
-	
+    <Header client:only='react' />
+    <div class='responsive-layout'>
+      <slot />
+    </div>
+    <Toast client:only='react' />
+  <!-- <ChatBot client:only="react" /> -->
+
   </body>
 </html>
 
 <style>
-	/* CSS Reset */
-	*,
-	*::before,
-	*::after {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
-	}
-
-	html {
-		-webkit-text-size-adjust: 100%;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
-
-	html,
-	body {
-		width: 100%;
-		/* height: 100%; */
-		font-family: var(--font-ui, system-ui, sans-serif);
-		font-optical-sizing: auto;
-		font-style: normal;
-		overflow-x: clip; /* 가로 넘침만 자르고 세로 스크롤은 문서에 유지 */
-	}
-
-	body {
-        height: auto;
-        min-height: 100%;
-		line-height: var(--font-body-line-height, 1.6);
-		position: relative;
-	}
-
-	img,
-	picture,
-	video,
-	canvas,
-	svg {
-		display: block;
-		max-width: 100%;
-	}
-
-	input,
-	button,
-	textarea,
-	select {
-		font: inherit;
-	}
-
-	p,
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		word-break: var(--text-word-break, normal);
-		overflow-wrap: anywhere;
-	}
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		text-wrap: balance;
-	}
-
-	p {
-		text-wrap: pretty;
-	}
-
-	ul,
-	ol {
-		list-style: none;
-	}
-
-	a {
-		text-decoration: none;
-		color: inherit;
-	}
-
-	button {
-		background: none;
-		border: none;
-		cursor: pointer;
-	}
-
-	table {
-		border-collapse: collapse;
-		border-spacing: 0;
-	}
-
-	@media (min-width: 700px) {
-    :global(html[dir='rtl']) .responsive-layout { padding-left: 24px; padding-right: 104px; }
+  /* CSS Reset */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 
-	.responsive-layout {
-		width: 100%;
-		min-width: 0;
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 72px 16px max(24px, env(safe-area-inset-bottom));
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-		@media (min-width: 700px) {
-			padding-top: 0;
-			padding-bottom: 0;
-			padding-right: 24px;
-			padding-left: 104px;
-			margin-top: 30px;
-		}
-	}
+  html,
+  body {
+    width: 100%;
+    /* height: 100%; */
+    font-family: var(--font-ui, system-ui, sans-serif);
+    font-optical-sizing: auto;
+    font-style: normal;
+    overflow-x: clip; /* 가로 넘침만 자르고 세로 스크롤은 문서에 유지 */
+  }
+
+  body {
+        height: auto;
+        min-height: 100%;
+    line-height: var(--font-body-line-height, 1.6);
+    position: relative;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    word-break: var(--text-word-break, normal);
+    overflow-wrap: anywhere;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .responsive-layout {
+    width: 100%;
+    min-width: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 16px max(24px, env(safe-area-inset-bottom));
+
+    @media (min-width: 700px) {
+      padding: 32px 24px max(24px, env(safe-area-inset-bottom));
+    }
+  }
 </style>

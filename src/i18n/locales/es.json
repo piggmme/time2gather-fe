@@ -21,7 +21,9 @@
     "switchToEnglish": "Cambiar al inglés",
     "switchToKorean": "Cambiar al coreano",
     "language": "Idioma",
-    "searchLanguages": "Elige tu idioma"
+    "searchLanguages": "Elige tu idioma",
+    "about": "Quiénes somos",
+    "contact": "Contacto"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Crear una reunión",
       "creatingButton": "Creando reunión...",
       "skipButton": "Saltar"
+    },
+    "basicInfoStep": {
+      "heading": "¿Qué quieres organizar?",
+      "description": "Añade un título y elige cómo encontrar una fecha.",
+      "titleLabel": "Título de la reunión",
+      "typeLabel": "¿Qué quieres decidir?",
+      "dateDescription": "Encuentra un día para reuniros",
+      "timeDescription": "Recoge también los horarios disponibles",
+      "timeLabel": "Fechas y horas"
+    },
+    "flow": {
+      "basic": "Información básica",
+      "schedule": "Fechas y horas propuestas",
+      "finish": "Finalizar",
+      "label": "Pasos para crear una reunión"
     }
   },
   "meeting": {

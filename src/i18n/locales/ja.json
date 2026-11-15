@@ -21,7 +21,9 @@
     "switchToEnglish": "英語に切り替える",
     "switchToKorean": "韓国語に切り替える",
     "language": "言語",
-    "searchLanguages": "言語を選択してください"
+    "searchLanguages": "言語を選択してください",
+    "about": "サービス紹介",
+    "contact": "お問い合わせ"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "予定を作成",
       "creatingButton": "予定を作成しています...",
       "skipButton": "スキップ"
+    },
+    "basicInfoStep": {
+      "heading": "どんな予定を立てますか？",
+      "description": "タイトルを入力して、日程の決め方を選んでください。",
+      "titleLabel": "予定のタイトル",
+      "typeLabel": "何を決めますか？",
+      "dateDescription": "会う日を選びます",
+      "timeDescription": "空いている時間帯も集めます",
+      "timeLabel": "日付と時間を決める"
+    },
+    "flow": {
+      "basic": "基本情報",
+      "schedule": "日程候補",
+      "finish": "仕上げ",
+      "label": "予定作成のステップ"
     }
   },
   "meeting": {

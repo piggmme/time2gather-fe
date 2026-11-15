@@ -1,0 +1,29 @@
+---
+import { getTranslations, type Locale } from '../../i18n'
+
+interface Props { locale: Locale, step: string }
+const { locale, step } = Astro.props
+const t = getTranslations(locale)
+const groups = ['basic', 'schedule', 'finish'] as const
+const current = step === 'location' ? 'finish' : ['dates', 'timeRange'].includes(step) ? 'schedule' : 'basic'
+const number = new Intl.NumberFormat(locale)
+---
+<ol class='progress' data-create-progress data-i18n-aria-label='createMeeting.flow.label' aria-label={t('createMeeting.flow.label')}>
+  {groups.map((group, index) => (
+    <li data-step-group={group} aria-current={group === current ? 'step' : undefined}>
+      <span class='number' aria-hidden='true'>{number.format(index + 1)}</span>
+      <span data-i18n={`createMeeting.flow.${group}`}>{t(`createMeeting.flow.${group}`)}</span>
+    </li>
+  ))}
+</ol>
+<style lang='scss'>
+  @use '../../styles/variables.scss' as *;
+  .progress { display: flex; gap: 16px; padding: 0; margin: 0 0 32px; list-style: none; }
+  li { display: flex; flex: 1; min-width: 0; align-items: center; gap: 8px; color: $c-gray-darkest; font-size: 13px; line-height: 1.4; }
+  li > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+  li:not(:last-child)::after { content: ''; flex: 1; min-width: 12px; height: 1px; margin-inline-start: 8px; background: #e3e6eb; }
+  .number { display: grid; place-items: center; flex: 0 0 24px; height: 24px; border-radius: 50%; background: $c-gray-light; font-size: 12px; }
+  li[aria-current='step'] { color: $c-black; font-weight: $font-weight-semibold; .number { background: $primary-color; color: $c-white; } }
+  @media (max-width: 699px) { .progress { gap: 10px; margin-block-end: 28px; } li { align-items: flex-start; font-size: 12px; gap: 6px; } li::after { display: none; } .number { flex-basis: 22px; height: 22px; } }
+  @media (max-width: 359px) { li { flex-direction: column; } li > span:last-child { hyphens: auto; } .number { flex: none; width: 22px; } }
+</style>

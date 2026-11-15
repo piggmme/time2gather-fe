@@ -11,7 +11,11 @@ export function navigate (href: string, options?: Parameters<typeof astroNavigat
 export function navigateBack (fallback: string) {
   const previous = previousPage()
   const target = new URL(fallback, window.location.origin)
-  const step = (url: URL) => url.searchParams.get('step') ?? (url.pathname === '/meetings/create' ? 'meetingType' : null)
+  const step = (url: URL) => {
+    const value = url.searchParams.get('step')
+    if (url.pathname === '/meetings/create' && (!value || value === 'title' || value === 'meetingType')) return 'meetingType'
+    return value
+  }
   const matches = previous?.pathname === target.pathname
     && step(previous) === step(target)
   const depth = window.history.state?.[stepHistoryKey]?.depth ?? 0

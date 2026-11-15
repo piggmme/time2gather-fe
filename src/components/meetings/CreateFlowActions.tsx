@@ -15,6 +15,11 @@ export default function CreateFlowActions ({ children }: { children: ReactNode }
       frame = 0
       const mainBounds = main.getBoundingClientRect()
       const barBounds = element.getBoundingClientRect()
+      if (window.matchMedia('(min-width: 700px)').matches) {
+        setLayout(previous => previous.width === 0 && previous.bottom === 0 ? previous : { height: barBounds.height, width: 0, inlineStart: 0, bottom: 0 })
+        main.style.setProperty('--create-actions-height', '0px')
+        return
+      }
       const visibleBottom = viewport?.scale === 1 ? viewport.height + viewport.offsetTop : window.innerHeight
       const next = {
         height: barBounds.height,

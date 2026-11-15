@@ -21,7 +21,9 @@
     "switchToEnglish": "Switch to English",
     "switchToKorean": "Switch to Korean",
     "language": "Language",
-    "searchLanguages": "Choose your language"
+    "searchLanguages": "Choose your language",
+    "about": "About",
+    "contact": "Contact"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Create a meeting",
       "creatingButton": "Creating meeting...",
       "skipButton": "Skip"
+    },
+    "basicInfoStep": {
+      "heading": "What are you planning?",
+      "description": "Add a title and choose how to find a time.",
+      "titleLabel": "Meeting title",
+      "typeLabel": "What would you like to decide?",
+      "dateDescription": "Find a day to meet",
+      "timeDescription": "Collect available times too",
+      "timeLabel": "Dates and times"
+    },
+    "flow": {
+      "basic": "Basics",
+      "schedule": "Date and time options",
+      "finish": "Finish",
+      "label": "Meeting creation steps"
     }
   },
   "meeting": {

@@ -21,7 +21,9 @@
     "switchToEnglish": "Passer à l'anglais",
     "switchToKorean": "Passer au coréen",
     "language": "Langue",
-    "searchLanguages": "Choisissez votre langue"
+    "searchLanguages": "Choisissez votre langue",
+    "about": "À propos",
+    "contact": "Contact"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Créer une réunion",
       "creatingButton": "Création d'une réunion...",
       "skipButton": "Sauter"
+    },
+    "basicInfoStep": {
+      "heading": "Que souhaitez-vous organiser ?",
+      "description": "Ajoutez un titre et choisissez comment fixer le rendez-vous.",
+      "titleLabel": "Titre du rendez-vous",
+      "typeLabel": "Que souhaitez-vous définir ?",
+      "dateDescription": "Trouvez un jour pour vous retrouver",
+      "timeDescription": "Recueillez aussi les créneaux disponibles",
+      "timeLabel": "Dates et horaires"
+    },
+    "flow": {
+      "basic": "Informations de base",
+      "schedule": "Créneaux proposés",
+      "finish": "Finaliser",
+      "label": "Étapes de création du rendez-vous"
     }
   },
   "meeting": {

@@ -36,7 +36,11 @@ try {
       await expect(page.locator('main h1')).toBeVisible()
       const buttons = page.locator(red ? 'main [class*="buttonContainer"]' : '[data-create-flow-actions]')
       await expect(buttons).toBeVisible()
-      await expect.poll(async () => buttons.evaluate(el => Math.abs(innerHeight - el.getBoundingClientRect().bottom)), { message: `${locale}/${width}/${step}: actions must stay at viewport bottom` }).toBeLessThan(2)
+      if (width < 700) {
+        await expect.poll(async () => buttons.evaluate(el => Math.abs(innerHeight - el.getBoundingClientRect().bottom)), { message: `${locale}/${width}/${step}: mobile actions must stay at viewport bottom` }).toBeLessThan(2)
+      } else if (!red) {
+        assert.equal(await buttons.evaluate(el => getComputedStyle(el).position), 'static')
+      }
       if (red) continue
       const check = async () => {
         const geometry = await page.evaluate(() => {

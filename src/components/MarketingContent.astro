@@ -37,7 +37,13 @@ const pageCopy = page === 'home' ? null : copy[page]
 
           <section id='faq' class='section faq' aria-labelledby='faq-title'>
             <h2 id='faq-title'>{copy.faqTitle}</h2>
-            <div class='faq-questions'>{copy.faqs.map(item => <article><h3>{item.title}</h3><p>{item.body}</p></article>)}</div>
+            <div class='faq-questions'>{copy.faqs.map(item => (
+              <details>
+                <summary><h3>{item.title}</h3><span class='faq-icon' aria-hidden='true'></span></summary>
+                <p>{item.body}</p>
+              </details>
+            ))}
+            </div>
             <div class='actions'>
               <a class='primary' href={localizedAppPath(locale, '/meetings/create')}>{copy.hero.primary}</a>
             </div>
@@ -159,4 +165,24 @@ const pageCopy = page === 'home' ? null : copy[page]
     .hero .actions { margin-top: 20px; }
   }
   @media (max-width: 480px) { .actions { flex-direction: column; } }
+
+  .hero .actions { align-items: center; }
+  .hero .actions .secondary {
+    @include controls.button(text);
+    flex: 0 1 auto; align-self: center; width: auto; min-width: 0; min-height: 44px; padding: 8px 0;
+    border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #59616e;
+    font-size: 14px; font-weight: var(--font-weight-label); text-decoration: underline; text-underline-offset: 4px;
+    &:hover { color: #164fae; background: transparent; }
+  }
+  .faq-questions { display: block; border-block-start: 1px solid #e3e6eb; }
+  .faq details { border-block-end: 1px solid #e3e6eb; }
+  .faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 18px 0; cursor: pointer; list-style: none; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:focus-visible { outline: 2px solid #1d65d8; outline-offset: 3px; }
+  .faq summary h3 { margin: 0; font-size: 16px; line-height: 1.6; font-weight: var(--font-weight-label); }
+  .faq-icon { flex: 0 0 18px; color: #59616e; font-size: 22px; line-height: 1; text-align: center; }
+  .faq-icon::before { content: '+'; }
+  .faq details[open] .faq-icon::before { content: '−'; }
+  .faq details p { padding-block-end: 20px; padding-inline-end: 34px; font-size: 15px; line-height: 1.8; }
+  @media (max-width: 480px) { .faq summary h3 { font-size: 15px; } }
 </style>

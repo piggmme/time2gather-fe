@@ -21,7 +21,9 @@
     "switchToEnglish": "التبديل إلى اللغة الإنجليزية",
     "switchToKorean": "التبديل إلى الكورية",
     "language": "اللغة",
-    "searchLanguages": "اختر لغتك"
+    "searchLanguages": "اختر لغتك",
+    "about": "من نحن",
+    "contact": "تواصل معنا"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "إنشاء اجتماع",
       "creatingButton": "جارٍ إنشاء الاجتماع...",
       "skipButton": "تخطي"
+    },
+    "basicInfoStep": {
+      "heading": "ما اللقاء الذي تخطط له؟",
+      "description": "أدخل عنوانًا واختر طريقة تحديد الموعد.",
+      "titleLabel": "عنوان اللقاء",
+      "typeLabel": "ماذا تريد أن تحدد؟",
+      "dateDescription": "اختر يومًا مناسبًا للقاء",
+      "timeDescription": "اجمع الأوقات المتاحة أيضًا",
+      "timeLabel": "التاريخ والوقت"
+    },
+    "flow": {
+      "basic": "المعلومات الأساسية",
+      "schedule": "المواعيد المقترحة",
+      "finish": "الإنهاء",
+      "label": "خطوات إنشاء الموعد"
     }
   },
   "meeting": {

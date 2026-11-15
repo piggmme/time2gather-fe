@@ -21,7 +21,9 @@
     "switchToEnglish": "Chuyển sang tiếng Anh",
     "switchToKorean": "Chuyển sang tiếng Hàn",
     "language": "Ngôn ngữ",
-    "searchLanguages": "Chọn ngôn ngữ của bạn"
+    "searchLanguages": "Chọn ngôn ngữ của bạn",
+    "about": "Giới thiệu",
+    "contact": "Liên hệ"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Tạo cuộc họp",
       "creatingButton": "Đang tạo cuộc họp...",
       "skipButton": "Bỏ qua"
+    },
+    "basicInfoStep": {
+      "heading": "Bạn muốn lên lịch cho cuộc hẹn nào?",
+      "description": "Nhập tiêu đề và chọn cách tìm thời gian phù hợp.",
+      "titleLabel": "Tiêu đề cuộc hẹn",
+      "typeLabel": "Bạn muốn chọn gì?",
+      "dateDescription": "Tìm ngày gặp nhau",
+      "timeDescription": "Thu thập cả các khung giờ rảnh",
+      "timeLabel": "Ngày và giờ"
+    },
+    "flow": {
+      "basic": "Thông tin cơ bản",
+      "schedule": "Các lịch đề xuất",
+      "finish": "Hoàn tất",
+      "label": "Các bước tạo cuộc hẹn"
     }
   },
   "meeting": {

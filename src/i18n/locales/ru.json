@@ -21,7 +21,9 @@
     "switchToEnglish": "Переключиться на английский",
     "switchToKorean": "Переключиться на корейский",
     "language": "Язык",
-    "searchLanguages": "Выберите свой язык"
+    "searchLanguages": "Выберите свой язык",
+    "about": "О сервисе",
+    "contact": "Контакты"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Создать встречу",
       "creatingButton": "Создание встречи...",
       "skipButton": "Пропустить"
+    },
+    "basicInfoStep": {
+      "heading": "Какую встречу вы планируете?",
+      "description": "Добавьте название и выберите способ согласования времени.",
+      "titleLabel": "Название встречи",
+      "typeLabel": "Что вы хотите выбрать?",
+      "dateDescription": "Найдите подходящий день",
+      "timeDescription": "Соберите также удобное время",
+      "timeLabel": "Даты и время"
+    },
+    "flow": {
+      "basic": "Основная информация",
+      "schedule": "Варианты даты и времени",
+      "finish": "Завершение",
+      "label": "Этапы создания встречи"
     }
   },
   "meeting": {

@@ -21,7 +21,9 @@
     "switchToEnglish": "İngilizceye geç",
     "switchToKorean": "Koreceye geç",
     "language": "Dil",
-    "searchLanguages": "Dilinizi seçin"
+    "searchLanguages": "Dilinizi seçin",
+    "about": "Hakkımızda",
+    "contact": "İletişim"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Toplantı oluştur",
       "creatingButton": "Toplantı oluşturuluyor...",
       "skipButton": "Atla"
+    },
+    "basicInfoStep": {
+      "heading": "Nasıl bir buluşma planlıyorsunuz?",
+      "description": "Bir başlık ekleyin ve zamanı nasıl belirleyeceğinizi seçin.",
+      "titleLabel": "Buluşma başlığı",
+      "typeLabel": "Neyi belirlemek istersiniz?",
+      "dateDescription": "Buluşmak için bir gün bulun",
+      "timeDescription": "Uygun saatleri de toplayın",
+      "timeLabel": "Tarih ve saat"
+    },
+    "flow": {
+      "basic": "Temel bilgiler",
+      "schedule": "Tarih ve saat seçenekleri",
+      "finish": "Tamamla",
+      "label": "Buluşma oluşturma adımları"
     }
   },
   "meeting": {

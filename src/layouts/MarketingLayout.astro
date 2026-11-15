@@ -1,6 +1,7 @@
 ---
 import Analytics from '../components/Analytics.astro'
 import '../styles/typography.scss'
+import '../styles/site-header.scss'
 import LocaleBootstrap from '../components/LocaleBootstrap.astro'
 import LocaleFonts from '../components/LocaleFonts.astro'
 import PerformanceMonitoring from '../components/PerformanceMonitoring.astro'
@@ -130,18 +131,18 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     <Analytics />
   </head>
   <body>
-    <header class='site-header'>
-      <a class='brand' href={localizedPath(locale, 'home')} aria-label='Time2Gather'>
+    <header class='t2g-site-header' data-site-header>
+      <a class='t2g-site-header__brand' href={localizedPath(locale, 'home')} aria-label='Time2Gather'>
         <img src='/brand/logo.svg' alt='' width='34' height='34' />
         <span>Time2Gather</span>
       </a>
-      <nav class='main-nav' aria-label={copy.nav.home}>
+      <nav class='t2g-site-header__nav' aria-label={copy.nav.home}>
         <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
         <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
+        <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
       </nav>
-      <a class='my-meetings' href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
       <details class='language-menu'>
-        <summary aria-label={copy.nav.language} title={localeMeta[locale].label}>
+        <summary class='t2g-site-header__locale' aria-label={copy.nav.language} title={localeMeta[locale].label}>
           <svg class='language-icon' xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>
             <circle cx='12' cy='12' r='9' />
             <path d='M3 12h18M12 3a17 17 0 0 1 0 18 17 17 0 0 1 0-18Z' />
@@ -162,7 +163,22 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
           ))}
         </div>
       </details>
+      <details class='t2g-site-header__menu'>
+        <summary aria-label={t('common.openMenu')}>
+          <svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' aria-hidden='true'><path d='M4 6h16M4 12h16M4 18h16' /></svg>
+        </summary>
+        <nav class='t2g-site-header__menu-panel' aria-label={t('common.openMenu')}>
+          <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
+          <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
+          <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
+          <a href={localizedAppPath(locale, '/meetings/create')}>{t('common.createMeeting')}</a>
+          <a href={localizedAppPath(locale, '/meetings/search')}>{t('common.searchMeeting')}</a>
+        </nav>
+      </details>
     </header>
+    <script>
+      import '../utils/siteHeader'
+    </script>
 
     <script is:inline>
       document.querySelectorAll('[data-marketing-locale]').forEach((link) => {
@@ -218,10 +234,6 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
   .my-meetings:focus-visible { outline: 2px solid #3182f6; outline-offset: 3px; }
   .language-menu { position: relative; min-width: 0; }
   .language-icon { flex-shrink: 0; }
-  .language-menu summary { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 9px 0; color: #6b7684; font-size: 14px; font-weight: var(--font-weight-label); cursor: pointer; list-style: none; text-align: center; }
-  .language-menu summary:hover { color: #1b64da; }
-  .language-menu summary:focus-visible { outline: 2px solid #3182f6; outline-offset: 3px; border-radius: 4px; }
-  .language-menu summary::-webkit-details-marker { display: none; }
   .language-list { position: absolute; inset-inline-end: 0; top: calc(100% + 8px); display: grid; grid-template-columns: repeat(2, minmax(130px, 1fr)); gap: 3px; width: 294px; max-height: 360px; overflow: auto; padding: 8px; border: 1px solid #e5e8eb; border-radius: 16px; background: #fff; box-shadow: 0 16px 40px rgba(0, 27, 55, 0.12); }
   .language-list a { padding: 9px 10px; border-radius: 9px; color: #4e5968; font-size: 14px; }
   .language-list a:hover, .language-list a[aria-current="page"] { color: #1b64da; background: #edf6ff; }
@@ -233,7 +245,6 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     .site-header { grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; width: min(100% - 28px, 1120px); }
     .main-nav { display: none; }
     .my-meetings { max-width: 160px; }
-    .language-menu summary { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; max-width: 112px; padding: 9px 0; overflow-wrap: anywhere; }
     .language-list { position: fixed; inset-inline: 14px; top: 68px; width: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .site-footer { grid-template-columns: 1fr; width: calc(100% - 32px); margin-top: 32px; }
   }
@@ -242,7 +253,5 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     .brand { min-height: 44px; gap: 7px; font-size: 16px; white-space: nowrap; }
     .brand img { width: 28px; height: 28px; }
     .my-meetings { justify-self: end; font-size: 13px; }
-    .language-menu summary { width: 44px; padding: 10px; }
-    .language-current { display: none; }
   }
 </style>

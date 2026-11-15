@@ -13,6 +13,22 @@
   display: block;
 }
 
+.title.basicHeading { font-size: 28px; line-height: 1.4; }
+.basicDescription { margin-block: 8px 0; color: $c-gray-darkest; font-size: 15px; }
+.basicTitleField { display: grid; gap: 10px; margin-block-start: 32px; label { font-weight: $font-weight-semibold; } input { height: 50px; } }
+.basicTypeField { min-width: 0; margin: 26px 0 0; padding: 0; border: 0; legend { padding: 0; margin-block-end: 10px; font-weight: $font-weight-semibold; } }
+.basicTypeOptions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+button.basicTypeButton {
+  @include controls.choice;
+  display: flex; align-items: center; justify-content: flex-start; gap: 12px; min-height: 96px; padding: 18px 16px; text-align: start;
+  > svg { flex-shrink: 0; color: $c-gray-darkest; }
+  &[aria-pressed='true'] { border-color: $primary-color; background: $c-blue-soft; color: $c-black; > svg { color: $primary-color; } .basicTypeCheck { color: $c-white; background: $primary-color; border-color: $primary-color; } }
+}
+.basicTypeCopy { min-width: 0; display: flex; flex: 1; flex-direction: column; gap: 4px; strong { font-size: 15px; font-weight: $font-weight-semibold; } > span { font-size: 13px; color: $c-gray-darkest; font-weight: $font-weight-normal; line-height: 1.5; } }
+.basicTypeCheck { flex: 0 0 18px; width: 18px; height: 18px; display: grid; place-items: center; border: 1px solid #cfd4dc; border-radius: 50%; }
+:global(html[dir='rtl']) .nextArrow { transform: scaleX(-1); }
+@media (max-width: 699px) { .title.basicHeading { font-size: 25px; } .basicDescription { font-size: 14px; } .basicTitleField { margin-block-start: 28px; } .basicTypeOptions { grid-template-columns: 1fr; gap: 10px; } button.basicTypeButton { min-height: 82px; padding: 16px; } }
+
 .title {
   margin-top: 0;
   margin-bottom: 0;

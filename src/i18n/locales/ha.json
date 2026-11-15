@@ -21,7 +21,9 @@
     "switchToEnglish": "Canja zuwa Turanci",
     "switchToKorean": "Canza zuwa Koriya",
     "language": "Harshe",
-    "searchLanguages": "Zaɓi harshen ku"
+    "searchLanguages": "Zaɓi harshen ku",
+    "about": "Game da",
+    "contact": "Tuntuɓar"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Ƙirƙiri taro",
       "creatingButton": "Ƙirƙirar taro...",
       "skipButton": "Tsallake"
+    },
+    "basicInfoStep": {
+      "heading": "Wane taro kake son shiryawa?",
+      "description": "Rubuta take sannan ka zaɓi yadda za a tsara lokacin taron.",
+      "titleLabel": "Taken taro",
+      "typeLabel": "Me kake son tantancewa?",
+      "dateDescription": "Zaɓi ranar haɗuwa",
+      "timeDescription": "Tattara lokutan da suka dace ma",
+      "timeLabel": "Kwanaki da lokuta"
+    },
+    "flow": {
+      "basic": "Bayanan farko",
+      "schedule": "Zaɓuɓɓukan lokaci",
+      "finish": "Kammalawa",
+      "label": "Matakan ƙirƙirar taro"
     }
   },
   "meeting": {

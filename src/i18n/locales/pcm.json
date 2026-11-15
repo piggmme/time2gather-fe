@@ -21,7 +21,9 @@
     "switchToEnglish": "Use English",
     "switchToKorean": "Use Korean",
     "language": "Language",
-    "searchLanguages": "Pick your language"
+    "searchLanguages": "Pick your language",
+    "about": "About us",
+    "contact": "Contact us"
   },
   "home": {
     "title": "Time2Gather",
@@ -152,6 +154,21 @@
       "createButton": "Create meeting",
       "creatingButton": "Dey create meeting...",
       "skipButton": "Skip"
+    },
+    "basicInfoStep": {
+      "heading": "Wetin you wan plan?",
+      "description": "Put title and choose how una go find time.",
+      "titleLabel": "Meeting title",
+      "typeLabel": "Wetin una wan decide?",
+      "dateDescription": "Find day wey una fit meet",
+      "timeDescription": "Collect free time join",
+      "timeLabel": "Dates and times"
+    },
+    "flow": {
+      "basic": "Basic info",
+      "schedule": "Date and time options",
+      "finish": "Finish",
+      "label": "Steps to create meeting"
     }
   },
   "meeting": {
