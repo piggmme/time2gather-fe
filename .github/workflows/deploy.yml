@@ -43,7 +43,9 @@ jobs:
       - name: Verify homepage control roles in all languages
         run: BUTTON_SCENARIOS=home BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
       - name: Verify creation and analytics success and failure paths
-        run: node scripts/test-analytics-actions.mjs
+        run: |
+          pnpm astro preferences disable devToolbar
+          node scripts/test-analytics-actions.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:
