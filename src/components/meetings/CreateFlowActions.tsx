@@ -61,7 +61,7 @@ export default function CreateFlowActions ({ children }: { children: ReactNode }
 
   return (
     <>
-      <div className={styles.spacer} style={{ height: layout.height + 32 }} aria-hidden='true' />
+      <div className={styles.spacer} style={{ height: layout.height + layout.bottom + 32 }} aria-hidden='true' />
       <div className={styles.bar} ref={bar} style={{ bottom: layout.bottom }} data-create-flow-actions>
         <div className={styles.buttons} style={layout.width ? { width: layout.width, marginInlineStart: layout.inlineStart } : undefined}>
           {children}
