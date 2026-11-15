@@ -18,7 +18,7 @@ for (const engine of engines) {
         locale, timezoneId: 'Asia/Seoul', viewport: { width, height: 844 }, reducedMotion: 'reduce', ignoreHTTPSErrors: true,
       })
       await context.route(/googletagmanager|google-analytics|firestore.googleapis|firebaseinstallations.googleapis/, route => route.abort())
-      await context.route(/\/v1\//, (route) => {
+      await context.route(url => url.pathname.includes('/v1/') && !url.hostname.endsWith('googleapis.com'), (route) => {
         if (route.request().method() !== 'GET') {
           writes.push(route.request().url())
           return route.abort()
@@ -116,6 +116,10 @@ for (const engine of engines) {
       await faq.first().locator('summary').click()
       await expect(firstAnswer).toBeHidden()
       const secondary = page.locator('.hero .secondary')
+      const primaryBox = await page.locator('.hero .primary').boundingBox()
+      const secondaryBox = await secondary.boundingBox()
+      assert.ok(secondaryBox.y >= primaryBox.y + primaryBox.height, `${locale}/${width}: invitation code belongs below Create meeting`)
+      assert.ok(Math.abs(secondaryBox.x + secondaryBox.width / 2 - primaryBox.x - primaryBox.width / 2) < 2, `${locale}/${width}: home actions are centered`)
       assert.equal(await secondary.evaluate(el => getComputedStyle(el).borderTopWidth), '0px')
       assert.equal(await secondary.evaluate(el => getComputedStyle(el).textDecorationLine.includes('underline')), true)
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false)

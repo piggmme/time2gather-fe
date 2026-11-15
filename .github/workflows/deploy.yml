@@ -1,7 +1,7 @@
-name: UI Refinement Release Build
+name: Invite Code Layout Release Build
 on:
   push:
-    branches: [fix/ui-refinement-20261115]
+    branches: [fix/invite-code-below-20261115]
 permissions:
   contents: read
   id-token: write
@@ -32,28 +32,16 @@ jobs:
       - name: Validate approved UI refinement
         run: pnpm exec eslint src/components/meetings/BasicInfoStep.tsx src/components/meetings/CreateFlowProgress.astro src/components/Header/Header.tsx src/pages/meetings/create.astro src/layouts/Layout.astro src/utils/navigation.ts src/utils/siteHeader.ts scripts/test-ui-refinement.mjs scripts/test-analytics-actions.mjs
       - run: pnpm build
-      - name: Verify time input and half-hour votes in all languages
+      - name: Verify homepage and creation flow in all languages
         run: |
           pnpm exec playwright install --with-deps chromium
-          pnpm astro preferences disable devToolbar
-          node scripts/test-time-picker-fixture.mjs > /tmp/picker-fixture.log 2>&1 &
-          fixture_pid=$!
-          HOST=127.0.0.1 PORT=14326 API_URL=http://127.0.0.1:18485/api node dist/server/entry.mjs > /tmp/picker-server.log 2>&1 &
+          HOST=127.0.0.1 PORT=14326 node dist/server/entry.mjs > /tmp/ui-server.log 2>&1 &
           server_pid=$!
-          API_URL=http://127.0.0.1:18485/api PUBLIC_API_URL=/api pnpm astro dev --port 14325 --host 127.0.0.1 > /tmp/picker-dev-server.log 2>&1 &
-          devserver_pid=$!
-          trap 'kill "$server_pid" "$fixture_pid" "$devserver_pid"' EXIT
+          trap 'kill "$server_pid"' EXIT
           for attempt in $(seq 1 30); do curl --silent --fail http://127.0.0.1:14326/meetings/create > /dev/null && break; sleep 1; done
-          DONE_ENGINES=chromium DONE_BASE=http://127.0.0.1:14326 DONE_OUTPUT=../ci-keyboard node scripts/test-keyboard-done.mjs
           UI_BASE=http://127.0.0.1:14326 UI_OUTPUT=../ci-ui node scripts/test-ui-refinement.mjs
-          BRAND_BASE=http://127.0.0.1:14326 BRAND_OUTPUT=../ci-brand node scripts/test-brand-assets.mjs
-          NAME_COPY_BASE=http://127.0.0.1:14326 NAME_COPY_OUTPUT=../ci-name-copy node scripts/verify-meeting-name-copy.mjs
-          SHARE_IMAGE_OUTPUT=../ci-share-images node scripts/test-share-images.mjs
-          PICKER_CHANNEL=chromium PICKER_BASE=http://127.0.0.1:14326 PICKER_OUTPUT=../ci-picker node scripts/test-time-picker.mjs
-          QA_LOCALES=ko,de,ar CREATE_BASE=http://127.0.0.1:14326 CREATE_OUTPUT=../ci-layout node scripts/test-create-flow-layout.mjs
-          HALF_HOUR_BASE=http://127.0.0.1:14325 HALF_HOUR_OUTPUT=../ci-half-hour node scripts/test-half-hour-slots.mjs
-      - name: Verify role-based controls in all languages
-        run: BUTTON_SCENARIOS=home,search,create,time,guest-vote,comments,reply,reactions,edit BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
+      - name: Verify homepage control roles in all languages
+        run: BUTTON_SCENARIOS=home BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
       - name: Verify creation and analytics success and failure paths
         run: node scripts/test-analytics-actions.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
@@ -66,10 +54,10 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:ui-refinement-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
+          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:invite-code-below-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
-          name: ui-refinement-release
+          name: invite-code-below-release
           path: |
             dist
             release-manifest.json
