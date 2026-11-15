@@ -1,7 +1,7 @@
-name: UI Refinement Release Build
+name: UI Consistency Release Build
 on:
   push:
-    branches: [fix/ui-refinement-20261115]
+    branches: [fix/ui-consistency-20261115]
 permissions:
   contents: read
   id-token: write
@@ -31,6 +31,8 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_release_*.py'
       - name: Validate approved UI refinement
         run: pnpm exec eslint src/components/meetings/BasicInfoStep.tsx src/components/meetings/CreateFlowProgress.astro src/components/Header/Header.tsx src/pages/meetings/create.astro src/layouts/Layout.astro src/utils/navigation.ts src/utils/siteHeader.ts scripts/test-ui-refinement.mjs scripts/test-analytics-actions.mjs
+      - name: Validate UI consistency regression checks
+        run: pnpm exec eslint scripts/test-ui-consistency.mjs
       - run: pnpm build
       - name: Verify time input and half-hour votes in all languages
         run: |
@@ -54,6 +56,14 @@ jobs:
           HALF_HOUR_BASE=http://127.0.0.1:14325 HALF_HOUR_OUTPUT=../ci-half-hour node scripts/test-half-hour-slots.mjs
       - name: Verify role-based controls in all languages
         run: BUTTON_SCENARIOS=home,search,create,time,guest-vote,comments,reply,reactions,edit BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
+      - name: Verify shared time controls and WebKit dismissal
+        run: |
+          pnpm exec playwright install --with-deps webkit
+          HOST=127.0.0.1 PORT=14401 API_URL=http://127.0.0.1:18481/api node dist/server/entry.mjs > /tmp/consistency-server.log 2>&1 &
+          consistency_server_pid=$!
+          trap 'kill "$consistency_server_pid"' EXIT
+          for attempt in $(seq 1 30); do curl --silent --fail http://127.0.0.1:14401/meetings/create > /dev/null && break; sleep 1; done
+          UI_CONSISTENCY_BASE=http://127.0.0.1:14401 UI_CONSISTENCY_OUTPUT=../ci-consistency node scripts/test-ui-consistency.mjs
       - name: Verify creation and analytics success and failure paths
         run: node scripts/test-analytics-actions.mjs
       - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
@@ -66,10 +76,10 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:ui-refinement-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
+          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:ui-consistency-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
-          name: ui-refinement-release
+          name: ui-consistency-release
           path: |
             dist
             release-manifest.json
@@ -85,8 +95,8 @@ jobs:
           from pathlib import Path
           output = Path('qa-evidence')
           output.mkdir(exist_ok=True)
-          for name in ['picker', 'layout', 'half-hour', 'buttons', 'keyboard', 'brand', 'name-copy', 'ui']:
-              source = Path('..') / ('ci-' + name) / 'verification.json'
+          for name in ['picker', 'layout', 'half-hour', 'buttons', 'keyboard', 'brand', 'name-copy', 'ui', 'consistency']:
+              source = Path('..') / ('ci-' + name) / ('green.json' if name == 'consistency' else 'verification.json')
               if source.is_file():
                   shutil.copy2(source, output / (name + '.json'))
           PYCODE
@@ -94,7 +104,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ui-refinement-browser-checks
+          name: ui-consistency-browser-checks
           path: qa-evidence/*.json
           if-no-files-found: warn
           retention-days: 7
