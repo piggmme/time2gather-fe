@@ -20,7 +20,10 @@
     "test:comments:reactions": "node scripts/test-comment-reactions.mjs",
     "test:realtime:rules": "node --test scripts/test-firestore-rules.mjs",
     "test:realtime:e2e": "playwright test --config playwright.realtime.config.ts",
-    "test:realtime:integration": "node scripts/test-realtime-integration.mjs"
+    "test:realtime:integration": "node scripts/test-realtime-integration.mjs",
+    "preflight": "python3 scripts/frontend_preflight.py run",
+    "preflight:verify": "python3 scripts/frontend_preflight.py verify",
+    "preflight:install": "python3 scripts/frontend_preflight.py install-hook"
   },
   "dependencies": {
     "@astrojs/node": "^9.5.0",

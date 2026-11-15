@@ -1,0 +1,3 @@
+interface:
+  display_name: "Time2Gather 푸시 전 검증"
+  short_description: "프런트엔드 푸시 전에 같은 소스의 빌드와 검증을 완료합니다"

@@ -1,15 +1,15 @@
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
-import { stripVTControlCharacters } from 'node:util'
 import { spawn } from 'node:child_process'
 import { chromium, expect } from '@playwright/test'
 import { createNavigationFixture } from './navigation-fixture.mjs'
+import { waitForServer } from './wait-for-server.mjs'
 
 // Real Astro/React screens, local in-memory API, intercepted analytics requests.
 // The production-looking browser origin only exercises the hostname guard;
-// every request to it is fulfilled from the local dev server or API fixture.
+// every request to it is fulfilled from the built local server or API fixture.
 const origin = 'https://time2gather.org'
-const local = `${fs.existsSync('certs/time2gather-key.pem') ? 'https' : 'http'}://127.0.0.1:19482`
+const local = 'http://127.0.0.1:19482'
 const responses = new Set()
 const fixture = createNavigationFixture({
   transformMeeting: (data, code) => {
@@ -19,8 +19,10 @@ const fixture = createNavigationFixture({
 })
 await new Promise(resolve => fixture.server.listen(0, '127.0.0.1', resolve))
 const api = `http://127.0.0.1:${fixture.server.address().port}`
-const dev = spawn(process.execPath, ['node_modules/astro/astro.js', 'dev', '--host', '127.0.0.1', '--port', '19482'], {
-  env: { ...process.env, API_URL: `${api}/api`, PUBLIC_API_URL: '/api' }, stdio: ['ignore', 'pipe', 'pipe'],
+const dev = spawn(process.execPath, ['--import', './scripts/fixture-ssr-loader.mjs', 'dist/server/entry.mjs'], {
+  env: {
+    ...process.env, HOST: '127.0.0.1', PORT: '19482', PREFLIGHT_FIXTURE_API: api,
+  }, stdio: ['ignore', 'pipe', 'pipe'],
 })
 let logs = ''
 dev.stdout.on('data', (chunk) => {
@@ -31,23 +33,7 @@ dev.stderr.on('data', (chunk) => {
 })
 let browser
 try {
-  await new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      clearInterval(poll)
-      reject(new Error(logs))
-    }, 30000)
-    const poll = setInterval(() => {
-      if (/Local\s+https?:/.test(stripVTControlCharacters(logs))) {
-        clearInterval(poll)
-        clearTimeout(timer)
-        resolve()
-      } else if (dev.exitCode !== null) {
-        clearInterval(poll)
-        clearTimeout(timer)
-        reject(new Error(logs))
-      }
-    }, 100)
-  })
+  await waitForServer(`${local}/meetings/create`, dev, { logs: () => logs })
   browser = await chromium.launch({ headless: true })
   const t = JSON.parse(fs.readFileSync('src/i18n/locales/ko.json', 'utf8'))
   for (const width of [390, 1280]) {
