@@ -50,7 +50,8 @@
     "src/utils/navigation.ts",
     "src/utils/siteHeader.ts",
     "src/utils/time.ts",
-    "scripts/test-ui-consistency.mjs"
+    "scripts/test-ui-consistency.mjs",
+    "scripts/test-landing-first-screen.mjs"
   ],
   "requiredFiles": [
     "scripts/test-keyboard-done.mjs",
@@ -63,7 +64,8 @@
     "scripts/test-half-hour-slots.mjs",
     "scripts/test-button-roles.mjs",
     "scripts/test-time-picker-fixture.mjs",
-    "scripts/test-ui-consistency.mjs"
+    "scripts/test-ui-consistency.mjs",
+    "scripts/test-landing-first-screen.mjs"
   ],
   "evidenceDirectory": ".preflight/evidence",
   "checks": [

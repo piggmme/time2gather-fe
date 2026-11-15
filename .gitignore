@@ -33,6 +33,7 @@ image-metadata.json
 build-metrics.json
 image-build.log
 .preflight/
+/artifacts/
 
 scripts/__pycache__/
 scripts/__pycache__/

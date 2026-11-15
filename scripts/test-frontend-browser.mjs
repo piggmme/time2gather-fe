@@ -47,6 +47,7 @@ try {
   })
   await waitForServer('http://127.0.0.1:14325/meetings/create', dev.child, { logs: dev.logs })
   const suites = [
+    ['test-landing-first-screen.mjs', { LANDING_BASE: 'http://127.0.0.1:14326', LANDING_OUTPUT: `${output}/landing` }],
     ['test-keyboard-done.mjs', { DONE_ENGINES: 'chromium', DONE_BASE: 'http://127.0.0.1:14326', DONE_OUTPUT: `${output}/keyboard` }],
     ['test-ui-refinement.mjs', { UI_BASE: 'http://127.0.0.1:14326', UI_OUTPUT: `${output}/ui` }],
     ['test-brand-assets.mjs', { BRAND_BASE: 'http://127.0.0.1:14326', BRAND_OUTPUT: `${output}/brand` }],
