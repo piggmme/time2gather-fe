@@ -1,0 +1,194 @@
+{
+  "lintFiles": [
+    "scripts/generate-brand-assets.mjs",
+    "scripts/test-analytics-actions.mjs",
+    "scripts/test-brand-assets.mjs",
+    "scripts/test-button-roles.mjs",
+    "scripts/test-create-flow-layout.mjs",
+    "scripts/test-frontend-browser.mjs",
+    "scripts/test-half-hour-slots.mjs",
+    "scripts/test-keyboard-done.mjs",
+    "scripts/test-time-picker-fixture.mjs",
+    "scripts/test-time-picker.mjs",
+    "scripts/test-ui-refinement.mjs",
+    "scripts/test-wait-for-server.mjs",
+    "scripts/wait-for-server.mjs",
+    "src/components/Button/Button.tsx",
+    "src/components/Comments/Comments.tsx",
+    "src/components/Header/Header.tsx",
+    "src/components/Input/Input.tsx",
+    "src/components/MarketingContent.astro",
+    "src/components/Monthly/MonthlyCell.tsx",
+    "src/components/MyMeetings/MyMeetings.tsx",
+    "src/components/ResultPage/ResultButtons.tsx",
+    "src/components/ResultPage/ResultContent.tsx",
+    "src/components/SelectPage/AnonymousDatesSelectPage.tsx",
+    "src/components/SelectPage/AnonymousTimeSelectPage.tsx",
+    "src/components/SelectPage/DatesSelectPage.tsx",
+    "src/components/SelectPage/TimeSelectPage.tsx",
+    "src/components/SelectPage/UnavailableOption.tsx",
+    "src/components/TimePicker/TimePicker.tsx",
+    "src/components/Timezone/TimeZoneSelect.tsx",
+    "src/components/daily/Daily.tsx",
+    "src/components/daily/DailyCell.tsx",
+    "src/components/daily/DailyGrid.tsx",
+    "src/components/meetings/BasicInfoStep.tsx",
+    "src/components/meetings/CreateFlowActions.tsx",
+    "src/components/meetings/CreateFlowProgress.astro",
+    "src/components/meetings/DatesStep.tsx",
+    "src/components/meetings/DescriptionStep.tsx",
+    "src/components/meetings/EditVotingDatesPage.tsx",
+    "src/components/meetings/LocationStep.tsx",
+    "src/components/meetings/SelectedDates.tsx",
+    "src/components/meetings/TimeRangeStep.tsx",
+    "src/components/meetings/TitleStep.tsx",
+    "src/layouts/Layout.astro",
+    "src/layouts/MarketingLayout.astro",
+    "src/pages/meetings/create.astro",
+    "src/services/meetings.ts",
+    "src/utils/keyboard.ts",
+    "src/utils/navigation.ts",
+    "src/utils/siteHeader.ts",
+    "src/utils/time.ts"
+  ],
+  "requiredFiles": [
+    "scripts/test-keyboard-done.mjs",
+    "scripts/test-ui-refinement.mjs",
+    "scripts/test-brand-assets.mjs",
+    "scripts/verify-meeting-name-copy.mjs",
+    "scripts/test-share-images.mjs",
+    "scripts/test-time-picker.mjs",
+    "scripts/test-create-flow-layout.mjs",
+    "scripts/test-half-hour-slots.mjs",
+    "scripts/test-button-roles.mjs",
+    "scripts/test-time-picker-fixture.mjs"
+  ],
+  "evidenceDirectory": ".preflight/evidence",
+  "checks": [
+    {
+      "name": "deployment guard",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_cloud_run_guard.py"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "release tools",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_release_*.py"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "preflight guard",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_frontend_preflight.py"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "HTTP readiness regression",
+      "command": [
+        "node",
+        "--test",
+        "scripts/test-wait-for-server.mjs"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "i18n (22 locales)",
+      "command": [
+        "pnpm",
+        "check:i18n"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "globalization",
+      "command": [
+        "pnpm",
+        "test:globalization"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "Astro sync",
+      "command": [
+        "pnpm",
+        "astro",
+        "sync"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "TypeScript",
+      "command": [
+        "pnpm",
+        "check:types"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "analytics payloads",
+      "command": [
+        "pnpm",
+        "test:analytics"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "sharing",
+      "command": [
+        "pnpm",
+        "test:share"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "production build",
+      "command": [
+        "pnpm",
+        "build"
+      ],
+      "timeoutSeconds": 900
+    },
+    {
+      "name": "browser regressions (22 locales)",
+      "command": [
+        "node",
+        "scripts/test-frontend-browser.mjs"
+      ],
+      "timeoutSeconds": 1800
+    },
+    {
+      "name": "creation and analytics actions",
+      "command": [
+        "node",
+        "scripts/test-analytics-actions.mjs"
+      ],
+      "timeoutSeconds": 900
+    }
+  ],
+  "baseRevision": "39bf973cf2bf6efe86b62ef4592ab0ee0e384ba6"
+}

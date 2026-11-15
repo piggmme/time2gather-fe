@@ -1,15 +1,27 @@
-name: UI Refinement Release Build
+name: Frontend CI & Release Build
+
 on:
   push:
-    branches: [fix/ui-refinement-20261115]
+  workflow_dispatch:
+    inputs:
+      publish_image:
+        description: Build the release image after required checks
+        type: boolean
+        default: false
+
 permissions:
   contents: read
-  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    concurrency:
+      group: frontend-checks-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
           version: 10.23.0
@@ -18,45 +30,47 @@ jobs:
         with:
           node-version: '20'
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Required checks
-        run: |
-          pnpm exec eslint src/utils/keyboard.ts src/components/Input/Input.tsx src/components/TimePicker/TimePicker.tsx scripts/test-keyboard-done.mjs scripts/test-brand-assets.mjs scripts/generate-brand-assets.mjs src/components/meetings/SelectedDates.tsx src/components/meetings/TimeRangeStep.tsx src/components/SelectPage/AnonymousDatesSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/SelectPage/DatesSelectPage.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/UnavailableOption.tsx
-          pnpm check:i18n
-          pnpm test:globalization
-          pnpm astro sync
-          pnpm check:types
-          pnpm exec eslint scripts/test-button-roles.mjs src/components/Button/Button.tsx src/components/ResultPage/ResultButtons.tsx src/components/MyMeetings/MyMeetings.tsx src/components/Comments/Comments.tsx src/components/meetings/EditVotingDatesPage.tsx src/components/meetings/DatesStep.tsx src/components/meetings/TitleStep.tsx src/components/meetings/DescriptionStep.tsx src/components/MarketingContent.astro src/layouts/MarketingLayout.astro src/components/meetings/CreateFlowActions.tsx scripts/test-create-flow-layout.mjs src/components/TimePicker/TimePicker.tsx scripts/test-time-picker.mjs scripts/test-time-picker-fixture.mjs src/components/Monthly/MonthlyCell.tsx src/components/Timezone/TimeZoneSelect.tsx src/components/ResultPage/ResultContent.tsx src/components/daily/Daily.tsx src/components/daily/DailyCell.tsx src/components/daily/DailyGrid.tsx src/components/SelectPage/TimeSelectPage.tsx src/components/SelectPage/AnonymousTimeSelectPage.tsx src/components/meetings/TimeRangeStep.tsx src/components/meetings/LocationStep.tsx src/utils/time.ts src/services/meetings.ts scripts/test-half-hour-slots.mjs
-          python3 -m unittest discover -s scripts -p test_cloud_run_guard.py
-          python3 -m unittest discover -s scripts -p 'test_release_*.py'
-      - name: Validate approved UI refinement
-        run: pnpm exec eslint src/components/meetings/BasicInfoStep.tsx src/components/meetings/CreateFlowProgress.astro src/components/Header/Header.tsx src/pages/meetings/create.astro src/layouts/Layout.astro src/utils/navigation.ts src/utils/siteHeader.ts scripts/test-ui-refinement.mjs scripts/test-analytics-actions.mjs
-      - run: pnpm build
-      - name: Verify time input and half-hour votes in all languages
-        run: |
-          pnpm exec playwright install --with-deps chromium
-          pnpm astro preferences disable devToolbar
-          node scripts/test-time-picker-fixture.mjs > /tmp/picker-fixture.log 2>&1 &
-          fixture_pid=$!
-          HOST=127.0.0.1 PORT=14326 API_URL=http://127.0.0.1:18485/api node dist/server/entry.mjs > /tmp/picker-server.log 2>&1 &
-          server_pid=$!
-          API_URL=http://127.0.0.1:18485/api PUBLIC_API_URL=/api pnpm astro dev --port 14325 --host 127.0.0.1 > /tmp/picker-dev-server.log 2>&1 &
-          devserver_pid=$!
-          trap 'kill "$server_pid" "$fixture_pid" "$devserver_pid"' EXIT
-          for attempt in $(seq 1 30); do curl --silent --fail http://127.0.0.1:14326/meetings/create > /dev/null && break; sleep 1; done
-          DONE_ENGINES=chromium DONE_BASE=http://127.0.0.1:14326 DONE_OUTPUT=../ci-keyboard node scripts/test-keyboard-done.mjs
-          UI_BASE=http://127.0.0.1:14326 UI_OUTPUT=../ci-ui node scripts/test-ui-refinement.mjs
-          BRAND_BASE=http://127.0.0.1:14326 BRAND_OUTPUT=../ci-brand node scripts/test-brand-assets.mjs
-          NAME_COPY_BASE=http://127.0.0.1:14326 NAME_COPY_OUTPUT=../ci-name-copy node scripts/verify-meeting-name-copy.mjs
-          SHARE_IMAGE_OUTPUT=../ci-share-images node scripts/test-share-images.mjs
-          PICKER_CHANNEL=chromium PICKER_BASE=http://127.0.0.1:14326 PICKER_OUTPUT=../ci-picker node scripts/test-time-picker.mjs
-          QA_LOCALES=ko,de,ar CREATE_BASE=http://127.0.0.1:14326 CREATE_OUTPUT=../ci-layout node scripts/test-create-flow-layout.mjs
-          HALF_HOUR_BASE=http://127.0.0.1:14325 HALF_HOUR_OUTPUT=../ci-half-hour node scripts/test-half-hour-slots.mjs
-      - name: Verify role-based controls in all languages
-        run: BUTTON_SCENARIOS=home,search,create,time,guest-vote,comments,reply,reactions,edit BUTTON_OUTPUT=../ci-buttons node scripts/test-button-roles.mjs
-      - name: Verify creation and analytics success and failure paths
-        run: node scripts/test-analytics-actions.mjs
-      - run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
+      - name: Install dependencies for browser setup
+        run: pnpm install --frozen-lockfile
+      - name: Install browser system dependencies
+        run: pnpm exec playwright install-deps chromium
+      - name: Run the same preflight as local pushes
+        run: python3 scripts/frontend_preflight.py run
+      - name: Bind the tested release artifact
+        run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: |
+            dist
+            release-manifest.json
+          include-hidden-files: true
+          retention-days: 7
+      - name: Upload regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-browser-checks
+          path: .preflight/evidence/**/verification.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
+
+  image:
+    needs: build
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || (github.event_name == 'workflow_dispatch' && inputs.publish_image)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: .
+      - name: Verify downloaded artifact
+        run: python3 scripts/release-artifact.py verify --revision "$GITHUB_SHA"
       - uses: google-github-actions/auth@v3
         with:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
@@ -66,35 +80,18 @@ jobs:
       - run: docker buildx create --driver docker-container --use --bootstrap
       - name: Build and push verified artifact
         run: |
-          python3 scripts/build-release-image.py             --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:ui-refinement-${GITHUB_SHA}"             --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache"             --revision "$GITHUB_SHA"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ui-refinement-release
-          path: |
-            dist
-            release-manifest.json
-            build-metrics.json
-            image-metadata.json
-          include-hidden-files: true
-          retention-days: 7
-      - name: Collect regression evidence
-        if: always()
-        run: |
-          python3 - <<'PYCODE'
-          import shutil
-          from pathlib import Path
-          output = Path('qa-evidence')
-          output.mkdir(exist_ok=True)
-          for name in ['picker', 'layout', 'half-hour', 'buttons', 'keyboard', 'brand', 'name-copy', 'ui']:
-              source = Path('..') / ('ci-' + name) / 'verification.json'
-              if source.is_file():
-                  shutil.copy2(source, output / (name + '.json'))
-          PYCODE
-      - name: Upload regression evidence
+          python3 scripts/build-release-image.py \
+            --image "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:$GITHUB_SHA" \
+            --cache "asia-northeast3-docker.pkg.dev/time2gather-prod-2026/time2gather/web:buildcache" \
+            --revision "$GITHUB_SHA"
+      - name: Upload release measurements
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ui-refinement-browser-checks
-          path: qa-evidence/*.json
+          name: frontend-image
+          path: |
+            build-metrics.json
+            image-metadata.json
+            image-build.log
           if-no-files-found: warn
           retention-days: 7

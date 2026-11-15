@@ -32,3 +32,5 @@ release-manifest.json
 image-metadata.json
 build-metrics.json
 image-build.log
+.preflight/
+scripts/__pycache__/

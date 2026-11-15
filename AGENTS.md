@@ -1,5 +1,9 @@
 # 프로젝트 작업 지침
 
+## TDD
+
+Time2Gather의 기능 추가, 버그 수정과 동작 변경에는 프로젝트 스킬 [time2gather-tdd](../time2gather-be/.agents/skills/time2gather-tdd/SKILL.md)를 기본으로 적용한다. 기대 동작으로 실패하는 테스트를 먼저 확인하고, 구현 후 Green과 관련 회귀 검증을 완료한다. 동작을 바꾸지 않는 문서와 단순 시각 변경은 아래 UI 검증 기준을 따른다.
+
 ## UI 개선 공통 원칙
 
 UI를 만들거나 수정하기 전에 프로젝트 스킬 [time2gather-ui](.agents/skills/time2gather-ui/SKILL.md)를 읽고 적용한다. 여백과 큰 구역의 얇은 구분선을 함께 사용하는 스타일을 전체 화면에 유지하며, 기능에 필요한 입력 경계와 선택 표시를 보존한다.
@@ -23,3 +27,19 @@ UI를 만들거나 수정하기 전에 프로젝트 스킬 [time2gather-ui](.age
 ## 외부 자료 조사
 
 웹 검색, 최신 정보 확인, 공식 문서 조회 등 외부 자료 조사는 사용자가 직접 조사 방식이나 모델을 지정하지 않았다면 범위를 정해 `web_researcher` 하위 에이전트에 위임한다. 확인한 출처 URL과 확인 시점을 요청하고, 결과의 근거와 작업 관련성을 검토한다. 하위 에이전트를 사용할 수 없으면 사유를 알리고 직접 조사한다.
+
+## Cloud Run 배포 태그
+
+웹 후보 배포와 태그 변경은 [배포 태그 지침](docs/deployment-tags.md)을 따른다. 프런트엔드 `scripts/cloud_run_guard.py`로 태그를 생성하고, 같은 도구를 통해 배포 명령을 실행한다. 작업별 스크립트에서 태그가 있는 `gcloud run deploy`나 `update-traffic`를 직접 호출하지 않는다. 생성한 태그는 후보 URL 조회와 검증에도 같은 값으로 사용한다.
+
+## 비용 절감 운영
+
+- API 최소 인스턴스 1대와 메모리 512MiB를 유지하고 예산 한도를 임의로 변경하지 않는다.
+- 프런트는 한 번 빌드한 `dist`와 `release-manifest.json`을 Cloud Run 이미지와 Firebase Hosting에 함께 사용한다. 배포 전에 `scripts/release-artifact.py verify`로 소스 리비전과 파일 해시를 확인한다.
+- CI 이미지는 Docker의 `prebuilt` target으로 만들고 digest로 배포한다. 같은 후보를 운영으로 전환할 때 다시 빌드하지 않는다.
+- 일반 빌드는 GitHub runner에서 수행한다. Cloud Build가 필요한 새 작업은 백엔드의 `scripts/cloud_build_guard.py`를 사용하고 유료 풀은 네이티브 빌드와 런타임 검증에 한정한다.
+- 필수 기능 검사와 22개 언어 검증을 유지한다. 캐시 효과는 전송까지 포함한 실행 시간과 `build-metrics.json`으로 비교한다.
+
+## 푸시 전 검증
+
+프런트엔드 푸시와 이미지 빌드에는 [time2gather-preflight](.agents/skills/time2gather-preflight/SKILL.md)를 적용합니다. 로컬 커밋에서 `python3 scripts/frontend_preflight.py run`을 통과한 뒤 푸시합니다. CI와 로컬의 검사 목록은 `scripts/frontend-checks.json`으로 통일합니다. 검사 기록이 없는 커밋과 검사 후 바뀐 소스는 pre-push hook이 차단합니다.
