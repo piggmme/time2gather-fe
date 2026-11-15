@@ -71,7 +71,9 @@ try {
     }
   }
   await fs.writeFile(`${output}/results.json`, JSON.stringify(results, null, 2))
-  await fs.writeFile(`${output}/verification.json`, JSON.stringify({ passed: true, locales: locales.length, cases: results.length, engines: ['chromium'], results }, null, 2))
+  await fs.writeFile(`${output}/verification.json`, JSON.stringify({
+    passed: true, locales: locales.length, cases: results.length, engines: ['chromium'], results,
+  }, null, 2))
   console.log(`Landing checks passed: ${results.length} screens across ${locales.length} locales`)
 } finally {
   await browser.close()
