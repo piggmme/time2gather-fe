@@ -6,6 +6,7 @@ import { waitForServer } from './wait-for-server.mjs'
 const output = path.resolve('.preflight/evidence')
 fs.mkdirSync(output, { recursive: true })
 const children = []
+const serverLogs = []
 // Caller shell variables must not silently narrow the required language suite.
 for (const name of ['QA_LOCALES', 'UI_WIDTHS', 'UI_SCENARIO', 'UI_ENGINES', 'BUTTON_WIDTHS', 'BUTTON_BASE', 'CREATE_RED', 'PICKER_ENGINE', 'SHARE_IMAGE_BASELINE']) {
   delete process.env[name]
@@ -21,6 +22,7 @@ function start (args, env = {}) {
     logs += chunk
   })
   children.push(child)
+  serverLogs.push({ args, child, logs: () => logs })
   return { child, logs: () => logs }
 }
 
@@ -69,6 +71,9 @@ try {
     UI_CONSISTENCY_BASE: 'http://127.0.0.1:14401', UI_CONSISTENCY_OUTPUT: `${output}/consistency`,
   })
   fs.copyFileSync(`${output}/consistency/green.json`, `${output}/consistency/verification.json`)
+} catch (error) {
+  for (const server of serverLogs) console.error(JSON.stringify({ server: server.args, exitCode: server.child.exitCode, signalCode: server.child.signalCode, logs: server.logs().slice(-4000) }))
+  throw error
 } finally {
   await Promise.all(children.filter(child => child.exitCode === null && !child.signalCode).map(child => new Promise((resolve) => {
     child.once('exit', resolve)
