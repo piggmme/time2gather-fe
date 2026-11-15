@@ -12,6 +12,7 @@ const origin = 'https://time2gather.org'
 const local = 'http://127.0.0.1:19482'
 const responses = new Set()
 const fixture = createNavigationFixture({
+  missingCodes: ['nav-missing'],
   transformMeeting: (data, code) => {
     if (responses.has(code)) data.participants.push({ userId: 2, username: 'Private participant', availabilityResponse: 'NONE' })
     return data
@@ -178,8 +179,51 @@ try {
     await confirm.click()
     await count('meeting_confirmed').toBe(1)
     await expect(dialog).not.toBeVisible()
+    viewer = 2
+    for (const type of ['day', 'time']) {
+      const code = `nav-code-${type}`
+      responses.delete(code)
+      await page.goto(`${origin}/meetings/search?lang=ko`)
+      await page.locator('main input').fill(type === 'day' ? `  ${code}  ` : `${origin}/meetings/${code}?title=Private#Private`)
+      await button(t.common.searchMeetingButton).click()
+      await expect(page).toHaveURL(new RegExp(`/meetings/${code}(?:\\?|$)`))
+      await count('meeting_code_submitted').toBe(1)
+      await count('meeting_code_opened').toBe(1)
+      assert.equal((await events('meeting_code_opened'))[0][2].input_kind, type === 'day' ? 'code' : 'link')
+      await page.locator('a[href*="/select/"]:visible').first().click()
+      await page.getByRole('checkbox').last().check()
+      fail = true
+      await Promise.all([
+        page.waitForResponse(response => response.status() === 500 && new URL(response.url()).pathname.endsWith('/unavailable')),
+        button(t.common.submit).click(),
+      ])
+      await expect(button(t.common.submit)).toBeEnabled()
+      assert.equal((await events('meeting_code_response_saved')).length, 0, 'failed votes never complete the code-entry funnel')
+      fail = false
+      await button(t.common.submit).click()
+      await expect(page).toHaveURL(new RegExp(`/meetings/${code}(?:\\?|$)`))
+      await count('meeting_code_response_saved').toBe(1)
+      const funnelPayload = await page.evaluate(() => JSON.stringify(Array.from(window.dataLayer ?? [], command => Array.from(command))))
+      assert.ok(!/Private|nav-code/.test(funnelPayload), 'the complete code-entry funnel excludes inputs and meeting codes')
+      await page.reload()
+      await expect(page.locator('main h1')).toBeVisible()
+      assert.equal((await events('meeting_code_opened')).length, 0, 'reload does not duplicate a successful entry')
+      await page.locator('a[href*="/select/"]:visible').first().click()
+      await button(t.common.submit).click()
+      await expect(page).toHaveURL(new RegExp(`/meetings/${code}(?:\\?|$)`))
+      assert.equal((await events('meeting_code_response_saved')).length, 0, 'saved marker survives a reload and prevents duplicate conversions')
+    }
+    await page.goto(`${origin}/meetings/search?lang=ko`)
+    await page.locator('main input').fill('nav-missing')
+    await button(t.common.searchMeetingButton).click()
+    // route.fetch follows the SSR redirect before fulfilling the original URL.
+    await expect(page.getByRole('heading', { name: t['404'].title, exact: true })).toBeVisible()
+    await count('meeting_code_submitted').toBe(1)
+    assert.equal((await events('meeting_code_opened')).length, 0, 'a missing meeting never counts as a successful entry')
+    await page.goto(`${origin}/meetings/nav-direct?lang=ko`)
+    assert.equal((await events('meeting_code_opened')).length, 0, 'direct links do not count as code entries')
     const payloads = await page.evaluate(() => JSON.stringify(Array.from(window.dataLayer ?? [], command => Array.from(command))))
-    assert.ok(!/Private|nav-day|nav-time|nav-created/.test(payloads), 'analytics payloads exclude inputs and codes')
+    assert.ok(!/Private|nav-day|nav-time|nav-created|nav-code|nav-missing|nav-direct/.test(payloads), 'analytics payloads exclude inputs and codes')
     assert.deepEqual(errors, [])
     console.log(`PASS ${width}px: real creation failure/success, cancelled sharing/copy, date/time unavailable response failure/success/edit, confirmation failure/success, and private payloads; all requests intercepted.`)
     await context.unrouteAll({ behavior: 'wait' })

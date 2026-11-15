@@ -23,7 +23,8 @@
     "language": "اللغة",
     "searchLanguages": "اختر لغتك",
     "about": "حول",
-    "contact": "الاتصال"
+    "contact": "الاتصال",
+    "enterInvitationCode": "أدخل رمز الاجتماع"
   },
   "home": {
     "title": "Time2Gather",

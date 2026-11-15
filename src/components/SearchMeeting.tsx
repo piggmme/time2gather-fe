@@ -3,6 +3,7 @@ import Input from './Input/Input'
 import Button from './Button/Button'
 import { navigate } from '../utils/navigation'
 import { useTranslation } from '../hooks/useTranslation'
+import { beginMeetingCodeEntry } from '../utils/analytics'
 
 export default function SearchMeeting () {
   const { t } = useTranslation()
@@ -17,10 +18,14 @@ export default function SearchMeeting () {
       />
       <Button
         buttonType='primary'
-        disabled={!value}
+        disabled={!value.trim()}
         onClick={() => {
-          const meetingCode = value.match(/\/meetings\/([^/?#]+)/)?.[1] || value
-          navigate(`/meetings/${meetingCode}`)
+          const input = value.trim()
+          if (!input) return
+          const linkedCode = input.match(/\/meetings\/([^/?#]+)/)?.[1]
+          const meetingCode = linkedCode || input
+          beginMeetingCodeEntry(meetingCode, linkedCode ? 'link' : 'code')
+          navigate(`/meetings/${encodeURIComponent(meetingCode)}`)
         }}
       >
         {t('common.searchMeetingButton')}

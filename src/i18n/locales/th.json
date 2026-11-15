@@ -23,7 +23,8 @@
     "language": "ภาษา",
     "searchLanguages": "เลือกภาษาของคุณ",
     "about": "เกี่ยวกับเรา",
-    "contact": "ติดต่อ"
+    "contact": "ติดต่อ",
+    "enterInvitationCode": "ค้นหาด้วยรหัส"
   },
   "home": {
     "title": "Time2Gather",

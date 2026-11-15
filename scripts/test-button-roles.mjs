@@ -139,8 +139,8 @@ async function verifyRoles (page, scenario) {
   const main = page.locator('main')
   await page.mouse.move(1, 1)
   if (scenario === 'home') {
-    await expect(page.locator('.hero .actions a.secondary')).toHaveCSS('border-top-width', '0px')
-    await expect(page.locator('.hero .actions a.secondary')).toHaveCSS('text-decoration-line', 'underline')
+    await expect(page.locator('.hero .actions a')).toHaveCount(1)
+    await expect(page.locator('header a[href*="/meetings/search"]')).toHaveCount(2)
   }
   if (scenario === 'my-empty') await outline(main.locator('a[class*="_utility_"]'), blue)
   if (scenario === 'my-list') await outline(main.locator('li a').first())

@@ -7,6 +7,7 @@ const creationSteps = new Set(['meetingType', 'title', 'dates', 'timeRange', 'lo
 
 type AnalyticsEvent = 'meeting_create_started' | 'meeting_created' | 'meeting_share_action'
   | 'meeting_response_saved' | 'meeting_confirmed'
+  | 'meeting_code_submitted' | 'meeting_code_opened' | 'meeting_code_response_saved'
 type Parameters = {
   selection_type?: 'ALL_DAY' | 'TIME'
   actor_role?: 'host' | 'participant'
@@ -15,6 +16,7 @@ type Parameters = {
   share_method?: 'native' | 'clipboard'
   meeting_state?: 'voting' | 'confirmed'
   location_vote_enabled?: boolean
+  input_kind?: 'code' | 'link'
 }
 type Gtag = (...args: unknown[]) => void
 type AnalyticsState = {
@@ -23,7 +25,17 @@ type AnalyticsState = {
   lastPage?: string
   lastReferrer?: string
   creating: boolean
+  codeEntry?: CodeEntry
 }
+type CodeEntry = {
+  code: string
+  inputKind: 'code' | 'link'
+  startedAt: number
+  opened: boolean
+  responded: boolean
+}
+const codeEntryKey = storagePrefix + 'code-entry'
+const codeEntryLifetime = 30 * 60 * 1000
 
 declare global {
   interface Window {
@@ -144,6 +156,7 @@ const parameterValues = {
   selection_type: ['ALL_DAY', 'TIME'], actor_role: ['host', 'participant'],
   response_action: ['first', 'update'], response_type: ['available', 'unavailable'],
   share_method: ['native', 'clipboard'], meeting_state: ['voting', 'confirmed'],
+  input_kind: ['code', 'link'],
 } as const
 
 export function trackAnalyticsEvent (event: AnalyticsEvent, parameters: Parameters = {}) {
@@ -161,6 +174,62 @@ export function trackAnalyticsEvent (event: AnalyticsEvent, parameters: Paramete
   } catch {
     // Analytics must never affect creation, sharing, responses or confirmation.
   }
+}
+
+function saveCodeEntry (entry: CodeEntry) {
+  const state = window.__time2gatherAnalytics ??= { configured: false, listening: false, creating: false }
+  state.codeEntry = entry
+  // The raw code stays in this tab only and is never included in GA payloads.
+  try {
+    window.sessionStorage.setItem(codeEntryKey, JSON.stringify(entry))
+  } catch { /* SPA attribution still works in memory. */ }
+}
+
+function currentCodeEntry (code: string) {
+  if (!analyticsEnabled()) return
+  let entry = window.__time2gatherAnalytics?.codeEntry
+  if (!entry) {
+    try {
+      entry = JSON.parse(window.sessionStorage.getItem(codeEntryKey) || 'null') ?? undefined
+    } catch { return }
+  }
+  if (!entry || typeof entry.code !== 'string' || !entry.code || !['code', 'link'].includes(entry.inputKind) || typeof entry.startedAt !== 'number'
+    || Date.now() < entry.startedAt || Date.now() - entry.startedAt > codeEntryLifetime) {
+    if (window.__time2gatherAnalytics) delete window.__time2gatherAnalytics.codeEntry
+    try {
+      window.sessionStorage.removeItem(codeEntryKey)
+    } catch { /* Optional measurement. */ }
+    return
+  }
+  if (entry.code === code) return entry
+}
+
+export function beginMeetingCodeEntry (code: string, inputKind: 'code' | 'link') {
+  try {
+    if (!code || !analyticsEnabled()) return
+    saveCodeEntry({
+      code, inputKind, startedAt: Date.now(), opened: false, responded: false,
+    })
+    trackAnalyticsEvent('meeting_code_submitted', { input_kind: inputKind })
+  } catch { /* Measurement never blocks navigation. */ }
+}
+
+export function trackMeetingCodeOpened (code: string) {
+  try {
+    const entry = currentCodeEntry(code)
+    if (!entry || entry.opened) return
+    saveCodeEntry({ ...entry, opened: true })
+    trackAnalyticsEvent('meeting_code_opened', { input_kind: entry.inputKind })
+  } catch { /* Measurement never affects a meeting. */ }
+}
+
+export function trackMeetingCodeResponseSaved (code: string, parameters: Parameters) {
+  try {
+    const entry = currentCodeEntry(code)
+    if (!entry?.opened || entry.responded || parameters.actor_role !== 'participant') return
+    saveCodeEntry({ ...entry, responded: true })
+    trackAnalyticsEvent('meeting_code_response_saved', { ...parameters, input_kind: entry.inputKind })
+  } catch { /* Measurement never affects a saved response. */ }
 }
 
 function pageView () {

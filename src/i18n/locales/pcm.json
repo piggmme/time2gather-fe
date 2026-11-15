@@ -23,7 +23,8 @@
     "language": "Language",
     "searchLanguages": "Pick your language",
     "about": "About us",
-    "contact": "Contact us"
+    "contact": "Contact us",
+    "enterInvitationCode": "Enter meeting code"
   },
   "home": {
     "title": "Time2Gather",

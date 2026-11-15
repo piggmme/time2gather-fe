@@ -137,9 +137,9 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
         <span>Time2Gather</span>
       </a>
       <nav class='t2g-site-header__nav' aria-label={copy.nav.home}>
-        <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
-        <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
         <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
+        <a href={localizedAppPath(locale, '/meetings/search')}>{t('common.enterInvitationCode')}</a>
+        <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
       </nav>
       <details class='language-menu'>
         <summary class='t2g-site-header__locale' aria-label={copy.nav.language} title={localeMeta[locale].label}>
@@ -168,11 +168,10 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
           <svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' aria-hidden='true'><path d='M4 6h16M4 12h16M4 18h16' /></svg>
         </summary>
         <nav class='t2g-site-header__menu-panel' aria-label={t('common.openMenu')}>
-          <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
-          <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
-          <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
           <a href={localizedAppPath(locale, '/meetings/create')}>{t('common.createMeeting')}</a>
-          <a href={localizedAppPath(locale, '/meetings/search')}>{t('common.searchMeeting')}</a>
+          <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
+          <a href={localizedAppPath(locale, '/meetings/search')}>{t('common.enterInvitationCode')}</a>
+          <a class='t2g-site-header__contact' href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
         </nav>
       </details>
     </header>

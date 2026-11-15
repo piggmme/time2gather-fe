@@ -10,6 +10,7 @@ import type { CreatorShareLabels } from '../../utils/share'
 import ResultButtons from './ResultButtons'
 import ResultContent from './ResultContent'
 import styles from './MeetingLiveView.module.scss'
+import { trackMeetingCodeOpened } from '../../utils/analytics'
 
 type MeetingData = get_meetings_$meetingCode_response['data']
 
@@ -23,6 +24,10 @@ export default function MeetingLiveView ({ initialData, shareLabels }: { initial
   const latestSnapshotRef = useRef(JSON.stringify(initialData))
   const isRefreshingRef = useRef(false)
   const isMountedRef = useRef(true)
+
+  useEffect(() => {
+    trackMeetingCodeOpened(initialData.meeting.code)
+  }, [initialData.meeting.code])
 
   const refreshMeeting = useCallback(async () => {
     if (isRefreshingRef.current || document.visibilityState === 'hidden') return

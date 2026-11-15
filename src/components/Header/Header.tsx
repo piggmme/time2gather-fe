@@ -60,10 +60,10 @@ export default function Header () {
         <img src='/brand/logo.svg' alt='' width={34} height={34} /><span>Time2Gather</span>
       </a>
       <nav className='t2g-site-header__nav' aria-label={t('common.home')}>
-        <a href={localizedPath(locale, 'about')}>{t('common.about')}</a>
-        <a href={localizedPath(locale, 'contact')}>{t('common.contact')}</a>
         <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
+        <a href={localizedAppPath(locale, '/meetings/search')}>{t('common.enterInvitationCode')}</a>
         {me?.role === 'ADMIN' && <a href={localizedAppPath(locale, '/admin')}>{t('common.adminDashboard')}</a>}
+        <a href={localizedPath(locale, 'contact')}>{t('common.contact')}</a>
       </nav>
       <Select.Root value={locale} onValueChange={value => handleLocaleChange(value as Locale)} disabled={isChangingLanguage} dir={localeMeta[locale].dir}>
         <Select.Trigger className='t2g-site-header__locale' aria-label={t('common.searchLanguages')} aria-busy={isChangingLanguage} title={`${t('common.searchLanguages')}: ${localeMeta[locale].label}`}>
@@ -87,12 +87,11 @@ export default function Header () {
       <details className='t2g-site-header__menu'>
         <summary aria-label={t('common.openMenu')}><HamburgerMenuIcon width={22} height={22} aria-hidden='true' /></summary>
         <nav className='t2g-site-header__menu-panel' aria-label={t('common.openMenu')}>
-          <a href={localizedPath(locale, 'about')}>{t('common.about')}</a>
-          <a href={localizedPath(locale, 'contact')}>{t('common.contact')}</a>
-          <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
           <a href={localizedAppPath(locale, '/meetings/create')}>{t('common.createMeeting')}</a>
-          <a href={localizedAppPath(locale, '/meetings/search')}>{t('common.searchMeeting')}</a>
+          <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
+          <a href={localizedAppPath(locale, '/meetings/search')}>{t('common.enterInvitationCode')}</a>
           {me?.role === 'ADMIN' && <a href={localizedAppPath(locale, '/admin')}>{t('common.adminDashboard')}</a>}
+          <a className='t2g-site-header__contact' href={localizedPath(locale, 'contact')}>{t('common.contact')}</a>
         </nav>
       </details>
     </header>

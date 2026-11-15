@@ -23,3 +23,5 @@
   .t2g-site-header__locale { font-size: 12px; max-width: 94px; > svg:first-child { display: none; } }
 }
 @media (max-width: 359px) { .t2g-site-header__brand { font-size: 16px; gap: 6px; } .t2g-site-header__locale { max-width: 82px; gap: 4px; } }
+
+.t2g-site-header__menu-panel .t2g-site-header__contact { margin-block-start: 8px; border-block-start: 1px solid #e5e8eb; border-start-start-radius: 0; border-start-end-radius: 0; }

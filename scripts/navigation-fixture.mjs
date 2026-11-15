@@ -1,7 +1,7 @@
 import http from 'node:http'
 
 // Local, in-memory API for navigation tests. No production requests or writes.
-export function createNavigationFixture ({ transformMeeting = data => data } = {}) {
+export function createNavigationFixture ({ transformMeeting = data => data, missingCodes = [] } = {}) {
   const person = { userId: 1, username: 'Alex', profileImageUrl: '' }
   const dates = ['2026-11-15', '2026-11-16']
   const mutations = []
@@ -41,6 +41,11 @@ export function createNavigationFixture ({ transformMeeting = data => data } = {
     for await (const chunk of request) body += chunk
     if (request.method !== 'GET') mutations.push({ path: url.pathname, body: body && JSON.parse(body) })
     const code = url.pathname.split('/')[4] ?? 'nav-day'
+    if (missingCodes.includes(code)) {
+      response.writeHead(404, { 'Content-Type': 'application/json' })
+      response.end(JSON.stringify({ success: false, messageKey: 'error.meeting.notFound' }))
+      return
+    }
     let data = null
     if (url.pathname.endsWith('/auth/me')) data = {
       ...person, provider: 'ANONYMOUS', role: 'USER', createdMeetings: [], participatedMeetings: [],

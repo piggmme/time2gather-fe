@@ -42,7 +42,8 @@ for (const engine of engines) {
         await expect(page.locator('header[data-site-header] .t2g-site-header__brand')).toBeVisible()
         await expect(page.locator('[data-create-progress] li')).toHaveCount(3)
         await expect(page.locator('[data-create-progress] [aria-current="step"]')).toHaveAttribute('data-step-group', 'basic')
-        await expect(page.locator('header[data-site-header] .t2g-site-header__nav a[href*="/about/"]')).toBeVisible({ visible: width >= 900 })
+        await expect(page.locator('header[data-site-header] a[href*="/about/"]')).toHaveCount(0)
+        await expect(page.locator('header[data-site-header] .t2g-site-header__nav a[href*="/meetings/search"]')).toBeVisible({ visible: width >= 900 })
         if (width < 900) {
           const menu = page.locator('header .t2g-site-header__menu')
           await menu.locator('summary').click()
@@ -106,6 +107,18 @@ for (const engine of engines) {
         assert.equal(new URL(page.url()).searchParams.get('meetingType'), 'ALL_DAY')
       }
       await page.goto(`${base}/${locale}/`)
+      const header = page.locator('header[data-site-header]')
+      await expect(header.locator('a[href*="/about/"]')).toHaveCount(0)
+      await expect(page.locator('footer a[href*="/about/"]')).toBeVisible()
+      await expect(page.locator('.hero .actions a')).toHaveCount(1)
+      const panel = header.locator('.t2g-site-header__menu-panel')
+      await expect(panel.locator('a').last()).toHaveAttribute('href', new RegExp(`/${locale}/contact/`))
+      if (width < 900) {
+        await header.locator('.t2g-site-header__menu summary').click()
+        await expect(panel.locator('a[href*="/meetings/search"]')).toBeVisible()
+        if (['ko', 'de', 'ar'].includes(locale)) await page.screenshot({ path: `${output}/${engine}-${locale}-${width}-menu.png`, animations: 'disabled' })
+        await page.keyboard.press('Escape')
+      }
       const faq = page.locator('#faq details')
       await expect(faq).toHaveCount(8)
       assert.equal(await faq.evaluateAll(elements => elements.some(el => el.open)), false)
@@ -115,13 +128,7 @@ for (const engine of engines) {
       await expect(firstAnswer).toBeVisible()
       await faq.first().locator('summary').click()
       await expect(firstAnswer).toBeHidden()
-      const secondary = page.locator('.hero .secondary')
-      const primaryBox = await page.locator('.hero .primary').boundingBox()
-      const secondaryBox = await secondary.boundingBox()
-      assert.ok(secondaryBox.y >= primaryBox.y + primaryBox.height, `${locale}/${width}: invitation code belongs below Create meeting`)
-      assert.ok(Math.abs(secondaryBox.x + secondaryBox.width / 2 - primaryBox.x - primaryBox.width / 2) < 2, `${locale}/${width}: home actions are centered`)
-      assert.equal(await secondary.evaluate(el => getComputedStyle(el).borderTopWidth), '0px')
-      assert.equal(await secondary.evaluate(el => getComputedStyle(el).textDecorationLine.includes('underline')), true)
+      await expect(page.locator('.hero .secondary')).toHaveCount(0)
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false)
       if (['ko', 'de', 'ar'].includes(locale)) {
         await page.evaluate(() => document.fonts.ready)

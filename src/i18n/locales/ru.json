@@ -23,7 +23,8 @@
     "language": "Язык",
     "searchLanguages": "Выберите свой язык",
     "about": "О сервисе",
-    "contact": "Контакты"
+    "contact": "Контакты",
+    "enterInvitationCode": "Найти по коду"
   },
   "home": {
     "title": "Time2Gather",

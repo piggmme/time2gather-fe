@@ -23,7 +23,6 @@ const pageCopy = page === 'home' ? null : copy[page]
               <p class='hero-description'>{copy.hero.description}</p>
               <div class='actions'>
                 <a class='primary' href={localizedAppPath(locale, '/meetings/create')}>{copy.hero.primary}</a>
-                <a class='secondary' href={localizedAppPath(locale, '/meetings/search')}>{copy.hero.secondary}</a>
               </div>
               <p class='no-login'>{copy.hero.noLogin}</p>
             </div>
@@ -72,7 +71,6 @@ const pageCopy = page === 'home' ? null : copy[page]
 
 <style lang='scss'>
   @use "../styles/surfaces.scss" as surfaces;
-  @use "../styles/controls.scss" as controls;
   main { width: min(960px, calc(100% - 40px)); margin: 0 auto; }
   .hero { box-sizing: border-box; display: grid; justify-items: center; align-content: start; padding: 48px 16px; text-align: center; }
   .hero-mark { display: grid; place-items: center; width: 112px; height: 112px; margin-bottom: 28px; border-radius: 34px; background: #edf6ff; }
@@ -88,7 +86,6 @@ const pageCopy = page === 'home' ? null : copy[page]
   .actions .primary { font-weight: var(--font-weight-primary); }
   .primary { color: #fff; background: #3182f6; }
   .primary:hover { background: #1b64da; }
-  .secondary { @include controls.button(utility); }
 
   .section { @include surfaces.section-boundary(32px, 32px); }
   .section > h2 { max-width: 680px; margin: 0 auto 32px; font-size: clamp(28px, 4vw, 40px); line-height: 1.25; text-align: center; letter-spacing: -0.035em; text-wrap: balance; word-break: var(--text-word-break, normal); }
@@ -167,13 +164,6 @@ const pageCopy = page === 'home' ? null : copy[page]
   @media (max-width: 480px) { .actions { flex-direction: column; } }
 
   .hero .actions { flex-direction: column; align-items: center; }
-  .hero .actions .secondary {
-    @include controls.button(text);
-    flex: 0 1 auto; align-self: center; width: auto; min-width: 0; min-height: 44px; padding: 8px 0;
-    border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #59616e;
-    font-size: 14px; font-weight: var(--font-weight-label); text-decoration: underline; text-underline-offset: 4px;
-    &:hover { color: #164fae; background: transparent; }
-  }
   .faq-questions { display: block; border-block-start: 1px solid #e3e6eb; }
   .faq details { border-block-end: 1px solid #e3e6eb; }
   .faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 18px 0; cursor: pointer; list-style: none; }

@@ -13,11 +13,13 @@ const meetingBundle = buildSync({
 
 function browser (href = 'https://time2gather.org/ko/', preferences = {}) {
   const storage = new Map(Object.entries(preferences))
+  const session = new Map()
   const listeners = new Map()
   const scripts = []
   const window = {
     location: new URL(href), navigator: { webdriver: false },
     localStorage: { getItem: key => storage.get(key) ?? null },
+    sessionStorage: { getItem: key => session.get(key) ?? null, setItem: (key, value) => session.set(key, value), removeItem: key => session.delete(key) },
   }
   const document = {
     title: 'Private meeting title and name', referrer: 'https://example.com/private-email@example.com?token=private',
@@ -25,14 +27,16 @@ function browser (href = 'https://time2gather.org/ko/', preferences = {}) {
     head: { appendChild: script => scripts.push(script) }, createElement: () => ({}),
     addEventListener: (event, callback) => listeners.set(event, [...(listeners.get(event) ?? []), callback]),
   }
-  const context = vm.createContext({ window, document, URL, URLSearchParams, console })
+  const context = vm.createContext({
+    window, document, URL, URLSearchParams, console,
+  })
   vm.runInContext(bundle + '\n' + meetingBundle, context)
   return {
     ...context, scripts, storage,
     commands: () => Array.from(window.dataLayer ?? [], command => Array.from(command)),
     events: name => Array.from(window.dataLayer ?? [], command => Array.from(command))
       .filter(command => command[0] === 'event' && (!name || command[1] === name)),
-    visit: href => {
+    visit: (href) => {
       window.location = new URL(href)
       for (const listener of listeners.get('astro:page-load') ?? []) listener()
     },
@@ -117,11 +121,56 @@ assert.equal(config.page_location, 'https://time2gather.org/en/')
 
 // Missing storage, blocked gtag and SSR must never throw into a product action.
 const blocked = browser()
-blocked.window.localStorage.getItem = () => { throw new Error('storage blocked') }
-blocked.window.gtag = () => { throw new Error('tag blocked') }
+blocked.window.localStorage.getItem = () => {
+  throw new Error('storage blocked')
+}
+blocked.window.gtag = () => {
+  throw new Error('tag blocked')
+}
 assert.doesNotThrow(() => blocked.analytics.trackAnalyticsEvent('meeting_confirmed'))
 const ssr = vm.createContext({ URL, URLSearchParams })
 vm.runInContext(bundle, ssr)
 assert.doesNotThrow(() => ssr.analytics.initializeAnalytics())
 assert.doesNotThrow(() => ssr.analytics.trackAnalyticsEvent('meeting_created'))
+assert.doesNotThrow(() => ssr.analytics.beginMeetingCodeEntry('private-code', 'code'))
+assert.doesNotThrow(() => ssr.analytics.trackMeetingCodeOpened('private-code'))
 console.log('Analytics passed: sanitized payloads, SPA deduplication, wizard attempts, response edits, unavailable responses, role/language, campaign attribution, admin/preview/automation exclusion, opt-out, blocked storage/tag and SSR.')
+
+const entry = browser('https://time2gather.org/meetings/search?lang=ko')
+entry.analytics.initializeAnalytics()
+entry.analytics.beginMeetingCodeEntry?.('private-code', 'code')
+assert.equal(entry.events('meeting_code_submitted').length, 1, 'submitting an invitation code starts the entry funnel')
+entry.visit('https://time2gather.org/meetings/private-code')
+entry.analytics.trackMeetingCodeOpened('different-code')
+assert.equal(entry.events('meeting_code_opened').length, 0, 'a different meeting is not attributed to code entry')
+entry.analytics.trackMeetingCodeOpened('private-code')
+entry.analytics.trackMeetingCodeOpened('private-code')
+assert.equal(entry.events('meeting_code_opened').length, 1, 'successful entry is counted once per attempt')
+const codeFixture = { ...fixture, meeting: { ...fixture.meeting, code: 'private-code' }, schedule: {}, participants: [] }
+entry.meetingAnalytics.trackMeetingResponseSaved(codeFixture, 1, false, false)
+assert.equal(entry.events('meeting_code_response_saved').length, 0, 'host responses are not participant conversions')
+entry.meetingAnalytics.trackMeetingResponseSaved(codeFixture, 2, true, false)
+entry.meetingAnalytics.trackMeetingResponseSaved(codeFixture, 2, true, true)
+assert.equal(entry.events('meeting_code_response_saved').length, 1, 'a successfully saved participant response completes the funnel once')
+assert.equal(entry.events('meeting_code_response_saved')[0][2].input_kind, 'code')
+assert.equal(entry.events('meeting_code_response_saved')[0][2].response_type, 'unavailable')
+assert.ok(!JSON.stringify(entry.commands()).includes('private-code'), 'invitation codes stay out of analytics')
+entry.analytics.beginMeetingCodeEntry('missing-code', 'link')
+entry.visit('https://time2gather.org/404')
+assert.equal(entry.events('meeting_code_opened').length, 1, 'failed lookups never become successful entries')
+entry.analytics.beginMeetingCodeEntry('another-code', 'link')
+entry.window.__time2gatherAnalytics.codeEntry.startedAt -= 31 * 60 * 1000
+entry.analytics.trackMeetingCodeOpened('another-code')
+assert.equal(entry.events('meeting_code_opened').length, 1, 'stale attempts expire after 30 minutes')
+entry.window.sessionStorage.setItem = () => {
+  throw new Error('storage blocked')
+}
+assert.doesNotThrow(() => entry.analytics.beginMeetingCodeEntry('blocked-code', 'code'))
+entry.analytics.trackMeetingCodeOpened('blocked-code')
+assert.equal(entry.events('meeting_code_opened').length, 2, 'blocked storage retains the in-memory SPA flow')
+entry.storage.set('time2gather:analytics-disabled', '1')
+const optedOut = entry.events().length
+entry.analytics.beginMeetingCodeEntry('opted-out-code', 'code')
+entry.analytics.trackMeetingCodeOpened('opted-out-code')
+assert.equal(entry.events().length, optedOut, 'opt-out also excludes invitation-code tracking')
+console.log('Invitation entry funnel passed: successful lookup, participant response, deduplication, expiry, blocked storage and private payloads.')
