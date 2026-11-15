@@ -25,6 +25,9 @@ export default function TimePicker (props: {
   intervalMinutes: number
   locale: Locale
   after?: string
+  min?: string
+  max?: string
+  disabled?: boolean
 }) {
   return (
     <HeadlessMantineProvider>
@@ -36,7 +39,7 @@ export default function TimePicker (props: {
 }
 
 function TimePickerControl ({
-  label, value, onChange, intervalMinutes, locale, after,
+  label, value, onChange, intervalMinutes, locale, after, min, max, disabled = false,
 }: Parameters<typeof TimePicker>[0]) {
   const id = useId()
   const list = useRef<HTMLDivElement>(null)
@@ -44,7 +47,8 @@ function TimePickerControl ({
   const submittingOption = useRef(false)
   const toggleIntent = useRef<boolean | null>(null)
   const normalized = normalizeTime(value)
-  const invalid = !normalized || (Number(normalized.slice(0, 2)) * 60 + Number(normalized.slice(3))) % intervalMinutes !== 0 || (!!after && normalized <= after)
+  const outsideRange = (time: string) => (!!after && time <= after) || (!!min && time < min) || (!!max && time > max)
+  const invalid = !normalized || (Number(normalized.slice(0, 2)) * 60 + Number(normalized.slice(3))) % intervalMinutes !== 0 || outsideRange(normalized)
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   })
@@ -52,6 +56,21 @@ function TimePickerControl ({
     const minutes = index * intervalMinutes
     return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`
   })
+
+  useEffect(() => {
+    if (!combobox.dropdownOpened) return
+    // WebKit may leave focus on the body after a pointer click. Dismiss without
+    // focusing the input, which would open a phone's keyboard.
+    const dismiss = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') combobox.closeDropdown('keyboard')
+    }
+    document.addEventListener('keydown', dismiss)
+    return () => document.removeEventListener('keydown', dismiss)
+  }, [combobox.dropdownOpened, combobox.closeDropdown])
+
+  useEffect(() => {
+    if (disabled) combobox.closeDropdown()
+  }, [disabled, combobox.closeDropdown])
 
   useEffect(() => {
     if (!combobox.dropdownOpened || !list.current) return
@@ -90,6 +109,7 @@ function TimePickerControl ({
             className={styles.control}
             data-open={combobox.dropdownOpened || undefined}
             data-invalid={invalid || undefined}
+            data-disabled={disabled || undefined}
             onBlur={(event) => {
               if (!event.currentTarget.contains(event.relatedTarget)) combobox.closeDropdown()
             }}
@@ -101,6 +121,7 @@ function TimePickerControl ({
                 className={styles.input}
                 type='text'
                 required
+                disabled={disabled}
                 inputMode='text'
                 enterKeyHint='done'
                 placeholder='HH:mm'
@@ -142,6 +163,7 @@ function TimePickerControl ({
             </Combobox.EventsTarget>
             <button
               type='button'
+              disabled={disabled}
               className={styles.toggle}
               aria-label={label}
               aria-haspopup='listbox'
@@ -178,7 +200,7 @@ function TimePickerControl ({
                 data-time={time}
                 active={time === normalized}
                 aria-selected={time === normalized}
-                disabled={!!after && time <= after}
+                disabled={disabled || outsideRange(time)}
                 className={styles.option}
               >
                 <bdi>{formatTime(time, locale, '')}</bdi>

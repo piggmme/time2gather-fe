@@ -14,6 +14,7 @@
   &:hover { border-color: $c-gray-dark; }
   &:focus-within, &[data-open] { border-color: $primary-color; box-shadow: 0 0 0 3px $primary-color-soft; }
   &[data-invalid] { border-color: $c-red; }
+  &[data-disabled] { background: $c-gray-lightest; opacity: 0.6; }
 }
 .input {
   box-sizing: border-box;
@@ -48,6 +49,7 @@
   &:hover { background: $c-gray-light; }
   &:focus-visible { outline: 2px solid $primary-color; outline-offset: -2px; }
   > svg { width: 18px; height: 18px; }
+  &:disabled { cursor: not-allowed; }
 }
 .dropdown {
   box-sizing: border-box;

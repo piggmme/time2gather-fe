@@ -4,6 +4,7 @@ import { navigateBack } from '../../utils/navigation'
 import Monthly from '../Monthly/Monthly'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
+import TimePicker from '../TimePicker/TimePicker'
 import { meetings, type LocationVoteInfo } from '../../services/meetings'
 import { useTranslation } from '../../hooks/useTranslation'
 import { showDefaultToast } from '../../stores/toast'
@@ -31,7 +32,7 @@ export default function EditVotingDatesPage ({
   candidateVersion?: string
   locationVote?: LocationVoteInfo | null
 }) {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const [selectedDates, setSelectedDates] = useState(() => initialDates
     .map(date => dayjs(date))
     .sort((a, b) => a.diff(b)))
@@ -158,14 +159,8 @@ export default function EditVotingDatesPage ({
             <p className={styles.timeHint}>{t('meeting.editDates.timeRangeHint')}</p>
             <fieldset className={styles.timeFields} disabled={isSaving}>
               <div className={timeStyles.timeRangeContainer}>
-                <label className={timeStyles.timeRangeItem}>
-                  <span>{t('createMeeting.timeRangeStep.startTime')}</span>
-                  <input className={timeStyles.nativeTime} type='time' step={intervalMinutes * 60} max={end || undefined} value={start} onChange={event => setStart(event.currentTarget.value)} required />
-                </label>
-                <label className={timeStyles.timeRangeItem}>
-                  <span>{t('createMeeting.timeRangeStep.endTime')}</span>
-                  <input className={timeStyles.nativeTime} type='time' step={intervalMinutes * 60} min={start || undefined} value={end} onChange={event => setEnd(event.currentTarget.value)} required />
-                </label>
+                <TimePicker label={t('createMeeting.timeRangeStep.startTime')} value={start} onChange={setStart} intervalMinutes={intervalMinutes} locale={locale} max={end || undefined} disabled={isSaving} />
+                <TimePicker label={t('createMeeting.timeRangeStep.endTime')} value={end} onChange={setEnd} intervalMinutes={intervalMinutes} locale={locale} min={start || undefined} disabled={isSaving} />
               </div>
             </fieldset>
             <p className={styles.timeHint}>{t('timezone.meeting', { zone: timezone })}</p>

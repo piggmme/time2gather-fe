@@ -6,6 +6,23 @@ $muted: #475569;
 $hover: #f8fafc;
 $danger: #b42318;
 
+// Compact form fields share their border, radius and type across control types.
+@mixin field {
+  box-sizing: border-box;
+  height: $button-height-base;
+  padding-inline: $spacing-md;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $c-white;
+  color: $c-black;
+  font: inherit;
+  font-size: $font-size-md;
+  line-height: 1.5;
+
+  &:hover:not(:disabled) { border-color: $primary-color; }
+  &:focus-visible { outline: 2px solid $primary-color; outline-offset: 2px; }
+}
+
 // Shared appearance for buttons, without changing their layout or data state.
 @mixin button($role: neutral) {
   background: $c-white;

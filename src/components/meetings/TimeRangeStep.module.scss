@@ -1,20 +1,10 @@
 @use "../../styles/surfaces.scss" as surfaces;
 @use "../../styles/variables.scss" as *;
+@use "../../styles/controls.scss" as controls;
 .page {
   display: flex;
   flex-direction: column;
   min-width: 0;
-}
-
-.title {
-  margin: 0;
-  color: #191f28;
-  font-size: 26px;
-  font-weight: $font-weight-display;
-  line-height: 1.45;
-  letter-spacing: -0.04em;
-  text-align: start;
-  text-wrap: balance;
 }
 
 .timeRangeContainer {
@@ -28,34 +18,27 @@
 }
 
 .settings {
+  @include surfaces.section-boundary;
   display: grid;
-  margin-top: 16px;
-  border-top: 1px solid $c-gray;
-  padding-top: 8px;
-  gap: 4px;
+  gap: $spacing-md;
 }
-.settingRow { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-width: 0; min-height: 52px; }
+.settingRow { display: flex; align-items: center; justify-content: space-between; gap: $spacing-base; min-width: 0; min-height: $button-height-base; }
 .settingLabel { flex: 1; min-width: 0; color: $c-black; font-size: 15px; font-weight: $font-weight-label; line-height: 1.5; overflow-wrap: break-word; }
-.settingValue, .intervalSelect { flex: none; width: 136px; min-width: 0; }
+.settingValue { flex: none; width: 136px; min-width: 0; }
+.intervalField { position: relative; display: block; }
 .intervalSelect {
-  box-sizing: border-box;
-  height: 44px;
-  padding-inline: 12px;
-  border: 1px solid $c-gray;
-  border-radius: 10px;
-  background: $c-white;
-  color: $c-black;
-  font: inherit;
-  font-size: 16px;
+  @include controls.field;
+  appearance: none;
+  width: 100%;
+  padding-inline-end: 36px;
   cursor: pointer;
-  &:hover { border-color: $primary-color; }
-  &:focus-visible { outline: 2px solid $primary-color; outline-offset: 2px; }
 }
+.intervalChevron { position: absolute; inset-inline-end: $spacing-md; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: $c-gray-darkest; pointer-events: none; }
 @media (min-width: 700px) {
-  .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-top: 16px; }
+  .settings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .settingRow { flex-direction: column; align-items: stretch; justify-content: start; gap: 8px; }
   .settingLabel { flex: none; color: $c-gray-dark; font-size: 13px; }
-  .settingValue, .intervalSelect { width: 100%; }
+  .settingValue { width: 100%; }
 }
 
 .dateBadgesContainer {
@@ -70,7 +53,6 @@
 }
 
 @media (max-width: 359px) {
-  .title { font-size: 24px; }
   .timeRangeContainer { grid-template-columns: minmax(0, 1fr); padding: 0; gap: 16px; }
 }
 

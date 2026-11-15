@@ -2,6 +2,8 @@ import CreateFlowActions from './CreateFlowActions'
 import { usePageState } from '../../hooks/usePageState'
 import { useStore } from '@nanostores/react'
 import styles from './TimeRangeStep.module.scss'
+import createStyles from './CreateMeeting.module.scss'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
 import Button from '../Button/Button'
 import { navigate, navigateBack } from '../../utils/navigation'
 import { useSearchParam } from 'react-use'
@@ -29,7 +31,7 @@ export default function TimeRangeStep () {
   const params = () => new URLSearchParams({ meetingType: 'TIME', dates: selectedDates.map(date => date.format('YYYY-MM-DD')).join(','), title, intervalMinutes: String(intervalMinutes) })
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>{t('createMeeting.timeRangeStep.heading')}</h1>
+      <h1 className={createStyles.title}>{t('createMeeting.timeRangeStep.heading')}</h1>
       <div className={styles.timeRangeContainer}>
         <TimePicker label={t('createMeeting.timeRangeStep.startTime')} value={start} onChange={setStart} intervalMinutes={intervalMinutes} locale={locale} />
         <TimePicker label={t('createMeeting.timeRangeStep.endTime')} value={end} onChange={setEnd} intervalMinutes={intervalMinutes} locale={locale} after={start} />
@@ -37,10 +39,13 @@ export default function TimeRangeStep () {
       <div className={styles.settings}>
         <label className={styles.settingRow}>
           <span className={styles.settingLabel}>{t('createMeeting.timeRangeStep.intervalLabel')}</span>
-          <select className={styles.intervalSelect} name='intervalMinutes' value={intervalMinutes} onChange={event => setIntervalMinutes(Number(event.target.value))}>
-            <option value='60'>{t('createMeeting.timeRangeStep.hourOption')}</option>
-            <option value='30'>{t('createMeeting.timeRangeStep.halfHourOption')}</option>
-          </select>
+          <span className={`${styles.settingValue} ${styles.intervalField}`}>
+            <select className={styles.intervalSelect} name='intervalMinutes' value={intervalMinutes} onChange={event => setIntervalMinutes(Number(event.target.value))}>
+              <option value='60'>{t('createMeeting.timeRangeStep.hourOption')}</option>
+              <option value='30'>{t('createMeeting.timeRangeStep.halfHourOption')}</option>
+            </select>
+            <ChevronDownIcon className={styles.intervalChevron} aria-hidden='true' />
+          </span>
         </label>
         <div className={styles.settingRow}>
           <span className={styles.settingLabel}>{t('timezone.title')}</span>
