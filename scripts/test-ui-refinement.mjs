@@ -10,6 +10,11 @@ const engines = process.env.UI_ENGINES?.split(',') ?? ['chromium']
 fs.mkdirSync(output, { recursive: true })
 const results = [], errors = [], writes = []
 const title = '금요일 저녁 & Friends? 오후 / 7시'
+async function waitForNavigation (page) {
+  // URL and form updates precede Astro's completed native view transition.
+  // Finish it before another navigation or a full-page screenshot.
+  await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition')
+}
 for (const engine of engines) {
   const browser = await ({ chromium, webkit }[engine]).launch()
   try {
@@ -60,18 +65,21 @@ for (const engine of engines) {
         await expect(page.locator('[data-meeting-type="TIME"]')).toHaveAttribute('aria-pressed', 'true')
         await next.click()
         await expect(page).toHaveURL(/step=dates/)
+        await waitForNavigation(page)
         assert.equal(new URL(page.url()).searchParams.get('title'), title)
         assert.equal(new URL(page.url()).searchParams.get('meetingType'), 'TIME')
         await expect(page.locator('[data-create-progress] [aria-current="step"]')).toHaveAttribute('data-step-group', 'schedule')
         await page.locator('[data-create-flow-actions] button').first().click()
         await expect(input).toHaveValue(title)
         await expect(page.locator('[data-meeting-type="TIME"]')).toHaveAttribute('aria-pressed', 'true')
+        await waitForNavigation(page)
         if (locale === 'ko' && width === 390) {
           const language = page.locator('header [role="combobox"]')
           await language.click()
           await page.getByRole('option', { name: 'العربية', exact: true }).click()
           await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
           await expect(input).toHaveValue(title)
+          await waitForNavigation(page)
           const arabic = JSON.parse(fs.readFileSync('src/i18n/locales/ar.json', 'utf8'))
           await expect(page.locator('[data-create-progress]')).toHaveAttribute('aria-label', arabic.createMeeting.flow.label)
           await language.click()
@@ -79,6 +87,7 @@ for (const engine of engines) {
           await expect(page.locator('html')).toHaveAttribute('lang', 'ko')
           await expect(input).toHaveValue(title)
         }
+        await waitForNavigation(page)
         geometry = await page.locator('[data-create-flow-actions]').evaluate((el) => {
           const r = el.getBoundingClientRect(), main = document.querySelector('main').getBoundingClientRect()
           return {
@@ -104,6 +113,7 @@ for (const engine of engines) {
         await expect(page.locator('[data-meeting-type="ALL_DAY"]')).toHaveAttribute('aria-pressed', 'true')
         await next.click()
         await expect(page).toHaveURL(/step=dates/)
+        await waitForNavigation(page)
         assert.equal(new URL(page.url()).searchParams.get('meetingType'), 'ALL_DAY')
       }
       await page.goto(`${base}/${locale}/`)
