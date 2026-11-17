@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process'
 import { chromium, expect } from '@playwright/test'
 import { createNavigationFixture } from './navigation-fixture.mjs'
 import { waitForServer } from './wait-for-server.mjs'
+import { closeRoutedContext } from './close-routed-context.mjs'
 
 // Real Astro/React screens, local in-memory API, intercepted analytics requests.
 // The production-looking browser origin only exercises the hostname guard;
@@ -229,11 +230,10 @@ try {
     assert.ok(!/Private|nav-day|nav-time|nav-created|nav-code|nav-missing|nav-direct/.test(payloads), 'analytics payloads exclude inputs and codes')
     assert.deepEqual(errors, [])
     console.log(`PASS ${width}px: real creation failure/success, cancelled sharing/copy, date/time unavailable response failure/success/edit, confirmation failure/success, and private payloads; all requests intercepted.`)
-    await context.unrouteAll({ behavior: 'wait' })
-    await context.close()
+    await closeRoutedContext(context)
   }
 } finally {
-  for (const context of browser?.contexts() ?? []) await context.unrouteAll({ behavior: 'wait' })
+  for (const context of browser?.contexts() ?? []) await closeRoutedContext(context)
   await browser?.close()
   dev.kill('SIGTERM')
   await new Promise(resolve => fixture.server.close(resolve))

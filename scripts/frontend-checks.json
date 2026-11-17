@@ -52,7 +52,9 @@
     "src/utils/time.ts",
     "scripts/test-ui-consistency.mjs",
     "scripts/test-landing-first-screen.mjs",
-    "scripts/test-mobile-result-layout.mjs"
+    "scripts/test-mobile-result-layout.mjs",
+    "scripts/close-routed-context.mjs",
+    "scripts/test-route-cleanup.mjs"
   ],
   "requiredFiles": [
     "scripts/test-keyboard-done.mjs",
@@ -67,7 +69,9 @@
     "scripts/test-time-picker-fixture.mjs",
     "scripts/test-ui-consistency.mjs",
     "scripts/test-landing-first-screen.mjs",
-    "scripts/test-mobile-result-layout.mjs"
+    "scripts/test-mobile-result-layout.mjs",
+    "scripts/close-routed-context.mjs",
+    "scripts/test-route-cleanup.mjs"
   ],
   "evidenceDirectory": ".preflight/evidence",
   "checks": [
@@ -186,6 +190,15 @@
         "scripts/test-frontend-browser.mjs"
       ],
       "timeoutSeconds": 1800
+    },
+    {
+      "name": "route teardown regression",
+      "command": [
+        "node",
+        "--test",
+        "scripts/test-route-cleanup.mjs"
+      ],
+      "timeoutSeconds": 120
     },
     {
       "name": "creation and analytics actions",
