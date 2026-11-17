@@ -383,7 +383,8 @@ $subtle-border: 1px solid rgba($c-gray, 0.34);
   overflow: clip;
   box-shadow: 0 1px 0 $c-gray;
 
-  @media (max-width: 699px) { top: 56px; }
+  // The site header scrolls with the page, so no mobile menu offset is needed.
+  @media (max-width: 699px) { top: 0; }
 }
 .calendarToolbar {
   display: flex;

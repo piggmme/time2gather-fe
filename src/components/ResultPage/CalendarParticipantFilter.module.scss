@@ -48,6 +48,12 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   li { min-width: 0; }
+
+  @media (max-width: 699px) {
+    grid-template-columns: minmax(0, 1fr);
+    max-height: none;
+    overflow: visible;
+  }
 }
 
 .Person, .SelectAll {

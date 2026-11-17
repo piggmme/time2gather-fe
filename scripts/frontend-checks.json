@@ -51,7 +51,8 @@
     "src/utils/siteHeader.ts",
     "src/utils/time.ts",
     "scripts/test-ui-consistency.mjs",
-    "scripts/test-landing-first-screen.mjs"
+    "scripts/test-landing-first-screen.mjs",
+    "scripts/test-mobile-result-layout.mjs"
   ],
   "requiredFiles": [
     "scripts/test-keyboard-done.mjs",
@@ -65,7 +66,8 @@
     "scripts/test-button-roles.mjs",
     "scripts/test-time-picker-fixture.mjs",
     "scripts/test-ui-consistency.mjs",
-    "scripts/test-landing-first-screen.mjs"
+    "scripts/test-landing-first-screen.mjs",
+    "scripts/test-mobile-result-layout.mjs"
   ],
   "evidenceDirectory": ".preflight/evidence",
   "checks": [

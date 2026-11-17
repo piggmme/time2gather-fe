@@ -72,6 +72,9 @@ try {
     UI_CONSISTENCY_BASE: 'http://127.0.0.1:14401', UI_CONSISTENCY_OUTPUT: `${output}/consistency`,
   })
   fs.copyFileSync(`${output}/consistency/green.json`, `${output}/consistency/verification.json`)
+  await run(['scripts/test-mobile-result-layout.mjs'], {
+    MOBILE_RESULT_BASE: 'http://127.0.0.1:14401', MOBILE_RESULT_FIXTURE_PORT: '18481', MOBILE_RESULT_OUTPUT: `${output}/mobile-result`,
+  })
 } catch (error) {
   for (const server of serverLogs) console.error(JSON.stringify({ server: server.args, exitCode: server.child.exitCode, signalCode: server.child.signalCode, logs: server.logs().slice(-4000) }))
   throw error
