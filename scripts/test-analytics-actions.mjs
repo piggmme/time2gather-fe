@@ -81,6 +81,9 @@ try {
       window.testShare = 'cancelled'
     })
     const page = await context.newPage()
+    // Keep the creation date ahead of today, matching the fixed API fixture.
+    // Fixed Date leaves real timers running for analytics and navigation.
+    await page.clock.setFixedTime(new Date('2026-11-14T00:00:00Z'))
     const errors = []
     let expectedCreationErrors = 0
     page.on('pageerror', (error) => {
