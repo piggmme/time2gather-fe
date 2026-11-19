@@ -71,7 +71,8 @@
     "scripts/test-landing-first-screen.mjs",
     "scripts/test-mobile-result-layout.mjs",
     "scripts/close-routed-context.mjs",
-    "scripts/test-route-cleanup.mjs"
+    "scripts/test-route-cleanup.mjs",
+    "scripts/test-participants-tab.mjs"
   ],
   "evidenceDirectory": ".preflight/evidence",
   "checks": [
@@ -182,6 +183,14 @@
         "build"
       ],
       "timeoutSeconds": 900
+    },
+    {
+      "name": "participant tab (22 locales)",
+      "command": [
+        "node",
+        "scripts/test-participants-tab.mjs"
+      ],
+      "timeoutSeconds": 600
     },
     {
       "name": "browser regressions (22 locales)",
