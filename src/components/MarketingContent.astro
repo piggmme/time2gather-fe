@@ -150,19 +150,31 @@ const pageCopy = page === 'home' ? null : copy[page]
   @media (max-width: 800px) {
     // Share the opening screen between the introduction and its example.
     .hero-layout { min-height: calc(100svh - 72px); gap: 0; align-content: center; }
-    .hero { padding: 24px 0; justify-items: center; text-align: center; }
+    // Gradually add space as the viewport grows from 600px to 800px tall.
+    .hero {
+      --hero-bottom-space: 24px;
+      --hero-action-space: 20px;
+      --hero-note-space: 10px;
+      padding-block: 24px calc(var(--hero-bottom-space) + clamp(0px, 9svh - 54px, 18px));
+      padding-inline: 0;
+      justify-items: center;
+      text-align: center;
+    }
     .hero-icon { display: block; width: 48px; height: 48px; margin-bottom: 12px; }
-    .hero h1 { max-width: 100%; margin-bottom: 8px; }
-    .hero .actions { width: 100%; margin-top: 20px; }
+    .hero h1 { max-width: 100%; margin-block-end: calc(8px + clamp(0px, 3svh - 18px, 6px)); }
+    .hero .actions { width: 100%; margin-block-start: calc(var(--hero-action-space) + clamp(0px, 5svh - 30px, 10px)); }
     .hero .actions a { width: 100%; max-width: 352px; min-width: 0; padding-inline: 12px; }
-    .hero .no-login { margin-top: 10px; }
+    .hero .no-login { margin-block-start: calc(var(--hero-note-space) + clamp(0px, 3svh - 18px, 6px)); }
   }
   @media (max-width: 800px) and (max-height: 700px) {
-    .hero { padding-block: 8px; }
+    .hero {
+      --hero-bottom-space: 8px;
+      --hero-action-space: 16px;
+      --hero-note-space: 8px;
+      padding-block-start: 8px;
+    }
     .hero-icon { display: none; }
-    .hero .actions { margin-top: 16px; }
     .hero .actions a { min-height: 44px; padding-block: 10px; }
-    .hero .no-login { margin-top: 8px; }
   }
   @media (max-width: 480px) { .actions { flex-direction: column; } }
 
