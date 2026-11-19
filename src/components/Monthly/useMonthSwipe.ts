@@ -62,7 +62,7 @@ export function useMonthSwipe (container: RefObject<HTMLDivElement | null>, mont
   }
 
   const trackMovement = (dx: number) => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    // Reduced motion skips the automatic slide on release. Keep direct touch tracking.
     const side = dx < 0 ? 'left' : 'right'
     const width = track.current?.parentElement?.clientWidth ?? 0
     const hasNeighbor = Boolean(months?.[side])

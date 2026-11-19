@@ -113,17 +113,21 @@ try {
               const waiting = new Promise((resolve) => {
                 finishSave = resolve
               })
-              await page.route('**/available-dates', async (route) => {
+              let savingCandidates = false
+              await page.route('**/meetings/nav-time-half/candidates', async (route) => {
                 writes.push({ method: route.request().method(), path: new URL(route.request().url()).pathname, body: route.request().postDataJSON() })
+                savingCandidates = true
                 await waiting
                 await route.fulfill({ json: { success: true, data: {} } })
               })
               await save.click()
+              await expect.poll(() => savingCandidates).toBe(true)
               await expect(save).toBeDisabled()
               await expect(start).toBeDisabled()
               await expect(endToggle).toBeDisabled()
+              const navigation = page.waitForURL(/\/meetings\/nav-time-half(?:[?#].*)?$/, { waitUntil: 'commit', timeout: 5000 })
               finishSave()
-              await expect(page).toHaveURL(/\/meetings\/nav-time-half(?:[?#].*)?$/)
+              await navigation
               assert.deepEqual(writes.at(-1).body, { dates: ['2026-11-15', '2026-11-16'], times: ['09:30'], expectedVersion: 'ui-consistency-v1' })
             } finally {
               finishSave?.()

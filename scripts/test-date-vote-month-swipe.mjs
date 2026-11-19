@@ -19,15 +19,21 @@ async function dragTouchPath (page, session, target, points, hold = 0, duringDra
   await target.scrollIntoViewIfNeeded()
   const { x, y, width, height } = await target.boundingBox()
   const start = { x: x + width / 2, y: y + height / 2 }
-  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [start] })
+  const move = ([dx, dy]) => session.send('Input.dispatchTouchEvent', {
+    type: 'touchMove', touchPoints: [{ x: start.x + dx, y: start.y + dy }],
+  })
+  const touchStart = session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [start] })
   try {
-    if (hold) await page.waitForTimeout(hold)
-    for (const [dx, dy] of points) {
-      await session.send('Input.dispatchTouchEvent', {
-        type: 'touchMove',
-        touchPoints: [{ x: start.x + dx, y: start.y + dy }],
-      })
+    let remainingPoints = points
+    if (hold) {
+      await touchStart
+      await page.waitForTimeout(hold)
+    } else {
+      // Enqueue the first movement with touchstart so a slow CDP acknowledgement cannot turn a swipe into a long press.
+      await Promise.all([touchStart, move(points[0])])
+      remainingPoints = points.slice(1)
     }
+    for (const point of remainingPoints) await move(point)
     await duringDrag?.()
   } finally {
     await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
@@ -35,7 +41,8 @@ async function dragTouchPath (page, session, target, points, hold = 0, duringDra
 }
 
 function dragTouch (page, session, target, dx, dy, hold = 0, duringDrag) {
-  const points = Array.from({ length: 8 }, (_, index) => [dx * (index + 1) / 8, dy * (index + 1) / 8])
+  const steps = hold ? 8 : 4
+  const points = Array.from({ length: steps }, (_, index) => [dx * (index + 1) / steps, dy * (index + 1) / steps])
   return dragTouchPath(page, session, target, points, hold, duringDrag)
 }
 
@@ -173,10 +180,11 @@ try {
         await page.emulateMedia({ reducedMotion: 'reduce' })
         const cdp = await context.newCDPSession(page)
         await dragTouch(page, cdp, resultDay(dates[0]), -92, 0, 0, async () => {
-          await expect(resultCalendar.locator('[data-calendar-month-preview]')).toHaveCount(0)
-          await expect(resultCalendar.locator('[data-calendar-track]')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
+          await expect(resultCalendar, 'The month only changes after release').toHaveAttribute('data-calendar-month', '2026-11')
+          await expectMonthPreview(resultCalendar, '2027-01', -92)
         })
         await expect(resultCalendar).toHaveAttribute('data-calendar-month', '2027-01')
+        await expect(resultCalendar.locator('[data-calendar-month-preview]')).toHaveCount(0)
         await page.emulateMedia({ reducedMotion: 'no-preference' })
       }
 
@@ -208,6 +216,7 @@ try {
         await dragTouch(page, cdp, january, nextDirection * 90, 0)
         await expect(calendar).toHaveAttribute('data-calendar-month', '2027-01')
         await expect(january).toHaveAttribute('aria-pressed', 'true')
+        await expect(calendar.locator('[data-calendar-track]')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
         await dragTouch(page, cdp, january, -nextDirection * 90, 0)
         await expect(calendar).toHaveAttribute('data-calendar-month', '2026-11')
         await expect(november).toHaveAttribute('aria-pressed', 'true')
@@ -216,7 +225,10 @@ try {
           await dragTouch(page, cdp, november, -nextDirection * 90, 0)
           await expect(calendar).toHaveAttribute('data-calendar-month', '2026-11')
           await expect(november).toHaveAttribute('aria-pressed', 'true')
-          await dragTouch(page, cdp, november, nextDirection * 26, 0)
+          await expect(calendar.locator('[data-calendar-track]')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
+          await dragTouchPath(page, cdp, november, [[24 * nextDirection, 0], [30 * nextDirection, 0]], 0, async () => {
+            await expectMonthPreview(calendar, '2027-01', 30 * nextDirection)
+          })
           await expect(calendar.locator('[data-calendar-month-preview]')).toHaveCount(0)
           await expect(calendar.locator('[data-calendar-track]')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
           await expect(calendar).toHaveAttribute('data-calendar-month', '2026-11')
