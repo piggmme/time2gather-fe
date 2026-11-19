@@ -568,6 +568,8 @@ function ParticipantsContent ({ meetingData }: { meetingData: get_meetings_$meet
   const { t } = useTranslation()
   const { participants, meeting } = meetingData
   const confirmed = Boolean(meeting.confirmedDate)
+  const selectedParticipants = participants.filter(person => !person.availabilityResponse)
+  const otherResponses = participants.filter(person => person.availabilityResponse)
   const confirmedTime = getConfirmedAvailabilityTime(meeting)
   const confirmedParticipants = meeting.confirmedDate
     ? meetingData.summary.bestSlots.find(slot => slot.date === meeting.confirmedDate && slot.time.split(' ~ ')[0] === confirmedTime)?.participants
@@ -576,21 +578,22 @@ function ParticipantsContent ({ meetingData }: { meetingData: get_meetings_$meet
   return (
     <Tabs.Content value='participants'>
       <div className={styles.Card}>
-        <div className={styles.Summary}>
+        <div className={`${styles.Summary} ${styles.ParticipantsSummary}`}>
           <div className={styles.ParticipantsHeading}>
-            <p className={styles.Title}>{t('meeting.unavailable.respondents')}</p>
+            <h2 className={styles.Title}>{t('meeting.unavailable.respondents')}</h2>
             <p className={styles.DetailText}>{t('meeting.result.participantsCount', { count: participants.length })}</p>
           </div>
           {confirmed && <p className={styles.ResponseBasis}>{t('meeting.unavailable.basis')}</p>}
-          {participants.length === 0 && <p className={styles.DetailText}>{t('meeting.participantsEmpty')}</p>}
-          {confirmed
-            ? <AttendanceGroups participants={participants} selected={confirmedParticipants} confirmed />
-            : (
-                <div className={styles.ResponseGroups}>
-                  <ParticipantGroup status='selected' label={t('meeting.unavailable.selected')} participants={participants.filter(person => !person.availabilityResponse)} />
-                  <ParticipantGroup status='none' label={t('meeting.unavailable.noneStatus')} participants={participants.filter(person => person.availabilityResponse)} />
-                </div>
-              )}
+          {participants.length === 0
+            ? <p className={styles.DetailText}>{t('meeting.participantsEmpty')}</p>
+            : confirmed
+              ? <AttendanceGroups participants={participants} selected={confirmedParticipants} confirmed />
+              : (
+                  <div className={styles.ResponseGroups}>
+                    <ParticipantGroup status='selected' label={t('meeting.unavailable.selected')} participants={selectedParticipants} compact={otherResponses.length === 0} />
+                    <ParticipantGroup status='none' label={t('meeting.unavailable.noneStatus')} participants={otherResponses} />
+                  </div>
+                )}
         </div>
       </div>
     </Tabs.Content>

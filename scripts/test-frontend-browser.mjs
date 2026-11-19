@@ -38,6 +38,8 @@ async function run (args, env = {}) {
 try {
   await run(['node_modules/@playwright/test/cli.js', 'install', 'chromium', 'webkit'])
   await run(['node_modules/astro/astro.js', 'preferences', 'disable', 'devToolbar'])
+  console.log('Browser regression: test-participants-tab.mjs')
+  await run(['scripts/test-participants-tab.mjs'], { PARTICIPANTS_ENGINE: 'chromium' })
   const fixture = start(['scripts/test-time-picker-fixture.mjs'])
   await waitForServer('http://127.0.0.1:18485/api/v1/auth/me', fixture.child, { logs: fixture.logs })
   const server = start(['dist/server/entry.mjs'], { HOST: '127.0.0.1', PORT: '14326', API_URL: 'http://127.0.0.1:18485/api' })

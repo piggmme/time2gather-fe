@@ -72,7 +72,8 @@
     "scripts/test-mobile-result-layout.mjs",
     "scripts/test-date-vote-month-swipe.mjs",
     "scripts/close-routed-context.mjs",
-    "scripts/test-route-cleanup.mjs"
+    "scripts/test-route-cleanup.mjs",
+    "scripts/test-participants-tab.mjs"
   ],
   "evidenceDirectory": ".preflight/evidence",
   "checks": [
