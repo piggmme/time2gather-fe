@@ -90,7 +90,7 @@ export function useMonthSwipe (container: RefObject<HTMLDivElement | null>, mont
     const touch = event.touches[0]
     const dx = touch.clientX - start.x
     const dy = touch.clientY - start.y
-    if (!start.axis && Math.max(Math.abs(dx), Math.abs(dy)) >= 12) {
+    if (!start.axis && Math.max(Math.abs(dx), Math.abs(dy)) >= 10) {
       start.axis = Math.abs(dx) > Math.abs(dy) * 1.25 ? 'horizontal' : 'vertical'
     }
     if (start.axis !== 'horizontal') return
@@ -118,7 +118,7 @@ export function useMonthSwipe (container: RefObject<HTMLDivElement | null>, mont
     const dx = touch.clientX - start.x
     const side = dx < 0 ? 'left' : 'right'
     const next = Math.abs(dx) >= 44 ? months?.[side] : undefined
-    if (next) trackMovement(dx)
+    trackMovement(dx)
     settle(next, side)
   }
 

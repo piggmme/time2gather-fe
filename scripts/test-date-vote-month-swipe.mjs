@@ -64,12 +64,17 @@ async function expectMonthPreview (calendar, month, dx) {
   await expect(preview).toHaveAttribute('data-calendar-month-preview', month)
   await expect(preview).toHaveAttribute('inert', '')
   await expect(preview).toHaveAttribute('aria-hidden', 'true')
+  const label = preview.locator('[data-swipe-month-label]')
+  await expect(label, 'The incoming month carries its own label').toBeVisible()
+  await expect(label).not.toBeEmpty()
+  await expect(calendar.locator('[data-calendar-weekdays]')).toHaveCSS('opacity', '1')
   await expect.poll(async () => {
     const offset = await calendar.locator('[data-calendar-track]').evaluate(track =>
       new DOMMatrix(getComputedStyle(track).transform).m41,
     )
     return Math.abs(offset - dx)
   }).toBeLessThanOrEqual(1)
+  await expect(label).toBeInViewport()
 }
 
 async function tapAfterGesture (page, target) {
@@ -150,6 +155,10 @@ try {
         await resultCalendar.getByRole('button', { name: meeting.dateCalendar.previousMonth, exact: true }).click()
       }
       await expect(resultCalendar).toHaveAttribute('data-calendar-month', '2026-11')
+      await expect(resultCalendar.locator('[data-swipe-month-label]')).toHaveCount(0)
+      const currentMonthTab = resultCalendar.locator('[data-available-month="2026-11"]')
+      await expect(currentMonthTab).toHaveAttribute('aria-pressed', 'true')
+      await expect(resultCalendar.getByRole('heading', { name: await currentMonthTab.getAttribute('aria-label'), exact: true })).toBeVisible()
       if (mobile) await tapAfterGesture(page, resultDay(dates[0]))
       else await resultDay(dates[0]).click()
       await expect(page.getByRole('dialog')).toBeVisible()

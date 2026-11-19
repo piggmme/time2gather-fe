@@ -1,4 +1,4 @@
-import { formatWeekday, getWeekStart } from '../../utils/time'
+import { formatMonth, formatWeekday, getWeekStart } from '../../utils/time'
 import { useState, useRef } from 'react'
 import { DndContext } from '@dnd-kit/core'
 import MonthlyCell from './MonthlyCell'
@@ -179,7 +179,7 @@ export default function MonthlyGrid ({
       ref={containerRef}
       {...swipe.handlers}
     >
-      <div className={styles.weekdays}>
+      <div className={styles.weekdays} data-calendar-weekdays=''>
         {weekdays.map(weekday => (
           <div
             key={weekday.number}
@@ -206,6 +206,9 @@ export default function MonthlyGrid ({
                     aria-hidden='true'
                     inert
                   >
+                    <span className={styles.previewLabel} data-swipe-month-label=''>
+                      {formatMonth(swipe.preview.date, locale)}
+                    </span>
                     {renderDates(swipe.preview.days, swipe.preview.date.year(), swipe.preview.date.month(), true)}
                   </div>
                 )}

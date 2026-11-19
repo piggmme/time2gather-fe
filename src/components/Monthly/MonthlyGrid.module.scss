@@ -12,8 +12,9 @@
 .viewport {
   --month-gutter: 6px;
   overflow: clip;
-  margin: -6px calc(-1 * var(--month-gutter));
-  padding: 6px var(--month-gutter);
+  // Clip the moving panels while giving the incoming month label room above its dates.
+  margin: -20px calc(-1 * var(--month-gutter)) -6px;
+  padding: 20px var(--month-gutter) 6px;
 
   @media (max-width: 359px) {
     --month-gutter: 18px;
@@ -32,9 +33,39 @@
   --month-shift: calc(100% + 2 * var(--month-gutter));
   transform: translateX(var(--month-shift));
 
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: calc(-1 * var(--month-gutter));
+    inline-size: 1px;
+    background: rgba($c-gray-dark, 0.25);
+  }
+
   &[data-swipe-side='right'] {
     transform: translateX(calc(-1 * var(--month-shift)));
+
+    &::before {
+      right: calc(-1 * var(--month-gutter));
+      left: auto;
+    }
+
+    .previewLabel {
+      right: calc(5px - var(--month-gutter));
+      left: auto;
+    }
   }
+}
+
+.previewLabel {
+  position: absolute;
+  inset-block-start: -15px;
+  left: calc(5px - var(--month-gutter));
+  color: $primary-color-hover;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  line-height: 14px;
+  white-space: nowrap;
 }
 
 .weekdays {
@@ -44,6 +75,12 @@
   margin-bottom: $spacing-md;
   width: 100%;
   padding: 0 2px; // 셀과 정렬 맞추기
+}
+
+@media (any-pointer: coarse) {
+  .swipeable .weekdays {
+    margin-block-end: $spacing-base;
+  }
 }
 
 .weekday {
