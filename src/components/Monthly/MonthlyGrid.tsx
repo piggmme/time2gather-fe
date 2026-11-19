@@ -1,5 +1,5 @@
 import { formatWeekday, getWeekStart } from '../../utils/time'
-import { useState, useRef, type TouchEvent } from 'react'
+import { useState, useRef } from 'react'
 import { DndContext } from '@dnd-kit/core'
 import MonthlyCell from './MonthlyCell'
 import dayjs from 'dayjs'
@@ -7,6 +7,7 @@ import 'dayjs/locale/ko'
 import 'dayjs/locale/en'
 import styles from './MonthlyGrid.module.scss'
 import { useDragSensors } from '../../hooks/useDragSensors'
+import { useMonthSwipe, type SwipeMonths } from './useMonthSwipe'
 import { useDragScrollPrevention } from '../../hooks/useDragScrollPrevention'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
@@ -52,8 +53,7 @@ export default function MonthlyGrid ({
   dateSchedule,
   participantsCount,
   allowPastSelected = false,
-  onMonthSwipe,
-  swipeDirection,
+  swipeMonths,
 }: {
   monthDays: dayjs.Dayjs[]
   dates: dayjs.Dayjs[]
@@ -66,48 +66,13 @@ export default function MonthlyGrid ({
   dateSchedule?: DateSchedule
   participantsCount?: number
   allowPastSelected?: boolean
-  onMonthSwipe?: (direction: 'left' | 'right') => void
-  swipeDirection?: 'left' | 'right'
+  swipeMonths?: SwipeMonths
 }) {
   const locale = useStore($locale)
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null)
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const touchStart = useRef<{ x: number, y: number, axis?: 'horizontal' | 'vertical' } | null>(null)
-  const suppressTouchClick = useRef(false)
-
-  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    const touch = event.touches[0]
-    touchStart.current = event.touches.length === 1 ? { x: touch.clientX, y: touch.clientY } : null
-  }
-
-  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
-    if (event.touches.length !== 1) {
-      touchStart.current = null
-      return
-    }
-    const start = touchStart.current
-    if (!start || start.axis) return
-
-    const touch = event.touches[0]
-    const dx = Math.abs(touch.clientX - start.x)
-    const dy = Math.abs(touch.clientY - start.y)
-    if (Math.max(dx, dy) >= 12) start.axis = dx > dy * 1.25 ? 'horizontal' : 'vertical'
-  }
-
-  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
-    const start = touchStart.current
-    touchStart.current = null
-    if (!start || event.touches.length > 0) return
-
-    const touch = event.changedTouches[0]
-    const dx = touch.clientX - start.x
-    const dy = touch.clientY - start.y
-    suppressTouchClick.current = Boolean(start.axis)
-    if (start.axis === 'horizontal' && Math.abs(dx) >= 44 && Math.abs(dx) > Math.abs(dy) * 1.25) {
-      onMonthSwipe?.(dx < 0 ? 'left' : 'right')
-    }
-  }
+  const swipe = useMonthSwipe(containerRef, swipeMonths)
 
   const addDates = (newDates: dayjs.Dayjs[]) => {
     if (!setDates) return
@@ -134,7 +99,7 @@ export default function MonthlyGrid ({
     setDates(allDates)
   }
 
-  const sensors = useDragSensors(Boolean(onMonthSwipe))
+  const sensors = useDragSensors(Boolean(swipeMonths))
   const isEditMode = mode === 'edit'
 
   // 드래그 중일 때 스크롤 방지 (편집 모드에서만)
@@ -151,23 +116,68 @@ export default function MonthlyGrid ({
     }
   })
 
+  const renderDates = (days: dayjs.Dayjs[], year: number, month: number, isPreview = false) => (
+    <div className={styles.grid}>
+      {days.map((day: dayjs.Dayjs) => {
+        const isCurrentMonth = day.year() === year && day.month() === month
+        // Keep weekday positions without displaying or making adjacent months interactive.
+        if (!isCurrentMonth) return <div key={day.format('YYYY-MM-DD')} aria-hidden='true' />
+        const today = dayjs()
+        const dateKey = day.format('YYYY-MM-DD')
+        const isSelected = dates.some(d => d.isSame(day, 'day'))
+
+        // dateSchedule에서 해당 날짜의 참여자 수 가져오기
+        // 자신이 선택한 경우는 제외하고 계산 (Daily와 동일한 로직)
+        const scheduleData = dateSchedule?.[dateKey]
+        const otherCount = scheduleData?.count || 0
+
+        // availableDates가 제공되면 해당 날짜 목록에 포함된 날짜만 활성화
+        // availableDates가 없으면 기존 로직 (과거 날짜만 disabled)
+        let isDisabled = false
+        if (availableDates) {
+          // availableDates에 포함되지 않은 날짜는 disabled
+          isDisabled = !availableDates.some(availableDate => availableDate.isSame(day, 'day'))
+        } else {
+          // 기존 로직: 과거 날짜만 disabled
+          isDisabled = day.isBefore(today, 'day') && !(allowPastSelected && isSelected)
+        }
+
+        return (
+          <MonthlyCell
+            key={dateKey}
+            date={day}
+            isSelected={isSelected}
+            isPreview={isPreview}
+            isDragged={!isPreview && selectedDays.some(d => d.isSame(day, 'day'))}
+            isCurrentMonth={isCurrentMonth}
+            isAvailable={Boolean(availableDates) && !isDisabled}
+            mode={mode}
+            disabled={isDisabled}
+            count={otherCount}
+            maxCount={participantsCount}
+            isVoting={Boolean(availableDates || dateSchedule) || !isEditMode}
+            {...(!isPreview && isEditMode && !isDisabled && {
+              onClick: () => {
+                handleDragedDates([day])
+                onDateClick?.(day)
+              },
+            })}
+            {...(!isPreview && !isEditMode && onDateClick && {
+              onClick: () => {
+                onDateClick(day)
+              },
+            })}
+          />
+        )
+      })}
+    </div>
+  )
+
   const gridContent = (
     <div
-      className={onMonthSwipe ? `${styles.container} ${styles.swipeable}` : styles.container}
+      className={swipeMonths ? `${styles.container} ${styles.swipeable}` : styles.container}
       ref={containerRef}
-      data-swipe-direction={swipeDirection}
-      {...(onMonthSwipe && {
-        onTouchStartCapture: handleTouchStart,
-        onTouchMoveCapture: handleTouchMove,
-        onTouchEndCapture: handleTouchEnd,
-        onTouchCancelCapture: () => { touchStart.current = null },
-        onPointerDownCapture: () => { suppressTouchClick.current = false },
-        onClickCapture: (event) => {
-          if (!suppressTouchClick.current || event.detail === 0) return
-          suppressTouchClick.current = false
-          event.stopPropagation()
-        },
-      })}
+      {...swipe.handlers}
     >
       <div className={styles.weekdays}>
         {weekdays.map(weekday => (
@@ -183,59 +193,26 @@ export default function MonthlyGrid ({
           </div>
         ))}
       </div>
-      <div className={styles.grid}>
-        {monthDays.map((day: dayjs.Dayjs) => {
-          const isCurrentMonth = day.year() === currentYear && day.month() === currentMonth
-          // Keep weekday positions without displaying or making adjacent months interactive.
-          if (!isCurrentMonth) return <div key={day.format('YYYY-MM-DD')} aria-hidden='true' />
-          const today = dayjs()
-          const dateKey = day.format('YYYY-MM-DD')
-          const isSelected = dates.some(d => d.isSame(day, 'day'))
-
-          // dateSchedule에서 해당 날짜의 참여자 수 가져오기
-          // 자신이 선택한 경우는 제외하고 계산 (Daily와 동일한 로직)
-          const scheduleData = dateSchedule?.[dateKey]
-          const otherCount = scheduleData?.count || 0
-
-          // availableDates가 제공되면 해당 날짜 목록에 포함된 날짜만 활성화
-          // availableDates가 없으면 기존 로직 (과거 날짜만 disabled)
-          let isDisabled = false
-          if (availableDates) {
-            // availableDates에 포함되지 않은 날짜는 disabled
-            isDisabled = !availableDates.some(availableDate => availableDate.isSame(day, 'day'))
-          } else {
-            // 기존 로직: 과거 날짜만 disabled
-            isDisabled = day.isBefore(today, 'day') && !(allowPastSelected && isSelected)
-          }
-
-          return (
-            <MonthlyCell
-              key={dateKey}
-              date={day}
-              isSelected={isSelected}
-              isDragged={selectedDays.some(d => d.isSame(day, 'day'))}
-              isCurrentMonth={isCurrentMonth}
-              isAvailable={Boolean(availableDates) && !isDisabled}
-              mode={mode}
-              disabled={isDisabled}
-              count={otherCount}
-              maxCount={participantsCount}
-              isVoting={Boolean(availableDates || dateSchedule) || !isEditMode}
-              {...(isEditMode && !isDisabled && {
-                onClick: () => {
-                  handleDragedDates([day])
-                  onDateClick?.(day)
-                },
-              })}
-              {...(!isEditMode && onDateClick && {
-                onClick: () => {
-                  onDateClick(day)
-                },
-              })}
-            />
+      {swipeMonths
+        ? (
+            <div className={styles.viewport}>
+              <div className={styles.track} ref={swipe.track} data-calendar-track=''>
+                {renderDates(monthDays, currentYear, currentMonth)}
+                {swipe.preview && (
+                  <div
+                    className={styles.preview}
+                    data-swipe-side={swipe.direction}
+                    data-calendar-month-preview={swipe.preview.date.format('YYYY-MM')}
+                    aria-hidden='true'
+                    inert
+                  >
+                    {renderDates(swipe.preview.days, swipe.preview.date.year(), swipe.preview.date.month(), true)}
+                  </div>
+                )}
+              </div>
+            </div>
           )
-        })}
-      </div>
+        : renderDates(monthDays, currentYear, currentMonth)}
     </div>
   )
 
@@ -258,7 +235,7 @@ export default function MonthlyGrid ({
 
         if (isDateAvailable) {
           // Once a long press starts range selection, that touch belongs to the drag sensor.
-          touchStart.current = null
+          swipe.cancelGesture()
           setStartDate(date)
           setEndDate(date)
         }

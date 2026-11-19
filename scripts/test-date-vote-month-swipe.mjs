@@ -15,19 +15,61 @@ const fixture = createNavigationFixture({
   },
 })
 
-async function dragTouch (page, session, target, dx, dy, hold = 0) {
+async function dragTouchPath (page, session, target, points, hold = 0, duringDrag) {
   await target.scrollIntoViewIfNeeded()
   const { x, y, width, height } = await target.boundingBox()
   const start = { x: x + width / 2, y: y + height / 2 }
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [start] })
-  if (hold) await page.waitForTimeout(hold)
-  for (let step = 1; step <= 8; step++) {
-    await session.send('Input.dispatchTouchEvent', {
-      type: 'touchMove',
-      touchPoints: [{ x: start.x + dx * step / 8, y: start.y + dy * step / 8 }],
-    })
+  try {
+    if (hold) await page.waitForTimeout(hold)
+    for (const [dx, dy] of points) {
+      await session.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x: start.x + dx, y: start.y + dy }],
+      })
+    }
+    await duringDrag?.()
+  } finally {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
   }
-  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+}
+
+function dragTouch (page, session, target, dx, dy, hold = 0, duringDrag) {
+  const points = Array.from({ length: 8 }, (_, index) => [dx * (index + 1) / 8, dy * (index + 1) / 8])
+  return dragTouchPath(page, session, target, points, hold, duringDrag)
+}
+
+async function swipeWithVerticalDrift (page, cdp, day, calendar, nextDirection, output) {
+  await day.scrollIntoViewIfNeeded()
+  const scrollY = await page.evaluate(() => window.scrollY)
+  await calendar.evaluate((element) => {
+    element.addEventListener('touchmove', (event) => {
+      element.toggleAttribute('data-test-scroll-blocked', event.defaultPrevented)
+    }, { passive: true })
+  })
+  const points = [[18, 0], [36, -4], [54, -20], [72, -63], [92, -110]]
+    .map(([x, y]) => [x * nextDirection, y])
+  await dragTouchPath(page, cdp, day, points, 0, async () => {
+    await expectMonthPreview(calendar, '2027-01', nextDirection * 92)
+    await expect(calendar, 'The horizontal gesture prevents native touch scrolling').toHaveAttribute('data-test-scroll-blocked', '')
+    expect(await page.evaluate(() => window.scrollY), 'The page stays in place during a horizontal swipe').toBe(scrollY)
+    if (output) await page.screenshot({ path: output })
+  })
+  await expect(calendar, 'A horizontal swipe keeps its direction through vertical finger drift').toHaveAttribute('data-calendar-month', '2027-01')
+  expect(await page.evaluate(() => window.scrollY), 'Completing the swipe keeps the same scroll position').toBe(scrollY)
+}
+
+async function expectMonthPreview (calendar, month, dx) {
+  const preview = calendar.locator('[data-calendar-month-preview]')
+  await expect(preview).toHaveAttribute('data-calendar-month-preview', month)
+  await expect(preview).toHaveAttribute('inert', '')
+  await expect(preview).toHaveAttribute('aria-hidden', 'true')
+  await expect.poll(async () => {
+    const offset = await calendar.locator('[data-calendar-track]').evaluate(track =>
+      new DOMMatrix(getComputedStyle(track).transform).m41,
+    )
+    return Math.abs(offset - dx)
+  }).toBeLessThanOrEqual(1)
 }
 
 async function tapAfterGesture (page, target) {
@@ -54,7 +96,8 @@ try {
   await waitForServer(`${base}/meetings/month-vote/select/all_day`, app, { logs: () => logs, timeoutMs: 45000 })
   browser = await chromium.launch()
 
-  const locales = (await readdir('src/i18n/locales')).filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
+  const smoke = process.argv.includes('--smoke')
+  const locales = smoke ? ['ko', 'de', 'ar'] : (await readdir('src/i18n/locales')).filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
   const widths = [320, 390, 1280]
   const output = process.env.DATE_VOTE_PREVIEW_DIR
   if (output) await mkdir(output, { recursive: true })
@@ -80,6 +123,54 @@ try {
         await route.fulfill({ status: response.status, json: await response.json() })
       })
       const page = await context.newPage()
+      await page.goto(`${base}/meetings/month-vote?lang=${locale}`, { waitUntil: 'domcontentloaded' })
+      await page.getByRole('tab', { name: meeting.result.tabs.calendar, exact: true }).click()
+      const resultCalendar = page.locator('[data-calendar-month]')
+      const resultDay = date => resultCalendar.getByRole('button', { name: date, exact: true })
+      const resultDirection = rtl ? 1 : -1
+      await expect(resultCalendar).toHaveAttribute('data-calendar-month', '2026-11')
+      if (mobile) {
+        const cdp = await context.newCDPSession(page)
+        if (width === 390) {
+          await swipeWithVerticalDrift(page, cdp, resultDay(dates[0]), resultCalendar, resultDirection,
+            output && locale === 'ko' ? `${output}/ko-result-axis-lock.png` : undefined)
+        } else await dragTouch(page, cdp, resultDay(dates[0]), resultDirection * 92, 0)
+        await expect(resultCalendar, 'The result calendar responds to a horizontal touch gesture').toHaveAttribute('data-calendar-month', '2027-01')
+        await dragTouch(page, cdp, resultDay(dates[3]), -resultDirection * 120, 0, 0, async () => {
+          await expect(resultCalendar).toHaveAttribute('data-calendar-month', '2027-01')
+          await expectMonthPreview(resultCalendar, '2026-11', -resultDirection * 120)
+          if (output && locale === 'ko' && width === 390) {
+            await page.screenshot({ path: `${output}/ko-result-swipe.png` })
+          }
+        })
+        await expect(page.getByRole('dialog')).toHaveCount(0)
+      } else {
+        await resultCalendar.getByRole('button', { name: meeting.dateCalendar.nextMonth, exact: true }).press('Enter')
+        await expect(resultCalendar).toHaveAttribute('data-calendar-month', '2027-01')
+        await resultCalendar.getByRole('button', { name: meeting.dateCalendar.previousMonth, exact: true }).click()
+      }
+      await expect(resultCalendar).toHaveAttribute('data-calendar-month', '2026-11')
+      if (mobile) await tapAfterGesture(page, resultDay(dates[0]))
+      else await resultDay(dates[0]).click()
+      await expect(page.getByRole('dialog')).toBeVisible()
+      await page.keyboard.press('Escape')
+      await expect(page.getByRole('dialog')).toHaveCount(0)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
+      if (output && ['ko', 'de', 'ar'].includes(locale)) {
+        await resultCalendar.screenshot({ path: `${output}/${locale}-result-${width}.png` })
+      }
+
+      if (locale === 'ko' && width === 390) {
+        await page.emulateMedia({ reducedMotion: 'reduce' })
+        const cdp = await context.newCDPSession(page)
+        await dragTouch(page, cdp, resultDay(dates[0]), -92, 0, 0, async () => {
+          await expect(resultCalendar.locator('[data-calendar-month-preview]')).toHaveCount(0)
+          await expect(resultCalendar.locator('[data-calendar-track]')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
+        })
+        await expect(resultCalendar).toHaveAttribute('data-calendar-month', '2027-01')
+        await page.emulateMedia({ reducedMotion: 'no-preference' })
+      }
+
       await page.goto(`${base}/meetings/month-vote/select/all_day?lang=${locale}`, { waitUntil: 'domcontentloaded' })
       const calendar = page.locator('[data-calendar-month]')
       const day = date => calendar.getByRole('button', { name: date, exact: true })
@@ -94,7 +185,13 @@ try {
       await expect(november).toHaveAttribute('aria-pressed', 'true')
       if (mobile) {
         const cdp = await context.newCDPSession(page)
-        await dragTouch(page, cdp, november, nextDirection * 92, 0)
+        if (width === 390) await swipeWithVerticalDrift(page, cdp, november, calendar, nextDirection)
+        else {
+          await dragTouch(page, cdp, november, nextDirection * 92, 0, 0, async () => {
+            await expect(calendar).toHaveAttribute('data-calendar-month', '2026-11')
+            await expectMonthPreview(calendar, '2027-01', nextDirection * 92)
+          })
+        }
         await expect(calendar, 'A horizontal touch gesture on a selectable date advances to the next candidate month').toHaveAttribute('data-calendar-month', '2027-01')
         await expect(january).toHaveAttribute('aria-pressed', 'false')
         await tapAfterGesture(page, january)
@@ -111,6 +208,8 @@ try {
           await expect(calendar).toHaveAttribute('data-calendar-month', '2026-11')
           await expect(november).toHaveAttribute('aria-pressed', 'true')
           await dragTouch(page, cdp, november, nextDirection * 26, 0)
+          await expect(calendar.locator('[data-calendar-month-preview]')).toHaveCount(0)
+          await expect(calendar.locator('[data-calendar-track]')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
           await expect(calendar).toHaveAttribute('data-calendar-month', '2026-11')
           await expect(november).toHaveAttribute('aria-pressed', 'true')
           await page.setViewportSize({ width, height: 620 })

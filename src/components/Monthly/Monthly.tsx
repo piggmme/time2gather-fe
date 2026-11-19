@@ -101,13 +101,12 @@ export default function Monthly ({
     }, new Map<string, { key: string, date: dayjs.Dayjs }>()).values(),
   ).sort((a, b) => a.date.diff(b.date))
   const [currentDate, setCurrentDate] = useState(() => availableMonths[0]?.date ?? dates?.[0]?.startOf('month') ?? dayjs())
-  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right'>()
-  const monthDays = getMonthDays(currentDate.year(), currentDate.month(), getWeekStart(locale))
+  const weekStart = getWeekStart(locale)
+  const monthDays = getMonthDays(currentDate.year(), currentDate.month(), weekStart)
   const currentMonthKey = currentDate.format('YYYY-MM')
   const currentAvailableMonthIndex = availableMonths.findIndex(month => month.key === currentMonthKey)
   const showMonthTabs = availableMonths.length > 1
-  const canSwipeMonths = isEditMode && showMonthTabs
-  const showMonthArrows = !showMonthTabs || canSwipeMonths
+  const canSwipeMonths = showMonthTabs || (!isEditMode && availableMonths.length === 0)
   const isRtl = localeMeta[locale].dir === 'rtl'
   const PreviousIcon = isRtl ? HiChevronRight : HiChevronLeft
   const NextIcon = isRtl ? HiChevronLeft : HiChevronRight
@@ -125,17 +124,21 @@ export default function Monthly ({
     ? currentAvailableMonthIndex < 0 || currentAvailableMonthIndex >= availableMonths.length - 1
     : false
 
-  const changeMonth = (date: dayjs.Dayjs, swipe?: 'left' | 'right') => {
-    setSwipeDirection(swipe)
-    setCurrentDate(date)
-  }
-
-  const moveMonth = (step: -1 | 1, swipe?: 'left' | 'right') => {
+  const getAdjacentMonth = (step: -1 | 1) => {
     if (step === -1 ? isPreviousDisabled : isNextDisabled) return
-    const date = hasAvailabilityRange
+    return hasAvailabilityRange
       ? availableMonths[currentAvailableMonthIndex + step].date
       : currentDate.add(step, 'month')
-    changeMonth(date, swipe)
+  }
+
+  const moveMonth = (step: -1 | 1) => {
+    const date = getAdjacentMonth(step)
+    if (date) setCurrentDate(date)
+  }
+
+  const getSwipeMonth = (step: -1 | 1) => {
+    const date = getAdjacentMonth(step)
+    if (date) return { date, days: getMonthDays(date.year(), date.month(), weekStart) }
   }
 
   const formatMonthYear = (date: dayjs.Dayjs) => localizedMonth(date, locale, true)
@@ -151,7 +154,7 @@ export default function Monthly ({
               key={month.key}
               data-available-month={month.key}
               className={month.key === currentMonthKey ? styles.current : ''}
-              onClick={() => changeMonth(month.date)}
+              onClick={() => setCurrentDate(month.date)}
               aria-pressed={month.key === currentMonthKey}
               aria-label={formatMonthYear(month.date)}
             >
@@ -161,27 +164,23 @@ export default function Monthly ({
         </div>
       )}
       <div className={styles.header}>
-        {showMonthArrows && (
-          <button
-            type='button'
-            onClick={() => moveMonth(-1)}
-            disabled={isPreviousDisabled}
-            aria-label={t('meeting.dateCalendar.previousMonth')}
-          >
-            <PreviousIcon aria-hidden='true' />
-          </button>
-        )}
+        <button
+          type='button'
+          onClick={() => moveMonth(-1)}
+          disabled={isPreviousDisabled}
+          aria-label={t('meeting.dateCalendar.previousMonth')}
+        >
+          <PreviousIcon aria-hidden='true' />
+        </button>
         <h2 className={styles.title} aria-live='polite'>{formatMonthYear(currentDate)}</h2>
-        {showMonthArrows && (
-          <button
-            type='button'
-            onClick={() => moveMonth(1)}
-            disabled={isNextDisabled}
-            aria-label={t('meeting.dateCalendar.nextMonth')}
-          >
-            <NextIcon aria-hidden='true' />
-          </button>
-        )}
+        <button
+          type='button'
+          onClick={() => moveMonth(1)}
+          disabled={isNextDisabled}
+          aria-label={t('meeting.dateCalendar.nextMonth')}
+        >
+          <NextIcon aria-hidden='true' />
+        </button>
       </div>
       {isEditMode && availableDates && (
         <div className={`${styles.availabilityMeta} ${styles.legendOnly}`}>
@@ -193,10 +192,13 @@ export default function Monthly ({
       )}
       <MonthlyGrid
         key={canSwipeMonths ? currentMonthKey : undefined}
-        onMonthSwipe={canSwipeMonths
-          ? direction => moveMonth((direction === 'left') !== isRtl ? 1 : -1, direction)
+        swipeMonths={canSwipeMonths
+          ? {
+              left: getSwipeMonth(isRtl ? -1 : 1),
+              right: getSwipeMonth(isRtl ? 1 : -1),
+              select: setCurrentDate,
+            }
           : undefined}
-        swipeDirection={swipeDirection}
         dates={dates ?? []}
         setDates={isEditMode ? setDates : undefined}
         monthDays={monthDays}

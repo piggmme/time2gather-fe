@@ -7,24 +7,33 @@
 .swipeable {
   --monthly-cell-touch-action: auto;
   touch-action: pan-y pinch-zoom;
+}
 
-  @media (prefers-reduced-motion: no-preference) {
-    &[data-swipe-direction='left'] {
-      --month-enter-offset: 12px;
-      animation: month-enter 160ms ease-out;
-    }
+.viewport {
+  --month-gutter: 6px;
+  overflow: clip;
+  margin: -6px calc(-1 * var(--month-gutter));
+  padding: 6px var(--month-gutter);
 
-    &[data-swipe-direction='right'] {
-      --month-enter-offset: -12px;
-      animation: month-enter 160ms ease-out;
-    }
+  @media (max-width: 359px) {
+    --month-gutter: 18px;
   }
 }
 
-@keyframes month-enter {
-  from {
-    opacity: 0.55;
-    transform: translateX(var(--month-enter-offset));
+.track {
+  position: relative;
+  transform: translateX(var(--month-offset, 0px));
+}
+
+.preview {
+  position: absolute;
+  inset: 0 0 auto;
+  pointer-events: none;
+  --month-shift: calc(100% + 2 * var(--month-gutter));
+  transform: translateX(var(--month-shift));
+
+  &[data-swipe-side='right'] {
+    transform: translateX(calc(-1 * var(--month-shift)));
   }
 }
 

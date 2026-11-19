@@ -15,13 +15,15 @@ type MonthlyCellProps = {
   count?: number
   maxCount?: number
   isVoting?: boolean
+  isPreview?: boolean
 }
 
 export default function MonthlyCell ({
-  date, isSelected, isDragged, isCurrentMonth, isAvailable = false, mode = 'edit', disabled = false, onClick, count = 0, maxCount = 0, isVoting = false,
+  date, isSelected, isDragged, isCurrentMonth, isAvailable = false, mode = 'edit', disabled = false, onClick, count = 0, maxCount = 0, isVoting = false, isPreview = false,
 }: MonthlyCellProps) {
   const isEditMode = mode === 'edit'
-  const isInteractive = !disabled && (isEditMode || Boolean(onClick))
+  const canDrag = isEditMode && !disabled && !isPreview
+  const isInteractive = !disabled && !isPreview && (isEditMode || Boolean(onClick))
 
   // Draft selection does not change the saved attendance count.
   const totalCount = count
@@ -31,13 +33,13 @@ export default function MonthlyCell ({
   const { setNodeRef: setDragRef, attributes, listeners } = useDraggable({
     id: `drag-${date.format('YYYY-MM-DD')}`,
     data: { date },
-    disabled: !isEditMode || disabled,
+    disabled: !canDrag,
   })
 
   const { setNodeRef: setDropRef } = useDroppable({
     id: `drop-${date.format('YYYY-MM-DD')}`,
     data: { date },
-    disabled: !isEditMode || disabled,
+    disabled: !canDrag,
   })
 
   const dayOfWeek = date.day() // 0 = 일요일, 6 = 토요일
@@ -51,8 +53,8 @@ export default function MonthlyCell ({
         setDragRef(el)
         setDropRef(el)
       }}
-      {...(isEditMode && !disabled ? attributes : {})}
-      {...(isEditMode && !disabled ? listeners : {})}
+      {...(canDrag ? attributes : {})}
+      {...(canDrag ? listeners : {})}
       onClick={disabled ? undefined : onClick}
       disabled={!isInteractive}
       aria-label={date.format('YYYY-MM-DD')}
