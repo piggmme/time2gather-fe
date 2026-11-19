@@ -30,6 +30,12 @@ async function dragTouch (page, session, target, dx, dy, hold = 0) {
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
 }
 
+async function tapAfterGesture (page, target) {
+  // Let Chromium finish the previous gesture before starting an independent tap.
+  await page.waitForTimeout(650)
+  await target.tap()
+}
+
 await new Promise(resolve => fixture.server.listen(0, '127.0.0.1', resolve))
 const api = `http://127.0.0.1:${fixture.server.address().port}/api`
 const port = process.env.DATE_VOTE_TEST_PORT || '4373'
@@ -91,7 +97,7 @@ try {
         await dragTouch(page, cdp, november, nextDirection * 92, 0)
         await expect(calendar, 'A horizontal touch gesture on a selectable date advances to the next candidate month').toHaveAttribute('data-calendar-month', '2027-01')
         await expect(january).toHaveAttribute('aria-pressed', 'false')
-        await january.tap()
+        await tapAfterGesture(page, january)
         await expect(january).toHaveAttribute('aria-pressed', 'true')
         await dragTouch(page, cdp, january, nextDirection * 90, 0)
         await expect(calendar).toHaveAttribute('data-calendar-month', '2027-01')
@@ -125,13 +131,13 @@ try {
           await dragTouch(page, cdp, january, oneCell, 0, 320)
           await expect(calendar).toHaveAttribute('data-calendar-month', '2027-01')
           await expect(day(dates[4])).toHaveAttribute('aria-pressed', 'true')
-          await directMonth('2026-11').tap()
+          await tapAfterGesture(page, directMonth('2026-11'))
           await expect(november).toHaveAttribute('aria-pressed', 'true')
         }
       }
       await expect(previous).toBeDisabled()
       await expect(next).toBeEnabled()
-      if (mobile) await next.tap()
+      if (mobile) await tapAfterGesture(page, next)
       else {
         await next.focus()
         await next.press('Enter')
