@@ -329,6 +329,18 @@
 .Icon { flex-shrink: 0; font-size: 19px; color: inherit; }
 @container meeting-actions (max-width: 340px) { .IconButtonGroup { grid-template-columns: minmax(0, 1fr); } .IconButton { justify-content: flex-start; padding: 12px 16px; min-height: 48px; } }
 @media (min-width: 900px) {
+  :global([data-calendar-view='false']) .ActionPanel {
+    .PrimaryButton,
+    .VoteActionButton,
+    .ConfirmedShareButton,
+    .IconButton {
+      justify-content: flex-start;
+      gap: $spacing-sm;
+      padding-inline: $spacing-base;
+      text-align: start;
+    }
+  }
+
   :global([data-calendar-view='true']) {
     .ActionPanelHeader { display: contents; }
     .IconButtonGroup { display: flex; width: auto; }

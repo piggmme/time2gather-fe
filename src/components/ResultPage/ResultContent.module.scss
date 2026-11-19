@@ -747,9 +747,9 @@
 // Keep the same mounted panels/actions when changing the desktop calendar layout.
 .ResultLayout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 304px;
+  grid-template-columns: minmax(0, 1fr) 280px;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  column-gap: $spacing-xl;
+  column-gap: $spacing-2xl;
   align-items: start;
 
   &[data-has-actions='false'] { grid-template-columns: minmax(0, 1fr); }
@@ -764,7 +764,6 @@
   > * { max-width: none; }
 }
 .ResultActions {
-  @include surfaces.section-side;
   grid-column: 2;
   grid-row: 1 / span 3;
   position: sticky;
@@ -772,12 +771,24 @@
   min-width: 0;
 }
 @media (min-width: 900px) {
+  // The divider follows the result area while the management controls can stick.
+  .ResultLayout[data-has-actions='true'][data-calendar-view='false']::before {
+    content: '';
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-self: start;
+    align-self: stretch;
+    margin-inline-start: -$spacing-lg;
+    inline-size: 1px;
+    background: surfaces.$section-line;
+    pointer-events: none;
+  }
+
   .ResultLayout[data-calendar-view='true'] {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto minmax(0, 1fr) auto;
     .ResultActions {
       grid-column: 1; grid-row: 2; position: static; margin-bottom: $spacing-base;
-      border-inline-start: 0; padding-inline-start: 0;
       border-block-end: 1px solid surfaces.$section-line; padding-block-end: $spacing-base;
     }
     .ResultPanels { grid-row: 3; }
@@ -790,7 +801,6 @@
   .ResultComments { order: 3; }
   .ResultActions {
     order: 2; position: static; margin-top: $spacing-lg;
-    border-inline-start: 0; padding-inline-start: 0;
     @include surfaces.section-start;
   }
 }

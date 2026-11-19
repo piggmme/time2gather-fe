@@ -67,6 +67,12 @@
   &[open] .Chevron { transform: rotate(180deg); }
   > .Names { padding: $spacing-sm $spacing-md 0; }
 }
+
+// Give expanded attendance its own space before the next candidate.
+.Option:not(:last-child) > .People[open] {
+  padding-block-end: $spacing-base;
+}
+
 .Next { display: grid; gap: 4px; }
 .Summary .Primary { width: 100%; max-width: none; min-height: 48px; padding: $spacing-md $spacing-base; line-height: 20px; white-space: normal; text-align: center; }
 .Empty { display: grid; gap: $spacing-lg; p { margin: 0; color: var(--decision-muted); font-size: 14px; } }
