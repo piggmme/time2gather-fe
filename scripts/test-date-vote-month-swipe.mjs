@@ -1,8 +1,8 @@
 import { chromium, expect } from '@playwright/test'
 import { spawn } from 'node:child_process'
 import { mkdir, readdir, readFile } from 'node:fs/promises'
-import { existsSync } from 'node:fs'
 import { createNavigationFixture } from './navigation-fixture.mjs'
+import { waitForServer } from './wait-for-server.mjs'
 
 const dates = ['2026-11-18', '2026-11-19', '2027-01-12', '2027-01-13', '2027-01-14']
 const fixture = createNavigationFixture({
@@ -32,11 +32,10 @@ async function dragTouch (page, session, target, dx, dy, hold = 0) {
 
 await new Promise(resolve => fixture.server.listen(0, '127.0.0.1', resolve))
 const api = `http://127.0.0.1:${fixture.server.address().port}/api`
-const protocol = existsSync('certs/time2gather-key.pem') && existsSync('certs/time2gather-cert.pem') ? 'https' : 'http'
 const port = process.env.DATE_VOTE_TEST_PORT || '4373'
-const base = `${protocol}://127.0.0.1:${port}`
-const app = spawn(process.execPath, ['node_modules/astro/astro.js', 'dev', '--host', '127.0.0.1', '--port', port], {
-  env: { ...process.env, API_URL: api, PUBLIC_API_URL: '/api' },
+const base = `http://127.0.0.1:${port}`
+const app = spawn(process.execPath, ['--import', './scripts/fixture-ssr-loader.mjs', 'dist/server/entry.mjs'], {
+  env: { ...process.env, HOST: '127.0.0.1', PORT: port, PREFLIGHT_FIXTURE_API: api },
   stdio: ['ignore', 'pipe', 'pipe'],
 })
 let logs = ''
@@ -44,26 +43,22 @@ app.stdout.on('data', chunk => logs += chunk)
 app.stderr.on('data', chunk => logs += chunk)
 
 let browser
+let activeCase = 'server startup'
 try {
+  await waitForServer(`${base}/meetings/month-vote/select/all_day`, app, { logs: () => logs, timeoutMs: 45000 })
   browser = await chromium.launch()
-  const ready = await browser.newContext({ ignoreHTTPSErrors: true })
-  await expect.poll(async () => (await ready.request.get(`${base}/meetings/month-vote/select/all_day`).catch(() => null))?.status(), {
-    timeout: 45000,
-  }).toBe(200)
-  await ready.close()
 
-  const locales = process.env.QA_LOCALES?.split(',') ?? (await readdir('src/i18n/locales'))
-    .filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
-  const widths = (process.env.DATE_VOTE_WIDTHS || '320,390,1280').split(',').map(Number)
+  const locales = (await readdir('src/i18n/locales')).filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
+  const widths = [320, 390, 1280]
   const output = process.env.DATE_VOTE_PREVIEW_DIR
   if (output) await mkdir(output, { recursive: true })
   for (const locale of locales) {
     const { meeting, common } = JSON.parse(await readFile(`src/i18n/locales/${locale}.json`, 'utf8'))
     const rtl = ['ar', 'ar-EG', 'ur'].includes(locale)
     for (const width of widths) {
+      activeCase = `${locale}/${width}`
       const mobile = width < 700
       const context = await browser.newContext({
-        ignoreHTTPSErrors: true,
         viewport: { width, height: 820 },
         isMobile: mobile,
         hasTouch: mobile,
@@ -80,7 +75,6 @@ try {
       })
       const page = await context.newPage()
       await page.goto(`${base}/meetings/month-vote/select/all_day?lang=${locale}`, { waitUntil: 'domcontentloaded' })
-      await page.addStyleTag({ content: 'astro-dev-toolbar { display: none !important; }' })
       const calendar = page.locator('[data-calendar-month]')
       const day = date => calendar.getByRole('button', { name: date, exact: true })
       const directMonth = month => calendar.locator(`[data-available-month="${month}"]`)
@@ -193,13 +187,16 @@ try {
         await expect(calendar.locator('[data-available-month]')).toHaveCount(0)
         await expect(next).toBeDisabled()
       }
+      await context.unrouteAll({ behavior: 'wait' })
       await context.close()
     }
     console.log(`PASS ${locale} (${widths.join(', ')}px)`)
   }
 } catch (error) {
   console.error(logs.slice(-8000))
-  throw error
+  console.error(error)
+  console.error(`Date vote month navigation failed in ${activeCase}: ${error.message.trim().split('\n')[0]}`)
+  process.exitCode = 1
 } finally {
   if (browser) await browser.close()
   app.kill('SIGTERM')
