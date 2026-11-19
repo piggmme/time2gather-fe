@@ -4,6 +4,30 @@
   width: 100%;
 }
 
+.swipeable {
+  --monthly-cell-touch-action: auto;
+  touch-action: pan-y pinch-zoom;
+
+  @media (prefers-reduced-motion: no-preference) {
+    &[data-swipe-direction='left'] {
+      --month-enter-offset: 12px;
+      animation: month-enter 160ms ease-out;
+    }
+
+    &[data-swipe-direction='right'] {
+      --month-enter-offset: -12px;
+      animation: month-enter 160ms ease-out;
+    }
+  }
+}
+
+@keyframes month-enter {
+  from {
+    opacity: 0.55;
+    transform: translateX(var(--month-enter-offset));
+  }
+}
+
 .weekdays {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));

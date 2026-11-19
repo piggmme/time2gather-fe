@@ -29,7 +29,7 @@ $my-selection-shadow: none;
   aspect-ratio: 1;
   min-width: 0;
   box-sizing: border-box;
-  touch-action: none;
+  touch-action: var(--monthly-cell-touch-action, none);
   color: $c-gray-darkest;
   font-weight: $font-weight-semibold;
   position: relative;

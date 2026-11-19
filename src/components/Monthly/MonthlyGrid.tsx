@@ -1,5 +1,5 @@
 import { formatWeekday, getWeekStart } from '../../utils/time'
-import { useState, useRef } from 'react'
+import { useState, useRef, type TouchEvent } from 'react'
 import { DndContext } from '@dnd-kit/core'
 import MonthlyCell from './MonthlyCell'
 import dayjs from 'dayjs'
@@ -52,6 +52,8 @@ export default function MonthlyGrid ({
   dateSchedule,
   participantsCount,
   allowPastSelected = false,
+  onMonthSwipe,
+  swipeDirection,
 }: {
   monthDays: dayjs.Dayjs[]
   dates: dayjs.Dayjs[]
@@ -64,11 +66,48 @@ export default function MonthlyGrid ({
   dateSchedule?: DateSchedule
   participantsCount?: number
   allowPastSelected?: boolean
+  onMonthSwipe?: (direction: 'left' | 'right') => void
+  swipeDirection?: 'left' | 'right'
 }) {
   const locale = useStore($locale)
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null)
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const touchStart = useRef<{ x: number, y: number, axis?: 'horizontal' | 'vertical' } | null>(null)
+  const suppressTouchClick = useRef(false)
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0]
+    touchStart.current = event.touches.length === 1 ? { x: touch.clientX, y: touch.clientY } : null
+  }
+
+  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    if (event.touches.length !== 1) {
+      touchStart.current = null
+      return
+    }
+    const start = touchStart.current
+    if (!start || start.axis) return
+
+    const touch = event.touches[0]
+    const dx = Math.abs(touch.clientX - start.x)
+    const dy = Math.abs(touch.clientY - start.y)
+    if (Math.max(dx, dy) >= 12) start.axis = dx > dy * 1.25 ? 'horizontal' : 'vertical'
+  }
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    const start = touchStart.current
+    touchStart.current = null
+    if (!start || event.touches.length > 0) return
+
+    const touch = event.changedTouches[0]
+    const dx = touch.clientX - start.x
+    const dy = touch.clientY - start.y
+    suppressTouchClick.current = Boolean(start.axis)
+    if (start.axis === 'horizontal' && Math.abs(dx) >= 44 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+      onMonthSwipe?.(dx < 0 ? 'left' : 'right')
+    }
+  }
 
   const addDates = (newDates: dayjs.Dayjs[]) => {
     if (!setDates) return
@@ -95,7 +134,7 @@ export default function MonthlyGrid ({
     setDates(allDates)
   }
 
-  const sensors = useDragSensors()
+  const sensors = useDragSensors(Boolean(onMonthSwipe))
   const isEditMode = mode === 'edit'
 
   // 드래그 중일 때 스크롤 방지 (편집 모드에서만)
@@ -113,7 +152,23 @@ export default function MonthlyGrid ({
   })
 
   const gridContent = (
-    <div className={styles.container} ref={containerRef}>
+    <div
+      className={onMonthSwipe ? `${styles.container} ${styles.swipeable}` : styles.container}
+      ref={containerRef}
+      data-swipe-direction={swipeDirection}
+      {...(onMonthSwipe && {
+        onTouchStartCapture: handleTouchStart,
+        onTouchMoveCapture: handleTouchMove,
+        onTouchEndCapture: handleTouchEnd,
+        onTouchCancelCapture: () => { touchStart.current = null },
+        onPointerDownCapture: () => { suppressTouchClick.current = false },
+        onClickCapture: (event) => {
+          if (!suppressTouchClick.current || event.detail === 0) return
+          suppressTouchClick.current = false
+          event.stopPropagation()
+        },
+      })}
+    >
       <div className={styles.weekdays}>
         {weekdays.map(weekday => (
           <div
@@ -202,6 +257,8 @@ export default function MonthlyGrid ({
           : !date.isBefore(today, 'day') || (allowPastSelected && dates.some(selected => selected.isSame(date, 'day')))
 
         if (isDateAvailable) {
+          // Once a long press starts range selection, that touch belongs to the drag sensor.
+          touchStart.current = null
           setStartDate(date)
           setEndDate(date)
         }

@@ -70,6 +70,7 @@
     "scripts/test-ui-consistency.mjs",
     "scripts/test-landing-first-screen.mjs",
     "scripts/test-mobile-result-layout.mjs",
+    "scripts/test-date-vote-month-swipe.mjs",
     "scripts/close-routed-context.mjs",
     "scripts/test-route-cleanup.mjs"
   ],
@@ -190,6 +191,14 @@
         "scripts/test-frontend-browser.mjs"
       ],
       "timeoutSeconds": 1800
+    },
+    {
+      "name": "date vote month navigation (22 locales)",
+      "command": [
+        "node",
+        "scripts/test-date-vote-month-swipe.mjs"
+      ],
+      "timeoutSeconds": 600
     },
     {
       "name": "route teardown regression",

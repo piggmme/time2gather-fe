@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { HiCheck, HiChevronLeft, HiChevronRight } from 'react-icons/hi'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
 import { useTranslation } from '../../hooks/useTranslation'
+import { localeMeta } from '../../i18n/config'
 
 function getMonthDays (year: number, month: number, weekStart: number) {
   const start = dayjs().year(year).month(month).date(1)
@@ -100,10 +101,16 @@ export default function Monthly ({
     }, new Map<string, { key: string, date: dayjs.Dayjs }>()).values(),
   ).sort((a, b) => a.date.diff(b.date))
   const [currentDate, setCurrentDate] = useState(() => availableMonths[0]?.date ?? dates?.[0]?.startOf('month') ?? dayjs())
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right'>()
   const monthDays = getMonthDays(currentDate.year(), currentDate.month(), getWeekStart(locale))
   const currentMonthKey = currentDate.format('YYYY-MM')
   const currentAvailableMonthIndex = availableMonths.findIndex(month => month.key === currentMonthKey)
   const showMonthTabs = availableMonths.length > 1
+  const canSwipeMonths = isEditMode && showMonthTabs
+  const showMonthArrows = !showMonthTabs || canSwipeMonths
+  const isRtl = localeMeta[locale].dir === 'rtl'
+  const PreviousIcon = isRtl ? HiChevronRight : HiChevronLeft
+  const NextIcon = isRtl ? HiChevronLeft : HiChevronRight
   const spansYears = new Set(availableMonths.map(month => month.date.year())).size > 1
 
   const today = dayjs()
@@ -118,21 +125,17 @@ export default function Monthly ({
     ? currentAvailableMonthIndex < 0 || currentAvailableMonthIndex >= availableMonths.length - 1
     : false
 
-  const handlePreviousMonth = () => {
-    if (isPreviousDisabled) return
-    if (hasAvailabilityRange) {
-      setCurrentDate(availableMonths[currentAvailableMonthIndex - 1].date)
-      return
-    }
-    setCurrentDate(currentDate.subtract(1, 'month'))
+  const changeMonth = (date: dayjs.Dayjs, swipe?: 'left' | 'right') => {
+    setSwipeDirection(swipe)
+    setCurrentDate(date)
   }
-  const handleNextMonth = () => {
-    if (isNextDisabled) return
-    if (hasAvailabilityRange) {
-      setCurrentDate(availableMonths[currentAvailableMonthIndex + 1].date)
-      return
-    }
-    setCurrentDate(currentDate.add(1, 'month'))
+
+  const moveMonth = (step: -1 | 1, swipe?: 'left' | 'right') => {
+    if (step === -1 ? isPreviousDisabled : isNextDisabled) return
+    const date = hasAvailabilityRange
+      ? availableMonths[currentAvailableMonthIndex + step].date
+      : currentDate.add(step, 'month')
+    changeMonth(date, swipe)
   }
 
   const formatMonthYear = (date: dayjs.Dayjs) => localizedMonth(date, locale, true)
@@ -148,7 +151,7 @@ export default function Monthly ({
               key={month.key}
               data-available-month={month.key}
               className={month.key === currentMonthKey ? styles.current : ''}
-              onClick={() => setCurrentDate(month.date)}
+              onClick={() => changeMonth(month.date)}
               aria-pressed={month.key === currentMonthKey}
               aria-label={formatMonthYear(month.date)}
             >
@@ -158,27 +161,25 @@ export default function Monthly ({
         </div>
       )}
       <div className={styles.header}>
-        {!showMonthTabs && (
+        {showMonthArrows && (
           <button
             type='button'
-            onClick={handlePreviousMonth}
+            onClick={() => moveMonth(-1)}
             disabled={isPreviousDisabled}
-            className={isPreviousDisabled ? styles.disabled : ''}
             aria-label={t('meeting.dateCalendar.previousMonth')}
           >
-            <HiChevronLeft />
+            <PreviousIcon aria-hidden='true' />
           </button>
         )}
         <h2 className={styles.title} aria-live='polite'>{formatMonthYear(currentDate)}</h2>
-        {!showMonthTabs && (
+        {showMonthArrows && (
           <button
             type='button'
-            onClick={handleNextMonth}
+            onClick={() => moveMonth(1)}
             disabled={isNextDisabled}
-            className={isNextDisabled ? styles.disabled : ''}
             aria-label={t('meeting.dateCalendar.nextMonth')}
           >
-            <HiChevronRight />
+            <NextIcon aria-hidden='true' />
           </button>
         )}
       </div>
@@ -191,6 +192,11 @@ export default function Monthly ({
         </div>
       )}
       <MonthlyGrid
+        key={canSwipeMonths ? currentMonthKey : undefined}
+        onMonthSwipe={canSwipeMonths
+          ? direction => moveMonth((direction === 'left') !== isRtl ? 1 : -1, direction)
+          : undefined}
+        swipeDirection={swipeDirection}
         dates={dates ?? []}
         setDates={isEditMode ? setDates : undefined}
         monthDays={monthDays}
