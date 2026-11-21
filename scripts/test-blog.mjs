@@ -54,6 +54,7 @@ try {
     await expect(footerLink).toHaveCount(blocked ? 0 : 1)
     if (blocked) continue
     const blogLabel = (await footerLink.textContent()).trim()
+    assert((await footerLink.boundingBox()).height >= 44, `${locale} blog link has a 44px tap target`)
     await footerLink.click()
     await expect(page).toHaveURL(new URL(blogUrl, baseUrl).href)
     await expect(page.locator('main h1')).toHaveText(blogLabel)
