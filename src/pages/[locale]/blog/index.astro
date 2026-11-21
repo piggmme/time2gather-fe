@@ -1,0 +1,29 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro'
+import {
+  blogCopy, blogLocale, blogPath, blogPostPath, formatPublicationDate, getBlogPosts,
+} from '../../../marketing/blog'
+
+export const prerender = true
+
+export async function getStaticPaths () {
+  const posts = await getBlogPosts()
+  return posts.length ? [{ params: { locale: blogLocale }, props: { posts } }] : []
+}
+
+const { posts } = Astro.props
+---
+
+<BlogLayout title={blogCopy.title} pageTitle={`${blogCopy.title} | Time2Gather`} description={blogCopy.description} path={blogPath}>
+  <ul class='blog-list' aria-label={blogCopy.title}>
+    {posts.map(({ id, data }) => (
+      <li>
+        <a class='blog-post-link' href={blogPostPath(id)}>
+          {data.publishedOn && <time datetime={data.publishedOn}>{formatPublicationDate(data.publishedOn)}</time>}
+          <h2>{data.title}</h2>
+          <p>{data.description}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BlogLayout>

@@ -1,0 +1,29 @@
+---
+import { render } from 'astro:content'
+import BlogLayout from '../../../layouts/BlogLayout.astro'
+import { blogCopy, blogLocale, blogPostPath, getBlogPosts } from '../../../marketing/blog'
+import { localizedAppPath } from '../../../marketing/config'
+
+export const prerender = true
+
+export async function getStaticPaths () {
+  const posts = await getBlogPosts()
+  return posts.map(post => ({
+    params: { locale: blogLocale, slug: post.id },
+    props: { post },
+  }))
+}
+
+const { post } = Astro.props
+const { title, description, publishedOn } = post.data
+const { Content } = await render(post)
+---
+
+<BlogLayout {title} pageTitle={`${title} | Time2Gather`} {description} path={blogPostPath(post.id)} article={{ publishedOn }}>
+  <div class='blog-prose'>
+    <Content />
+  </div>
+  <div class='blog-actions'>
+    <a href={localizedAppPath(blogLocale, '/meetings/create')}>{blogCopy.createPoll}</a>
+  </div>
+</BlogLayout>

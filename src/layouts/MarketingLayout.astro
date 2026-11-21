@@ -11,26 +11,41 @@ import {
   localeMeta, localizedAppPath, localizedPath, marketingLocales, type MarketingLocale, type MarketingPage,
 } from '../marketing/config'
 import { marketingCopy } from '../marketing/copy'
+import { blogCopy, blogLocale, blogPath, getBlogPosts } from '../marketing/blog'
 
-interface Props {
+interface MarketingProps {
   locale: MarketingLocale
   page: MarketingPage
   title?: string
   description?: string
 }
 
-const {
-  locale, page, title: customTitle, description: customDescription,
-} = Astro.props
+interface BlogProps {
+  locale: typeof blogLocale
+  page: 'blog'
+  title: string
+  description: string
+  canonicalPath: string
+  article?: { headline: string, publishedOn?: string }
+}
+
+type Props = MarketingProps | BlogProps
+
+const props = Astro.props
+const { locale, page } = props
+const blog = props.page === 'blog' ? props : null
+const marketingPage = page === 'blog' ? 'home' : page
+const previewBlog = !!blog && import.meta.env.DEV
+const showBlogLink = page === 'home' && locale === blogLocale && (await getBlogPosts()).length > 0
 const copy = marketingCopy[locale]
 const t = getTranslations(locale)
 const siteUrl = Astro.site?.href || 'https://time2gather.org/'
-const canonicalPath = localizedPath(locale, page)
+const canonicalPath = blog?.canonicalPath || localizedPath(locale, marketingPage)
 const canonical = new URL(canonicalPath, siteUrl).href
-const title = customTitle || (page === 'home' ? copy.metaTitle : `${copy[page].title} | Time2Gather`)
-const description = customDescription || (page === 'home' ? copy.metaDescription : copy[page].intro)
+const title = props.title || (marketingPage === 'home' ? copy.metaTitle : `${copy[marketingPage].title} | Time2Gather`)
+const description = props.description || (marketingPage === 'home' ? copy.metaDescription : copy[marketingPage].intro)
 const ogImage = new URL('/share/brand-v2.png', siteUrl).href
-const localePaths = Object.fromEntries(marketingLocales.map(language => [language, localizedPath(language, page)]))
+const localePaths = Object.fromEntries(marketingLocales.map(language => [language, localizedPath(language, marketingPage)]))
 const pageType = page === 'about' ? 'AboutPage' : page === 'contact' ? 'ContactPage' : 'WebPage'
 
 const organization = {
@@ -89,6 +104,20 @@ if (page === 'home') {
   })
 }
 
+if (blog?.article?.publishedOn && !previewBlog) {
+  graph.push({
+    '@type': 'BlogPosting',
+    '@id': `${canonical}#article`,
+    'mainEntityOfPage': canonical,
+    'headline': blog.article.headline,
+    description,
+    'datePublished': blog.article.publishedOn,
+    'inLanguage': locale,
+    'author': { '@id': organization['@id'] },
+    'publisher': { '@id': organization['@id'] },
+  })
+}
+
 const structuredData = { '@context': 'https://schema.org', '@graph': graph }
 ---
 
@@ -98,21 +127,21 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     <meta charset='UTF-8' />
     <LocaleFonts locale={locale} />
     <PerformanceMonitoring />
-    <LocaleBootstrap locale={locale} localePaths={localePaths} />
+    {!blog && <LocaleBootstrap locale={locale} localePaths={localePaths} />}
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <link rel='icon' type='image/png' sizes='192x192' href='/brand/icon-192.png' />
     <link rel='apple-touch-icon' sizes='180x180' href='/brand/apple-touch-icon.png' />
     <title>{title}</title>
     <meta name='description' content={description} />
     <meta name='author' content='Time2Gather' />
-    <meta name='robots' content='index, follow, max-image-preview:large' />
+    <meta name='robots' content={previewBlog ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
     <link rel='canonical' href={canonical} />
-    {marketingLocales.map(language => (
-      <link rel='alternate' hreflang={language} href={new URL(localizedPath(language, page), siteUrl).href} />
+    {!blog && marketingLocales.map(language => (
+      <link rel='alternate' hreflang={language} href={new URL(localizedPath(language, marketingPage), siteUrl).href} />
     ))}
-    <link rel='alternate' hreflang='x-default' href={new URL(page === 'home' ? '/' : `/${page}/`, siteUrl).href} />
+    {!blog && <link rel='alternate' hreflang='x-default' href={new URL(marketingPage === 'home' ? '/' : `/${marketingPage}/`, siteUrl).href} />}
 
-    <meta property='og:type' content='website' />
+    <meta property='og:type' content={blog?.article ? 'article' : 'website'} />
     <meta property='og:url' content={canonical} />
     <meta property='og:title' content={title} />
     <meta property='og:description' content={description} />
@@ -126,7 +155,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     <meta name='twitter:title' content={title} />
     <meta name='twitter:description' content={description} />
     <meta name='twitter:image' content={ogImage} />
-    <script type='application/ld+json' set:html={JSON.stringify(structuredData)} />
+    <script type='application/ld+json' set:html={JSON.stringify(structuredData).replaceAll('<', '\\u003c')} />
 
     <Analytics />
   </head>
@@ -152,7 +181,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
         <div class='language-list'>
           {marketingLocales.map(language => (
             <a
-              href={localizedPath(language, page)}
+              href={blog && language === locale ? canonicalPath : localizedPath(language, marketingPage)}
               data-marketing-locale={language}
               hreflang={language}
               lang={language}
@@ -206,6 +235,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
         <p>{copy.footer}</p>
       </div>
       <nav aria-label={copy.nav.terms}>
+        {showBlogLink && <a href={blogPath}>{blogCopy.title}</a>}
         <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
         <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
         <a href={localizedPath(locale, 'privacy')}>{copy.nav.privacy}</a>
