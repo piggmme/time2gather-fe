@@ -6,7 +6,8 @@ import { useTranslation } from '../../hooks/useTranslation'
 import type { get_meetings_$meetingCode_response } from '../../services/meetings'
 import { buildDecisionSummary } from '../../utils/decisionSummary'
 import { formatDate, formatTimeRange } from '../../utils/time'
-import Avatar from '../Avatar/Avatar'
+import ResultPeople from './ResultPeople'
+import disclosureStyles from './ResultDisclosure.module.scss'
 import Button from '../Button/Button'
 import ConfirmMeetingDialog from './ConfirmMeetingDialog'
 import styles from './DecisionSummary.module.scss'
@@ -37,16 +38,10 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
         : data.participants.length === 0
           ? t('meeting.participantsEmpty')
           : t(`meeting.result.decision.${dateOnly ? 'emptyDates' : 'emptyTimes'}`)
-  const names = (people: MeetingData['participants']) => (
-    <ul className={styles.Names}>{people.map(person => (
-      <li key={person.userId}><Avatar src={person.profileImageUrl} name={person.username} size={32} /><bdi>{person.username}</bdi></li>
-    ))}
-    </ul>
-  )
   const responseGroup = (label: string, people: MeetingData['participants'], status: string) => people.length > 0 && (
     <section className={styles.Missing} data-decision-response={status} aria-label={label}>
       <h3 className={styles.GroupHeading}><span>{label}</span><span className={styles.GroupCount}>{t('meeting.result.participantsCount', { count: people.length })}</span></h3>
-      {names(people)}
+      <ResultPeople people={people} />
     </section>
   )
 
@@ -69,10 +64,10 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
                   return (
                     <li key={option.key} className={styles.Option} data-decision-option={option.key}>
                       <details className={styles.People}>
-                        <summary aria-describedby={`${id}-people-hint`}>
+                        <summary className={`${disclosureStyles.Toggle} ${styles.ScheduleToggle}`} aria-describedby={`${id}-people-hint`}>
                           <time className={styles.Date} dateTime={option.date}>{formatDate(option.date, locale, { month: 'short', day: 'numeric' })}</time>
                           <span className={styles.Weekday}>{formatDate(option.date, locale, { weekday: 'long' })}</span>
-                          <HiChevronDown className={styles.Chevron} aria-hidden='true' />
+                          <HiChevronDown className={disclosureStyles.Chevron} aria-hidden='true' />
                           {!dateOnly && (
                             <span className={styles.Time}>
                               <bdi>{formatTimeRange(option.time, locale, '')}</bdi>
@@ -81,7 +76,7 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
                           )}
                         </summary>
                         {model.state === 'partial' && <p className={styles.Count}>{t('meeting.result.someAvailable', { count: option.count, total: model.total })}</p>}
-                        {names(option.participants)}
+                        <ResultPeople people={option.participants} inDetails />
                         {responseGroup(t('meeting.result.decision.notSelected'), notSelected, 'not-selected')}
                         {responseGroup(t('meeting.unavailable.noneStatus'), unavailable, 'none')}
                       </details>
@@ -92,7 +87,7 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
               {model.options.length > 3 && (
                 <button type='button' className={styles.More} aria-expanded={showAll} onClick={() => setShowAll(value => !value)}>
                   {t(showAll ? 'meeting.result.showFewerOptions' : 'meeting.result.showMoreOptions', { count: model.options.length - 3 })}
-                  <HiChevronDown className={styles.Chevron} aria-hidden='true' />
+                  <HiChevronDown className={disclosureStyles.Chevron} aria-hidden='true' />
                 </button>
               )}
               {responseGroup(t('meeting.unavailable.pending'), model.pending, 'pending')}

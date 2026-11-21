@@ -236,128 +236,81 @@
   font-size: $font-size-sm;
 }
 
-.AISummaryCardHeader {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-  margin-bottom: $spacing-lg;
+.SummaryLocations,
+.LocationTab {
+  display: grid;
+  gap: $spacing-base;
+  min-width: 0;
 }
 
-.AISummaryCardIcon {
-  font-size: 24px;
-  color: $ai-color;
-  background-color: $ai-color-soft;
-  padding: 8px;
-  border-radius: $radius-full;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.SummaryLocations {
+  @include surfaces.section-start;
 }
 
-.AISummaryCardTitle {
+.LocationTab {
+  padding-block-start: $spacing-sm;
+}
+
+.SummaryLocationTitle {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin: 0;
+  color: $c-black;
   font-size: $font-size-lg;
   font-weight: $font-weight-heading;
-  color: $ai-color-accent;
-}
 
-// =====================================================
-// Location Vote Styles (장소 투표 - 장소 탭)
-// =====================================================
+  svg {
+    flex: 0 0 20px;
+    height: 20px;
+    color: $primary-color;
+  }
+}
 
 .LocationList {
-  list-style: none;
+  display: grid;
+  gap: $spacing-sm;
+  min-width: 0;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-md;
-}
+  list-style: none;
 
-.LocationItem {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-sm;
-  padding: $spacing-base 0;
-  @include surfaces.content;
-  transition: all $transition-base;
-  
-
-}
-
-.LocationItemConfirmed {
-  background: transparent;
-  border-color: $primary-color-border;
-  
-  &:hover {
-    border-color: $primary-color;
-  }
+  > li { min-width: 0; }
 }
 
 .LocationHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: $spacing-md;
-  flex-wrap: wrap;
-
-  @media (max-width: 479px) {
-    flex-direction: column;
-    align-items: stretch;
-  }
+  grid-template-columns: 16px minmax(0, 1fr) fit-content(38%) 16px;
 }
 
-.LocationInfo {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-  flex: 1;
-  min-width: 0; // flex item이 줄어들 수 있도록
+.LocationOption {
+  min-width: 0;
+}
+
+.LocationList > li:not(:last-child) > .LocationOption[open] {
+  padding-block-end: calc(var(--result-people-gap) - #{$spacing-sm});
 }
 
 .LocationRank {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: $radius-full;
-  background-color: $c-gray-lightest;
   color: $c-gray-darkest;
-  font-weight: $font-weight-bold;
+  font-weight: $font-weight-medium;
   font-size: $font-size-sm;
-  flex-shrink: 0;
-}
-
-.LocationRankFirst {
-  background: $primary-color-soft;
-  color: $primary-color;
-}
-
-.LocationRankSecond {
-  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-  color: #475569;
-}
-
-.LocationRankThird {
-  background: $c-gray-light;
-  color: $c-gray-darkest;
+  font-variant-numeric: tabular-nums;
 }
 
 .LocationName {
-  min-width: 0;
-  overflow-wrap: anywhere;
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-base;
-  color: $c-black;
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
+  gap: $spacing-xs $spacing-sm;
   flex-wrap: wrap;
+  min-width: 0;
+  color: $c-black;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+
+  bdi { min-width: 0; }
 }
 
 .ConfirmedBadge {
-  display: inline-flex;
-  align-items: center;
   padding: 2px 8px;
   background-color: $primary-color;
   color: $c-white;
@@ -369,160 +322,23 @@
 .LocationVoteCount {
   color: $c-gray-darkest;
   font-size: $font-size-sm;
-  background: $c-gray-lightest;
-  padding: 4px 10px;
-  border-radius: $radius-full;
   font-weight: $font-weight-medium;
-  white-space: nowrap;
-
-  @media (max-width: 479px) {
-    align-self: flex-start;
-    max-width: calc(100% - 40px);
-    margin-inline-start: 40px;
-    white-space: normal;
-  }
+  font-variant-numeric: tabular-nums;
+  text-align: end;
 }
 
 .ConfirmedLocationBanner {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-md $spacing-lg;
-  background: $primary-color-soft;
-  border: 1px solid $primary-color-border;
-  border-radius: $radius-lg;
-  color: $c-gray-darkest;
-  font-size: $font-size-base;
-  
-  strong {
-    font-weight: $font-weight-bold;
-    color: $primary-color;
-  }
-}
-
-// =====================================================
-// AI Summary - Location Vote Card (요약 탭 내 장소 투표)
-// =====================================================
-
-.AISummaryLocationCard {
-  @extend .Card;
-  @include surfaces.section-start;
-}
-
-.CardIconLocation {
-  background-color: $primary-color-soft !important;
-  color: $primary-color !important;
-}
-
-.AISummaryLocationContent {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-lg;
-}
-
-.AISummaryConfirmedBanner {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
   padding: $spacing-sm $spacing-md;
-  background-color: $primary-color-soft;
+  background: $primary-color-soft;
   border-radius: $radius-md;
   color: $c-gray-darkest;
   font-size: $font-size-sm;
-  
+  overflow-wrap: anywhere;
+
   strong {
     font-weight: $font-weight-bold;
     color: $primary-color;
   }
-}
-
-.AISummaryLocationList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-md;
-}
-
-.AISummaryLocationItem {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-sm;
-  padding: $spacing-md 0 0;
-  @include surfaces.content;
-}
-
-.AISummaryLocationItemConfirmed {
-  background-color: transparent;
-}
-
-.AISummaryLocationRank {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-}
-
-.AISummaryRankBadge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: $radius-full;
-  background-color: $c-gray-lightest;
-  color: $c-gray-darkest;
-  font-weight: $font-weight-bold;
-  font-size: $font-size-xs;
-  flex-shrink: 0;
-}
-
-.AISummaryRankBadgeFirst {
-  background: $primary-color-soft;
-  color: $primary-color;
-}
-
-.AISummaryRankBadgeSecond {
-  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-  color: #475569;
-}
-
-.AISummaryRankBadgeThird {
-  background: $c-gray-light;
-  color: $c-gray-darkest;
-}
-
-.AISummaryLocationName {
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-base;
-  color: $c-black;
-}
-
-.AISummaryConfirmedBadge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 6px;
-  background-color: $primary-color;
-  color: $c-white;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
-  border-radius: $radius-full;
-  margin-inline-start: $spacing-xs;
-}
-
-.AISummaryLocationMeta {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-}
-
-.AISummaryVoteCount {
-  color: $c-gray-darkest;
-  font-size: $font-size-sm;
-  background: $c-gray-lightest;
-  padding: 2px 8px;
-  border-radius: $radius-full;
-  font-weight: $font-weight-medium;
 }
 
 // =====================================================
@@ -755,7 +571,12 @@
   &[data-has-actions='false'] { grid-template-columns: minmax(0, 1fr); }
 }
 .ResultHeader { grid-column: 1; grid-row: 1; min-width: 0; }
-.ResultPanels { grid-column: 1; grid-row: 2; min-width: 0; }
+.ResultPanels {
+  --result-people-gap: #{$spacing-lg};
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+}
 .ResultComments {
   grid-column: 1;
   grid-row: 3;
@@ -797,7 +618,7 @@
 }
 @media (max-width: 899px) {
   .ResultLayout { display: flex; flex-direction: column; align-items: stretch; }
-  .ResultPanels { order: 1; }
+  .ResultPanels { --result-people-gap: #{$spacing-base}; order: 1; }
   .ResultComments { order: 3; }
   .ResultActions {
     order: 2; position: static; margin-top: $spacing-lg;
@@ -863,11 +684,6 @@
 .SlotAttendance .BestSlotParticipantName {
   min-width: 0;
   overflow-wrap: anywhere;
-}
-
-.LocationItem + .LocationItem,
-.AISummaryLocationItem + .AISummaryLocationItem {
-  @include surfaces.section-start($spacing-base);
 }
 
 .ParticipantResponse { display: flex; flex-direction: column; min-width: 0; gap: 4px; }

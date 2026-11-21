@@ -1,0 +1,29 @@
+@use '../../styles/variables.scss' as *;
+
+.List {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md $spacing-sm;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    min-width: 0;
+    max-width: 100%;
+    color: $c-black;
+    font-size: 14px;
+
+    > :first-child { flex-shrink: 0; }
+    bdi { min-width: 0; overflow-wrap: anywhere; }
+  }
+}
+
+.Detail {
+  margin-block-start: var(--result-people-gap);
+  padding-inline: $spacing-md;
+}

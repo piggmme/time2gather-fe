@@ -7,10 +7,11 @@ import { useDialogReturnFocus } from '../../hooks/useDialogReturnFocus'
 import {
   useMemo, useState, useEffect, type ReactNode,
 } from 'react'
-import { type get_meetings_$meetingCode_response } from '../../services/meetings'
+import { type get_meetings_$meetingCode_response, type LocationVoteInfo } from '../../services/meetings'
 import Daily from '../daily/Daily'
 import Avatar from '../Avatar/Avatar'
-import LocationVoters from '../LocationVoters/LocationVoters'
+import ResultPeople from './ResultPeople'
+import disclosureStyles from './ResultDisclosure.module.scss'
 import dayjs from 'dayjs'
 import styles from './ResultContent.module.scss'
 import { formatDate, formatTime } from '../../utils/time'
@@ -21,7 +22,7 @@ import TimeZoneSelect from '../Timezone/TimeZoneSelect'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import {
-  HiX, HiOutlineLocationMarker, HiOutlinePencil,
+  HiChevronDown, HiX, HiOutlineLocationMarker, HiOutlinePencil,
 } from 'react-icons/hi'
 import { localeMeta } from '../../i18n/config'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -173,16 +174,6 @@ function SummaryContent ({
   const { t } = useTranslation()
 
   const locationVote = meetingData.locationVote
-  const sortedLocations = locationVote?.locations
-    ? [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
-    : []
-
-  const getRankBadgeClass = (index: number) => {
-    if (index === 0) return styles.AISummaryRankBadgeFirst
-    if (index === 1) return styles.AISummaryRankBadgeSecond
-    if (index === 2) return styles.AISummaryRankBadgeThird
-    return ''
-  }
 
   const confirmedDate = meetingData.meeting.confirmedDate
   const confirmedAvailabilityTime = getConfirmedAvailabilityTime(meetingData.meeting)
@@ -213,54 +204,14 @@ function SummaryContent ({
           </div>
         )}
 
-        {/* 장소 투표 카드 (enabled인 경우만) */}
-        {!meetingData.meeting.confirmedDate && locationVote?.enabled && sortedLocations.length > 0 && (
-          <div className={styles.AISummaryLocationCard}>
-            <div className={styles.AISummaryCardHeader}>
-              <span className={`${styles.AISummaryCardIcon} ${styles.CardIconLocation}`}>
-                <HiOutlineLocationMarker />
-              </span>
-              <span className={styles.AISummaryCardTitle}>{t('locationVote.title')}</span>
-            </div>
-            <div className={styles.AISummaryLocationContent}>
-              {locationVote.confirmedLocation && (
-                <div className={styles.AISummaryConfirmedBanner}>
-                  <span>{t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong></span>
-                </div>
-              )}
-              <ul className={styles.AISummaryLocationList}>
-                {sortedLocations.map((location, index) => {
-                  const isConfirmed = locationVote.confirmedLocation?.id === location.id
-
-                  return (
-                    <li
-                      key={location.id}
-                      className={`${styles.AISummaryLocationItem} ${isConfirmed ? styles.AISummaryLocationItemConfirmed : ''}`}
-                    >
-                      <div className={styles.AISummaryLocationRank}>
-                        <span className={`${styles.AISummaryRankBadge} ${getRankBadgeClass(index)}`}>
-                          {index + 1}
-                        </span>
-                        <span className={styles.AISummaryLocationName}>{location.name}</span>
-                        {isConfirmed && (
-                          <span className={styles.AISummaryConfirmedBadge}>{t('locationVote.confirmed')}</span>
-                        )}
-                      </div>
-                      <div className={styles.AISummaryLocationMeta}>
-                        <span className={styles.AISummaryVoteCount}>
-                          {t('meeting.result.voteCount', {
-                            count: location.voteCount,
-                            percentage: location.percentage,
-                          })}
-                        </span>
-                      </div>
-                      <LocationVoters voters={location.voters} />
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          </div>
+        {!confirmedDate && locationVote?.enabled && locationVote.locations.length > 0 && (
+          <section className={styles.SummaryLocations}>
+            <h2 className={styles.SummaryLocationTitle}>
+              <HiOutlineLocationMarker aria-hidden='true' />
+              {t('locationVote.title')}
+            </h2>
+            <LocationResults locationVote={locationVote} />
+          </section>
         )}
       </div>
     </Tabs.Content>
@@ -600,71 +551,65 @@ function ParticipantsContent ({ meetingData }: { meetingData: get_meetings_$meet
   )
 }
 
-// 장소 투표 탭 컴포넌트
-function LocationContent ({
-  locationVote,
-}: {
-  locationVote: NonNullable<get_meetings_$meetingCode_response['data']['locationVote']>
-}) {
+function LocationContent ({ locationVote }: { locationVote: LocationVoteInfo }) {
   const { t } = useTranslation()
-
-  const sortedLocations = [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
-
-  const getRankBadgeClass = (index: number) => {
-    if (index === 0) return styles.LocationRankFirst
-    if (index === 1) return styles.LocationRankSecond
-    if (index === 2) return styles.LocationRankThird
-    return ''
-  }
 
   return (
     <Tabs.Content value='location'>
-      <div className={styles.Card}> {/* Card 클래스 적용 */}
-        <div className={styles.Summary}>
-          <p className={styles.Title}>{t('locationVote.title')}</p>
-
-          {locationVote.confirmedLocation && (
-            <div className={styles.ConfirmedLocationBanner}>
-              {t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong>
-            </div>
-          )}
-
-          <ul className={styles.LocationList}>
-            {sortedLocations.map((location, index) => {
-              const isConfirmed = locationVote.confirmedLocation?.id === location.id
-
-              return (
-                <li
-                  key={location.id}
-                  className={`${styles.LocationItem} ${isConfirmed ? styles.LocationItemConfirmed : ''}`}
-                >
-                  <div className={styles.LocationHeader}>
-                    <div className={styles.LocationInfo}>
-                      <span className={`${styles.LocationRank} ${getRankBadgeClass(index)}`}>
-                        {index + 1}
-                      </span>
-                      <span className={styles.LocationName}>
-                        {location.name}
-                        {isConfirmed && (
-                          <span className={styles.ConfirmedBadge}>{t('locationVote.confirmed')}</span>
-                        )}
-                      </span>
-                    </div>
-                    <span className={styles.LocationVoteCount}>
-                      {t('meeting.result.voteCount', {
-                        count: location.voteCount,
-                        percentage: location.percentage,
-                      })}
-                    </span>
-                  </div>
-
-                  <LocationVoters voters={location.voters} />
-                </li>
-              )
-            })}
-          </ul>
-        </div>
+      <div className={styles.LocationTab}>
+        <h2 className={styles.SummaryLocationTitle}>{t('locationVote.title')}</h2>
+        <LocationResults locationVote={locationVote} />
       </div>
     </Tabs.Content>
+  )
+}
+
+function LocationResults ({ locationVote }: { locationVote: LocationVoteInfo }) {
+  const { t } = useTranslation()
+  const sortedLocations = [...locationVote.locations].sort((a, b) => b.voteCount - a.voteCount)
+
+  return (
+    <>
+      {locationVote.confirmedLocation && (
+        <div className={styles.ConfirmedLocationBanner}>
+          {t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong>
+        </div>
+      )}
+      <ul className={styles.LocationList}>
+        {sortedLocations.map((location, index) => {
+          const hasVoters = location.voters.length > 0
+          const heading = (
+            <>
+              <span className={styles.LocationRank}>{index + 1}</span>
+              <span className={styles.LocationName}>
+                <bdi>{location.name}</bdi>
+                {locationVote.confirmedLocation?.id === location.id && (
+                  <span className={styles.ConfirmedBadge}>{t('locationVote.confirmed')}</span>
+                )}
+              </span>
+              <span className={styles.LocationVoteCount}>
+                {t('meeting.result.voteCount', { count: location.voteCount, percentage: location.percentage })}
+              </span>
+            </>
+          )
+
+          return (
+            <li key={location.id}>
+              {hasVoters
+                ? (
+                    <details className={styles.LocationOption}>
+                      <summary className={`${disclosureStyles.Toggle} ${styles.LocationHeader}`}>
+                        {heading}
+                        <HiChevronDown className={disclosureStyles.Chevron} aria-hidden='true' />
+                      </summary>
+                      <ResultPeople people={location.voters} label={t('locationVote.voters')} inDetails />
+                    </details>
+                  )
+                : <div className={`${disclosureStyles.Row} ${styles.LocationHeader}`}>{heading}</div>}
+            </li>
+          )
+        })}
+      </ul>
+    </>
   )
 }

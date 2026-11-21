@@ -1,0 +1,206 @@
+import { chromium, expect } from '@playwright/test'
+import { spawn } from 'node:child_process'
+import fs from 'node:fs'
+import { createNavigationFixture } from './navigation-fixture.mjs'
+import { waitForServer } from './wait-for-server.mjs'
+
+const output = process.env.RESULT_VOTERS_OUTPUT
+const locales = process.env.QA_LOCALES?.split(',') ?? fs.readdirSync('src/i18n/locales').filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
+const widths = [320, 390, 1280]
+const fixture = createNavigationFixture({
+  transformMeeting: (data) => {
+    if (!data.locationVote) return data
+    const people = [
+      { ...data.participants[0], username: 'Alex Kim' },
+      { userId: 2, username: 'Sam Lee', profileImageUrl: '' },
+    ]
+    const date = '2026-12-08'
+    const times = ['18:00', '19:00', '20:00']
+    Object.assign(data.meeting, {
+      host: { ...data.meeting.host, id: 3 }, timezone: 'America/New_York', availableDates: { [date]: times },
+    })
+    data.participants = people
+    data.schedule = { [date]: Object.fromEntries(times.map(time => [time, { count: 2, participants: people }])) }
+    data.summary = {
+      totalParticipants: 2,
+      bestSlots: [{
+        date, time: '18:00 ~ 21:00', count: 2, percentage: '100%', participants: people, startSlotIndex: 18, endSlotIndex: 20,
+      }],
+    }
+    data.locationVote.locations = [
+      { name: 'Manhattan (Midtown or Lower)', voters: people },
+      { name: 'North Brooklyn', voters: people.slice(1) },
+      { name: 'Queens', voters: [] },
+    ].map(({ name, voters }, index) => ({
+      id: String(index), name, voters, displayOrder: index, voteCount: voters.length, percentage: `${voters.length * 50}%`,
+    }))
+    return data
+  },
+})
+await new Promise(resolve => fixture.server.listen(0, '127.0.0.1', resolve))
+const api = `http://127.0.0.1:${fixture.server.address().port}`
+const port = Number(process.env.RESULT_VOTERS_PORT || 4374)
+const origin = `http://127.0.0.1:${port}`
+const resultUrl = `${origin}/meetings/result-time-location`
+const app = spawn(process.execPath, ['--import', './scripts/fixture-ssr-loader.mjs', 'dist/server/entry.mjs'], {
+  env: { ...process.env, HOST: '127.0.0.1', PORT: String(port), PREFLIGHT_FIXTURE_API: api }, stdio: ['ignore', 'pipe', 'pipe'],
+})
+let logs = ''
+for (const stream of [app.stdout, app.stderr]) {
+  stream.on('data', (chunk) => {
+    logs += chunk
+  })
+}
+
+async function captureResult (page, panel, pathname) {
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+  await page.mouse.move(0, 0)
+  await page.evaluate(() => document.fonts.ready)
+  const content = await panel.boundingBox()
+  const tabs = await page.getByRole('tablist').boundingBox()
+  const x = Math.max(0, Math.floor(content.x - 16))
+  const y = Math.max(0, Math.floor(tabs.y - 8))
+  const right = Math.min(page.viewportSize().width, Math.ceil(content.x + content.width + 16))
+  const bottom = Math.ceil(content.y + content.height + 16)
+  await page.screenshot({ path: pathname, clip: { x, y, width: right - x, height: bottom - y } })
+}
+
+let browser
+let activeCase = 'server startup'
+try {
+  await waitForServer(resultUrl, app, { logs: () => logs })
+  browser = await chromium.launch()
+
+  for (const locale of locales) {
+    const messages = JSON.parse(fs.readFileSync(`src/i18n/locales/${locale}.json`, 'utf8'))
+    for (const width of widths) {
+      const context = await browser.newContext({ viewport: { width, height: 1000 } })
+      const page = await context.newPage()
+      await page.route(`${origin}/api/**`, async (route) => {
+        const url = new URL(route.request().url())
+        if (url.pathname.endsWith('/v1/auth/me')) return route.fulfill({ json: { success: true, data: null } })
+        const response = await route.fetch({ url: api + url.pathname + url.search })
+        return route.fulfill({ response })
+      })
+      const response = await page.goto(`${resultUrl}?lang=${locale}`, { waitUntil: 'domcontentloaded' })
+      expect(response.status()).toBe(200)
+
+      for (const tab of ['summary', 'location']) {
+        activeCase = `${locale}/${width}/${tab}`
+        if (tab === 'location') await page.getByRole('tab', { name: messages.meeting.result.tabs.location, exact: true }).click()
+        const panel = page.getByRole('tabpanel')
+        await expect(panel).toBeVisible()
+        const first = panel.locator('li').filter({ hasText: 'Manhattan (Midtown or Lower)' })
+        const second = panel.locator('li').filter({ hasText: 'North Brooklyn' })
+        const zero = panel.locator('li').filter({ hasText: 'Queens' })
+        const forms = messages.meeting.result.voteCount
+        const plural = new Intl.PluralRules(locale === 'pcm' ? 'en-NG' : locale)
+        for (const [row, count] of [[first, 2], [second, 1], [zero, 0]]) {
+          const format = typeof forms === 'string' ? forms : forms[plural.select(count)] ?? forms.other
+          await expect(row).toContainText(format.replace('{count}', String(count)).replace('{percentage}', `${count * 50}%`))
+        }
+        await expect(first.getByText('Alex Kim', { exact: true })).toBeHidden()
+        await expect(second.getByText('Sam Lee', { exact: true })).toBeHidden()
+        await expect(zero.locator('summary')).toHaveCount(0)
+
+        const trigger = first.locator('summary')
+        const scheduleToggle = panel.locator('[data-decision-option] summary')
+        const toggleStyle = locator => locator.evaluate((element) => {
+          const { backgroundColor, borderBlockEndColor, borderRadius, paddingInline } = getComputedStyle(element)
+          return { backgroundColor, borderBlockEndColor, borderRadius, paddingInline }
+        })
+        expect((await toggleStyle(trigger)).backgroundColor).toBe('rgba(0, 0, 0, 0)')
+        const capture = output && ['ko', 'de', 'ar'].includes(locale) && tab === 'summary' && width !== 320
+        if (tab === 'summary') {
+          expect(await toggleStyle(trigger)).toEqual(await toggleStyle(scheduleToggle))
+          await scheduleToggle.click()
+          const heading = panel.getByRole('heading', { name: messages.locationVote.title, exact: true })
+          const gaps = await heading.evaluate((element) => {
+            const section = element.parentElement
+            const divider = section.getBoundingClientRect().top
+            const contentEnd = section.previousElementSibling.getBoundingClientRect().bottom
+            return [Math.round(divider - contentEnd), Math.round(element.getBoundingClientRect().top - divider - parseFloat(getComputedStyle(section).borderBlockStartWidth))]
+          })
+          expect(gaps).toEqual([24, 24])
+          const names = panel.locator('[data-decision-option]').getByRole('listitem')
+          const betweenNames = await names.evaluateAll(([firstName, secondName]) => {
+            const first = firstName.getBoundingClientRect(), second = secondName.getBoundingClientRect()
+            return Math.round(Math.max(second.left - first.right, first.left - second.right))
+          })
+          expect(betweenNames).toBe(8)
+          if (capture) {
+            fs.mkdirSync(output, { recursive: true })
+            await captureResult(page, panel, `${output}/${locale}-${width}-collapsed.png`)
+          }
+        }
+
+        await expect(trigger).toContainText('100%')
+        const box = await trigger.boundingBox()
+        expect(box.height).toBeGreaterThanOrEqual(44)
+        await trigger.click()
+        await expect(first.getByRole('list', { name: messages.locationVote.voters })).toBeVisible()
+        await expect(first.getByText('Alex Kim', { exact: true })).toBeVisible()
+        await expect(first.getByText('Sam Lee', { exact: true })).toBeVisible()
+        await expect(second.getByText('Sam Lee', { exact: true })).toBeHidden()
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
+
+        if (tab === 'summary') {
+          expect(await toggleStyle(trigger)).toEqual(await toggleStyle(scheduleToggle))
+          const schedule = panel.locator('[data-decision-option] details')
+          const location = first.locator('details')
+          const scheduleList = await schedule.locator('ul').elementHandle()
+          const [locationNames, scheduleNames] = await location.locator('ul').evaluate(async (list, other) => {
+            await document.fonts.ready
+            const positions = root => Array.from(root.querySelectorAll('bdi'), name => Math.round(name.getBoundingClientRect().left))
+            return [positions(list), positions(other)]
+          }, scheduleList)
+          await scheduleList.dispose()
+          expect(locationNames).toEqual(scheduleNames)
+
+          const afterSchedule = width >= 900
+            ? panel.getByRole('heading', { name: messages.locationVote.title, exact: true }).locator('..')
+            : panel.getByRole('link', { name: messages.meeting.result.buttons.enterAvailability, exact: true })
+          for (const [details, next] of [[schedule, afterSchedule], [location, second.locator('summary')]]) {
+            const toggle = await details.locator('summary').boundingBox()
+            const names = await details.locator('ul').boundingBox()
+            const following = await next.boundingBox()
+            const gaps = [Math.round(names.y - toggle.y - toggle.height), Math.round(following.y - names.y - names.height)]
+            const expectedGap = width >= 900 ? 24 : 16
+            expect(gaps).toEqual([expectedGap, expectedGap])
+          }
+        }
+
+        if (capture) await captureResult(page, panel, `${output}/${locale}-${width}-expanded.png`)
+
+        await trigger.focus()
+        await page.keyboard.press('Shift+Tab')
+        await page.keyboard.press('Tab')
+        await expect(trigger).toBeFocused()
+        await expect(trigger).toHaveCSS('outline-width', '2px')
+        await trigger.press('Enter')
+        await expect(first.getByText('Alex Kim', { exact: true })).toBeHidden()
+        await second.locator('summary').click()
+        await expect(second.getByText('Sam Lee', { exact: true })).toBeVisible()
+        await expect(second.getByText('Alex Kim', { exact: true })).toHaveCount(0)
+      }
+      await context.close()
+    }
+    console.log(`${locale}: 320/390/1280 passed`)
+  }
+  expect(fixture.mutations).toEqual([])
+  if (output) {
+    fs.mkdirSync(output, { recursive: true })
+    fs.writeFileSync(`${output}/verification.json`, JSON.stringify({ passed: true, locales, widths, tabs: ['summary', 'location'] }, null, 2))
+  }
+} catch (error) {
+  console.error(`Result location voters failed in ${activeCase}`)
+  if (output) {
+    fs.mkdirSync(output, { recursive: true })
+    fs.writeFileSync(`${output}/server.log`, logs)
+  }
+  throw error
+} finally {
+  await browser?.close()
+  app.kill('SIGTERM')
+  await new Promise(resolve => fixture.server.close(resolve))
+}

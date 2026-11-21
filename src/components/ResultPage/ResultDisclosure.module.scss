@@ -1,0 +1,49 @@
+@use '../../styles/surfaces.scss' as surfaces;
+@use '../../styles/variables.scss' as *;
+
+.Row {
+  display: grid;
+  align-items: center;
+  gap: $spacing-xs $spacing-sm;
+  min-height: 48px;
+  padding: $spacing-sm $spacing-md;
+  border-block-end: 1px solid transparent;
+  overflow-wrap: anywhere;
+}
+
+.Toggle {
+  composes: Row;
+  border-block-end-color: surfaces.$section-line;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker { display: none; }
+
+  @media (hover: hover) {
+    &:hover {
+      border-radius: surfaces.$control-radius;
+      border-block-end-color: transparent;
+      background: $c-blue-soft;
+    }
+  }
+
+  details[open] > & {
+    border-radius: surfaces.$control-radius;
+    border-block-end-color: transparent;
+    background: $primary-color-soft;
+  }
+
+  &:focus-visible {
+    border-radius: surfaces.$control-radius;
+    outline: 2px solid $primary-color-hover;
+    outline-offset: -2px;
+  }
+}
+
+.Chevron {
+  width: 16px;
+  height: 16px;
+  color: $primary-color;
+
+  details[open] > summary > & { transform: rotate(180deg); }
+}
