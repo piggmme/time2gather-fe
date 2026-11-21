@@ -1,26 +1,43 @@
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import { intlLocale } from '../i18n/config'
+import { isMarketingLocale, marketingLocales, type MarketingLocale } from './config'
 
-export const blogLocale = 'ko' as const
-export const blogPath = `/${blogLocale}/blog/`
-export const blogCopy = {
-  title: '블로그',
-  description: '친구 모임, 회식, 스터디에서 모두가 가능한 시간과 장소를 정하는 방법을 소개합니다.',
-  backToList: '글 목록으로',
-  createPoll: '일정 투표 만들기',
+export function blogPath (locale: MarketingLocale, slug?: string): string {
+  return slug ? `/${locale}/blog/${slug}/` : `/${locale}/blog/`
 }
 
-const publicationDate = new Intl.DateTimeFormat(blogLocale, { dateStyle: 'long', timeZone: 'UTC' })
+export type BlogLanguageLink = { locale: MarketingLocale, path: string }
 
-export function formatPublicationDate (date: string): string {
-  return publicationDate.format(new Date(date))
+export function blogLanguageLinks (locales: MarketingLocale[], slug?: string): BlogLanguageLink[] {
+  return locales.map(locale => ({ locale, path: blogPath(locale, slug) }))
 }
 
-export function blogPostPath (id: string): string {
-  return `${blogPath}${id}/`
+export function formatPublicationDate (locale: MarketingLocale, date: string): string {
+  return new Intl.DateTimeFormat(intlLocale(locale), { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(date))
 }
 
-export async function getBlogPosts () {
-  const posts = await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft)
-  return posts.sort((first, second) => (second.data.publishedOn ?? '').localeCompare(first.data.publishedOn ?? '')
-    || first.id.localeCompare(second.id))
+export async function getBlogTopics () {
+  const publications = await getCollection('blogPublications')
+  const topics = new Map(publications.map(({ id: slug, data }) => {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error(`Invalid blog slug: ${slug}`)
+    return [slug, { slug, ...data, posts: new Map<MarketingLocale, CollectionEntry<'blog'>>() }]
+  }))
+  const posts = await getCollection('blog')
+  for (const post of posts) {
+    const [slug, locale] = post.id.split('/')
+    const topic = topics.get(slug)
+    if (!topic) throw new Error(`Missing publication.json for blog topic: ${slug}`)
+    if (!isMarketingLocale(locale)) throw new Error(`Unsupported blog locale in ${post.id}.md`)
+    topic.posts.set(locale, post)
+  }
+  for (const topic of topics.values()) {
+    if (topic.draft) continue
+    const missing = marketingLocales.filter(locale => !topic.posts.has(locale))
+    if (missing.length) throw new Error(`Cannot publish ${topic.slug}: missing translations for ${missing.join(', ')}`)
+  }
+
+  return [...topics.values()]
+    .filter(topic => import.meta.env.DEV || !topic.draft)
+    .sort((first, second) => (second.publishedOn ?? '').localeCompare(first.publishedOn ?? '')
+      || first.slug.localeCompare(second.slug))
 }

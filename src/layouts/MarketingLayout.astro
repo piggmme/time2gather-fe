@@ -5,13 +5,14 @@ import '../styles/site-header.scss'
 import LocaleBootstrap from '../components/LocaleBootstrap.astro'
 import LocaleFonts from '../components/LocaleFonts.astro'
 import PerformanceMonitoring from '../components/PerformanceMonitoring.astro'
-import { openGraphLocales } from '../i18n/config'
+import { defaultLocale, openGraphLocales } from '../i18n/config'
 import { getTranslations } from '../i18n'
 import {
   localeMeta, localizedAppPath, localizedPath, marketingLocales, type MarketingLocale, type MarketingPage,
 } from '../marketing/config'
 import { marketingCopy } from '../marketing/copy'
-import { blogCopy, blogLocale, blogPath, getBlogPosts } from '../marketing/blog'
+import { blogPath, getBlogTopics, type BlogLanguageLink } from '../marketing/blog'
+import { blogCopy } from '../marketing/blogCopy'
 
 interface MarketingProps {
   locale: MarketingLocale
@@ -21,11 +22,12 @@ interface MarketingProps {
 }
 
 interface BlogProps {
-  locale: typeof blogLocale
+  locale: MarketingLocale
   page: 'blog'
   title: string
   description: string
   canonicalPath: string
+  languageLinks: BlogLanguageLink[]
   article?: { headline: string, publishedOn?: string }
 }
 
@@ -36,7 +38,7 @@ const { locale, page } = props
 const blog = props.page === 'blog' ? props : null
 const marketingPage = page === 'blog' ? 'home' : page
 const previewBlog = !!blog && import.meta.env.DEV
-const showBlogLink = page === 'home' && locale === blogLocale && (await getBlogPosts()).length > 0
+const showBlogLink = page === 'home' && (await getBlogTopics()).some(topic => topic.posts.has(locale))
 const copy = marketingCopy[locale]
 const t = getTranslations(locale)
 const siteUrl = Astro.site?.href || 'https://time2gather.org/'
@@ -45,7 +47,17 @@ const canonical = new URL(canonicalPath, siteUrl).href
 const title = props.title || (marketingPage === 'home' ? copy.metaTitle : `${copy[marketingPage].title} | Time2Gather`)
 const description = props.description || (marketingPage === 'home' ? copy.metaDescription : copy[marketingPage].intro)
 const ogImage = new URL('/share/brand-v2.png', siteUrl).href
-const localePaths = Object.fromEntries(marketingLocales.map(language => [language, localizedPath(language, marketingPage)]))
+const languageLinks = blog?.languageLinks ?? marketingLocales.map(language => ({
+  locale: language, path: localizedPath(language, marketingPage),
+}))
+const localePaths = Object.fromEntries(languageLinks.map(({ locale: language, path }) => [language, path]))
+// Nigerian Pidgin uses the ISO 639-3 code pcm, outside Google's hreflang language code format.
+const alternateLinks = blog
+  ? (locale === 'pcm' ? [] : languageLinks.filter(link => link.locale !== 'pcm'))
+  : languageLinks
+const defaultPath = blog
+  ? (locale === 'pcm' ? undefined : localePaths[defaultLocale])
+  : (marketingPage === 'home' ? '/' : `/${marketingPage}/`)
 const pageType = page === 'about' ? 'AboutPage' : page === 'contact' ? 'ContactPage' : 'WebPage'
 
 const organization = {
@@ -136,10 +148,10 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
     <meta name='author' content='Time2Gather' />
     <meta name='robots' content={previewBlog ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
     <link rel='canonical' href={canonical} />
-    {!blog && marketingLocales.map(language => (
-      <link rel='alternate' hreflang={language} href={new URL(localizedPath(language, marketingPage), siteUrl).href} />
+    {alternateLinks.map(({ locale: language, path }) => (
+      <link rel='alternate' hreflang={language} href={new URL(path, siteUrl).href} />
     ))}
-    {!blog && <link rel='alternate' hreflang='x-default' href={new URL(marketingPage === 'home' ? '/' : `/${marketingPage}/`, siteUrl).href} />}
+    {defaultPath && <link rel='alternate' hreflang='x-default' href={new URL(defaultPath, siteUrl).href} />}
 
     <meta property='og:type' content={blog?.article ? 'article' : 'website'} />
     <meta property='og:url' content={canonical} />
@@ -179,9 +191,9 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
           <span class='language-current'>{localeMeta[locale].label}</span>
         </summary>
         <div class='language-list'>
-          {marketingLocales.map(language => (
+          {languageLinks.map(({ locale: language, path }) => (
             <a
-              href={blog && language === locale ? canonicalPath : localizedPath(language, marketingPage)}
+              href={path}
               data-marketing-locale={language}
               hreflang={language}
               lang={language}
@@ -235,7 +247,7 @@ const structuredData = { '@context': 'https://schema.org', '@graph': graph }
         <p>{copy.footer}</p>
       </div>
       <nav aria-label={copy.nav.terms}>
-        {showBlogLink && <a href={blogPath}>{blogCopy.title}</a>}
+        {showBlogLink && <a href={blogPath(locale)}>{blogCopy[locale].title}</a>}
         <a href={localizedPath(locale, 'about')}>{copy.nav.about}</a>
         <a href={localizedPath(locale, 'contact')}>{copy.nav.contact}</a>
         <a href={localizedPath(locale, 'privacy')}>{copy.nav.privacy}</a>

@@ -1,27 +1,40 @@
 ---
 import BlogLayout from '../../../layouts/BlogLayout.astro'
-import {
-  blogCopy, blogLocale, blogPath, blogPostPath, formatPublicationDate, getBlogPosts,
-} from '../../../marketing/blog'
+import { blogLanguageLinks, blogPath, formatPublicationDate, getBlogTopics } from '../../../marketing/blog'
+import { blogCopy } from '../../../marketing/blogCopy'
+import { marketingLocales } from '../../../marketing/config'
 
 export const prerender = true
 
 export async function getStaticPaths () {
-  const posts = await getBlogPosts()
-  return posts.length ? [{ params: { locale: blogLocale }, props: { posts } }] : []
+  const topics = await getBlogTopics()
+  const locales = marketingLocales.filter(locale => topics.some(topic => topic.posts.has(locale)))
+  const languageLinks = blogLanguageLinks(locales)
+  return locales.map(locale => ({
+    params: { locale },
+    props: {
+      locale,
+      languageLinks,
+      posts: topics.flatMap(({ slug, publishedOn, posts }) => {
+        const post = posts.get(locale)
+        return post ? [{ slug, publishedOn, ...post.data }] : []
+      }),
+    },
+  }))
 }
 
-const { posts } = Astro.props
+const { locale, languageLinks, posts } = Astro.props
+const copy = blogCopy[locale]
 ---
 
-<BlogLayout title={blogCopy.title} pageTitle={`${blogCopy.title} | Time2Gather`} description={blogCopy.description} path={blogPath}>
-  <ul class='blog-list' aria-label={blogCopy.title}>
-    {posts.map(({ id, data }) => (
+<BlogLayout {locale} title={copy.title} description={copy.description} path={blogPath(locale)} {languageLinks}>
+  <ul class='blog-list' aria-label={copy.title}>
+    {posts.map(({ slug, publishedOn, title, description }) => (
       <li>
-        <a class='blog-post-link' href={blogPostPath(id)}>
-          {data.publishedOn && <time datetime={data.publishedOn}>{formatPublicationDate(data.publishedOn)}</time>}
-          <h2>{data.title}</h2>
-          <p>{data.description}</p>
+        <a class='blog-post-link' href={blogPath(locale, slug)}>
+          {publishedOn && <time datetime={publishedOn}>{formatPublicationDate(locale, publishedOn)}</time>}
+          <h2>{title}</h2>
+          <p>{description}</p>
         </a>
       </li>
     ))}

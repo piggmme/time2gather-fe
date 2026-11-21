@@ -1,11 +1,27 @@
 import { defineCollection, z } from 'astro:content'
 import { glob } from 'astro/loaders'
 
+const base = './src/content/blog'
+
 const blog = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/blog' }),
+  loader: glob({
+    pattern: '*/*.md',
+    base,
+    generateId: ({ entry }) => entry.slice(0, -'.md'.length),
+  }),
   schema: z.object({
-    title: z.string().min(1),
-    description: z.string().min(1),
+    title: z.string().trim().min(1),
+    description: z.string().trim().min(1),
+  }),
+})
+
+const blogPublications = defineCollection({
+  loader: glob({
+    pattern: '*/publication.json',
+    base,
+    generateId: ({ entry }) => entry.split('/')[0],
+  }),
+  schema: z.object({
     draft: z.boolean().default(true),
     publishedOn: z.string().date().optional(),
   }).refine(post => post.draft || post.publishedOn, {
@@ -14,4 +30,4 @@ const blog = defineCollection({
   }),
 })
 
-export const collections = { blog }
+export const collections = { blog, blogPublications }

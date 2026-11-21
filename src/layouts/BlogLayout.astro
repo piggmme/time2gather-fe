@@ -1,37 +1,41 @@
 ---
 import MarketingLayout from './MarketingLayout.astro'
-import { blogCopy, blogLocale, blogPath, formatPublicationDate } from '../marketing/blog'
+import { blogPath, formatPublicationDate, type BlogLanguageLink } from '../marketing/blog'
+import { blogCopy } from '../marketing/blogCopy'
+import type { MarketingLocale } from '../marketing/config'
 import '../styles/blog.scss'
 
 interface Props {
+  locale: MarketingLocale
   title: string
-  pageTitle: string
   description: string
   path: string
+  languageLinks: BlogLanguageLink[]
   article?: { publishedOn?: string }
 }
 
 const {
-  title, pageTitle, description, path, article,
+  locale, title, description, path, languageLinks, article,
 } = Astro.props
 const ContentRegion = article ? 'article' : 'div'
 ---
 
 <MarketingLayout
   page='blog'
-  locale={blogLocale}
-  title={pageTitle}
+  {locale}
+  title={`${title} | Time2Gather`}
   {description}
   canonicalPath={path}
+  {languageLinks}
   article={article && { headline: title, publishedOn: article.publishedOn }}
 >
   <main class='blog' class:list={{ 'blog--article': article }}>
-    {article && <a class='blog-back' href={blogPath}>{blogCopy.backToList}</a>}
+    {article && <a class='blog-back' href={blogPath(locale)}>{blogCopy[locale].backToList}</a>}
     <ContentRegion>
       <header class='blog-header'>
         <h1>{title}</h1>
         {article
-          ? article.publishedOn && <time datetime={article.publishedOn}>{formatPublicationDate(article.publishedOn)}</time>
+          ? article.publishedOn && <time datetime={article.publishedOn}>{formatPublicationDate(locale, article.publishedOn)}</time>
           : <p>{description}</p>}
       </header>
       <slot />
