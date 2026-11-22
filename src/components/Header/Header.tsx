@@ -57,7 +57,7 @@ export default function Header () {
   return (
     <header className='t2g-site-header' data-site-header>
       <a className='t2g-site-header__brand' href={localizedPath(locale)} aria-label='Time2Gather'>
-        <img src='/brand/logo.svg' alt='' width={34} height={34} /><span>Time2Gather</span>
+        <img src='/brand/icon-192.png' alt='' width={34} height={34} /><span>Time2Gather</span>
       </a>
       <nav className='t2g-site-header__nav' aria-label={t('common.home')}>
         <a href={localizedAppPath(locale, '/my')}>{t('common.myMeetings')}</a>
