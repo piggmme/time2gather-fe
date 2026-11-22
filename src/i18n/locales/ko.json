@@ -386,6 +386,10 @@
       "allAvailable": "{count}명 모두 가능",
       "someAvailable": "{total}명 중 {count}명 가능",
       "viewSlotPeople": "일정을 누르면 참여자를 볼 수 있어요.",
+      "summarySections": {
+        "schedule": "일정 결과",
+        "location": "장소 투표 결과"
+      },
       "decision": {
         "allHeadline": "{count}명 {availability}",
         "allHeadlineHighlight": "모두 가능해요",

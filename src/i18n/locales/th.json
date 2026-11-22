@@ -384,6 +384,10 @@
       "allAvailable": "ว่างครบทั้ง {count} คน",
       "someAvailable": "ว่าง {count} จาก {total} คน",
       "viewSlotPeople": "แตะตัวเลือกเพื่อดูว่าใครว่างบ้าง",
+      "summarySections": {
+        "schedule": "ผลการเลือกวันและเวลา",
+        "location": "ผลโหวตสถานที่"
+      },
       "decision": {
         "allHeadline": "ทั้ง {count} คน{availability}",
         "allHeadlineHighlight": "ว่างพร้อมกัน",

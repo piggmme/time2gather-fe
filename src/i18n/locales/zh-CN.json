@@ -384,6 +384,10 @@
       "allAvailable": "{count} 人全部有空",
       "someAvailable": "{total} 人中 {count} 人有空",
       "viewSlotPeople": "点击选项查看有空的参与者。",
+      "summarySections": {
+        "schedule": "日程结果",
+        "location": "地点投票结果"
+      },
       "decision": {
         "allHeadline": "{count}人{availability}",
         "allHeadlineHighlight": "全部有空",

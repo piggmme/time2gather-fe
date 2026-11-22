@@ -384,6 +384,10 @@
       "allAvailable": "सर्व {count} जण उपलब्ध",
       "someAvailable": "{total} पैकी {count} जण उपलब्ध",
       "viewSlotPeople": "उपलब्ध सहभागी पाहण्यासाठी पर्याय निवडा.",
+      "summarySections": {
+        "schedule": "वेळापत्रकाचे निकाल",
+        "location": "ठिकाणासाठी मतदानाचे निकाल"
+      },
       "decision": {
         "allHeadline": "सर्व {count} जण {availability}",
         "allHeadlineHighlight": "उपलब्ध आहेत",

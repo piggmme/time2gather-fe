@@ -19,7 +19,19 @@
   font-weight: $font-weight-bold;
   text-wrap: balance;
 }
-.TitleHighlight { color: inherit; }
+.Toolbar, .ToolbarStatus, .SectionLabel { display: none; }
+.Toolbar[data-confirm-primary='true'] { display: flex; justify-content: flex-end; }
+.ToolbarActions { display: flex; flex-wrap: wrap; align-items: center; gap: $spacing-sm; }
+.Toolbar .ConfirmAction {
+  width: auto;
+  max-width: 100%;
+  min-height: 44px;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-sm;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.DateHeading { display: contents; }
 .Basis { margin: 8px 0 0; color: var(--decision-muted); font-size: 14px; line-height: 1.6; }
 .Date { min-width: 0; font-size: $font-size-md; font-weight: $font-weight-medium; line-height: 1.5; }
 .Weekday { min-width: 0; color: var(--decision-muted); font-size: 14px; text-align: end; }
@@ -40,11 +52,28 @@
 .People {
   .Missing { margin-inline: $spacing-md; margin-block-start: $spacing-lg; padding-block: $spacing-base 0; }
 }
-.Next { display: grid; gap: 4px; }
 .Summary .Primary { width: 100%; max-width: none; min-height: 48px; padding: $spacing-md $spacing-base; line-height: 20px; white-space: normal; text-align: center; }
 .Empty { display: grid; gap: $spacing-lg; p { margin: 0; color: var(--decision-muted); font-size: 14px; } }
 .More { display: inline-flex; align-items: center; justify-content: center; justify-self: end; margin-inline-end: -$spacing-md; gap: $spacing-sm; max-inline-size: 100%; min-height: 44px; padding: $spacing-sm $spacing-md; border: 0; border-radius: surfaces.$control-radius; background: transparent; color: var(--decision-accent); font: inherit; font-size: 14px; cursor: pointer;
   &[aria-expanded='true'] > svg { transform: rotate(180deg); }
   &:hover, &:active { color: var(--decision-focus); }
   &:focus-visible { outline: 3px solid var(--decision-focus); outline-offset: 2px; }
+}
+
+@media (max-width: 899px) {
+  .Toolbar, .Toolbar[data-confirm-primary='true'] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-sm $spacing-md;
+    margin-block-end: $spacing-sm;
+  }
+
+  .ToolbarActions { margin-inline-start: auto; max-inline-size: 100%; }
+  .ToolbarStatus, .SectionLabel { display: block; margin: 0; color: var(--decision-muted); font-size: $font-size-sm; }
+  .SectionLabel { margin-block-end: $spacing-xs; font-weight: $font-weight-semibold; }
+  .Summary .ScheduleToggle { grid-template-columns: minmax(0, 1fr) 16px; border-block-end-color: transparent; }
+  .DateHeading { display: flex; flex-wrap: wrap; align-items: baseline; gap: $spacing-xs $spacing-sm; min-width: 0; }
+  .Weekday { text-align: start; }
 }

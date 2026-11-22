@@ -19,6 +19,7 @@ const REFRESH_INTERVAL_MS = 5000
 export default function MeetingLiveView ({ initialData, shareLabels }: { initialData: MeetingData, shareLabels: CreatorShareLabels | null }) {
   const { t } = useTranslation()
   const [commentCount, setCommentCount] = useState(0)
+  const [activeTab, setActiveTab] = useState('summary')
   const onCommentSummary = useCallback((count: number) => setCommentCount(count), [])
   const [meetingData, setMeetingData] = useState(initialData)
   const latestSnapshotRef = useRef(JSON.stringify(initialData))
@@ -88,6 +89,7 @@ export default function MeetingLiveView ({ initialData, shareLabels }: { initial
       <ResultContent
         meetingData={meetingData}
         onMeetingUpdated={refreshMeeting}
+        onTabChange={setActiveTab}
         commentShortcut={commentCount > 0 && (
           <a className={commentStyles.shortcut} href='#comments'>
             <span className={commentStyles.shortcutLabel}>
@@ -97,7 +99,7 @@ export default function MeetingLiveView ({ initialData, shareLabels }: { initial
           </a>
         )}
         comments={<Comments code={meetingData.meeting.code} onSummary={onCommentSummary} />}
-        actions={<ResultButtons data={meetingData} shareLabels={shareLabels} onMeetingUpdated={refreshMeeting} />}
+        actions={<ResultButtons data={meetingData} shareLabels={shareLabels} onMeetingUpdated={refreshMeeting} summaryTab={activeTab === 'summary'} />}
       />
     </div>
   )

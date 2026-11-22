@@ -384,6 +384,10 @@
       "allAvailable": "{count}人全員が参加可能",
       "someAvailable": "{total}人中{count}人が参加可能",
       "viewSlotPeople": "候補を押すと参加できる人を確認できます。",
+      "summarySections": {
+        "schedule": "日程の結果",
+        "location": "場所の投票結果"
+      },
       "decision": {
         "allHeadline": "{count}人{availability}",
         "allHeadlineHighlight": "全員が参加できます",

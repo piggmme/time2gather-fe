@@ -400,6 +400,10 @@
       "allAvailable": "الجميع متاح ({count})",
       "someAvailable": "المتاحون: {count} من {total}",
       "viewSlotPeople": "اضغط على أحد الخيارات لعرض المشاركين المتاحين.",
+      "summarySections": {
+        "schedule": "نتائج المواعيد",
+        "location": "نتائج التصويت على المكان"
+      },
       "decision": {
         "allHeadline": "المشاركون الـ{count} {availability}",
         "allHeadlineHighlight": "متاحون جميعًا",

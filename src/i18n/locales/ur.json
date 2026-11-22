@@ -384,6 +384,10 @@
       "allAvailable": "سب دستیاب ہیں ({count})",
       "someAvailable": "{total} میں سے {count} دستیاب",
       "viewSlotPeople": "دستیاب شرکاء کو دیکھنے کے لیے کوئی آپشن منتخب کریں۔",
+      "summarySections": {
+        "schedule": "اوقات کے نتائج",
+        "location": "جگہ کے لیے ووٹنگ کے نتائج"
+      },
       "decision": {
         "allHeadline": "تمام {count} شرکاء {availability}",
         "allHeadlineHighlight": "دستیاب ہیں",

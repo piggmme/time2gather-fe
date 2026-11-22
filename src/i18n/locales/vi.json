@@ -384,6 +384,10 @@
       "allAvailable": "Cả {count} người đều rảnh",
       "someAvailable": "{count}/{total} người rảnh",
       "viewSlotPeople": "Nhấn vào một lựa chọn để xem ai rảnh.",
+      "summarySections": {
+        "schedule": "Kết quả chọn lịch",
+        "location": "Kết quả bình chọn địa điểm"
+      },
       "decision": {
         "allHeadline": "Cả {count} người {availability}",
         "allHeadlineHighlight": "đều rảnh",

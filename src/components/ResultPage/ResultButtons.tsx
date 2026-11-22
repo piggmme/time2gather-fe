@@ -19,13 +19,14 @@ import { hasUserScheduleSelection } from '../../utils/meetingSelection'
 import styles from './ResultButtons.module.scss'
 
 export default function ResultButtons (
-  { data, shareLabels, onMeetingUpdated, showConfirmAction = true }:
-  { data: get_meetings_$meetingCode_response['data'], shareLabels: CreatorShareLabels | null, onMeetingUpdated?: () => void, showConfirmAction?: boolean },
+  { data, shareLabels, onMeetingUpdated, summaryTab = false }:
+  { data: get_meetings_$meetingCode_response['data'], shareLabels: CreatorShareLabels | null, onMeetingUpdated?: () => void, summaryTab?: boolean },
 ) {
   const me = useStore($me)
   const didIParticipate = hasUserScheduleSelection(data.schedule, me?.userId) || Boolean(me && data.participants.find(person => person.userId === me.userId)?.availabilityResponse)
   const isHost = data.meeting.host.id === me?.userId
   const isConfirmed = !!data.meeting.confirmedDate
+  const votingSummary = summaryTab && !isConfirmed
   const { t, locale } = useTranslation()
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
@@ -108,12 +109,12 @@ export default function ResultButtons (
   const voteActionLabel = t(`meeting.result.buttons.${didIParticipate ? 'editAvailability' : 'enterAvailability'}`)
 
   return (
-    <div className={styles.ResultButtons}>
-      {showConfirmAction && isHost && !isConfirmed && confirmActionTarget && createPortal(
+    <div className={styles.ResultButtons} data-voting-summary={votingSummary} data-host={isHost}>
+      {isHost && !isConfirmed && confirmActionTarget && createPortal(
         <Button
           type='button'
           buttonType='utility'
-          className={styles.CompactConfirmButton}
+          className={votingSummary ? `${styles.CompactConfirmButton} ${styles.HideOnMobileSummary}` : styles.CompactConfirmButton}
           onClick={() => setIsConfirmDialogOpen(true)}
           aria-haspopup='dialog'
         >

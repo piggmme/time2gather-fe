@@ -384,6 +384,10 @@
       "allAvailable": "Everyone available ({count})",
       "someAvailable": "{count} of {total} available",
       "viewSlotPeople": "Select an option to see who is available.",
+      "summarySections": {
+        "schedule": "Schedule results",
+        "location": "Location vote results"
+      },
       "decision": {
         "allHeadline": "All {count} {availability}",
         "allHeadlineHighlight": "can attend",

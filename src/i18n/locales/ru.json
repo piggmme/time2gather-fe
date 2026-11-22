@@ -392,6 +392,10 @@
       "allAvailable": "Могут все ({count})",
       "someAvailable": "Могут {count} из {total}",
       "viewSlotPeople": "Нажмите на вариант, чтобы увидеть, кто может участвовать.",
+      "summarySections": {
+        "schedule": "Результаты по времени",
+        "location": "Результаты голосования за место"
+      },
       "decision": {
         "allHeadline": "Все {count} участников {availability}",
         "allHeadlineHighlight": "могут участвовать",

@@ -384,6 +384,10 @@
       "allAvailable": "Duka suna iya zuwa ({count})",
       "someAvailable": "{count} cikin {total} suna iya zuwa",
       "viewSlotPeople": "Danna wani zaɓi don ganin waɗanda za su iya zuwa.",
+      "summarySections": {
+        "schedule": "Sakamakon jadawali",
+        "location": "Sakamakon zaɓen wuri"
+      },
       "decision": {
         "allHeadline": "Duka mutane {count} {availability}",
         "allHeadlineHighlight": "suna iya zuwa",

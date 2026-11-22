@@ -8,7 +8,7 @@ const output = process.env.RESULT_VOTERS_OUTPUT
 const locales = process.env.QA_LOCALES?.split(',') ?? fs.readdirSync('src/i18n/locales').filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
 const widths = [320, 390, 1280]
 const fixture = createNavigationFixture({
-  transformMeeting: (data) => {
+  transformMeeting: (data, code) => {
     if (!data.locationVote) return data
     const people = [
       { ...data.participants[0], username: 'Alex Kim' },
@@ -26,6 +26,9 @@ const fixture = createNavigationFixture({
       bestSlots: [{
         date, time: '18:00 ~ 21:00', count: 2, percentage: '100%', participants: people, startSlotIndex: 18, endSlotIndex: 20,
       }],
+    }
+    if (code.includes('confirmed')) {
+      Object.assign(data.meeting, { confirmedDate: date, confirmedTime: times[0], confirmedSlotIndex: 18 })
     }
     data.locationVote.locations = [
       { name: 'Manhattan (Midtown or Lower)', voters: people },
@@ -61,7 +64,8 @@ async function captureResult (page, panel, pathname) {
   const x = Math.max(0, Math.floor(content.x - 16))
   const y = Math.max(0, Math.floor(tabs.y - 8))
   const right = Math.min(page.viewportSize().width, Math.ceil(content.x + content.width + 16))
-  const bottom = Math.ceil(content.y + content.height + 16)
+  const actions = await page.locator('[class*="ResultActions"]').boundingBox()
+  const bottom = Math.ceil((page.viewportSize().width < 900 ? actions.y + actions.height : content.y + content.height) + 16)
   await page.screenshot({ path: pathname, clip: { x, y, width: right - x, height: bottom - y } })
 }
 
@@ -76,7 +80,7 @@ try {
     for (const width of widths) {
       const context = await browser.newContext({ viewport: { width, height: 1000 } })
       const page = await context.newPage()
-      await page.route(`${origin}/api/**`, async (route) => {
+      await context.route(`${origin}/api/**`, async (route) => {
         const url = new URL(route.request().url())
         if (url.pathname.endsWith('/v1/auth/me')) return route.fulfill({ json: { success: true, data: null } })
         const response = await route.fetch({ url: api + url.pathname + url.search })
@@ -112,16 +116,24 @@ try {
         expect((await toggleStyle(trigger)).backgroundColor).toBe('rgba(0, 0, 0, 0)')
         const capture = output && ['ko', 'de', 'ar'].includes(locale) && tab === 'summary' && width !== 320
         if (tab === 'summary') {
+          if (width < 900) {
+            const toolbar = panel.locator('[data-summary-toolbar]')
+            await expect(toolbar.getByText(messages.meeting.result.actions.inProgress, { exact: true })).toBeVisible()
+            const vote = toolbar.getByRole('link', { name: messages.meeting.result.buttons.enterAvailability, exact: true })
+            await expect(vote).toBeVisible()
+            expect((await vote.boundingBox()).y).toBeLessThan((await scheduleToggle.boundingBox()).y)
+            expect((await vote.boundingBox()).width).toBeLessThan((await panel.boundingBox()).width)
+          }
           expect(await toggleStyle(trigger)).toEqual(await toggleStyle(scheduleToggle))
           await scheduleToggle.click()
-          const heading = panel.getByRole('heading', { name: messages.locationVote.title, exact: true })
+          const heading = panel.getByRole('heading', { name: messages.meeting.result.summarySections.location, exact: true })
           const gaps = await heading.evaluate((element) => {
             const section = element.parentElement
             const divider = section.getBoundingClientRect().top
             const contentEnd = section.previousElementSibling.getBoundingClientRect().bottom
             return [Math.round(divider - contentEnd), Math.round(element.getBoundingClientRect().top - divider - parseFloat(getComputedStyle(section).borderBlockStartWidth))]
           })
-          expect(gaps).toEqual([24, 24])
+          expect(gaps).toEqual([24, width < 900 ? 0 : 24])
           const names = panel.locator('[data-decision-option]').getByRole('listitem')
           const betweenNames = await names.evaluateAll(([firstName, secondName]) => {
             const first = firstName.getBoundingClientRect(), second = secondName.getBoundingClientRect()
@@ -157,16 +169,14 @@ try {
           await scheduleList.dispose()
           expect(locationNames).toEqual(scheduleNames)
 
-          const afterSchedule = width >= 900
-            ? panel.getByRole('heading', { name: messages.locationVote.title, exact: true }).locator('..')
-            : panel.getByRole('link', { name: messages.meeting.result.buttons.enterAvailability, exact: true })
+          const afterSchedule = panel.getByRole('heading', { name: messages.meeting.result.summarySections.location, exact: true }).locator('..')
           for (const [details, next] of [[schedule, afterSchedule], [location, second.locator('summary')]]) {
             const toggle = await details.locator('summary').boundingBox()
             const names = await details.locator('ul').boundingBox()
             const following = await next.boundingBox()
             const gaps = [Math.round(names.y - toggle.y - toggle.height), Math.round(following.y - names.y - names.height)]
             const expectedGap = width >= 900 ? 24 : 16
-            expect(gaps).toEqual([expectedGap, expectedGap])
+            expect(gaps).toEqual([expectedGap, next === afterSchedule ? 24 : expectedGap])
           }
         }
 
@@ -183,9 +193,46 @@ try {
         await expect(second.getByText('Sam Lee', { exact: true })).toBeVisible()
         await expect(second.getByText('Alex Kim', { exact: true })).toHaveCount(0)
       }
+      await context.unrouteAll({ behavior: 'wait' })
       await context.close()
     }
     console.log(`${locale}: 320/390/1280 passed`)
+  }
+  for (const locale of locales.filter(value => ['ko', 'de', 'ar'].includes(value))) {
+    const messages = JSON.parse(fs.readFileSync(`src/i18n/locales/${locale}.json`, 'utf8')).meeting
+    for (const [role, userId] of [['responded', 2], ['host', 3]]) {
+      activeCase = `${locale}/320/${role}`
+      const context = await browser.newContext({ viewport: { width: 320, height: 900 } })
+      await context.route(`${origin}/api/**`, async (route) => {
+        const url = new URL(route.request().url())
+        if (url.pathname.endsWith('/v1/auth/me')) {
+          return route.fulfill({ json: { success: true, data: { userId, username: 'Casey', provider: 'ANONYMOUS', role: 'USER' } } })
+        }
+        return route.fulfill({ response: await route.fetch({ url: api + url.pathname + url.search }) })
+      })
+      const page = await context.newPage()
+      await page.goto(`${resultUrl}?lang=${locale}`, { waitUntil: 'domcontentloaded' })
+      const toolbar = page.locator('[data-summary-toolbar]')
+      const vote = toolbar.getByRole('link', { name: messages.result.buttons[role === 'responded' ? 'editAvailability' : 'enterAvailability'], exact: true })
+      await expect(vote).toHaveAttribute('data-appearance', 'secondary')
+      await expect(vote).toBeVisible()
+      if (role === 'host') {
+        await expect(toolbar).toHaveAttribute('data-confirm-primary', 'true')
+        await expect(page.locator('#meeting-confirm-action button')).toBeHidden()
+        await toolbar.getByRole('button', { name: messages.result.decision.setMeeting, exact: true }).click()
+        const dialog = page.getByRole('alertdialog')
+        await expect(dialog).toBeVisible()
+        await dialog.getByRole('button', { name: messages.confirmDialog.cancel, exact: true }).click()
+        await expect(dialog).toBeHidden()
+        await page.getByRole('tab', { name: messages.result.tabs.calendar, exact: true }).click()
+        await expect(page.locator('#meeting-confirm-action button')).toBeVisible()
+      }
+      await page.goto(`${resultUrl}-confirmed?lang=${locale}`, { waitUntil: 'domcontentloaded' })
+      await expect(page.locator('[data-confirmed="true"]').first()).toBeVisible()
+      await expect(page.locator('[data-summary-toolbar]')).toHaveCount(0)
+      await context.unrouteAll({ behavior: 'wait' })
+      await context.close()
+    }
   }
   expect(fixture.mutations).toEqual([])
   if (output) {

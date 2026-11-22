@@ -384,6 +384,10 @@
       "allAvailable": "Semua bisa ({count})",
       "someAvailable": "{count} dari {total} bisa",
       "viewSlotPeople": "Pilih opsi untuk melihat siapa yang bisa hadir.",
+      "summarySections": {
+        "schedule": "Hasil jadwal",
+        "location": "Hasil pemungutan suara lokasi"
+      },
       "decision": {
         "allHeadline": "Semua {count} peserta {availability}",
         "allHeadlineHighlight": "bisa hadir",

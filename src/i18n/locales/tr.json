@@ -384,6 +384,10 @@
       "allAvailable": "Herkes uygun ({count})",
       "someAvailable": "{total} kişiden {count} kişi uygun",
       "viewSlotPeople": "Uygun kişileri görmek için bir seçeneğe dokunun.",
+      "summarySections": {
+        "schedule": "Zamanlama sonuçları",
+        "location": "Yer oylaması sonuçları"
+      },
       "decision": {
         "allHeadline": "{count} kişinin hepsi {availability}",
         "allHeadlineHighlight": "uygun",

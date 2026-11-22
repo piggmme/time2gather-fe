@@ -290,6 +290,10 @@
   padding-block-end: calc(var(--result-people-gap) - #{$spacing-sm});
 }
 
+.LocationList > li:last-child > .LocationOption > summary {
+  border-block-end-color: transparent;
+}
+
 .LocationRank {
   color: $c-gray-darkest;
   font-weight: $font-weight-medium;
@@ -713,9 +717,26 @@
 }
 .ResponseBasis { margin: 0; color: $c-gray-darkest; font-size: $font-size-sm; }
 
-// Decision summary: one conclusion, then its candidate and the next action.
-.DecisionContainer { min-width: 0; }
 @media (max-width: 899px) {
-  .DecisionContainer .SummaryVoteAction { display: flex; justify-content: center; margin-top: 16px; width: 100%; min-height: 48px; font-size: 14px; white-space: normal; line-height: 1.5; }
+  [data-summary-toolbar] .SummaryVoteAction {
+    flex: 0 1 auto;
+    min-height: 44px;
+    max-inline-size: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-size: $font-size-sm;
+    line-height: 1.5;
+  }
+
   .SummaryVoteAction[data-appearance='primary'] { background: $primary-color; border-color: $primary-color; color: $c-white; &:hover { background: $primary-color-hover; } }
+
+  .SummaryLocations {
+    gap: $spacing-sm;
+    border-block-start: 0;
+    padding-block-start: 0;
+
+    .SummaryLocationTitle { color: $c-gray-darkest; font-size: $font-size-sm; font-weight: $font-weight-semibold; }
+    .SummaryLocationTitle svg, .LocationRank { display: none; }
+    .LocationHeader { grid-template-columns: minmax(0, 1fr) fit-content(38%) 16px; border-block-end-color: transparent; }
+  }
 }

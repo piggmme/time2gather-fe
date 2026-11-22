@@ -384,6 +384,10 @@
       "allAvailable": "সবাই উপলব্ধ ({count})",
       "someAvailable": "{total} জনের মধ্যে {count} জন উপলব্ধ",
       "viewSlotPeople": "কারা উপলব্ধ তা দেখতে একটি বিকল্প বেছে নিন।",
+      "summarySections": {
+        "schedule": "সময়সূচির ফলাফল",
+        "location": "স্থান নির্বাচনের ভোটের ফলাফল"
+      },
       "decision": {
         "allHeadline": "{count} জনই {availability}",
         "allHeadlineHighlight": "উপলব্ধ আছেন",

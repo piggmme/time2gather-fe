@@ -384,6 +384,10 @@
       "allAvailable": "Alle haben Zeit ({count})",
       "someAvailable": "{count} von {total} haben Zeit",
       "viewSlotPeople": "Wähle einen Vorschlag, um die verfügbaren Personen zu sehen.",
+      "summarySections": {
+        "schedule": "Terminergebnisse",
+        "location": "Ergebnisse der Ortsabstimmung"
+      },
       "decision": {
         "allHeadline": "Alle {count} {availability}",
         "allHeadlineHighlight": "haben Zeit",

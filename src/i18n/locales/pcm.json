@@ -384,6 +384,10 @@
       "allAvailable": "Everybody fit come ({count})",
       "someAvailable": "{count} out of {total} fit come",
       "viewSlotPeople": "Tap one option to see who fit come.",
+      "summarySections": {
+        "schedule": "Schedule result",
+        "location": "Place vote result"
+      },
       "decision": {
         "allHeadline": "All {count} people {availability}",
         "allHeadlineHighlight": "fit come",

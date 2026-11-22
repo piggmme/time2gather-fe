@@ -384,6 +384,10 @@
       "allAvailable": "Tout le monde est disponible ({count})",
       "someAvailable": "{count} sur {total} disponibles",
       "viewSlotPeople": "Sélectionnez une option pour voir qui est disponible.",
+      "summarySections": {
+        "schedule": "Résultats des disponibilités",
+        "location": "Résultats du vote sur les lieux"
+      },
       "decision": {
         "allHeadline": "Les {count} participants {availability}",
         "allHeadlineHighlight": "sont disponibles",

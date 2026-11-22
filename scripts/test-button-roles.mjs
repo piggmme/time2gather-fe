@@ -159,7 +159,9 @@ async function verifyRoles (page, scenario) {
     await outline(page.locator('button[class*="_IconButton_"]').first(), blue)
   }
   if (scenario === 'result') {
-    await outline(page.locator('#meeting-confirm-action button'), blue)
+    const titleAction = page.locator('#meeting-confirm-action button')
+    if (page.viewportSize().width >= 900) await outline(titleAction, blue)
+    else await expect(titleAction).toBeHidden()
     await expect(page.locator('[data-summary-confirm]')).toHaveCSS('background-color', blue)
     if (page.viewportSize().width < 900) await outline(page.locator('a[class*="_SummaryVoteAction_"]:visible').first())
     const edit = page.locator('a[class*="_PrimaryButton_"]').first()
@@ -282,7 +284,7 @@ async function prepare (page, locale, scenario) {
   }
   if (scenario === 'calendar') await page.getByRole('tab', { name: t.meeting.result.tabs.calendar, exact: true }).click()
   if (scenario === 'confirm') {
-    await page.locator('#meeting-confirm-action button').click()
+    await page.locator(page.viewportSize().width < 900 ? '[data-summary-confirm]' : '#meeting-confirm-action button').click()
     await expect(page.getByRole('alertdialog')).toBeVisible()
   }
   if (scenario === 'export') {

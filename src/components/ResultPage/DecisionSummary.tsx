@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from 'react'
+import { useId, useMemo, useState, type ReactNode } from 'react'
 import { useStore } from '@nanostores/react'
 import { HiChevronDown, HiOutlineCalendar } from 'react-icons/hi'
 import { $me } from '../../stores/me'
@@ -14,10 +14,11 @@ import styles from './DecisionSummary.module.scss'
 
 type MeetingData = get_meetings_$meetingCode_response['data']
 
-export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }: {
+export default function DecisionSummary ({ data, displayZone, onMeetingUpdated, availabilityAction }: {
   data: MeetingData
   displayZone: string
   onMeetingUpdated?: () => void
+  availabilityAction: (secondary: boolean) => ReactNode
 }) {
   const { t, locale } = useTranslation()
   const me = useStore($me)
@@ -28,9 +29,9 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
   const [open, setOpen] = useState(false)
   const id = useId()
   const options = showAll ? model.options : model.options.slice(0, 3)
-  const allTitle = t('meeting.result.decision.allHeadline', { count: model.maxCount }).split('{availability}')
+  const hasOptions = options.length > 0
   const title = model.state === 'all'
-    ? <>{allTitle[0]}<span className={styles.TitleHighlight}>{t('meeting.result.decision.allHeadlineHighlight')}</span>{allTitle[1]}</>
+    ? t(dateOnly ? 'meeting.result.decision.allDates' : 'meeting.result.decision.allTimes', { count: model.maxCount })
     : model.state === 'partial'
       ? t('meeting.result.decision.partial', { count: model.maxCount })
       : model.state === 'pending'
@@ -47,11 +48,30 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
 
   return (
     <section className={styles.Summary} data-decision-state={model.state} aria-labelledby={`${id}-title`}>
+      <div className={styles.Toolbar} data-summary-toolbar data-confirm-primary={isHost && hasOptions}>
+        <span className={styles.ToolbarStatus} role='status'>{t('meeting.result.actions.inProgress')}</span>
+        <div className={styles.ToolbarActions}>
+          {isHost && (
+            <Button
+              type='button'
+              buttonType={hasOptions ? 'primary' : 'secondary'}
+              className={styles.ConfirmAction}
+              onClick={() => setOpen(true)}
+              aria-haspopup='dialog'
+              data-summary-confirm
+            >
+              {t('meeting.result.decision.setMeeting')}
+            </Button>
+          )}
+          {availabilityAction(isHost && hasOptions)}
+        </div>
+      </div>
       <div>
+        <p className={styles.SectionLabel}>{t('meeting.result.summarySections.schedule')}</p>
         <h2 id={`${id}-title`} className={styles.Title}>{title}</h2>
         {model.state === 'partial' && <p className={styles.Basis}>{t('meeting.result.decision.notAll')}</p>}
       </div>
-      {options.length > 0
+      {hasOptions
         ? (
             <>
               <span id={`${id}-people-hint`} className={styles.VisuallyHidden}>{t('meeting.result.decision.people')}</span>
@@ -65,8 +85,10 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
                     <li key={option.key} className={styles.Option} data-decision-option={option.key}>
                       <details className={styles.People}>
                         <summary className={`${disclosureStyles.Toggle} ${styles.ScheduleToggle}`} aria-describedby={`${id}-people-hint`}>
-                          <time className={styles.Date} dateTime={option.date}>{formatDate(option.date, locale, { month: 'short', day: 'numeric' })}</time>
-                          <span className={styles.Weekday}>{formatDate(option.date, locale, { weekday: 'long' })}</span>
+                          <span className={styles.DateHeading}>
+                            <time className={styles.Date} dateTime={option.date}>{formatDate(option.date, locale, { month: 'short', day: 'numeric' })}</time>
+                            <span className={styles.Weekday}>{formatDate(option.date, locale, { weekday: 'long' })}</span>
+                          </span>
                           <HiChevronDown className={disclosureStyles.Chevron} aria-hidden='true' />
                           {!dateOnly && (
                             <span className={styles.Time}>
@@ -91,28 +113,6 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
                 </button>
               )}
               {responseGroup(t('meeting.unavailable.pending'), model.pending, 'pending')}
-              {isHost && (
-                <div className={styles.Next}>
-                  <Button type='button' buttonType='primary' className={styles.Primary} onClick={() => setOpen(true)} aria-haspopup='dialog' data-summary-confirm>
-                    {t('meeting.result.decision.setMeeting')}
-                  </Button>
-                </div>
-              )}
-              {isHost && (
-                <ConfirmMeetingDialog
-                  isOpen={open}
-                  onClose={() => setOpen(false)}
-                  onConfirmed={() => onMeetingUpdated ? onMeetingUpdated() : window.location.reload()}
-                  meetingCode={data.meeting.code}
-                  timezone={data.meeting.timezone}
-                  availableDates={data.meeting.availableDates}
-                  schedule={data.schedule}
-                  totalParticipants={data.summary.totalParticipants}
-                  intervalMinutes={data.meeting.intervalMinutes}
-                  selectionType={data.meeting.selectionType}
-                  locationVote={data.locationVote}
-                />
-              )}
             </>
           )
         : (
@@ -129,6 +129,21 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
               )}
             </div>
           )}
+      {isHost && (
+        <ConfirmMeetingDialog
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          onConfirmed={() => onMeetingUpdated ? onMeetingUpdated() : window.location.reload()}
+          meetingCode={data.meeting.code}
+          timezone={data.meeting.timezone}
+          availableDates={data.meeting.availableDates}
+          schedule={data.schedule}
+          totalParticipants={data.summary.totalParticipants}
+          intervalMinutes={data.meeting.intervalMinutes}
+          selectionType={data.meeting.selectionType}
+          locationVote={data.locationVote}
+        />
+      )}
     </section>
   )
 }

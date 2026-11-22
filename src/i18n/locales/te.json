@@ -384,6 +384,10 @@
       "allAvailable": "మొత్తం {count} మంది అందుబాటులో ఉన్నారు",
       "someAvailable": "{total} మందిలో {count} మంది అందుబాటులో ఉన్నారు",
       "viewSlotPeople": "అందుబాటులో ఉన్నవారిని చూడటానికి ఒక ఎంపికను నొక్కండి.",
+      "summarySections": {
+        "schedule": "సమయాల ఫలితాలు",
+        "location": "స్థలం కోసం ఓటింగ్ ఫలితాలు"
+      },
       "decision": {
         "allHeadline": "మొత్తం {count} మంది {availability}",
         "allHeadlineHighlight": "అందుబాటులో ఉన్నారు",

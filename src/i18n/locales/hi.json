@@ -384,6 +384,10 @@
       "allAvailable": "सभी {count} लोग उपलब्ध",
       "someAvailable": "{total} में से {count} लोग उपलब्ध",
       "viewSlotPeople": "उपलब्ध प्रतिभागियों को देखने के लिए विकल्प चुनें।",
+      "summarySections": {
+        "schedule": "समय-सारणी के नतीजे",
+        "location": "स्थान के लिए मतदान के नतीजे"
+      },
       "decision": {
         "allHeadline": "सभी {count} लोग {availability}",
         "allHeadlineHighlight": "उपलब्ध हैं",

@@ -127,16 +127,6 @@ export default function ResultContent ({
             </Tabs.Trigger>
           </Tabs.List>
         </div>
-        {actions && (
-          <div className={styles.ResultActions}>
-            {myResponse && !isConfirmed && (
-              <p className={styles.ResponseStatus} role='status'>
-                {t(meetingData.meeting.selectionType === 'TIME' ? 'meeting.unavailable.times' : 'meeting.unavailable.dates')}
-              </p>
-            )}
-            {actions}
-          </div>
-        )}
         <div className={styles.ResultPanels}>
           <SummaryContent
             meetingData={meetingData}
@@ -155,6 +145,18 @@ export default function ResultContent ({
           )}
           <ParticipantsContent meetingData={meetingData} />
         </div>
+        {actions && (
+          <div className={styles.ResultActions}>
+            {myResponse && !isConfirmed && (
+              <p className={styles.ResponseStatus} role='status'>
+                {t(myResponse === 'NEEDS_RESPONSE'
+                  ? 'meeting.unavailable.pending'
+                  : meetingData.meeting.selectionType === 'TIME' ? 'meeting.unavailable.times' : 'meeting.unavailable.dates')}
+              </p>
+            )}
+            {actions}
+          </div>
+        )}
         {comments && <div className={styles.ResultComments} hidden={activeTab !== 'summary'}>{comments}</div>}
       </div>
     </Tabs.Root>
@@ -198,17 +200,19 @@ function SummaryContent ({
         )}
 
         {!meetingData.meeting.confirmedDate && (
-          <div className={styles.DecisionContainer}>
-            <DecisionSummary data={meetingData} displayZone={resultZone} onMeetingUpdated={onMeetingUpdated} />
-            <AvailabilityAction meetingData={meetingData} />
-          </div>
+          <DecisionSummary
+            data={meetingData}
+            displayZone={resultZone}
+            onMeetingUpdated={onMeetingUpdated}
+            availabilityAction={secondary => <AvailabilityAction meetingData={meetingData} secondary={secondary} />}
+          />
         )}
 
         {!confirmedDate && locationVote?.enabled && locationVote.locations.length > 0 && (
           <section className={styles.SummaryLocations}>
             <h2 className={styles.SummaryLocationTitle}>
               <HiOutlineLocationMarker aria-hidden='true' />
-              {t('locationVote.title')}
+              {t('meeting.result.summarySections.location')}
             </h2>
             <LocationResults locationVote={locationVote} />
           </section>
@@ -267,16 +271,19 @@ function ParticipantsModal ({
   )
 }
 
-function AvailabilityAction ({ meetingData, className = '' }: {
+function AvailabilityAction ({ meetingData, className = '', secondary = false }: {
   meetingData: get_meetings_$meetingCode_response['data']
   className?: string
+  secondary?: boolean
 }) {
   const me = useStore($me)
   const { t } = useTranslation()
-  const hasSelection = hasUserScheduleSelection(meetingData.schedule, me?.userId) || Boolean(me && meetingData.participants.find(person => person.userId === me.userId)?.availabilityResponse)
+  const response = meetingData.participants.find(person => person.userId === me?.userId)?.availabilityResponse
+  const hasSelection = response !== 'NEEDS_RESPONSE' && (response === 'NONE' || hasUserScheduleSelection(meetingData.schedule, me?.userId))
+  const appearance = secondary || hasSelection ? 'secondary' : 'primary'
 
   return (
-    <a href={`/meetings/${meetingData.meeting.code}/select/${meetingData.meeting.selectionType.toLowerCase()}`} className={`${styles.SummaryVoteAction} ${className}`} data-appearance={hasSelection ? 'edit' : 'primary'}>
+    <a href={`/meetings/${meetingData.meeting.code}/select/${meetingData.meeting.selectionType.toLowerCase()}`} className={`${styles.SummaryVoteAction} ${className}`} data-appearance={appearance}>
       <HiOutlinePencil aria-hidden='true' />
       {t(`meeting.result.buttons.${hasSelection ? 'editAvailability' : 'enterAvailability'}`)}
     </a>
