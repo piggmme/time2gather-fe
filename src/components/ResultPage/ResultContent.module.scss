@@ -609,6 +609,11 @@
     pointer-events: none;
   }
 
+  .ResultLayout[data-voting-summary='true'] {
+    .ResultActions { grid-row: 2 / span 2; padding-block-start: $spacing-sm; }
+    &::before { grid-row: 2; }
+  }
+
   .ResultLayout[data-calendar-view='true'] {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto minmax(0, 1fr) auto;
@@ -718,16 +723,6 @@
 .ResponseBasis { margin: 0; color: $c-gray-darkest; font-size: $font-size-sm; }
 
 @media (max-width: 899px) {
-  [data-summary-toolbar] .SummaryVoteAction {
-    flex: 0 1 auto;
-    min-height: 44px;
-    max-inline-size: 100%;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    font-size: $font-size-sm;
-    line-height: 1.5;
-  }
-
   .SummaryVoteAction[data-appearance='primary'] { background: $primary-color; border-color: $primary-color; color: $c-white; &:hover { background: $primary-color-hover; } }
 
   .SummaryLocations {

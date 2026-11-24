@@ -116,15 +116,19 @@ try {
         expect((await toggleStyle(trigger)).backgroundColor).toBe('rgba(0, 0, 0, 0)')
         const capture = output && ['ko', 'de', 'ar'].includes(locale) && tab === 'summary' && width !== 320
         if (tab === 'summary') {
-          if (width < 900) {
-            const toolbar = panel.locator('[data-summary-toolbar]')
-            await expect(toolbar.getByText(messages.meeting.result.actions.inProgress, { exact: true })).toBeVisible()
-            const vote = toolbar.getByRole('link', { name: messages.meeting.result.buttons.enterAvailability, exact: true })
-            await expect(vote).toBeVisible()
-            expect((await vote.boundingBox()).y).toBeLessThan((await scheduleToggle.boundingBox()).y)
-            expect((await vote.boundingBox()).width).toBeLessThan((await panel.boundingBox()).width)
-          }
-          expect(await toggleStyle(trigger)).toEqual(await toggleStyle(scheduleToggle))
+          await expect(panel.getByText(messages.meeting.result.actions.inProgress, { exact: true })).toBeVisible()
+          const actions = page.locator('[class*="ResultActions"]')
+          const vote = actions.getByRole('link', { name: messages.meeting.result.buttons.enterAvailability, exact: true })
+          await expect(vote).toBeVisible()
+          const voteBox = await vote.boundingBox()
+          const panelBox = await panel.boundingBox()
+          if (width < 900) expect(voteBox.y).toBeGreaterThanOrEqual(panelBox.y + panelBox.height)
+          else expect(voteBox.y).toBeLessThan(panelBox.y + panelBox.height)
+          const dateTile = scheduleToggle.locator('time')
+          await expect(dateTile).toHaveAttribute('datetime', /^2026-12-0[89]$/)
+          await expect(dateTile).toHaveCSS('border-top-width', '1px')
+          expect((await scheduleToggle.boundingBox()).height).toBeGreaterThanOrEqual(60)
+          expect((await toggleStyle(scheduleToggle)).backgroundColor).not.toBe('rgba(0, 0, 0, 0)')
           await scheduleToggle.click()
           const heading = panel.getByRole('heading', { name: messages.meeting.result.summarySections.location, exact: true })
           const gaps = await heading.evaluate((element) => {
@@ -157,7 +161,6 @@ try {
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
 
         if (tab === 'summary') {
-          expect(await toggleStyle(trigger)).toEqual(await toggleStyle(scheduleToggle))
           const schedule = panel.locator('[data-decision-option] details')
           const location = first.locator('details')
           const scheduleList = await schedule.locator('ul').elementHandle()
@@ -213,8 +216,8 @@ try {
       const page = await context.newPage()
       await page.goto(`${resultUrl}?lang=${locale}`, { waitUntil: 'domcontentloaded' })
       const toolbar = page.locator('[data-summary-toolbar]')
-      const vote = toolbar.getByRole('link', { name: messages.result.buttons[role === 'responded' ? 'editAvailability' : 'enterAvailability'], exact: true })
-      await expect(vote).toHaveAttribute('data-appearance', 'secondary')
+      const vote = page.locator('[class*="ResultActions"]').getByRole('link', { name: messages.result.buttons[role === 'responded' ? 'editAvailability' : 'enterAvailability'], exact: true })
+      await expect(vote).toHaveClass(/_secondary_/)
       await expect(vote).toBeVisible()
       if (role === 'host') {
         await expect(toolbar).toHaveAttribute('data-confirm-primary', 'true')

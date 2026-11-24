@@ -23,7 +23,8 @@ export default function ResultButtons (
   { data: get_meetings_$meetingCode_response['data'], shareLabels: CreatorShareLabels | null, onMeetingUpdated?: () => void, summaryTab?: boolean },
 ) {
   const me = useStore($me)
-  const didIParticipate = hasUserScheduleSelection(data.schedule, me?.userId) || Boolean(me && data.participants.find(person => person.userId === me.userId)?.availabilityResponse)
+  const response = data.participants.find(person => person.userId === me?.userId)?.availabilityResponse
+  const hasSelection = response !== 'NEEDS_RESPONSE' && (response === 'NONE' || hasUserScheduleSelection(data.schedule, me?.userId))
   const isHost = data.meeting.host.id === me?.userId
   const isConfirmed = !!data.meeting.confirmedDate
   const votingSummary = summaryTab && !isConfirmed
@@ -106,10 +107,10 @@ export default function ResultButtons (
   }
 
   const modifyUrl = `/meetings/${data.meeting.code}/select/${data.meeting.selectionType.toLowerCase()}`
-  const voteActionLabel = t(`meeting.result.buttons.${didIParticipate ? 'editAvailability' : 'enterAvailability'}`)
+  const voteActionLabel = t(`meeting.result.buttons.${hasSelection ? 'editAvailability' : 'enterAvailability'}`)
 
   return (
-    <div className={styles.ResultButtons} data-voting-summary={votingSummary} data-host={isHost}>
+    <div className={styles.ResultButtons} data-voting-summary={votingSummary}>
       {isHost && !isConfirmed && confirmActionTarget && createPortal(
         <Button
           type='button'
@@ -126,7 +127,7 @@ export default function ResultButtons (
         <div className={styles.ActionPanelIntro}>
           <div className={styles.ActionPanelHeader}>
             <h2 className={styles.ActionPanelHeading}>{t('meeting.result.actions.manage')}</h2>
-            {!isConfirmed && (
+            {!isConfirmed && !votingSummary && (
               <span className={styles.ActionPanelEyebrow} role='status' data-pending>
                 {t('meeting.result.actions.inProgress')}
               </span>
@@ -134,6 +135,19 @@ export default function ResultButtons (
           </div>
 
         </div>
+
+        {/* 개인 투표 행동은 방장용 투표 날짜 관리와 별도 버튼으로 분리 */}
+        {!isConfirmed && (
+          <Button
+            as='a'
+            href={modifyUrl}
+            buttonType={hasSelection || (votingSummary && isHost) ? 'secondary' : 'primary'}
+            className={styles.VoteActionButton}
+          >
+            <HiOutlinePencil className={styles.ActionButtonIcon} aria-hidden='true' />
+            {voteActionLabel}
+          </Button>
+        )}
 
         {/* 주최자의 날짜 관리는 결과 영역에 유지한다. */}
         {isHost && !isConfirmed && (
@@ -150,19 +164,6 @@ export default function ResultButtons (
             </Button>
           </div>
         )}
-        {/* 개인 투표 행동은 방장용 투표 날짜 관리와 별도 버튼으로 분리 */}
-        {!isConfirmed && (
-          <Button
-            as='a'
-            href={modifyUrl}
-            buttonType={didIParticipate ? 'secondary' : 'primary'}
-            className={styles.VoteActionButton}
-          >
-            <HiOutlinePencil className={styles.ActionButtonIcon} aria-hidden='true' />
-            {voteActionLabel}
-          </Button>
-        )}
-
         {/* 아이콘 버튼 그룹 */}
         <div className={styles.IconButtonGroup} data-confirmed={isConfirmed}>
           {isConfirmed && (

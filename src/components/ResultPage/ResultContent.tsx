@@ -102,7 +102,7 @@ export default function ResultContent ({
       }}
       dir={localeMeta[locale].dir}
     >
-      <div className={styles.ResultLayout} data-calendar-view={activeTab === 'calendar' && meetingData.meeting.selectionType === 'TIME'} data-has-actions={Boolean(actions)} data-confirmed={isConfirmed}>
+      <div className={styles.ResultLayout} data-calendar-view={activeTab === 'calendar' && meetingData.meeting.selectionType === 'TIME'} data-has-actions={Boolean(actions)} data-confirmed={isConfirmed} data-voting-summary={activeTab === 'summary' && !isConfirmed}>
         <div className={styles.ResultHeader}>
           {meetingData.meeting.selectionType === 'TIME' && (
             <div className={styles.ResultTimezone}>
@@ -204,7 +204,6 @@ function SummaryContent ({
             data={meetingData}
             displayZone={resultZone}
             onMeetingUpdated={onMeetingUpdated}
-            availabilityAction={secondary => <AvailabilityAction meetingData={meetingData} secondary={secondary} />}
           />
         )}
 
@@ -271,16 +270,15 @@ function ParticipantsModal ({
   )
 }
 
-function AvailabilityAction ({ meetingData, className = '', secondary = false }: {
+function AvailabilityAction ({ meetingData, className = '' }: {
   meetingData: get_meetings_$meetingCode_response['data']
   className?: string
-  secondary?: boolean
 }) {
   const me = useStore($me)
   const { t } = useTranslation()
   const response = meetingData.participants.find(person => person.userId === me?.userId)?.availabilityResponse
   const hasSelection = response !== 'NEEDS_RESPONSE' && (response === 'NONE' || hasUserScheduleSelection(meetingData.schedule, me?.userId))
-  const appearance = secondary || hasSelection ? 'secondary' : 'primary'
+  const appearance = hasSelection ? 'secondary' : 'primary'
 
   return (
     <a href={`/meetings/${meetingData.meeting.code}/select/${meetingData.meeting.selectionType.toLowerCase()}`} className={`${styles.SummaryVoteAction} ${className}`} data-appearance={appearance}>

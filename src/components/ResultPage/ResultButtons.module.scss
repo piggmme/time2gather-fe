@@ -330,10 +330,17 @@
 @container meeting-actions (max-width: 340px) { .IconButtonGroup { grid-template-columns: minmax(0, 1fr); } .IconButton { justify-content: flex-start; padding: 12px 16px; min-height: 48px; } }
 
 @media (max-width: 899px) {
-  .CompactConfirmButton.HideOnMobileSummary,
-  .ResultButtons[data-voting-summary='true'] .ActionPanelEyebrow,
-  .ResultButtons[data-voting-summary='true'][data-host='false'] .ActionPanelIntro {
-    display: none;
+  .CompactConfirmButton.HideOnMobileSummary { display: none; }
+
+  .ResultButtons[data-voting-summary='true'] {
+    .ActionPanel .VoteActionButton {
+      display: flex;
+      min-height: 48px;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+    .IconButtonGroup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .IconButton { justify-content: center; padding-inline: $spacing-sm; }
   }
 }
 

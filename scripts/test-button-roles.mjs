@@ -163,13 +163,13 @@ async function verifyRoles (page, scenario) {
     if (page.viewportSize().width >= 900) await outline(titleAction, blue)
     else await expect(titleAction).toBeHidden()
     await expect(page.locator('[data-summary-confirm]')).toHaveCSS('background-color', blue)
-    if (page.viewportSize().width < 900) await outline(page.locator('a[class*="_SummaryVoteAction_"]:visible').first())
+    await outline(page.locator('a[class*="_VoteActionButton_"]'))
     const edit = page.locator('a[class*="_PrimaryButton_"]').first()
     await edit.focus()
     await expect(edit).toHaveCSS('outline-style', 'solid')
     await expect(edit).toHaveCSS('outline-width', '2px')
   }
-  if (scenario === 'result-fresh' && page.viewportSize().width < 900) await expect(page.locator('a[class*="_SummaryVoteAction_"]:visible').first()).toHaveCSS('background-color', blue)
+  if (scenario === 'result-fresh') await expect(page.locator('a[class*="_VoteActionButton_"]')).toHaveCSS('background-color', blue)
   if (scenario === 'comment-delete') {
     await quiet(page.getByRole('alertdialog').locator('button[class*="_Cancel_"]'))
     await expect(page.getByRole('alertdialog').locator('button[class*="_dangerPrimary_"]')).toHaveCSS('background-color', 'rgb(180, 35, 24)')
