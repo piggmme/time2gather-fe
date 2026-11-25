@@ -1,4 +1,4 @@
-import { chromium, expect } from '@playwright/test'
+import { chromium, devices, expect, webkit } from '@playwright/test'
 import { spawn } from 'node:child_process'
 import fs from 'node:fs'
 import { createNavigationFixture } from './navigation-fixture.mjs'
@@ -9,6 +9,16 @@ const locales = process.env.QA_LOCALES?.split(',') ?? fs.readdirSync('src/i18n/l
 const widths = [320, 390, 1280]
 const fixture = createNavigationFixture({
   transformMeeting: (data, code) => {
+    if (code === 'result-day-status') {
+      const participants = Array.from({ length: 5 }, (_, index) => ({ userId: index + 1, username: `Participant ${index + 1}`, profileImageUrl: '' }))
+      data.participants = participants
+      data.summary.totalParticipants = participants.length
+      for (const slot of data.summary.bestSlots) {
+        Object.assign(slot, { participants, count: participants.length })
+        data.schedule[slot.date].ALL_DAY = { participants, count: participants.length }
+      }
+      return data
+    }
     if (!data.locationVote) return data
     const people = [
       { ...data.participants[0], username: 'Alex Kim' },
@@ -291,6 +301,33 @@ try {
   await expect(partial.getByText(korean.meeting.result.decision.notAll, { exact: true })).toBeVisible()
   await groupedContext.unrouteAll({ behavior: 'wait' })
   await groupedContext.close()
+
+  activeCase = 'mobile WebKit date result status stays on one line'
+  const safari = await webkit.launch()
+  try {
+    const { deviceScaleFactor, hasTouch, isMobile, userAgent } = devices['iPhone 14']
+    const page = await safari.newPage({
+      deviceScaleFactor, hasTouch, isMobile, userAgent, viewport: { width: 393, height: 852 }, locale: 'ko',
+    })
+    await page.route(`${origin}/api/**`, async (route) => {
+      const url = new URL(route.request().url())
+      if (url.pathname.endsWith('/v1/auth/me')) return route.fulfill({ json: { success: true, data: null } })
+      return route.fulfill({ response: await route.fetch({ url: api + url.pathname + url.search }) })
+    })
+    await page.goto(`${origin}/meetings/result-day-status?lang=ko`)
+    const status = page.getByRole('tabpanel').getByText(korean.meeting.result.actions.inProgress, { exact: true })
+    await expect(status).toBeVisible()
+    await page.evaluate(() => document.fonts.ready)
+    const lines = await status.evaluate((element) => {
+      const text = document.createRange()
+      text.selectNodeContents(element)
+      return new Set(Array.from(text.getClientRects(), rect => Math.round(rect.top))).size
+    })
+    expect(lines).toBe(1)
+    await page.unrouteAll({ behavior: 'wait' })
+  } finally {
+    await safari.close()
+  }
 
   expect(fixture.mutations).toEqual([])
   if (output) {

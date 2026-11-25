@@ -22,20 +22,23 @@
 }
 
 .Status {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xs;
+  display: inline-block;
+  flex: none;
+  inline-size: max-content;
+  max-inline-size: 100%;
   color: var(--decision-muted);
   font-size: $font-size-xs;
-  min-width: 0;
   overflow-wrap: anywhere;
 
   &::before {
     content: '';
-    flex: 0 0 5px;
+    display: inline-block;
+    inline-size: 5px;
     block-size: 5px;
+    margin-inline-end: $spacing-xs;
     border-radius: 50%;
     background: var(--decision-accent);
+    vertical-align: 0.15em;
   }
 }
 
