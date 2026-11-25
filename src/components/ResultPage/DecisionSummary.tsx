@@ -89,10 +89,12 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
     <section className={styles.Summary} data-decision-state={model.state} aria-labelledby={`${id}-title`}>
       <div className={styles.Header}>
         <div className={styles.Heading}>
-          <p className={styles.Status}>{t('meeting.result.actions.inProgress')}</p>
-          <h2 id={`${id}-title`} className={styles.Title}>{title}</h2>
-          {hasOptions && (
-            <p className={styles.Basis}>{t(model.state === 'partial' ? 'meeting.result.decision.notAll' : 'meeting.result.decision.basis')}</p>
+          <div className={styles.Headline}>
+            <h2 id={`${id}-title`} className={styles.Title}>{title}</h2>
+            <span className={styles.Status}>{t('meeting.result.actions.inProgress')}</span>
+          </div>
+          {model.state === 'partial' && (
+            <p className={styles.Basis}>{t('meeting.result.decision.notAll')}</p>
           )}
         </div>
         {isHost && (
@@ -116,12 +118,12 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
               <span id={`${id}-people-hint`} className={styles.VisuallyHidden}>{t('meeting.result.decision.people')}</span>
               {dateOnly
                 ? (
-                    <ul className={disclosureStyles.List} aria-label={t('meeting.result.bestSlotsTitle')}>
+                    <ul className={`${disclosureStyles.List} ${styles.Candidates}`} aria-label={t('meeting.result.bestSlotsTitle')}>
                       {options.map(option => renderOption(option))}
                     </ul>
                   )
                 : (
-                    <ul className={styles.DateGroups} aria-label={t('meeting.result.bestTimesTitle')}>
+                    <ul className={`${styles.DateGroups} ${styles.Candidates}`} aria-label={t('meeting.result.bestTimesTitle')}>
                       {Array.from(optionsByDate, ([date, sameDate]) => {
                         const dateHeadingId = `${id}-${date}`
                         return (

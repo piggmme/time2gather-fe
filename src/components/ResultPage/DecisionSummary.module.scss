@@ -14,25 +14,42 @@
 .Summary { display: grid; gap: $spacing-base; min-width: 0; padding-block-start: $spacing-sm; }
 .Header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: $spacing-md; }
 .Heading { min-width: 0; }
-.Status {
+.Headline {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: $spacing-sm;
-  margin: 0 0 $spacing-sm;
+  gap: $spacing-xs $spacing-md;
+}
+
+.Status {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
   color: var(--decision-muted);
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  font-size: $font-size-xs;
+  min-width: 0;
+  overflow-wrap: anywhere;
 
   &::before {
     content: '';
-    flex: 0 0 7px;
-    block-size: 7px;
+    flex: 0 0 5px;
+    block-size: 5px;
     border-radius: 50%;
     background: var(--decision-accent);
-    align-self: center;
   }
 }
-.Title { margin: 0; font-size: $font-size-xl; line-height: 1.35; color: var(--decision-ink); font-weight: $font-weight-bold; overflow-wrap: anywhere; text-wrap: balance; }
+
+.Title {
+  margin: 0;
+  max-width: 100%;
+  min-width: 0;
+  color: var(--decision-ink);
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
 .Toolbar { display: none; min-width: 0; max-width: 100%; }
 .Toolbar[data-confirm-primary='true'] { display: flex; }
 .Toolbar .ConfirmAction {
@@ -55,6 +72,10 @@
 
   > li { min-width: 0; }
   > li > ul { margin-inline-start: $spacing-md; }
+}
+
+.Summary .Candidates {
+  @include surfaces.section-start($spacing-base);
 }
 
 .DateHeading {

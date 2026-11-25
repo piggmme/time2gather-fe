@@ -30,6 +30,10 @@ const fixture = createNavigationFixture({
     if (code.includes('confirmed')) {
       Object.assign(data.meeting, { confirmedDate: date, confirmedTime: times[0], confirmedSlotIndex: 18 })
     }
+    if (code.endsWith('-partial')) {
+      data.participants = [...people, { userId: 4, username: 'Taylor Lee', profileImageUrl: '' }]
+      data.summary.totalParticipants = 3
+    }
     if (code.endsWith('-grouped')) {
       data.meeting.availableDates[date].push('22:00', '23:00')
       data.schedule[date]['22:00'] = { count: 2, participants: people }
@@ -126,6 +130,8 @@ try {
         const capture = output && ['ko', 'de', 'ar'].includes(locale) && tab === 'summary' && width !== 320
         if (tab === 'summary') {
           await expect(panel.getByText(messages.meeting.result.actions.inProgress, { exact: true })).toBeVisible()
+          await expect(panel.getByText(messages.meeting.result.decision.basis, { exact: true })).toHaveCount(0)
+          await expect(panel.getByRole('list', { name: messages.meeting.result.bestTimesTitle, exact: true })).toHaveCSS('border-block-start-width', '1px')
           const actions = page.locator('[class*="ResultActions"]')
           const vote = actions.getByRole('link', { name: messages.meeting.result.buttons.enterAvailability, exact: true })
           await expect(vote).toBeVisible()
@@ -278,6 +284,11 @@ try {
   await timeOptions.first().locator('summary').press('Enter')
   await expect(timeOptions.first().getByText('Alex Kim', { exact: true })).toBeVisible()
   await expect(timeOptions.last().getByText('Alex Kim', { exact: true })).toBeHidden()
+  activeCase = 'partial availability keeps its explanation'
+  const korean = JSON.parse(fs.readFileSync('src/i18n/locales/ko.json', 'utf8'))
+  await grouped.goto(`${resultUrl}-partial?lang=ko`, { waitUntil: 'domcontentloaded' })
+  const partial = grouped.locator('[data-decision-state="partial"]')
+  await expect(partial.getByText(korean.meeting.result.decision.notAll, { exact: true })).toBeVisible()
   await groupedContext.unrouteAll({ behavior: 'wait' })
   await groupedContext.close()
 
