@@ -22,7 +22,7 @@ import TimeZoneSelect from '../Timezone/TimeZoneSelect'
 import { useStore } from '@nanostores/react'
 import { $locale } from '../../stores/locale'
 import {
-  HiChevronDown, HiX, HiOutlineLocationMarker, HiOutlinePencil,
+  HiChevronDown, HiX, HiOutlinePencil,
 } from 'react-icons/hi'
 import { localeMeta } from '../../i18n/config'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -210,7 +210,6 @@ function SummaryContent ({
         {!confirmedDate && locationVote?.enabled && locationVote.locations.length > 0 && (
           <section className={styles.SummaryLocations}>
             <h2 className={styles.SummaryLocationTitle}>
-              <HiOutlineLocationMarker aria-hidden='true' />
               {t('meeting.result.summarySections.location')}
             </h2>
             <LocationResults locationVote={locationVote} />
@@ -580,19 +579,18 @@ function LocationResults ({ locationVote }: { locationVote: LocationVoteInfo }) 
           {t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong>
         </div>
       )}
-      <ul className={styles.LocationList}>
-        {sortedLocations.map((location, index) => {
+      <ul className={disclosureStyles.List}>
+        {sortedLocations.map((location) => {
           const hasVoters = location.voters.length > 0
           const heading = (
             <>
-              <span className={styles.LocationRank}>{index + 1}</span>
-              <span className={styles.LocationName}>
+              <span className={`${disclosureStyles.Primary} ${styles.LocationName}`}>
                 <bdi>{location.name}</bdi>
                 {locationVote.confirmedLocation?.id === location.id && (
                   <span className={styles.ConfirmedBadge}>{t('locationVote.confirmed')}</span>
                 )}
               </span>
-              <span className={styles.LocationVoteCount}>
+              <span className={disclosureStyles.Secondary}>
                 {t('meeting.result.voteCount', { count: location.voteCount, percentage: location.percentage })}
               </span>
             </>
@@ -602,15 +600,15 @@ function LocationResults ({ locationVote }: { locationVote: LocationVoteInfo }) 
             <li key={location.id}>
               {hasVoters
                 ? (
-                    <details className={styles.LocationOption}>
-                      <summary className={`${disclosureStyles.Toggle} ${styles.LocationHeader}`}>
+                    <details>
+                      <summary className={disclosureStyles.Toggle}>
                         {heading}
                         <HiChevronDown className={disclosureStyles.Chevron} aria-hidden='true' />
                       </summary>
                       <ResultPeople people={location.voters} label={t('locationVote.voters')} inDetails />
                     </details>
                   )
-                : <div className={`${disclosureStyles.Row} ${styles.LocationHeader}`}>{heading}</div>}
+                : <div className={disclosureStyles.Row}>{heading}</div>}
             </li>
           )
         })}

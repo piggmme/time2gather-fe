@@ -1,40 +1,74 @@
 @use '../../styles/surfaces.scss' as surfaces;
 @use '../../styles/variables.scss' as *;
 
+.List {
+  display: grid;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  > li { min-width: 0; }
+
+  > li + li { border-block-start: 1px solid surfaces.$section-line; }
+
+  > li:not(:last-child) > details[open] {
+    padding-block-end: var(--result-people-gap);
+  }
+}
+
+.TimeList {
+  composes: List;
+
+  > li + li { border-block-start: 0; }
+}
+
 .Row {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) fit-content(38%) 16px;
   align-items: center;
-  gap: $spacing-xs $spacing-sm;
+  column-gap: $spacing-sm;
   min-height: 48px;
   padding: $spacing-sm $spacing-md;
-  border-block-end: 1px solid transparent;
+  border-radius: $radius-sm;
   overflow-wrap: anywhere;
+
+  > .Secondary { text-align: end; }
+  > .Chevron { grid-column: -2; }
+}
+
+.Label {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.Primary {
+  color: $c-black;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+}
+
+.Secondary {
+  color: $c-gray-darkest;
+  font-size: $font-size-sm;
+  font-variant-numeric: tabular-nums;
 }
 
 .Toggle {
   composes: Row;
-  border-block-end-color: surfaces.$section-line;
   cursor: pointer;
   list-style: none;
 
   &::-webkit-details-marker { display: none; }
 
   @media (hover: hover) {
-    &:hover {
-      border-radius: surfaces.$control-radius;
-      border-block-end-color: transparent;
-      background: $c-blue-soft;
-    }
+    &:hover { background: surfaces.$control-hover-bg; }
   }
 
-  details[open] > & {
-    border-radius: surfaces.$control-radius;
-    border-block-end-color: transparent;
-    background: $primary-color-soft;
-  }
+  details[open] > & { background: $primary-color-soft; }
 
   &:focus-visible {
-    border-radius: surfaces.$control-radius;
     outline: 2px solid $primary-color-hover;
     outline-offset: -2px;
   }

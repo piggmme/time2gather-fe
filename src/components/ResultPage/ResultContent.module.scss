@@ -252,53 +252,10 @@
 }
 
 .SummaryLocationTitle {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
   margin: 0;
   color: $c-black;
   font-size: $font-size-lg;
   font-weight: $font-weight-heading;
-
-  svg {
-    flex: 0 0 20px;
-    height: 20px;
-    color: $primary-color;
-  }
-}
-
-.LocationList {
-  display: grid;
-  gap: $spacing-sm;
-  min-width: 0;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-
-  > li { min-width: 0; }
-}
-
-.LocationHeader {
-  grid-template-columns: 16px minmax(0, 1fr) fit-content(38%) 16px;
-}
-
-.LocationOption {
-  min-width: 0;
-}
-
-.LocationList > li:not(:last-child) > .LocationOption[open] {
-  padding-block-end: calc(var(--result-people-gap) - #{$spacing-sm});
-}
-
-.LocationList > li:last-child > .LocationOption > summary {
-  border-block-end-color: transparent;
-}
-
-.LocationRank {
-  color: $c-gray-darkest;
-  font-weight: $font-weight-medium;
-  font-size: $font-size-sm;
-  font-variant-numeric: tabular-nums;
 }
 
 .LocationName {
@@ -307,10 +264,6 @@
   gap: $spacing-xs $spacing-sm;
   flex-wrap: wrap;
   min-width: 0;
-  color: $c-black;
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-base;
-
   bdi { min-width: 0; }
 }
 
@@ -321,14 +274,6 @@
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   border-radius: $radius-full;
-}
-
-.LocationVoteCount {
-  color: $c-gray-darkest;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  font-variant-numeric: tabular-nums;
-  text-align: end;
 }
 
 .ConfirmedLocationBanner {
@@ -724,14 +669,4 @@
 
 @media (max-width: 899px) {
   .SummaryVoteAction[data-appearance='primary'] { background: $primary-color; border-color: $primary-color; color: $c-white; &:hover { background: $primary-color-hover; } }
-
-  .SummaryLocations {
-    gap: $spacing-sm;
-    border-block-start: 0;
-    padding-block-start: 0;
-
-    .SummaryLocationTitle { color: $c-gray-darkest; font-size: $font-size-sm; font-weight: $font-weight-semibold; }
-    .SummaryLocationTitle svg, .LocationRank { display: none; }
-    .LocationHeader { grid-template-columns: minmax(0, 1fr) fit-content(38%) 16px; border-block-end-color: transparent; }
-  }
 }

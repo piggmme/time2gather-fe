@@ -45,59 +45,34 @@
   overflow-wrap: anywhere;
 }
 .Basis { margin: $spacing-xs 0 0; color: var(--decision-muted); font-size: $font-size-sm; line-height: 1.6; }
-.DateHeading { display: grid; align-content: center; gap: 2px; min-width: 0; }
-.Date {
+.DateGroups {
   display: grid;
-  align-content: center;
-  justify-items: center;
-  gap: 2px;
-  min-inline-size: 50px;
-  min-block-size: 44px;
-  padding: 4px 6px;
-  border: 1px solid surfaces.$section-line;
-  border-radius: $radius-sm;
-  background: $c-white;
-  color: var(--decision-muted);
-  font-size: $font-size-xs;
-  line-height: 1.2;
-  text-align: center;
+  gap: $spacing-base;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
-  strong { color: var(--decision-ink); font-size: $font-size-lg; font-variant-numeric: tabular-nums; }
+  > li { min-width: 0; }
+  > li > ul { margin-inline-start: $spacing-md; }
 }
-.Weekday { color: var(--decision-muted); font-size: $font-size-sm; }
-.Time {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: $spacing-xs $spacing-sm;
+
+.DateHeading {
+  margin: 0 0 $spacing-xs;
   color: var(--decision-ink);
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  font-variant-numeric: tabular-nums;
-
-  > span { color: var(--decision-muted); font-size: $font-size-sm; font-weight: $font-weight-normal; }
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  overflow-wrap: anywhere;
 }
-.Options { display: grid; gap: $spacing-sm; min-width: 0; padding: 0; margin: 0; list-style: none; }
-.Option { min-width: 0; }
+
+.Time > bdi { justify-self: start; font-variant-numeric: tabular-nums; }
 .Count { margin: var(--result-people-gap) $spacing-md $spacing-sm; color: var(--decision-muted); font-size: 14px; }
 .Count + ul { margin-block-start: 0; }
-.People > .ScheduleToggle {
-  @include surfaces.action;
-  grid-template-columns: fit-content(32%) minmax(0, 1fr) 16px;
-  column-gap: $spacing-md;
-  min-height: 64px;
-
-  &:hover { background: surfaces.$control-hover-bg; }
-}
-.People[open] > .ScheduleToggle { background: $primary-color-soft; }
 .VisuallyHidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .Missing { min-width: 0; padding-block-start: $spacing-base; border-block-start: 1px solid var(--decision-divider); }
 .Summary > .Missing { margin-block-start: $spacing-md; }
 .GroupHeading { display: flex; flex-wrap: wrap; align-items: baseline; gap: $spacing-xs $spacing-sm; margin: 0 0 $spacing-sm; color: var(--decision-muted); font-size: $font-size-sm; font-weight: $font-weight-medium; line-height: $line-height-normal; }
 .GroupCount { font-weight: $font-weight-normal; }
-.Option:not(:last-child) > .People[open] {
-  padding-block-end: calc(var(--result-people-gap) - #{$spacing-sm});
-}
 .People {
   .Missing { margin-inline: $spacing-md; margin-block-start: $spacing-lg; padding-block: $spacing-base 0; }
 }

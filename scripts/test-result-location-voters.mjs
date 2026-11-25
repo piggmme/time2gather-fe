@@ -30,6 +30,14 @@ const fixture = createNavigationFixture({
     if (code.includes('confirmed')) {
       Object.assign(data.meeting, { confirmedDate: date, confirmedTime: times[0], confirmedSlotIndex: 18 })
     }
+    if (code.endsWith('-grouped')) {
+      data.meeting.availableDates[date].push('22:00', '23:00')
+      data.schedule[date]['22:00'] = { count: 2, participants: people }
+      data.schedule[date]['23:00'] = { count: 2, participants: people }
+      data.summary.bestSlots.push({
+        date, time: '22:00 ~ 23:00', count: 2, percentage: '100%', participants: people, startSlotIndex: 22, endSlotIndex: 22,
+      })
+    }
     data.locationVote.locations = [
       { name: 'Manhattan (Midtown or Lower)', voters: people },
       { name: 'North Brooklyn', voters: people.slice(1) },
@@ -110,10 +118,11 @@ try {
         const trigger = first.locator('summary')
         const scheduleToggle = panel.locator('[data-decision-option] summary')
         const toggleStyle = locator => locator.evaluate((element) => {
-          const { backgroundColor, borderBlockEndColor, borderRadius, paddingInline } = getComputedStyle(element)
-          return { backgroundColor, borderBlockEndColor, borderRadius, paddingInline }
+          const { backgroundColor, borderRadius, paddingInline, minHeight } = getComputedStyle(element)
+          return { backgroundColor, borderRadius, paddingInline, minHeight }
         })
-        expect((await toggleStyle(trigger)).backgroundColor).toBe('rgba(0, 0, 0, 0)')
+        const closedPlaceStyle = await toggleStyle(trigger)
+        expect(closedPlaceStyle.backgroundColor).toBe('rgba(0, 0, 0, 0)')
         const capture = output && ['ko', 'de', 'ar'].includes(locale) && tab === 'summary' && width !== 320
         if (tab === 'summary') {
           await expect(panel.getByText(messages.meeting.result.actions.inProgress, { exact: true })).toBeVisible()
@@ -124,11 +133,13 @@ try {
           const panelBox = await panel.boundingBox()
           if (width < 900) expect(voteBox.y).toBeGreaterThanOrEqual(panelBox.y + panelBox.height)
           else expect(voteBox.y).toBeLessThan(panelBox.y + panelBox.height)
-          const dateTile = scheduleToggle.locator('time')
-          await expect(dateTile).toHaveAttribute('datetime', /^2026-12-0[89]$/)
-          await expect(dateTile).toHaveCSS('border-top-width', '1px')
-          expect((await scheduleToggle.boundingBox()).height).toBeGreaterThanOrEqual(60)
-          expect((await toggleStyle(scheduleToggle)).backgroundColor).not.toBe('rgba(0, 0, 0, 0)')
+          const dateLabel = panel.locator('h3 > time').first()
+          await expect(dateLabel).toHaveAttribute('datetime', /^2026-12-0[89]$/)
+          await expect(dateLabel).toHaveCSS('border-top-width', '0px')
+          const scheduleHeight = (await scheduleToggle.boundingBox()).height
+          expect(scheduleHeight).toBeGreaterThanOrEqual(44)
+          expect(scheduleHeight).toBeLessThanOrEqual(56)
+          expect(await toggleStyle(scheduleToggle)).toEqual(closedPlaceStyle)
           await scheduleToggle.click()
           const heading = panel.getByRole('heading', { name: messages.meeting.result.summarySections.location, exact: true })
           const gaps = await heading.evaluate((element) => {
@@ -137,7 +148,7 @@ try {
             const contentEnd = section.previousElementSibling.getBoundingClientRect().bottom
             return [Math.round(divider - contentEnd), Math.round(element.getBoundingClientRect().top - divider - parseFloat(getComputedStyle(section).borderBlockStartWidth))]
           })
-          expect(gaps).toEqual([24, width < 900 ? 0 : 24])
+          expect(gaps).toEqual([24, 24])
           const names = panel.locator('[data-decision-option]').getByRole('listitem')
           const betweenNames = await names.evaluateAll(([firstName, secondName]) => {
             const first = firstName.getBoundingClientRect(), second = secondName.getBoundingClientRect()
@@ -161,12 +172,21 @@ try {
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
 
         if (tab === 'summary') {
+          expect(await toggleStyle(scheduleToggle)).toEqual(await toggleStyle(trigger))
+          expect((await toggleStyle(trigger)).backgroundColor).not.toBe(closedPlaceStyle.backgroundColor)
           const schedule = panel.locator('[data-decision-option] details')
           const location = first.locator('details')
           const scheduleList = await schedule.locator('ul').elementHandle()
           const [locationNames, scheduleNames] = await location.locator('ul').evaluate(async (list, other) => {
             await document.fonts.ready
-            const positions = root => Array.from(root.querySelectorAll('bdi'), name => Math.round(name.getBoundingClientRect().left))
+            const positions = (root) => {
+              const bounds = root.getBoundingClientRect()
+              const rtl = getComputedStyle(root).direction === 'rtl'
+              return Array.from(root.querySelectorAll('bdi'), (name) => {
+                const nameBounds = name.getBoundingClientRect()
+                return Math.round(rtl ? bounds.right - nameBounds.right : nameBounds.left - bounds.left)
+              })
+            }
             return [positions(list), positions(other)]
           }, scheduleList)
           await scheduleList.dispose()
@@ -179,7 +199,7 @@ try {
             const following = await next.boundingBox()
             const gaps = [Math.round(names.y - toggle.y - toggle.height), Math.round(following.y - names.y - names.height)]
             const expectedGap = width >= 900 ? 24 : 16
-            expect(gaps).toEqual([expectedGap, next === afterSchedule ? 24 : expectedGap])
+            expect(gaps).toEqual([expectedGap, next === afterSchedule ? 24 : expectedGap + 1])
           }
         }
 
@@ -237,6 +257,30 @@ try {
       await context.close()
     }
   }
+  activeCase = 'time options grouped by date'
+  const groupedContext = await browser.newContext()
+  await groupedContext.route(`${origin}/api/**`, async (route) => {
+    const url = new URL(route.request().url())
+    if (url.pathname.endsWith('/v1/auth/me')) return route.fulfill({ json: { success: true, data: null } })
+    return route.fulfill({ response: await route.fetch({ url: api + url.pathname + url.search }) })
+  })
+  const grouped = await groupedContext.newPage()
+  await grouped.goto(`${resultUrl}-grouped?lang=ko`, { waitUntil: 'domcontentloaded' })
+  const dateHeading = grouped.getByRole('tabpanel').locator('h3 > time')
+  await expect(dateHeading).toHaveCount(1)
+  const dateGroup = dateHeading.locator('../..')
+  const timeOptions = dateGroup.locator('[data-decision-option]')
+  await expect(timeOptions).toHaveCount(2)
+  await expect(timeOptions.last()).toHaveCSS('border-block-start-width', '0px')
+  const headingBox = await dateHeading.locator('..').boundingBox()
+  const timeRowBox = await timeOptions.first().boundingBox()
+  expect(Math.round(timeRowBox.x - headingBox.x)).toBe(12)
+  await timeOptions.first().locator('summary').press('Enter')
+  await expect(timeOptions.first().getByText('Alex Kim', { exact: true })).toBeVisible()
+  await expect(timeOptions.last().getByText('Alex Kim', { exact: true })).toBeHidden()
+  await groupedContext.unrouteAll({ behavior: 'wait' })
+  await groupedContext.close()
+
   expect(fixture.mutations).toEqual([])
   if (output) {
     fs.mkdirSync(output, { recursive: true })
