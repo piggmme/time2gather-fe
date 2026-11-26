@@ -579,7 +579,7 @@ function LocationResults ({ locationVote }: { locationVote: LocationVoteInfo }) 
           {t('locationVote.confirmedLocation')}: <strong>{locationVote.confirmedLocation.name}</strong>
         </div>
       )}
-      <ul className={disclosureStyles.List}>
+      <ul className={`${disclosureStyles.List} ${disclosureStyles.Group}`}>
         {sortedLocations.map((location) => {
           const hasVoters = location.voters.length > 0
           const heading = (

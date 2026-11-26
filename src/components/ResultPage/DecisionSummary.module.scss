@@ -82,11 +82,10 @@
 
 .DateHeading {
   margin: 0;
-  margin-block-end: 3px;
   padding: 7px $spacing-md;
-  border-radius: $radius-sm;
-  background: color-mix(in srgb, var(--decision-accent) 9%, #{$c-white});
-  color: #234875;
+  border-block-end: 1px solid var(--result-group-border);
+  background: color-mix(in srgb, var(--decision-accent) 7%, #{$c-white});
+  color: color-mix(in srgb, var(--decision-accent) 55%, var(--decision-ink));
   font-size: 14px;
   font-weight: $font-weight-bold;
   overflow-wrap: anywhere;

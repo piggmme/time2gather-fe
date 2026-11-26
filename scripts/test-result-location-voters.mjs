@@ -130,7 +130,11 @@ try {
         await expect(zero.locator('summary')).toHaveCount(0)
 
         const trigger = first.locator('summary')
+        const placeList = first.locator('..')
+        await expect(placeList).toHaveCSS('border-radius', '10px')
         const scheduleToggle = panel.locator('[data-decision-option] summary')
+        const dateLabel = panel.locator('h3 > time').first()
+        const dateGroup = dateLabel.locator('../..')
         const toggleStyle = locator => locator.evaluate((element) => {
           const { backgroundColor, borderRadius, paddingInline, minHeight } = getComputedStyle(element)
           return { backgroundColor, borderRadius, paddingInline, minHeight }
@@ -149,9 +153,10 @@ try {
           const panelBox = await panel.boundingBox()
           if (width < 900) expect(voteBox.y).toBeGreaterThanOrEqual(panelBox.y + panelBox.height)
           else expect(voteBox.y).toBeLessThan(panelBox.y + panelBox.height)
-          const dateLabel = panel.locator('h3 > time').first()
           await expect(dateLabel).toHaveAttribute('datetime', /^2026-12-0[89]$/)
           await expect(dateLabel).toHaveCSS('border-top-width', '0px')
+          await expect(dateGroup).toHaveCSS('border-radius', '10px')
+          await expect(dateGroup).toHaveCSS('background-color', await placeList.evaluate(list => getComputedStyle(list).backgroundColor))
           const scheduleHeight = (await scheduleToggle.boundingBox()).height
           expect(scheduleHeight).toBeGreaterThanOrEqual(44)
           expect(scheduleHeight).toBeLessThanOrEqual(56)
@@ -213,7 +218,10 @@ try {
             const toggle = await details.locator('summary').boundingBox()
             const names = await details.locator('ul').boundingBox()
             const following = await next.boundingBox()
-            const gaps = [Math.round(names.y - toggle.y - toggle.height), Math.round(following.y - names.y - names.height)]
+            const groupBorder = next === afterSchedule
+              ? await dateGroup.evaluate(element => parseFloat(getComputedStyle(element).borderBlockEndWidth))
+              : 0
+            const gaps = [Math.round(names.y - toggle.y - toggle.height), Math.round(following.y - names.y - names.height - groupBorder)]
             const expectedGap = width >= 900 ? 24 : 16
             expect(gaps).toEqual([expectedGap, next === afterSchedule ? 24 : expectedGap + 1])
           }
@@ -293,6 +301,7 @@ try {
   const timeLabelBox = await timeSummary.locator('bdi').boundingBox()
   expect(Math.abs(timeLabelBox.x - dateLabelBox.x)).toBeLessThan(1)
   await expect(dateHeading.locator('..')).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+  await expect(dateHeading.locator('..')).toHaveCSS('border-block-end-width', '1px')
   await timeSummary.press('Enter')
   await expect(timeOptions.first().getByText('Alex Kim', { exact: true })).toBeVisible()
   await expect(timeOptions.last().getByText('Alex Kim', { exact: true })).toBeHidden()
@@ -319,6 +328,11 @@ try {
     await page.goto(`${origin}/meetings/result-day-status?lang=ko`)
     const status = page.getByRole('tabpanel').getByText(korean.meeting.result.actions.inProgress, { exact: true })
     await expect(status).toBeVisible()
+    const dateOptions = page.getByRole('list', { name: korean.meeting.result.bestSlotsTitle, exact: true })
+    await expect(dateOptions).toHaveCSS('border-radius', '10px')
+    const dateToggle = dateOptions.locator('summary').first()
+    await dateToggle.tap()
+    await expect(dateOptions.getByText('Participant 1', { exact: true }).first()).toBeVisible()
     await page.evaluate(() => document.fonts.ready)
     const lines = await status.evaluate((element) => {
       const text = document.createRange()

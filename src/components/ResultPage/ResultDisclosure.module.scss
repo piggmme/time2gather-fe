@@ -1,6 +1,17 @@
 @use '../../styles/surfaces.scss' as surfaces;
 @use '../../styles/variables.scss' as *;
 
+.Group {
+  --result-group-border: #{surfaces.$section-line};
+
+  border: 1px solid var(--result-group-border);
+  border-radius: 10px;
+  background: $c-white;
+  overflow: clip;
+
+  .Row { border-radius: 0; }
+}
+
 .List {
   display: grid;
   min-width: 0;
@@ -66,7 +77,7 @@
     &:hover { background: surfaces.$control-hover-bg; }
   }
 
-  details[open] > & { background: $primary-color-soft; }
+  details[open] > & { background: color-mix(in srgb, #{$primary-color} 7%, #{$c-white}); }
 
   &:focus-visible {
     outline: 2px solid $primary-color-hover;

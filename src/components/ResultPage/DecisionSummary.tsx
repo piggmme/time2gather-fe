@@ -118,16 +118,18 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
               <span id={`${id}-people-hint`} className={styles.VisuallyHidden}>{t('meeting.result.decision.people')}</span>
               {dateOnly
                 ? (
-                    <ul className={`${disclosureStyles.List} ${styles.Candidates}`} aria-label={t('meeting.result.bestSlotsTitle')}>
-                      {options.map(option => renderOption(option))}
-                    </ul>
+                    <div className={styles.Candidates}>
+                      <ul className={`${disclosureStyles.List} ${disclosureStyles.Group}`} aria-label={t('meeting.result.bestSlotsTitle')}>
+                        {options.map(option => renderOption(option))}
+                      </ul>
+                    </div>
                   )
                 : (
                     <ul className={`${styles.DateGroups} ${styles.Candidates}`} aria-label={t('meeting.result.bestTimesTitle')}>
                       {Array.from(optionsByDate, ([date, sameDate]) => {
                         const dateHeadingId = `${id}-${date}`
                         return (
-                          <li key={date}>
+                          <li key={date} className={disclosureStyles.Group}>
                             <h3 id={dateHeadingId} className={styles.DateHeading}>
                               <time dateTime={date}>{formatDate(date, locale)}</time>
                             </h3>
