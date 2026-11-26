@@ -114,7 +114,11 @@ try {
       await expect(interval).toHaveValue('30')
       await next.click()
       await page.locator('#meeting-host-name').fill('Alex')
-      await page.getByRole('button', { name: t.createMeeting.locationStep.createButton, exact: true }).click()
+      const [created] = await Promise.all([
+        page.waitForResponse(response => response.request().method() === 'POST' && new URL(response.url()).pathname === '/api/v1/meetings'),
+        page.getByRole('button', { name: t.createMeeting.locationStep.createButton, exact: true }).click(),
+      ])
+      assert.ok(created.ok())
       await expect.poll(() => writes.find(w => w.path === '/api/v1/meetings')?.body).toMatchObject({ intervalMinutes: 30, availableDates: { '2026-11-15': ['09:30', '10:00', '10:30'] } })
       results.push({
         locale, width, typing: true, scrollPresets: 48, invalidRejected: true, keyboard: true, backRestored: true, requestHalfHours: true,

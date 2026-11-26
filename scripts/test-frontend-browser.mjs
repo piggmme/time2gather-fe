@@ -42,12 +42,10 @@ try {
   await run(['scripts/test-participants-tab.mjs'], { PARTICIPANTS_ENGINE: 'chromium' })
   const fixture = start(['scripts/test-time-picker-fixture.mjs'])
   await waitForServer('http://127.0.0.1:18485/api/v1/auth/me', fixture.child, { logs: fixture.logs })
-  const server = start(['dist/server/entry.mjs'], { HOST: '127.0.0.1', PORT: '14326', API_URL: 'http://127.0.0.1:18485/api' })
-  await waitForServer('http://127.0.0.1:14326/meetings/create', server.child, { logs: server.logs })
-  const dev = start(['node_modules/astro/astro.js', 'dev', '--host', '127.0.0.1', '--port', '14325'], {
-    API_URL: 'http://127.0.0.1:18485/api', PUBLIC_API_URL: '/api',
+  const server = start(['--import', './scripts/fixture-ssr-loader.mjs', 'dist/server/entry.mjs'], {
+    HOST: '127.0.0.1', PORT: '14326', PREFLIGHT_FIXTURE_API: 'http://127.0.0.1:18485',
   })
-  await waitForServer('http://127.0.0.1:14325/meetings/create', dev.child, { logs: dev.logs })
+  await waitForServer('http://127.0.0.1:14326/meetings/create', server.child, { logs: server.logs })
   const suites = [
     ['test-landing-first-screen.mjs', { LANDING_BASE: 'http://127.0.0.1:14326', LANDING_OUTPUT: `${output}/landing` }],
     ['test-keyboard-done.mjs', { DONE_ENGINES: 'chromium', DONE_BASE: 'http://127.0.0.1:14326', DONE_OUTPUT: `${output}/keyboard` }],
@@ -57,8 +55,9 @@ try {
     ['test-share-images.mjs', { SHARE_IMAGE_OUTPUT: `${output}/share-images` }],
     ['test-time-picker.mjs', { PICKER_CHANNEL: 'chromium', PICKER_BASE: 'http://127.0.0.1:14326', PICKER_OUTPUT: `${output}/picker` }],
     ['test-create-flow-layout.mjs', { QA_LOCALES: 'ko,de,ar', CREATE_BASE: 'http://127.0.0.1:14326', CREATE_OUTPUT: `${output}/layout` }],
-    ['test-half-hour-slots.mjs', { HALF_HOUR_BASE: 'http://127.0.0.1:14325', HALF_HOUR_OUTPUT: `${output}/half-hour` }],
+    ['test-half-hour-slots.mjs', { HALF_HOUR_BASE: 'http://127.0.0.1:14326', HALF_HOUR_OUTPUT: `${output}/half-hour` }],
     ['test-comment-initial-loading.mjs', { COMMENT_LOADING_OUTPUT: `${output}/comment-loading` }],
+    ['test-result-comment-shortcut.mjs', { RESULT_SHORTCUT_OUTPUT: `${output}/result-comment-shortcut` }],
     ['test-result-location-voters.mjs', { RESULT_VOTERS_OUTPUT: `${output}/result-voters` }],
     ['test-button-roles.mjs', {
       BUTTON_SCENARIOS: 'home,search,create,time,guest-vote,comments,reply,reactions,edit', BUTTON_OUTPUT: `${output}/buttons`,

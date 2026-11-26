@@ -116,6 +116,11 @@ try {
             const submit = section.getByRole('button', { name: messages.comments.post, exact: true })
             await section.getByRole('textbox').fill('See you then!')
             await expect(submit).toBeDisabled()
+            if (returning) {
+              // Filling the composer can scroll the comment into view and mark it as read.
+              await page.evaluate(() => window.scrollTo(0, 0))
+              await expect(section.getByText(comment.body)).not.toBeInViewport({ ratio: 0.25 })
+            }
             session.resolve()
             people.resolve()
             activity.resolve()

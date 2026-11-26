@@ -6,7 +6,6 @@
 :global(:root) {
   --comment-shortcut-ink: #{$primary-color-hover};
   --comment-shortcut-focus: #{$primary-color};
-  --comment-shortcut-surface: #{$c-blue-soft};
   --comment-shortcut-hover: #{$primary-color-soft};
   --comment-shortcut-active: #{$primary-color-selected};
 }
@@ -199,42 +198,24 @@
 .newActivity { display: flex; flex-direction: column; gap: $spacing-sm; margin-block-end: $spacing-base; }
 .badge { color: $primary-color-hover; font-size: $font-size-sm; margin-inline-start: 6px; }
 .shortcut {
-  display: inline-flex;
-  align-items: center;
-  max-width: 100%;
-  min-height: 44px;
-  margin: 0;
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  min-block-size: 44px;
   color: var(--comment-shortcut-ink);
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  line-height: $line-height-tight;
-  text-decoration: none;
   border-radius: surfaces.$control-radius;
 
-  &:hover .shortcutLabel { background: var(--comment-shortcut-hover); }
-  &:active .shortcutLabel { background: var(--comment-shortcut-active); }
+  @media (hover: hover) {
+    &:hover { background: var(--comment-shortcut-hover); }
+  }
+
+  &:active { background: var(--comment-shortcut-active); }
   &:focus-visible {
     outline: 2px solid var(--comment-shortcut-focus);
     outline-offset: -2px;
   }
 }
-.shortcutLabel {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xs;
-  min-width: 0;
-  padding: 6px $spacing-md;
-  border-radius: surfaces.$control-radius;
-  background: var(--comment-shortcut-surface);
-  overflow-wrap: anywhere;
-  transition: background $transition-fast;
 
-  > svg { flex-shrink: 0; }
-  > span { min-width: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .shortcutLabel { transition: none; }
-}
 @media (max-width: 699px) {
   .replies { margin-inline-start: 12px; padding-inline-start: 12px; }
   .section textarea { font-size: 16px; }

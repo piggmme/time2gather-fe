@@ -5,6 +5,7 @@ import { chromium, expect } from '@playwright/test'
 const base = process.env.HALF_HOUR_BASE ?? 'http://127.0.0.1:14325'
 const output = process.env.HALF_HOUR_OUTPUT ?? '../local-browser'
 const locales = process.env.QA_LOCALES?.split(',') ?? fs.readdirSync('src/i18n/locales').map(f => f.slice(0, -5))
+const navigationTimeout = 20000
 fs.mkdirSync(output, { recursive: true })
 const browser = await chromium.launch()
 const results = [], errors = []
@@ -43,13 +44,19 @@ try {
         await page.screenshot({ path: `${output}/${locale}-${width}-creation.png`, fullPage: true })
       }
       await page.getByRole('button', { name: t.common.next, exact: true }).click()
+      await expect(page).toHaveURL(/step=location/, { timeout: navigationTimeout })
       await expect(page).toHaveURL(/intervalMinutes=30/)
+      await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition', { timeout: navigationTimeout })
       await page.getByRole('button', { name: t.common.previous, exact: true }).click()
+      await expect(page).toHaveURL(/step=timeRange/, { timeout: navigationTimeout })
       await expect(select).toHaveValue('30')
+      await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition', { timeout: navigationTimeout })
       await page.getByRole('button', { name: t.common.next, exact: true }).click()
       await page.locator('#meeting-host-name').fill('Alex')
       await page.getByRole('button', { name: t.createMeeting.locationStep.createButton, exact: true }).click()
       await expect.poll(() => writes.find(w => w.path === '/api/v1/meetings')?.body).toMatchObject({ intervalMinutes: 30, availableDates: { '2026-11-15': ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30'] } })
+      await expect(page).toHaveURL(/\/meetings\/nav-created(?:\?|$)/, { timeout: navigationTimeout })
+      await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition', { timeout: navigationTimeout })
       await page.goto(`${base}/meetings/half-time/select/time?lang=${locale}`)
       const cells = page.locator('button[data-date-key="2026-11-15"][data-time-index]')
       await expect(cells).toHaveCount(6)
@@ -68,6 +75,8 @@ try {
       }
       await page.getByRole('button', { name: t.common.submit, exact: true }).click()
       await expect.poll(() => writes.find(w => w.path === '/api/v1/meetings/half-time/selections')?.body).toMatchObject({ selections: [{ date: '2026-11-15', type: 'TIME', times: ['09:30'] }] })
+      await expect(page).toHaveURL(/\/meetings\/half-time(?:\?|$)/, { timeout: navigationTimeout })
+      await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition', { timeout: navigationTimeout })
       await page.goto(`${base}/meetings/hour-time/select/time?lang=${locale}`)
       await expect(page.locator('button[data-time-index]').first()).toHaveCSS('height', '44px')
       await context.close()

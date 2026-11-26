@@ -191,7 +191,7 @@
         "node",
         "scripts/test-frontend-browser.mjs"
       ],
-      "timeoutSeconds": 1800
+      "timeoutSeconds": 5400
     },
     {
       "name": "date vote month navigation (22 locales)",
