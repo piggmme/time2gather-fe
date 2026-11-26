@@ -40,10 +40,11 @@ export default function Comments ({ code, onSummary }: {
     hide: boolean
   } | null>(null)
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [initialListPending, setInitialListPending] = useState(true)
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState('')
   const [attempt, setAttempt] = useState(0)
+  const lastSessionUser = useRef<number | null | undefined>(undefined)
   const section = useRef<HTMLElement>(null)
   const seen = useRef(0)
   const version = useRef(-1)
@@ -67,11 +68,17 @@ export default function Comments ({ code, onSummary }: {
     }))
   }, [code])
   useEffect(() => {
-    if (me === undefined)
-      return
+    if (me === undefined) return
+    const userId = me?.userId ?? null
+    // Comment reads already carry the session cookie. Only an account change needs a reload.
+    if (lastSessionUser.current !== undefined && lastSessionUser.current !== userId)
+      setAttempt(attempt => attempt + 1)
+    lastSessionUser.current = userId
+  }, [me])
+  useEffect(() => {
     let disposed = false
     let inFlight = false
-    setLoading(true)
+    setInitialListPending(true)
     setError('')
     version.current = -1
     namesVersion.current = -1
@@ -83,7 +90,9 @@ export default function Comments ({ code, onSummary }: {
         const next = await comments.summary(code)
         if (disposed)
           return
+        let initialActivity: Activity[] | undefined
         if (initial) {
+          setSummary(next)
           storageKey.current = `comments-seen:${code}:${next.viewerId || 'guest'}`
           try {
             const stored = localStorage.getItem(storageKey.current)
@@ -92,11 +101,27 @@ export default function Comments ({ code, onSummary }: {
           } catch {
             seen.current = next.version
           }
-          const [page, candidates] = await Promise.all([comments.list(code), comments.people(code)])
-          if (disposed)
-            return
-          setRoots(page)
-          setPeople(candidates)
+          // Read the version before the list so a concurrent write remains visible to the next poll.
+          const [page,
+            people,
+            activity] = await Promise.allSettled([
+            comments.list(code).then(async (page) => {
+              if (disposed) return
+              setRoots(page)
+              setInitialListPending(false)
+              if (location.hash.startsWith('#comment-'))
+                await jump(location.hash.slice(9))
+            }),
+            comments.people(code).then((candidates) => {
+              if (!disposed) setPeople(candidates)
+            }),
+            seen.current < next.version ? comments.activity(code, seen.current) : Promise.resolve([]),
+          ])
+          if (disposed) return
+          if (page.status === 'rejected') throw page.reason
+          if (people.status === 'rejected') throw people.reason
+          if (activity.status === 'rejected') throw activity.reason
+          initialActivity = activity.value
           try {
             if (localStorage.getItem(storageKey.current) === null)
               localStorage.setItem(storageKey.current, String(seen.current))
@@ -125,15 +150,13 @@ export default function Comments ({ code, onSummary }: {
           namesVersion.current = next.namesVersion ?? 0
         }
         if (version.current !== next.version) {
-          const fresh = await comments.activity(code, seen.current)
+          const fresh = initialActivity ?? await comments.activity(code, seen.current)
           if (disposed)
             return
           setActivity(fresh)
           version.current = next.version
         }
         setSummary(next)
-        if (initial && location.hash.startsWith('#comment-'))
-          await jump(location.hash.slice(9))
         setError('')
       } catch {
         if (!disposed)
@@ -141,7 +164,7 @@ export default function Comments ({ code, onSummary }: {
       } finally {
         inFlight = false
         if (!disposed)
-          setLoading(false)
+          setInitialListPending(false)
       }
     }
     const profileChanged = (event: Event) => {
@@ -171,7 +194,7 @@ export default function Comments ({ code, onSummary }: {
       document.removeEventListener('visibilitychange', focus)
     }
     // Translations are read on initialization; locale changes must not discard drafts or pagination.
-  }, [code, me?.userId, me === undefined, attempt, jump])
+  }, [code, attempt, jump])
   useEffect(() => {
     if (!summary || activity.length === 0)
       return
@@ -391,7 +414,7 @@ export default function Comments ({ code, onSummary }: {
   )
   return (
     <section ref={section} id='comments' className={styles.section} dir={localeMeta[locale].dir} aria-labelledby='comments-title'>
-      <h2 id='comments-title'>{t('comments.title')} <span>{summary?.count || 0}</span></h2>
+      <h2 id='comments-title'>{t('comments.title')}{summary && <> <span>{summary.count}</span></>}</h2>
       {activity.some(a => a.mentioned) && (
         <div className={styles.newActivity}>
           {activity.filter(a => a.mentioned).map(a => <Button key={a.id} buttonType='ghost' disabled={busy} onClick={() => run(() => jump(a.id))}>{t('comments.mentioned')}</Button>)}
@@ -400,37 +423,38 @@ export default function Comments ({ code, onSummary }: {
       <CommentComposer code={code} people={people} onSaved={saved} />
       {notice && <p role='status'>{notice}</p>}
       {error && <div role='alert'><p className={styles.error}>{error}</p><Button disabled={busy} onClick={() => setAttempt(a => a + 1)}>{t('comments.retry')}</Button></div>}
-      {loading && <p role='status'>{t('common.loading')}</p>}
-      {roots.items.map(root => (
-        <div key={root.id} className={styles.thread}>
-          {renderComment(root)}
-          {expanded.includes(root.id) && (
-            <div id={`comment-replies-${root.id}`} className={styles.replies}>
-              {replies[root.id]?.items.map(renderComment)}
-              {replies[root.id]?.nextCursor && (
-                <Button
-                  disabled={busy}
-                  onClick={() => run(async () => {
-                    const page = await comments.list(code, root.id, replies[root.id].nextCursor!)
-                    setReplies(p => ({ ...p, [root.id]: { ...page, items: unique([...p[root.id].items, ...page.items]).sort((a, b) => a.createdAt - b.createdAt) } }))
-                  })}
-                >{t('comments.moreReplies')}
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
-      ))}
-      {roots.nextCursor && (
-        <Button
-          disabled={busy}
-          onClick={() => run(async () => {
-            const page = await comments.list(code, undefined, roots.nextCursor!)
-            setRoots(p => ({ ...page, items: unique([...p.items, ...page.items]) }))
-          })}
-        >{t('comments.more')}
-        </Button>
-      )}
+      <div aria-busy={initialListPending}>
+        {roots.items.map(root => (
+          <div key={root.id} className={styles.thread}>
+            {renderComment(root)}
+            {expanded.includes(root.id) && (
+              <div id={`comment-replies-${root.id}`} className={styles.replies}>
+                {replies[root.id]?.items.map(renderComment)}
+                {replies[root.id]?.nextCursor && (
+                  <Button
+                    disabled={busy}
+                    onClick={() => run(async () => {
+                      const page = await comments.list(code, root.id, replies[root.id].nextCursor!)
+                      setReplies(p => ({ ...p, [root.id]: { ...page, items: unique([...p[root.id].items, ...page.items]).sort((a, b) => a.createdAt - b.createdAt) } }))
+                    })}
+                  >{t('comments.moreReplies')}
+                  </Button>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+        {roots.nextCursor && (
+          <Button
+            disabled={busy}
+            onClick={() => run(async () => {
+              const page = await comments.list(code, undefined, roots.nextCursor!)
+              setRoots(p => ({ ...page, items: unique([...p.items, ...page.items]) }))
+            })}
+          >{t('comments.more')}
+          </Button>
+        )}
+      </div>
       <Dialog.Root
         open={!!removing}
         onOpenChange={(open) => {
