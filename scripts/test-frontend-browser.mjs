@@ -58,6 +58,7 @@ try {
     ['test-time-picker.mjs', { PICKER_CHANNEL: 'chromium', PICKER_BASE: 'http://127.0.0.1:14326', PICKER_OUTPUT: `${output}/picker` }],
     ['test-create-flow-layout.mjs', { QA_LOCALES: 'ko,de,ar', CREATE_BASE: 'http://127.0.0.1:14326', CREATE_OUTPUT: `${output}/layout` }],
     ['test-half-hour-slots.mjs', { HALF_HOUR_BASE: 'http://127.0.0.1:14325', HALF_HOUR_OUTPUT: `${output}/half-hour` }],
+    ['test-result-comment-shortcut.mjs', { RESULT_SHORTCUT_OUTPUT: `${output}/result-comment-shortcut` }],
     ['test-result-location-voters.mjs', { RESULT_VOTERS_OUTPUT: `${output}/result-voters` }],
     ['test-button-roles.mjs', {
       BUTTON_SCENARIOS: 'home,search,create,time,guest-vote,comments,reply,reactions,edit', BUTTON_OUTPUT: `${output}/buttons`,

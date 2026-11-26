@@ -9,13 +9,18 @@ import styles from './Tabs.module.scss'
 const TabsRoot = (props: TabsProps) => <TabsRa.Root {...props} className={styles.Root} />
 const TabsList = ({ trailing, ...props }: TabsListProps & { trailing?: ReactNode }) => {
   const ref = useRef<HTMLDivElement>(null)
+  const scrollButton = useRef<HTMLButtonElement>(null)
   const [overflow, setOverflow] = useState(false)
   const { t, locale } = useTranslation()
   const rtl = ['ar', 'ar-EG', 'ur'].includes(locale)
   useEffect(() => {
     const list = ref.current
     if (!list) return
-    const update = () => setOverflow(list.scrollWidth > list.clientWidth + 1)
+    const update = () => {
+      // Measure the space tabs would have without the scroll button itself.
+      const availableWidth = list.clientWidth + (scrollButton.current?.offsetWidth ?? 0)
+      setOverflow(list.scrollWidth > availableWidth + 1)
+    }
     const observer = new ResizeObserver(update)
     observer.observe(list)
     for (const child of list.children) observer.observe(child)
@@ -27,6 +32,7 @@ const TabsList = ({ trailing, ...props }: TabsListProps & { trailing?: ReactNode
       <TabsRa.List {...props} ref={ref} className={styles.List} />
       {overflow && (
         <button
+          ref={scrollButton}
           type='button'
           className={styles.ScrollNext}
           aria-label={t('common.next')}

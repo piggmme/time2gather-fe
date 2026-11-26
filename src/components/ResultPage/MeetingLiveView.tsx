@@ -91,11 +91,8 @@ export default function MeetingLiveView ({ initialData, shareLabels }: { initial
         onMeetingUpdated={refreshMeeting}
         onTabChange={setActiveTab}
         commentShortcut={commentCount > 0 && (
-          <a className={commentStyles.shortcut} href='#comments'>
-            <span className={commentStyles.shortcutLabel}>
-              <HiOutlineChatAlt2 size={16} aria-hidden='true' />
-              <span>{t('comments.title')}</span>
-            </span>
+          <a className={commentStyles.shortcut} href='#comments' aria-label={t('comments.title')}>
+            <HiOutlineChatAlt2 size={20} aria-hidden='true' />
           </a>
         )}
         comments={<Comments code={meetingData.meeting.code} onSummary={onCommentSummary} />}
