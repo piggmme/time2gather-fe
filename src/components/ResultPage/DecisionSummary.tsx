@@ -28,13 +28,14 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
   const [open, setOpen] = useState(false)
   const id = useId()
   const options = showAll ? model.options : model.options.slice(0, 3)
-  const optionsByDate = new Map<string, typeof options>()
-  if (!dateOnly) {
-    for (const option of options) {
-      const sameDate = optionsByDate.get(option.date)
-      if (sameDate) sameDate.push(option)
-      else optionsByDate.set(option.date, [option])
-    }
+  const currentYear = String(new Date().getFullYear())
+  const showYearHeadings = dateOnly && model.options.some(option => option.date.slice(0, 4) !== currentYear)
+  const optionGroups = new Map<string, typeof options>()
+  for (const option of options) {
+    const groupKey = dateOnly ? option.date.slice(0, 4) : option.date
+    const group = optionGroups.get(groupKey)
+    if (group) group.push(option)
+    else optionGroups.set(groupKey, [option])
   }
   const hasOptions = options.length > 0
   const title = model.state === 'all'
@@ -53,7 +54,7 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
     </section>
   )
 
-  function renderOption (option: (typeof options)[number], dateHeadingId?: string) {
+  function renderOption (option: (typeof options)[number], headingId?: string) {
     const availableIds = new Set(option.participants.map(person => person.userId))
     const missing = data.participants.filter(person => !availableIds.has(person.userId) && person.availabilityResponse !== 'NEEDS_RESPONSE')
     const notSelected = missing.filter(person => person.availabilityResponse !== 'NONE')
@@ -63,8 +64,8 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
     return (
       <li key={option.key} data-decision-option={option.key}>
         <details className={styles.People}>
-          <summary className={disclosureStyles.Toggle} aria-describedby={dateHeadingId ? `${dateHeadingId} ${peopleHintId}` : peopleHintId}>
-            {dateHeadingId
+          <summary className={disclosureStyles.Toggle} aria-describedby={headingId ? `${headingId} ${peopleHintId}` : peopleHintId}>
+            {!dateOnly
               ? (
                   <span className={`${disclosureStyles.Label} ${styles.Time}`}>
                     <bdi className={disclosureStyles.Primary}>{formatTimeRange(option.time, locale, '')}</bdi>
@@ -73,7 +74,7 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
                     )}
                   </span>
                 )
-              : <time className={disclosureStyles.Primary} dateTime={option.date}>{formatDate(option.date, locale)}</time>}
+              : <time className={disclosureStyles.Primary} dateTime={option.date}>{formatDate(option.date, locale, undefined, false)}</time>}
             <HiChevronDown className={disclosureStyles.Chevron} aria-hidden='true' />
           </summary>
           {model.state === 'partial' && <p className={styles.Count}>{t('meeting.result.someAvailable', { count: option.count, total: model.total })}</p>}
@@ -119,14 +120,34 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
               {dateOnly
                 ? (
                     <div className={styles.Candidates}>
-                      <ul className={`${disclosureStyles.List} ${disclosureStyles.Group}`} aria-label={t('meeting.result.bestSlotsTitle')}>
-                        {options.map(option => renderOption(option))}
-                      </ul>
+                      {showYearHeadings
+                        ? (
+                            <div className={styles.YearGroups} role='group' aria-label={t('meeting.result.bestSlotsTitle')}>
+                              {Array.from(optionGroups, ([year, sameYear]) => {
+                                const yearHeadingId = `${id}-${year}`
+                                return (
+                                  <div key={year}>
+                                    <h3 id={yearHeadingId} className={styles.YearHeading}>
+                                      <time dateTime={year}>{formatDate(`${year}-01-01`, locale, { year: 'numeric' })}</time>
+                                    </h3>
+                                    <ul className={`${disclosureStyles.List} ${disclosureStyles.Group}`} aria-labelledby={yearHeadingId}>
+                                      {sameYear.map(option => renderOption(option, yearHeadingId))}
+                                    </ul>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          )
+                        : (
+                            <ul className={`${disclosureStyles.List} ${disclosureStyles.Group}`} aria-label={t('meeting.result.bestSlotsTitle')}>
+                              {options.map(option => renderOption(option))}
+                            </ul>
+                          )}
                     </div>
                   )
                 : (
                     <ul className={`${styles.DateGroups} ${styles.Candidates}`} aria-label={t('meeting.result.bestTimesTitle')}>
-                      {Array.from(optionsByDate, ([date, sameDate]) => {
+                      {Array.from(optionGroups, ([date, sameDate]) => {
                         const dateHeadingId = `${id}-${date}`
                         return (
                           <li key={date} className={disclosureStyles.Group}>

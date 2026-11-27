@@ -88,12 +88,12 @@ export function getCreationTimeSlots (start: string, end: string, intervalMinute
   })
 }
 
-export function formatDate (date: dayjs.Dayjs | string, locale: Locale, fields: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', weekday: 'short' }): string {
+export function formatDate (date: dayjs.Dayjs | string, locale: Locale, fields: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', weekday: 'short' }, includeYearForDifferentYear = true): string {
   const dateKey = typeof date === 'string' ? date.slice(0, 10) : date.format('YYYY-MM-DD')
   const parsed = new Date(`${dateKey}T12:00:00Z`)
   return new Intl.DateTimeFormat(intlLocale(locale), {
     ...fields, timeZone: 'UTC',
-    ...(fields.day && parsed.getUTCFullYear() !== new Date().getFullYear() ? { year: 'numeric' as const } : {}),
+    ...(includeYearForDifferentYear && fields.day && parsed.getUTCFullYear() !== new Date().getFullYear() ? { year: 'numeric' as const } : {}),
   }).format(parsed)
 }
 

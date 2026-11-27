@@ -80,6 +80,20 @@
   @include surfaces.section-start($spacing-base);
 }
 
+.YearGroups {
+  display: grid;
+  gap: $spacing-md;
+}
+
+.YearHeading {
+  margin: 0 0 $spacing-xs;
+  padding-inline-start: 2px;
+  color: var(--decision-muted);
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-normal;
+}
+
 .DateHeading {
   margin: 0;
   padding: 7px $spacing-md;
