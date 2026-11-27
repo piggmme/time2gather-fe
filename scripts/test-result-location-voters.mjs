@@ -24,17 +24,20 @@ const fixture = createNavigationFixture({
       { ...data.participants[0], username: 'Alex Kim' },
       { userId: 2, username: 'Sam Lee', profileImageUrl: '' },
     ]
+    if (code.endsWith('-grouped')) {
+      people.push({ userId: 5, username: 'Jordan Rivera', profileImageUrl: '' }, { userId: 6, username: 'Morgan Patel', profileImageUrl: '' })
+    }
     const date = '2026-12-08'
     const times = ['18:00', '19:00', '20:00']
     Object.assign(data.meeting, {
       host: { ...data.meeting.host, id: 3 }, timezone: 'America/New_York', availableDates: { [date]: times },
     })
     data.participants = people
-    data.schedule = { [date]: Object.fromEntries(times.map(time => [time, { count: 2, participants: people }])) }
+    data.schedule = { [date]: Object.fromEntries(times.map(time => [time, { count: people.length, participants: people }])) }
     data.summary = {
-      totalParticipants: 2,
+      totalParticipants: people.length,
       bestSlots: [{
-        date, time: '18:00 ~ 21:00', count: 2, percentage: '100%', participants: people, startSlotIndex: 18, endSlotIndex: 20,
+        date, time: '18:00 ~ 21:00', count: people.length, percentage: '100%', participants: people, startSlotIndex: 18, endSlotIndex: 20,
       }],
     }
     if (code.includes('confirmed')) {
@@ -46,10 +49,10 @@ const fixture = createNavigationFixture({
     }
     if (code.endsWith('-grouped')) {
       data.meeting.availableDates[date].push('22:00', '23:00')
-      data.schedule[date]['22:00'] = { count: 2, participants: people }
-      data.schedule[date]['23:00'] = { count: 2, participants: people }
+      data.schedule[date]['22:00'] = { count: people.length, participants: people }
+      data.schedule[date]['23:00'] = { count: people.length, participants: people }
       data.summary.bestSlots.push({
-        date, time: '22:00 ~ 23:00', count: 2, percentage: '100%', participants: people, startSlotIndex: 22, endSlotIndex: 22,
+        date, time: '22:00 ~ 23:00', count: people.length, percentage: '100%', participants: people, startSlotIndex: 22, endSlotIndex: 22,
       })
     }
     data.locationVote.locations = [
@@ -214,17 +217,17 @@ try {
           expect(locationNames).toEqual(scheduleNames)
 
           const afterSchedule = panel.getByRole('heading', { name: messages.meeting.result.summarySections.location, exact: true }).locator('..')
-          for (const [details, next] of [[schedule, afterSchedule], [location, second.locator('summary')]]) {
+          for (const details of [schedule, location]) {
             const toggle = await details.locator('summary').boundingBox()
             const names = await details.locator('ul').boundingBox()
-            const following = await next.boundingBox()
-            const groupBorder = next === afterSchedule
-              ? await dateGroup.evaluate(element => parseFloat(getComputedStyle(element).borderBlockEndWidth))
-              : 0
-            const gaps = [Math.round(names.y - toggle.y - toggle.height), Math.round(following.y - names.y - names.height - groupBorder)]
+            const disclosure = await details.boundingBox()
+            const gaps = [Math.round(names.y - toggle.y - toggle.height), Math.round(disclosure.y + disclosure.height - names.y - names.height)]
             const expectedGap = width >= 900 ? 24 : 16
-            expect(gaps).toEqual([expectedGap, next === afterSchedule ? 24 : expectedGap + 1])
+            expect(gaps).toEqual([expectedGap, expectedGap])
           }
+          const group = await dateGroup.boundingBox()
+          const following = await afterSchedule.boundingBox()
+          expect(Math.round(following.y - group.y - group.height)).toBe(24)
         }
 
         if (capture) await captureResult(page, panel, `${output}/${locale}-${width}-expanded.png`)
@@ -282,7 +285,7 @@ try {
     }
   }
   activeCase = 'time options grouped by date'
-  const groupedContext = await browser.newContext()
+  const groupedContext = await browser.newContext({ viewport: { width: 320, height: 900 } })
   await groupedContext.route(`${origin}/api/**`, async (route) => {
     const url = new URL(route.request().url())
     if (url.pathname.endsWith('/v1/auth/me')) return route.fulfill({ json: { success: true, data: null } })
@@ -305,6 +308,21 @@ try {
   await timeSummary.press('Enter')
   await expect(timeOptions.first().getByText('Alex Kim', { exact: true })).toBeVisible()
   await expect(timeOptions.last().getByText('Alex Kim', { exact: true })).toBeHidden()
+  await timeSummary.press('Enter')
+  const finalDetails = timeOptions.last().locator('details')
+  await finalDetails.locator('summary').press('Enter')
+  const finalPeople = finalDetails.locator('ul')
+  await expect(finalPeople.getByText('Morgan Patel', { exact: true })).toBeVisible()
+  const rowPositions = await finalPeople.locator('li').evaluateAll(rows => rows.map(row => Math.round(row.getBoundingClientRect().top)))
+  expect(new Set(rowPositions).size).toBeGreaterThan(1)
+  const finalBox = await finalDetails.boundingBox()
+  const peopleBox = await finalPeople.boundingBox()
+  expect(Math.round(finalBox.y + finalBox.height - peopleBox.y - peopleBox.height)).toBe(16)
+  if (output) {
+    fs.mkdirSync(output, { recursive: true })
+    await finalDetails.locator('summary').blur()
+    await dateGroup.screenshot({ path: `${output}/ko-320-wrapped.png` })
+  }
   activeCase = 'partial availability keeps its explanation'
   const korean = JSON.parse(fs.readFileSync('src/i18n/locales/ko.json', 'utf8'))
   await grouped.goto(`${resultUrl}-partial?lang=ko`, { waitUntil: 'domcontentloaded' })
@@ -330,9 +348,13 @@ try {
     await expect(status).toBeVisible()
     const dateOptions = page.getByRole('list', { name: korean.meeting.result.bestSlotsTitle, exact: true })
     await expect(dateOptions).toHaveCSS('border-radius', '10px')
-    const dateToggle = dateOptions.locator('summary').first()
+    const dateToggle = dateOptions.locator('summary').last()
     await dateToggle.tap()
-    await expect(dateOptions.getByText('Participant 1', { exact: true }).first()).toBeVisible()
+    const dateDetails = dateToggle.locator('..')
+    await expect(dateDetails.getByText('Participant 1', { exact: true })).toBeVisible()
+    const dateBox = await dateDetails.boundingBox()
+    const datePeople = await dateDetails.locator('ul').boundingBox()
+    expect(Math.round(dateBox.y + dateBox.height - datePeople.y - datePeople.height)).toBe(16)
     await page.evaluate(() => document.fonts.ready)
     const lines = await status.evaluate((element) => {
       const text = document.createRange()

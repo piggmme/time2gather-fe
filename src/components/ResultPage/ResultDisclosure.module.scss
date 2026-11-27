@@ -23,7 +23,7 @@
 
   > li + li { border-block-start: 1px solid surfaces.$section-line; }
 
-  > li:not(:last-child) > details[open] {
+  > li > details[open] {
     padding-block-end: var(--result-people-gap);
   }
 }
