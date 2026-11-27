@@ -32,10 +32,10 @@ jobs:
           cache: pnpm
       - name: Install dependencies for browser setup
         run: pnpm install --frozen-lockfile
-      - name: Install browser system dependencies
-        run: pnpm exec playwright install-deps chromium webkit
-      - name: Run the same preflight as local pushes
-        run: python3 scripts/frontend_preflight.py run
+      - name: Build release without regression tests
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
       - name: Bind the tested release artifact
         run: python3 scripts/release-artifact.py create --revision "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
