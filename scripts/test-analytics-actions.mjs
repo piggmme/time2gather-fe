@@ -169,7 +169,7 @@ try {
     }
     viewer = 1
     await page.goto(`${origin}/meetings/nav-time?lang=ko`)
-    await page.locator('[data-summary-confirm]').click()
+    await page.locator('#meeting-confirm-action button').click()
     const dialog = page.getByRole('alertdialog')
     const confirm = dialog.getByRole('button', { name: t.meeting.confirmDialog.confirm, exact: true })
     fail = true

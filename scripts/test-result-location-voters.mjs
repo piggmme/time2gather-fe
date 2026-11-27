@@ -222,7 +222,7 @@ try {
             const names = await details.locator('ul').boundingBox()
             const disclosure = await details.boundingBox()
             const gaps = [Math.round(names.y - toggle.y - toggle.height), Math.round(disclosure.y + disclosure.height - names.y - names.height)]
-            const expectedGap = width >= 900 ? 24 : 16
+            const expectedGap = width >= 900 ? 20 : 12
             expect(gaps).toEqual([expectedGap, expectedGap])
           }
           const group = await dateGroup.boundingBox()
@@ -262,24 +262,23 @@ try {
       })
       const page = await context.newPage()
       await page.goto(`${resultUrl}?lang=${locale}`, { waitUntil: 'domcontentloaded' })
-      const toolbar = page.locator('[data-summary-toolbar]')
+      const confirmAction = page.locator('#meeting-confirm-action button')
       const vote = page.locator('[class*="ResultActions"]').getByRole('link', { name: messages.result.buttons[role === 'responded' ? 'editAvailability' : 'enterAvailability'], exact: true })
       await expect(vote).toHaveClass(/_secondary_/)
       await expect(vote).toBeVisible()
       if (role === 'host') {
-        await expect(toolbar).toHaveAttribute('data-confirm-primary', 'true')
-        await expect(page.locator('#meeting-confirm-action button')).toBeHidden()
-        await toolbar.getByRole('button', { name: messages.result.decision.setMeeting, exact: true }).click()
+        await expect(confirmAction).toHaveText(messages.confirmButtonShort)
+        await confirmAction.click()
         const dialog = page.getByRole('alertdialog')
         await expect(dialog).toBeVisible()
         await dialog.getByRole('button', { name: messages.confirmDialog.cancel, exact: true }).click()
         await expect(dialog).toBeHidden()
         await page.getByRole('tab', { name: messages.result.tabs.calendar, exact: true }).click()
-        await expect(page.locator('#meeting-confirm-action button')).toBeVisible()
-      }
+        await expect(confirmAction).toBeVisible()
+      } else await expect(confirmAction).toHaveCount(0)
       await page.goto(`${resultUrl}-confirmed?lang=${locale}`, { waitUntil: 'domcontentloaded' })
       await expect(page.locator('[data-confirmed="true"]').first()).toBeVisible()
-      await expect(page.locator('[data-summary-toolbar]')).toHaveCount(0)
+      await expect(confirmAction).toHaveCount(0)
       await context.unrouteAll({ behavior: 'wait' })
       await context.close()
     }
@@ -317,7 +316,7 @@ try {
   expect(new Set(rowPositions).size).toBeGreaterThan(1)
   const finalBox = await finalDetails.boundingBox()
   const peopleBox = await finalPeople.boundingBox()
-  expect(Math.round(finalBox.y + finalBox.height - peopleBox.y - peopleBox.height)).toBe(16)
+  expect(Math.round(finalBox.y + finalBox.height - peopleBox.y - peopleBox.height)).toBe(12)
   if (output) {
     fs.mkdirSync(output, { recursive: true })
     await finalDetails.locator('summary').blur()
@@ -354,7 +353,7 @@ try {
     await expect(dateDetails.getByText('Participant 1', { exact: true })).toBeVisible()
     const dateBox = await dateDetails.boundingBox()
     const datePeople = await dateDetails.locator('ul').boundingBox()
-    expect(Math.round(dateBox.y + dateBox.height - datePeople.y - datePeople.height)).toBe(16)
+    expect(Math.round(dateBox.y + dateBox.height - datePeople.y - datePeople.height)).toBe(12)
     await page.evaluate(() => document.fonts.ready)
     const lines = await status.evaluate((element) => {
       const text = document.createRange()

@@ -521,7 +521,7 @@
 }
 .ResultHeader { grid-column: 1; grid-row: 1; min-width: 0; }
 .ResultPanels {
-  --result-people-gap: #{$spacing-lg};
+  --result-people-gap: #{$spacing-base + $spacing-xs};
   grid-column: 1;
   grid-row: 2;
   min-width: 0;
@@ -572,7 +572,7 @@
 }
 @media (max-width: 899px) {
   .ResultLayout { display: flex; flex-direction: column; align-items: stretch; }
-  .ResultPanels { --result-people-gap: #{$spacing-base}; order: 1; }
+  .ResultPanels { --result-people-gap: #{$spacing-md}; order: 1; }
   .ResultComments { order: 3; }
   .ResultActions {
     order: 2; position: static; margin-top: $spacing-lg;
