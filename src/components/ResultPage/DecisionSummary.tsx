@@ -9,15 +9,13 @@ import { formatDate, formatTimeRange } from '../../utils/time'
 import ResultPeople from './ResultPeople'
 import disclosureStyles from './ResultDisclosure.module.scss'
 import Button from '../Button/Button'
-import ConfirmMeetingDialog from './ConfirmMeetingDialog'
 import styles from './DecisionSummary.module.scss'
 
 type MeetingData = get_meetings_$meetingCode_response['data']
 
-export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }: {
+export default function DecisionSummary ({ data, displayZone }: {
   data: MeetingData
   displayZone: string
-  onMeetingUpdated?: () => void
 }) {
   const { t, locale } = useTranslation()
   const me = useStore($me)
@@ -25,7 +23,6 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
   const dateOnly = data.meeting.selectionType === 'ALL_DAY'
   const model = useMemo(() => buildDecisionSummary(data, displayZone), [data, displayZone])
   const [showAll, setShowAll] = useState(false)
-  const [open, setOpen] = useState(false)
   const id = useId()
   const options = showAll ? model.options : model.options.slice(0, 3)
   const currentYear = String(new Date().getFullYear())
@@ -98,20 +95,6 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
             <p className={styles.Basis}>{t('meeting.result.decision.notAll')}</p>
           )}
         </div>
-        {isHost && (
-          <div className={styles.Toolbar} data-summary-toolbar data-confirm-primary={hasOptions}>
-            <Button
-              type='button'
-              buttonType={hasOptions ? 'primary' : 'secondary'}
-              className={styles.ConfirmAction}
-              onClick={() => setOpen(true)}
-              aria-haspopup='dialog'
-              data-summary-confirm
-            >
-              {t('meeting.result.decision.setMeeting')}
-            </Button>
-          </div>
-        )}
       </div>
       {hasOptions
         ? (
@@ -185,21 +168,6 @@ export default function DecisionSummary ({ data, displayZone, onMeetingUpdated }
               )}
             </div>
           )}
-      {isHost && (
-        <ConfirmMeetingDialog
-          isOpen={open}
-          onClose={() => setOpen(false)}
-          onConfirmed={() => onMeetingUpdated ? onMeetingUpdated() : window.location.reload()}
-          meetingCode={data.meeting.code}
-          timezone={data.meeting.timezone}
-          availableDates={data.meeting.availableDates}
-          schedule={data.schedule}
-          totalParticipants={data.summary.totalParticipants}
-          intervalMinutes={data.meeting.intervalMinutes}
-          selectionType={data.meeting.selectionType}
-          locationVote={data.locationVote}
-        />
-      )}
     </section>
   )
 }

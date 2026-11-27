@@ -53,17 +53,6 @@
   overflow-wrap: anywhere;
   text-wrap: balance;
 }
-.Toolbar { display: none; min-width: 0; max-width: 100%; }
-.Toolbar[data-confirm-primary='true'] { display: flex; }
-.Toolbar .ConfirmAction {
-  width: auto;
-  max-width: 100%;
-  min-height: 44px;
-  padding: $spacing-sm $spacing-md;
-  font-size: $font-size-sm;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
 .Basis { margin: $spacing-xs 0 0; color: var(--decision-muted); font-size: $font-size-sm; line-height: 1.6; }
 .DateGroups {
   display: grid;
@@ -124,6 +113,3 @@
   &:focus-visible { outline: 3px solid var(--decision-focus); outline-offset: 2px; }
 }
 
-@media (max-width: 899px) {
-  .Toolbar { display: flex; }
-}

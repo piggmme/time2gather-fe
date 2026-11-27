@@ -203,7 +203,6 @@ function SummaryContent ({
           <DecisionSummary
             data={meetingData}
             displayZone={resultZone}
-            onMeetingUpdated={onMeetingUpdated}
           />
         )}
 

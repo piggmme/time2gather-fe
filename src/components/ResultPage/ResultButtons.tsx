@@ -115,7 +115,7 @@ export default function ResultButtons (
         <Button
           type='button'
           buttonType='utility'
-          className={votingSummary ? `${styles.CompactConfirmButton} ${styles.HideOnMobileSummary}` : styles.CompactConfirmButton}
+          className={styles.CompactConfirmButton}
           onClick={() => setIsConfirmDialogOpen(true)}
           aria-haspopup='dialog'
         >
