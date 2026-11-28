@@ -174,11 +174,11 @@ try {
           })
           expect(gaps).toEqual([24, 24])
           const names = panel.locator('[data-decision-option]').getByRole('listitem')
-          const betweenNames = await names.evaluateAll(([firstName, secondName]) => {
-            const first = firstName.getBoundingClientRect(), second = secondName.getBoundingClientRect()
-            return Math.round(Math.max(second.left - first.right, first.left - second.right))
-          })
-          expect(betweenNames).toBe(8)
+          const layout = await names.first().locator('..').evaluate(element => ({
+            columns: getComputedStyle(element).gridTemplateColumns.split(' ').length,
+            rowGap: getComputedStyle(element).rowGap,
+          }))
+          expect(layout).toEqual({ columns: width <= 480 ? 1 : 2, rowGap: '8px' })
           if (capture) {
             fs.mkdirSync(output, { recursive: true })
             await captureResult(page, panel, `${output}/${locale}-${width}-collapsed.png`)
