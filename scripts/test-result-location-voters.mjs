@@ -327,8 +327,9 @@ try {
   }
   activeCase = 'partial availability keeps its explanation'
   const korean = JSON.parse(fs.readFileSync('src/i18n/locales/ko.json', 'utf8'))
-  await grouped.goto(`${resultUrl}-partial?lang=ko`, { waitUntil: 'domcontentloaded' })
-  const partial = grouped.locator('[data-decision-state="partial"]')
+  const partialPage = await groupedContext.newPage()
+  await partialPage.goto(`${resultUrl}-partial?lang=ko`, { waitUntil: 'domcontentloaded' })
+  const partial = partialPage.locator('[data-decision-state="partial"]')
   await expect(partial.getByText(korean.meeting.result.decision.peopleHint, { exact: true })).toBeVisible()
   await groupedContext.unrouteAll({ behavior: 'wait' })
   await groupedContext.close()
