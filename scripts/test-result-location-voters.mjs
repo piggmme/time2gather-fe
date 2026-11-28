@@ -276,9 +276,12 @@ try {
         await page.getByRole('tab', { name: messages.result.tabs.calendar, exact: true }).click()
         await expect(confirmAction).toBeVisible()
       } else await expect(confirmAction).toHaveCount(0)
-      await page.goto(`${resultUrl}-confirmed?lang=${locale}`, { waitUntil: 'domcontentloaded' })
-      await expect(page.locator('[data-confirmed="true"]').first()).toBeVisible()
-      await expect(confirmAction).toHaveCount(0)
+      // Keep the first page alive until its proxied API requests finish. Navigating
+      // it away can cancel a route while its fixture response is being fulfilled.
+      const confirmedPage = await context.newPage()
+      await confirmedPage.goto(`${resultUrl}-confirmed?lang=${locale}`, { waitUntil: 'domcontentloaded' })
+      await expect(confirmedPage.locator('[data-confirmed="true"]').first()).toBeVisible()
+      await expect(confirmedPage.locator('#meeting-confirm-action button')).toHaveCount(0)
       await context.unrouteAll({ behavior: 'wait' })
       await context.close()
     }
