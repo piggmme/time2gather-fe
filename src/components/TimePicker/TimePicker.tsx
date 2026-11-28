@@ -10,7 +10,7 @@ import { dismissTouchKeyboard } from '../../utils/keyboard'
 function normalizeTime (input: string): string | undefined {
   const digits = input.normalize('NFKC').replace(/[٠-٩۰-۹]/g, digit => String(digit.charCodeAt(0) % 16))
   const value = digits.trim()
-  const match = /^(\d{1,2})(?::(\d{2}))?$/.exec(value)
+  const match = /^(\d{1,2})(?::(\d{2})?)?$/.exec(value)
   const compact = /^\d{3,4}$/.test(value)
   const hours = compact ? Number(value.slice(0, -2)) : Number(match?.[1])
   const minutes = compact ? Number(value.slice(-2)) : Number(match?.[2] ?? 0)
