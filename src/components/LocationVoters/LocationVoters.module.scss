@@ -8,16 +8,17 @@
 
 .label { margin: 0; color: #697586; font-size: 12px; line-height: 1.6; }
 .list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-md $spacing-sm;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 260px));
+  align-items: start;
+  gap: $spacing-sm $spacing-lg;
   list-style: none;
   margin: $spacing-sm 0 0;
   padding: 0;
 
   li {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-start;
     gap: $spacing-sm;
     min-width: 0;
     max-width: 100%;
@@ -28,5 +29,6 @@
     line-height: var(--font-body-line-height, 1.6);
   }
   li > :first-child { flex-shrink: 0; }
-  bdi { min-width: 0; overflow-wrap: anywhere; }
+  bdi { align-self: center; min-width: 0; overflow-wrap: anywhere; }
+  @media (max-width: 480px) { grid-template-columns: 1fr; }
 }

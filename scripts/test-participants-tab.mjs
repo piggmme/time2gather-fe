@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { createNavigationFixture } from './navigation-fixture.mjs'
 import { waitForServer } from './wait-for-server.mjs'
 
-const names = ['Alex', 'Sofia', '민수', 'نور', 'Maximilian Alexander Weber']
+const names = ['Alex', 'Sofia', '민수', 'نور', '가나다라마바사아자차'.repeat(3)]
 const fixture = createNavigationFixture({
   transformMeeting: (data, code) => {
     const roster = code.endsWith('empty') ? [] : code.endsWith('many') ? [...names, 'Hana', 'Sam'] : names
@@ -83,6 +83,11 @@ try {
       const list = group(panel, 'selected').getByRole('list')
       await expect(heading).toBeVisible()
       await expect(list.getByRole('listitem')).toHaveText(names)
+      const layout = await list.evaluate(element => ({
+        columns: getComputedStyle(element).gridTemplateColumns.split(' ').length,
+        rowGap: getComputedStyle(element).rowGap,
+      }))
+      expect(layout).toEqual({ columns: width <= 480 ? 1 : 2, rowGap: '8px' })
       await page.evaluate(() => document.fonts.ready)
       const headingBlock = await heading.locator('..').elementHandle()
       const gapAfterHeading = await list.evaluate((people, header) =>

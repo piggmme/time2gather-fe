@@ -86,7 +86,7 @@
   padding: 0 $spacing-md $spacing-base;
   min-width: 0;
   .ResponseGroups { margin: 0; }
-  .ResponsePeople { display: flex; flex-wrap: wrap; gap: $spacing-sm $spacing-lg; }
+  .ResponsePeople { gap: $spacing-sm $spacing-lg; }
   .ParticipantItem { font-size: $font-size-base; }
   .ResponseGroup + .ResponseGroup { margin-block-start: $spacing-base; padding-block-start: $spacing-base; }
   .ResponseGroupHeading { margin-block-end: $spacing-sm; }
@@ -656,8 +656,11 @@
   span { color: $c-gray-darkest; font-size: $font-size-xs; font-weight: $font-weight-normal; }
 }
 .ResponsePeople {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
-  gap: $spacing-base $spacing-lg; list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 260px));
+  align-items: start;
+  gap: $spacing-sm $spacing-lg; list-style: none; margin: 0; padding: 0;
+  .ParticipantItem { align-items: flex-start; }
+  .ParticipantName { align-self: center; }
   @media (max-width: 480px) { grid-template-columns: 1fr; }
 }
 .ResponseLink {

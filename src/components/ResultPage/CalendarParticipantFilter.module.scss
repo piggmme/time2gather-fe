@@ -39,8 +39,8 @@
 
 .People {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
-  gap: $spacing-xs $spacing-base;
+  grid-template-columns: repeat(2, minmax(0, 260px));
+  gap: 0 $spacing-lg;
   list-style: none;
   padding: 0;
   margin: 0;

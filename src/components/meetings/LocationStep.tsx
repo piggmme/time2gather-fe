@@ -29,10 +29,10 @@ export default function LocationStep () {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const timezone = useStore($creationTimeZone)
   const me = useStore($me)
-  const [hostName, setHostName] = usePageState('hostName', me?.username ?? '')
+  const [hostName, setHostName] = usePageState('hostName', me && me.username.length <= 30 ? me.username : '')
 
   useEffect(() => {
-    if (me && !hostName) setHostName(me.username)
+    if (me && !hostName && me.username.length <= 30) setHostName(me.username)
   }, [me?.userId])
 
   const [selectedDates] = useSelectedDates()
@@ -47,7 +47,7 @@ export default function LocationStep () {
   const { t } = useTranslation()
 
   const validLocations = locations.filter(loc => loc.trim() !== '')
-  const hasIdentity = hostName.trim().length > 0
+  const hasIdentity = hostName.trim().length > 0 && hostName.length <= 30
   const canSubmit = hasIdentity && (!locationVoteEnabled || validLocations.length >= MIN_LOCATIONS)
 
   const handleAddLocation = () => {
@@ -173,7 +173,7 @@ export default function LocationStep () {
             id='meeting-host-name'
             type='text'
             autoComplete='nickname'
-            maxLength={100}
+            maxLength={30}
             placeholder={t('createMeeting.locationStep.usernamePlaceholder')}
             value={hostName}
             onChange={e => setHostName(e.target.value)}

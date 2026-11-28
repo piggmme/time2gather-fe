@@ -11,7 +11,7 @@ export default function MeetingNameField ({ identity }: { identity: ReturnType<t
   return (
     <div className={styles.field}>
       <label htmlFor={id}>{t('meeting.identity.label')}</label>
-      <Input id={id} dir='auto' autoComplete='nickname' maxLength={100} value={identity.name} disabled={!identity.ready} onChange={event => identity.setName(event.target.value)} />
+      <Input id={id} dir='auto' autoComplete='nickname' maxLength={30} value={identity.name} disabled={!identity.ready} onChange={event => identity.setName(event.target.value)} />
       {identity.failed && <div role='alert'><p>{t('common.error')}</p><Button buttonType='secondary' onClick={identity.retry}>{t('locationVote.retry')}</Button></div>}
     </div>
   )

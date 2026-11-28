@@ -279,7 +279,7 @@ export default function CommentComposer ({
             }}
           >
             <label htmlFor={`${id}-name`}>{t('meeting.anonymous.usernamePlaceholder')}</label>
-            <Input id={`${id}-name`} dir='auto' autoComplete='nickname' maxLength={100} value={username} disabled={busy} onChange={event => setUsername(event.target.value)} />
+            <Input id={`${id}-name`} dir='auto' autoComplete='nickname' maxLength={30} value={username} disabled={busy} onChange={event => setUsername(event.target.value)} />
             {error && <p role='alert' className={styles.error}>{error}</p>}
             <div className={styles.actions}>
               <Dialog.Cancel type='button' disabled={busy}>{t('common.cancel')}</Dialog.Cancel>

@@ -88,6 +88,7 @@ try {
             if (locale === 'ko' && width === 390 && ['new', 'edit'].includes(state)) {
               await action.tap()
               await expect(page).toHaveURL(new RegExp(`/select/${mode === 'time' ? 'time' : 'all_day'}(?:[?#].*)?$`))
+              await expect(page.locator('input[autocomplete="nickname"]')).toHaveAttribute('maxlength', '30')
               if (state === 'new') {
                 const cell = page.locator(mode === 'time' ? 'button[data-date-key="2026-11-15"][data-time-index="0"]' : 'button[aria-label="2026-11-15"]')
                 await expect(cell).toHaveAttribute('aria-pressed', 'false')

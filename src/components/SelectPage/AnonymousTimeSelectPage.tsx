@@ -58,7 +58,7 @@ function AnonymousLoginForm () {
         type='text'
         dir='auto'
         autoComplete='nickname'
-        maxLength={100}
+        maxLength={30}
         aria-label={t('meeting.anonymous.usernamePlaceholder')}
         placeholder={t('meeting.anonymous.usernamePlaceholder')}
         value={username}
