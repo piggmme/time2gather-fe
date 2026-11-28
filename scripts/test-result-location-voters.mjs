@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process'
 import fs from 'node:fs'
 import { createNavigationFixture } from './navigation-fixture.mjs'
 import { waitForServer } from './wait-for-server.mjs'
+import { closeRoutedContext } from './close-routed-context.mjs'
 
 const output = process.env.RESULT_VOTERS_OUTPUT
 const locales = process.env.QA_LOCALES?.split(',') ?? fs.readdirSync('src/i18n/locales').filter(file => file.endsWith('.json')).map(file => file.slice(0, -5))
@@ -243,8 +244,7 @@ try {
         await expect(second.getByText('Sam Lee', { exact: true })).toBeVisible()
         await expect(second.getByText('Alex Kim', { exact: true })).toHaveCount(0)
       }
-      await context.unrouteAll({ behavior: 'wait' })
-      await context.close()
+      await closeRoutedContext(context)
     }
     console.log(`${locale}: 320/390/1280 passed`)
   }
@@ -282,8 +282,7 @@ try {
       await confirmedPage.goto(`${resultUrl}-confirmed?lang=${locale}`, { waitUntil: 'domcontentloaded' })
       await expect(confirmedPage.locator('[data-confirmed="true"]').first()).toBeVisible()
       await expect(confirmedPage.locator('#meeting-confirm-action button')).toHaveCount(0)
-      await context.unrouteAll({ behavior: 'wait' })
-      await context.close()
+      await closeRoutedContext(context)
     }
   }
   activeCase = 'time options grouped by date'
@@ -331,8 +330,7 @@ try {
   await partialPage.goto(`${resultUrl}-partial?lang=ko`, { waitUntil: 'domcontentloaded' })
   const partial = partialPage.locator('[data-decision-state="partial"]')
   await expect(partial.getByText(korean.meeting.result.decision.peopleHint, { exact: true })).toBeVisible()
-  await groupedContext.unrouteAll({ behavior: 'wait' })
-  await groupedContext.close()
+  await closeRoutedContext(groupedContext)
 
   activeCase = 'mobile WebKit date result status stays on one line'
   const safari = await webkit.launch()
@@ -365,7 +363,7 @@ try {
       return new Set(Array.from(text.getClientRects(), rect => Math.round(rect.top))).size
     })
     expect(lines).toBe(1)
-    await page.unrouteAll({ behavior: 'wait' })
+    await page.unrouteAll({ behavior: 'ignoreErrors' })
   } finally {
     await safari.close()
   }
