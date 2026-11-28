@@ -38,7 +38,7 @@ export default function DecisionSummary ({ data, displayZone }: {
   const title = model.state === 'all'
     ? t(dateOnly ? 'meeting.result.decision.allDates' : 'meeting.result.decision.allTimes', { count: model.maxCount })
     : model.state === 'partial'
-      ? t('meeting.result.decision.partial', { count: model.maxCount })
+      ? t('meeting.result.decision.partialCount', { total: model.total, count: model.maxCount })
       : model.state === 'pending'
         ? t('meeting.result.decision.pending')
         : data.participants.length === 0
@@ -92,7 +92,7 @@ export default function DecisionSummary ({ data, displayZone }: {
             <span className={styles.Status}>{t('meeting.result.actions.inProgress')}</span>
           </div>
           {model.state === 'partial' && (
-            <p className={styles.Basis}>{t('meeting.result.decision.notAll')}</p>
+            <p className={styles.Basis}>{t('meeting.result.decision.peopleHint')}</p>
           )}
         </div>
       </div>

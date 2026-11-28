@@ -394,6 +394,8 @@
         "allDates": "{count}人全員が参加できる日",
         "allTimes": "{count}人全員が参加できる時間",
         "partial": "最大{count}人が参加できます",
+      "partialCount": "{total}人中、最大{count}人が参加できます",
+      "peopleHint": "日程を押すと、参加できる人を確認できます。",
         "basis": "現在入力されている参加可能日時に基づきます",
         "notAll": "全員に合う候補はまだありません。",
         "emptyDates": "選択された日付はありません",

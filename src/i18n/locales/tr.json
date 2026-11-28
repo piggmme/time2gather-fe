@@ -394,6 +394,8 @@
         "allDates": "Herkese uygun tarihler ({count} kişi)",
         "allTimes": "Herkese uygun saatler ({count} kişi)",
         "partial": "En fazla {count} kişi buluşabilir",
+      "partialCount": "{total} kişiden en fazla {count} kişi uygun",
+      "peopleHint": "Kimlerin uygun olduğunu görmek için bir zaman seçin.",
         "basis": "Şimdiye kadar girilen uygunluk bilgilerine göre",
         "notAll": "Henüz herkese uyan bir seçenek yok.",
         "emptyDates": "Hiçbir tarih seçilmedi",

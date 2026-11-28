@@ -394,6 +394,8 @@
         "allDates": "Termine, an denen alle {count} Zeit haben",
         "allTimes": "Uhrzeiten, zu denen alle {count} Zeit haben",
         "partial": "Bis zu {count} Personen können teilnehmen",
+      "partialCount": "Bis zu {count} von {total} Personen haben Zeit",
+      "peopleHint": "Wähle einen Termin, um zu sehen, wer Zeit hat.",
         "basis": "Auf Basis der bisher eingetragenen Verfügbarkeit",
         "notAll": "Noch kein Termin passt allen.",
         "emptyDates": "Kein Datum wurde ausgewählt",

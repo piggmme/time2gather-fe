@@ -394,6 +394,8 @@
         "allDates": "Tanggal yang cocok untuk semua ({count} orang)",
         "allTimes": "Waktu yang cocok untuk semua ({count} orang)",
         "partial": "Maksimal {count} orang bisa bertemu",
+      "partialCount": "Maksimal {count} dari {total} orang tersedia",
+      "peopleHint": "Pilih jadwal untuk melihat siapa yang tersedia.",
         "basis": "Berdasarkan ketersediaan yang sudah diisi",
         "notAll": "Belum ada pilihan yang cocok untuk semua.",
         "emptyDates": "Belum ada tanggal yang dipilih",

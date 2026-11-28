@@ -394,6 +394,8 @@
         "allDates": "Ngày phù hợp với tất cả {count} người",
         "allTimes": "Giờ phù hợp với tất cả {count} người",
         "partial": "Tối đa {count} người có thể gặp nhau",
+      "partialCount": "Tối đa {count} trong số {total} người có thể tham gia",
+      "peopleHint": "Chọn một lịch để xem ai có thể tham gia.",
         "basis": "Dựa trên thời gian rảnh đã nhập đến hiện tại",
         "notAll": "Chưa có lựa chọn phù hợp với tất cả.",
         "emptyDates": "Chưa có ngày nào được chọn",

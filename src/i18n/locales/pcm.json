@@ -394,6 +394,8 @@
         "allDates": "Dates wey work for everybody ({count})",
         "allTimes": "Times wey work for everybody ({count})",
         "partial": "Up to {count} people fit meet",
+      "partialCount": "Up to {count} out of {total} people fit make am",
+      "peopleHint": "Select a time to see who fit make am.",
         "basis": "Na the free times wey people don enter we use",
         "notAll": "No option fit everybody yet.",
         "emptyDates": "Nobody don choose any date",

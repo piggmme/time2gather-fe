@@ -326,7 +326,7 @@ try {
   const korean = JSON.parse(fs.readFileSync('src/i18n/locales/ko.json', 'utf8'))
   await grouped.goto(`${resultUrl}-partial?lang=ko`, { waitUntil: 'domcontentloaded' })
   const partial = grouped.locator('[data-decision-state="partial"]')
-  await expect(partial.getByText(korean.meeting.result.decision.notAll, { exact: true })).toBeVisible()
+  await expect(partial.getByText(korean.meeting.result.decision.peopleHint, { exact: true })).toBeVisible()
   await groupedContext.unrouteAll({ behavior: 'wait' })
   await groupedContext.close()
 

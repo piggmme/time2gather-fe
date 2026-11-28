@@ -394,6 +394,8 @@
         "allDates": "Datas que funcionam para todos ({count})",
         "allTimes": "Horários que funcionam para todos ({count})",
         "partial": "Até {count} pessoas podem se encontrar",
+      "partialCount": "Até {count} de {total} pessoas estão disponíveis",
+      "peopleHint": "Selecione um horário para ver quem está disponível.",
         "basis": "Com base na disponibilidade informada até agora",
         "notAll": "Ainda não há uma opção que funcione para todos.",
         "emptyDates": "Nenhuma data foi selecionada",

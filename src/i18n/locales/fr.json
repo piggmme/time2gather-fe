@@ -394,6 +394,8 @@
         "allDates": "Dates qui conviennent à tout le monde ({count})",
         "allTimes": "Horaires qui conviennent à tout le monde ({count})",
         "partial": "Jusqu’à {count} personnes peuvent se retrouver",
+      "partialCount": "Au maximum {count} personnes sur {total} sont disponibles",
+      "peopleHint": "Sélectionnez un créneau pour voir qui est disponible.",
         "basis": "D’après les disponibilités indiquées jusqu’ici",
         "notAll": "Aucune option ne convient encore à tout le monde.",
         "emptyDates": "Aucune date n’a été sélectionnée",

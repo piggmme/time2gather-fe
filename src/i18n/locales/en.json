@@ -394,6 +394,8 @@
         "allDates": "Dates that work for everyone ({count})",
         "allTimes": "Times that work for everyone ({count})",
         "partial": "Up to {count} can meet",
+      "partialCount": "Up to {count} of {total} people are available",
+      "peopleHint": "Select a schedule to see who is available.",
         "basis": "Based on the availability entered so far",
         "notAll": "No option works for everyone yet.",
         "emptyDates": "No date has been selected",

@@ -394,6 +394,8 @@
         "allDates": "Ranakun da suka dace da kowa ({count})",
         "allTimes": "Lokutan da suka dace da kowa ({count})",
         "partial": "Mutane har {count} za su iya haɗuwa",
+      "partialCount": "A mafi yawa mutane {count} daga cikin {total} ne za su iya halarta",
+      "peopleHint": "Zaɓi lokaci don ganin waɗanda za su iya halarta.",
         "basis": "Bisa lokutan da aka shigar zuwa yanzu",
         "notAll": "Har yanzu babu zaɓin da ya dace da kowa.",
         "emptyDates": "Ba a zaɓi rana ba",

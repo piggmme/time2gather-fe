@@ -394,6 +394,8 @@
         "allDates": "全部{count}人都方便的日期",
         "allTimes": "全部{count}人都方便的时间",
         "partial": "最多有{count}人可以参加",
+      "partialCount": "{total} 人中最多有 {count} 人有空",
+      "peopleHint": "点击日程查看哪些人有空。",
         "basis": "根据目前填写的可用时间",
         "notAll": "暂时没有适合所有人的选项。",
         "emptyDates": "尚未选择日期",

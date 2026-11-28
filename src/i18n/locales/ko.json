@@ -396,6 +396,8 @@
         "allDates": "{count}명 모두 가능한 날짜",
         "allTimes": "{count}명 모두 가능한 시간",
         "partial": "최대 {count}명이 만날 수 있어요",
+      "partialCount": "{total}명 중 최대 {count}명이 가능해요",
+      "peopleHint": "일정을 눌러 누가 가능한지 확인해 보세요.",
         "basis": "현재 입력된 가능 일정 기준",
         "notAll": "모두 가능한 일정은 아직 없어요.",
         "emptyDates": "선택된 날짜가 없어요",
