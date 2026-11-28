@@ -36,6 +36,20 @@ try {
       await expect(start).toHaveValue('09:00')
       const interval = page.locator('select[name=intervalMinutes]')
       await expect(interval).toHaveValue('60')
+      // Show the separator as soon as the second hour digit is typed.
+      for (const field of [start, end]) {
+        await field.fill('')
+        await field.pressSequentially('14')
+        await expect(field).toHaveValue('14:')
+        await field.pressSequentially(':')
+        await expect(field).toHaveValue('14:')
+        await field.pressSequentially('00')
+        await expect(field).toHaveValue('14:00')
+        await field.press('Backspace')
+        await expect(field).toHaveValue('14:0')
+      }
+      await start.fill('09:00')
+      await end.fill('22:00')
       await interval.selectOption('30')
       const next = page.getByRole('button', { name: t.common.next, exact: true })
       await start.fill('09:30')

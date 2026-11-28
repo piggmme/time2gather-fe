@@ -133,7 +133,12 @@ function TimePickerControl ({
                 value={value}
                 onFocus={event => event.currentTarget.select()}
                 onChange={(event) => {
-                  onChange(event.currentTarget.value)
+                  const next = event.currentTarget.value
+                  const digits = next.normalize('NFKC').replace(/[٠-٩۰-۹]/g, digit => String(digit.charCodeAt(0) % 16))
+                  const inputEvent = event.nativeEvent as InputEvent
+                  const appendSeparator = inputEvent.inputType === 'insertText' && !inputEvent.isComposing && /^\d{2}$/.test(digits) && Number(digits) <= 23 && event.currentTarget.selectionStart === next.length
+                  const repeatedSeparator = inputEvent.inputType === 'insertText' && inputEvent.data === ':' && next.endsWith('::')
+                  onChange(appendSeparator ? `${next}:` : repeatedSeparator ? next.slice(0, -1) : next)
                   combobox.resetSelectedOption()
                 }}
                 onBlur={() => {
